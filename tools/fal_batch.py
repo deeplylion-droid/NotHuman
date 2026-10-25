@@ -70,9 +70,12 @@ def run(job, key, out, base):
     res = call("GET", sub["response_url"], key)
     files = []
     images = res.get("images") or ([res["image"]] if res.get("image") else [])
-    for i, img in enumerate(images):
+    # i modelli di segmentazione restituiscono anche una maschera per ogni oggetto trovato
+    named = [(f"{job['nome']}{'' if i == 0 else f'_{i + 1}'}", im) for i, im in enumerate(images)]
+    named += [(f"{job['nome']}_maschera{i + 1}", m) for i, m in enumerate(res.get("masks") or [])]
+    for name, img in named:
         ext = (img.get("content_type") or "image/png").split("/")[-1].replace("jpeg", "jpg")
-        dest = out / f"{job['nome']}{'' if i == 0 else f'_{i + 1}'}.{ext}"
+        dest = out / f"{name}.{ext}"
         urllib.request.urlretrieve(img["url"], dest)
         files.append(dest.name)
     if not files:

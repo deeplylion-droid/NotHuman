@@ -1,0 +1,29 @@
+[
+  {
+    "nome": "sfondo_pulito",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Remove the three people completely, and also remove the black leather gloved hand and the wooden cane in the lower right foreground. Reconstruct the empty room behind them naturally: the clay walls, the curtain, the floor with straw. Keep everything else exactly identical and in the same place: the table with the candle, jug, bread and bowls, the hearth and cauldron, the ladder, the door, the same lighting and the same camera.",
+      "image_urls": [
+        "@file:../04-villaggio/base.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "prova_sam_07",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/07_fumetto_underground.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 6,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  }
+]

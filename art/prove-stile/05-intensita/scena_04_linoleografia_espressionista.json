@@ -1,0 +1,14 @@
+{
+  "stile": "../04-villaggio/stili/04_linoleografia_espressionista.jpg",
+  "sfondo": "sfondo_pulito.jpg",
+  "maschere": [
+    "maschere/04_linoleografia_espressionista_persone_maschera1.png",
+    "maschere/04_linoleografia_espressionista_persone_maschera2.png",
+    "maschere/04_linoleografia_espressionista_persone_maschera3.png",
+    "maschere/04_linoleografia_espressionista_persone_maschera4.png",
+    "maschere/04_linoleografia_espressionista_bastone_maschera1.png"
+  ],
+  "intensita_sfondo": 0.2,
+  "uscita": "04_linoleografia_espressionista_sfondo20_personaggi100.jpg",
+  "sfondo_stile": "sfondi_stile/04_linoleografia_espressionista_nb.jpg"
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "nome": "04_linoleografia_espressionista_nb",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Completely re-render this photograph of an empty room in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep every object exactly where it is, with the same composition, perspective and proportions. Do not add any people, hands or objects. No border, no margin and no plate mark: the image fills the frame edge to edge. No text, no signature.\nSTYLE: a German expressionist linocut print: harsh angular black shapes gouged out of white, jagged knife marks, elongated tortured figures, extreme contrast, anguished faces; black ink only, with one area of blood-red overprint. The table, the bowls, the jug, the candle, the ladder and the door must stay exactly at the same pixel positions and sizes as in the photograph.",
+      "image_urls": [
+        "@file:sfondo_pulito.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  }
+]

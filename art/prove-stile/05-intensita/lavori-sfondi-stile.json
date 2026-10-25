@@ -1,0 +1,66 @@
+[
+  {
+    "nome": "01_acquaforte",
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this photograph of an empty room in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep every object exactly where it is, with the same composition, perspective and proportions. Do not add any people, hands or objects. No border, no margin and no plate mark: the image fills the frame edge to edge. No text, no signature.\nSTYLE: a seventeenth-century copperplate etching printed in black ink on warm, aged off-white paper. Everything is made of fine engraved lines: dense cross-hatching for the shadows, parallel hatching on the walls, stippling on the faces, bare paper for the lights. Visible plate tone and plate-mark edge, slight foxing. The only color is a dull red accent on the candle flame and the embers.",
+      "image_urls": [
+        "@file:sfondo_pulito.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "04_linoleografia_espressionista",
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this photograph of an empty room in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep every object exactly where it is, with the same composition, perspective and proportions. Do not add any people, hands or objects. No border, no margin and no plate mark: the image fills the frame edge to edge. No text, no signature.\nSTYLE: a German expressionist linocut print: harsh angular black shapes gouged out of white, jagged knife marks, elongated tortured figures, extreme contrast, anguished faces; black ink only, with one area of blood-red overprint.",
+      "image_urls": [
+        "@file:sfondo_pulito.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "07_fumetto_underground",
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this photograph of an empty room in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep every object exactly where it is, with the same composition, perspective and proportions. Do not add any people, hands or objects. No border, no margin and no plate mark: the image fills the frame edge to edge. No text, no signature.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "image_urls": [
+        "@file:sfondo_pulito.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "13_risografia",
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this photograph of an empty room in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep every object exactly where it is, with the same composition, perspective and proportions. Do not add any people, hands or objects. No border, no margin and no plate mark: the image fills the frame edge to edge. No text, no signature.\nSTYLE: a two-color risograph print in fluorescent red and deep teal on off-white paper: grainy halftone textures, flat overprinted shapes, slight misregistration between the two inks, bold graphic simplification.",
+      "image_urls": [
+        "@file:sfondo_pulito.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  }
+]

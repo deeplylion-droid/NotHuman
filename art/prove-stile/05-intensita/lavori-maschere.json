@@ -1,0 +1,106 @@
+[
+  {
+    "nome": "01_acquaforte_persone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/01_acquaforte.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 6,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "01_acquaforte_bastone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/01_acquaforte.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "04_linoleografia_espressionista_persone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/04_linoleografia_espressionista.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 6,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "04_linoleografia_espressionista_bastone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/04_linoleografia_espressionista.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "07_fumetto_underground_persone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/07_fumetto_underground.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 6,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "07_fumetto_underground_bastone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/07_fumetto_underground.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "13_risografia_persone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/13_risografia.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 6,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "13_risografia_bastone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/13_risografia.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  }
+]

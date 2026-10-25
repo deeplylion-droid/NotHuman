@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+"""Applica uno stile con intensita' diverse a sfondo e personaggi.
+
+Uso: python3 tools/intensita.py <scena.json>
+
+La scena indica:
+- "stile": l'immagine trasformata del tutto nello stile;
+- "sfondo": la stessa stanza nella resa originale, senza personaggi (cosi'
+  dietro ai personaggi deformati non restano sagome della foto);
+- "sfondo_stile" (facoltativo): lo sfondo pulito trasformato nello stesso stile;
+  se c'e', lo sfondo si mescola con questo invece che con "stile", cosi' gli
+  oggetti dei due livelli combaciano e non si vedono doppi;
+- "maschere": i ritagli dei personaggi (e della mano) fatti con SAM 3;
+- "intensita_sfondo": quanto stile dare allo sfondo, da 0 a 1.
+
+Dentro le maschere si usa lo stile pieno; fuori, l'originale mescolato allo
+stile nella proporzione data. I percorsi sono relativi al file della scena.
+"""
+import json
+import pathlib
+import sys
+
+import numpy as np
+from PIL import Image, ImageFilter
+
+W, H = 1920, 1080
+
+
+def load(path, mode="RGB"):
+    return np.asarray(Image.open(path).convert(mode).resize((W, H), Image.LANCZOS)).astype(np.float32) / 255.0
+
+
+def main():
+    scene_path = pathlib.Path(sys.argv[1])
+    sc = json.loads(scene_path.read_text())
+    base = scene_path.parent
+    style = load(base / sc["stile"])
+    plate = load(base / sc["sfondo"])
+    mask = Image.new("L", (W, H), 0)
+    for m in sc["maschere"]:
+        mask = Image.fromarray(np.maximum(np.asarray(mask), np.asarray(
+            Image.open(base / m).convert("L").resize((W, H), Image.NEAREST))))
+    # allarga di un paio di pixel per prendere i contorni disegnati, poi ammorbidisci il bordo
+    mask = mask.filter(ImageFilter.MaxFilter(sc.get("allarga", 5))).filter(ImageFilter.GaussianBlur(sc.get("sfuma", 1.5)))
+    m = np.asarray(mask).astype(np.float32)[..., None] / 255.0
+    k = sc.get("intensita_sfondo", 0.2)
+    styled_plate = load(base / sc["sfondo_stile"]) if sc.get("sfondo_stile") else style
+    background = plate * (1 - k) + styled_plate * k
+    out = style * m + background * (1 - m)
+    dest = base / sc["uscita"]
+    Image.fromarray((np.clip(out, 0, 1) * 255 + 0.5).astype(np.uint8)).save(dest, quality=93)
+    print(dest)
+
+
+if __name__ == "__main__":
+    main()

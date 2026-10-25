@@ -1,0 +1,166 @@
+{
+  "01_acquaforte_bastone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/01_acquaforte.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "01_acquaforte_bastone.png",
+      "01_acquaforte_bastone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "04_linoleografia_espressionista_bastone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/04_linoleografia_espressionista.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "04_linoleografia_espressionista_bastone.png",
+      "04_linoleografia_espressionista_bastone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "04_linoleografia_espressionista_persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/04_linoleografia_espressionista.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 6,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "04_linoleografia_espressionista_persone.png",
+      "04_linoleografia_espressionista_persone_maschera1.png",
+      "04_linoleografia_espressionista_persone_maschera2.png",
+      "04_linoleografia_espressionista_persone_maschera3.png",
+      "04_linoleografia_espressionista_persone_maschera4.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "01_acquaforte_persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/01_acquaforte.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 6,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "01_acquaforte_persone.png",
+      "01_acquaforte_persone_maschera1.png",
+      "01_acquaforte_persone_maschera2.png",
+      "01_acquaforte_persone_maschera3.png",
+      "01_acquaforte_persone_maschera4.png"
+    ],
+    "seed": null,
+    "secondi": 6,
+    "descrizione": null
+  },
+  "07_fumetto_underground_persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/07_fumetto_underground.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 6,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "07_fumetto_underground_persone.png",
+      "07_fumetto_underground_persone_maschera1.png",
+      "07_fumetto_underground_persone_maschera2.png",
+      "07_fumetto_underground_persone_maschera3.png",
+      "07_fumetto_underground_persone_maschera4.png"
+    ],
+    "seed": null,
+    "secondi": 6,
+    "descrizione": null
+  },
+  "07_fumetto_underground_bastone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/07_fumetto_underground.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "07_fumetto_underground_bastone.png",
+      "07_fumetto_underground_bastone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "13_risografia_bastone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/13_risografia.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "13_risografia_bastone.png",
+      "13_risografia_bastone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "13_risografia_persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../04-villaggio/stili/13_risografia.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 6,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "13_risografia_persone.png",
+      "13_risografia_persone_maschera1.png",
+      "13_risografia_persone_maschera2.png",
+      "13_risografia_persone_maschera3.png",
+      "13_risografia_persone_maschera4.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  }
+}
