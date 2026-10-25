@@ -13,6 +13,7 @@ Un gioco originale da vendere su Steam, nel filone dei giochi di ispezione e par
 - **Ambientazione italiana: accantonata** per ora.
 - **Stile scelto: 07 fumetto underground**, come nella combinazione 02: stanza al 20% e personaggi al 100% (`art/prove-stile/06-cucina`).
 - **Filtro finale: VHS** per le scene normali e **VHS verde** per le scene al buio (`art/prove-stile/08-filtri`, `tools/filtri.py`). Se il VHS dà fastidio, si attenua.
+- **Il VHS sarà animato**, calcolato in tempo reale (uno shader): grana e tremolio delle righe a ogni fotogramma, una banda di disturbo che sale lentamente, il rumore della testina in fondo, uno strappo ogni tanto, e uno strappo più forte quando si passa alla scena al buio. Anteprima con intensità regolabile: https://claude.ai/artifact/RU45gcnW8J3ttttUTSde2R (copia in `art/prove-stile/09-vhs-animato`; lo shader WebGL è la base per quello del gioco).
 - **Tecnica:** lo stile si applica al 20% sullo sfondo e al 100% sui personaggi (anche mano e bastone del medico). I personaggi devono essere deformi e disegnati.
 - **Regola per le stanze:** partire sempre da stanze con pochi dettagli (muri lisci, pochi oggetti), altrimenti i personaggi si perdono.
 - **Grafica generata con l'AI**, montata a strati come in NINAH. Niente fotogrammi "da film".

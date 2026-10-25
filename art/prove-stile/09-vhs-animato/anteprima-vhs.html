@@ -1,0 +1,333 @@
+<title>Anteprima VHS animato</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=VT323&display=swap">
+<style>
+  /* Layout: lo schermo di gioco grande in alto, i comandi in una fascia sotto. Tema unico scuro, come uno schermo spento. */
+  :root {
+    --bg: #0e1110;
+    --surface: #161a18;
+    --line: #2a312e;
+    --fg: #e3ebe6;
+    --muted: #95a19a;
+    --accent: #7fd1b0;
+    --osd: #f0f0ec;
+    --osd-green: #c4f8e0;
+    --on-accent: #0e1110;
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --vcr: "VT323", "IBM Plex Mono", ui-monospace, monospace;
+    --step--1: 0.8125rem;
+    --step-0: 1rem;
+    --step-3: clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem);
+    color-scheme: dark;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--display);
+    font-size: var(--step-0);
+    line-height: 1.5;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 32px 56px;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; display: grid; gap: 28px; }
+  .intro { display: grid; gap: 12px; }
+  .eyebrow { font-family: var(--mono); font-size: var(--step--1); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0; }
+  h1 { font-size: var(--step-3); font-weight: 800; line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+  .lead { color: var(--muted); max-width: 64ch; margin: 0; }
+
+  .screen { position: relative; aspect-ratio: 16 / 9; max-width: 100%; background: #000; border: 2px solid var(--line); overflow: hidden; container-type: inline-size; }
+  .screen img, .screen canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .screen canvas { opacity: 0; }
+  .screen.live canvas { opacity: 1; }
+  .osd { position: absolute; inset: 0; pointer-events: none; font-family: var(--vcr); color: var(--osd); text-shadow: 0.12cqw 0.12cqw 0 #000; font-size: 3.4cqw; line-height: 1; }
+  .screen.buio .osd { color: var(--osd-green); }
+  .osd[hidden] { display: none !important; }
+  .osd .play { position: absolute; left: 4cqw; top: 4.2cqw; display: flex; align-items: center; gap: 1.2cqw; }
+  .osd .play i { width: 0; height: 0; border-top: 1.4cqw solid transparent; border-bottom: 1.4cqw solid transparent; border-left: 2.2cqw solid currentColor; }
+  .osd .date { position: absolute; left: 4cqw; bottom: 6.2cqw; display: flex; gap: 3cqw; font-variant-numeric: tabular-nums; }
+  .fallback { position: absolute; left: 12px; bottom: 12px; right: 12px; margin: 0; font-family: var(--mono); font-size: var(--step--1); background: rgba(0, 0, 0, 0.7); color: var(--fg); padding: 8px 12px; }
+
+  .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; padding-block: 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .seg { display: inline-flex; border: 1px solid var(--line); }
+  .seg button { font: 600 var(--step-0) / 1 var(--display); color: var(--muted); background: transparent; border: 0; padding: 12px 16px; cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+  .slider { display: flex; align-items: center; gap: 12px; flex: 1 1 18rem; min-width: 0; }
+  .slider label { font-family: var(--mono); font-size: var(--step--1); color: var(--muted); white-space: nowrap; }
+  .slider input { flex: 1; min-width: 0; accent-color: var(--accent); }
+  .slider output { font-family: var(--mono); font-size: var(--step--1); font-variant-numeric: tabular-nums; min-width: 3.5em; text-align: right; }
+  .check { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: var(--step--1); color: var(--muted); cursor: pointer; }
+  .check input { accent-color: var(--accent); width: 18px; height: 18px; }
+  .btn { font: 600 var(--step-0) / 1 var(--display); color: var(--fg); background: transparent; border: 1px solid var(--line); padding: 12px 18px; cursor: pointer; }
+  .seg button:focus-visible, .btn:focus-visible, .slider input:focus-visible, .check input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .notes { display: grid; gap: 8px; color: var(--muted); max-width: 64ch; margin: 0; padding: 0; list-style: none; }
+  .notes li::before { content: "·"; color: var(--accent); margin-right: 8px; }
+  .notes b { color: var(--fg); font-weight: 600; }
+
+  @media (max-width: 640px) {
+    .seg { width: 100%; }
+    .seg button { flex: 1; padding: 12px 8px; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <p class="eyebrow">Medico della peste · filtro finale</p>
+    <h1>Anteprima VHS animato</h1>
+    <p class="lead">Il filtro VHS come si muoverebbe nel gioco, calcolato in tempo reale sulla cucina approvata. Prova la scena al buio e abbassa l'intensità se l'effetto dà fastidio.</p>
+  </header>
+
+  <div class="screen" id="schermo">
+    <img src="img/cucina.jpg" alt="La cucina con il padre e la figlia, nello stile a fumetto approvato" width="1600" height="900">
+    <canvas id="vhs" aria-label="Anteprima animata del filtro VHS" role="img"></canvas>
+    <div class="osd" id="osd" aria-hidden="true">
+      <div class="play"><i></i>PLAY</div>
+      <div class="date"><span>OTT. 25 2026</span><span id="orologio">23:47:00</span></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Tipo di scena">
+      <button type="button" id="scena-normale" aria-pressed="true">Scena normale</button>
+      <button type="button" id="scena-buio" aria-pressed="false">Scena al buio</button>
+    </div>
+    <div class="slider">
+      <label for="intensita">Intensità VHS</label>
+      <input type="range" id="intensita" min="0" max="100" step="5" value="100">
+      <output id="intensita-val" for="intensita">100%</output>
+    </div>
+    <label class="check"><input type="checkbox" id="scritte" checked> Scritte PLAY e data</label>
+    <button type="button" class="btn" id="pausa">Pausa</button>
+  </div>
+
+  <ul class="notes">
+    <li><b>100%</b> corrisponde alle immagini che hai approvato; a 0% resta solo il colore della scena.</li>
+    <li>A ogni fotogramma cambiano la grana e il tremolio delle righe; una banda di disturbo sale lentamente; in fondo c'è il rumore della testina; ogni tanto l'immagine si strappa.</li>
+    <li>Passando alla scena al buio l'immagine vira al verde con uno strappo, come un cambio di nastro.</li>
+  </ul>
+</div>
+
+<script>
+  const VERT = `
+    attribute vec2 a_pos;
+    varying vec2 v_uv;
+    void main() { v_uv = a_pos * 0.5 + 0.5; gl_Position = vec4(a_pos, 0.0, 1.0); }
+  `;
+  const FRAG = `
+    #ifdef GL_FRAGMENT_PRECISION_HIGH
+    precision highp float;
+    #else
+    precision mediump float;
+    #endif
+    uniform sampler2D u_tex;
+    uniform float u_time;
+    uniform float u_amt;
+    uniform float u_green;
+    uniform float u_burst;
+    varying vec2 v_uv;
+
+    const vec3 LUMA = vec3(0.299, 0.587, 0.114);
+
+    float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+    float vnoise(float x) {
+      float i = floor(x); float f = fract(x);
+      return mix(hash(vec2(i, 1.3)), hash(vec2(i + 1.0, 1.3)), f * f * (3.0 - 2.0 * f));
+    }
+    vec3 greenMap(float l) {
+      float t = clamp(l, 0.0, 1.0) * 4.0;
+      vec3 c = mix(vec3(2.0, 10.0, 8.0), vec3(8.0, 38.0, 30.0), clamp(t, 0.0, 1.0));
+      c = mix(c, vec3(22.0, 96.0, 80.0), clamp(t - 1.0, 0.0, 1.0));
+      c = mix(c, vec3(80.0, 178.0, 150.0), clamp(t - 2.0, 0.0, 1.0));
+      return mix(c, vec3(196.0, 248.0, 224.0), clamp(t - 3.0, 0.0, 1.0)) / 255.0;
+    }
+
+    void main() {
+      vec2 uv = v_uv;
+      float a = u_amt;
+      float frame = floor(u_time * 30.0);
+      float line = floor((1.0 - uv.y) * 240.0);
+
+      // righe che tremano
+      float dx = (hash(vec2(line, frame)) - 0.5) * 0.0022 * a;
+      // banda di disturbo che sale lentamente
+      float bandY = fract(u_time * 0.045);
+      float band = 1.0 - smoothstep(0.0, 0.035, abs(uv.y - bandY));
+      dx += band * (hash(vec2(line, frame + 7.0)) - 0.3) * 0.03 * a;
+      // rumore della testina in fondo allo schermo
+      float head = 1.0 - smoothstep(0.0, 0.035, uv.y);
+      dx += head * (0.012 + 0.02 * hash(vec2(line, frame + 3.0))) * a;
+      // ogni tanto uno strappo
+      float slot = floor(u_time * 6.0);
+      float tear = step(0.93, hash(vec2(slot, 11.0))) * (1.0 - smoothstep(0.0, 0.012, abs(uv.y - hash(vec2(slot, 17.0)))));
+      dx += tear * 0.025 * a;
+      // strappo forte al cambio di scena
+      dx += (hash(vec2(line, frame + 5.0)) - 0.5) * 0.06 * u_burst;
+
+      vec2 p = vec2(uv.x + dx, uv.y);
+
+      // luminanza un po' sfocata, colore sbavato e spostato a destra
+      float off = 0.0009 * a;
+      float Y = dot(texture2D(u_tex, p).rgb, LUMA) * 0.5
+              + dot(texture2D(u_tex, p - vec2(off, 0.0)).rgb, LUMA) * 0.25
+              + dot(texture2D(u_tex, p + vec2(off, 0.0)).rgb, LUMA) * 0.25;
+      vec3 ch = vec3(0.0);
+      for (int i = 0; i < 5; i++) {
+        float o = (float(i) - 2.0) * 0.0022 * a - 0.0035 * a;
+        ch += texture2D(u_tex, p + vec2(o, 0.0)).rgb;
+      }
+      ch /= 5.0;
+      vec3 col = vec3(Y) + (ch - vec3(dot(ch, LUMA)));
+
+      // scena al buio: viraggio verde
+      col = mix(col, greenMap(clamp((Y - 0.5) * 1.15 + 0.5, 0.0, 1.0)), u_green);
+
+      // neri sollevati, righe di scansione, sfarfallio
+      col = mix(col, 0.05 + col * 0.9, a);
+      col *= 1.0 - 0.08 * a * mod(line, 2.0);
+      col *= 1.0 + (vnoise(u_time * 9.0) - 0.5) * 0.06 * a;
+
+      // disturbi chiari su banda, testina e strappi
+      float n = hash(floor(uv * vec2(960.0, 540.0)) + frame);
+      vec3 snow = vec3(n) * mix(vec3(1.0), vec3(0.6, 1.0, 0.85), u_green);
+      col = mix(col, snow, clamp((band * 0.35 + head * 0.5 + tear * 0.4) * a + u_burst * 0.3, 0.0, 1.0));
+
+      // grana
+      col += (n - 0.5) * 0.09 * a;
+
+      // vignetta, piu' forte al buio
+      vec2 q = (uv - 0.5) * vec2(1.0, 0.9);
+      col *= 1.0 - mix(0.3, 0.6, u_green) * pow(clamp(length(q) * 1.41, 0.0, 1.0), 2.2);
+
+      gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
+    }
+  `;
+
+  const screen = document.getElementById("schermo");
+  const canvas = document.getElementById("vhs");
+  const osd = document.getElementById("osd");
+  const clock = document.getElementById("orologio");
+  const slider = document.getElementById("intensita");
+  const sliderVal = document.getElementById("intensita-val");
+  const btnNormal = document.getElementById("scena-normale");
+  const btnDark = document.getElementById("scena-buio");
+  const btnPause = document.getElementById("pausa");
+  const chkOsd = document.getElementById("scritte");
+
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const state = { amt: 1, green: 0, greenTarget: 0, burst: 0, paused: reduceMotion, time: 0, last: null, clockBase: 23 * 3600 + 47 * 60 };
+
+  function fallback(msg) {
+    const p = document.createElement("p");
+    p.className = "fallback";
+    p.textContent = msg;
+    screen.append(p);
+  }
+
+  function compile(gl, type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) || "shader");
+    return s;
+  }
+
+  function start() {
+    const gl = canvas.getContext("webgl", { antialias: false, alpha: false });
+    if (!gl) return fallback("Questo browser non mostra l'anteprima animata: vedi solo l'immagine ferma.");
+    let prog;
+    try {
+      prog = gl.createProgram();
+      gl.attachShader(prog, compile(gl, gl.VERTEX_SHADER, VERT));
+      gl.attachShader(prog, compile(gl, gl.FRAGMENT_SHADER, FRAG));
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog) || "link");
+    } catch (e) {
+      return fallback("L'anteprima animata non si è avviata su questo dispositivo.");
+    }
+    gl.useProgram(prog);
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, "a_pos");
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const u = {};
+    ["u_tex", "u_time", "u_amt", "u_green", "u_burst"].forEach((n) => { u[n] = gl.getUniformLocation(prog, n); });
+
+    const img = new Image();
+    img.onload = () => {
+      const tex = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.uniform1i(u.u_tex, 0);
+      fit();
+      requestAnimationFrame(tick);
+    };
+    img.onerror = () => fallback("Non riesco a caricare l'immagine della scena.");
+    img.src = "img/cucina.jpg";
+
+    function fit() {
+      const r = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let w = Math.max(2, Math.round(r.width * dpr));
+      let h = Math.max(2, Math.round(r.height * dpr));
+      if (w > 1600) { h = Math.round(h * 1600 / w); w = 1600; }
+      if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+      gl.viewport(0, 0, w, h);
+    }
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(screen);
+
+    function draw() {
+      gl.uniform1f(u.u_time, state.time);
+      gl.uniform1f(u.u_amt, state.amt);
+      gl.uniform1f(u.u_green, state.green);
+      gl.uniform1f(u.u_burst, state.burst);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      screen.classList.add("live");
+    }
+
+    function tick(now) {
+      const dt = state.last == null ? 0 : Math.min(0.1, (now - state.last) / 1000);
+      state.last = now;
+      if (!state.paused) state.time += dt;
+      const k = Math.min(1, dt * 3);
+      state.green += (state.greenTarget - state.green) * (state.paused ? 1 : k);
+      state.burst = Math.max(0, state.burst - dt * 3);
+      const secs = Math.floor(state.clockBase + state.time) % 86400;
+      clock.textContent = [Math.floor(secs / 3600), Math.floor(secs / 60) % 60, secs % 60].map((v) => String(v).padStart(2, "0")).join(":");
+      draw();
+      requestAnimationFrame(tick);
+    }
+  }
+
+  function setScene(dark) {
+    state.greenTarget = dark ? 1 : 0;
+    state.burst = state.paused ? 0 : 1;
+    btnNormal.setAttribute("aria-pressed", String(!dark));
+    btnDark.setAttribute("aria-pressed", String(dark));
+    screen.classList.toggle("buio", dark);
+  }
+
+  btnNormal.addEventListener("click", () => setScene(false));
+  btnDark.addEventListener("click", () => setScene(true));
+  slider.addEventListener("input", () => {
+    state.amt = Number(slider.value) / 100;
+    sliderVal.textContent = slider.value + "%";
+  });
+  chkOsd.addEventListener("change", () => { osd.hidden = !chkOsd.checked; });
+  function syncPause() { btnPause.textContent = state.paused ? "Riprendi" : "Pausa"; }
+  btnPause.addEventListener("click", () => { state.paused = !state.paused; syncPause(); });
+  syncPause();
+
+  start();
+</script>
