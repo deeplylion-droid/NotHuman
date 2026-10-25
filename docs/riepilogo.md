@@ -79,6 +79,12 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 
 Questionario con tutte le combinazioni della cucina, con i voti salvati: https://claude.ai/artifact/3TEf1Gyxsk5XU5saPN3K6r
 
+Esito del questionario (25 ottobre 2026):
+- **Approvate:** 01 (linoleografia, stanza 20% e personaggi 100%), 02 (fumetto, stanza 20% e personaggi 100%), 04 (stanza in linoleografia all'80%, personaggi in fumetto al 100%), 10 (la 04 come schermata di gioco, con trattamento leggero e interfaccia).
+- **Scartate:** 03 (personaggi al 20%), 05 e 06 (tutto al 100%), 07 (trattamento retinato della prima prova), 09 (al buio).
+- **Non votata:** 08 (il rosso è la peste).
+- In tutte le approvate i personaggi sono al 100%, deformi e disegnati.
+
 ### Strumenti
 
 - `tools/fal_batch.py`: genera immagini su fal.ai da un file di lavori JSON; passa immagini locali con `@file:` e salva anche le maschere dei modelli di segmentazione.
