@@ -11,7 +11,8 @@ Un gioco originale da vendere su Steam, nel filone dei giochi di ispezione e par
 - **Riferimento principale: NINAH.** È il preferito dei tre e vogliamo il suo "feel" grafico, ma il gioco non deve somigliargli troppo.
 - **Candidato unico, per ora: il Medico della peste.** Ospedale, Barbiere e Confessionale sono accantonati.
 - **Ambientazione italiana: accantonata** per ora.
-- **Stili scelti: 04 linoleografia espressionista e 07 fumetto underground** (vedi `art/prove-stile/04-villaggio`).
+- **Stile scelto: 07 fumetto underground**, come nella combinazione 02: stanza al 20% e personaggi al 100% (`art/prove-stile/06-cucina`).
+- **Filtro finale: VHS** per le scene normali e **VHS verde** per le scene al buio (`art/prove-stile/08-filtri`, `tools/filtri.py`). Se il VHS dà fastidio, si attenua.
 - **Tecnica:** lo stile si applica al 20% sullo sfondo e al 100% sui personaggi (anche mano e bastone del medico). I personaggi devono essere deformi e disegnati.
 - **Regola per le stanze:** partire sempre da stanze con pochi dettagli (muri lisci, pochi oggetti), altrimenti i personaggi si perdono.
 - **Grafica generata con l'AI**, montata a strati come in NINAH. Niente fotogrammi "da film".
@@ -137,16 +138,15 @@ NINAH è quasi tutto 2D. Per ora bastano sfondi 2D generati; il 3D servirebbe so
 
 ## Domande aperte
 
-- Villaggio rurale o presente distopico?
-- 04 linoleografia o 07 fumetto underground?
+- Villaggio rurale o presente distopico? Finora tutte le prove approvate sono sulla cucina moderna.
 - Tono: cupo fino in fondo, o con un filo di umorismo nero?
 - Motore: proposto Godot 4, da confermare.
 - Tempi e budget.
 
 ## Prossimi passi
 
-1. Scegliere ambientazione e stile.
-2. Schermata completa nello stile scelto: interfaccia e riquadro del dettaglio esaminato.
+1. Scegliere l'ambientazione.
+2. Schermata completa nello stile scelto (02 con VHS): interfaccia e riquadro del dettaglio esaminato.
 3. Prova di coerenza: lo stesso personaggio in più stati (sano, malato, nascosto), sempre riconoscibile.
 4. Prototipo giocabile del ciclo base.
 
