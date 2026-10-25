@@ -79,6 +79,11 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 
 - `08-filtri`: le combinazioni approvate 02 e 04 con sette filtri finali che le rendono omogenee: verde, verde acido, verde retinato, verde con il rosso, VHS, VHS verde, fotocopia. Questionario dei filtri, con i voti salvati: https://claude.ai/artifact/MQTM96TzxD7idhqAUXdp86
 
+Esito del questionario dei filtri (25 ottobre 2026):
+- **Approvati, tutti sulla 02:** verde, verde retinato, verde con il rosso, VHS, VHS verde.
+- **Scartati:** tutti i filtri sulla 04; verde acido e fotocopia anche sulla 02.
+- Quindi: la base è la 02 (fumetto, stanza al 20% e personaggi al 100%); il verde giusto è il verde-azzurro, non quello giallastro; niente bianco e nero.
+
 Questionario con tutte le combinazioni della cucina, con i voti salvati: https://claude.ai/artifact/3TEf1Gyxsk5XU5saPN3K6r
 
 Esito del questionario (25 ottobre 2026):
