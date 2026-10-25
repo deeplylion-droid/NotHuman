@@ -74,13 +74,16 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 - `03-schermate`: schermate di gioco con il trattamento unico (Medico della peste e Ospedale).
 - `04-villaggio`: capanna rurale trasformata in 15 stili più 2 trattamenti col codice.
 - `05-intensita`: quattro stili (01, 04, 07, 13) con sfondo al 20% e personaggi al 100%. Scelti 04 e 07.
-- `06-cucina`: la cucina moderna semplificata, con 04 e 07 al 20% / 100%.
+- `06-cucina`: la cucina moderna semplificata: 04 e 07 al 20% / 100%, tutto al 100%, sfondo 04 al 100% con personaggi 04 al 20%, sfondo 04 all'80% con personaggi 07 al 100%.
+- `07-combo-inventate`: tre proposte di Claude sulla cucina: "il rosso è la peste" (tutto in bianco e nero, rossi solo i sintomi), "al buio" (stanza nel buio, luce sui personaggi), "schermata di gioco" (trattamento leggero e interfaccia).
+
+Questionario con tutte le combinazioni della cucina, con i voti salvati: https://claude.ai/artifact/3TEf1Gyxsk5XU5saPN3K6r
 
 ### Strumenti
 
 - `tools/fal_batch.py`: genera immagini su fal.ai da un file di lavori JSON; passa immagini locali con `@file:` e salva anche le maschere dei modelli di segmentazione.
 - `tools/schermata.py`: monta una schermata a strati; con un "trattamento" applica la resa unica, senza fa solo il montaggio.
-- `tools/intensita.py`: applica lo stile con intensità diverse a sfondo e personaggi.
+- `tools/intensita.py`: applica lo stile con intensità diverse a sfondo e personaggi; con "buio" fa sprofondare la stanza nel buio fuori da un cono di luce.
 - Servizio: **fal.ai**. La chiave si legge da `FAL_KEY` (impostazioni dell'ambiente cloud) o da `~/.config/fal/key`; mai nel repo.
 - Modelli:
   - **GPT Image 2** (`openai/gpt-image-2`, `/edit`): il migliore per scene e trasformazioni di stile. Non fa sfondi trasparenti, e il filtro dei contenuti blocca parole come "soldato ferito" o "insanguinato".

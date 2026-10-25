@@ -1,0 +1,101 @@
+{
+  "sfondo": "../06-cucina/cucina_sfondo04-80_personaggi07-100.jpg",
+  "livelli": [],
+  "font": "../03-schermate/font/VT323-Regular.ttf",
+  "trattamento": {
+    "palette": [
+      [
+        10,
+        9,
+        8
+      ],
+      [
+        48,
+        44,
+        40
+      ],
+      [
+        120,
+        112,
+        100
+      ],
+      [
+        200,
+        190,
+        170
+      ],
+      [
+        240,
+        232,
+        214
+      ]
+    ],
+    "pixel": 2,
+    "livelli_colore": 8,
+    "colore_originale": 0.7,
+    "contrasto": 1.08,
+    "luce": 0.0,
+    "gamma": 1.0,
+    "vignetta": 0.85,
+    "barilotto": 0.04,
+    "grana": 0.02
+  },
+  "ui": {
+    "stato": [
+      "GIORNO 3",
+      "CONTAGIATI 14",
+      "CASA 6 DI 11"
+    ],
+    "dettaglio": {
+      "file": "dettaglio_collo_fumetto.jpg",
+      "etichetta": "IL PADRE  -  COLLO, LATO SINISTRO",
+      "box": [
+        1200,
+        80,
+        640,
+        427
+      ],
+      "trattamento": {
+        "colore_originale": 0.85,
+        "pixel": 2
+      }
+    },
+    "dialogo": {
+      "chi": "Il padre",
+      "testo": "È solo una botta, dottore. Me la sono fatta al lavoro. Qui stiamo tutti bene, non c'è nessun altro.",
+      "scelte": [
+        "Dovete venire con me.",
+        "Chi c'è nel corridoio?",
+        "Me ne vado."
+      ],
+      "box": [
+        0.04,
+        0.58,
+        0.95
+      ]
+    },
+    "comandi": "[E] ESAMINA   [TAB] REGISTRO",
+    "dimensioni": [
+      44,
+      38,
+      32
+    ],
+    "colore": [
+      236,
+      226,
+      200
+    ],
+    "accento": [
+      214,
+      74,
+      52
+    ],
+    "pannello": [
+      10,
+      9,
+      7,
+      218
+    ]
+  },
+  "uscita": "10_schermata_di_gioco.jpg"
+}

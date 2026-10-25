@@ -1,0 +1,21 @@
+{
+  "stile": "../06-cucina/07_fumetto_underground_completa.jpg",
+  "sfondo": "../06-cucina/cucina_semplice.jpg",
+  "sfondo_stile": "../06-cucina/sfondi_stile/04_linoleografia_espressionista_v2.jpg",
+  "intensita_sfondo": 0.8,
+  "maschere": [
+    "../06-cucina/maschere/07_fumetto_underground_persone_maschera1.png",
+    "../06-cucina/maschere/07_fumetto_underground_persone_maschera2.png",
+    "../06-cucina/maschere/07_fumetto_underground_persone_maschera3.png",
+    "../06-cucina/maschere/07_fumetto_underground_bastone_maschera1.png"
+  ],
+  "buio": {
+    "x": 0.36,
+    "y": 0.42,
+    "raggio": 0.36,
+    "schiaccia": 0.95,
+    "quanto": 0.9,
+    "personaggi": 0.35
+  },
+  "uscita": "09_al_buio.jpg"
+}

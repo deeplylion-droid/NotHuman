@@ -1,0 +1,13 @@
+{
+  "stile": "04_completa_peste_rossa_selettivo.jpg",
+  "sfondo": "sfondo_04_grigio.jpg",
+  "sfondo_stile": "sfondo_04_grigio.jpg",
+  "intensita_sfondo": 1.0,
+  "maschere": [
+    "maschere/peste_rossa_persone_maschera1.png",
+    "maschere/peste_rossa_persone_maschera2.png",
+    "maschere/peste_rossa_persone_maschera3.png",
+    "maschere/peste_rossa_bastone_maschera1.png"
+  ],
+  "uscita": "08_il_rosso_e_la_peste.jpg"
+}

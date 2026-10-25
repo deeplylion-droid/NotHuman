@@ -52,6 +52,15 @@ def main():
     background = plate * (1 - k) + styled_plate * k
     kp = sc.get("intensita_personaggi", 1.0)
     figures = style if kp >= 1 else load(base / sc["personaggi_originale"]) * (1 - kp) + style * kp
+    if sc.get("buio"):
+        # la stanza sprofonda nel buio fuori dal cono di luce; i personaggi ne risentono meno
+        b = sc["buio"]
+        yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+        d = np.hypot((xx - b["x"] * W) / (b["raggio"] * W), (yy - b["y"] * H) / (b["raggio"] * W * b.get("schiaccia", 1.0)))
+        t = np.clip((d - 0.3) / 0.7, 0, 1)
+        light = (1 - b["quanto"] * t * t * (3 - 2 * t))[..., None]
+        background = background * light
+        figures = figures * light ** b.get("personaggi", 0.35)
     out = figures * m + background * (1 - m)
     dest = base / sc["uscita"]
     Image.fromarray((np.clip(out, 0, 1) * 255 + 0.5).astype(np.uint8)).save(dest, quality=93)
