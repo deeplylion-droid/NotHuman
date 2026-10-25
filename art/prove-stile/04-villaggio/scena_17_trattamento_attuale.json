@@ -1,0 +1,48 @@
+{
+  "sfondo": "stili/06_grottesco_dipinto.jpg",
+  "livelli": [],
+  "trattamento": {
+    "palette": [
+      [
+        8,
+        10,
+        6
+      ],
+      [
+        30,
+        36,
+        18
+      ],
+      [
+        74,
+        80,
+        36
+      ],
+      [
+        146,
+        132,
+        60
+      ],
+      [
+        210,
+        188,
+        122
+      ],
+      [
+        242,
+        232,
+        204
+      ]
+    ],
+    "pixel": 3,
+    "livelli_colore": 6,
+    "colore_originale": 0.32,
+    "contrasto": 1.2,
+    "luce": 0.1,
+    "gamma": 0.8,
+    "vignetta": 0.93,
+    "barilotto": 0.06,
+    "grana": 0.03
+  },
+  "uscita": "stili/17_trattamento_attuale.jpg"
+}

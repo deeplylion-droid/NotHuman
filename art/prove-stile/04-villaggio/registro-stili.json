@@ -1,0 +1,317 @@
+{
+  "05_cinema_muto_espressionista": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a frame from a 1920s German expressionist silent horror film with painted, distorted sets like The Cabinet of Dr. Caligari: slanted walls with painted shadows and streaks of light, theatrical white-face makeup with dark-rimmed eyes, sepia and teal tinted film, heavy grain, scratches, flicker and an iris vignette.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "05_cinema_muto_espressionista.png"
+    ],
+    "seed": null,
+    "secondi": 74,
+    "descrizione": null
+  },
+  "01_acquaforte": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a seventeenth-century copperplate etching printed in black ink on warm, aged off-white paper. Everything is made of fine engraved lines: dense cross-hatching for the shadows, parallel hatching on the walls, stippling on the faces, bare paper for the lights. Visible plate tone and plate-mark edge, slight foxing. The only color is a dull red accent on the candle flame and the embers.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "01_acquaforte.png"
+    ],
+    "seed": null,
+    "secondi": 75,
+    "descrizione": null
+  },
+  "02_chiaroscuro_caravaggesco": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a Baroque oil painting by Caravaggio: extreme tenebrism, figures and objects emerging from pitch-black darkness, a single raking light from the candle carving faces and hands, deep reds and earth tones, thick oil paint, visible canvas weave and aged varnish. The deformed faces are painted with brutal realism, like Caravaggio's most grotesque models.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "02_chiaroscuro_caravaggesco.png"
+    ],
+    "seed": null,
+    "secondi": 77,
+    "descrizione": null
+  },
+  "03_xilografia": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a crude sixteenth-century woodcut broadside of the Dance of Death: bold carved black lines on rough cream paper, simple parallel-line hatching, naive perspective, wood-grain texture and uneven ink pressure; pure black and white.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "03_xilografia.png"
+    ],
+    "seed": null,
+    "secondi": 78,
+    "descrizione": null
+  },
+  "04_linoleografia_espressionista": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a German expressionist linocut print: harsh angular black shapes gouged out of white, jagged knife marks, elongated tortured figures, extreme contrast, anguished faces; black ink only, with one area of blood-red overprint.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "04_linoleografia_espressionista.png"
+    ],
+    "seed": null,
+    "secondi": 83,
+    "descrizione": null
+  },
+  "07_fumetto_underground": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "07_fumetto_underground.png"
+    ],
+    "seed": null,
+    "secondi": 79,
+    "descrizione": null
+  },
+  "08_carboncino": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a charcoal and graphite drawing on rough grey paper: smudged soft blacks, energetic sketchy lines, erased highlights, unfinished edges dissolving into the paper; monochrome.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "08_carboncino.png"
+    ],
+    "seed": null,
+    "secondi": 83,
+    "descrizione": null
+  },
+  "09_affresco": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a faded late-medieval fresco of the plague painted on a cracked plaster wall: flat medieval perspective, earthy ochres, faded blues and terracotta, flaking pigment, damp stains, missing patches of plaster.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "09_affresco.png"
+    ],
+    "seed": null,
+    "secondi": 83,
+    "descrizione": null
+  },
+  "06_grottesco_dipinto": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a grotesque hand-painted gouache illustration with thick, visible brushwork, a sickly muted palette of ochre, olive green, dirty umber and bruise purple, and deep murky shadows.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "06_grottesco_dipinto.png"
+    ],
+    "seed": null,
+    "secondi": 89,
+    "descrizione": null
+  },
+  "10_inchiostro_e_schizzi": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a chaotic grotesque caricature in splattered black ink and dirty watercolor: wild scratchy pen lines, ink blots, splashes and drips, washes of sickly yellow and dried-blood red bleeding outside the lines.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "10_inchiostro_e_schizzi.png"
+    ],
+    "seed": null,
+    "secondi": 95,
+    "descrizione": null
+  },
+  "12_miniatura_medievale": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: an illuminated page from a medieval manuscript: flat perspective, egg-tempera colors, gold leaf on the candle flame and on the glow of the hearth, ink outlines, parchment texture with stains; decorative but sinister.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "12_miniatura_medievale.png"
+    ],
+    "seed": null,
+    "secondi": 74,
+    "descrizione": null
+  },
+  "11_bruegel_bosch": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a Northern Renaissance oil painting in the manner of Pieter Bruegel the Elder and Hieronymus Bosch: grotesque peasant faces, earthy browns and greens, meticulous small details, a nightmarish moral fable, thin glazes and fine craquelure.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "11_bruegel_bosch.png"
+    ],
+    "seed": null,
+    "secondi": 80,
+    "descrizione": null
+  },
+  "13_risografia": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a two-color risograph print in fluorescent red and deep teal on off-white paper: grainy halftone textures, flat overprinted shapes, slight misregistration between the two inks, bold graphic simplification.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "13_risografia.png"
+    ],
+    "seed": null,
+    "secondi": 77,
+    "descrizione": null
+  },
+  "14_lastra_al_collodio": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the photographic process described below, transforming it far beyond a filter. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must look deformed and grotesque: distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister. No text, no signature, no watermark.\nSTYLE: a nineteenth-century wet-plate collodion photograph (tintype): silvery grey-brown monochrome, shallow focus with blurred edges, chemical streaks and swirling pour marks around the borders, long-exposure ghosting on the faces, dark metal plate edges.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "14_lastra_al_collodio.png"
+    ],
+    "seed": null,
+    "secondi": 80,
+    "descrizione": null
+  },
+  "15_autocromia": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the photographic process described below, transforming it far beyond a filter. Keep the composition: the same room, table, objects, hearth, ladder and curtain, the gloved hand holding the cane in the lower right foreground, and the three people in the same places and poses. The three people must look deformed and grotesque: distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister. No text, no signature, no watermark.\nSTYLE: an early 1910s autochrome color photograph: soft dreamy pastel colors made of visible colored starch grains, low contrast, slight blur, faded greens and pinks, dark vignetting; fragile and eerie.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "15_autocromia.png"
+    ],
+    "seed": null,
+    "secondi": 83,
+    "descrizione": null
+  }
+}

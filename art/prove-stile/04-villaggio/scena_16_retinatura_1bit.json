@@ -1,0 +1,26 @@
+{
+  "sfondo": "stili/06_grottesco_dipinto.jpg",
+  "livelli": [],
+  "trattamento": {
+    "palette": [
+      [
+        14,
+        12,
+        10
+      ],
+      [
+        236,
+        226,
+        200
+      ]
+    ],
+    "un_bit": true,
+    "pixel": 2,
+    "contrasto": 1.35,
+    "luce": 0.16,
+    "gamma": 0.62,
+    "barilotto": 0.0,
+    "vignetta": 0.0
+  },
+  "uscita": "stili/16_retinatura_1bit.jpg"
+}

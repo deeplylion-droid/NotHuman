@@ -127,8 +127,20 @@ def treat(im, t, size=(W, H)):
              + a[y0 + 1, x0] * (1 - fx) * fy + a[y0 + 1, x0 + 1] * fx * fy)
     # contrasto e luminosita'
     a = np.clip((a - 0.5) * t.get("contrasto", 1.15) + 0.5 + t.get("luce", 0.0), 0, 1) ** t.get("gamma", 1.0)
-    # viraggio sulla palette a gradiente, mescolato ai colori originali
     stops = np.array(t["palette"], np.float32) / 255.0
+    if t.get("un_bit"):
+        # due soli colori (primo e ultimo della palette), retinatura ordinata sulla luminosita'
+        lum = 0.299 * a[..., 0] + 0.587 * a[..., 1] + 0.114 * a[..., 2]
+        thr = np.tile(BAYER4, (sh // 4 + 1, sw // 4 + 1))[:sh, :sw]
+        a = np.where((lum > thr)[..., None], stops[-1], stops[0])
+        out = img(a).resize(size, Image.NEAREST)
+        vig = t.get("vignetta", 0.0)
+        if vig:
+            yy, xx = np.mgrid[0:size[1], 0:size[0]].astype(np.float32)
+            d = (np.abs((xx - size[0] / 2) / (size[0] / 2)) ** 3.2 + np.abs((yy - size[1] / 2) / (size[1] / 2)) ** 3.2) ** (1 / 3.2)
+            out = img(arr(out) * (1 - vig * smoothstep(0.62, 1.05, d))[..., None])
+        return out
+    # viraggio sulla palette a gradiente, mescolato ai colori originali
     lum = 0.299 * a[..., 0] + 0.587 * a[..., 1] + 0.114 * a[..., 2]
     pos = lum * (len(stops) - 1)
     i0 = np.clip(pos.astype(int), 0, len(stops) - 2)

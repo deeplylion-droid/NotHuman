@@ -1,0 +1,16 @@
+[
+  {
+    "nome": "base",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor who has just stepped into a poor peasant hut in a remote rural village, at night, in an undefined, timeless era: no electricity and no modern objects. The single room has walls of rough stone and cracked clay, a low ceiling of soot-blackened beams, a beaten-earth floor with scattered straw, a smoky hearth with glowing embers on the left, a crude wooden table with a tallow candle, a clay jug, a loaf of dark bread and four wooden bowls, a ladder climbing to a dark loft, and at the back a ragged curtain half hiding a sleeping alcove. A poor family stands facing the doctor in tense silence: a gaunt father in a patched wool coat with a forced, tight-lipped smile; a frightened mother in a headscarf clutching her shawl; a thin girl half hidden behind her. Their faces are weathered, unidealized and subtly unsettling; they are hiding someone. In the lower right foreground, the doctor's own black leather glove holds a long wooden cane, like the held item in a first-person video game. Realistic photograph, evenly lit by the candle and the hearth so that every face and object is clearly readable. 16:9, no text, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png",
+      "num_images": 2
+    }
+  }
+]
