@@ -77,7 +77,7 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 - `06-cucina`: la cucina moderna semplificata: 04 e 07 al 20% / 100%, tutto al 100%, sfondo 04 al 100% con personaggi 04 al 20%, sfondo 04 all'80% con personaggi 07 al 100%.
 - `07-combo-inventate`: tre proposte di Claude sulla cucina: "il rosso è la peste" (tutto in bianco e nero, rossi solo i sintomi), "al buio" (stanza nel buio, luce sui personaggi), "schermata di gioco" (trattamento leggero e interfaccia).
 
-- `08-filtri`: le combinazioni approvate 02 e 04 con sette filtri finali che le rendono omogenee: verde, verde acido, verde retinato, verde con il rosso, VHS, VHS verde, fotocopia.
+- `08-filtri`: le combinazioni approvate 02 e 04 con sette filtri finali che le rendono omogenee: verde, verde acido, verde retinato, verde con il rosso, VHS, VHS verde, fotocopia. Questionario dei filtri, con i voti salvati: https://claude.ai/artifact/MQTM96TzxD7idhqAUXdp86
 
 Questionario con tutte le combinazioni della cucina, con i voti salvati: https://claude.ai/artifact/3TEf1Gyxsk5XU5saPN3K6r
 
