@@ -1,0 +1,16 @@
+[
+  {
+    "nome": "cucina_semplice",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Simplify this kitchen while keeping exactly the same layout, camera and lighting: replace the floral wallpaper with plain, faded, slightly stained wallpaper with no pattern; remove the small clutter on the counter (kettle, bottles, dish rack, utensils), the calendar, the round wall clock and the pipe of the hood. Keep the cabinets, the stove, the door ajar onto the dark corridor, the fluorescent tube light, the old television on its cabinet, the table with the tablecloth and the four plates, and the green plastic chairs, all in the same positions and sizes. Nobody in the room.",
+      "image_urls": [
+        "@file:../03-schermate/asset/peste_sfondo_cucina.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  }
+]

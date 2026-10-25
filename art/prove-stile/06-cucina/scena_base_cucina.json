@@ -1,0 +1,35 @@
+{
+  "sfondo": "cucina_semplice.jpg",
+  "livelli": [
+    {
+      "file": "../03-schermate/asset/peste_figlia_ritaglio.png",
+      "x": 0.462,
+      "y_piedi": 0.615,
+      "altezza": 0.36,
+      "ombra": true,
+      "contorno": false,
+      "inchiostro": 0,
+      "adatta_colore": 0.5
+    },
+    {
+      "file": "../03-schermate/asset/peste_padre_ritaglio.png",
+      "x": 0.3,
+      "y_piedi": 1.1,
+      "altezza": 0.95,
+      "contorno": false,
+      "inchiostro": 0,
+      "adatta_colore": 0.5
+    },
+    {
+      "file": "../03-schermate/asset/peste_mano_ritaglio.png",
+      "ancora": "basso-destra",
+      "altezza": 0.72,
+      "dx": -0.03,
+      "dy": 0.0,
+      "contorno": false,
+      "inchiostro": 0,
+      "adatta_colore": 0.2
+    }
+  ],
+  "uscita": "base_cucina.jpg"
+}

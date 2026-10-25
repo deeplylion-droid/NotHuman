@@ -261,7 +261,8 @@ def main():
     for spec in sc.get("livelli", []):
         if spec.get("sopra_buio"):   # es. la mano del giocatore, che non deve sparire nel buio
             place(canvas, spec, base)
-    shot = treat(canvas, sc["trattamento"])
+    # senza "trattamento" si ottiene solo il montaggio (utile come base da trasformare)
+    shot = treat(canvas, sc["trattamento"]) if sc.get("trattamento") else canvas.convert("RGB")
     if sc.get("ui"):
         shot = ui(shot, sc["ui"], sc["trattamento"], base, str(base / sc["font"]))
     out = base / sc["uscita"]

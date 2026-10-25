@@ -1,0 +1,13 @@
+{
+  "stile": "07_fumetto_underground_completa.jpg",
+  "sfondo": "cucina_semplice.jpg",
+  "sfondo_stile": "sfondi_stile/07_fumetto_underground.jpg",
+  "maschere": [
+    "maschere/07_fumetto_underground_persone_maschera1.png",
+    "maschere/07_fumetto_underground_persone_maschera2.png",
+    "maschere/07_fumetto_underground_persone_maschera3.png",
+    "maschere/07_fumetto_underground_bastone_maschera1.png"
+  ],
+  "intensita_sfondo": 0.2,
+  "uscita": "cucina_07_fumetto_underground_sfondo20_personaggi100.jpg"
+}

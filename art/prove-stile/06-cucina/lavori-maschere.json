@@ -1,0 +1,54 @@
+[
+  {
+    "nome": "04_linoleografia_espressionista_persone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:04_linoleografia_espressionista_completa.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 4,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "04_linoleografia_espressionista_bastone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:04_linoleografia_espressionista_completa.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "07_fumetto_underground_persone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:07_fumetto_underground_completa.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 4,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "07_fumetto_underground_bastone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:07_fumetto_underground_completa.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  }
+]

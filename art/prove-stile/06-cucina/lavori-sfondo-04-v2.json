@@ -1,0 +1,16 @@
+[
+  {
+    "nome": "04_linoleografia_espressionista_sfondo_v2",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Completely re-render this photograph of an empty kitchen in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep every object exactly where it is, with the same composition, perspective and proportions. Do not add any people, hands or objects. No border, no margin: the image fills the frame edge to edge. No text, no signature.\nSTYLE: a German expressionist linocut print: harsh angular black shapes gouged out of white, jagged knife marks, elongated tortured figures, extreme contrast, anguished faces; black ink only, with one area of blood-red overprint. The cabinets, the door, the television, the table with the plates and the chairs must stay exactly at the same pixel positions and sizes as in the photograph. Do not draw any face anywhere: the television screen is plain and dark, the plates are plain white with a simple rim, the walls have no figures.",
+      "image_urls": [
+        "@file:cucina_semplice.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  }
+]

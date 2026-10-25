@@ -1,0 +1,82 @@
+{
+  "04_linoleografia_espressionista_bastone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:04_linoleografia_espressionista_completa.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "04_linoleografia_espressionista_bastone.png",
+      "04_linoleografia_espressionista_bastone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "07_fumetto_underground_bastone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:07_fumetto_underground_completa.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "07_fumetto_underground_bastone.png",
+      "07_fumetto_underground_bastone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "07_fumetto_underground_persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:07_fumetto_underground_completa.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 4,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "07_fumetto_underground_persone.png",
+      "07_fumetto_underground_persone_maschera1.png",
+      "07_fumetto_underground_persone_maschera2.png",
+      "07_fumetto_underground_persone_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "04_linoleografia_espressionista_persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:04_linoleografia_espressionista_completa.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 4,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "04_linoleografia_espressionista_persone.png",
+      "04_linoleografia_espressionista_persone_maschera1.png",
+      "04_linoleografia_espressionista_persone_maschera2.png",
+      "04_linoleografia_espressionista_persone_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 6,
+    "descrizione": null
+  }
+}
