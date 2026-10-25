@@ -1,0 +1,182 @@
+{
+  "giorno1_febbre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit only the man standing in the foreground on the left. Keep his face, features, hairstyle, clothes, pose, proportions and drawing style exactly the same, so he is clearly the same person. Do not change anything else in the image: the room, the girl in the doorway, the table and the gloved hand holding the cane stay identical. Make him visibly feverish: glistening beads of sweat on his forehead and face, wet hair stuck to his forehead, flushed red cheeks, glassy watery eyes, cracked lips, hunched shivering shoulders.",
+      "image_urls": [
+        "@file:../06-cucina/cucina_07_fumetto_underground_sfondo20_personaggi100.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giorno1_febbre.png"
+    ],
+    "seed": null,
+    "secondi": 27,
+    "descrizione": ""
+  },
+  "letto_nanobananapro": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Image 1 is a character drawn in a 1970s European underground comic style: bold black brush-ink outlines, scratchy crosshatching, flat muted colors, grotesque and deformed. Create a new image of the same man from image 1, with exactly the same face, hair, stubble, ears, teeth and drawing style, lying sick in a narrow bed in a small, bare, modern poor bedroom at night: plain walls, a cheap wardrobe, a door ajar letting in a weak light. He is half hidden under a grey wool blanket pulled up to his chin, only his head and one hand on the blanket visible, staring at the viewer with feverish eyes, a swollen dark bubo on his neck. The room is a realistic photograph, while the man stays drawn in the comic style. Seen in first person by a plague doctor: in the lower right foreground, a black leather gloved hand holds a long wooden cane, like the held item in a first-person video game. No text.",
+      "image_urls": [
+        "@file:padre_riferimento.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "letto_nanobananapro.png"
+    ],
+    "seed": null,
+    "secondi": 29,
+    "descrizione": ""
+  },
+  "giorno2_bubboni": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit only the man standing in the foreground on the left. Keep his face, features, hairstyle, clothes, pose, proportions and drawing style exactly the same, so he is clearly the same person. Do not change anything else in the image: the room, the girl in the doorway, the table and the gloved hand holding the cane stay identical. Show the advanced plague: a large swollen dark purple-red bubo on the side of his neck just under the jaw, dark purple-black blotches on the backs of his hands, blackened fingertips, greyish clammy skin, sunken bloodshot eyes, sweat.",
+      "image_urls": [
+        "@file:../06-cucina/cucina_07_fumetto_underground_sfondo20_personaggi100.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giorno2_bubboni.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "tavola_nanobananapro": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Image 1 is a character drawn in a 1970s European underground comic style: bold black brush-ink outlines, scratchy crosshatching, flat muted colors, grotesque and deformed. Image 2 is a photograph of a kitchen. Create a new image: the same man from image 1, with exactly the same face, hair, stubble, ears, teeth and drawing style, in his dark-blue work jacket, now sitting at the table of the kitchen in image 2, both hands resting on the plastic tablecloth, looking up at the viewer with a forced, tight-lipped smile. He stays drawn in the comic style, while the kitchen stays a photograph exactly as in image 2. Seen in first person by a plague doctor: in the lower right foreground, a black leather gloved hand holds a long wooden cane, like the held item in a first-person video game. No text.",
+      "image_urls": [
+        "@file:padre_riferimento.jpg",
+        "@file:../06-cucina/cucina_semplice.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "tavola_nanobananapro.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "collo_nanobananapro": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Image 1 is a character drawn in a 1970s European underground comic style: bold black brush-ink outlines, scratchy crosshatching, flat muted colors, grotesque and deformed. Create an extreme close-up of the neck and jaw of the same man from image 1, with exactly the same face, hair, stubble, ears, teeth and drawing style, with the same skin, stubble and dark-blue work jacket, in the same comic style: a large swollen dark purple-red bubo under the jaw, and a black leather gloved hand pulling the collar aside. Clinical and unsettling. No text.",
+      "image_urls": [
+        "@file:padre_riferimento.jpg"
+      ],
+      "aspect_ratio": "3:2",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "collo_nanobananapro.png"
+    ],
+    "seed": null,
+    "secondi": 26,
+    "descrizione": ""
+  },
+  "tavola_gptimage2": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Image 1 is a character drawn in a 1970s European underground comic style: bold black brush-ink outlines, scratchy crosshatching, flat muted colors, grotesque and deformed. Image 2 is a photograph of a kitchen. Create a new image: the same man from image 1, with exactly the same face, hair, stubble, ears, teeth and drawing style, in his dark-blue work jacket, now sitting at the table of the kitchen in image 2, both hands resting on the plastic tablecloth, looking up at the viewer with a forced, tight-lipped smile. He stays drawn in the comic style, while the kitchen stays a photograph exactly as in image 2. Seen in first person by a plague doctor: in the lower right foreground, a black leather gloved hand holds a long wooden cane, like the held item in a first-person video game. No text.",
+      "image_urls": [
+        "@file:padre_riferimento.jpg",
+        "@file:../06-cucina/cucina_semplice.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "tavola_gptimage2.png"
+    ],
+    "seed": null,
+    "secondi": 70,
+    "descrizione": null
+  },
+  "letto_gptimage2": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Image 1 is a character drawn in a 1970s European underground comic style: bold black brush-ink outlines, scratchy crosshatching, flat muted colors, grotesque and deformed. Create a new image of the same man from image 1, with exactly the same face, hair, stubble, ears, teeth and drawing style, lying sick in a narrow bed in a small, bare, modern poor bedroom at night: plain walls, a cheap wardrobe, a door ajar letting in a weak light. He is half hidden under a grey wool blanket pulled up to his chin, only his head and one hand on the blanket visible, staring at the viewer with feverish eyes, a swollen dark bubo on his neck. The room is a realistic photograph, while the man stays drawn in the comic style. Seen in first person by a plague doctor: in the lower right foreground, a black leather gloved hand holds a long wooden cane, like the held item in a first-person video game. No text.",
+      "image_urls": [
+        "@file:padre_riferimento.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "letto_gptimage2.png"
+    ],
+    "seed": null,
+    "secondi": 64,
+    "descrizione": null
+  },
+  "collo_gptimage2": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Image 1 is a character drawn in a 1970s European underground comic style: bold black brush-ink outlines, scratchy crosshatching, flat muted colors, grotesque and deformed. Create an extreme close-up of the neck and jaw of the same man from image 1, with exactly the same face, hair, stubble, ears, teeth and drawing style, with the same skin, stubble and dark-blue work jacket, in the same comic style: a large swollen dark purple-red bubo under the jaw, and a black leather gloved hand pulling the collar aside. Clinical and unsettling. No text.",
+      "image_urls": [
+        "@file:padre_riferimento.jpg"
+      ],
+      "image_size": {
+        "width": 1536,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "collo_gptimage2.png"
+    ],
+    "seed": null,
+    "secondi": 80,
+    "descrizione": null
+  },
+  "giorno1_febbre_v2": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Image 1 is a scene; image 2 shows the man standing in the foreground of image 1. Edit only that man in image 1. He must keep exactly his grotesque, deformed comic face from image 2: the same bulging yellow eyes, big ears, long hooked nose, wide grin with crooked teeth, sunken cheeks and messy hair, plus the same clothes, pose, proportions and drawing style. Do not make him look more normal or more human. Add only the signs of a high fever: glistening beads of sweat on his forehead and face, wet hair stuck to his forehead, flushed red cheeks, watery bloodshot eyes, shivering. Everything else in image 1 stays identical: the room, the girl in the doorway, the table and the gloved hand holding the cane.",
+      "image_urls": [
+        "@file:../06-cucina/cucina_07_fumetto_underground_sfondo20_personaggi100.jpg",
+        "@file:padre_riferimento.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giorno1_febbre_v2.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  }
+}

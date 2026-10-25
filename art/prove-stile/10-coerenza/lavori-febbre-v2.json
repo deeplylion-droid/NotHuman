@@ -1,0 +1,17 @@
+[
+  {
+    "nome": "giorno1_febbre_v2",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Image 1 is a scene; image 2 shows the man standing in the foreground of image 1. Edit only that man in image 1. He must keep exactly his grotesque, deformed comic face from image 2: the same bulging yellow eyes, big ears, long hooked nose, wide grin with crooked teeth, sunken cheeks and messy hair, plus the same clothes, pose, proportions and drawing style. Do not make him look more normal or more human. Add only the signs of a high fever: glistening beads of sweat on his forehead and face, wet hair stuck to his forehead, flushed red cheeks, watery bloodshot eyes, shivering. Everything else in image 1 stays identical: the room, the girl in the doorway, the table and the gloved hand holding the cane.",
+      "image_urls": [
+        "@file:../06-cucina/cucina_07_fumetto_underground_sfondo20_personaggi100.jpg",
+        "@file:padre_riferimento.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  }
+]
