@@ -1,0 +1,27 @@
+[
+  {
+    "nome": "osp_paziente_b",
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "Full-length photograph of a man standing barefoot and facing the camera, arms hanging stiffly, in a stained off-white hospital gown and olive army trousers of an unfamiliar country. His entire head and face are completely wrapped in layers of grubby gauze bandages like a mummy: no skin, no mouth, no nose visible, only one dark eye staring out through a narrow slit in the bandages. His posture is too still, unsettling. Lit by warm lamp light from the front. Shot against a plain, flat, light-grey seamless studio backdrop: nothing else in the frame, no floor line, no props, the whole figure fully inside the frame with a margin around it.",
+      "aspect_ratio": "2:3",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 9
+    }
+  },
+  {
+    "nome": "osp_paziente_c",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Full-length photograph of a man standing barefoot and facing the camera, arms hanging stiffly, in a stained off-white hospital gown and olive trousers. His entire head and face are completely wrapped in layers of grubby gauze bandages, as after facial surgery: no skin, mouth or nose visible, only one dark eye looking out through a narrow slit. His posture is too still, unsettling. Warm lamp light from the front. Plain, flat, light-grey seamless studio backdrop, nothing else in the frame, the whole figure inside the frame with a margin.",
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  }
+]

@@ -1,0 +1,139 @@
+{
+  "sfondo": "asset/peste_sfondo_cucina.jpg",
+  "font": "font/VT323-Regular.ttf",
+  "livelli": [
+    {
+      "file": "asset/peste_figlia_ritaglio.png",
+      "x": 0.462,
+      "y_piedi": 0.615,
+      "altezza": 0.36,
+      "ombra": true
+    },
+    {
+      "file": "asset/peste_padre_ritaglio.png",
+      "x": 0.3,
+      "y_piedi": 1.1,
+      "altezza": 0.95
+    },
+    {
+      "file": "asset/peste_mano_ritaglio.png",
+      "ancora": "basso-destra",
+      "altezza": 0.72,
+      "dx": -0.03,
+      "dy": 0.0,
+      "contorno": false,
+      "adatta_colore": 0.3,
+      "esposizione": 1.9
+    }
+  ],
+  "trattamento": {
+    "palette": [
+      [
+        8,
+        10,
+        6
+      ],
+      [
+        30,
+        36,
+        18
+      ],
+      [
+        74,
+        80,
+        36
+      ],
+      [
+        146,
+        132,
+        60
+      ],
+      [
+        210,
+        188,
+        122
+      ],
+      [
+        242,
+        232,
+        204
+      ]
+    ],
+    "pixel": 3,
+    "livelli_colore": 6,
+    "colore_originale": 0.32,
+    "contrasto": 1.2,
+    "luce": 0.0,
+    "gamma": 1.0,
+    "vignetta": 0.93,
+    "barilotto": 0.06,
+    "grana": 0.03
+  },
+  "ui": {
+    "stato": [
+      "GIORNO 3",
+      "CONTAGIATI 14",
+      "CASA 6 DI 11"
+    ],
+    "dettaglio": {
+      "file": "asset/peste_dettaglio_collo.jpg",
+      "etichetta": "IL PADRE  -  COLLO, LATO SINISTRO",
+      "box": [
+        1200,
+        80,
+        640,
+        427
+      ],
+      "ritaglio": [
+        0.22,
+        0.05,
+        0.92,
+        0.9
+      ],
+      "trattamento": {
+        "luce": 0.08,
+        "contrasto": 1.3,
+        "colore_originale": 0.55,
+        "pixel": 2,
+        "gamma": 0.95
+      }
+    },
+    "dialogo": {
+      "chi": "Il padre",
+      "testo": "È solo una botta, dottore. Me la sono fatta al lavoro. Qui stiamo tutti bene, non c'è nessun altro.",
+      "scelte": [
+        "Dovete venire con me.",
+        "Chi c'è nel corridoio?",
+        "Me ne vado."
+      ],
+      "box": [
+        0.04,
+        0.58,
+        0.95
+      ]
+    },
+    "comandi": "[E] ESAMINA   [TAB] REGISTRO",
+    "colore": [
+      236,
+      226,
+      200
+    ],
+    "accento": [
+      214,
+      74,
+      52
+    ],
+    "pannello": [
+      10,
+      9,
+      7,
+      218
+    ],
+    "dimensioni": [
+      44,
+      38,
+      32
+    ]
+  },
+  "uscita": "schermata_medico_della_peste.jpg"
+}

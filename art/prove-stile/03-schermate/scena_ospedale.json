@@ -1,0 +1,139 @@
+{
+  "sfondo": "asset/osp_sfondo_corsia_v2.jpg",
+  "font": "font/VT323-Regular.ttf",
+  "livelli": [
+    {
+      "file": "asset/osp_paziente_c_ritaglio.png",
+      "x": 0.33,
+      "y_piedi": 1.08,
+      "altezza": 0.92
+    },
+    {
+      "file": "asset/osp_mano_ritaglio.png",
+      "ancora": "basso-destra",
+      "altezza": 0.62,
+      "dx": -0.12,
+      "dy": 0.03,
+      "contorno": false,
+      "adatta_colore": 0.2,
+      "sopra_buio": true,
+      "esposizione": 1.05
+    }
+  ],
+  "buio": {
+    "x": 0.33,
+    "y": 0.4,
+    "raggio": 0.3,
+    "schiaccia": 1.1,
+    "quanto": 0.72
+  },
+  "trattamento": {
+    "palette": [
+      [
+        4,
+        5,
+        14
+      ],
+      [
+        18,
+        22,
+        46
+      ],
+      [
+        56,
+        54,
+        84
+      ],
+      [
+        128,
+        94,
+        72
+      ],
+      [
+        212,
+        164,
+        100
+      ],
+      [
+        246,
+        230,
+        196
+      ]
+    ],
+    "pixel": 3,
+    "livelli_colore": 6,
+    "colore_originale": 0.25,
+    "contrasto": 1.2,
+    "luce": -0.02,
+    "gamma": 1.15,
+    "vignetta": 0.93,
+    "barilotto": 0.06,
+    "grana": 0.03,
+    "seme": 2
+  },
+  "ui": {
+    "stato": [
+      "NOTTE 2",
+      "MORFINA 4",
+      "LETTI 31 / 30"
+    ],
+    "dettaglio": {
+      "file": "asset/osp_dettaglio_braccio.jpg",
+      "etichetta": "LETTO 14  -  BRACCIO DESTRO",
+      "ritaglio": [
+        0.25,
+        0.08,
+        1.0,
+        0.95
+      ],
+      "box": [
+        1200,
+        80,
+        640,
+        427
+      ],
+      "trattamento": {
+        "luce": 0.04,
+        "colore_originale": 0.45,
+        "pixel": 2
+      }
+    },
+    "dialogo": {
+      "chi": "Soldato, letto 14",
+      "testo": "Non guardi lì, sorella. Mi serve solo un'altra dose. Stanotte fa più male del solito.",
+      "scelte": [
+        "Lo segnalo al capitano.",
+        "Gli do la morfina.",
+        "Rifaccio la fasciatura e taccio."
+      ],
+      "box": [
+        0.04,
+        0.58,
+        0.95
+      ]
+    },
+    "comandi": "[F] TORCIA   [TAB] CARTELLE",
+    "colore": [
+      240,
+      228,
+      204
+    ],
+    "accento": [
+      206,
+      64,
+      52
+    ],
+    "pannello": [
+      6,
+      8,
+      18,
+      220
+    ],
+    "dimensioni": [
+      44,
+      38,
+      32
+    ]
+  },
+  "uscita": "schermata_ospedale.jpg"
+}

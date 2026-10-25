@@ -1,0 +1,14 @@
+[
+  {
+    "nome": "osp_paziente",
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "Full-length photograph of a man standing barefoot and facing the camera, arms hanging stiffly, in a stained off-white hospital shirt and olive army trousers of an unfamiliar country. His whole head and face are wrapped in grubby bandages, leaving only a narrow gap for one eye, which stares at the viewer. His posture is too still, unsettling. Lit by warm lamp light from the front. Shot against a plain, flat, light-grey seamless studio backdrop: nothing else in the frame, no floor line, no props, the whole figure fully inside the frame with a margin around it.",
+      "aspect_ratio": "2:3",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 5
+    }
+  }
+]

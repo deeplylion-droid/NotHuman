@@ -1,0 +1,124 @@
+[
+  {
+    "nome": "peste_sfondo_cucina",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An ordinary amateur snapshot photograph, taken at eye level from the doorway with a wide-angle phone camera, of the empty kitchen of a poor house in a remote mountain village, present day. Peeling floral wallpaper, a fluorescent tube light on the wall, cheap laminate cabinets, a small gas stove, a table covered with a plastic flower-pattern tablecloth with four plates on it, two plastic garden chairs, an old CRT television on a cabinet, a calendar on the wall, and at the back a door left ajar onto a pitch-black corridor. In the middle of the room, in front of the table, an empty patch of worn linoleum floor. Nobody in the room. Evenly exposed and sharp, flat light from the fluorescent tube, slightly greenish cast, everything visible in detail, no dramatic shadows.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "peste_padre",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Full-length photograph of a gaunt man in his late forties standing stiffly and facing the camera, arms hanging, in a stained dark-blue work jacket over a grey t-shirt, worn jeans and muddy boots. Unshaven, sunken cheeks, sallow waxy skin, bloodshot eyes, a forced tight-lipped smile that does not reach his eyes; his face is subtly wrong, slightly asymmetrical and unsettling. Lit from above by a cold fluorescent light. Isolated on a transparent background, no floor, no shadow, the entire body visible from head to boots.",
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png",
+      "background": "transparent"
+    }
+  },
+  {
+    "nome": "peste_figlia",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Full-length photograph of a pale teenage girl standing half turned toward the camera, in a faded hoodie and pajama trousers, clutching a smartphone to her chest, staring with wide frightened eyes, greasy dark hair. Lit from above by a cold fluorescent light. Isolated on a transparent background, no floor, no shadow, the entire body visible from head to feet.",
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png",
+      "background": "transparent"
+    }
+  },
+  {
+    "nome": "peste_mano",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of the viewer's own right forearm and hand: a black waxed leather glove with a long flared cuff and the sleeve of a heavy black waxed coat, holding a long thin wooden cane that points forward and upward, entering the frame from the bottom right corner, exactly like the held item in a first-person video game. Isolated on a transparent background.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png",
+      "background": "transparent"
+    }
+  },
+  {
+    "nome": "peste_dettaglio_collo",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Extreme close-up photograph of the side of a man's neck just under the jaw, unshaven sallow skin, with a swollen, hard, dark purplish-red lump the size of an egg (a plague bubo). The collar of a stained dark-blue work jacket is pulled aside by the tip of a black leather glove. Harsh direct flash, clinical and unsettling.",
+      "image_size": {
+        "width": 1536,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "osp_sfondo_corsia",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An ordinary amateur snapshot photograph, taken at eye level with a wide-angle camera, of a school gymnasium turned into a military field hospital at night, in an alternate present where technology stopped in the 1940s. Rows of metal camp beds with grey wool blankets, some with sleeping patients wrapped up to the head, glass drip bottles on metal stands, enamel basins, an open wooden medicine cabinet with brown glass bottles, a crank telephone on a desk, bare bulbs and oil lamps, a basketball hoop and faded court lines on the wooden floor. The aisle in the foreground is empty. Evenly exposed and sharp, everything visible, warm tungsten light, no dramatic shadows.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "osp_paziente",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Full-length photograph of a wounded soldier standing barefoot and facing the camera, arms hanging stiffly, in a stained off-white hospital shirt and olive military trousers of an unfamiliar army. His whole head and face are wrapped in grubby bandages, leaving only a narrow gap for one bloodshot eye, which stares at the viewer. His posture is too still, unsettling. Lit by warm lamp light from the front. Isolated on a transparent background, no floor, no shadow, the entire body visible from head to feet.",
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png",
+      "background": "transparent"
+    }
+  },
+  {
+    "nome": "osp_mano",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of the viewer's own right hand and forearm in a white cotton nurse's sleeve, holding an old 1940s hand-crank dynamo flashlight pointed forward, entering the frame from the bottom right corner, exactly like the held item in a first-person video game. Isolated on a transparent background.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png",
+      "background": "transparent"
+    }
+  },
+  {
+    "nome": "osp_dettaglio_braccio",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Extreme close-up photograph of a soldier's forearm with a bloodstained bandage half unwrapped, revealing perfectly smooth, clean, unwounded skin underneath where a wound should be; a nurse's fingers hold the loose bandage. Harsh direct flash, clinical and unsettling.",
+      "image_size": {
+        "width": 1536,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  }
+]

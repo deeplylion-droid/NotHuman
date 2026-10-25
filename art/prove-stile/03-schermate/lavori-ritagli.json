@@ -1,0 +1,57 @@
+[
+  {
+    "nome": "peste_padre_ritaglio",
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/peste_padre.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    }
+  },
+  {
+    "nome": "peste_figlia_ritaglio",
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/peste_figlia.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    }
+  },
+  {
+    "nome": "peste_mano_ritaglio",
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/peste_mano.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    }
+  },
+  {
+    "nome": "osp_mano_ritaglio",
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/osp_mano.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    }
+  },
+  {
+    "nome": "osp_paziente_ritaglio",
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/osp_paziente.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    }
+  }
+]

@@ -1,0 +1,119 @@
+[
+  {
+    "nome": "foto_nanobananapro",
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "First-person view of a plague doctor who has just stepped into a poor peasant house in a small Northern European town during the plague of the 1630s, late at night. Only the doctor's black leather glove holding a long wooden cane is visible, entering the frame from the lower right corner.\nThe house is a single cramped room: a low ceiling with soot-blackened beams, cracked plaster walls, a beaten-earth floor with scattered straw, a hearth with dying embers on the left, a narrow wooden staircase on the right climbing into total darkness, and a box-bed built into the back wall with its heavy wool curtain drawn shut.\nA family of three stands in the middle of the room, facing the doctor in tense silence, lit by a single tallow candle on a rough wooden table: a gaunt father in his forties with stubble and wary bloodshot eyes, standing protectively in front; a frightened mother in a linen coif, twisting her apron in her hands; a thin boy of about eight half-hidden behind her skirt, staring. They are hiding someone, and their faces show it.\nOn the table: a loaf of dark bread, a clay jug and four wooden bowls, although only three people are visible.\nSTYLE: an unsettling found photograph. Shot at night on old high-ISO film through a cheap lens: heavy grain, slight motion blur, crushed blacks, faded and desaturated colors with a sickly yellow-green cast, soft halation around the candle flame, dust specks and a faint light leak. It must look like a real photograph of real people, not a painting and not CGI: unidealized faces with pores, scars, uneven teeth and dirty skin, no beauty retouching.\nCinematic 16:9 composition. Everything outside the candlelight sinks into darkness. No text, no watermark, no frame or border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 11
+    }
+  },
+  {
+    "nome": "foto_gptimage2",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor who has just stepped into a poor peasant house in a small Northern European town during the plague of the 1630s, late at night. Only the doctor's black leather glove holding a long wooden cane is visible, entering the frame from the lower right corner.\nThe house is a single cramped room: a low ceiling with soot-blackened beams, cracked plaster walls, a beaten-earth floor with scattered straw, a hearth with dying embers on the left, a narrow wooden staircase on the right climbing into total darkness, and a box-bed built into the back wall with its heavy wool curtain drawn shut.\nA family of three stands in the middle of the room, facing the doctor in tense silence, lit by a single tallow candle on a rough wooden table: a gaunt father in his forties with stubble and wary bloodshot eyes, standing protectively in front; a frightened mother in a linen coif, twisting her apron in her hands; a thin boy of about eight half-hidden behind her skirt, staring. They are hiding someone, and their faces show it.\nOn the table: a loaf of dark bread, a clay jug and four wooden bowls, although only three people are visible.\nSTYLE: an unsettling found photograph. Shot at night on old high-ISO film through a cheap lens: heavy grain, slight motion blur, crushed blacks, faded and desaturated colors with a sickly yellow-green cast, soft halation around the candle flame, dust specks and a faint light leak. It must look like a real photograph of real people, not a painting and not CGI: unidealized faces with pores, scars, uneven teeth and dirty skin, no beauty retouching.\nCinematic 16:9 composition. Everything outside the candlelight sinks into darkness. No text, no watermark, no frame or border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "foto_flux2max",
+    "modello": "fal-ai/flux-2-max",
+    "input": {
+      "prompt": "First-person view of a plague doctor who has just stepped into a poor peasant house in a small Northern European town during the plague of the 1630s, late at night. Only the doctor's black leather glove holding a long wooden cane is visible, entering the frame from the lower right corner.\nThe house is a single cramped room: a low ceiling with soot-blackened beams, cracked plaster walls, a beaten-earth floor with scattered straw, a hearth with dying embers on the left, a narrow wooden staircase on the right climbing into total darkness, and a box-bed built into the back wall with its heavy wool curtain drawn shut.\nA family of three stands in the middle of the room, facing the doctor in tense silence, lit by a single tallow candle on a rough wooden table: a gaunt father in his forties with stubble and wary bloodshot eyes, standing protectively in front; a frightened mother in a linen coif, twisting her apron in her hands; a thin boy of about eight half-hidden behind her skirt, staring. They are hiding someone, and their faces show it.\nOn the table: a loaf of dark bread, a clay jug and four wooden bowls, although only three people are visible.\nSTYLE: an unsettling found photograph. Shot at night on old high-ISO film through a cheap lens: heavy grain, slight motion blur, crushed blacks, faded and desaturated colors with a sickly yellow-green cast, soft halation around the candle flame, dust specks and a faint light leak. It must look like a real photograph of real people, not a painting and not CGI: unidealized faces with pores, scars, uneven teeth and dirty skin, no beauty retouching.\nCinematic 16:9 composition. Everything outside the candlelight sinks into darkness. No text, no watermark, no frame or border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "output_format": "png",
+      "seed": 11
+    }
+  },
+  {
+    "nome": "grottesco_nanobananapro",
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "First-person view of a plague doctor who has just stepped into a poor peasant house in a small Northern European town during the plague of the 1630s, late at night. Only the doctor's black leather glove holding a long wooden cane is visible, entering the frame from the lower right corner.\nThe house is a single cramped room: a low ceiling with soot-blackened beams, cracked plaster walls, a beaten-earth floor with scattered straw, a hearth with dying embers on the left, a narrow wooden staircase on the right climbing into total darkness, and a box-bed built into the back wall with its heavy wool curtain drawn shut.\nA family of three stands in the middle of the room, facing the doctor in tense silence, lit by a single tallow candle on a rough wooden table: a gaunt father in his forties with stubble and wary bloodshot eyes, standing protectively in front; a frightened mother in a linen coif, twisting her apron in her hands; a thin boy of about eight half-hidden behind her skirt, staring. They are hiding someone, and their faces show it.\nOn the table: a loaf of dark bread, a clay jug and four wooden bowls, although only three people are visible.\nSTYLE: a hand-painted grotesque illustration. Realistic shading and textures, but every face is subtly wrong: heads slightly too large, eyes a little uneven or too far apart, long crooked noses, sagging skin, discolored teeth, exaggerated wrinkles. Unsettling, never cartoonish, never cute, not anime. Thick gouache and oil brushwork with visible texture, a muted sickly palette of ochre, olive green, dirty umber and bruise purple, deep murky shadows.\nCinematic 16:9 composition. Everything outside the candlelight sinks into darkness. No text, no watermark, no frame or border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 11
+    }
+  },
+  {
+    "nome": "grottesco_gptimage2",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor who has just stepped into a poor peasant house in a small Northern European town during the plague of the 1630s, late at night. Only the doctor's black leather glove holding a long wooden cane is visible, entering the frame from the lower right corner.\nThe house is a single cramped room: a low ceiling with soot-blackened beams, cracked plaster walls, a beaten-earth floor with scattered straw, a hearth with dying embers on the left, a narrow wooden staircase on the right climbing into total darkness, and a box-bed built into the back wall with its heavy wool curtain drawn shut.\nA family of three stands in the middle of the room, facing the doctor in tense silence, lit by a single tallow candle on a rough wooden table: a gaunt father in his forties with stubble and wary bloodshot eyes, standing protectively in front; a frightened mother in a linen coif, twisting her apron in her hands; a thin boy of about eight half-hidden behind her skirt, staring. They are hiding someone, and their faces show it.\nOn the table: a loaf of dark bread, a clay jug and four wooden bowls, although only three people are visible.\nSTYLE: a hand-painted grotesque illustration. Realistic shading and textures, but every face is subtly wrong: heads slightly too large, eyes a little uneven or too far apart, long crooked noses, sagging skin, discolored teeth, exaggerated wrinkles. Unsettling, never cartoonish, never cute, not anime. Thick gouache and oil brushwork with visible texture, a muted sickly palette of ochre, olive green, dirty umber and bruise purple, deep murky shadows.\nCinematic 16:9 composition. Everything outside the candlelight sinks into darkness. No text, no watermark, no frame or border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "grottesco_flux2max",
+    "modello": "fal-ai/flux-2-max",
+    "input": {
+      "prompt": "First-person view of a plague doctor who has just stepped into a poor peasant house in a small Northern European town during the plague of the 1630s, late at night. Only the doctor's black leather glove holding a long wooden cane is visible, entering the frame from the lower right corner.\nThe house is a single cramped room: a low ceiling with soot-blackened beams, cracked plaster walls, a beaten-earth floor with scattered straw, a hearth with dying embers on the left, a narrow wooden staircase on the right climbing into total darkness, and a box-bed built into the back wall with its heavy wool curtain drawn shut.\nA family of three stands in the middle of the room, facing the doctor in tense silence, lit by a single tallow candle on a rough wooden table: a gaunt father in his forties with stubble and wary bloodshot eyes, standing protectively in front; a frightened mother in a linen coif, twisting her apron in her hands; a thin boy of about eight half-hidden behind her skirt, staring. They are hiding someone, and their faces show it.\nOn the table: a loaf of dark bread, a clay jug and four wooden bowls, although only three people are visible.\nSTYLE: a hand-painted grotesque illustration. Realistic shading and textures, but every face is subtly wrong: heads slightly too large, eyes a little uneven or too far apart, long crooked noses, sagging skin, discolored teeth, exaggerated wrinkles. Unsettling, never cartoonish, never cute, not anime. Thick gouache and oil brushwork with visible texture, a muted sickly palette of ochre, olive green, dirty umber and bruise purple, deep murky shadows.\nCinematic 16:9 composition. Everything outside the candlelight sinks into darkness. No text, no watermark, no frame or border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "output_format": "png",
+      "seed": 11
+    }
+  },
+  {
+    "nome": "olio_nanobananapro",
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "First-person view of a plague doctor who has just stepped into a poor peasant house in a small Northern European town during the plague of the 1630s, late at night. Only the doctor's black leather glove holding a long wooden cane is visible, entering the frame from the lower right corner.\nThe house is a single cramped room: a low ceiling with soot-blackened beams, cracked plaster walls, a beaten-earth floor with scattered straw, a hearth with dying embers on the left, a narrow wooden staircase on the right climbing into total darkness, and a box-bed built into the back wall with its heavy wool curtain drawn shut.\nA family of three stands in the middle of the room, facing the doctor in tense silence, lit by a single tallow candle on a rough wooden table: a gaunt father in his forties with stubble and wary bloodshot eyes, standing protectively in front; a frightened mother in a linen coif, twisting her apron in her hands; a thin boy of about eight half-hidden behind her skirt, staring. They are hiding someone, and their faces show it.\nOn the table: a loaf of dark bread, a clay jug and four wooden bowls, although only three people are visible.\nSTYLE: a Dutch Golden Age oil painting of the 1630s, with Rembrandt's chiaroscuro and the earthy peasant interiors of Adriaen van Ostade: a single warm candle light sculpting the faces out of near-black shadows, visible confident brushstrokes, aged amber varnish and fine craquelure. Museum masterpiece quality, with realistic, expressive and unsettlingly tense faces.\nCinematic 16:9 composition. Everything outside the candlelight sinks into darkness. No text, no watermark, no frame or border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 11
+    }
+  },
+  {
+    "nome": "olio_gptimage2",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor who has just stepped into a poor peasant house in a small Northern European town during the plague of the 1630s, late at night. Only the doctor's black leather glove holding a long wooden cane is visible, entering the frame from the lower right corner.\nThe house is a single cramped room: a low ceiling with soot-blackened beams, cracked plaster walls, a beaten-earth floor with scattered straw, a hearth with dying embers on the left, a narrow wooden staircase on the right climbing into total darkness, and a box-bed built into the back wall with its heavy wool curtain drawn shut.\nA family of three stands in the middle of the room, facing the doctor in tense silence, lit by a single tallow candle on a rough wooden table: a gaunt father in his forties with stubble and wary bloodshot eyes, standing protectively in front; a frightened mother in a linen coif, twisting her apron in her hands; a thin boy of about eight half-hidden behind her skirt, staring. They are hiding someone, and their faces show it.\nOn the table: a loaf of dark bread, a clay jug and four wooden bowls, although only three people are visible.\nSTYLE: a Dutch Golden Age oil painting of the 1630s, with Rembrandt's chiaroscuro and the earthy peasant interiors of Adriaen van Ostade: a single warm candle light sculpting the faces out of near-black shadows, visible confident brushstrokes, aged amber varnish and fine craquelure. Museum masterpiece quality, with realistic, expressive and unsettlingly tense faces.\nCinematic 16:9 composition. Everything outside the candlelight sinks into darkness. No text, no watermark, no frame or border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "olio_flux2max",
+    "modello": "fal-ai/flux-2-max",
+    "input": {
+      "prompt": "First-person view of a plague doctor who has just stepped into a poor peasant house in a small Northern European town during the plague of the 1630s, late at night. Only the doctor's black leather glove holding a long wooden cane is visible, entering the frame from the lower right corner.\nThe house is a single cramped room: a low ceiling with soot-blackened beams, cracked plaster walls, a beaten-earth floor with scattered straw, a hearth with dying embers on the left, a narrow wooden staircase on the right climbing into total darkness, and a box-bed built into the back wall with its heavy wool curtain drawn shut.\nA family of three stands in the middle of the room, facing the doctor in tense silence, lit by a single tallow candle on a rough wooden table: a gaunt father in his forties with stubble and wary bloodshot eyes, standing protectively in front; a frightened mother in a linen coif, twisting her apron in her hands; a thin boy of about eight half-hidden behind her skirt, staring. They are hiding someone, and their faces show it.\nOn the table: a loaf of dark bread, a clay jug and four wooden bowls, although only three people are visible.\nSTYLE: a Dutch Golden Age oil painting of the 1630s, with Rembrandt's chiaroscuro and the earthy peasant interiors of Adriaen van Ostade: a single warm candle light sculpting the faces out of near-black shadows, visible confident brushstrokes, aged amber varnish and fine craquelure. Museum masterpiece quality, with realistic, expressive and unsettlingly tense faces.\nCinematic 16:9 composition. Everything outside the candlelight sinks into darkness. No text, no watermark, no frame or border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "output_format": "png",
+      "seed": 11
+    }
+  }
+]

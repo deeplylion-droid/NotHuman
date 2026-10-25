@@ -1,0 +1,217 @@
+{
+  "peste_padre": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Full-length photograph of a gaunt man in his late forties standing stiffly and facing the camera, arms hanging, in a stained dark-blue work jacket over a grey t-shirt, worn jeans and muddy boots. Unshaven, sunken cheeks, sallow waxy skin, bloodshot eyes, a forced tight-lipped smile that does not reach his eyes; his face is subtly wrong, slightly asymmetrical and unsettling. Lit from above by a cold fluorescent light. Shot against a plain, flat, light-grey seamless studio backdrop: nothing else in the frame, no floor line, no props, the whole figure fully inside the frame with a margin around it.",
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "peste_padre.png"
+    ],
+    "seed": null,
+    "secondi": 67,
+    "descrizione": null
+  },
+  "peste_mano": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of the viewer's own right forearm and hand: a black waxed leather glove with a long flared cuff and the sleeve of a heavy black waxed coat, holding a long thin wooden cane that points forward and upward. The arm enters the frame from the bottom right corner and is cut by the frame edges, exactly like the held item in a first-person video game. Plain, flat, light-grey background, nothing else in the frame.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "peste_mano.png"
+    ],
+    "seed": null,
+    "secondi": 80,
+    "descrizione": null
+  },
+  "peste_figlia": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Full-length photograph of a pale teenage girl standing half turned toward the camera, in a faded hoodie and pajama trousers, clutching a smartphone to her chest, staring with wide frightened eyes, greasy dark hair. Lit from above by a cold fluorescent light. Shot against a plain, flat, light-grey seamless studio backdrop: nothing else in the frame, no floor line, no props, the whole figure fully inside the frame with a margin around it.",
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "peste_figlia.png"
+    ],
+    "seed": null,
+    "secondi": 65,
+    "descrizione": null
+  },
+  "osp_paziente": {
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "Full-length photograph of a man standing barefoot and facing the camera, arms hanging stiffly, in a stained off-white hospital shirt and olive army trousers of an unfamiliar country. His whole head and face are wrapped in grubby bandages, leaving only a narrow gap for one eye, which stares at the viewer. His posture is too still, unsettling. Lit by warm lamp light from the front. Shot against a plain, flat, light-grey seamless studio backdrop: nothing else in the frame, no floor line, no props, the whole figure fully inside the frame with a margin around it.",
+      "aspect_ratio": "2:3",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 5
+    },
+    "file": [
+      "osp_paziente.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "osp_mano": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of the viewer's own right hand and forearm in a white cotton nurse's sleeve, holding an old 1940s hand-crank dynamo flashlight pointed forward. The arm enters the frame from the bottom right corner and is cut by the frame edges, exactly like the held item in a first-person video game. Plain, flat, light-grey background, nothing else in the frame.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "osp_mano.png"
+    ],
+    "seed": null,
+    "secondi": 80,
+    "descrizione": null
+  },
+  "peste_sfondo_cucina": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An ordinary amateur snapshot photograph, taken at eye level from the doorway with a wide-angle phone camera, of the empty kitchen of a poor house in a remote mountain village, present day. Peeling floral wallpaper, a fluorescent tube light on the wall, cheap laminate cabinets, a small gas stove, a table covered with a plastic flower-pattern tablecloth with four plates on it, two plastic garden chairs, an old CRT television on a cabinet, a calendar on the wall, and at the back a door left ajar onto a pitch-black corridor. In the middle of the room, in front of the table, an empty patch of worn linoleum floor. Nobody in the room. Evenly exposed and sharp, flat light from the fluorescent tube, slightly greenish cast, everything visible in detail, no dramatic shadows.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "peste_sfondo_cucina.png"
+    ],
+    "seed": null,
+    "secondi": 71,
+    "descrizione": null
+  },
+  "osp_sfondo_corsia": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An ordinary amateur snapshot photograph, taken at eye level with a wide-angle camera, of a school gymnasium turned into a military field hospital at night, in an alternate present where technology stopped in the 1940s. Rows of metal camp beds with grey wool blankets, some with sleeping patients wrapped up to the head, glass drip bottles on metal stands, enamel basins, an open wooden medicine cabinet with brown glass bottles, a crank telephone on a desk, bare bulbs and oil lamps, a basketball hoop and faded court lines on the wooden floor. The aisle in the foreground is empty. Evenly exposed and sharp, everything visible, warm tungsten light, no dramatic shadows.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "osp_sfondo_corsia.png"
+    ],
+    "seed": null,
+    "secondi": 73,
+    "descrizione": null
+  },
+  "osp_dettaglio_braccio": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Extreme close-up photograph of a man's forearm with a dirty grey bandage half unwrapped by a nurse's fingers, revealing perfectly smooth, intact skin underneath: there is no wound at all where the bandage was. Harsh direct flash, clinical and unsettling.",
+      "image_size": {
+        "width": 1536,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "osp_dettaglio_braccio.png"
+    ],
+    "seed": null,
+    "secondi": 71,
+    "descrizione": null
+  },
+  "peste_dettaglio_collo": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Extreme close-up photograph of the side of a man's neck just under the jaw, unshaven sallow skin, with a swollen, hard, dark purplish-red lump the size of an egg (a plague bubo). The collar of a stained dark-blue work jacket is pulled aside by the tip of a black leather glove. Harsh direct flash, clinical and unsettling.",
+      "image_size": {
+        "width": 1536,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "peste_dettaglio_collo.png"
+    ],
+    "seed": null,
+    "secondi": 84,
+    "descrizione": null
+  },
+  "osp_sfondo_corsia_v2": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Remove the two American flags completely and replace each one with a faded dark-green banner bearing a simple white emblem of an unfamiliar fictional nation. Keep everything else in the photograph exactly the same.",
+      "image_urls": [
+        "@file:asset/osp_sfondo_corsia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "osp_sfondo_corsia_v2.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "osp_paziente_b": {
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "Full-length photograph of a man standing barefoot and facing the camera, arms hanging stiffly, in a stained off-white hospital gown and olive army trousers of an unfamiliar country. His entire head and face are completely wrapped in layers of grubby gauze bandages like a mummy: no skin, no mouth, no nose visible, only one dark eye staring out through a narrow slit in the bandages. His posture is too still, unsettling. Lit by warm lamp light from the front. Shot against a plain, flat, light-grey seamless studio backdrop: nothing else in the frame, no floor line, no props, the whole figure fully inside the frame with a margin around it.",
+      "aspect_ratio": "2:3",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 9
+    },
+    "file": [
+      "osp_paziente_b.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "osp_paziente_c": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Full-length photograph of a man standing barefoot and facing the camera, arms hanging stiffly, in a stained off-white hospital gown and olive trousers. His entire head and face are completely wrapped in layers of grubby gauze bandages, as after facial surgery: no skin, mouth or nose visible, only one dark eye looking out through a narrow slit. His posture is too still, unsettling. Warm lamp light from the front. Plain, flat, light-grey seamless studio backdrop, nothing else in the frame, the whole figure inside the frame with a margin.",
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "osp_paziente_c.png"
+    ],
+    "seed": null,
+    "secondi": 67,
+    "descrizione": null
+  }
+}

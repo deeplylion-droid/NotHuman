@@ -1,0 +1,132 @@
+[
+  {
+    "nome": "peste_esterno_gptimage2",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Present day, in a dystopian near future where the bubonic plague has returned. A remote, half-abandoned mountain village at dusk: cracked asphalt, rusting cars, a shuttered bar with a faded plastic sign, satellite dishes on crumbling houses, flickering sodium streetlights, windows sealed with plastic sheeting and tape, red crosses spray-painted on some doors. In the middle of the empty street walks the only person still fighting the plague: a plague doctor dressed in authentic seventeenth-century garb - a long waxed black coat, a wide-brimmed leather hat, a long-beaked leather mask with round glass eyepieces, leather gloves and a long wooden cane - completely out of place among the modern ruins. A few frightened villagers in modern clothes watch him from behind their windows. Wide shot: the doctor small but central, the street receding into fog.\nSTYLE: a frame from a slow-burn arthouse horror film shot on 35mm: naturalistic low-key lighting from practical sources only, deep shadows, muted desaturated colors, visible film grain, slightly soft focus. Real unidealized faces with pores, blemishes and tired eyes. Not a painting, not CGI, no HDR, no glamour.\nCinematic 16:9 composition. No text other than what is described, no watermark, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "peste_esterno_nanobananapro",
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "Present day, in a dystopian near future where the bubonic plague has returned. A remote, half-abandoned mountain village at dusk: cracked asphalt, rusting cars, a shuttered bar with a faded plastic sign, satellite dishes on crumbling houses, flickering sodium streetlights, windows sealed with plastic sheeting and tape, red crosses spray-painted on some doors. In the middle of the empty street walks the only person still fighting the plague: a plague doctor dressed in authentic seventeenth-century garb - a long waxed black coat, a wide-brimmed leather hat, a long-beaked leather mask with round glass eyepieces, leather gloves and a long wooden cane - completely out of place among the modern ruins. A few frightened villagers in modern clothes watch him from behind their windows. Wide shot: the doctor small but central, the street receding into fog.\nSTYLE: a frame from a slow-burn arthouse horror film shot on 35mm: naturalistic low-key lighting from practical sources only, deep shadows, muted desaturated colors, visible film grain, slightly soft focus. Real unidealized faces with pores, blemishes and tired eyes. Not a painting, not CGI, no HDR, no glamour.\nCinematic 16:9 composition. No text other than what is described, no watermark, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 21
+    }
+  },
+  {
+    "nome": "peste_interno_gptimage2",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor in seventeenth-century garb who has just entered a poor modern house in a remote village, present day, during a new outbreak of the plague. Only his black leather glove holding a long wooden cane is visible in the lower right foreground. The room is a cramped kitchen with peeling floral wallpaper, a buzzing fluorescent tube light, a plastic tablecloth, an old television showing a muted emergency broadcast full of static, plastic chairs, and a door ajar onto a dark corridor. A family stands facing the doctor in tense silence: a gaunt father in a stained work jacket, a frightened mother in a cheap cardigan, a teenage daughter clutching a phone to her chest. They are hiding someone in the dark corridor behind them, and their faces show it. On the table: four plates, although only three people are visible.\nSTYLE: a frame from a slow-burn arthouse horror film shot on 35mm: naturalistic low-key lighting from practical sources only, deep shadows, muted desaturated colors, visible film grain, slightly soft focus. Real unidealized faces with pores, blemishes and tired eyes. Not a painting, not CGI, no HDR, no glamour.\nCinematic 16:9 composition. No text other than what is described, no watermark, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "peste_interno_nanobananapro",
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "First-person view of a plague doctor in seventeenth-century garb who has just entered a poor modern house in a remote village, present day, during a new outbreak of the plague. Only his black leather glove holding a long wooden cane is visible in the lower right foreground. The room is a cramped kitchen with peeling floral wallpaper, a buzzing fluorescent tube light, a plastic tablecloth, an old television showing a muted emergency broadcast full of static, plastic chairs, and a door ajar onto a dark corridor. A family stands facing the doctor in tense silence: a gaunt father in a stained work jacket, a frightened mother in a cheap cardigan, a teenage daughter clutching a phone to her chest. They are hiding someone in the dark corridor behind them, and their faces show it. On the table: four plates, although only three people are visible.\nSTYLE: a frame from a slow-burn arthouse horror film shot on 35mm: naturalistic low-key lighting from practical sources only, deep shadows, muted desaturated colors, visible film grain, slightly soft focus. Real unidealized faces with pores, blemishes and tired eyes. Not a painting, not CGI, no HDR, no glamour.\nCinematic 16:9 composition. No text other than what is described, no watermark, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 21
+    }
+  },
+  {
+    "nome": "barbiere_gptimage2",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a barber in a remote mining village, present day, where time seems to have stopped in the last century: the barbershop looks untouched since the 1960s - a cracked leather barber chair, mint-green tiles, a big mirror with flaking silvering, glass jars of combs in blue disinfectant, a wooden radio, yellowed calendars, a bare bulb and grey light from a fogged window, a canary in a small cage on the shelf. The barber's own hands are in the foreground: one holds an open straight razor, the other rests on the customer's shoulder. In the chair, seen from behind, sits a coal miner just back from his shift; in the mirror his face and neck are still blackened with soot, and his reflection stares back at the barber with an unreadable, too-calm expression. Only one small detail betrays the present day: a modern smartphone lying on the counter among the old tools.\nSTYLE: a frame from a slow-burn arthouse horror film shot on 35mm: naturalistic low-key lighting from practical sources only, deep shadows, muted desaturated colors, visible film grain, slightly soft focus. Real unidealized faces with pores, blemishes and tired eyes. Not a painting, not CGI, no HDR, no glamour.\nCinematic 16:9 composition. No text other than what is described, no watermark, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "barbiere_nanobananapro",
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "First-person view of a barber in a remote mining village, present day, where time seems to have stopped in the last century: the barbershop looks untouched since the 1960s - a cracked leather barber chair, mint-green tiles, a big mirror with flaking silvering, glass jars of combs in blue disinfectant, a wooden radio, yellowed calendars, a bare bulb and grey light from a fogged window, a canary in a small cage on the shelf. The barber's own hands are in the foreground: one holds an open straight razor, the other rests on the customer's shoulder. In the chair, seen from behind, sits a coal miner just back from his shift; in the mirror his face and neck are still blackened with soot, and his reflection stares back at the barber with an unreadable, too-calm expression. Only one small detail betrays the present day: a modern smartphone lying on the counter among the old tools.\nSTYLE: a frame from a slow-burn arthouse horror film shot on 35mm: naturalistic low-key lighting from practical sources only, deep shadows, muted desaturated colors, visible film grain, slightly soft focus. Real unidealized faces with pores, blemishes and tired eyes. Not a painting, not CGI, no HDR, no glamour.\nCinematic 16:9 composition. No text other than what is described, no watermark, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 21
+    }
+  },
+  {
+    "nome": "ospedale_gptimage2",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a night-shift nurse in a military field hospital during a contemporary war, in an alternate present where technology stopped advancing around the 1940s: no electronics and no screens, only analog equipment, glass drip bottles, metal bed frames, enamel basins, a crank telephone, oil lamps and a few bare bulbs fed by a generator. The ward is a requisitioned school gymnasium with faded court lines on the floor and long rows of camp beds. Wounded soldiers in the uniforms of an unfamiliar army lie in the beds; many have heavily bandaged faces. The nurse's hand in the foreground holds a hand-cranked flashlight whose beam falls on one bandaged patient sitting upright in the dark, watching her through the gap in his bandages. A medicine cabinet stands open nearby.\nSTYLE: a frame from a slow-burn arthouse horror film shot on 35mm: naturalistic low-key lighting from practical sources only, deep shadows, muted desaturated colors, visible film grain, slightly soft focus. Real unidealized faces with pores, blemishes and tired eyes. Not a painting, not CGI, no HDR, no glamour.\nCinematic 16:9 composition. No text other than what is described, no watermark, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "ospedale_nanobananapro",
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "First-person view of a night-shift nurse in a military field hospital during a contemporary war, in an alternate present where technology stopped advancing around the 1940s: no electronics and no screens, only analog equipment, glass drip bottles, metal bed frames, enamel basins, a crank telephone, oil lamps and a few bare bulbs fed by a generator. The ward is a requisitioned school gymnasium with faded court lines on the floor and long rows of camp beds. Wounded soldiers in the uniforms of an unfamiliar army lie in the beds; many have heavily bandaged faces. The nurse's hand in the foreground holds a hand-cranked flashlight whose beam falls on one bandaged patient sitting upright in the dark, watching her through the gap in his bandages. A medicine cabinet stands open nearby.\nSTYLE: a frame from a slow-burn arthouse horror film shot on 35mm: naturalistic low-key lighting from practical sources only, deep shadows, muted desaturated colors, visible film grain, slightly soft focus. Real unidealized faces with pores, blemishes and tired eyes. Not a painting, not CGI, no HDR, no glamour.\nCinematic 16:9 composition. No text other than what is described, no watermark, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 21
+    }
+  },
+  {
+    "nome": "confessionale_gptimage2",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a priest seated inside a wooden confessional in a half-abandoned church of a remote mountain village, present day. The only light comes from a rack of coin-operated electric votive candles flickering outside. Through the dense wooden lattice of the confessional grille only fragments of the penitent are visible: one wide unblinking eye, part of a mouth too close to the grille, pale fingers resting on the ledge. The penitent looks like an ordinary old villager - almost. Dust, peeling plaster, a plastic chair, a faded parish notice board.\nSTYLE: a frame from a slow-burn arthouse horror film shot on 35mm: naturalistic low-key lighting from practical sources only, deep shadows, muted desaturated colors, visible film grain, slightly soft focus. Real unidealized faces with pores, blemishes and tired eyes. Not a painting, not CGI, no HDR, no glamour.\nCinematic 16:9 composition. No text other than what is described, no watermark, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "confessionale_nanobananapro",
+    "modello": "fal-ai/nano-banana-pro",
+    "input": {
+      "prompt": "First-person view of a priest seated inside a wooden confessional in a half-abandoned church of a remote mountain village, present day. The only light comes from a rack of coin-operated electric votive candles flickering outside. Through the dense wooden lattice of the confessional grille only fragments of the penitent are visible: one wide unblinking eye, part of a mouth too close to the grille, pale fingers resting on the ledge. The penitent looks like an ordinary old villager - almost. Dust, peeling plaster, a plastic chair, a faded parish notice board.\nSTYLE: a frame from a slow-burn arthouse horror film shot on 35mm: naturalistic low-key lighting from practical sources only, deep shadows, muted desaturated colors, visible film grain, slightly soft focus. Real unidealized faces with pores, blemishes and tired eyes. Not a painting, not CGI, no HDR, no glamour.\nCinematic 16:9 composition. No text other than what is described, no watermark, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1,
+      "seed": 21
+    }
+  }
+]

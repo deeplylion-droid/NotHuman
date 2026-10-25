@@ -1,0 +1,94 @@
+[
+  {
+    "nome": "peste_padre",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Full-length photograph of a gaunt man in his late forties standing stiffly and facing the camera, arms hanging, in a stained dark-blue work jacket over a grey t-shirt, worn jeans and muddy boots. Unshaven, sunken cheeks, sallow waxy skin, bloodshot eyes, a forced tight-lipped smile that does not reach his eyes; his face is subtly wrong, slightly asymmetrical and unsettling. Lit from above by a cold fluorescent light. Shot against a plain, flat, light-grey seamless studio backdrop: nothing else in the frame, no floor line, no props, the whole figure fully inside the frame with a margin around it.",
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "peste_figlia",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Full-length photograph of a pale teenage girl standing half turned toward the camera, in a faded hoodie and pajama trousers, clutching a smartphone to her chest, staring with wide frightened eyes, greasy dark hair. Lit from above by a cold fluorescent light. Shot against a plain, flat, light-grey seamless studio backdrop: nothing else in the frame, no floor line, no props, the whole figure fully inside the frame with a margin around it.",
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "peste_mano",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of the viewer's own right forearm and hand: a black waxed leather glove with a long flared cuff and the sleeve of a heavy black waxed coat, holding a long thin wooden cane that points forward and upward. The arm enters the frame from the bottom right corner and is cut by the frame edges, exactly like the held item in a first-person video game. Plain, flat, light-grey background, nothing else in the frame.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "osp_paziente",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Full-length photograph of a wounded soldier standing barefoot and facing the camera, arms hanging stiffly, in a stained off-white hospital shirt and olive military trousers of an unfamiliar army. His whole head and face are wrapped in grubby bandages, leaving only a narrow gap for one bloodshot eye, which stares at the viewer. His posture is too still, unsettling. Lit by warm lamp light from the front. Shot against a plain, flat, light-grey seamless studio backdrop: nothing else in the frame, no floor line, no props, the whole figure fully inside the frame with a margin around it.",
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "osp_mano",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of the viewer's own right hand and forearm in a white cotton nurse's sleeve, holding an old 1940s hand-crank dynamo flashlight pointed forward. The arm enters the frame from the bottom right corner and is cut by the frame edges, exactly like the held item in a first-person video game. Plain, flat, light-grey background, nothing else in the frame.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "osp_dettaglio_braccio",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Extreme close-up photograph of a man's forearm with a dirty grey bandage half unwrapped by a nurse's fingers, revealing perfectly smooth, intact skin underneath: there is no wound at all where the bandage was. Harsh direct flash, clinical and unsettling.",
+      "image_size": {
+        "width": 1536,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "osp_sfondo_corsia_v2",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Remove the two American flags completely and replace each one with a faded dark-green banner bearing a simple white emblem of an unfamiliar fictional nation. Keep everything else in the photograph exactly the same.",
+      "image_urls": [
+        "@file:asset/osp_sfondo_corsia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  }
+]

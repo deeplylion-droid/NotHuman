@@ -1,0 +1,98 @@
+{
+  "peste_mano_ritaglio": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/peste_mano.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    },
+    "file": [
+      "peste_mano_ritaglio.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "osp_mano_ritaglio": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/osp_mano.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    },
+    "file": [
+      "osp_mano_ritaglio.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "peste_figlia_ritaglio": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/peste_figlia.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    },
+    "file": [
+      "peste_figlia_ritaglio.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "peste_padre_ritaglio": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/peste_padre.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    },
+    "file": [
+      "peste_padre_ritaglio.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "osp_paziente_ritaglio": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/osp_paziente.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    },
+    "file": [
+      "osp_paziente_ritaglio.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "osp_paziente_c_ritaglio": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/osp_paziente_c.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    },
+    "file": [
+      "osp_paziente_c_ritaglio.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  }
+}

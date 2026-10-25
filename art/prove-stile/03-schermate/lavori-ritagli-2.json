@@ -1,0 +1,13 @@
+[
+  {
+    "nome": "osp_paziente_c_ritaglio",
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:asset/osp_paziente_c.jpg",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    }
+  }
+]
