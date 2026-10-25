@@ -1,0 +1,42 @@
+[
+  {
+    "nome": "04_linoleografia_personaggi_allineati",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render this image in the style described below, but keep the two people and the gloved hand holding the cane exactly as they are: same faces, same proportions, same silhouettes and the same positions, with no deformation at all. Every object stays at the same pixel position and size. No text, no border.\nSTYLE: a German expressionist linocut print: harsh angular black shapes gouged out of white, jagged knife marks, elongated tortured figures, extreme contrast, anguished faces; black ink only, with one area of blood-red overprint.",
+      "image_urls": [
+        "@file:base_cucina.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "base_persone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:base_cucina.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 4,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "base_bastone",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:base_cucina.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    }
+  }
+]

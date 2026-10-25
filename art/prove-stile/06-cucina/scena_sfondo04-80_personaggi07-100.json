@@ -1,0 +1,13 @@
+{
+  "stile": "07_fumetto_underground_completa.jpg",
+  "sfondo": "cucina_semplice.jpg",
+  "sfondo_stile": "sfondi_stile/04_linoleografia_espressionista_v2.jpg",
+  "intensita_sfondo": 0.8,
+  "maschere": [
+    "maschere/07_fumetto_underground_persone_maschera1.png",
+    "maschere/07_fumetto_underground_persone_maschera2.png",
+    "maschere/07_fumetto_underground_persone_maschera3.png",
+    "maschere/07_fumetto_underground_bastone_maschera1.png"
+  ],
+  "uscita": "cucina_sfondo04-80_personaggi07-100.jpg"
+}

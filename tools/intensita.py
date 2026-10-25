@@ -11,10 +11,14 @@ La scena indica:
   se c'e', lo sfondo si mescola con questo invece che con "stile", cosi' gli
   oggetti dei due livelli combaciano e non si vedono doppi;
 - "maschere": i ritagli dei personaggi (e della mano) fatti con SAM 3;
-- "intensita_sfondo": quanto stile dare allo sfondo, da 0 a 1.
+- "intensita_sfondo": quanto stile dare allo sfondo, da 0 a 1;
+- "intensita_personaggi" (facoltativo, 1 se manca): quanto stile dare ai
+  personaggi; sotto 1 serve "personaggi_originale", la scena con i personaggi
+  nella resa originale, allineata a "stile" (stesse sagome, niente
+  deformazioni), altrimenti si vedrebbero due sagome sovrapposte.
 
-Dentro le maschere si usa lo stile pieno; fuori, l'originale mescolato allo
-stile nella proporzione data. I percorsi sono relativi al file della scena.
+Dentro le maschere i personaggi, fuori lo sfondo, ognuno con la sua
+intensita'. I percorsi sono relativi al file della scena.
 """
 import json
 import pathlib
@@ -46,7 +50,9 @@ def main():
     k = sc.get("intensita_sfondo", 0.2)
     styled_plate = load(base / sc["sfondo_stile"]) if sc.get("sfondo_stile") else style
     background = plate * (1 - k) + styled_plate * k
-    out = style * m + background * (1 - m)
+    kp = sc.get("intensita_personaggi", 1.0)
+    figures = style if kp >= 1 else load(base / sc["personaggi_originale"]) * (1 - kp) + style * kp
+    out = figures * m + background * (1 - m)
     dest = base / sc["uscita"]
     Image.fromarray((np.clip(out, 0, 1) * 255 + 0.5).astype(np.uint8)).save(dest, quality=93)
     print(dest)

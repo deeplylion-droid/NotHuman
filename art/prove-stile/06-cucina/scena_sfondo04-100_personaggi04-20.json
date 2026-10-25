@@ -1,0 +1,15 @@
+{
+  "stile": "04_linoleografia_personaggi_allineati.jpg",
+  "personaggi_originale": "base_cucina.jpg",
+  "intensita_personaggi": 0.2,
+  "sfondo": "cucina_semplice.jpg",
+  "sfondo_stile": "sfondi_stile/04_linoleografia_espressionista_v2.jpg",
+  "intensita_sfondo": 1.0,
+  "maschere": [
+    "maschere/base_persone_maschera1.png",
+    "maschere/base_persone_maschera2.png",
+    "maschere/base_persone_maschera3.png",
+    "maschere/base_bastone_maschera1.png"
+  ],
+  "uscita": "cucina_sfondo04-100_personaggi04-20.jpg"
+}
