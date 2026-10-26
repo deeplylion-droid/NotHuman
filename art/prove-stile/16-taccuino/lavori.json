@@ -1,0 +1,5 @@
+[
+  {"nome": "parete", "modello": "openai/gpt-image-2", "input": {
+    "prompt": "Straight-on photo of a wall in a cheap rented room above a village bar, at night, lit only by a warm desk lamp from the lower left. On the wall hangs a large old cork board, completely empty except for a few loose pushpins and two strips of masking tape. Faded floral wallpaper around it, a light switch, a damp stain in one corner. Nothing written, no papers, no photos on the board. Realistic, slightly grainy, muted colors, deep shadows at the edges. 16:9 landscape.",
+    "image_size": {"width": 1920, "height": 1080}, "quality": "high", "num_images": 1, "output_format": "jpeg"}}
+]

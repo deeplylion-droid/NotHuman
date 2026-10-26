@@ -62,7 +62,11 @@ Decise il 26 ottobre, con le domande in chat.
 ### Il mondo
 
 - **Retrofuturo anni '90.** Il mondo è quello di oggi, ma la tecnologia del medico e del potere ha l'aspetto degli anni '80-'90: cassette, monitor a fosfori verdi, fax, floppy. Le case povere restano come sono.
-- **Elementi cyberpunk** (26 ottobre, da sviluppare): il medico della peste è futuristico, in un mondo distopico dove alcune tecnologie sono rimaste ma cozzano con la vita povera e arretrata della gente comune. Va deciso come si lega al retrofuturo anni '90: per esempio l'attrezzatura del medico e della ditta futuristica, il paese povero com'è.
+- **Elementi cyberpunk** (26 ottobre): il medico della peste è futuristico, in un mondo distopico dove alcune tecnologie sono rimaste ma cozzano con la vita povera e arretrata della gente comune. Proposte (da approvare):
+  - **la maschera è la tecnologia:** dentro c'è la videocamera (il REC è il suo occhio), le lenti leggono battito, temperatura e voce (la proposta C dei dialoghi), il filtro dell'aria ronza. Il medico non si vede mai, la maschera sì: sulla scrivania e nella foto del giornale;
+  - **il bastone-sonda:** la punta con cui si indicano le parti del corpo è un sensore, e come il protocollo può sbagliare;
+  - **la ditta:** il recinto con prefabbricati, antenna e fari (già sulla mappa), il fax, il computer a fosfori verdi, il furgone bianco che porta via i malati di notte;
+  - **il paese:** stufe a legna, termosifoni spenti, santini e medagliette, nessuno schermo tranne il vecchio televisore.
 - **La ditta.** Il medico lavora a contratto per una multinazionale farmaceutica. Ogni mattina la ditta manda via fax il protocollo, cioè i segni da cercare, e paga a paziente. A volte il protocollo è sbagliato apposta, perché alla ditta servono cavie: il giocatore impara da sé di cosa fidarsi.
 
 ### La giornata
@@ -77,8 +81,14 @@ Decise il 26 ottobre, con le domande in chat.
 
 - **Una stanza più le porte.** La famiglia riceve il medico in una stanza; si può pretendere di aprire una porta (camera, cantina) e vedere un'altra inquadratura. Aprire costa tempo e fiducia.
 - **Esame per parti del corpo.** Si indica col bastone cosa si vuole vedere (occhi, bocca, collo, ascelle, mani), come facevano i medici della peste per non toccare i malati, e la videocamera zooma sul punto, a tutto schermo, con la messa a fuoco che va e viene; poi si torna alla stanza. La persona può rifiutarsi, coprirsi o mentire.
-- **Domande e prove.** Si scelgono le domande da fare. Un indizio trovato (un piatto in più, una porta chiusa a chiave, il calore all'infrarosso) si può mettere davanti alla famiglia per smascherare una bugia o farsi aprire una porta. Le frasi delle persone compaiono in basso come sottotitoli della videocassetta; le domande del medico sono un elenco corto che appare solo quando tocca a lui.
-- **Dialoghi e prove originali e interattivi** (richiesta del 26 ottobre, da proporre quando ci si arriva): le frasi compaiono in modo particolare, si evidenziano parti della scena, i personaggi cambiano espressione mentre vengono interrogati. Il prototipo per ora usa sottotitoli ed elenchi di domande semplici.
+- **Domande e prove.** Si scelgono le domande da fare. Un indizio trovato (un piatto in più, una porta chiusa a chiave, il calore all'infrarosso) o una frase detta prima si può mettere davanti alla famiglia per smascherare una bugia o farsi aprire una porta.
+- **Dialoghi e prove nel prototipo: A + B** (scelte il 26 ottobre, niente riquadri neri):
+  - **le parole addosso (A):** le frasi si scrivono lettera per lettera accanto alla testa di chi parla; il medico, le descrizioni e chi non si vede scrivono in basso. Le parole chiave, in giallo, illuminano la parte della scena collegata con un filo puntinato, e cliccandole ci si va (un esame, una zona, una porta, una persona);
+  - **le domande a raggiera:** si aprono attorno al punto toccato, in giallo quelle nuove; anche le porte usano la raggiera;
+  - **il nastro delle frasi (B):** in basso una pellicola trasparente raccoglie le dichiarazioni (con la faccia di chi le ha dette, nell'espressione che aveva) e gli indizi (con la foto della cosa). Si trascinano su una persona, una parte del corpo, una zona o un'altra frase: se la smentiscono scatta la contraddizione, con il timbro e il filo rosso. Col tocco si sceglie la frase e poi la cosa;
+  - **le espressioni:** chi mente cambia faccia mentre parla (nervoso, arrabbiato, piange); la faccia nuova si incolla solo sulla testa, il resto della scena resta identico. Chi crolla resta così per tutta la visita, e i nastri della sera rivedono le facce com'erano;
+  - i contenuti sono in `gioco/js/dati.js` (DICHIARAZIONI, CONTESTAZIONI, REAZIONI).
+- **Da valutare: il misto B + C** (26 ottobre): il nastro delle frasi più la maschera che legge le persone (battito, temperatura, voce, sguardo), una barra della tensione che sale con le contraddizioni e l'approccio scelto (calmo, pressante, minaccia): quando è al limite la persona crolla o caccia il medico. Prove in `art/prove-stile/14-dialoghi` (`proposta_bc1.jpg`, `proposta_bc2.jpg`).
 - **Decisioni a fine visita:**
   - **portare via** una persona al lazzaretto: se era sana, la si condanna;
   - **chiudere la casa**, con la croce sulla porta: ferma il contagio verso i vicini, ma i sani chiusi dentro rischiano di ammalarsi;
@@ -95,11 +105,15 @@ Decise il 26 ottobre, con le domande in chat.
 
 ### Fuori dalle case
 
-- **La scrivania del medico**, vista dall'alto, in una stanza in affitto: la mappa di carta con le puntine, il fax col protocollo, il giornale del mattino, il televisore col videoregistratore per i nastri della sera. Tutto dentro il mondo, niente menu.
+- **La scrivania del medico**, vista dall'alto, in una stanza in affitto: la mappa di carta con le puntine, il fax col protocollo, il giornale del mattino, il televisore col videoregistratore per i nastri della sera. Tutto dentro il mondo, niente menu. **Scrivania e mappa sono disegnate al 40%** (confermato il 26 ottobre): 60% foto e 40% versione disegnata; per la mappa quella riallineata.
 - **La mappa del paese** (26 ottobre, rifatta più grande): 50 case numerate attorno alla chiesa, il fiume con due ponti, il cimitero e, ai margini, il recinto della Panacea (prefabbricati bianchi, antenna, fari): la tecnologia della ditta fuori posto nel paese. I tetti sono rossi apposta, per trovare le case in automatico e metterci gli spilli. Nel gioco la mappa si ingrandisce toccandola. La mappa di prima, più piccola, è in `art/scrivania/mappa_prima.jpg`.
 - **Le case sulla mappa** (26 ottobre): passandoci sopra la casa si illumina e il medico la cerchia a matita rossa; accanto appare la sua scheda, un cartoncino con la segnalazione e gli occupanti. Prima della visita le foto sono vuote (punti di domanda); dopo la visita la scheda è piena: foto degli occupanti visti, cosa ha visto l'esame, chi è finito al lazzaretto, le prove, il provvedimento. Le foto sono ritagli delle scene (`gioco/img/volti`).
 - **Il giornale** (26 ottobre): disegnato nello stile a fumetto, inclinato, con le pagine dietro storte come se fosse piegato male (`art/giornale/giornale.jpg`, GPT Image 2). Sulla carta c'è solo la testata: titolo, sommario, foto e colonne li stampa il gioco con la stessa prospettiva della pagina (`PAGINA` in `gioco/js/dati.js`), con un filtro che fa tremare un po' l'inchiostro. Così il testo cambia ogni giorno e resta leggibile. In prima pagina la foto del medico di spalle nella via del paese (`art/giornale/foto_medico.jpg`). Sugli schermi piccoli sotto la pagina c'è lo stesso testo da leggere.
-- **I comandi del medico** (Taccuino, Concludi la visita, Torna alla scrivania) stanno in una barra sotto lo schermo, così l'immagine della videocamera resta libera; dentro lo schermo solo l'OSD, i sottotitoli e le domande.
+- **I comandi del medico** (Taccuino, Concludi la visita, Torna alla scrivania) stanno in una barra sotto lo schermo, così l'immagine della videocamera resta libera; dentro lo schermo solo l'OSD, le frasi, la raggiera e il nastro delle frasi.
+- **Il taccuino è scartato** (26 ottobre: laborioso e antipatico, un elenco da leggere). Va sostituito con qualcosa di originale e interattivo; tre proposte in `art/prove-stile/16-taccuino`:
+  - **A · Lo stato di famiglia:** il certificato del comune con i componenti della famiglia; le foto arrivano dalla videocamera, chi manca si aggiunge a penna, i pallini sul corpo sono gli esami fatti, le frasi trascinate su un nome si scrivono (e si barrano se mentono), con i timbri si dà la diagnosi e con la firma si manda tutto alla ditta (sostituisce anche il modulo). Il certificato stesso è una prova («componenti: quattro»). Consigliata;
+  - **B · La cartella della ditta:** il computer a fosfori verdi della Panacea mette insieme esami e letture della maschera e dà una probabilità di contagio e una raccomandazione; ma usa il protocollo del giorno, che a volte mente (la figlia sana all'81% perché pallida, e la ditta la vuole). Si conferma o si smentisce;
+  - **C · La parete:** una bacheca nella stanza del medico con foto, frasi e nastri di ogni casa, collegati col filo rosso (il filo si tende se il legame è vero); resta da un giorno all'altro e racconta la storia del paese. Si legherebbe alla casa in 3D.
 
 ### Fine della partita e storia
 
@@ -187,9 +201,11 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 - `08-filtri`: le combinazioni approvate 02 e 04 con sette filtri finali: verde, verde acido, verde retinato, verde con il rosso, VHS, VHS verde, fotocopia.
 - `09-vhs-animato`: anteprima del VHS animato in tempo reale sul soggiorno nello stile definitivo, con i tre filtri (giorno, notte in verde, infrarosso) e intensità regolabile, che parte dal 50%. Senza la banda di disturbo, tolta il 26 ottobre.
 - `10-coerenza`: lo stesso personaggio in più stati e inquadrature (vedi sopra).
-- `13-mappa`: la mappa nuova com'è nel gioco (con il VHS) e varianti senza VHS: pixellata, a fumetto pieno, a fumetto e pixellata, disegnata al 40%. Nella versione a fumetto il modello ha spostato un po' le case e mescolandola le sdoppiava: per il 40% è stata riallineata all'originale con `tools/allinea.py` (`art/scrivania/mappa_paese_stile_allineata.jpg`).
-- `14-dialoghi`: tre proposte per dialoghi e prove, su immagini di esempio della cucina: A "Le parole addosso", B "Il nastro delle frasi", C "La maschera legge"; e il padre con altre due espressioni, nervoso e arrabbiato (Nano Banana Pro cambia solo la faccia).
-- `12-scrivania`: la scrivania del medico com'è nel gioco (20% di fumetto e VHS al 50%) e varianti senza VHS: pixellata (il trattamento delle prime schermate: bassa risoluzione, pochi colori, retinatura), disegnata al 60%, disegnata al 60% e pixellata, disegnata al 40%.
+- `13-mappa`: la mappa nuova com'è nel gioco (con il VHS) e varianti senza VHS: pixellata, a fumetto pieno, a fumetto e pixellata, disegnata al 40% (**scelta**, 26 ottobre). Nella versione a fumetto il modello ha spostato un po' le case e mescolandola le sdoppiava: per il 40% è stata riallineata all'originale con `tools/allinea.py` (`art/scrivania/mappa_paese_stile_allineata.jpg`).
+- `14-dialoghi`: tre proposte per dialoghi e prove, su immagini di esempio della cucina: A "Le parole addosso", B "Il nastro delle frasi", C "La maschera legge" (scelte A e B, realizzate nel prototipo); e il padre con altre due espressioni, nervoso e arrabbiato (Nano Banana Pro cambia solo la faccia). Poi il misto B + C con la pellicola più trasparente (`proposta_bc1.jpg`: la maschera legge e il nastro registra; `proposta_bc2.jpg`: il nastro smentisce e la tensione sale). Le espressioni usate nel gioco sono in `art/espressioni`.
+- `12-scrivania`: la scrivania del medico com'è nel gioco (20% di fumetto e VHS al 50%) e varianti senza VHS: pixellata (il trattamento delle prime schermate: bassa risoluzione, pochi colori, retinatura), disegnata al 60%, disegnata al 60% e pixellata, disegnata al 40% (**scelta**, 26 ottobre).
+- `15-giorno`: come nascondere l'aspetto "da AI" delle scene di giorno (la notte e l'infrarosso vanno già bene), sulla cucina e sul soggiorno: 0 com'è ora; 1 vera definizione del VHS (luminanza a circa 430 punti per riga, colore a circa 80, alone sui contorni); 2 luce della videocamera (stanza buia, centro chiaro, bordi nel buio, luci bruciate); 3 colore da videocamera economica (bilanciamento del bianco sbagliato, poco saturo, ombre verdastre, rumore di colore); 4 copia di copia (più morbida, eco, colore che scappa, buchi nel nastro); 5 = 1 + 2 + 3. Fogli `foglio_cucina.jpg`, `foglio_soggiorno.jpg` e le facce al 100% in `dettaglio_soggiorno.jpg`; lo script è `giorno.py`. Quello scelto andrà nello shader del VHS.
+- `16-taccuino`: tre proposte per sostituire il taccuino (vedi "Fuori dalle case"); la parete vuota della C è generata con GPT Image 2 (`parete.jpg`).
 - `11-personaggi-50`: prove per avere personaggi meno disegnati. **Scelta:** la prima prova, con i personaggi rifatti in foto e ammorbiditi, montati sulla stanza al 20% (`c_ammorbiditi_sfondo20.jpg`, con il VHS `c_ammorbiditi_sfondo20_vhs.jpg`, in versione notturna con il VHS verde `c_ammorbiditi_sfondo20_vhs_verde.jpg`). Scartate: il mescolamento 50% foto e 50% fumetto (`a_mescolati_50_vhs.jpg`) e i personaggi ridisegnati "a metà" (`b_meta_disegnati.jpg`).
 
 Questionario delle combinazioni della cucina (06 e 07), con i voti salvati: https://claude.ai/artifact/3TEf1Gyxsk5XU5saPN3K6r
@@ -210,7 +226,7 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 - `tools/schermata.py`: monta una schermata a strati; con un "trattamento" applica la resa unica, senza fa solo il montaggio.
 - `tools/intensita.py`: applica lo stile con intensità diverse a sfondo e personaggi; con "buio" fa sprofondare la stanza nel buio fuori da un cono di luce.
 - `tools/primi_piani.py`: i primi piani delle parti del corpo per l'esame, con il riferimento del personaggio (descrizione in `primi_piani.json` nella cartella della scena).
-- `tools/prepara_gioco.py`: prepara le immagini del prototipo in `gioco/img` (scene, mappe dei personaggi per i clic, sagome, mappe di calore per l'infrarosso, scrivania al 20%, mappa, primi piani).
+- `tools/prepara_gioco.py`: prepara le immagini del prototipo in `gioco/img` (scene, mappe dei personaggi per i clic, sagome, mappe di calore per l'infrarosso, scrivania e mappa al 40%, primi piani, foto degli occupanti) e le espressioni: da ogni variante in `art/espressioni` ritaglia la testa riallineata alla scena (`gioco/img/espressioni`, posizioni in `gioco/js/espressioni.js`).
 - `tools/allinea.py`: riallinea un'immagine ridisegnata all'originale (spostamento d'insieme e poi punto per punto, con OpenCV), per mescolarle senza contorni doppi.
 - `tools/filtri.py`: filtri finali per rendere omogenee immagini di stili diversi (verdi, infrarosso, VHS, fotocopia). Non usa l'AI, quindi non costa niente.
 - Servizio: **fal.ai**. La chiave si legge da `FAL_KEY` (impostazioni dell'ambiente cloud) o da `~/.config/fal/key`; mai nel repo.
@@ -225,7 +241,13 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 
 ### 3D
 
-NINAH è quasi tutto 2D. Per ora bastano sfondi 2D generati; il 3D servirebbe solo se il giocatore deve muoversi liberamente nelle stanze. Su fal ci sono modelli per oggetti 3D (Hunyuan3D, Trellis, Meshy); World Labs Marble genera stanze intere, ma richiede un account a parte.
+- **NINAH ha una parte in 3D:** la casa del protagonista si esplora in prima persona. (Correzione del 26 ottobre: all'inizio avevo scritto che era quasi tutto 2D.)
+- **Da valutare: la casa del medico in 3D** (idea del 26 ottobre): la stanza in affitto sopra il bar, dove ci si muove; cliccando la scrivania la si rivede in 2D com'è adesso. Altre cose da usare: la parete dei nastri, la finestra sul paese, il letto per chiudere la giornata, il videoregistratore.
+- **Tre strade, dalla più semplice:**
+  1. **panorami a 360°** (consigliata per cominciare): la stanza generata come panorama sferico con Hunyuan World su fal (`fal-ai/hunyuan_world`, anche da un'immagine con `image-to-world`), vista dall'interno di una sfera con Three.js. Ci si guarda attorno e si salta tra due o tre punti. Lo stile resta quello delle scene (foto, 20% di fumetto, VHS), costa poco e va anche sul telefono; non si cammina liberamente;
+  2. **stanza 3D vera**, come NINAH: stanza semplice in Three.js, mobili da immagine a 3D (Hunyuan 3D 3.1, Tripo H3.1, Meshy 7.1 su fal), il VHS come filtro sopra, luci e collisioni. Si cammina, ma è molto più lavoro, i modelli fatti dall'AI hanno un'aria di plastica che il VHS nasconde solo in parte, ed è più pesante sui telefoni;
+  3. **gaussian splat** (`tripo3d/triposplat` su fal): stanze quasi fotografiche in 3D, ancora sperimentali e pesanti.
+- Il motore web le regge tutte e tre (Three.js). World Labs Marble genera stanze intere, ma richiede un account a parte.
 
 ### Scartato
 
@@ -253,17 +275,19 @@ NINAH è quasi tutto 2D. Per ora bastano sfondi 2D generati; il 3D servirebbe so
 
 ## Domande aperte
 
-- Nomi: il paese, i personaggi, la ditta. E in che paese siamo (l'Italia è accantonata).
+- Nomi: il paese, i personaggi, la ditta. E in che paese siamo (l'Italia è accantonata). Proposta per il paese: San Rocco, il santo protettore degli appestati (usato per prova nello stato di famiglia).
 - Tempi e budget.
 
 ## Prossimi passi
 
-1. **Prototipo giocabile di una giornata** (26 ottobre): https://claude.ai/artifact/PWFyiToQ3fwPAjNgiHYJYT. La scrivania con fax, giornale, taccuino e mappa; le case 3 e 5 con REC, zoom della videocamera, sottotitoli, domande e prove, porte; il modulo della ditta; la sera i nastri all'infrarosso; la notte con il contagio, i conti, il giornale del giorno dopo e la verità. Il codice è in `gioco/`; le immagini si preparano con `tools/prepara_gioco.py`, i primi piani si generano con `tools/primi_piani.py`. Provato tutto in Chromium sul computer e a misura di telefono. Da giocare e commentare.
-2. Scegliere l'aspetto della scrivania e della mappa (`art/prove-stile/12-scrivania`, `art/prove-stile/13-mappa`).
-3. Scegliere il sistema di dialoghi e prove tra le proposte A, B e C (`art/prove-stile/14-dialoghi`) e realizzarlo: la versione attuale con i sottotitoli nel riquadro nero e l'elenco di domande è scartata (26 ottobre).
-4. Proposte per gli elementi cyberpunk.
-5. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
-6. Il gioco completo: famiglie, storia, giorni.
+1. **Prototipo giocabile di una giornata** (26 ottobre): https://claude.ai/artifact/PWFyiToQ3fwPAjNgiHYJYT. La scrivania (al 40%) con fax, giornale, taccuino e mappa; le case 3 e 5 con REC, zoom della videocamera, frasi addosso a chi parla, domande a raggiera, nastro delle frasi da contestare, espressioni, porte; il modulo della ditta; la sera i nastri all'infrarosso; la notte con il contagio, i conti, il giornale del giorno dopo e la verità. Il codice è in `gioco/`; le immagini si preparano con `tools/prepara_gioco.py`, i primi piani si generano con `tools/primi_piani.py`. Provato tutto in Chromium sul computer e a misura di telefono. Da giocare e commentare.
+2. Dialoghi: tenere A + B com'è nel prototipo, o passare al misto B + C (`art/prove-stile/14-dialoghi/proposta_bc*.jpg`).
+3. Scegliere il sostituto del taccuino tra A, B e C (`art/prove-stile/16-taccuino`) e realizzarlo.
+4. Scegliere il trattamento delle scene di giorno (`art/prove-stile/15-giorno`) e metterlo nello shader del VHS.
+5. Casa del medico in 3D: se va bene, una prova con un panorama a 360° della stanza (vedi "3D").
+6. Elementi cyberpunk: approvare le proposte (vedi "Il mondo") e fare la scheda della maschera del medico.
+7. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
+8. Il gioco completo: famiglie, storia, giorni.
 
 ## Fonti
 
