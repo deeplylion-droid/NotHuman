@@ -1,0 +1,386 @@
+{
+  "nastro": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "The constant soft hiss of an old VHS camcorder while it records: analog tape noise and the faint steady whir of the tape motor, even and quiet. No voices, no music.",
+      "duration_seconds": 20,
+      "loop": true,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "nastro.mp3"
+    ],
+    "seed": null,
+    "secondi": 7,
+    "descrizione": null
+  },
+  "vento": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "Cold mountain wind blowing outside the closed window of an old stone house: low howling gusts and a faint whistle through the window frame, steady, no rain. No voices, no music.",
+      "duration_seconds": 22,
+      "loop": true,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "vento.mp3"
+    ],
+    "seed": null,
+    "secondi": 7,
+    "descrizione": null
+  },
+  "soggiorno": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "An old wall clock ticking slowly and clearly in a silent living room, with a low cold draft in the background. No voices, no music.",
+      "duration_seconds": 20,
+      "loop": true,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "soggiorno.mp3"
+    ],
+    "seed": null,
+    "secondi": 8,
+    "descrizione": null
+  },
+  "cucina": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "The steady electric hum of an old refrigerator in a small kitchen, recorded close, with the faint buzz of a fluorescent tube light. No voices, no music.",
+      "duration_seconds": 20,
+      "loop": true,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "cucina.mp3"
+    ],
+    "seed": null,
+    "secondi": 8,
+    "descrizione": null
+  },
+  "notte": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "Night inside an old rented room above a closed bar in a mountain village: deep silence, the wind outside, the old house creaking now and then, a dog barking far away. No voices, no music.",
+      "duration_seconds": 22,
+      "loop": true,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "notte.mp3"
+    ],
+    "seed": null,
+    "secondi": 8,
+    "descrizione": null
+  },
+  "passo1": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A single footstep of a heavy boot on old creaky wooden floorboards, close and dry. No voices, no music.",
+      "duration_seconds": 0.8,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "passo1.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "passo3": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A single slow footstep on worn wooden floorboards indoors, a dull thud, close and dry. No voices, no music.",
+      "duration_seconds": 0.8,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "passo3.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "passo2": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "One heavy boot step on an old wooden plank floor, with a faint creak, close and dry. No voices, no music.",
+      "duration_seconds": 0.8,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "passo2.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "fax": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "An old thermal fax machine receiving a page: a short modem handshake screech, then the clicking whir of the printer slowly feeding out paper. No voices, no music.",
+      "duration_seconds": 7,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "fax.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "camera": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "The slow, heavy, wheezing breath of a very sick woman lying in bed in a dark room, recorded close, steady and rhythmic. No voices, no music.",
+      "duration_seconds": 20,
+      "loop": true,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "camera.mp3"
+    ],
+    "seed": null,
+    "secondi": 8,
+    "descrizione": null
+  },
+  "carta": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A sheet of paper picked up from a wooden desk: a quick, crisp rustle. No voices, no music.",
+      "duration_seconds": 1.2,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "carta.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "timbro": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A rubber stamp pressed hard onto paper on a wooden desk: a single dull thud. No voices, no music.",
+      "duration_seconds": 0.8,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "timbro.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "giornale": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A folded newspaper being opened: crisp rustling of large paper pages. No voices, no music.",
+      "duration_seconds": 2,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "giornale.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "firma": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A ballpoint pen quickly signing a name on paper on a desk: short scratchy strokes. No voices, no music.",
+      "duration_seconds": 1.5,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "firma.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "porta": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "An old wooden door slowly creaking open in a silent dark house. No voices, no music.",
+      "duration_seconds": 3,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "porta.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "zoom": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "The tiny electric zoom motor of a 1990s camcorder whirring as it zooms in. No voices, no music.",
+      "duration_seconds": 1.4,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "zoom.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "videoregistratore": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A VHS cassette pushed into an old video recorder: the mechanism clunks, whirs, and the tape starts playing. No voices, no music.",
+      "duration_seconds": 3,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "videoregistratore.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "rec": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "The short electronic double beep of a 1990s camcorder starting to record. No voices, no music.",
+      "duration_seconds": 0.7,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "rec.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "contraddizione": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A sharp VHS tape glitch: a short burst of static and a warped, distorted low electronic stab. No voices, no music.",
+      "duration_seconds": 1.5,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "contraddizione.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "sedia": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "An old wooden chair creaking under someone sitting down at a desk. No voices, no music.",
+      "duration_seconds": 1,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "sedia.mp3"
+    ],
+    "seed": null,
+    "secondi": 7,
+    "descrizione": null
+  },
+  "malvento": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A deep, slow, unsettling gust of wind in a dark room that sounds almost like a long whispered breath, rising and fading. No voices, no music.",
+      "duration_seconds": 5,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "malvento.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "monete": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A few coins dropped and clinking on a wooden desk. No voices, no music.",
+      "duration_seconds": 1,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "monete.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "interruttore": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "The click of an old bakelite lamp switch being turned off on a desk. No voices, no music.",
+      "duration_seconds": 0.6,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "interruttore.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "disturbo": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A short crackle of analog VHS tape static, like a glitch in an old videotape playback. No voices, no music.",
+      "duration_seconds": 0.8,
+      "loop": false,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "disturbo.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  }
+}

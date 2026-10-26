@@ -266,7 +266,9 @@ export class Vhs {
     if (burst) this.burst();
   }
 
+  // lo strappo del nastro; onBurst(v) per farlo anche sentire (solo quando lo strappo cresce davvero)
   burst(v = 1) {
+    if (v > this.p.burst + 0.05) this.onBurst?.(v);
     this.p.burst = Math.max(this.p.burst, v);
   }
 

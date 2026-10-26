@@ -262,6 +262,14 @@ def espressioni():
             # pieno fino a 0.72 del raggio, poi sfuma fino al bordo
             alpha = np.clip((1 - d) / 0.28, 0, 1)
             alpha = alpha * alpha * (3 - 2 * alpha)
+            # dalla variante si prende solo la persona (con un margine per capelli e spalle): lo sfondo attorno alla
+            # testa resta quello della scena, anche se la scena e' cambiata dopo le varianti (la cucina ripulita)
+            # (il margine e' in proporzione alla testa: le facce piccole, lontane, ne vogliono poco)
+            paths = next(p for chi, _, p in LUOGHI[luogo_]["persone"] if chi == persona)
+            margine = max(3, round(0.06 * ry * H))
+            sua = cv2.dilate((mask(paths, (W, H)) > 0.5).astype(np.uint8),
+                             cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * margine + 1, 2 * margine + 1)))
+            alpha = alpha * cv2.GaussianBlur(sua.astype(np.float32), (0, 0), margine / 2.5)
             anello = (d > 1.0) & (d < 1.3)
             ys, xs = np.nonzero(alpha > 0)
             x0, x1, y0, y1 = xs.min(), xs.max() + 1, ys.min(), ys.max() + 1

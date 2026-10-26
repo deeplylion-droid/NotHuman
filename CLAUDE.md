@@ -15,3 +15,4 @@ Videogioco per Steam in fase di ideazione. C'è un primo prototipo web di una gi
 - I primi piani delle parti del corpo per l'esame si fanno con `tools/primi_piani.py` (descrizione in `primi_piani.json` nella cartella della scena), passando sempre il riferimento del personaggio.
 - Per cambiare lo stato di un personaggio (febbre, bubboni...) o metterlo in un'inquadratura nuova passa sempre anche la sua scheda (`art/personaggi/<persona>.jpg`, fatta con `tools/schede.py`; nel prompt `COME_RIFERIMENTO`), altrimenti la faccia cambia.
 - GPT Image 2 rifiuta i bambini nelle scene horror: niente bambini nelle scene.
+- Suoni (prima prova, da giudicare): ElevenLabs Sound Effects v2 su fal, lavori in `art/suoni/lavori.json`, poi `tools/prepara_suoni.py` (in `gioco/suoni`); nel gioco `gioco/js/suoni.js`, con l'icona per toglierli. Nei prompt niente "quiet": vengono muti.

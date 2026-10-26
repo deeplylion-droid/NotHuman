@@ -1,0 +1,21 @@
+{
+  "stanza_stile_pulita_grezza": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this comic drawing of an empty room. Keep exactly the same drawing style (bold black brush-ink outlines, flat muted colors with no gradients, light crosshatching only where there is shadow), the same composition and every object in exactly the same place and size. Clean only the walls and the ceiling: they become smooth, plain painted plaster in a warm off-white color, even and clean, with no stains at all (the photograph underneath already has its own). Remove all peeling and flaking paint, exposed patches, cracks, dirt streaks, halftone dot patterns and texture marks that are not real objects. Do not add anything. No people, no faces, no text.",
+      "image_urls": [
+        "@file:../../prove-stile/06-cucina/sfondi_stile/07_fumetto_underground.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile_pulita_grezza.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  }
+}

@@ -241,6 +241,9 @@ export class Stanza {
     r.shadowMap.autoUpdate = false;
     r.setPixelRatio(1);
     this.renderer = r;
+    this.scala = 1;
+    this.adattiva = true;
+    this.ritmo = { tempo: 0, fotogrammi: 0 };
     this.adatta(1280);
     this.scena = new THREE.Scene();
     this.scena.background = new THREE.Color(0x050403);
@@ -273,17 +276,36 @@ export class Stanza {
     // cosa fare quando il puntatore si blocca o si libera
     this.onUsa = () => {};
     this.onScrivania = () => {};
+    this.onPasso = () => {};
     this.onSopra = () => {};
     this.onBlocco = () => {};
     this.puoi = () => true;
     this.ascolta();
   }
 
-  // la risoluzione del 3D: quella dello schermo, fino a 1600 punti; sopra c'e' comunque il VHS
+  // la risoluzione del 3D: quella dello schermo, fino a 1600 punti, per la "scala" che si adatta alla velocita'
+  // (regola); sopra c'e' comunque il VHS, che ammorbidisce
   adatta(larghezza) {
-    const w = Math.round(clamp(larghezza, 480, 1600) / 16) * 16;
+    this.larghezza = larghezza;
+    const w = Math.round(clamp(larghezza * this.scala, 480, 1600) / 16) * 16;
     const h = Math.round(w * 9 / 16);
     if (this.canvas.width !== w || this.canvas.height !== h) this.renderer.setSize(w, h, false);
+  }
+
+  // se per un paio di secondi i fotogrammi sono lenti (un telefono debole) il 3D si disegna piu' piccolo, se
+  // tornano veloci risale; le pause lunghe (la scheda nascosta, un caricamento) non contano
+  regola(dt) {
+    if (!this.adattiva || dt > 0.25) return;
+    const r = this.ritmo;
+    r.tempo += dt;
+    r.fotogrammi++;
+    if (r.tempo < 2) return;
+    const medio = r.tempo / r.fotogrammi;
+    r.tempo = r.fotogrammi = 0;
+    const prima = this.scala;
+    if (medio > 1 / 28) this.scala = Math.max(0.55, this.scala - 0.15);
+    else if (medio < 1 / 50) this.scala = Math.min(1, this.scala + 0.15);
+    if (this.scala !== prima) this.adatta(this.larghezza);
   }
 
   // carica texture e modelli e costruisce la stanza; "avanzamento(f)" dice a che punto e' (0-1): le texture sono il
@@ -1118,6 +1140,7 @@ export class Stanza {
   }
 
   passo(dt) {
+    this.regola(dt);
     if (this.attiva) {
       if (this.seduto) this.alTavolo(dt);
       else this.aggiorna(Math.min(dt, 0.1));
@@ -1193,7 +1216,12 @@ export class Stanza {
         this.onUsa(v.id);
       }
     }
-    if (cammina) this.passi += dt * 9.5;
+    if (cammina) {
+      // un passo sulle assi a ogni dondolio della testa (onPasso: il suono lo fa il gioco)
+      const prima = Math.floor(this.passi / (2 * Math.PI));
+      this.passi += dt * 9.5;
+      if (Math.floor(this.passi / (2 * Math.PI)) > prima) this.onPasso();
+    }
     const dondola = cammina ? Math.sin(this.passi) * 0.014 : 0;
     this.camera.position.set(this.pos.x, OCCHI + dondola, this.pos.y);
     this.camera.rotation.set(this.pitch, this.yaw, 0);

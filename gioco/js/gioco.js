@@ -6,6 +6,7 @@ import * as D from "./dati.js";
 import { ESPRESSIONI } from "./espressioni.js";
 import { Parole, Ruota, Striscia, Segni } from "./parole.js";
 import { icona, pittogramma } from "./icone.js";
+import { Suoni } from "./suoni.js";
 
 const $ = (sel) => document.querySelector(sel);
 const el = (tag, cls, text) => {
@@ -42,6 +43,7 @@ const schedaCasa = $("#scheda-casa");
 const nastroFrasi = $("#nastro-frasi");
 const segni = new Segni($("#segni"));
 const parole = new Parole($("#parole"));
+const suoni = new Suoni();
 const ruota = new Ruota($("#ruota"));
 const striscia = new Striscia(nastroFrasi, $("#nastro-scorri"), segni);
 
@@ -540,12 +542,18 @@ function condizione(se) {
 
 // ---------- la scrivania ----------
 
+// il suono della stanza del medico: sotto il fruscio del nastro, di giorno il vento fuori, la sera la notte
+function ambienteStanza() {
+  suoni.ambiente("nastro", S.fase === "sera" ? "notte" : "vento");
+}
+
 function vaiScrivania() {
   S.schermo = "scrivania";
   S.casa = null;
   S.luogo = null;
   pulisci();
   osdSpento();
+  ambienteStanza();
   if (vhs) {
     vhs.mode("giorno", false);
     vhs.setLuce(0);
@@ -559,6 +567,7 @@ function vaiScrivania() {
     stanza.fase(S.fase === "sera" ? "sera" : "mattina");
     stanza.adatta(window.prova?.risoluzione || Math.min(canvas.width, tocco() ? 960 : 1600));
     stanza.siedi();
+    suoni.suona("sedia");
     mostra(stanza.canvas, IMG.scrivania.src);
     vhs.prima = (dt) => { stanza.passo(dt); vhs.refresh(); };
   } else {
@@ -582,6 +591,7 @@ function vaiStanza(dove = "inizio") {
   S.luogo = null;
   pulisci();
   osdSpento();
+  ambienteStanza();
   if (vhs) {
     vhs.mode("giorno", false);
     vhs.setLuce(0);
@@ -592,6 +602,8 @@ function vaiStanza(dove = "inizio") {
   stanza.fase(S.fase === "sera" ? "sera" : "mattina");
   stanza.adatta(window.prova?.risoluzione || Math.min(canvas.width, tocco() ? 960 : 1600));
   stanza.entra(dove);
+  // si rientra dalla porta di casa (dalla mappa, o la sera al coprifuoco)
+  if (dove === "porta") suoni.suona("porta", { volume: 0.7 });
   mostra(stanza.canvas, IMG.scrivania.src);
   vhs.prima = (dt) => { stanza.passo(dt); vhs.refresh(); };
   tasti();
@@ -628,6 +640,7 @@ async function usaStanza(id) {
   if (id === "videoregistratore") { R.ritorno = "stanza"; return apriNastri(); }
   if (id === "porta") {
     if (S.fase === "sera") return dici([[null, "È il coprifuoco. Fino a domattina non si esce."]], false);
+    suoni.suona("porta", { volume: 0.7 });
     return vaiMappa();
   }
   if (id === "letto") {
@@ -639,7 +652,10 @@ async function usaStanza(id) {
   const righe = T && (T[S.fase] || T.sempre);
   if (!righe) return;
   // la porta della stanzetta dell'ospite si socchiude mentre si guarda dentro
-  if (id === "ospite") stanza.socchiudi(true);
+  if (id === "ospite") {
+    stanza.socchiudi(true);
+    suoni.suona("porta", { volume: 0.6 });
+  }
   await dici(righe.map((r) => [null, r]), false);
   if (id === "ospite") stanza.socchiudi(false);
 }
@@ -698,6 +714,9 @@ function chiudiFoglio() {
 // il fax della ditta: il protocollo del giorno a simboli, da capire in un colpo d'occhio
 function apriFax() {
   const f = D.FAX;
+  // la prima volta il fax arriva e si stampa, poi e' solo un foglio
+  suoni.suona(S.faxStampato ? "carta" : "fax");
+  S.faxStampato = true;
   const segno = (pitto, nome, nota, cls = "") => {
     const d = el("figure", `fx-segno ${cls}`);
     const ic = el("div", "fx-pitto");
@@ -736,6 +755,7 @@ let lenteInMano = !matchMedia("(pointer: coarse)").matches;
 
 function apriGiornale(domani) {
   const g = domani ? giornaleDomani() : D.GIORNALE;
+  suoni.suona("giornale");
   const stampa = el("div", "gio-stampa");
   const carta = el("img", "gio-carta");
   carta.src = "img/giornale.jpg";
@@ -858,6 +878,7 @@ function moltiplica(A, B) {
 }
 
 function apriSoldi() {
+  suoni.suona("monete");
   apriFoglio("soldi", [
     el("h2", null, `${S.soldi} €`),
     el("p", null, `Ogni notte: stanza ${D.SOLDI.stanza} €, cena ${D.SOLDI.cena} €, ${D.SOLDI.cassetta} € per ogni cassetta usata.`),
@@ -877,6 +898,7 @@ function vaiMappa() {
   S.schermo = "mappa";
   pulisci();
   osdSpento();
+  ambienteStanza();
   if (vhs) {
     vhs.mode("giorno", false);
     vhs.setLuce(0);
@@ -1166,6 +1188,7 @@ async function entraCasa(id) {
   const c = D.CASE[id];
   S.casa = id;
   S.nastri.push({ casa: id, titolo: `NASTRO ${S.nastri.length + 1} · CASA ${c.n}`, inizio: S.ora, fine: null, riprese: [] });
+  suoni.suona("rec");
   await vaiLuogo(c.luogo);
 }
 
@@ -1175,6 +1198,7 @@ async function vaiLuogo(luogo) {
   const L = D.LUOGHI[luogo];
   pulisci();
   R.primo = null;
+  suoni.ambiente("nastro", luogo);
   if (vhs) {
     vhs.mode(L.notte ? "notte" : "giorno");
     vhs.setLuce(L.notte ? 0 : 1);
@@ -1208,6 +1232,7 @@ function hudVisita() {
 async function tornaCucina() {
   if (R.occupato) return;
   avanza(D.MINUTI.porta);
+  suoni.suona("porta", { volume: 0.6 });
   await vaiLuogo("cucina");
 }
 
@@ -1284,6 +1309,7 @@ async function esamina(persona, parte) {
   const [cx, cy] = D.LUOGHI[S.luogo].parti[persona][parte][0];
   const z = 3.2;
   const img = primoPiano(persona, parte);
+  suoni.suona("zoom");
   if (vhs) await vhs.tween({ zoom: z, cx: clamp(cx, 0.5 / z, 1 - 0.5 / z), cy: clamp(cy, 0.5 / z, 1 - 0.5 / z), blur: 0.7 }, 550);
   const im = await img;
   mostra(im);
@@ -1310,6 +1336,7 @@ async function chiudiPrimo() {
   const { cx, cy } = R.primo;
   R.primo = null;
   didascalia.hidden = true;
+  suoni.suona("zoom", { volume: 0.7 });
   disegnaScena();
   mostra(R.scena, IMG[S.luogo].src);
   if (vhs) {
@@ -1411,6 +1438,7 @@ async function contesta(f, bersaglio, x, y) {
     S.contestate[c.id] = true;
     avanza(D.MINUTI.prova);
     timbra(c.timbro || "CONTRADDIZIONE", tx, ty, c.timbro ? "combacia" : "");
+    suoni.suona("contraddizione");
     if (vhs && !R.primo) vhs.burst(0.3);
     await dici(c.dice);
     applica(c.poi);
@@ -1557,7 +1585,10 @@ async function sceltaPorta(s) {
   await dici(s.dice);
   applica(s.poi);
   if (await dopoAzione()) return;
-  if (s.poi?.vai) await vaiLuogo(s.poi.vai);
+  if (s.poi?.vai) {
+    suoni.suona("porta");
+    await vaiLuogo(s.poi.vai);
+  }
 }
 
 // ---------- lo stato di famiglia: il certificato del comune, al posto del taccuino e del modulo ----------
@@ -1719,6 +1750,7 @@ function ridisegnaStato(casa) {
 // opzioni.firma: si apre in fondo, sulla firma; opzioni.obbligato: non si chiude finche' non si firma
 function apriStato(casa, opzioni = {}) {
   if (R.occupato && !opzioni.obbligato) return;
+  suoni.suona("carta");
   const segnalate = Object.keys(D.ANAGRAFE);
   const daScrivania = casa == null;
   casa = casa || R.sfCasa || segnalate.find((c) => !S.decisioni[c]) || segnalate[0];
@@ -1904,6 +1936,7 @@ function trascinabile(elem, dato, casa) {
 function usaSu(dato, persona, casa) {
   R.sfScelta = null;
   if (dato.tipo === "timbro") {
+    suoni.suona("timbro");
     S.diagnosi[persona] = dato.id;
     R.sfNuovoTimbro = persona;
     if (dato.id !== "sano" && S.ospite === persona) S.ospite = null;
@@ -1917,6 +1950,7 @@ function usaSu(dato, persona, casa) {
       setTimeout(() => riga?.classList.remove("no"), 600);
       return;
     }
+    if (esito === "nuova") suoni.suona("firma", { volume: 0.6 });
   }
   ridisegnaStato(casa);
 }
@@ -1924,6 +1958,7 @@ function usaSu(dato, persona, casa) {
 function firmaStato(casa, bottoneFirma) {
   bottoneFirma.disabled = true;
   bottoneFirma.replaceWith(el("span", "sf-scarabocchio scrive", "Dott. ———"));
+  suoni.suona("firma");
   const via = personeDellaCasa(casa).map(([id]) => id).filter((id) => S.lazzaretto[id]);
   const ospite = S.ospite && D.PERSONE[S.ospite].casa === casa ? S.ospite : null;
   S.decisioni[casa] = { via, ospite, provvedimento: S.provv[casa] || "nessuno", ora: S.ora };
@@ -1962,6 +1997,7 @@ async function controllaOspite() {
   const quadro = immagine(`img/ospite/${S.ospite ? `ospite_${S.ospite}` : "stanzetta_20"}.jpg`);
   R.occupato = true;
   stanza.socchiudi(true);
+  suoni.suona("porta");
   await new Promise((r) => setTimeout(r, 700));
   let im;
   try {
@@ -1986,7 +2022,7 @@ async function controllaOspite() {
   mostra(im);
   // la videocamera si abitua al buio e stringe sulla brandina
   if (vhs) vhs.tween({ zoom: 1.5, cx: 0.45, cy: 0.55 }, 1800);
-  tasti(tasto("Chiudi la porta", () => { stanza.socchiudi(false); vaiStanza("ospite"); }, "indietro", true));
+  tasti(tasto("Chiudi la porta", () => { stanza.socchiudi(false); suoni.suona("porta", { volume: 0.5 }); vaiStanza("ospite"); }, "indietro", true));
   aiuto("Chiudi la porta per tornare nella stanza.");
   await dici(O.controllo, false);
 }
@@ -2015,9 +2051,12 @@ async function nastroNotte() {
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
   }
   aiuto("Il nastro della notte: la maschera è rimasta accesa sulla scrivania.");
+  suoni.suona("videoregistratore");
+  suoni.ambiente("nastro", "notte");
   for (let i = 0; i < quadri.length; i++) {
     mostra(imgs[i]);
     if (vhs) vhs.burst(0.45);
+    if (!chi && i > 0) suoni.suona("malvento", { volume: 0.8 + 0.2 * i, ritardo: 0.3 });
     await dici([[null, O.nastro[i]]], false);
     await attendi(7000);
   }
@@ -2041,6 +2080,7 @@ function attendi(ms) {
 }
 
 function apriNastri() {
+  suoni.suona("videoregistratore");
   const corpo = [el("h2", null, "Nastri")];
   if (!S.nastri.length) corpo.push(el("p", "vuoto", "Nessuna visita registrata, per ora."));
   for (const n of S.nastri) {
@@ -2253,6 +2293,7 @@ function calcolaNotte() {
 
 async function dormi() {
   if (S.schermo === "notte" || S.schermo === "nastro-notte") return;
+  suoni.suona("interruttore");
   await nastroNotte();
   const n = calcolaNotte();
   S.notte = n;
@@ -2489,6 +2530,22 @@ function iconaIntero() {
 }
 tastoIntero.hidden = !document.fullscreenEnabled;
 iconaIntero();
+
+// l'audio: l'altoparlante lo toglie e lo rimette (il browser se lo ricorda)
+const tastoAudio = $("#audio");
+function iconaAudio() {
+  const nome = suoni.muto ? "Rimetti l'audio" : "Togli l'audio";
+  tastoAudio.querySelector(".pix")?.remove();
+  tastoAudio.insertAdjacentHTML("afterbegin", icona(suoni.muto ? "muto" : "audio"));
+  tastoAudio.setAttribute("aria-label", nome);
+  tastoAudio.querySelector(".tasto-nome").textContent = nome;
+}
+iconaAudio();
+tastoAudio.addEventListener("click", (e) => {
+  e.stopPropagation();
+  suoni.silenzia(!suoni.muto);
+  iconaAudio();
+});
 document.addEventListener("fullscreenchange", iconaIntero);
 tastoIntero.addEventListener("click", async (e) => {
   e.stopPropagation();
@@ -2522,8 +2579,13 @@ async function caricaStanza() {
     s.onScrivania = (id) => { if (!R.occupato && foglio.hidden) azioneScrivania(id); };
     s.nomiPezzi = Object.fromEntries(D.SCRIVANIA.map((z) => [z.id, z.nome]));
     s.onSopra = (nome) => mostraEtichetta(nome);
+    s.onPasso = () => suoni.passo();
     s.onBlocco = (b) => bloccoStanza(b);
-    if (location.hash === "#prova") s.senzaBlocco = true;
+    if (location.hash === "#prova") {
+      // le prove automatiche: niente mouse bloccato, e la risoluzione la scelgono loro
+      s.senzaBlocco = true;
+      s.adattiva = false;
+    }
     s.puoi = () => (S.schermo === "stanza" || S.schermo === "scrivania") && !R.occupato && foglio.hidden && !parole.occupata();
     stanza = s;
   } catch (err) {
@@ -2539,6 +2601,8 @@ async function avvia(dati) {
   try {
     vhs = new Vhs(canvas);
     vhs.start();
+    // gli strappi del nastro si sentono: un crepitio, piu' forte quanto piu' e' forte lo strappo
+    vhs.onBurst = (v) => suoni.suona("disturbo", { volume: Math.min(1, 0.35 + v * 0.65), varia: 0.1 });
   } catch {
     vhs = null;
     schermo.classList.add("senza-webgl");
@@ -2570,7 +2634,7 @@ async function avvia(dati) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs };
+if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Genera immagini con fal.ai a partire da un file di lavori.
+"""Genera immagini (e modelli 3D, e suoni) con fal.ai a partire da un file di lavori.
 
 Uso: python3 tools/fal_batch.py <lavori.json> <cartella_output> [nome ...]
 
@@ -8,7 +8,7 @@ l'endpoint di fal (es. "fal-ai/nano-banana-pro"), "input" i parametri del
 modello. Un valore "@file:percorso" viene sostituito con il contenuto del file
 (percorso relativo al file dei lavori), per passare immagini locali. Se si
 passano dei nomi, gira solo quei lavori. Nella cartella di output finiscono le
-immagini e registro.json (parametri, seed, tempi).
+immagini (o i modelli, o i suoni) e registro.json (parametri, seed, tempi).
 
 La chiave si legge da FAL_KEY oppure da ~/.config/fal/key.
 """
@@ -80,9 +80,12 @@ def run(job, key, out, base):
     anteprima = res.get("rendered_image") or res.get("thumbnail")
     if glb and anteprima:
         named.append((f"{job['nome']}_anteprima", anteprima))
+    # i modelli dei suoni restituiscono un file audio
+    if res.get("audio"):
+        named.append((job["nome"], res["audio"]))
     for name, img in named:
         ext = (img.get("content_type") or "image/png").split("/")[-1].replace("jpeg", "jpg")
-        if ext not in ("glb", "png", "jpg", "webp"):
+        if ext not in ("glb", "png", "jpg", "webp", "wav"):
             ext = pathlib.PurePosixPath(img.get("file_name") or img["url"]).suffix.lstrip(".") or "bin"
         dest = out / f"{name}.{ext}"
         urllib.request.urlretrieve(img["url"], dest)
