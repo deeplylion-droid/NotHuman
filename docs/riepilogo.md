@@ -13,11 +13,11 @@ Un gioco originale da vendere su Steam, nel filone dei giochi di ispezione e par
 - **Ambientazione: moderna.** Case povere di oggi in un paese sperduto dove la peste è tornata. Il villaggio rurale è accantonato.
 - **Ambientazione italiana: accantonata** per ora.
 - **Lo stile grafico è deciso:**
-  - **Stanza:** foto con lo stile 07 fumetto underground al 20%, come nella combinazione 02 (`art/prove-stile/06-cucina`). Del fumetto si vuole solo un accenno: niente elementi in più che confondano lo sfondo (intonaco scrostato, crepe, macchie), quindi il 20% si prende dalla stanza a fumetto ripulita (26 ottobre).
+  - **Stanza:** foto con lo stile 07 fumetto underground al 20%, come nella combinazione 02 (`art/prove-stile/06-cucina`). Del fumetto si vuole solo un accenno: niente elementi in più che confondano lo sfondo (intonaco scrostato, crepe, macchie), quindi il 20% si prende dalla stanza a fumetto ripulita (26 ottobre). **Il 20% è confermato** (26 ottobre): fa più contrasto con i personaggi. Scartati il 30%, il 40% e la stanza tutta in foto (vedi "Scene fatte").
   - **Personaggi grotteschi ma ammorbiditi, quasi fotografici** (scelta del 26 ottobre): `art/prove-stile/11-personaggi-50/c_ammorbiditi_sfondo20.jpg`. Hanno preso il posto dei personaggi a fumetto al 100%. Metodo in "Personaggi ammorbiditi".
-  - **Filtro finale: VHS** per le scene normali e **VHS verde** per le scene al buio (`art/prove-stile/08-filtri`, `tools/filtri.py`). Se il VHS dà fastidio, si attenua.
+  - **Filtro finale: VHS** per le scene normali e **VHS verde** per le scene al buio (`art/prove-stile/08-filtri`, `tools/filtri.py`). Se il VHS dà fastidio, si attenua. **Senza la banda di disturbo grossa** che scorreva sull'immagine: tolta il 26 ottobre, sia dal filtro fisso sia da quello animato (le prove in `art/prove-stile` sono di prima e ce l'hanno ancora).
   - **Variante da valutare: VHS infrarosso** (26 ottobre), rosso tendente al rosa, più scuro e più tenue del verde. Confronto sulle due stanze: `art/scene/foglio_scene_filtri.jpg`.
-  - **Il VHS sarà animato**, calcolato in tempo reale (uno shader): grana e tremolio delle righe a ogni fotogramma, una banda di disturbo che sale lentamente, il rumore della testina in fondo, uno strappo ogni tanto, e uno strappo più forte quando si passa alla scena al buio. Anteprima con intensità regolabile: https://claude.ai/artifact/RU45gcnW8J3ttttUTSde2R (copia in `art/prove-stile/09-vhs-animato`; lo shader WebGL è la base per quello del gioco).
+  - **Il VHS sarà animato**, calcolato in tempo reale (uno shader): grana e tremolio delle righe a ogni fotogramma, il rumore della testina in fondo, uno strappo ogni tanto, e uno strappo più forte quando si passa alla scena al buio. Anteprima sul soggiorno con intensità regolabile: https://claude.ai/artifact/RU45gcnW8J3ttttUTSde2R (copia in `art/prove-stile/09-vhs-animato`; lo shader WebGL è la base per quello del gioco).
 - **Per ora niente mano e bastone del medico sullo schermo** (26 ottobre): non piacciono. Le scene si fanno senza (`"mano": false` in `scena.json`, il valore di base).
 - **Regola per le stanze:** partire sempre da stanze con pochi dettagli (muri lisci, pochi oggetti), altrimenti i personaggi si perdono.
 - **Grafica generata con l'AI**, montata a strati come in NINAH. Niente fotogrammi "da film".
@@ -90,7 +90,12 @@ Mescolare i personaggi a un'intensità intermedia (per esempio 50% foto e 50% fu
 
 Ogni scena ha `finale.jpg` (senza filtro), `finale_vhs.jpg`, `finale_vhs_verde.jpg` e `finale_vhs_infrarosso.jpg`, tutte senza la mano del medico. Confronto dei filtri: `art/scene/foglio_scene_filtri.jpg`.
 
-Variante da valutare (26 ottobre): la stanza tutta in foto, senza il 20% di fumetto, con gli stessi personaggi: `finale_foto.jpg` e `finale_foto_vhs.jpg` in ogni scena (montaggio in `montaggio_foto.json`, con `"intensita_sfondo": 0`). Confronto: `art/scene/confronto_20_foto.jpg`. Nella cucina il 20% si nota (tratteggi negli angoli, retino sul muro). Nel soggiorno il 20% ora viene dal fumetto ripulito: resta un accenno di tratto, senza l'intonaco scrostato (confronto prima/dopo: `art/scene/02-soggiorno/confronto_20_ripulito.jpg`). Prove con il fumetto ripulito al 30% e al 40%: `finale_30.jpg` e `finale_40.jpg` nel soggiorno, confronto in `confronto_20_30_40.jpg`. Con i filtri: `finale_30_vhs.jpg`, `finale_30_vhs_verde.jpg`, `finale_30_vhs_infrarosso.jpg` e le stesse per il 40%. Con il VHS la differenza quasi sparisce. La cucina usa ancora il suo fumetto originale, con tratteggi e retino: si può ripulire allo stesso modo. (La prima versione della stanza in foto del soggiorno si portava dietro l'intonaco scrostato del fumetto: corretta.)
+Prove sulla quantità di fumetto nella stanza (26 ottobre), **scelto il 20%**, che fa più contrasto con i personaggi:
+
+- **stanza tutta in foto** (0% di fumetto, `"intensita_sfondo": 0` nel montaggio): scartata. Confronto: `art/scene/confronto_20_foto.jpg`;
+- **fumetto ripulito al 30% e al 40%**, sul soggiorno: scartati. Confronto: `art/scene/02-soggiorno/confronto_20_30_40.jpg`. Con il VHS la differenza quasi spariva.
+
+I file delle prove scartate sono stati tolti dalle cartelle delle scene (restano nella storia del repo); restano i confronti. Nel soggiorno il 20% viene dal fumetto ripulito: resta un accenno di tratto, senza l'intonaco scrostato (confronto prima/dopo: `art/scene/02-soggiorno/confronto_20_ripulito.jpg`). La cucina usa ancora il suo fumetto originale, con tratteggi negli angoli e retino sul muro: si può ripulire allo stesso modo. (La prima versione della stanza in foto del soggiorno si portava dietro l'intonaco scrostato del fumetto: corretta.)
 
 - **01 Cucina** (`art/scene/01-cucina`): il padre e la figlia; quattro piatti in tavola, una porta socchiusa su un corridoio buio.
 - **02 Soggiorno** (`art/scene/02-soggiorno`): una nonna col bastone, una giovane donna pallida e un uomo in tuta davanti a una porta chiusa; dietro la porta nascondono qualcuno.
@@ -124,7 +129,7 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 - `06-cucina`: la cucina moderna semplificata: 04 e 07 al 20% / 100%, tutto al 100%, sfondo 04 al 100% con personaggi 04 al 20%, sfondo 04 all'80% con personaggi 07 al 100%.
 - `07-combo-inventate`: tre proposte di Claude sulla cucina: "il rosso è la peste" (tutto in bianco e nero, rossi solo i sintomi), "al buio" (stanza nel buio, luce sui personaggi), "schermata di gioco" (trattamento leggero e interfaccia).
 - `08-filtri`: le combinazioni approvate 02 e 04 con sette filtri finali: verde, verde acido, verde retinato, verde con il rosso, VHS, VHS verde, fotocopia.
-- `09-vhs-animato`: anteprima del VHS animato in tempo reale, con intensità regolabile.
+- `09-vhs-animato`: anteprima del VHS animato in tempo reale, con intensità regolabile, sul soggiorno nello stile scelto (senza la banda di disturbo, tolta il 26 ottobre).
 - `10-coerenza`: lo stesso personaggio in più stati e inquadrature (vedi sopra).
 - `11-personaggi-50`: prove per avere personaggi meno disegnati. **Scelta:** la prima prova, con i personaggi rifatti in foto e ammorbiditi, montati sulla stanza al 20% (`c_ammorbiditi_sfondo20.jpg`, con il VHS `c_ammorbiditi_sfondo20_vhs.jpg`, in versione notturna con il VHS verde `c_ammorbiditi_sfondo20_vhs_verde.jpg`). Scartate: il mescolamento 50% foto e 50% fumetto (`a_mescolati_50_vhs.jpg`) e i personaggi ridisegnati "a metà" (`b_meta_disegnati.jpg`).
 

@@ -79,11 +79,11 @@
   <header class="intro">
     <p class="eyebrow">Medico della peste · filtro finale</p>
     <h1>Anteprima VHS animato</h1>
-    <p class="lead">Il filtro VHS come si muoverebbe nel gioco, calcolato in tempo reale sulla cucina approvata. Prova la scena al buio e abbassa l'intensità se l'effetto dà fastidio.</p>
+    <p class="lead">Il filtro VHS come si muoverebbe nel gioco, calcolato in tempo reale sul soggiorno nello stile scelto: stanza con il 20% di fumetto ripulito e personaggi ammorbiditi. Prova la scena al buio e abbassa l'intensità se l'effetto dà fastidio.</p>
   </header>
 
   <div class="screen" id="schermo">
-    <img src="img/cucina.jpg" alt="La cucina con il padre e la figlia, nello stile a fumetto approvato" width="1600" height="900">
+    <img src="img/soggiorno.jpg" alt="Il soggiorno con la nonna, la giovane donna e l'uomo in tuta davanti alla porta chiusa" width="1600" height="900">
     <canvas id="vhs" aria-label="Anteprima animata del filtro VHS" role="img"></canvas>
     <div class="osd" id="osd" aria-hidden="true">
       <div class="play"><i></i>PLAY</div>
@@ -107,7 +107,7 @@
 
   <ul class="notes">
     <li><b>100%</b> corrisponde alle immagini che hai approvato; a 0% resta solo il colore della scena.</li>
-    <li>A ogni fotogramma cambiano la grana e il tremolio delle righe; una banda di disturbo sale lentamente; in fondo c'è il rumore della testina; ogni tanto l'immagine si strappa.</li>
+    <li>A ogni fotogramma cambiano la grana e il tremolio delle righe; in fondo c'è il rumore della testina; ogni tanto l'immagine si strappa.</li>
     <li>Passando alla scena al buio l'immagine vira al verde con uno strappo, come un cambio di nastro.</li>
   </ul>
 </div>
@@ -154,10 +154,6 @@
 
       // righe che tremano
       float dx = (hash(vec2(line, frame)) - 0.5) * 0.0022 * a;
-      // banda di disturbo che sale lentamente
-      float bandY = fract(u_time * 0.045);
-      float band = 1.0 - smoothstep(0.0, 0.035, abs(uv.y - bandY));
-      dx += band * (hash(vec2(line, frame + 7.0)) - 0.3) * 0.03 * a;
       // rumore della testina in fondo allo schermo
       float head = 1.0 - smoothstep(0.0, 0.035, uv.y);
       dx += head * (0.012 + 0.02 * hash(vec2(line, frame + 3.0))) * a;
@@ -191,10 +187,10 @@
       col *= 1.0 - 0.08 * a * mod(line, 2.0);
       col *= 1.0 + (vnoise(u_time * 9.0) - 0.5) * 0.06 * a;
 
-      // disturbi chiari su banda, testina e strappi
+      // disturbi chiari su testina e strappi
       float n = hash(floor(uv * vec2(960.0, 540.0)) + frame);
       vec3 snow = vec3(n) * mix(vec3(1.0), vec3(0.6, 1.0, 0.85), u_green);
-      col = mix(col, snow, clamp((band * 0.35 + head * 0.5 + tear * 0.4) * a + u_burst * 0.3, 0.0, 1.0));
+      col = mix(col, snow, clamp((head * 0.5 + tear * 0.4) * a + u_burst * 0.3, 0.0, 1.0));
 
       // grana
       col += (n - 0.5) * 0.09 * a;
@@ -274,7 +270,7 @@
       requestAnimationFrame(tick);
     };
     img.onerror = () => fallback("Non riesco a caricare l'immagine della scena.");
-    img.src = "img/cucina.jpg";
+    img.src = "img/soggiorno.jpg";
 
     function fit() {
       const r = canvas.getBoundingClientRect();

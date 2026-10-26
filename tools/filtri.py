@@ -9,8 +9,8 @@ Filtri:
 - verde_retinato: lo stesso verde con il trattamento di schermata.py
   (bassa risoluzione, pochi colori, retinatura, vignetta);
 - verde_rosso: il verde, ma i rossi dell'originale restano rossi;
-- vhs: videocassetta (crominanza sbavata, righe, disturbi, banda di tracking,
-  scritte del videoregistratore);
+- vhs: videocassetta (crominanza sbavata, righe, disturbi, scritte del videoregistratore;
+  senza la banda di tracking);
 - vhs_verde: il verde con i difetti della videocassetta;
 - infrarosso: come il verde, ma rosso tendente al rosa, piu' scuro e piu' tenue;
 - vhs_infrarosso: l'infrarosso con i difetti della videocassetta;
@@ -125,10 +125,7 @@ def vhs_artifacts(a, color, seed):
     # righe che tremano
     shifts = np.round(rng.normal(0, 0.8, h)).astype(int)
     a = np.stack([np.roll(a[i], shifts[i], axis=0) for i in range(h)])
-    # banda di tracking in basso
-    y0 = int(h * 0.86)
-    for i in range(y0, min(h, y0 + int(h * 0.045))):
-        a[i] = np.roll(a[i], int(rng.normal(18, 10)), axis=0) * 0.7 + rng.random((w, 1)) * 0.3
+    # niente banda di tracking: e' stata tolta (26 ottobre), dava fastidio
     # righe di scansione e disturbi
     a[::2] *= 0.9
     a = a + rng.normal(0, 0.035, (h, w, 1))

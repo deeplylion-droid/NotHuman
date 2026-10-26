@@ -29,8 +29,7 @@ Passaggi (ognuno salta se il suo file esiste gia': per rifarne uno, cancellalo):
    Passandogli anche base.jpg i muri vengono giusti, ma porta e mobili si spostano;
 6. maschere/: i ritagli, da ammorbiditi.jpg (SAM 3);
 7. finale.jpg: personaggi sulla stanza al 20% (tools/intensita.py);
-8. finale_vhs.jpg, finale_vhs_verde.jpg e finale_vhs_infrarosso.jpg (tools/filtri.py);
-9. finale_foto.jpg e finale_foto_vhs.jpg: la variante con la stanza tutta in foto (0% di fumetto).
+8. finale_vhs.jpg, finale_vhs_verde.jpg e finale_vhs_infrarosso.jpg (tools/filtri.py).
 Le due stanze vuote vengono dalla versione a fumetto, non dalla foto di partenza: GPT, ridisegnando,
 cambia un po' l'inquadratura, e cosi' stanza e personaggi combaciano comunque.
 Con "fino_a" (per esempio "base") si ferma dopo quel passaggio.
@@ -199,13 +198,6 @@ def main():
     for f in ["vhs", "vhs_verde", "vhs_infrarosso"]:
         subprocess.run([sys.executable, "-I", str(HERE / "filtri.py"), f, str(folder / "finale.jpg"),
                         str(folder / f"finale_{f}.jpg")], check=True)
-    # variante da valutare: la stanza tutta in foto
-    montage = json.loads((folder / "montaggio.json").read_text())
-    (folder / "montaggio_foto.json").write_text(json.dumps(
-        {**montage, "intensita_sfondo": 0.0, "uscita": "finale_foto.jpg"}, indent=2))
-    subprocess.run([sys.executable, "-I", str(HERE / "intensita.py"), str(folder / "montaggio_foto.json")], check=True)
-    subprocess.run([sys.executable, "-I", str(HERE / "filtri.py"), "vhs", str(folder / "finale_foto.jpg"),
-                    str(folder / "finale_foto_vhs.jpg")], check=True)
     done("filtri")
 
 
