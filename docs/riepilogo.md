@@ -18,6 +18,7 @@ Un gioco originale da vendere su Steam, nel filone dei giochi di ispezione e par
   - **Tre filtri finali, tutti tenuti** (26 ottobre): **VHS** per il giorno, **VHS verde** per la notte e le scene al buio, **VHS infrarosso** (rosso tendente al rosa, più scuro e più tenue del verde). Come usarli nel gioco si decide più avanti; per l'infrarosso c'è l'idea degli indizi (vedi "Il Medico della peste"). Filtri in `tools/filtri.py` (prove in `art/prove-stile/08-filtri`), confronto sulle due stanze in `art/scene/foglio_scene_filtri.jpg`. **VHS al 50% di intensità** (26 ottobre): i difetti della videocassetta sono a metà, il colore dei filtri resta pieno (`VHS_AMOUNT` in `tools/filtri.py`; nell'anteprima animata è il valore di partenza). **Senza la banda di disturbo grossa** che scorreva sull'immagine: tolta il 26 ottobre, sia dal filtro fisso sia da quello animato. Le prove in `art/prove-stile` sono di prima: hanno ancora la banda e il VHS al 100%.
   - **Il VHS sarà animato**, calcolato in tempo reale (uno shader): grana e tremolio delle righe a ogni fotogramma, il rumore della testina in fondo, uno strappo ogni tanto, e uno strappo più forte quando si cambia filtro. Anteprima sul soggiorno con i tre filtri e intensità regolabile: https://claude.ai/artifact/RU45gcnW8J3ttttUTSde2R (copia in `art/prove-stile/09-vhs-animato`; lo shader WebGL è la base per quello del gioco).
 - **Per ora niente mano e bastone del medico sullo schermo** (26 ottobre): non piacciono. Le scene si fanno senza (`"mano": false` in `scena.json`, il valore di base).
+- **Meccaniche e interfaccia:** decise il 26 ottobre, vedi "Meccaniche e interfaccia".
 - **Regola per le stanze:** partire sempre da stanze con pochi dettagli (muri lisci, pochi oggetti), altrimenti i personaggi si perdono.
 - **Grafica generata con l'AI**, montata a strati come in NINAH. Niente fotogrammi "da film".
 
@@ -47,11 +48,47 @@ Il medico visita le case. Le famiglie spesso nascondono un malato, o non sanno d
 - Il paese come mappa del contagio: ogni scelta cambia il modo in cui la malattia passa da una casa all'altra.
 - Il dilemma: portare via un sano lo condanna, lasciare un malato condanna la strada.
 - I sintomi peggiorano di giorno in giorno sulla stessa persona (sano, febbre, bubboni): la prova di coerenza dice che si può fare.
-- Idea da valutare: anche il medico può ammalarsi.
+- Idea da valutare: anche il medico può ammalarsi. (Non scelta come limite di gioco il 26 ottobre.)
 - Idea da valutare: la peste potrebbe essere l'unica cosa rossa sullo schermo (macchie e bubboni), così l'occhio va dritto agli indizi.
 - Idea da valutare (26 ottobre): con il filtro infrarosso si vedono gli indizi. Si lega all'infrarosso vero, quello delle termocamere, che mostra il calore: potrebbe far vedere chi ha la febbre, o qualcuno nascosto dietro una porta.
 - Rischio: è un progetto grande (tante case, tante famiglie).
 - Concorrenza: *Pathologic*, che però è un gioco di ruolo enorme e di altro genere, e qualche gioco da game jam su itch.io.
+
+## Meccaniche e interfaccia
+
+Decise il 26 ottobre, con le domande in chat.
+
+### Il mondo
+
+- **Retrofuturo anni '90.** Il mondo è quello di oggi, ma la tecnologia del medico e del potere ha l'aspetto degli anni '80-'90: cassette, monitor a fosfori verdi, fax, floppy. Le case povere restano come sono.
+- **La ditta.** Il medico lavora a contratto per una multinazionale farmaceutica. Ogni mattina la ditta manda via fax il protocollo, cioè i segni da cercare, e paga a paziente. A volte il protocollo è sbagliato apposta, perché alla ditta servono cavie: il giocatore impara da sé di cosa fidarsi.
+
+### La giornata
+
+- **Mappa e tempo contato.** Ogni mattina si scelgono sulla mappa del paese le case da visitare; il tempo non basta per tutte. Di notte il contagio si sposta da una casa all'altra.
+- **La sera si rivedono i nastri** della videocamera: riavvolgere, fermare l'immagine, ingrandire, passare all'infrarosso. Si scoprono cose sfuggite durante la visita, da usare il giorno dopo.
+- **Limiti: il tempo e la fiducia del paese.** Ogni porta forzata e ogni sano portato via fanno crescere l'odio verso il medico: le famiglie mentono di più e qualcuno non apre. Non scelti come limiti: i posti al lazzaretto, la salute del medico, le scorte.
+
+### La visita
+
+- **Una stanza più le porte.** La famiglia riceve il medico in una stanza; si può pretendere di aprire una porta (camera, cantina) e vedere un'altra inquadratura. Aprire costa tempo e fiducia.
+- **Esame per parti del corpo.** Si indica col bastone cosa si vuole vedere (occhi, bocca, collo, ascelle, mani), come facevano i medici della peste per non toccare i malati, e compare il dettaglio da vicino. La persona può rifiutarsi, coprirsi o mentire.
+- **Domande e prove.** Si scelgono le domande da fare. Un indizio trovato (un piatto in più, una porta chiusa a chiave, il calore all'infrarosso) si può mettere davanti alla famiglia per smascherare una bugia o farsi aprire una porta.
+- **Decisioni a fine visita:**
+  - **portare via** una persona al lazzaretto: se era sana, la si condanna;
+  - **chiudere la casa**, con la croce sulla porta: ferma il contagio verso i vicini, ma i sani chiusi dentro rischiano di ammalarsi;
+  - **tornare domani**: i sintomi saranno più chiari, ma intanto il contagio può passare ai vicini.
+
+  Scartato: bruciare le cose del malato.
+
+### La videocamera
+
+- **Il VHS è la videocamera del medico**, che riprende ogni visita. REC, ora e data fanno da interfaccia (il tempo che passa, il giorno); notte e infrarosso sono le modalità della videocamera. Durante le visite la scritta sarà REC; PLAY resta per i nastri rivisti la sera.
+
+### Fine della partita e storia
+
+- **Giorni contati e più finali.** La partita dura un numero fisso di giorni (per esempio 14); il finale dipende da quanti si sono ammalati e da quanto il paese si fida del medico.
+- **Famiglie scritte a mano**, ben pensate, con una **storia principale ben definita e nascosta**, da scoprire giocando, più storie a parte per le famiglie più importanti.
 
 ## Grafica
 
@@ -193,6 +230,7 @@ NINAH è quasi tutto 2D. Per ora bastano sfondi 2D generati; il 3D servirebbe so
 
 - Tono: cupo fino in fondo, o con un filo di umorismo nero?
 - Motore: proposto Godot 4, da confermare.
+- Interfaccia: in discussione (dettaglio dell'esame, dialoghi, schermate fuori dalle case, comandi).
 - Tempi e budget.
 
 ## Prossimi passi
