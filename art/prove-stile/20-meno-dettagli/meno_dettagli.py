@@ -21,6 +21,10 @@ con Lanczos e un po' di nitidezza. O lasciano le rughe (sono contorni forti anch
 contorni le tengono), o sfocano, o fanno l'effetto pittura. La variazione totale viene da scikit-image
 (pip install scikit-image).
 
+Il 26 ottobre ne sono state tenute cinque per un questionario di approvazione (immagini in questionario/, sui tre
+del soggiorno, ogni tecnica solo sui personaggi): non-local means 10, variazione totale 0,06, Kuwahara r5,
+Real-ESRGAN x4plus da 640 e Real-ESRGAN anime da 640.
+
 Fogli: facce.jpg e mani.jpg (al 100%, senza VHS), cucina_vhs.jpg e soggiorno_vhs.jpg (col VHS del gioco di
 giorno), camera_notte.jpg (col VHS verde, senza scritte) e la madre ingrandita, camera_notte_madre.jpg.
 """
@@ -153,19 +157,58 @@ def piccola_nitida(a, w=640):
     return np.clip(g + (g - cv2.GaussianBlur(g, (0, 0), 1.6)), 0, 1)
 
 
-def altre(a):
+def nlm(a, h=10):
+    """Non-local means: toglie la grana come un riduttore di rumore, mediando i pezzetti simili dell'immagine."""
+    return f32(cv2.fastNlMeansDenoisingColored(u8(a), None, h, h, 7, 21))
+
+
+def tv(a, peso=0.06):
+    """Variazione totale: appiattisce le variazioni piccole e lascia i salti netti."""
     from skimage.restoration import denoise_tv_chambolle
+    return denoise_tv_chambolle(a, weight=peso, channel_axis=-1).astype(np.float32)
+
+
+def altre(a):
     return {
         "0 com'e' ora": a,
         "morfologia": morfologia(a),
         "kuwahara": kuwahara(a),
         "mediana": f32(cv2.medianBlur(u8(a), 5)),
         "mean shift": f32(cv2.pyrMeanShiftFiltering(u8(a), 6, 25)),
-        "variaz. totale": denoise_tv_chambolle(a, weight=0.15, channel_axis=-1).astype(np.float32),
-        "non-local means": f32(cv2.fastNlMeansDenoisingColored(u8(a), None, 20, 20, 7, 21)),
+        "variaz. totale": tv(a, 0.15),
+        "non-local means": nlm(a, 20),
         "laplaciano loc.": llf(a),
         "piccola+nitida": piccola_nitida(a),
     }
+
+
+# ---------- il questionario: le tecniche tenute, una per immagine, sui tre del soggiorno ----------
+
+QUESTIONARIO = (620, 60, 1400, 520)
+
+
+def questionario():
+    a = carica(RADICE / "art/scene/02-soggiorno/finale.jpg")
+    m = personaggi("soggiorno")
+    x0, y0, x1, y1 = QUESTIONARIO
+    X0, Y0, X1, Y1 = max(0, x0 - 40), max(0, y0 - 40), min(W, x1 + 40), min(H, y1 + 40)
+    zona, mz = a[Y0:Y1, X0:X1], m[Y0:Y1, X0:X1]
+
+    def solo_personaggi(f):
+        out = zona * (1 - mz) + f(zona) * mz
+        return out[y0 - Y0:y1 - Y0, x0 - X0:x1 - X0]
+
+    prove = {
+        "0_ora": a[y0:y1, x0:x1],
+        "1_nlm": solo_personaggi(lambda z: nlm(z, 10)),
+        "2_tv": solo_personaggi(lambda z: tv(z, 0.06)),
+        "3_kuwahara": solo_personaggi(lambda z: kuwahara(z, 5)),
+        "4_esrgan": con_esrgan(a, carica(QUI / "esrgan/soggiorno_640_esrgan.jpg"), m)[y0:y1, x0:x1],
+        "5_anime": con_esrgan(a, carica(QUI / "esrgan/soggiorno_640_anime.jpg"), m)[y0:y1, x0:x1],
+    }
+    (QUI / "questionario").mkdir(exist_ok=True)
+    for nome, x in prove.items():
+        filtri.img(x).save(QUI / f"questionario/{nome}.jpg", quality=93)
 
 
 # ---------- i fogli ----------
@@ -219,6 +262,7 @@ def main():
             immagini.append(x[y0 - Y0:y1 - Y0, x0 - X0:x1 - X0])
             scritte.append(t if i == 0 else "")
     foglio(immagini, scritte, 9, 300, 30).save(QUI / "altre_tecniche.jpg", quality=90)
+    questionario()
     print("ok")
 
 
