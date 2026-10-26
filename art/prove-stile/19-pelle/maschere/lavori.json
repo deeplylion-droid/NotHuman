@@ -128,5 +128,96 @@
       "return_multiple_masks": true,
       "max_masks": 8
     }
+  },
+  {
+    "nome": "camera_face",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/03-camera/finale.jpg",
+      "prompt": "face",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    }
+  },
+  {
+    "nome": "camera_hand",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/03-camera/finale.jpg",
+      "prompt": "hand",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    }
+  },
+  {
+    "nome": "camera_neck",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/03-camera/finale.jpg",
+      "prompt": "neck",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    }
+  },
+  {
+    "nome": "camera_eye",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/03-camera/finale.jpg",
+      "prompt": "eye",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    }
+  },
+  {
+    "nome": "camera_mouth",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/03-camera/finale.jpg",
+      "prompt": "mouth",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    }
+  },
+  {
+    "nome": "camera_leg",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/03-camera/finale.jpg",
+      "prompt": "leg",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    }
+  },
+  {
+    "nome": "camera_foot",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/03-camera/finale.jpg",
+      "prompt": "foot",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    }
   }
 ]

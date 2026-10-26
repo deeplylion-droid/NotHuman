@@ -31,6 +31,8 @@ SCENE = {
     "cucina": ("01-cucina", [(470, 60, 830, 420), (860, 230, 1000, 370)]),
     "soggiorno": ("02-soggiorno", [(560, 200, 920, 560), (860, 150, 1140, 510), (1080, 80, 1440, 440)]),
 }
+# le parti di pelle da lisciare (gambe e piedi ci sono solo nella camera, dove la madre e' scalza)
+PELLE = ["face", "neck", "hand", "leg", "foot"]
 # le mani al 100%: erano la parte piu' piena di dettagli (vene, rughe, sporco)
 MANI = {"cucina": (400, 760, 780, 1010), "soggiorno": (1180, 640, 1560, 890)}
 
@@ -90,7 +92,7 @@ def filtro(a, scena, forza, tieni):
     occhi = maschera(scena, ["eye", "mouth"], forma)
     occhi = cv2.GaussianBlur(cv2.dilate(occhi, np.ones((5, 5), np.uint8)), (0, 0), 2)
     out = a.copy()
-    for m in istanze(scena, ["face", "neck", "hand"], forma):
+    for m in istanze(scena, PELLE, forma):
         ys, xs = np.nonzero(m > 0.5)
         if len(ys) < 50:
             continue
