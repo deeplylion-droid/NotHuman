@@ -412,7 +412,7 @@ export const REAZIONI = {
 // certificato. Puo' essere vecchio o sbagliato (il nonno e' morto, il figlio risulta in citta'). "persona" lega
 // la riga a chi si incontra; chi non e' tra le PERSONE non si vede mai (il nonno, il ragazzo). "donna" per
 // scrivere "nata".
-export const COMUNE = "SAN ROCCO";
+export const COMUNE = "MALVENTO";
 export const ANAGRAFE = {
   casa3: { via: "Via del Mulino 12", righe: [
     { persona: "padre", nome: "ROSSI MARIO", ruolo: "intestatario", nato: 1971, mestiere: "meccanico" },

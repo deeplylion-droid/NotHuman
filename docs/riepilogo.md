@@ -302,7 +302,7 @@ Fatta il 26 ottobre (`gioco/js/stanza.js`), come prima prova: la stanza vera si 
 
 ## Domande aperte
 
-- Nomi: il paese, i personaggi, la ditta. E in che paese siamo (l'Italia è accantonata). Per il paese **San Rocco è scartato** (26 ottobre; nel prototipo resta per prova nello stato di famiglia, `COMUNE` in `gioco/js/dati.js`). Nuove proposte, nomi inventati che non risultano comuni italiani: **Malvento** (il "mal vento", l'aria cattiva da cui i medici della peste si riparavano col becco; esiste solo un belvedere con questo nome nel Pollino), **Acquaferma** (l'acqua stagnante, un paese dove non cambia niente; esistono Acquafredda e Acquafondata), **Valcupa** (la valle cupa) e **Borgofreddo** (case senza riscaldamento, dove all'infrarosso si vede chi è caldo; è anche il nome di una casa vacanze a Monopoli).
+- Nomi: i personaggi, la ditta. E in che paese siamo (l'Italia è accantonata). **Il paese si chiama Malvento** (scelto il 26 ottobre): il "mal vento", l'aria cattiva da cui i medici della peste si riparavano col becco; è un nome inventato, non risulta un comune italiano (esiste solo un belvedere con questo nome nel Pollino). Nel prototipo è sullo stato di famiglia (`COMUNE` in `gioco/js/dati.js`). Scartati San Rocco e le altre proposte: Acquaferma, Valcupa, Borgofreddo.
 - Tempi e budget.
 
 ## Prossimi passi
