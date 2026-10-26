@@ -211,6 +211,56 @@ def questionario():
         filtri.img(x).save(QUI / f"questionario/{nome}.jpg", quality=93)
 
 
+# ---------- la tecnica approvata (Real-ESRGAN x4plus da 640) con occhi e bocche originali ----------
+
+MASCHERE_VISO = RADICE / "art/prove-stile/19-pelle/maschere"
+# le bocche che SAM 3 non trova (nemmeno come "lips" o "teeth"): quella della figlia, troppo piccola;
+# ellisse (cx, cy, rx, ry) sull'immagine 1920x1080
+A_MANO = {"cucina": [(935, 330, 12, 7)]}
+
+
+def occhi_bocca(scena):
+    """Dove tenere l'originale: occhi e bocche (maschere di SAM 3 da 19-pelle), allargati in proporzione alla loro
+    grandezza per prendere anche palpebre, occhiaie rosse e labbra, coi bordi sfumati."""
+    pezzi = [np.asarray(Image.open(f).convert("L").resize((W, H)), np.float32) / 255
+             for p in ("eye", "mouth") for f in sorted(MASCHERE_VISO.glob(f"{scena}_{p}_maschera*.png"))]
+    for cx, cy, rx, ry in A_MANO.get(scena, []):
+        e = np.zeros((H, W), np.float32)
+        pezzi.append(cv2.ellipse(e, (cx, cy), (rx, ry), 0, 0, 360, 1.0, -1))
+    m = np.zeros((H, W), np.float32)
+    for x in pezzi:
+        r = max(2, round(np.sqrt((x > 0.5).sum()) * 0.25))
+        x = cv2.dilate(x, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1)))
+        m = np.maximum(m, cv2.GaussianBlur(x, (0, 0), max(1.0, r * 0.5)))
+    return m[..., None]
+
+
+def approvata(scena):
+    """Com'e' ora, la tecnica approvata, e la stessa con occhi e bocche originali."""
+    a = carica(RADICE / f"art/scene/{SCENE[scena]}/finale.jpg")
+    b = con_esrgan(a, carica(QUI / f"esrgan/{scena}_640_esrgan.jpg"), personaggi(scena))
+    ob = occhi_bocca(scena)
+    return {"0 com'e' ora": a, "approvata": b, "occhi e bocca originali": b * (1 - ob) + a * ob}
+
+
+# le facce da guardare, piu' la figlia sulla porta (piccola: si ingrandisce)
+FACCE_OB = FACCE + [("cucina", (880, 255, 985, 360))]
+
+
+def fogli_occhi_bocca():
+    v = {s: approvata(s) for s in SCENE}
+    titoli = list(v["cucina"])
+    immagini, scritte = [], []
+    for i, (s, (x0, y0, x1, y1)) in enumerate(FACCE_OB):
+        for t in titoli:
+            immagini.append(cv2.resize(v[s][t][y0:y1, x0:x1], (380, 380), interpolation=cv2.INTER_CUBIC))
+            scritte.append(t if i == 0 else "")
+    foglio(immagini, scritte, 3, 380).save(QUI / "occhi_bocca_facce.jpg", quality=92)
+    x0, y0, x1, y1 = QUESTIONARIO
+    foglio([x[y0:y1, x0:x1] for x in v["soggiorno"].values()], titoli, 1, 780).save(
+        QUI / "occhi_bocca_soggiorno.jpg", quality=92)
+
+
 # ---------- i fogli ----------
 
 def foglio(immagini, titoli, colonne, larghezza, corpo=36):
@@ -263,6 +313,7 @@ def main():
             scritte.append(t if i == 0 else "")
     foglio(immagini, scritte, 9, 300, 30).save(QUI / "altre_tecniche.jpg", quality=90)
     questionario()
+    fogli_occhi_bocca()
     print("ok")
 
 

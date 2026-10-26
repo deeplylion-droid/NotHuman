@@ -219,5 +219,31 @@
       "return_multiple_masks": true,
       "max_masks": 8
     }
+  },
+  {
+    "nome": "cucina_lips",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/01-cucina/finale.jpg",
+      "prompt": "lips",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    }
+  },
+  {
+    "nome": "cucina_teeth",
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/01-cucina/finale.jpg",
+      "prompt": "teeth",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    }
   }
 ]
