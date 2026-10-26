@@ -1,0 +1,13 @@
+{
+  "name": "tre",
+  "private": true,
+  "description": "Three.js per la stanza del medico, impacchettato in gioco/lib/three.js; e gltf-transform per alleggerire i modelli",
+  "scripts": {
+    "impacchetta": "esbuild entrata.js --bundle --format=esm --minify --legal-comments=eof --outfile=../../gioco/lib/three.js"
+  },
+  "dependencies": {
+    "@gltf-transform/cli": "4.5.1",
+    "esbuild": "0.25.12",
+    "three": "0.186.1"
+  }
+}

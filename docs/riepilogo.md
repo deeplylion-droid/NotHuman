@@ -240,26 +240,40 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 - `tools/prepara_gioco.py`: prepara le immagini del prototipo in `gioco/img` (scene, mappe dei personaggi per i clic, sagome, mappe di calore per l'infrarosso, scrivania e mappa al 40%, primi piani, foto degli occupanti) e le espressioni: da ogni variante in `art/espressioni` ritaglia la testa riallineata alla scena (`gioco/img/espressioni`, posizioni in `gioco/js/espressioni.js`).
 - `tools/allinea.py`: riallinea un'immagine ridisegnata all'originale (spostamento d'insieme e poi punto per punto, con OpenCV), per mescolarle senza contorni doppi.
 - `tools/filtri.py`: filtri finali per rendere omogenee immagini di stili diversi (verdi, infrarosso, VHS, fotocopia). Non usa l'AI, quindi non costa niente.
+- `tools/prepara_stanza.py`: texture, ritagli della scrivania e modelli della stanza 3D (vedi "La stanza 3D nel prototipo"); usa gltf-transform da `tools/tre`, dove si impacchetta anche Three.js.
 - Servizio: **fal.ai**. La chiave si legge da `FAL_KEY` (impostazioni dell'ambiente cloud) o da `~/.config/fal/key`; mai nel repo.
 - Modelli:
   - **GPT Image 2** (`openai/gpt-image-2`, `/edit`): il migliore per scene nuove e trasformazioni di stile. Non fa sfondi trasparenti, e il filtro dei contenuti blocca parole come "soldato ferito" o "insanguinato", e anche i bambini in una scena horror: nelle scene niente bambini.
   - **Nano Banana Pro** (`fal-ai/nano-banana-pro/edit`): per modificare un'immagine lasciando il resto al suo posto (togliere persone, semplificare una stanza, sfondi nello stile, cambiare lo stato di un personaggio) e per mettere un personaggio di riferimento dentro la foto di una stanza.
   - **SAM 3** (`fal-ai/sam-3/image`): maschere dei personaggi da un testo ("person").
   - **BiRefNet v2** (`fal-ai/birefnet/v2`): ritaglio di una figura su fondo neutro.
+  - **Tripo H3.1** (`tripo3d/h3.1/image-to-3d`): un modello 3D con texture da una foto, 30 centesimi; con `face_limit` resta leggero. `tools/fal_batch.py` salva il GLB e l'anteprima.
   - **Flux 2 Max**: scartato, resa inferiore.
-- Spesa per tutte le prove: circa 15 dollari.
+- Spesa per tutte le prove: circa 15 dollari, più circa 4 per la stanza 3D (texture, foto degli oggetti e modelli di Tripo).
 - Steam chiede di dichiarare sulla pagina del gioco i contenuti generati con l'AI.
 
 ### 3D
 
 - **NINAH ha una parte in 3D:** la casa del protagonista si esplora in prima persona. (Correzione del 26 ottobre: all'inizio avevo scritto che era quasi tutto 2D.)
-- **Da valutare: la casa del medico in 3D** (idea del 26 ottobre): la stanza in affitto sopra il bar, dove ci si muove; cliccando la scrivania la si rivede in 2D com'è adesso. Altre cose da usare: la parete dei nastri, la finestra sul paese, il letto per chiudere la giornata, il videoregistratore.
+- **La casa del medico in 3D** (idea del 26 ottobre): la stanza in affitto sopra il bar, dove ci si muove; cliccando la scrivania la si rivede in 2D com'è adesso. **Scelta la stanza 3D vera** (26 ottobre), dopo il panorama scartato; la prima prova è nel prototipo (vedi "La stanza 3D nel prototipo").
 - **Il panorama a 360° è scartato** (26 ottobre): non piace. La prova è stata fermata prima del panorama; resta la stanza da cui partiva, generata con GPT Image 2 (`art/prove-stile/17-casa-del-medico/stanza.jpg`: porta, scrivania sotto la finestra con le tapparelle, fax, mappa con gli spilli, maschera, guanti, televisore sul videoregistratore, cassette, letto), utile come riferimento della stanza.
 - **Tre strade, dalla più semplice:**
   1. **panorami a 360°** (scartata): la stanza generata come panorama sferico con Hunyuan World su fal (`fal-ai/hunyuan_world`, anche da un'immagine con `image-to-world`), vista dall'interno di una sfera. Ci si guarda attorno e si salta tra due o tre punti; non si cammina liberamente;
-  2. **stanza 3D vera**, come NINAH: stanza semplice in Three.js, mobili da immagine a 3D (Hunyuan 3D 3.1, Tripo H3.1, Meshy 7.1 su fal), il VHS come filtro sopra, luci e collisioni. Si cammina, ma è molto più lavoro, i modelli fatti dall'AI hanno un'aria di plastica che il VHS nasconde solo in parte, ed è più pesante sui telefoni;
+  2. **stanza 3D vera** (**scelta**), come NINAH: stanza semplice in Three.js, mobili da immagine a 3D (Hunyuan 3D 3.1, Tripo H3.1, Meshy 7.1 su fal), il VHS come filtro sopra, luci e collisioni. Si cammina, ma è molto più lavoro, i modelli fatti dall'AI hanno un'aria di plastica che il VHS nasconde solo in parte, ed è più pesante sui telefoni;
   3. **gaussian splat** (`tripo3d/triposplat` su fal): stanze quasi fotografiche in 3D, ancora sperimentali e pesanti.
 - Il motore web le regge tutte e tre (Three.js). World Labs Marble genera stanze intere, ma richiede un account a parte.
+
+### La stanza 3D nel prototipo
+
+Fatta il 26 ottobre (`gioco/js/stanza.js`). La giornata comincia qui, e qui si torna.
+
+- **La stanza:** 3,4 x 4 metri, alta 2,75. Davanti la finestra con la scrivania sotto (come nel disegno della scrivania: lampada, fax, giornali, mappa, stato di famiglia, soldi, maschera, guanti, televisore, videoregistratore rosso scuro col display delle 12:00 che lampeggia, tre cassette); a sinistra la porta con la luce delle scale che passa sotto, l'interruttore, il calendario della Panacea (qualcuno ha cerchiato il 17) e l'attaccapanni col cappotto incerato e il cappello; dietro l'armadio; a destra il letto con la coperta a fiori, il comodino con la radiosveglia che segna l'ora del gioco, un santino del santo degli appestati, il termosifone freddo; la borsa del medico per terra; una lampadina nuda spenta.
+- **Come è fatta:** muri, pavimento e mobili semplici sono scatole con texture generate con GPT Image 2 (qualità media, circa 5 centesimi l'una): carta da parati, pavimento, legno, coperta, il davanti di porta, finestra, armadio, comodino e testiera. Gli oggetti piccoli e piatti della scrivania sono ritagliati dalla scrivania disegnata, così la scrivania in 3D somiglia a quella in 2D. Gli otto oggetti complicati (sedia, lampada, fax, televisore, maschera, borsa, termosifone, attaccapanni col cappotto) sono modelli fatti da una foto con **Tripo H3.1** su fal (`tripo3d/h3.1/image-to-3d`, 30 centesimi l'uno, 4.000-12.000 triangoli); le foto degli oggetti sono di GPT Image 2, la maschera è la vista di tre quarti della scheda. Tutto in `art/stanza3d` (`lavori.json`, `lavori_3d.json`); `tools/prepara_stanza.py` riduce le texture in `gioco/img/stanza` e alleggerisce i modelli in `gioco/modelli` (150-450 KB l'uno): glTF in un file `.json` con la texture WebP a 512 punti accanto, perché gli Artifact di claude.ai non servono i `.glb`.
+- **La luce:** la mattina la tapparella è alzata e dai vetri entra il giorno, la lampada è accesa; la sera la tapparella è abbassata e resta la lampada, con le ombre. Sopra c'è il VHS del gioco: Three.js disegna su un canvas fuori dallo schermo, a bassa risoluzione (960 punti, 720 sui telefoni), che diventa la sorgente della videocamera.
+- **Come ci si muove:** si trascina per guardarsi attorno; si clicca (o si tocca) il pavimento per andarci, o una cosa per andarci e usarla (il percorso gira attorno ai mobili). Sul computer anche WASD e le frecce, ed E o Invio per usare quello che si guarda. Passandoci sopra, le cose si illuminano e si legge il nome.
+- **Le cose che si usano:** la scrivania si apre in 2D com'era (con **Alzati** si torna nella stanza); la porta porta alla mappa (la sera c'è il coprifuoco); il videoregistratore apre i nastri; la sera il letto chiude la giornata. Finestra, armadio, cappotto, calendario, santino, termosifone, borsa e radiosveglia hanno una frase (`STANZA` in `gioco/js/dati.js`).
+- **Three.js** 0.186.1 con il caricatore dei modelli, impacchettato in un solo file (`gioco/lib/three.js`, 770 KB) con `tools/tre` (`npm install`, poi `npm run impacchetta`). Se il browser non ha WebGL 2, si gioca dalla scrivania in 2D come prima.
+- **Da decidere:** la maschera in 3D è quella nuova con la videocamera, mentre la scrivania disegnata ha ancora quella vecchia. Lo stile delle texture è foto, senza il 20% di fumetto delle scene.
 
 ### Scartato
 
@@ -295,7 +309,7 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 1. **Prototipo giocabile di una giornata** (26 ottobre): https://claude.ai/artifact/PWFyiToQ3fwPAjNgiHYJYT. La scrivania (al 40%) con fax, giornale, stati di famiglia e mappa; le case 3 e 5 con REC, luce della videocamera, zoom, frasi addosso a chi parla, domande a raggiera, nastro delle frasi da contestare, espressioni, porte; lo stato di famiglia con timbri, note a penna e firma (al posto del taccuino e del modulo della ditta); la sera i nastri all'infrarosso; la notte con il contagio, i conti, il giornale del giorno dopo, la verità e il confronto delle diagnosi. Il codice è in `gioco/`; le immagini si preparano con `tools/prepara_gioco.py`, i primi piani si generano con `tools/primi_piani.py`. Provato tutto in Chromium sul computer e a misura di telefono. Da giocare e commentare.
 2. Dialoghi: per ora A + B; l'interfaccia va ancora trovata (il misto B + C non ha convinto).
 3. Il nome del paese, tra le proposte in "Domande aperte".
-4. Casa del medico: il panorama a 360° è scartato; resta da decidere se fare la stanza 3D vera, una stanza 2D da cliccare o rimandare (vedi "3D").
+4. La stanza del medico in 3D: provarla e dire cosa cambiare (vedi "La stanza 3D nel prototipo").
 5. Elementi cyberpunk (approvati): approvare la scheda della maschera e del bastone (`art/medico/maschera.jpg`), poi metterla sulla scrivania e nella foto del giornale.
 6. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
 7. Il gioco completo: famiglie, storia, giorni.

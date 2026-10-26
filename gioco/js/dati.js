@@ -478,6 +478,25 @@ export const TIMBRI = [
 ];
 
 // la scrivania: zone [x0, y0, x1, y1]
+// la stanza del medico in 3D: cosa si legge usando le cose che non portano altrove (per la mattina, la sera o
+// sempre); scrivania, videoregistratore, porta e letto li gestisce gioco.js
+export const STANZA = {
+  finestra: {
+    mattina: ["Il paese dall'alto: i tetti di pietra, il campanile, il fumo delle stufe."],
+    sera: ["Tapparelle abbassate. Tra le fessure passa la luce dei fari della ditta."],
+  },
+  armadio: { sempre: ["Due camicie, un maglione, e una bottiglia lasciata da chi stava qui prima."] },
+  cappotto: { sempre: ["Il cappotto incerato e il cappello. La ditta li vuole addosso a ogni visita."] },
+  calendario: { sempre: ["Il calendario della Panacea: «Ci prendiamo cura di voi».", "Qualcuno, prima di te, ha cerchiato il 17."] },
+  santino: { sempre: ["Un santino della padrona di casa: il santo che curava gli appestati, col bastone e il cane."] },
+  termosifone: { sempre: ["Freddo. La padrona di casa lo accende a dicembre, se va bene."] },
+  borsa: { sempre: ["La borsa: il termometro, i guanti di ricambio, le cassette vergini."] },
+  orologio: {
+    mattina: ["La radiosveglia. Il coprifuoco è alle otto."],
+    sera: ["La radiosveglia. Domani a mezzogiorno arriva il fax nuovo."],
+  },
+};
+
 export const SCRIVANIA = [
   { id: "fax", nome: "Il fax", box: [0.03, 0.12, 0.3, 0.57] },
   { id: "giornale", nome: "Il giornale", box: [0.38, 0.05, 0.6, 0.26] },

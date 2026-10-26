@@ -188,6 +188,8 @@ export class Vhs {
     this.time = 0;
     this.last = null;
     this.paused = false;
+    // prima di ogni fotogramma: la stanza 3D ridisegna qui la sua sorgente
+    this.prima = null;
   }
 
   makeTexture(unit) {
@@ -296,6 +298,7 @@ export class Vhs {
     }
     for (const t of this.tweens.filter((x) => x.done)) t.resolve();
     this.tweens = this.tweens.filter((x) => !x.done);
+    if (this.prima) this.prima(dt);
     this.draw();
   }
 

@@ -1,0 +1,502 @@
+{
+  "porta": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Straight-on orthographic front view of an old interior door of a cheap 1970s rented room, including its flat wooden frame: a flat door painted off-white cream, slightly yellowed and worn around the handle, a simple aluminium lever handle with a keyhole below it. Flat even lighting, no shadows, no perspective. The door and its frame fill the whole image edge to edge, nothing else is visible.",
+      "image_size": {
+        "width": 1024,
+        "height": 2048
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "porta.jpg"
+    ],
+    "seed": null,
+    "secondi": 27,
+    "descrizione": null
+  },
+  "carta_parati": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Seamless tileable texture: old faded wallpaper of a cheap rented room, a small scattered floral pattern of tiny brown and dusty pink flowers with little green leaves on a pale yellowed cream background, slightly discolored by age. Flat straight-on scan with even lighting, no shadows, no perspective, the pattern fills the entire square edge to edge.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "carta_parati.jpg"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": null
+  },
+  "pavimento": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Seamless tileable texture: old wooden floor of narrow oak planks running vertically, warm medium brown with darker gaps between the boards, worn varnish with light scratches. Top-down orthographic view with even lighting, no shadows, the boards fill the entire square edge to edge.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "pavimento.jpg"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": null
+  },
+  "coperta": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Seamless tileable texture: an old quilted single-bed bedspread with a small flowered pattern, little cream and beige flowers on a faded blue-grey background, soft cotton fabric with stitched quilting lines. Top-down orthographic view with even lighting, no shadows, the fabric fills the entire square edge to edge.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "coperta.jpg"
+    ],
+    "seed": null,
+    "secondi": 39,
+    "descrizione": null
+  },
+  "legno": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Seamless tileable texture: an old honey-brown wooden table top made of planks running horizontally, worn varnish with scratches, small dents and a few ink stains. Top-down orthographic view with even lighting, no shadows, the wood fills the entire square edge to edge.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "legno.jpg"
+    ],
+    "seed": null,
+    "secondi": 39,
+    "descrizione": null
+  },
+  "finestra": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Straight-on orthographic front view of an old window seen from inside a room, filling the whole image edge to edge: a varnished brown wooden frame with two glass casements and a horizontal handle, a wooden roller shutter box above, the grey plastic roller shutter raised all the way up. Through the glass: a grey overcast morning sky over old tiled roofs, chimneys and a small bell tower of a poor mountain village. Flat frontal view, no perspective, realistic photo, no people.",
+      "image_size": {
+        "width": 1024,
+        "height": 1104
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "finestra.jpg"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": null
+  },
+  "armadio": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Straight-on orthographic front view of a tall old dark walnut wardrobe with two tall doors, a simple carved cornice on top, two small keyholes and small brass handles, a low plinth at the bottom, worn varnish. Flat even lighting, no shadows, no perspective. The wardrobe fills the whole image edge to edge, no background visible.",
+      "image_size": {
+        "width": 960,
+        "height": 1600
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "armadio.jpg"
+    ],
+    "seed": null,
+    "secondi": 29,
+    "descrizione": null
+  },
+  "testiera": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Straight-on orthographic front view of a simple old single-bed headboard in dark varnished wood: a flat rectangular panel with a thin moulding, slightly worn. Flat even lighting, no shadows, no perspective. The headboard fills the whole image edge to edge, no background visible.",
+      "image_size": {
+        "width": 1024,
+        "height": 928
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "testiera.jpg"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": null
+  },
+  "santino": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A small old devotional picture in a thin gilded wooden frame: a faded holy image of a pilgrim saint with a staff and a little dog, painted in an old naive style on yellowed paper. Straight-on front view with even lighting, the frame fills the whole image edge to edge.",
+      "image_size": {
+        "width": 768,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "santino.jpg"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": null
+  },
+  "comodino": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Straight-on orthographic front view of a small old bedside table in dark varnished wood: one drawer on top with a small brass knob and a small door below with a keyhole. Flat even lighting, no shadows, no perspective. The front of the bedside table fills the whole image edge to edge, no background visible.",
+      "image_size": {
+        "width": 848,
+        "height": 1040
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "comodino.jpg"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": null
+  },
+  "calendario": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A 1990s wall calendar from a pharmaceutical company, straight-on front view filling the whole image edge to edge: on top a glossy stock photo of a smiling nurse in a white uniform, below it the brand name PANACEA in a blue corporate logo with the slogan 'Ci prendiamo cura di voi', and the grid of the month OTTOBRE with the days, one day circled in red pen. Flat even lighting, no perspective.",
+      "image_size": {
+        "width": 768,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "calendario.jpg"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": null
+  },
+  "lampada_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: an old dark reddish-brown metal desk lamp from the 1970s with a bell-shaped shade, a thin arm bent at an angle and a round heavy base, slightly scratched paint.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "lampada_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": null
+  },
+  "sedia_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: an old wooden kitchen chair from the 1970s in dark varnished beech wood, a curved backrest with vertical slats, a flat seat and four straight legs with stretchers, slightly worn.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "sedia_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": null
+  },
+  "televisore_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a small black 14-inch CRT television set from the early 1990s with a slightly curved dark glass screen, a deep back and small buttons under the screen.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "televisore_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": null
+  },
+  "fax_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: an old beige plastic fax machine from the early 1990s with a telephone handset resting on its left side and a coiled cord, a small grey LCD display, rows of buttons and a numeric keypad, a white sheet of paper standing in the paper feeder at the back.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "fax_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 39,
+    "descrizione": null
+  },
+  "cappotto_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo isolated on a plain light grey seamless studio background, seen from the front and slightly to the side, soft even studio lighting, no strong shadows, everything visible with generous margin around it, realistic, no text, nothing else in the image. The object: a short wooden wall coat rack with three metal hooks, with a long black waxed oilskin coat and a black wide-brimmed leather hat hanging on it.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "cappotto_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": null
+  },
+  "borsa_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: an old black leather doctor's bag with a metal clasp and two handles, worn and creased, standing on its base.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "borsa_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": null
+  },
+  "termosifone_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: an old cast-iron radiator painted off-white, with ten vertical ribbed sections, standing on two short feet, chipped paint, a small valve on one side.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "termosifone_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": null
+  },
+  "lampada": {
+    "modello": "tripo3d/h3.1/image-to-3d",
+    "input": {
+      "image_url": "@file:lampada_foto.jpg",
+      "texture": true,
+      "pbr": false,
+      "face_limit": 4000,
+      "auto_size": true
+    },
+    "file": [
+      "lampada.glb",
+      "lampada_anteprima.png"
+    ],
+    "seed": null,
+    "secondi": 708,
+    "descrizione": null
+  },
+  "sedia": {
+    "modello": "tripo3d/h3.1/image-to-3d",
+    "input": {
+      "image_url": "@file:sedia_foto.jpg",
+      "texture": true,
+      "pbr": false,
+      "face_limit": 6000,
+      "auto_size": true
+    },
+    "file": [
+      "sedia.glb",
+      "sedia_anteprima.png"
+    ],
+    "seed": null,
+    "secondi": 712,
+    "descrizione": null
+  },
+  "cappotto": {
+    "modello": "tripo3d/h3.1/image-to-3d",
+    "input": {
+      "image_url": "@file:cappotto_foto.jpg",
+      "texture": true,
+      "pbr": false,
+      "face_limit": 8000,
+      "auto_size": true
+    },
+    "file": [
+      "cappotto.glb",
+      "cappotto_anteprima.png"
+    ],
+    "seed": null,
+    "secondi": 722,
+    "descrizione": null
+  },
+  "fax": {
+    "modello": "tripo3d/h3.1/image-to-3d",
+    "input": {
+      "image_url": "@file:fax_foto.jpg",
+      "texture": true,
+      "pbr": false,
+      "face_limit": 6000,
+      "auto_size": true
+    },
+    "file": [
+      "fax.glb",
+      "fax_anteprima.png"
+    ],
+    "seed": null,
+    "secondi": 744,
+    "descrizione": null
+  },
+  "televisore": {
+    "modello": "tripo3d/h3.1/image-to-3d",
+    "input": {
+      "image_url": "@file:televisore_foto.jpg",
+      "texture": true,
+      "pbr": false,
+      "face_limit": 5000,
+      "auto_size": true
+    },
+    "file": [
+      "televisore.glb",
+      "televisore_anteprima.png"
+    ],
+    "seed": null,
+    "secondi": 770,
+    "descrizione": null
+  },
+  "finestra_chiusa": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Lower the grey plastic roller shutter completely, so it covers the whole glass of the window from top to bottom behind the panes, with only a few thin slits of dim light between the slats. Keep the wooden frame, the handle, the shutter box and everything else exactly identical, same framing and size.",
+      "image_urls": [
+        "@file:finestra.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1104
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "finestra_chiusa.jpg"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": null
+  },
+  "maschera": {
+    "modello": "tripo3d/h3.1/image-to-3d",
+    "input": {
+      "image_url": "@file:maschera_foto.jpg",
+      "texture": true,
+      "pbr": false,
+      "face_limit": 12000,
+      "auto_size": true
+    },
+    "file": [
+      "maschera.glb",
+      "maschera_anteprima.png"
+    ],
+    "seed": null,
+    "secondi": 623,
+    "descrizione": null
+  },
+  "borsa": {
+    "modello": "tripo3d/h3.1/image-to-3d",
+    "input": {
+      "image_url": "@file:borsa_foto.jpg",
+      "texture": true,
+      "pbr": false,
+      "face_limit": 5000,
+      "auto_size": true
+    },
+    "file": [
+      "borsa.glb",
+      "borsa_anteprima.png"
+    ],
+    "seed": null,
+    "secondi": 660,
+    "descrizione": null
+  },
+  "termosifone": {
+    "modello": "tripo3d/h3.1/image-to-3d",
+    "input": {
+      "image_url": "@file:termosifone_foto.jpg",
+      "texture": true,
+      "pbr": false,
+      "face_limit": 5000,
+      "auto_size": true
+    },
+    "file": [
+      "termosifone.glb",
+      "termosifone_anteprima.png"
+    ],
+    "seed": null,
+    "secondi": 666,
+    "descrizione": null
+  }
+}

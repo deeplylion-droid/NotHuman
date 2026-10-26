@@ -1,6 +1,6 @@
-// Il prototipo di una giornata: la scrivania col fax, la mappa, le visite (REC, zoom, le frasi addosso a chi
-// parla, le domande a raggiera, il nastro delle frasi da contestare, le porte), il modulo della ditta, i nastri
-// della sera all'infrarosso e la notte.
+// Il prototipo di una giornata: la stanza del medico in 3D (stanza.js), la scrivania col fax, la mappa, le
+// visite (REC, zoom, le frasi addosso a chi parla, le domande a raggiera, il nastro delle frasi da contestare,
+// le porte), lo stato di famiglia, i nastri della sera all'infrarosso e la notte.
 import { Vhs } from "./vhs.js";
 import * as D from "./dati.js";
 import { ESPRESSIONI } from "./espressioni.js";
@@ -47,7 +47,7 @@ const PRIMI = {};
 
 function nuovoStato() {
   return {
-    schermo: "scrivania", fase: "mattina", ora: D.INIZIO.ora, soldi: D.INIZIO.soldi, fiducia: D.INIZIO.fiducia,
+    schermo: "stanza", fase: "mattina", ora: D.INIZIO.ora, soldi: D.INIZIO.soldi, fiducia: D.INIZIO.fiducia,
     casa: null, luogo: null, prove: [], esami: {}, fatte: {}, sbloccate: {}, conosciute: {}, visti: {},
     forzate: {}, decisioni: {}, visitate: {}, nastri: [], intro: false, notte: null,
     // il nastro delle frasi: dichiarazioni ("d:...") e prove ("p:...") nell'ordine in cui sono arrivate
@@ -65,6 +65,8 @@ const R = { hover: null, hoverKey: "", occupato: false, primo: null, play: null,
   facce: {}, animaVolti: false, ritorni: {}, scelta: null, bersaglio: null, sfScelta: null, sfCasa: null };
 const DISSOLVENZA = 260;
 let vhs = null;
+// la stanza del medico in 3D; se il browser non regge WebGL 2 si resta sulla scrivania in 2D
+let stanza = null;
 
 // ---------- immagini ----------
 
@@ -209,6 +211,7 @@ function osdPlay(data, ora) {
 
 function aggiornaOrologio() {
   orologio.textContent = `LUN 26 OTT · ${hhmm(S.ora)} · ${S.soldi} €`;
+  if (stanza) stanza.segnaOra(hhmm(S.ora));
   if (!osd.box.hidden && !osd.box.classList.contains("play")) osd.ora.textContent = hhmm(S.ora);
 }
 
@@ -249,6 +252,8 @@ function pulisci() {
   etichetta.hidden = true;
   nastroFrasi.hidden = true;
   R.hover = null;
+  if (stanza) stanza.esci();
+  if (vhs) vhs.prima = null;
   schermo.dataset.schermo = S.schermo;
 }
 
@@ -426,10 +431,64 @@ function vaiScrivania() {
   }
   mostra(IMG.scrivania);
   for (const z of D.SCRIVANIA) zoneBox.append(zonaHtml(z, () => azioneScrivania(z.id)));
+  if (stanza) hud.append(bottone("Alzati", () => vaiStanza("scrivania"), "hud-b"));
   hud.append(el("span", "suggerimento", S.fase === "sera"
     ? "Sera. Rivedi i nastri al videoregistratore, poi spegni la lampada."
     : "Leggi il fax, poi prendi la maschera ed esci."));
   aggiornaOrologio();
+}
+
+// ---------- la stanza del medico in 3D ----------
+
+function vaiStanza(dove = "inizio") {
+  if (!stanza) return vaiScrivania();
+  S.schermo = "stanza";
+  S.casa = null;
+  S.luogo = null;
+  pulisci();
+  osdSpento();
+  if (vhs) {
+    vhs.mode("giorno", false);
+    vhs.setLuce(0);
+    vhs.setHeat(null);
+    vhs.setDark(0);
+    vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+  }
+  stanza.fase(S.fase === "sera" ? "sera" : "mattina");
+  stanza.adatta(Math.min(canvas.width * 0.7, matchMedia("(pointer: coarse)").matches ? 720 : 960));
+  stanza.entra(dove);
+  mostra(stanza.canvas, IMG.scrivania.src);
+  vhs.prima = (dt) => { stanza.passo(dt); vhs.refresh(); };
+  const tocco = matchMedia("(pointer: coarse)").matches;
+  hud.append(el("span", "suggerimento", S.fase === "sera"
+    ? "Sera. I nastri sono nel videoregistratore; poi a letto."
+    : tocco ? "Trascina per guardarti attorno, tocca dove andare o cosa usare."
+      : "Trascina per guardarti attorno, clicca dove andare o cosa usare. Si cammina anche con WASD."));
+  aggiornaOrologio();
+}
+
+async function usaStanza(id) {
+  if (R.occupato || !foglio.hidden) return;
+  if (id === "scrivania") return vaiScrivania();
+  if (id === "videoregistratore") { R.ritorno = "stanza"; return apriNastri(); }
+  if (id === "porta") {
+    if (S.fase === "sera") return dici([[null, "È il coprifuoco. Fino a domattina non si esce."]], false);
+    return vaiMappa();
+  }
+  if (id === "letto") {
+    if (S.fase === "sera") return dormi();
+    return dici([[null, "Non è ancora ora di dormire. La ditta paga a paziente."]], false);
+  }
+  const T = D.STANZA[id];
+  const righe = T && (T[S.fase] || T.sempre);
+  if (righe) await dici(righe.map((r) => [null, r]), false);
+}
+
+// dai nastri si torna dove li si era presi: il videoregistratore della stanza o la scrivania
+function tornaDaiNastri() {
+  R.play = null;
+  if (R.ritorno === "stanza" && stanza) vaiStanza("nastri");
+  else vaiScrivania();
 }
 
 function zonaHtml(z, azione) {
@@ -449,7 +508,7 @@ async function azioneScrivania(id) {
   if (id === "giornale") return apriGiornale(false);
   if (id === "taccuino") return apriStato(null);
   if (id === "soldi") return apriSoldi();
-  if (id === "nastri") return apriNastri();
+  if (id === "nastri") { R.ritorno = "scrivania"; return apriNastri(); }
   if (id === "mappa" || id === "maschera") {
     if (S.fase === "sera") return dici([[null, "È il coprifuoco. Fino a domattina non si esce."]], false);
     return vaiMappa();
@@ -618,8 +677,8 @@ function vaiMappa() {
   posizionaSpilli();
   const visite = Object.keys(S.visitate).length;
   hud.append(el("span", "suggerimento", "Tocca la mappa per ingrandire"),
-    bottone(visite ? "Torna in stanza · finisce la giornata" : "Torna alla scrivania",
-      () => (visite ? sera() : vaiScrivania()), "hud-b"));
+    bottone(visite ? "Torna in stanza · finisce la giornata" : stanza ? "Torna in stanza" : "Torna alla scrivania",
+      () => (visite ? sera() : stanza ? vaiStanza("porta") : vaiScrivania()), "hud-b"));
   aggiornaOrologio();
 }
 
@@ -1607,7 +1666,8 @@ window.addEventListener("resize", () => {
 async function sera() {
   S.fase = "sera";
   S.ora = Math.max(S.ora, D.INIZIO.coprifuoco);
-  vaiScrivania();
+  if (stanza) vaiStanza("porta");
+  else vaiScrivania();
   await dici([[null, "Le otto. Coprifuoco."], [null, "I nastri di oggi sono nel videoregistratore."]], false, false);
 }
 
@@ -1633,7 +1693,7 @@ function riproduci(nastro) {
     bottone("❚❚", pausa, "cmd cmd-play"),
     bottone("▶▶", () => ripresa(R.play.i + 1), "cmd"),
     bottone("IR", infrarosso, "cmd cmd-ir"),
-    bottone("Esci", () => { R.play = null; vaiScrivania(); }, "cmd cmd-esci"));
+    bottone("Esci", tornaDaiNastri, "cmd cmd-esci"));
   if (vhs) vhs.setDark(0);
   ripresa(0);
 }
@@ -1761,7 +1821,7 @@ async function riproduciVecchio() {
   pulisci();
   R.play = null;
   comandi.hidden = false;
-  comandi.append(bottone("Esci", () => vaiScrivania(), "cmd cmd-esci"));
+  comandi.append(bottone("Esci", tornaDaiNastri, "cmd cmd-esci"));
   const nero = document.createElement("canvas");
   nero.width = 16; nero.height = 9;
   nero.getContext("2d").fillRect(0, 0, 16, 9);
@@ -1769,7 +1829,7 @@ async function riproduciVecchio() {
   if (vhs) { vhs.mode("giorno", true); vhs.setLuce(0); vhs.setDark(0); vhs.set({ snow: 1 }); }
   osdPlay(D.NASTRO_VECCHIO.data, "03:12");
   await dici(D.NASTRO_VECCHIO.righe, false);
-  if (S.schermo === "nastro") vaiScrivania();
+  if (S.schermo === "nastro") tornaDaiNastri();
 }
 
 // ---------- la notte ----------
@@ -1906,7 +1966,8 @@ function ricomincia() {
   foglio.dataset.bloccato = "0";
   foglio.hidden = true;
   R.play = null;
-  vaiScrivania();
+  if (stanza) vaiStanza("inizio");
+  else vaiScrivania();
   introduzione();
 }
 
@@ -1914,7 +1975,8 @@ async function introduzione() {
   if (S.intro) return;
   S.intro = true;
   await dici([[null, "Giorno 1. La ditta ti ha mandato in paese ieri sera."],
-    [null, "Il fax con il protocollo è arrivato a mezzogiorno."]], false, false);
+    [null, "Il fax con il protocollo è arrivato a mezzogiorno."],
+    ...(stanza ? [[null, "È sulla scrivania, sotto la finestra."]] : [])], false, false);
 }
 
 // ---------- puntatore, tastiera ----------
@@ -2029,6 +2091,25 @@ $("#schermo-intero").addEventListener("click", async () => {
 
 // ---------- avvio ----------
 
+// la stanza 3D si carica a parte: se manca WebGL 2 o qualcosa non arriva, si gioca dalla scrivania in 2D
+async function caricaStanza() {
+  if (!vhs) return;
+  try {
+    const { Stanza } = await import("./stanza.js");
+    if (!Stanza.disponibile()) return;
+    parole.scrivi(null, "Carico la stanza…", { lato: "sotto" }, {}, { veloce: true });
+    const s = new Stanza(schermo);
+    await s.carica();
+    s.onUsa = (id) => usaStanza(id);
+    s.onSopra = (nome) => mostraEtichetta(nome);
+    s.puoi = () => S.schermo === "stanza" && !R.occupato && foglio.hidden && !parole.occupata();
+    stanza = s;
+  } catch (err) {
+    console.warn("Stanza 3D non disponibile:", err);
+    stanza = null;
+  }
+}
+
 async function avvia(dati) {
   parole.scrivi(null, "Carico i nastri…", { lato: "sotto" }, {}, { veloce: true });
   try {
@@ -2053,14 +2134,19 @@ async function avvia(dati) {
   m.height = IMG.mappa.naturalHeight;
   R.mctx = m.getContext("2d");
   R.mappa = m;
+  await caricaStanza();
   parole.pulisci();
   if (dati && dati.S) S = Object.assign(nuovoStato(), dati.S);
   if (S.schermo === "visita" && S.casa && S.luogo) vaiLuogo(S.luogo);
   else if (S.schermo === "mappa") vaiMappa();
-  else vaiScrivania();
+  else if (S.schermo === "scrivania") vaiScrivania();
+  else vaiStanza("inizio");
   precaricaPrimi();
   introduzione();
 }
+
+// per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
+if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, sera, stanza: () => stanza };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);

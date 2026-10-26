@@ -73,8 +73,17 @@ def run(job, key, out, base):
     # i modelli di segmentazione restituiscono anche una maschera per ogni oggetto trovato
     named = [(f"{job['nome']}{'' if i == 0 else f'_{i + 1}'}", im) for i, im in enumerate(images)]
     named += [(f"{job['nome']}_maschera{i + 1}", m) for i, m in enumerate(res.get("masks") or [])]
+    # i modelli da immagine a 3D restituiscono un GLB (e un'anteprima)
+    glb = res.get("model_glb") or (res.get("model_urls") or {}).get("glb") or res.get("model_mesh")
+    if glb:
+        named.append((job["nome"], {**glb, "content_type": "model/glb"}))
+    anteprima = res.get("rendered_image") or res.get("thumbnail")
+    if glb and anteprima:
+        named.append((f"{job['nome']}_anteprima", anteprima))
     for name, img in named:
         ext = (img.get("content_type") or "image/png").split("/")[-1].replace("jpeg", "jpg")
+        if ext not in ("glb", "png", "jpg", "webp"):
+            ext = pathlib.PurePosixPath(img.get("file_name") or img["url"]).suffix.lstrip(".") or "bin"
         dest = out / f"{name}.{ext}"
         urllib.request.urlretrieve(img["url"], dest)
         files.append(dest.name)

@@ -1,0 +1,107 @@
+[
+ {
+  "nome": "sedia",
+  "modello": "tripo3d/h3.1/image-to-3d",
+  "input": {
+   "image_url": "@file:sedia_foto.jpg",
+   "texture": true,
+   "pbr": false,
+   "face_limit": 6000,
+   "auto_size": true
+  }
+ },
+ {
+  "nome": "lampada",
+  "modello": "tripo3d/h3.1/image-to-3d",
+  "input": {
+   "image_url": "@file:lampada_foto.jpg",
+   "texture": true,
+   "pbr": false,
+   "face_limit": 4000,
+   "auto_size": true
+  }
+ },
+ {
+  "nome": "fax",
+  "modello": "tripo3d/h3.1/image-to-3d",
+  "input": {
+   "image_url": "@file:fax_foto.jpg",
+   "texture": true,
+   "pbr": false,
+   "face_limit": 6000,
+   "auto_size": true
+  }
+ },
+ {
+  "nome": "televisore",
+  "modello": "tripo3d/h3.1/image-to-3d",
+  "input": {
+   "image_url": "@file:televisore_foto.jpg",
+   "texture": true,
+   "pbr": false,
+   "face_limit": 5000,
+   "auto_size": true
+  }
+ },
+ {
+  "nome": "cappotto",
+  "modello": "tripo3d/h3.1/image-to-3d",
+  "input": {
+   "image_url": "@file:cappotto_foto.jpg",
+   "texture": true,
+   "pbr": false,
+   "face_limit": 8000,
+   "auto_size": true
+  }
+ },
+ {
+  "nome": "borsa",
+  "modello": "tripo3d/h3.1/image-to-3d",
+  "input": {
+   "image_url": "@file:borsa_foto.jpg",
+   "texture": true,
+   "pbr": false,
+   "face_limit": 5000,
+   "auto_size": true
+  }
+ },
+ {
+  "nome": "termosifone",
+  "modello": "tripo3d/h3.1/image-to-3d",
+  "input": {
+   "image_url": "@file:termosifone_foto.jpg",
+   "texture": true,
+   "pbr": false,
+   "face_limit": 5000,
+   "auto_size": true
+  }
+ },
+ {
+  "nome": "maschera",
+  "modello": "tripo3d/h3.1/image-to-3d",
+  "input": {
+   "image_url": "@file:maschera_foto.jpg",
+   "texture": true,
+   "pbr": false,
+   "face_limit": 12000,
+   "auto_size": true
+  }
+ },
+ {
+  "nome": "finestra_chiusa",
+  "modello": "openai/gpt-image-2/edit",
+  "input": {
+   "prompt": "Lower the grey plastic roller shutter completely, so it covers the whole glass of the window from top to bottom behind the panes, with only a few thin slits of dim light between the slats. Keep the wooden frame, the handle, the shutter box and everything else exactly identical, same framing and size.",
+   "image_urls": [
+    "@file:finestra.jpg"
+   ],
+   "image_size": {
+    "width": 1024,
+    "height": 1104
+   },
+   "quality": "medium",
+   "num_images": 1,
+   "output_format": "jpeg"
+  }
+ }
+]
