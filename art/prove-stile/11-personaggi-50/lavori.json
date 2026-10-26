@@ -1,0 +1,16 @@
+[
+  {
+    "nome": "personaggi_foto_allineati",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render only the two people and the black leather gloved hand holding the cane as realistic photographs: real skin with pores, real hair, real fabric and real leather, photographic lighting. Keep exactly their grotesque, deformed features from this image: the same bulging eyes, big ears, long nose, wide grin with crooked teeth, sunken cheeks, bony elongated fingers, and the same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do not make them look more normal. Everything else in the image stays exactly identical.",
+      "image_urls": [
+        "@file:../06-cucina/07_fumetto_underground_completa.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  }
+]

@@ -65,6 +65,8 @@ Il medico visita le case. Le famiglie spesso nascondono un malato, o non sanno d
 
 Attenzione: i modelli a volte inventano dettagli (per esempio una faccia nel televisore). Si guardano sempre i risultati e si rigenera chiedendo di non aggiungerli.
 
+Personaggi sotto il 100% (per esempio al 50%): serve una versione fotografica degli stessi personaggi, con le stesse deformità e le stesse sagome, da mescolare con quella disegnata (`intensita_personaggi` e `personaggi_originale` in `tools/intensita.py`). Si fa con Nano Banana Pro passando anche il riferimento del personaggio; senza, le deformità si ammorbidiscono e i vestiti cambiano.
+
 ### Coerenza dei personaggi (`art/prove-stile/10-coerenza`)
 
 Prova sul padre della cucina, nello stile scelto e con il VHS.
@@ -94,6 +96,7 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 - `08-filtri`: le combinazioni approvate 02 e 04 con sette filtri finali: verde, verde acido, verde retinato, verde con il rosso, VHS, VHS verde, fotocopia.
 - `09-vhs-animato`: anteprima del VHS animato in tempo reale, con intensità regolabile.
 - `10-coerenza`: lo stesso personaggio in più stati e inquadrature (vedi sopra).
+- `11-personaggi-50`: la cucina con i personaggi al 50% (metà foto, metà disegno) e il VHS: `a_mescolati_50_vhs.jpg`. Da giudicare. C'è anche una seconda strada, i personaggi ridisegnati direttamente "a metà" (`b_meta_disegnati.jpg`), che però resta più vicina al 100%.
 
 Questionario delle combinazioni della cucina (06 e 07), con i voti salvati: https://claude.ai/artifact/3TEf1Gyxsk5XU5saPN3K6r
 - **Approvate:** 01 (linoleografia, stanza 20% e personaggi 100%), 02 (fumetto, stanza 20% e personaggi 100%), 04 (stanza in linoleografia all'80%, personaggi in fumetto al 100%), 10 (la 04 come schermata di gioco, con trattamento leggero e interfaccia).
@@ -119,7 +122,7 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
   - **SAM 3** (`fal-ai/sam-3/image`): maschere dei personaggi da un testo ("person").
   - **BiRefNet v2** (`fal-ai/birefnet/v2`): ritaglio di una figura su fondo neutro.
   - **Flux 2 Max**: scartato, resa inferiore.
-- Spesa per tutte le prove: circa 13 dollari.
+- Spesa per tutte le prove: circa 13,5 dollari.
 - Steam chiede di dichiarare sulla pagina del gioco i contenuti generati con l'AI.
 
 ### 3D

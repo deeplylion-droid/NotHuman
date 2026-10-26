@@ -1,0 +1,13 @@
+{
+  "stile": "personaggi_meta_disegnati.jpg",
+  "sfondo": "../06-cucina/cucina_semplice.jpg",
+  "sfondo_stile": "../06-cucina/sfondi_stile/07_fumetto_underground.jpg",
+  "intensita_sfondo": 0.2,
+  "maschere": [
+    "maschere/meta_persone_maschera1.png",
+    "maschere/meta_persone_maschera2.png",
+    "maschere/meta_persone_maschera3.png",
+    "maschere/meta_bastone_maschera1.png"
+  ],
+  "uscita": "b_meta_disegnati.jpg"
+}

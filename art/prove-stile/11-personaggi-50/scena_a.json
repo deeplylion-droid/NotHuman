@@ -1,0 +1,15 @@
+{
+  "stile": "../06-cucina/07_fumetto_underground_completa.jpg",
+  "personaggi_originale": "personaggi_foto_allineati_v2.jpg",
+  "intensita_personaggi": 0.5,
+  "sfondo": "../06-cucina/cucina_semplice.jpg",
+  "sfondo_stile": "../06-cucina/sfondi_stile/07_fumetto_underground.jpg",
+  "intensita_sfondo": 0.2,
+  "maschere": [
+    "../06-cucina/maschere/07_fumetto_underground_persone_maschera1.png",
+    "../06-cucina/maschere/07_fumetto_underground_persone_maschera2.png",
+    "../06-cucina/maschere/07_fumetto_underground_persone_maschera3.png",
+    "../06-cucina/maschere/07_fumetto_underground_bastone_maschera1.png"
+  ],
+  "uscita": "a_mescolati_50.jpg"
+}

@@ -1,0 +1,42 @@
+{
+  "meta_bastone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:personaggi_meta_disegnati.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "meta_bastone.png",
+      "meta_bastone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "meta_persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:personaggi_meta_disegnati.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 4,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "meta_persone.png",
+      "meta_persone_maschera1.png",
+      "meta_persone_maschera2.png",
+      "meta_persone_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 8,
+    "descrizione": null
+  }
+}

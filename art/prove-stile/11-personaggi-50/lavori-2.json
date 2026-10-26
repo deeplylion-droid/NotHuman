@@ -1,0 +1,32 @@
+[
+  {
+    "nome": "personaggi_foto_allineati_v2",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Image 1 is a comic-style scene; image 2 shows the man standing in its foreground. Re-render only the people and the black leather gloved hand holding the cane in image 1 as realistic photographs (real skin with pores, real hair, real fabric and leather, photographic lighting), as if these grotesque creatures were real. The man must keep exactly his deformed face from image 2: enormous bulging yellow eyes, oversized pointed ears, long hooked reddish nose, wide grin with long crooked yellow teeth, sunken cheeks, messy hair. The girl keeps her deformed face with huge staring eyes, her brown hoodie and her striped pyjama trousers. Same proportions, silhouettes, poses and positions, pixel for pixel. Do not make anyone look more normal. Everything else in image 1 stays exactly identical.",
+      "image_urls": [
+        "@file:../06-cucina/07_fumetto_underground_completa.jpg",
+        "@file:../10-coerenza/padre_riferimento.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "personaggi_meta_disegnati",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Image 1 is a comic-style scene; image 2 shows the man standing in its foreground. Re-render only the people and the black leather gloved hand holding the cane in image 1 halfway between the comic drawing and a photograph: realistic photographic skin, hair, fabric and leather textures and lighting, with the black ink outlines and crosshatching of the drawing still visible at about half strength on top. The man must keep exactly his deformed face from image 2: enormous bulging yellow eyes, oversized pointed ears, long hooked reddish nose, wide grin with long crooked yellow teeth, sunken cheeks, messy hair. The girl keeps her deformed face with huge staring eyes, her brown hoodie and her striped pyjama trousers. Same proportions, silhouettes, poses and positions, pixel for pixel. Do not make anyone look more normal. Everything else in image 1 stays exactly identical.",
+      "image_urls": [
+        "@file:../06-cucina/07_fumetto_underground_completa.jpg",
+        "@file:../10-coerenza/padre_riferimento.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  }
+]
