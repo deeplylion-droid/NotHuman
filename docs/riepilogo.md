@@ -1,6 +1,6 @@
 # Riepilogo del progetto
 
-Ultimo aggiornamento: 25 ottobre 2026.
+Ultimo aggiornamento: 26 ottobre 2026.
 
 ## Obiettivo
 
@@ -16,8 +16,9 @@ Un gioco originale da vendere su Steam, nel filone dei giochi di ispezione e par
   - **Stanza:** foto con lo stile 07 fumetto underground al 20%, come nella combinazione 02 (`art/prove-stile/06-cucina`).
   - **Personaggi grotteschi ma ammorbiditi, quasi fotografici** (scelta del 26 ottobre): `art/prove-stile/11-personaggi-50/c_ammorbiditi_sfondo20.jpg`. Hanno preso il posto dei personaggi a fumetto al 100%. Metodo in "Personaggi ammorbiditi".
   - **Filtro finale: VHS** per le scene normali e **VHS verde** per le scene al buio (`art/prove-stile/08-filtri`, `tools/filtri.py`). Se il VHS dà fastidio, si attenua.
+  - **Variante da valutare: VHS infrarosso** (26 ottobre), rosso tendente al rosa, più scuro e più tenue del verde. Confronto sulle due stanze: `art/scene/foglio_scene_filtri.jpg`.
   - **Il VHS sarà animato**, calcolato in tempo reale (uno shader): grana e tremolio delle righe a ogni fotogramma, una banda di disturbo che sale lentamente, il rumore della testina in fondo, uno strappo ogni tanto, e uno strappo più forte quando si passa alla scena al buio. Anteprima con intensità regolabile: https://claude.ai/artifact/RU45gcnW8J3ttttUTSde2R (copia in `art/prove-stile/09-vhs-animato`; lo shader WebGL è la base per quello del gioco).
-  - La mano e il bastone del medico seguono i personaggi.
+- **Per ora niente mano e bastone del medico sullo schermo** (26 ottobre): non piacciono. Le scene si fanno senza (`"mano": false` in `scena.json`, il valore di base).
 - **Regola per le stanze:** partire sempre da stanze con pochi dettagli (muri lisci, pochi oggetti), altrimenti i personaggi si perdono.
 - **Grafica generata con l'AI**, montata a strati come in NINAH. Niente fotogrammi "da film".
 
@@ -69,27 +70,29 @@ Attenzione: i modelli a volte inventano dettagli (per esempio una faccia nel tel
 ### Personaggi ammorbiditi (il metodo scelto)
 
 **Tutto il procedimento è automatico in `tools/scena.py`**: si scrive la descrizione della scena in `scena.json` (stanza, persone, pose, oggetti; esempio in `art/scene/02-soggiorno/scena.json`) e lo script fa i passaggi:
-1. **Foto di partenza** (GPT Image 2): stanza con pochi dettagli, persone, mano del medico in primo piano.
+1. **Foto di partenza** (GPT Image 2): stanza con pochi dettagli e persone; la mano del medico in primo piano solo con `"mano": true`.
 2. **Fumetto** (GPT Image 2): la scena ridisegnata nello stile 07, personaggi deformi.
-3. **Personaggi ammorbiditi** (Nano Banana Pro): rifà in foto solo personaggi e mano, lasciando il resto com'è e **senza** passare un riferimento a fumetto: le deformità si ammorbidiscono, ed è proprio l'effetto voluto.
-4. **Stanza nello stile** (Nano Banana Pro): il fumetto senza persone né mano.
+3. **Personaggi ammorbiditi** (Nano Banana Pro): rifà in foto solo i personaggi (e la mano, se c'è), lasciando il resto com'è e **senza** passare un riferimento a fumetto: le deformità si ammorbidiscono, ed è proprio l'effetto voluto.
+4. **Stanza nello stile** (Nano Banana Pro): il fumetto senza persone (né mano).
 5. **Stanza in foto** (Nano Banana Pro): la stanza nello stile rifatta in foto. Le due stanze vuote vengono dal fumetto e non dalla foto di partenza, perché GPT ridisegnando sposta un po' l'inquadratura: così stanza e personaggi combaciano sempre.
-6. **Maschere** (SAM 3): persone, bastone e guanto, dalla versione con i personaggi ammorbiditi.
-7. **Montaggio** (`tools/intensita.py`): personaggi sulla stanza al 20%.
-8. **Filtri** (`tools/filtri.py`): VHS e VHS verde.
+6. **Maschere** (SAM 3): persone e bastoni (quelli delle persone, per esempio della nonna), più il guanto se c'è la mano. Con `"ritagli"` in `scena.json` si sceglie cosa ritagliare.
+7. **Montaggio** (`tools/intensita.py`): personaggi sulla stanza al 20%. Con `"escludi_maschere"` si toglie qualcosa dalla scena senza rigenerarla (così è stata tolta la mano dal soggiorno).
+8. **Filtri** (`tools/filtri.py`): VHS, VHS verde e VHS infrarosso.
 
 Costa circa 1 dollaro a scena. Ogni passaggio salta se il suo file esiste già: per rifarne uno basta cancellarlo.
 
-La cucina (scena 01) è stata fatta a mano prima dello script, con gli stessi passaggi: `art/prove-stile/11-personaggi-50` (montaggio in `scena_c.json`). D'ora in poi il riferimento del padre per gli altri stati e inquadrature è `art/prove-stile/11-personaggi-50/padre_riferimento_ammorbidito.jpg`.
+La cucina (scena 01) è stata fatta a mano prima dello script, con gli stessi passaggi: le immagini sono in `art/prove-stile/11-personaggi-50`, il montaggio senza mano in `art/scene/01-cucina/montaggio.json`. D'ora in poi il riferimento del padre per gli altri stati e inquadrature è `art/prove-stile/11-personaggi-50/padre_riferimento_ammorbidito.jpg`.
 
 Mescolare i personaggi a un'intensità intermedia (per esempio 50% foto e 50% fumetto) funziona solo se le due versioni hanno le stesse sagome e le stesse facce, altrimenti si vedono due paia di occhi (`intensita_personaggi` e `personaggi_originale` in `tools/intensita.py`).
 
 ### Scene fatte
 
-- **01 Cucina** (`art/prove-stile/11-personaggi-50`): il padre e la figlia; quattro piatti in tavola, una porta socchiusa su un corridoio buio.
-- **02 Soggiorno** (`art/scene/02-soggiorno`): una nonna col bastone, una giovane donna pallida e un uomo in tuta davanti a una porta chiusa; dietro la porta nascondono qualcuno. Nella foto di partenza il bastone del medico è venuto col manico ricurvo, diverso da quello della cucina.
+Ogni scena ha `finale.jpg` (senza filtro), `finale_vhs.jpg`, `finale_vhs_verde.jpg` e `finale_vhs_infrarosso.jpg`, tutte senza la mano del medico. Confronto dei filtri: `art/scene/foglio_scene_filtri.jpg`.
 
-Idea emersa: nel gioco la mano del medico col bastone dovrebbe essere un elemento fisso, disegnato una volta sola e uguale in tutte le scene (come l'arma in NINAH), non generata ogni volta con la scena.
+- **01 Cucina** (`art/scene/01-cucina`): il padre e la figlia; quattro piatti in tavola, una porta socchiusa su un corridoio buio.
+- **02 Soggiorno** (`art/scene/02-soggiorno`): una nonna col bastone, una giovane donna pallida e un uomo in tuta davanti a una porta chiusa; dietro la porta nascondono qualcuno.
+
+Se un giorno la mano del medico tornerà sullo schermo, conviene che sia un elemento fisso, disegnato una volta sola e uguale in tutte le scene (come l'arma in NINAH), non generata ogni volta con la scena: nel soggiorno il bastone era venuto col manico ricurvo, diverso da quello della cucina.
 
 ### Coerenza dei personaggi (`art/prove-stile/10-coerenza`)
 
@@ -139,7 +142,7 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 - `tools/fal_batch.py`: genera immagini su fal.ai da un file di lavori JSON; passa immagini locali con `@file:` e salva anche le maschere dei modelli di segmentazione.
 - `tools/schermata.py`: monta una schermata a strati; con un "trattamento" applica la resa unica, senza fa solo il montaggio.
 - `tools/intensita.py`: applica lo stile con intensità diverse a sfondo e personaggi; con "buio" fa sprofondare la stanza nel buio fuori da un cono di luce.
-- `tools/filtri.py`: filtri finali per rendere omogenee immagini di stili diversi (verdi, VHS, fotocopia). Non usa l'AI, quindi non costa niente.
+- `tools/filtri.py`: filtri finali per rendere omogenee immagini di stili diversi (verdi, infrarosso, VHS, fotocopia). Non usa l'AI, quindi non costa niente.
 - Servizio: **fal.ai**. La chiave si legge da `FAL_KEY` (impostazioni dell'ambiente cloud) o da `~/.config/fal/key`; mai nel repo.
 - Modelli:
   - **GPT Image 2** (`openai/gpt-image-2`, `/edit`): il migliore per scene nuove e trasformazioni di stile. Non fa sfondi trasparenti, e il filtro dei contenuti blocca parole come "soldato ferito" o "insanguinato", e anche i bambini in una scena horror: nelle scene niente bambini.
@@ -186,7 +189,7 @@ NINAH è quasi tutto 2D. Per ora bastano sfondi 2D generati; il 3D servirebbe so
 
 ## Prossimi passi
 
-1. La mano del medico col bastone come elemento fisso, uguale in tutte le scene.
+1. Decidere se tenere il VHS infrarosso, al posto del verde o accanto.
 2. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
 3. Schermata completa nello stile scelto (personaggi ammorbiditi, VHS): interfaccia e riquadro del dettaglio esaminato.
 4. Prototipo giocabile del ciclo base (motore proposto: Godot 4).

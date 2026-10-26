@@ -5,12 +5,9 @@
   "intensita_sfondo": 0.2,
   "maschere": [
     "maschere/bastone_maschera1.png",
-    "maschere/bastone_maschera2.png",
-    "maschere/guanto_maschera1.png",
     "maschere/persone_maschera1.png",
     "maschere/persone_maschera2.png",
-    "maschere/persone_maschera3.png",
-    "maschere/persone_maschera4.png"
+    "maschere/persone_maschera3.png"
   ],
   "allarga": 3,
   "sfuma": 1.2,

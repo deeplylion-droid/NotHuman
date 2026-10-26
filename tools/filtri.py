@@ -12,6 +12,8 @@ Filtri:
 - vhs: videocassetta (crominanza sbavata, righe, disturbi, banda di tracking,
   scritte del videoregistratore);
 - vhs_verde: il verde con i difetti della videocassetta;
+- infrarosso: come il verde, ma rosso tendente al rosa, piu' scuro e piu' tenue;
+- vhs_infrarosso: l'infrarosso con i difetti della videocassetta;
 - fotocopia: bianco e nero sporco da fotocopiatrice.
 """
 import pathlib
@@ -72,6 +74,17 @@ def verde(a):
     g = gradient_map(l, GREEN)
     g = bloom(g, 0.55, 0.35, 16)
     return grain(vignette(g, 0.65), 0.03, 1)
+
+
+INFRARED = [(6, 2, 4), (34, 10, 17), (84, 30, 44), (150, 80, 94), (214, 162, 172)]
+
+
+def infrarosso(a):
+    # contrasto piu' basso (tenue) e mezzitoni spinti verso il basso (piu' scuro del verde)
+    l = np.clip((lum(a) - 0.5) * 1.0 + 0.5, 0, 1) ** 1.25
+    g = gradient_map(l, INFRARED)
+    g = bloom(g, 0.6, 0.2, 16)
+    return grain(vignette(g, 0.75), 0.03, 4)
 
 
 def verde_acido(a):
@@ -144,6 +157,10 @@ def vhs_verde(a):
     return osd(vhs_artifacts(verde(a), False, 5), (196, 248, 224))
 
 
+def vhs_infrarosso(a):
+    return osd(vhs_artifacts(infrarosso(a), False, 6), (232, 186, 194))
+
+
 def fotocopia(a, seed=7):
     rng = np.random.default_rng(seed)
     h, w = a.shape[:2]
@@ -166,7 +183,8 @@ def fotocopia(a, seed=7):
 
 
 FILTERS = {"verde": verde, "verde_acido": verde_acido, "verde_retinato": verde_retinato, "verde_rosso": verde_rosso,
-           "vhs": vhs, "vhs_verde": vhs_verde, "fotocopia": fotocopia}
+           "vhs": vhs, "vhs_verde": vhs_verde, "infrarosso": infrarosso, "vhs_infrarosso": vhs_infrarosso,
+           "fotocopia": fotocopia}
 
 
 def main():
