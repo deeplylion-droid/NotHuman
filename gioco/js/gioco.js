@@ -26,6 +26,8 @@ const zoneBox = $("#zone");
 const etichetta = $("#etichetta");
 const cursore = $("#cursore");
 const hud = $("#hud");
+const comparsa = $("#comparsa");
+const aiutoBox = $("#aiuto");
 const didascalia = $("#didascalia");
 const avviso = $("#avviso");
 const comandi = $("#comandi");
@@ -306,6 +308,7 @@ function pulisci() {
   schedaCasa.hidden = true;
   delete schedaCasa.dataset.x;
   hud.replaceChildren();
+  aiuto(null);
   comandi.replaceChildren();
   comandi.hidden = true;
   didascalia.hidden = true;
@@ -317,6 +320,51 @@ function pulisci() {
   if (vhs) vhs.prima = null;
   schermo.dataset.schermo = S.schermo;
 }
+
+// ---------- le icone a comparsa: i comandi del medico in basso a destra e il suggerimento in basso a sinistra.
+// Compaiono quando si muove il puntatore sullo schermo o lo si tocca (e per qualche secondo a ogni schermata
+// nuova), poi spariscono e lasciano libera l'immagine della videocamera ----------
+
+let comparsaTimer = 0;
+const tocco = () => matchMedia("(pointer: coarse)").matches;
+
+function mostraComparsa(ms = tocco() ? 4000 : 2600) {
+  schermo.dataset.comparsa = "1";
+  clearTimeout(comparsaTimer);
+  comparsaTimer = setTimeout(nascondiComparsa, ms);
+}
+
+function nascondiComparsa() {
+  // non sparisce mentre il puntatore e' sopra un'icona o una e' selezionata dalla tastiera
+  if (comparsa.matches(":hover, :focus-within")) { comparsaTimer = setTimeout(nascondiComparsa, 1200); return; }
+  delete schermo.dataset.comparsa;
+}
+
+// un comando: l'icona, col nome che compare passandoci sopra (col dito e' sempre accanto)
+function tasto(testo, azione, ic, forte = false) {
+  const b = el("button", forte ? "tasto forte" : "tasto");
+  b.type = "button";
+  b.setAttribute("aria-label", testo);
+  b.insertAdjacentHTML("beforeend", icona(ic));
+  b.append(el("span", "tasto-nome", testo));
+  b.addEventListener("click", (e) => { e.stopPropagation(); azione(); });
+  return b;
+}
+
+// i comandi di questa schermata (lo schermo intero c'e' sempre, a destra)
+function tasti(...lista) {
+  hud.replaceChildren(...lista);
+  mostraComparsa(3500);
+}
+
+function aiuto(testo) {
+  aiutoBox.textContent = testo || "";
+}
+
+schermo.addEventListener("pointermove", (e) => { if (e.pointerType === "mouse") mostraComparsa(); });
+schermo.addEventListener("pointerdown", () => mostraComparsa());
+// premere su un'icona non e' un clic sulla scena (ne' l'inizio di uno sguardo attorno nella stanza 3D)
+comparsa.addEventListener("pointerdown", (e) => e.stopPropagation());
 
 function bottone(testo, azione, cls = "", ic = null) {
   const b = el("button", cls);
@@ -500,10 +548,10 @@ function vaiScrivania() {
   }
   mostra(IMG.scrivania);
   for (const z of D.SCRIVANIA) zoneBox.append(zonaHtml(z, () => azioneScrivania(z.id)));
-  if (stanza) hud.append(bottone("Alzati", () => vaiStanza("scrivania"), "hud-b", "su"));
-  hud.append(el("span", "suggerimento", S.fase === "sera"
+  tasti(...(stanza ? [tasto("Alzati", () => vaiStanza("scrivania"), "su")] : []));
+  aiuto(S.fase === "sera"
     ? "Sera. Rivedi i nastri al videoregistratore, poi spegni la lampada."
-    : "Leggi il fax, poi prendi la maschera ed esci."));
+    : "Leggi il fax, poi prendi la maschera ed esci.");
   aggiornaHud();
 }
 
@@ -528,11 +576,11 @@ function vaiStanza(dove = "inizio") {
   stanza.entra(dove);
   mostra(stanza.canvas, IMG.scrivania.src);
   vhs.prima = (dt) => { stanza.passo(dt); vhs.refresh(); };
-  const tocco = matchMedia("(pointer: coarse)").matches;
-  hud.append(el("span", "suggerimento", S.fase === "sera"
+  tasti();
+  aiuto(S.fase === "sera"
     ? "Sera. I nastri sono nel videoregistratore; poi a letto."
-    : tocco ? "Trascina per guardarti attorno, tocca dove andare o cosa usare."
-      : "Trascina per guardarti attorno, clicca dove andare o cosa usare. Si cammina anche con WASD."));
+    : tocco() ? "Trascina per guardarti attorno, tocca dove andare o cosa usare."
+      : "Trascina per guardarti attorno, clicca dove andare o cosa usare. Si cammina anche con WASD.");
   aggiornaHud();
 }
 
@@ -761,9 +809,9 @@ function vaiMappa() {
   }
   posizionaSpilli();
   const visite = Object.keys(S.visitate).length;
-  hud.append(el("span", "suggerimento", "Tocca la mappa per ingrandire"),
-    bottone(visite ? "Torna in stanza · finisce la giornata" : stanza ? "Torna in stanza" : "Torna alla scrivania",
-      () => (visite ? sera() : stanza ? vaiStanza("porta") : vaiScrivania()), "hud-b", stanza ? "casa" : "indietro"));
+  aiuto("Tocca la mappa per ingrandire");
+  tasti(tasto(visite ? "Torna in stanza · finisce la giornata" : stanza ? "Torna in stanza" : "Torna alla scrivania",
+    () => (visite ? sera() : stanza ? vaiStanza("porta") : vaiScrivania()), stanza ? "casa" : "indietro"));
   mostraIndicatori("mappa");
   aggiornaHud();
 }
@@ -1046,10 +1094,9 @@ async function vaiLuogo(luogo) {
 }
 
 function hudVisita() {
-  hud.replaceChildren();
-  if (S.luogo === "camera") hud.append(bottone("Torna in cucina", () => tornaCucina(), "hud-b", "indietro"));
-  hud.append(bottone("Stato di famiglia", () => apriStato(S.casa), "hud-b", "foglio"),
-    bottone("Concludi la visita", () => apriStato(S.casa, { firma: true }), "hud-b forte", "firma"));
+  tasti(...(S.luogo === "camera" ? [tasto("Torna in cucina", () => tornaCucina(), "indietro")] : []),
+    tasto("Stato di famiglia", () => apriStato(S.casa), "foglio"),
+    tasto("Concludi la visita", () => apriStato(S.casa, { firma: true }), "firma", true));
 }
 
 async function tornaCucina() {
@@ -1143,7 +1190,7 @@ async function esamina(persona, parte) {
   S.esami[`${persona}_${parte}`] = true;
   didascalia.textContent = `${maiuscolo(D.PARTI[parte])} · ${maiuscolo(D.PERSONE[persona].nome)}`;
   didascalia.hidden = false;
-  hud.replaceChildren(bottone("Torna alla stanza", chiudiPrimo, "hud-b forte", "indietro"));
+  tasti(tasto("Torna alla stanza", chiudiPrimo, "indietro", true));
   nuovaRipresa({ tipo: "primo", persona, parte });
   R.occupato = false;
   await dici(e.dice);
@@ -2182,7 +2229,21 @@ striscia.onTocco = (f) => {
   scegliFrase(f);
 };
 
-$("#schermo-intero").addEventListener("click", async () => {
+// lo schermo intero, l'ultima icona a destra; dove non si puo' (per esempio sull'iPhone) non c'e'
+const tastoIntero = $("#schermo-intero");
+function iconaIntero() {
+  const dentro = !!document.fullscreenElement;
+  const nome = dentro ? "Esci dallo schermo intero" : "Schermo intero";
+  tastoIntero.querySelector(".pix")?.remove();
+  tastoIntero.insertAdjacentHTML("afterbegin", icona(dentro ? "ridotto" : "intero"));
+  tastoIntero.setAttribute("aria-label", nome);
+  tastoIntero.querySelector(".tasto-nome").textContent = nome;
+}
+tastoIntero.hidden = !document.fullscreenEnabled;
+iconaIntero();
+document.addEventListener("fullscreenchange", iconaIntero);
+tastoIntero.addEventListener("click", async (e) => {
+  e.stopPropagation();
   try {
     if (document.fullscreenElement) await document.exitFullscreen();
     else await $("#app").requestFullscreen();

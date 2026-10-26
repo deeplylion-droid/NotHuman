@@ -49,7 +49,7 @@
 
   #schermo {
     position: relative;
-    width: min(100%, calc((100dvh - 64px) * 16 / 9));
+    width: min(100%, calc((100dvh - 20px) * 16 / 9));
     max-width: 100%;
     aspect-ratio: 16 / 9;
     background: #000;
@@ -224,15 +224,29 @@
   .sc-azioni .sc-vai { color: #b4302a; border-color: #b4302a; font-weight: 600; }
   .sc-azioni button:hover, .sc-azioni button:focus-visible { background: rgba(40, 30, 20, 0.08); outline: none; }
 
-  /* i comandi del medico, sotto lo schermo: l'immagine della videocamera resta libera */
-  #hud { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; min-width: 0; }
-  #hud .hud-b { display: inline-flex; align-items: center; gap: 0.6em; font-family: var(--gioco); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; color: var(--testo); background: #191c1a; border: 2px solid rgba(236, 232, 220, 0.5); padding: 8px 12px 7px; box-shadow: 0 3px 0 #000; }
-  #hud .hud-b .pix { width: 1.2em; height: 1.2em; }
-  #hud .hud-b.forte { border-color: var(--giallo); color: var(--giallo); }
-  #hud .hud-b:hover, #hud .hud-b:focus-visible { border-color: var(--giallo); color: var(--giallo); outline: none; transform: translateY(-1px); box-shadow: 0 4px 0 #000; }
-  #hud .hud-b:active { transform: translateY(2px); box-shadow: 0 1px 0 #000; }
-  #hud .suggerimento { display: inline-flex; align-items: baseline; gap: 0.5em; font-family: var(--vcr); font-size: 1.05rem; color: var(--spento); }
-  #hud .suggerimento::before { content: "▸"; color: var(--giallo); }
+  /* i comandi del medico: icone a comparsa in basso a destra (nelle visite sopra il nastro delle frasi), e il
+     suggerimento in basso a sinistra. Compaiono quando si muove il puntatore o si tocca lo schermo, poi spariscono */
+  #schermo[data-schermo="visita"] { --sopra: 11.4cqw; }
+  #comparsa { position: absolute; right: 2.4cqw; bottom: var(--sopra, 2.2cqw); z-index: 12; display: flex; align-items: flex-end; gap: 0.8cqw; opacity: 0; transform: translateY(0.6cqw); transition: opacity 0.25s, transform 0.25s; pointer-events: none; }
+  #hud { display: flex; align-items: flex-end; gap: 0.8cqw; }
+  #schermo[data-comparsa="1"] #comparsa, #comparsa:focus-within { opacity: 1; transform: none; pointer-events: auto; }
+  .tasto { position: relative; display: grid; place-items: center; width: max(34px, 3.6cqw); height: max(34px, 3.6cqw); padding: 0; color: var(--testo); background: rgba(14, 16, 15, 0.84); border: 2px solid rgba(236, 232, 220, 0.55); box-shadow: 0 3px 0 #000; }
+  .tasto .pix { width: 56%; height: 56%; }
+  .tasto.forte { color: var(--giallo); border-color: var(--giallo); }
+  .tasto:hover, .tasto:focus-visible { border-color: var(--giallo); color: var(--giallo); outline: none; transform: translateY(-1px); box-shadow: 0 4px 0 #000; }
+  .tasto:active { transform: translateY(2px); box-shadow: 0 1px 0 #000; }
+  .tasto-nome { position: absolute; right: 0; bottom: calc(100% + 0.9cqw); font-family: var(--gioco); font-size: max(10px, 1.2cqw); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1; white-space: nowrap; color: #f0f0ec; text-shadow: 0 0 2px #000, 0.14cqw 0.14cqw 0 #000, 0 0 0.8cqw rgba(0, 0, 0, 0.9); opacity: 0; pointer-events: none; transition: opacity 0.15s; }
+  .tasto:hover .tasto-nome, .tasto:focus-visible .tasto-nome { opacity: 1; }
+  /* col dito non c'e' il passaggio sopra: le icone si mettono in colonna, ognuna col suo nome accanto */
+  @media (pointer: coarse) {
+    #comparsa, #hud { flex-direction: column; align-items: flex-end; }
+    .tasto-nome { opacity: 1; right: calc(100% + 0.7em); bottom: auto; top: 50%; transform: translateY(-50%); }
+  }
+  #aiuto { position: absolute; left: 2.4cqw; bottom: 2.2cqw; max-width: 58%; z-index: 7; display: flex; align-items: baseline; gap: 0.5em; font-family: var(--vcr); font-size: max(14px, 1.9cqw); line-height: 1.1; color: #f0f0ec; text-shadow: 0.12cqw 0.12cqw 0 #000, 0 0 4px #000, 0 0 1cqw rgba(0, 0, 0, 0.8); pointer-events: none; opacity: 0; transition: opacity 0.25s; }
+  #aiuto::before { content: "▸"; color: var(--giallo); }
+  #aiuto:empty { display: none; }
+  #schermo[data-comparsa="1"] #aiuto { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { #comparsa, #aiuto, .tasto-nome { transition: none; } }
 
   #avviso { position: absolute; left: 50%; top: 4cqw; transform: translateX(-50%); font-family: var(--gioco); font-size: max(11px, 1.5cqw); letter-spacing: 0.08em; text-transform: uppercase; color: var(--giallo); text-shadow: 0 0 2px #000, 0.15cqw 0.15cqw 0 #000, 0 0 1cqw rgba(0, 0, 0, 0.9); pointer-events: none; white-space: nowrap; z-index: 11; }
   #avviso.via { animation: svanisci 2.6s ease forwards; }
@@ -244,9 +258,6 @@
   #comandi .cmd.attivo { color: #ffd9d4; border-color: #e8a3ad; background: rgba(120, 30, 44, 0.85); }
   #comandi .cmd:hover, #comandi .cmd:focus-visible { outline: 1px solid var(--giallo); }
 
-  .barra { display: flex; gap: 8px 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; font-family: var(--mono); font-size: 0.8125rem; color: var(--spento); width: min(100%, calc((100dvh - 64px) * 16 / 9)); min-height: 34px; }
-  #schermo-intero { font-family: var(--gioco); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--spento); background: transparent; border: 2px solid var(--linea); padding: 7px 10px 6px; margin-left: auto; }
-  #schermo-intero:hover, #schermo-intero:focus-visible { border-color: var(--giallo); color: var(--testo); outline: none; }
 
   /* i fogli */
   #foglio { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, 0.62); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
@@ -447,13 +458,14 @@
     <div id="scheda-casa" hidden></div>
     <div id="nastro-frasi" hidden aria-label="Il nastro delle frasi"><div id="nastro-scorri"></div></div>
     <div id="comandi" hidden></div>
+    <div id="aiuto"></div>
+    <div id="comparsa">
+      <div id="hud"></div>
+      <button type="button" class="tasto" id="schermo-intero" aria-label="Schermo intero"><span class="tasto-nome">Schermo intero</span></button>
+    </div>
     <div id="avviso" hidden role="status"></div>
     <div id="etichetta" hidden></div>
     <div id="cursore" aria-hidden="true"></div>
-  </div>
-  <div class="barra">
-    <div id="hud"></div>
-    <button type="button" id="schermo-intero">Schermo intero</button>
   </div>
 </div>
 
