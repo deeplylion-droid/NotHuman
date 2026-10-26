@@ -153,12 +153,13 @@ export const PORTE = {
 };
 
 // gli esami: "rifiuta" se la persona non si fa guardare, altrimenti il primo piano e cosa dice;
-// "reperto" e' cosa ha visto il medico, per la scheda della casa
+// "reperto" e' cosa ha visto il medico, per la scheda della casa; "segno" e' il segno del protocollo che si vede
+// (febbre, bubbone, pallore, dita), per i pallini rossi sul corpo nello stato di famiglia
 export const ESAMI = {
   padre: {
-    occhi: { reperto: "occhi lucidi e arrossati", dice: [["PADRE", "Ho dormito poco."]] },
+    occhi: { reperto: "occhi lucidi e arrossati", segno: "febbre", dice: [["PADRE", "Ho dormito poco."]] },
     bocca: { reperto: "denti marci", dice: [["PADRE", "I denti sono così da sempre."]] },
-    collo: { reperto: "gonfiore duro sotto la mascella",
+    collo: { reperto: "gonfiore duro sotto la mascella", segno: "bubbone",
       dice: [["PADRE", "[tira su il colletto]"], ["PADRE", "È una *botta*.", { d: "botta", k: "parte:padre.collo" }]] },
     ascelle: { reperto: "si è rifiutato", rifiuta: [["PADRE", "Non mi spoglio davanti a mia figlia.", { volto: "arrabbiato" }]] },
     mani: { reperto: "grasso da meccanico sotto le unghie", dice: [["PADRE", "È grasso. Faccio il meccanico."]] },
@@ -171,14 +172,14 @@ export const ESAMI = {
     mani: { reperto: "unghie mangiate", dice: [["FIGLIA", "Me le mangio. Da quando..."], ["FIGLIA", "[si ferma]"]] },
   },
   madre: {
-    occhi: { reperto: "occhi lucidi, febbre alta", dice: [["MADRE", "[non riesce a tenere gli occhi aperti]"]] },
+    occhi: { reperto: "occhi lucidi, febbre alta", segno: "febbre", dice: [["MADRE", "[non riesce a tenere gli occhi aperti]"]] },
     bocca: { reperto: "labbra secche", dice: [["MADRE", "Acqua..."]] },
-    collo: { reperto: "ghiandole gonfie", dice: [["MADRE", "[geme]"]] },
-    ascelle: { reperto: "bubbone sotto l'ascella", dice: [["MADRE", "Fa male. Fa tanto male."]] },
-    mani: { reperto: "punte delle dita nere", dice: [["MADRE", "Non le sento più, le dita."]] },
+    collo: { reperto: "ghiandole gonfie", segno: "bubbone", dice: [["MADRE", "[geme]"]] },
+    ascelle: { reperto: "bubbone sotto l'ascella", segno: "bubbone", dice: [["MADRE", "Fa male. Fa tanto male."]] },
+    mani: { reperto: "punte delle dita nere", segno: "dita", dice: [["MADRE", "Non le sento più, le dita."]] },
   },
   uomo: {
-    occhi: { reperto: "occhi lucidi e arrossati, sudore",
+    occhi: { reperto: "occhi lucidi e arrossati, sudore", segno: "febbre",
       dice: [["UOMO", "È il *termosifone*, vi ho detto.", { d: "sudo", k: "zona:termosifone" }]] },
     bocca: { reperto: "niente", dice: [["UOMO", "[ringhia]"]] },
     collo: { reperto: "sudato, niente gonfiori", dice: [["UOMO", "Avete finito?"]] },
@@ -187,10 +188,10 @@ export const ESAMI = {
   },
   giovane: {
     occhi: { reperto: "occhiaie, occhi chiari", dice: [["RAGAZZA", "[silenzio]"]] },
-    bocca: { reperto: "labbra pallide, quasi viola", dice: [["RAGAZZA", "Ho *freddo*.", { d: "freddo", k: "zona:termosifone" }]] },
-    collo: { reperto: "pallido, niente gonfiori", dice: [["RAGAZZA", "[deglutisce]"]] },
+    bocca: { reperto: "labbra pallide, quasi viola", segno: "pallore", dice: [["RAGAZZA", "Ho *freddo*.", { d: "freddo", k: "zona:termosifone" }]] },
+    collo: { reperto: "pallido, niente gonfiori", segno: "pallore", dice: [["RAGAZZA", "[deglutisce]"]] },
     ascelle: { reperto: "niente", dice: [["RAGAZZA", "Va bene."]] },
-    mani: { reperto: "mani fredde, unghie bluastre", dice: [["RAGAZZA", "Sono sempre fredde."]] },
+    mani: { reperto: "mani fredde, unghie bluastre", segno: "pallore", dice: [["RAGAZZA", "Sono sempre fredde."]] },
   },
   nonna: {
     occhi: { reperto: "cataratta", dice: [["NONNA", "Ci vedo poco. Ma lei la vedo benissimo."]] },
@@ -407,13 +408,82 @@ export const REAZIONI = {
   },
 };
 
+// lo stato di famiglia: cosa risulta all'anagrafe del comune per ogni casa segnalata, nell'ordine del
+// certificato. Puo' essere vecchio o sbagliato (il nonno e' morto, il figlio risulta in citta'). "persona" lega
+// la riga a chi si incontra; chi non e' tra le PERSONE non si vede mai (il nonno, il ragazzo). "donna" per
+// scrivere "nata".
+export const COMUNE = "SAN ROCCO";
+export const ANAGRAFE = {
+  casa3: { via: "Via del Mulino 12", righe: [
+    { persona: "padre", nome: "ROSSI MARIO", ruolo: "intestatario", nato: 1971, mestiere: "meccanico" },
+    { persona: "madre", nome: "BIANCHI ANNA", ruolo: "moglie", nato: 1974, donna: true },
+    { persona: "figlia", nome: "ROSSI GIULIA", ruolo: "figlia", nato: 2004, donna: true },
+    { persona: "nonno", nome: "ROSSI PIETRO", ruolo: "padre dell'intestatario", nato: 1941 },
+  ] },
+  casa5: { via: "Vicolo della Fornace 3", righe: [
+    { persona: "uomo", nome: "FERRI LUIGI", ruolo: "intestatario", nato: 1968, mestiere: "muratore" },
+    { persona: "nonna", nome: "COSTA ADELE ved. FERRI", ruolo: "madre dell'intestatario", nato: 1940, donna: true },
+    { persona: "giovane", nome: "FERRI MARTA", ruolo: "figlia", nato: 2003, donna: true },
+    { persona: "ragazzo", nome: "FERRI DAVIDE", ruolo: "figlio", nato: 2006, anagrafe: "emigrato in città il 3.3.2025" },
+  ] },
+};
+// la verita' su chi nel certificato non si incontra, per il confronto con le diagnosi alla fine
+export const ALTRI = { nonno: { stato: "morto" }, ragazzo: { stato: "grave" } };
+
+// le annotazioni: una frase o una prova del nastro lasciata sul nome giusto nello stato di famiglia diventa una
+// nota a penna. "barra" cancella una o piu' note di prima (o "anagrafe", la nota del comune); "morto" mette la croce.
+export const ANNOTA = {
+  // casa 3
+  "d:tutti_bene": { padre: "«stiamo tutti bene»" },
+  "d:solo_due": { padre: "«io e mia figlia, basta»: ma risultano in quattro" },
+  "d:botta": { padre: "«una botta» al collo" },
+  "p:bubbone_padre": { padre: { testo: "è un bubbone, sotto la mascella", barra: "d:botta" } },
+  "p:febbre_padre": { padre: { testo: "ha la febbre: occhi lucidi, sudore", barra: "d:tutti_bene" } },
+  "d:nessuna_febbre": { padre: "«nessuno ha la febbre»" },
+  "d:luce": { padre: "«di là non ci andiamo»" },
+  "d:madre_citta": { madre: "«è in città, dalla zia» (la figlia)" },
+  "d:mamma_di_la": { madre: { testo: "nascosta di là, in camera: febbre da tre giorni", barra: "d:madre_citta" },
+    figlia: "ha nascosto la madre" },
+  "d:non_tornano": { madre: "ha paura: «quelli che portate via non tornano»" },
+  "p:madre_nonno": { madre: "dita nere, come il suocero morto" },
+  "p:calore_corridoio": { madre: "il nastro all'infrarosso: calore in fondo al corridoio" },
+  "d:nessuno_figlia": { figlia: "«nel corridoio non c'è nessuno»" },
+  "d:piatto_morto": { nonno: { testo: "morto la settimana scorsa: il quarto piatto è per lui", morto: true } },
+  "d:dita_nere": { nonno: { testo: "morto in tre giorni, con le dita nere", morto: true } },
+  "d:suocero": { nonno: { testo: "«è morto così» (la nuora)", morto: true } },
+  // casa 5
+  "d:tre_in_casa": { uomo: "«siamo in tre»: ma risultano in quattro" },
+  "d:sudo": { uomo: "«sudo per il termosifone»" },
+  "p:febbre_uomo": { uomo: { testo: "ha la febbre: suda col termosifone spento", barra: "d:sudo" } },
+  "d:ripostiglio": { uomo: "«dietro la porta c'è il ripostiglio»" },
+  "d:chiave": { uomo: "«la chiave non so dove sia»" },
+  "d:freddo": { giovane: "«ho freddo»" },
+  "p:termosifone": { giovane: "pallida per il freddo e la fame, non per la peste?" },
+  "d:nessuno_ragazza": { giovane: "«dietro la porta nessuno»" },
+  "d:fratello_citta": { ragazzo: "«lavora in città» (la sorella)" },
+  "d:ragazzo_dorme": { ragazzo: { testo: "«il ragazzo dorme» (la nonna): è in casa", barra: ["d:fratello_citta", "anagrafe"] } },
+  "d:lasciatelo": { ragazzo: { testo: "è dietro la porta chiusa (la sorella)", barra: ["d:fratello_citta", "anagrafe"] },
+    giovane: "protegge il fratello" },
+  "d:polmoni": { ragazzo: "ha i polmoni deboli (la nonna)" },
+  "p:tosse": { ragazzo: "una tosse dietro la porta chiusa" },
+  "p:tosse_ripostiglio": { ragazzo: { testo: "tossisce nel «ripostiglio»", barra: "anagrafe" } },
+  "p:calore_porta": { ragazzo: { testo: "il nastro all'infrarosso: sdraiato dietro la porta, caldo", barra: "anagrafe" } },
+  "d:leggenda": { nonna: "la peste arrivò con un medico vestito come te" },
+};
+
+// i timbri della diagnosi, dal piu' leggero al piu' grave
+export const TIMBRI = [
+  { id: "sano", testo: "SANO" }, { id: "sospetto", testo: "SOSPETTO" },
+  { id: "malato", testo: "MALATO" }, { id: "grave", testo: "GRAVE" },
+];
+
 // la scrivania: zone [x0, y0, x1, y1]
 export const SCRIVANIA = [
   { id: "fax", nome: "Il fax", box: [0.03, 0.12, 0.3, 0.57] },
   { id: "giornale", nome: "Il giornale", box: [0.38, 0.05, 0.6, 0.26] },
   { id: "mappa", nome: "La mappa del paese", box: [0.33, 0.27, 0.67, 0.64] },
   { id: "nastri", nome: "Il videoregistratore", box: [0.69, 0.0, 0.97, 0.88] },
-  { id: "taccuino", nome: "Il taccuino", box: [0.1, 0.67, 0.2, 0.89] },
+  { id: "taccuino", nome: "Gli stati di famiglia", box: [0.1, 0.67, 0.2, 0.89] },
   { id: "soldi", nome: "I soldi", box: [0.205, 0.65, 0.29, 0.82] },
   { id: "maschera", nome: "La maschera", box: [0.32, 0.61, 0.67, 0.95] },
   { id: "lampada", nome: "La lampada", box: [0.03, 0.0, 0.16, 0.12] },

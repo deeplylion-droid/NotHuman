@@ -52,6 +52,9 @@ function nuovoStato() {
     forzate: {}, decisioni: {}, visitate: {}, nastri: [], intro: false, notte: null,
     // il nastro delle frasi: dichiarazioni ("d:...") e prove ("p:...") nell'ordine in cui sono arrivate
     dette: {}, frasi: [], contestate: {}, volti: {},
+    // lo stato di famiglia: note a penna per persona, chi e' morto, i timbri della diagnosi, chi va al lazzaretto,
+    // il provvedimento per casa, le note del comune barrate
+    note: {}, morti: {}, diagnosi: {}, lazzaretto: {}, provv: {}, barrati: {},
   };
 }
 let S = nuovoStato();
@@ -59,7 +62,7 @@ let S = nuovoStato();
 // le facce di adesso (con la dissolvenza da una all'altra), la frase del nastro scelta col tocco
 const R = { hover: null, hoverKey: "", occupato: false, primo: null, play: null, turno: 0, blocco: 0,
   ctx: null, scena: null, animaSpilli: false, mctx: null, mappa: null, casaSopra: null, casaScelta: null,
-  facce: {}, animaVolti: false, ritorni: {}, scelta: null, bersaglio: null };
+  facce: {}, animaVolti: false, ritorni: {}, scelta: null, bersaglio: null, sfScelta: null, sfCasa: null };
 const DISSOLVENZA = 260;
 let vhs = null;
 
@@ -385,7 +388,7 @@ function applica(poi) {
   if (poi.prova && !S.prove.includes(poi.prova)) {
     S.prove.push(poi.prova);
     mettiSulNastro(`p:${poi.prova}`);
-    notifica(S.schermo === "visita" ? "Sul nastro" : "Annotato nel taccuino");
+    notifica("Sul nastro delle frasi");
   }
   if (poi.volti) {
     Object.assign(S.volti, poi.volti);
@@ -416,6 +419,7 @@ function vaiScrivania() {
   osdSpento();
   if (vhs) {
     vhs.mode("giorno", false);
+    vhs.setLuce(0);
     vhs.setHeat(null);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
     vhs.setDark(S.fase === "sera" ? 1 : 0);
@@ -443,7 +447,7 @@ function zonaHtml(z, azione) {
 async function azioneScrivania(id) {
   if (id === "fax") return apriFax();
   if (id === "giornale") return apriGiornale(false);
-  if (id === "taccuino") return apriTaccuino();
+  if (id === "taccuino") return apriStato(null);
   if (id === "soldi") return apriSoldi();
   if (id === "nastri") return apriNastri();
   if (id === "mappa" || id === "maschera") {
@@ -456,7 +460,7 @@ async function azioneScrivania(id) {
   }
 }
 
-// ---------- fogli: fax, giornale, taccuino, soldi, modulo, notte ----------
+// ---------- fogli: fax, giornale, soldi, nastri, notte (lo stato di famiglia ha la sua parte) ----------
 
 function apriFoglio(tipo, contenuto) {
   foglio.hidden = false;
@@ -556,33 +560,6 @@ function moltiplica(A, B) {
   return A.map((riga, i) => B[0].map((_, j) => riga.reduce((s, _, k) => s + A[i][k] * B[k][j], 0)));
 }
 
-function apriTaccuino() {
-  const corpo = [el("h2", null, "Taccuino")];
-  const prot = el("p", "nota");
-  prot.append(el("b", null, "Protocollo: "), document.createTextNode(
-    "febbre (occhi lucidi, sudore) · bubboni (collo, ascelle) · pallore e labbra viola · dita nere."));
-  corpo.push(prot);
-  for (const casa of ["casa3", "casa5"]) {
-    const prove = S.prove.filter((p) => D.PROVE[p].casa === casa);
-    const dette = S.frasi.filter((f) => f.id.startsWith("d:") && casaDi(f.id) === casa).map((f) => D.DICHIARAZIONI[f.id.slice(2)]);
-    corpo.push(el("h3", null, `Casa ${D.CASE[casa].n}`));
-    if (!prove.length && !dette.length) corpo.push(el("p", "vuoto", "Ancora niente."));
-    const ul = el("ul");
-    for (const p of prove) ul.append(el("li", null, D.PROVE[p].testo));
-    for (const d of dette) ul.append(el("li", "detta", `${D.PERSONE[d.chi].nome[0].toUpperCase()}${D.PERSONE[d.chi].nome.slice(1)}: ${d.testo}`));
-    if (prove.length || dette.length) corpo.push(ul);
-  }
-  const esami = Object.keys(S.esami);
-  if (esami.length) {
-    corpo.push(el("h3", null, "Esami fatti"));
-    corpo.push(el("p", null, esami.map((k) => {
-      const [persona, parte] = k.split("_");
-      return `${D.PERSONE[persona].nome}: ${parte}`;
-    }).join(" · ")));
-  }
-  apriFoglio("taccuino", corpo);
-}
-
 function apriSoldi() {
   apriFoglio("soldi", [
     el("h2", null, `${S.soldi} €`),
@@ -605,6 +582,7 @@ function vaiMappa() {
   osdSpento();
   if (vhs) {
     vhs.mode("giorno", false);
+    vhs.setLuce(0);
     vhs.setHeat(null);
     vhs.setDark(0);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
@@ -793,7 +771,9 @@ function mostraScheda(id, fissa) {
       foto.src = `img/volti/${pid}.jpg`;
       foto.alt = persona.nome;
       const testo = el("div", "sc-dati");
-      testo.append(el("b", null, `${persona.nome[0].toUpperCase()}${persona.nome.slice(1)}`));
+      const nome = el("b", null, `${persona.nome[0].toUpperCase()}${persona.nome.slice(1)} `);
+      if (S.diagnosi[pid]) nome.append(timbro(D.TIMBRI.find((t) => t.id === S.diagnosi[pid]).testo, S.diagnosi[pid] === "sano" ? "blu" : "rosso"));
+      testo.append(nome);
       const visti = Object.keys(D.ESAMI[pid]).filter((parte) => S.esami[`${pid}_${parte}`]);
       const reperti = visti.map((parte) => `${parte}: ${D.ESAMI[pid][parte].reperto}`);
       testo.append(el("span", null, reperti.length ? reperti.join(" · ") : "non esaminato"));
@@ -898,6 +878,7 @@ async function vaiLuogo(luogo) {
   R.primo = null;
   if (vhs) {
     vhs.mode(L.notte ? "notte" : "giorno");
+    vhs.setLuce(L.notte ? 0 : 1);
     vhs.setHeat(null);
     vhs.setDark(0);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
@@ -920,7 +901,8 @@ async function vaiLuogo(luogo) {
 function hudVisita() {
   hud.replaceChildren();
   if (S.luogo === "camera") hud.append(bottone("Torna in cucina", () => tornaCucina(), "hud-b"));
-  hud.append(bottone("Taccuino", apriTaccuino, "hud-b"), bottone("Concludi la visita", () => apriModulo(false), "hud-b forte"));
+  hud.append(bottone("Stato di famiglia", () => apriStato(S.casa), "hud-b"),
+    bottone("Concludi la visita", () => apriStato(S.casa, { firma: true }), "hud-b forte"));
 }
 
 async function tornaCucina() {
@@ -1043,7 +1025,7 @@ async function chiudiPrimo() {
 async function dopoAzione() {
   if (S.schermo !== "visita" || S.ora < D.INIZIO.coprifuoco) return false;
   await dici([[null, "Sono le otto: coprifuoco. Devi andare."]]);
-  apriModulo(true);
+  apriStato(S.casa, { firma: true, obbligato: true });
   return true;
 }
 
@@ -1267,70 +1249,358 @@ async function sceltaPorta(s) {
   if (s.poi?.vai) await vaiLuogo(s.poi.vai);
 }
 
-// ---------- il modulo della ditta ----------
+// ---------- lo stato di famiglia: il certificato del comune, al posto del taccuino e del modulo ----------
 
-function personeDellaCasa(casa) {
-  return Object.entries(D.PERSONE).filter(([id, p]) => p.casa === casa && (p.luogo !== "camera" || S.conosciute[id]));
+// chi della casa si e' visto (la madre solo se si e' entrati in camera)
+function vista(persona) {
+  const p = D.PERSONE[persona];
+  return !!(p && S.visti[p.luogo] && (p.luogo !== "camera" || S.conosciute[persona]));
 }
 
-function apriModulo(obbligato) {
-  if (R.occupato && !obbligato) return;
-  const casa = S.casa;
-  const c = D.CASE[casa];
-  const form = el("form", "modulo");
-  form.append(el("p", "mod-testata", "PANACEA S.A. · DIVISIONE CONTENIMENTO"),
-    el("h2", null, "Verbale di visita"),
-    el("p", "mod-dati", `Casa n. ${c.n} · 26.10 · ore ${hhmm(S.ora)}`));
-  const tab = el("fieldset");
-  tab.append(el("legend", null, "Persone viste"));
-  for (const [id, p] of personeDellaCasa(casa)) {
-    const lab = el("label", "mod-riga");
+function personeDellaCasa(casa) {
+  return Object.entries(D.PERSONE).filter(([id, p]) => p.casa === casa && vista(id));
+}
+
+function maiuscolaIniziale(t) {
+  return `${t[0].toUpperCase()}${t.slice(1)}`;
+}
+
+const NUMERI = ["ZERO", "UNO", "DUE", "TRE", "QUATTRO", "CINQUE", "SEI"];
+
+// una frase o una prova del nastro lasciata sul nome di una persona: se c'entra diventa una nota a penna.
+// Risponde "nuova", "gia" (gia' annotata) o "no" (non c'entra)
+function annota(fid, persona) {
+  const a = D.ANNOTA[fid]?.[persona];
+  if (!a) return "no";
+  const n = typeof a === "string" ? { testo: a } : a;
+  const lista = S.note[persona] || (S.note[persona] = []);
+  if (lista.some((x) => x.id === fid)) return "gia";
+  const barra = [].concat(n.barra || []);
+  if (barra.includes("anagrafe")) S.barrati[persona] = true;
+  for (const x of lista) if (barra.includes(x.id)) x.barrata = true;
+  // se una nota arrivata prima smentisce questa, nasce gia' barrata
+  const smentita = lista.some((x) => {
+    const b = D.ANNOTA[x.id]?.[persona];
+    return typeof b === "object" && [].concat(b.barra || []).includes(fid);
+  });
+  lista.push({ id: fid, testo: n.testo, barrata: smentita, nuova: true });
+  if (n.morto) S.morti[persona] = true;
+  return "nuova";
+}
+
+function sagoma(persona) {
+  // il corpo con i cinque punti dell'esame: rosso un segno del protocollo, nero le dita nere, grigio niente,
+  // vuoto non esaminato
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", "0 0 80 130");
+  svg.setAttribute("class", "sf-corpo");
+  const esaminabile = !!D.ESAMI[persona];
+  const g = document.createElementNS(ns, "path");
+  g.setAttribute("d", "M40 28 L40 34 M22 37 Q40 31 58 37 L54 80 L26 80 Z M22 39 L10 72 L8 82 M58 39 L70 72 L72 82 M31 80 L29 124 M49 80 L51 124");
+  g.setAttribute("class", esaminabile ? "sf-linea" : "sf-linea vuota");
+  const testa = document.createElementNS(ns, "circle");
+  Object.entries({ cx: 40, cy: 16, r: 12, class: esaminabile ? "sf-linea" : "sf-linea vuota" }).forEach(([k, v]) => testa.setAttribute(k, v));
+  svg.append(g, testa);
+  if (!esaminabile) return svg;
+  const punti = { occhi: [[40, 14]], bocca: [[40, 22]], collo: [[40, 31]], ascelle: [[24, 44], [56, 44]], mani: [[8, 85], [72, 85]] };
+  for (const [parte, xy] of Object.entries(punti)) {
+    const e = D.ESAMI[persona][parte];
+    const fatto = S.esami[`${persona}_${parte}`];
+    const cls = !fatto ? "non" : e.rifiuta ? "rifiuto" : e.segno === "dita" ? "dita" : e.segno ? "segno" : "niente";
+    for (const [cx, cy] of xy) {
+      const c = document.createElementNS(ns, "circle");
+      Object.entries({ cx, cy, r: cls === "segno" || cls === "dita" ? 4.6 : 3.6, class: `sf-punto ${cls}` }).forEach(([k, v]) => c.setAttribute(k, v));
+      const t = document.createElementNS(ns, "title");
+      t.textContent = `${D.PARTI[parte]}: ${!fatto ? "non esaminato" : e.reperto}`;
+      c.append(t);
+      svg.append(c);
+    }
+  }
+  return svg;
+}
+
+function timbroDiagnosi(id, nuovo) {
+  const t = D.TIMBRI.find((x) => x.id === id);
+  const s = el("span", `sf-timbro ${id}${nuovo ? " nuovo" : ""}`, t.testo);
+  s.style.rotate = `${-4 - (id.length % 4) * 1.5}deg`;
+  return s;
+}
+
+function rigaStato(casa, r, firmata) {
+  const persona = r.persona;
+  const P = D.PERSONE[persona];
+  const riga = el("div", "sf-riga");
+  riga.dataset.persona = persona;
+  // la foto arriva da sola dalla videocamera, quando la persona si e' vista
+  const foto = el("div", "sf-foto");
+  if (vista(persona)) {
+    const v = S.volti[persona];
+    const im = el("img");
+    im.src = `img/volti/${persona}${v && ESPRESSIONI[P.luogo]?.[persona]?.volti.includes(v) ? `_${v}` : ""}.jpg`;
+    im.alt = P.nome;
+    foto.append(el("span", "sf-graffetta"), im);
+  } else {
+    foto.classList.add("vuota");
+    foto.textContent = S.morti[persona] ? "†" : "?";
+  }
+  const dati = el("div", "sf-dati");
+  const nome = el("b", S.morti[persona] ? "barrato" : "", r.nome);
+  const info = el("small", null, `${r.ruolo} · nat${r.donna ? "a" : "o"} nel ${r.nato}${r.mestiere ? ` · ${r.mestiere}` : ""}`.toUpperCase());
+  dati.append(nome, info);
+  if (r.anagrafe) dati.append(el("small", `sf-anagrafe${S.barrati[persona] ? " barrato" : ""}`, r.anagrafe.toUpperCase()));
+  const note = el("ul", "sf-note");
+  for (const n of S.note[persona] || []) {
+    const li = el("li", `penna${n.barrata ? " barrata" : ""}${n.nuova ? " nuova" : ""}`, n.testo);
+    n.nuova = false;
+    note.append(li);
+  }
+  dati.append(note);
+  const esito = el("div", "sf-esito");
+  if (S.diagnosi[persona]) esito.append(timbroDiagnosi(S.diagnosi[persona], R.sfNuovoTimbro === persona));
+  else esito.append(el("span", "sf-vuoto-timbro", "diagnosi"));
+  if (P?.profilo) esito.append(el("span", "sf-ditta", `★ PROFILO RICHIESTO · +${D.SOLDI.profilo} €`));
+  const via = el("label", "sf-via");
+  if (P && vista(persona) && !S.morti[persona]) {
     const cb = el("input");
     cb.type = "checkbox";
-    cb.name = "via";
-    cb.value = id;
-    cb.id = `via-${id}`;
-    const testo = el("span", null, `${p.nome[0].toUpperCase()}${p.nome.slice(1)}: consegnare al lazzaretto`);
-    lab.append(cb, testo);
-    const comp = el("span", "mod-comp", `${D.SOLDI.paziente} €`);
-    if (p.profilo) comp.append(el("em", "mod-profilo", ` ★ profilo richiesto +${D.SOLDI.profilo} €`));
-    lab.append(comp);
-    tab.append(lab);
+    cb.checked = firmata ? S.decisioni[casa].via.includes(persona) : !!S.lazzaretto[persona];
+    cb.disabled = !!firmata;
+    cb.addEventListener("change", () => { S.lazzaretto[persona] = cb.checked; });
+    via.append(cb, el("span", null, "al lazzaretto"), el("small", null, `${D.SOLDI.paziente} €`));
   }
-  form.append(tab);
-  const prov = el("fieldset");
-  prov.append(el("legend", null, "Provvedimento per la casa"));
-  for (const [v, testo] of [["nessuno", "Nessuno"], ["chiudi", "Chiudere la casa (croce sulla porta)"], ["domani", "Tornare domani"]]) {
-    const lab = el("label", "mod-riga");
-    const r = el("input");
-    r.type = "radio";
-    r.name = "provvedimento";
-    r.value = v;
-    r.id = `prov-${v}`;
-    if (v === "nessuno") r.checked = true;
-    lab.append(r, el("span", null, testo));
+  riga.append(foto, dati, sagoma(persona), esito, via);
+  return riga;
+}
+
+// il certificato di una casa; casa null: dalla scrivania, con le linguette delle case segnalate.
+// opzioni.firma: si apre in fondo, sulla firma; opzioni.obbligato: non si chiude finche' non si firma
+function apriStato(casa, opzioni = {}) {
+  if (R.occupato && !opzioni.obbligato) return;
+  const segnalate = Object.keys(D.ANAGRAFE);
+  const daScrivania = casa == null;
+  casa = casa || R.sfCasa || segnalate.find((c) => !S.decisioni[c]) || segnalate[0];
+  R.sfCasa = casa;
+  R.sfScelta = null;
+  const A = D.ANAGRAFE[casa];
+  const c = D.CASE[casa];
+  const firmata = !!S.decisioni[casa];
+  const puoFirmare = S.casa === casa && !firmata;
+  const sf = el("div", "sf");
+  const tavolo = el("div", "sf-tavolo");
+  {
+    const linguette = el("div", "sf-linguette");
+    for (const k of segnalate) {
+      linguette.append(bottone(`Casa ${D.CASE[k].n}`, () => { R.sfCasa = k; apriStato(daScrivania ? null : k, opzioni); },
+        k === casa ? "attiva" : ""));
+    }
+    if (!opzioni.obbligato) linguette.append(bottone("Chiudi", chiudiFoglio, "sf-chiudi"));
+    tavolo.append(linguette);
+  }
+  const carta = el("div", "sf-carta");
+  carta.append(
+    el("div", "sf-comune", `COMUNE DI ${D.COMUNE}`),
+    el("div", "sf-ufficio", "UFFICIO ANAGRAFE · SERVIZIO DEMOGRAFICO"),
+    el("div", "sf-titolo", "CERTIFICATO DI STATO DI FAMIGLIA"),
+    el("p", "sf-premessa", `Si certifica che nell'abitazione di ${A.via} (casa n. ${c.n}) la famiglia anagrafica risulta così composta:`));
+  const righe = el("div", "sf-righe");
+  for (const r of A.righe) righe.append(rigaStato(casa, r, firmata));
+  carta.append(righe);
+  const piede = el("div", "sf-piede");
+  const vivi = A.righe.filter((r) => !S.morti[r.persona]).length;
+  const comp = el("p", null, `Componenti risultanti: ${NUMERI[A.righe.length] || A.righe.length}.`);
+  if (vivi < A.righe.length) comp.append(el("span", "penna", ` vivi: ${vivi}`));
+  piede.append(comp);
+  const prov = el("p", "sf-prov");
+  prov.append(document.createTextNode("Provvedimento: "));
+  const scelto = firmata ? S.decisioni[casa].provvedimento : S.provv[casa] || "nessuno";
+  for (const [v, testo] of [["chiudi", "croce sulla porta"], ["domani", "tornare domani"]]) {
+    const lab = el("label", "sf-casella");
+    const cb = el("input");
+    cb.type = "checkbox";
+    cb.checked = scelto === v;
+    cb.disabled = firmata;
+    cb.addEventListener("change", () => {
+      S.provv[casa] = cb.checked ? v : "nessuno";
+      for (const altro of prov.querySelectorAll("input")) if (altro !== cb) altro.checked = false;
+    });
+    lab.append(cb, el("span", null, testo));
     prov.append(lab);
   }
-  form.append(prov);
-  const firma = el("button", "firma", "Firma e consegna");
-  firma.type = "submit";
-  form.append(firma, el("p", "mod-piede", "Il tempo è salute. La salute è nostra."));
-  form.addEventListener("submit", (e) => {
+  piede.append(prov);
+  const firma = el("div", "sf-firma");
+  firma.append(el("span", null, "Il medico: "));
+  if (firmata) {
+    firma.append(el("span", "sf-scarabocchio", "Dott. ———"), el("span", "sf-consegnato", `CONSEGNATO ALLA DITTA · ORE ${hhmm(S.decisioni[casa].ora ?? S.ora)}`));
+  } else if (puoFirmare) {
+    const b = bottone("firma e consegna alla ditta", () => firmaStato(casa, b), "sf-bottone-firma");
+    firma.append(b);
+    if (opzioni.firma) b.classList.add("invito");
+  } else firma.append(el("span", "sf-spiega", S.casa ? "si firma a fine visita, nella sua casa" : "si firma a fine visita"));
+  piede.append(firma);
+  carta.append(piede);
+
+  // sul tavolo, a destra: i timbri e le frasi del nastro di questa casa
+  const lato = el("div", "sf-lato");
+  lato.append(el("h3", null, "Timbri"));
+  const rastrelliera = el("div", "sf-rastrelliera");
+  for (const t of D.TIMBRI) {
+    const b = el("button", `sf-manico ${t.id}`);
+    b.type = "button";
+    b.setAttribute("aria-label", `Timbro ${t.testo}`);
+    b.append(el("span", "sf-legno"), el("span", "sf-base"), el("span", "sf-gomma", t.testo));
+    trascinabile(b, { tipo: "timbro", id: t.id, testo: t.testo }, casa);
+    rastrelliera.append(b);
+  }
+  lato.append(rastrelliera, el("h3", null, "Dal nastro delle frasi"));
+  const frasi = el("div", "sf-frasi");
+  const mie = S.frasi.filter((f) => casaDi(f.id) === casa);
+  if (!mie.length) frasi.append(el("p", "sf-spiega", "Ancora niente: le frasi arrivano dalle visite."));
+  for (const v of mie) {
+    const f = fotogramma(v);
+    const usata = Object.values(S.note).some((l) => l.some((n) => n.id === v.id));
+    const d = el("div", `fot ${f.tipo}${usata ? " usata" : ""}`);
+    d.tabIndex = 0;
+    d.setAttribute("role", "button");
+    const foto = el("span", "fot-foto");
+    if (f.foto) {
+      foto.style.backgroundImage = `url(${f.foto.src})`;
+      const { x = 0, y = 0, w = 1, h = 1 } = f.foto;
+      foto.style.backgroundSize = `${100 / w}% ${100 / h}%`;
+      foto.style.backgroundPosition = `${w < 1 ? (x / (1 - w)) * 100 : 50}% ${h < 1 ? (y / (1 - h)) * 100 : 50}%`;
+      if (f.foto.filtro) foto.classList.add(f.foto.filtro);
+    }
+    const t = el("span", "fot-testo");
+    t.append(el("span", "fot-frase", f.testo), el("span", "fot-meta", f.meta));
+    d.append(foto, t);
+    trascinabile(d, { tipo: "frase", id: v.id, testo: f.testo }, casa);
+    frasi.append(d);
+  }
+  lato.append(frasi, el("p", "sf-aiuto", "Trascina un timbro su una persona: è la tua diagnosi. Trascina una frase sul nome giusto: la penna la scrive, e barra quello che smentisce. Spunta chi porti al lazzaretto, poi firma."));
+  tavolo.append(carta, lato);
+  sf.append(tavolo);
+  // il clic su una riga, dopo aver scelto un timbro o una frase col tocco
+  righe.addEventListener("click", (e) => {
+    const riga = e.target.closest(".sf-riga");
+    if (!riga || !R.sfScelta || e.target.closest("label, input")) return;
+    usaSu(R.sfScelta, riga.dataset.persona, casa);
+  });
+  foglio.dataset.bloccato = opzioni.obbligato ? "1" : "0";
+  apriFoglio("stato", [sf]);
+  R.sfNuovoTimbro = null;
+  adattaStato(sf);
+  if (opzioni.firma) requestAnimationFrame(() => firma.scrollIntoView({ block: "end" }));
+}
+
+// il certificato e' disegnato a misura fissa e si rimpicciolisce per stare nello schermo; sotto i 1200 punti
+// il tavolo va sotto la carta
+function adattaStato(sf) {
+  const largo = Math.min(window.innerWidth, document.documentElement.clientWidth) - 32;
+  const stretto = largo < 1200;
+  sf.classList.toggle("stretta", stretto);
+  sf.style.zoom = String(Math.min(1, largo / (stretto ? 1100 : 1580)));
+}
+
+// timbri e frasi si trascinano sulle righe; toccati, si scelgono e si usa la riga toccata dopo
+function trascinabile(elem, dato, casa) {
+  elem.addEventListener("pointerdown", (e) => {
+    if (e.button > 0) return;
     e.preventDefault();
-    const dati = new FormData(form);
-    S.decisioni[casa] = { via: dati.getAll("via"), provvedimento: dati.get("provvedimento") };
-    S.visitate[casa] = true;
-    const n = S.nastri[S.nastri.length - 1];
-    if (n) n.fine = S.ora;
+    const x0 = e.clientX, y0 = e.clientY;
+    let fantasma = null;
+    let sopra = null;
+    const muovi = (ev) => {
+      if (!fantasma && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 6) {
+        fantasma = elem.cloneNode(true);
+        fantasma.classList.add("sf-fantasma");
+        fantasma.style.zoom = elem.closest(".sf")?.style.zoom || "1";
+        document.body.append(fantasma);
+      }
+      if (!fantasma) return;
+      const z = Number(fantasma.style.zoom) || 1;
+      fantasma.style.left = `${ev.clientX / z}px`;
+      fantasma.style.top = `${ev.clientY / z}px`;
+      fantasma.hidden = true;
+      const riga = document.elementFromPoint(ev.clientX, ev.clientY)?.closest(".sf-riga");
+      fantasma.hidden = false;
+      if (riga !== sopra) { sopra?.classList.remove("sotto"); riga?.classList.add("sotto"); sopra = riga; }
+    };
+    const fine = (ev) => {
+      window.removeEventListener("pointermove", muovi);
+      window.removeEventListener("pointerup", fine);
+      window.removeEventListener("pointercancel", fine);
+      sopra?.classList.remove("sotto");
+      if (fantasma) {
+        fantasma.remove();
+        R.sfTrascinato = performance.now();
+        // il foglio si ridisegna dopo il clic che il browser manda alla fine del trascinamento
+        if (ev.type === "pointerup" && sopra) setTimeout(() => usaSu(dato, sopra.dataset.persona, casa), 0);
+        return;
+      }
+      if (ev.type !== "pointerup") return;
+      // un tocco: sceglie (o lascia) il timbro o la frase
+      const gia = R.sfScelta && R.sfScelta.tipo === dato.tipo && R.sfScelta.id === dato.id;
+      R.sfScelta = gia ? null : dato;
+      for (const x of foglio.querySelectorAll(".sf-scelto")) x.classList.remove("sf-scelto");
+      if (!gia) elem.classList.add("sf-scelto");
+      foglio.querySelector(".sf-carta")?.classList.toggle("in-attesa", !gia);
+    };
+    window.addEventListener("pointermove", muovi);
+    window.addEventListener("pointerup", fine);
+    window.addEventListener("pointercancel", fine);
+  });
+  elem.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
+    R.sfScelta = dato;
+    for (const x of foglio.querySelectorAll(".sf-scelto")) x.classList.remove("sf-scelto");
+    elem.classList.add("sf-scelto");
+    notifica("Ora scegli una persona");
+  });
+}
+
+function usaSu(dato, persona, casa) {
+  R.sfScelta = null;
+  if (dato.tipo === "timbro") {
+    S.diagnosi[persona] = dato.id;
+    R.sfNuovoTimbro = persona;
+  } else {
+    const esito = annota(dato.id, persona);
+    if (esito === "gia") notifica("Già annotato");
+    if (esito === "no") {
+      notifica("Non c'entra");
+      const riga = foglio.querySelector(`.sf-riga[data-persona="${persona}"]`);
+      riga?.classList.add("no");
+      setTimeout(() => riga?.classList.remove("no"), 600);
+      return;
+    }
+  }
+  const scroll = foglioCorpo.scrollTop;
+  apriStato(R.sfCasa === casa && !S.casa ? null : casa, { obbligato: foglio.dataset.bloccato === "1" });
+  foglioCorpo.scrollTop = scroll;
+}
+
+function firmaStato(casa, bottoneFirma) {
+  bottoneFirma.disabled = true;
+  bottoneFirma.replaceWith(el("span", "sf-scarabocchio scrive", "Dott. ———"));
+  const via = personeDellaCasa(casa).map(([id]) => id).filter((id) => S.lazzaretto[id]);
+  S.decisioni[casa] = { via, provvedimento: S.provv[casa] || "nessuno", ora: S.ora };
+  S.visitate[casa] = true;
+  const n = S.nastri[S.nastri.length - 1];
+  if (n) n.fine = S.ora;
+  setTimeout(() => {
     foglio.dataset.bloccato = "0";
     foglio.hidden = true;
     S.casa = null;
     if (S.ora >= D.INIZIO.coprifuoco) sera();
     else vaiMappa();
-  });
-  foglio.dataset.bloccato = obbligato ? "1" : "0";
-  apriFoglio("modulo", obbligato ? [form] : [form, azioni([["Torna alla visita", chiudiFoglio, "secondario"]])]);
+  }, 900);
 }
+
+window.addEventListener("resize", () => {
+  const sf = foglio.querySelector(".sf");
+  if (sf && !foglio.hidden) adattaStato(sf);
+});
 
 // ---------- la sera e i nastri ----------
 
@@ -1388,7 +1658,10 @@ function modoRipresa() {
   const p = R.play;
   const r = p.nastro.riprese[p.i];
   const notte = r.tipo === "scena" ? D.LUOGHI[r.luogo].notte : D.PERSONE[r.persona].luogo === "camera";
-  if (vhs) vhs.mode(p.ir ? "ir" : notte ? "notte" : "giorno");
+  if (vhs) {
+    vhs.mode(p.ir ? "ir" : notte ? "notte" : "giorno");
+    vhs.setLuce(p.ir || notte ? 0 : 1);
+  }
   osd.modo.textContent = p.ir ? "IR" : notte ? "NOTTE" : "";
 }
 
@@ -1493,7 +1766,7 @@ async function riproduciVecchio() {
   nero.width = 16; nero.height = 9;
   nero.getContext("2d").fillRect(0, 0, 16, 9);
   mostra(nero, IMG.scrivania.src);
-  if (vhs) { vhs.mode("giorno", true); vhs.setDark(0); vhs.set({ snow: 1 }); }
+  if (vhs) { vhs.mode("giorno", true); vhs.setLuce(0); vhs.setDark(0); vhs.set({ snow: 1 }); }
   osdPlay(D.NASTRO_VECCHIO.data, "03:12");
   await dici(D.NASTRO_VECCHIO.righe, false);
   if (S.schermo === "nastro") vaiScrivania();
@@ -1604,7 +1877,26 @@ function verita() {
     "Il protocollo mentiva sul pallore, e la ditta paga di più per i giovani sani.",
     "La nonna e il nastro 7 dicono la stessa cosa: la peste arriva con il medico.",
   ]) ul.append(el("li", null, t));
-  corpo.push(ul, el("p", "nota", "Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove."));
+  corpo.push(ul);
+  // le diagnosi del medico, timbrate sugli stati di famiglia, contro la verita'
+  const stati = { sano: "sano", malato: "malato", grave: "grave", morto: "morto" };
+  const dg = el("ul");
+  let giuste = 0, date = 0;
+  for (const A of Object.values(D.ANAGRAFE)) {
+    for (const r of A.righe) {
+      const vero = D.PERSONE[r.persona]?.stato || D.ALTRI[r.persona]?.stato;
+      const mio = S.diagnosi[r.persona];
+      if (!mio) continue;
+      date++;
+      const giusta = mio === vero || (mio === "sospetto" && vero !== "sano" && vero !== "morto");
+      if (giusta) giuste++;
+      dg.append(el("li", null, `${giusta ? "✓" : "✗"} ${r.nome}: hai timbrato ${D.TIMBRI.find((t) => t.id === mio).testo}, era ${stati[vero]}.`));
+    }
+  }
+  corpo.push(el("h3", null, `Le tue diagnosi: ${giuste} giuste su ${date}`));
+  if (date) corpo.push(dg);
+  else corpo.push(el("p", "vuoto", "Non hai timbrato nessuno stato di famiglia."));
+  corpo.push(el("p", "nota", "Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove."));
   corpo.push(azioni([["Ricomincia la giornata", ricomincia]]));
   apriFoglio("verita", corpo);
 }
@@ -1689,6 +1981,7 @@ schermo.addEventListener("click", (e) => {
 });
 
 foglio.addEventListener("click", (e) => {
+  if (performance.now() - (R.sfTrascinato || 0) < 400) return;
   if (e.target === foglio) chiudiFoglio();
 });
 $("#foglio .chiudi").addEventListener("click", chiudiFoglio);

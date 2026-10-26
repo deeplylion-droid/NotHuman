@@ -2,10 +2,10 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Caveat:wght@500;700&family=IBM+Plex+Mono:wght@400;600&family=Old+Standard+TT:wght@400;700&family=VT323&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Caveat:wght@500;700&family=IBM+Plex+Mono:wght@400;600&family=Old+Standard+TT:wght@400;700&family=Special+Elite&family=VT323&display=swap">
 <style>
   /* Layout: lo schermo della videocamera in 16:9 al centro, l'interfaccia sovrapposta come l'OSD di una
-     videocamera anni '90; i fogli di carta (fax, giornale, taccuino, modulo) si aprono sopra tutto.
+     videocamera anni '90; i fogli di carta (fax, giornale, stato di famiglia) si aprono sopra tutto.
      Nelle visite niente riquadri: le frasi si scrivono addosso a chi parla, le domande si aprono a raggiera,
      e in basso scorre il nastro delle frasi. Un solo tema scuro, da stanza buia. */
   :root {
@@ -18,8 +18,6 @@
     --giallo: #f2d16b;
     --carta-fax: #e8e7e1;
     --carta-giornale: #e6dfcd;
-    --carta-taccuino: #f1eee3;
-    --carta-modulo: #f4f3ef;
     --inchiostro: #23221f;
     --timbro: #b4302a;
     --vcr: "VT323", "IBM Plex Mono", ui-monospace, monospace;
@@ -27,6 +25,7 @@
     --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
     --giornale: "Old Standard TT", Georgia, "Times New Roman", serif;
     --mano: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+    --macchina: "Special Elite", "Courier New", Courier, monospace;
     color-scheme: dark;
   }
   html, body { height: 100%; }
@@ -230,7 +229,7 @@
   .nota { font-size: 0.9rem; opacity: 0.85; }
   .vuoto { opacity: 0.6; font-style: italic; }
 
-  #foglio[data-tipo="fax"] .carta, #foglio[data-tipo="giornale"] .carta, #foglio[data-tipo="taccuino"] .carta, #foglio[data-tipo="modulo"] .carta { color-scheme: light; }
+  #foglio[data-tipo="fax"] .carta, #foglio[data-tipo="giornale"] .carta { color-scheme: light; }
   #foglio[data-tipo="fax"] .carta { background: var(--carta-fax); color: #2f2f2c; font-family: var(--mono); }
   #foglio[data-tipo="fax"] #foglio-corpo { background-image: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.025) 0 2px, transparent 2px 4px); font-size: 0.93rem; }
   #foglio[data-tipo="fax"] .fax-testata { font-weight: 600; letter-spacing: 0.08em; margin: 0; }
@@ -264,24 +263,99 @@
   .gio-l-sommario { font-style: italic; }
   @media (max-width: 700px), (max-height: 500px) { .gio-leggibile { display: block; } }
 
-  #foglio[data-tipo="taccuino"] .carta { background-color: var(--carta-taccuino); color: #1f2a44; background-image: linear-gradient(rgba(70, 110, 170, 0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(70, 110, 170, 0.14) 1px, transparent 1px); background-size: 22px 22px; font-family: var(--mano); }
-  #foglio[data-tipo="taccuino"] #foglio-corpo { font-size: 1.3rem; }
-  #foglio[data-tipo="taccuino"] h2 { font-size: 2rem; }
-  #foglio[data-tipo="taccuino"] h3 { font-size: 1.35rem; letter-spacing: 0; }
-  #foglio[data-tipo="taccuino"] .chiudi { font-family: var(--mono); }
-
-  #foglio[data-tipo="modulo"] .carta { background: var(--carta-modulo); color: var(--inchiostro); font-family: var(--sottotitoli); }
-  .modulo fieldset { border: 1px solid rgba(35, 34, 31, 0.35); margin: 0.9rem 0 0; padding: 0.6rem 0.9rem; display: grid; gap: 0.35rem; }
-  .modulo legend { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0 0.3rem; }
-  .mod-testata { margin: 0; font-family: var(--mono); font-weight: 600; letter-spacing: 0.1em; font-size: 0.85rem; }
-  .mod-dati { margin: 0; font-family: var(--mono); font-size: 0.9rem; }
-  .mod-riga { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; line-height: 1.4; }
-  .mod-riga input { width: 1.05rem; height: 1.05rem; accent-color: var(--timbro); translate: 0 0.15rem; }
-  .mod-comp { margin-left: auto; font-family: var(--mono); font-size: 0.85rem; }
-  .mod-profilo { color: var(--timbro); font-style: normal; font-weight: 600; }
-  .firma { margin-top: 1.1rem; font-family: var(--mono); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--timbro); background: transparent; border: 2px solid var(--timbro); padding: 0.6rem 1.1rem; rotate: -1.5deg; }
-  .firma:hover, .firma:focus-visible { background: rgba(180, 48, 42, 0.1); outline: none; }
-  .mod-piede { margin: 1rem 0 0; font-family: var(--mono); font-size: 0.78rem; opacity: 0.7; }
+  /* lo stato di famiglia: il certificato del comune sul tavolo, con i timbri e le frasi del nastro. E' disegnato a
+     misura fissa (1580 punti, o 1100 col tavolo sotto la carta) e si rimpicciolisce con zoom per stare nello schermo */
+  #foglio[data-tipo="stato"] .carta { width: 100%; background: transparent; box-shadow: none; color: var(--testo); }
+  #foglio[data-tipo="stato"] #foglio-corpo { padding: 0; }
+  #foglio[data-tipo="stato"] { background: rgba(0, 0, 0, 0.84); }
+  #foglio[data-tipo="stato"] .carta > .chiudi { display: none; }
+  .sf { width: 1580px; margin: 0 auto; user-select: none; -webkit-user-select: none; }
+  .sf.stretta { width: 1100px; }
+  .sf-tavolo { display: grid; grid-template-columns: 1080px 460px; gap: 0 40px; align-items: start; padding: 18px 0 30px; }
+  .sf.stretta .sf-tavolo { grid-template-columns: 1080px; gap: 30px; }
+  .sf-linguette { grid-column: 1 / -1; display: flex; gap: 8px; padding-left: 40px; }
+  .sf-linguette button { font-family: var(--macchina); font-size: 22px; padding: 9px 24px 6px; background: #b9b19c; color: #2b2620; border: 0; border-radius: 8px 8px 0 0; }
+  .sf-linguette button.attiva { background: #ece5d2; }
+  .sf-linguette .sf-chiudi { margin-left: auto; align-self: center; font-family: var(--mono); font-size: 18px; padding: 6px 14px; background: transparent; color: #f0e9d8; border: 1px solid rgba(240, 233, 216, 0.6); border-radius: 0; }
+  .sf-linguette .sf-chiudi:hover, .sf-linguette .sf-chiudi:focus-visible { border-color: var(--giallo); outline: none; }
+  .sf-carta { position: relative; background-color: #ece5d2; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .16 0'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.65), inset 0 0 120px rgba(120, 96, 50, 0.25); color: #2b2620; font-family: var(--macchina); padding: 46px 56px 40px; color-scheme: light; }
+  .sf-comune { text-align: center; font-size: 34px; letter-spacing: 0.18em; }
+  .sf-ufficio { text-align: center; font-size: 19px; letter-spacing: 0.12em; margin-top: 4px; }
+  .sf-titolo { text-align: center; font-size: 27px; letter-spacing: 0.1em; margin-top: 18px; border-top: 2px solid #2b2620; border-bottom: 2px solid #2b2620; padding: 6px 0; }
+  .sf-premessa { font-size: 20px; line-height: 1.45; margin: 22px 0 8px; }
+  .sf-riga { position: relative; display: grid; grid-template-columns: 120px minmax(0, 1fr) 80px 220px 150px; gap: 16px; align-items: start; min-height: 150px; padding: 16px 6px 12px; border-top: 1px dashed rgba(43, 38, 32, 0.45); }
+  .sf-riga.sotto { background: rgba(224, 64, 47, 0.1); outline: 2px dashed rgba(180, 37, 28, 0.6); }
+  .sf-carta.in-attesa .sf-riga { cursor: pointer; }
+  .sf-carta.in-attesa .sf-riga:hover { background: rgba(224, 64, 47, 0.08); }
+  .sf-riga.no { animation: sf-no 0.5s; }
+  @keyframes sf-no { 20%, 60% { translate: -6px 0; } 40%, 80% { translate: 6px 0; } }
+  .sf-foto { position: relative; width: 100px; padding: 7px 7px 22px; background: #f8f6ef; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35); rotate: -2deg; }
+  .sf-foto img { display: block; width: 100px; height: 117px; object-fit: cover; filter: sepia(0.2) contrast(1.05); }
+  .sf-foto.vuota { width: 100px; height: 117px; padding: 0; background: transparent; border: 2px dashed rgba(43, 38, 32, 0.4); box-shadow: none; rotate: 0deg; display: grid; place-items: center; font-family: var(--mano); font-size: 46px; color: rgba(43, 38, 32, 0.45); }
+  .sf-graffetta { position: absolute; left: 42px; top: -14px; width: 16px; height: 46px; border: 3px solid #8c8c86; border-radius: 9px; rotate: 8deg; }
+  .sf-dati b { display: block; font-weight: 400; font-size: 26px; }
+  .sf-dati small { display: block; font-size: 16px; letter-spacing: 0.06em; opacity: 0.8; margin-top: 3px; }
+  .sf-dati .barrato, .sf-anagrafe.barrato { text-decoration: line-through; text-decoration-color: #b4251c; text-decoration-thickness: 3px; }
+  .sf-note { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; }
+  #foglio-corpo .sf-note li { line-height: 1.05; }
+  .penna { font-family: var(--mano); font-weight: 700; color: #b4251c; font-size: 27px; line-height: 1.08; }
+  .penna.barrata { text-decoration: line-through; text-decoration-thickness: 2px; opacity: 0.7; }
+  .penna.nuova { animation: sf-scrivi 0.9s steps(18) both; }
+  @keyframes sf-scrivi { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+  .sf-corpo { width: 80px; height: 130px; }
+  .sf-linea { fill: none; stroke: #2b2620; stroke-width: 2.2; stroke-linecap: round; }
+  .sf-linea.vuota { stroke-dasharray: 3 4; opacity: 0.45; }
+  .sf-punto.non { fill: #ece5d2; stroke: #2b2620; stroke-width: 1.4; }
+  .sf-punto.niente { fill: #8a847a; }
+  .sf-punto.rifiuto { fill: #ece5d2; stroke: #8a847a; stroke-width: 1.4; stroke-dasharray: 2 2; }
+  .sf-punto.segno { fill: #b4251c; }
+  .sf-punto.dita { fill: #111; }
+  .sf-esito { display: grid; align-content: start; justify-items: start; gap: 12px; padding-top: 8px; }
+  .sf-vuoto-timbro { font-family: var(--mano); font-size: 22px; color: rgba(43, 38, 32, 0.38); border: 2px dashed rgba(43, 38, 32, 0.25); padding: 2px 16px; }
+  .sf-timbro { font-family: var(--mono); font-weight: 600; font-size: 32px; letter-spacing: 0.12em; padding: 3px 16px; border: 4px solid currentColor; border-radius: 6px; mix-blend-mode: multiply; filter: url(#consumato); opacity: 0.9; }
+  .sf-timbro.sano { color: #2a4a8a; }
+  .sf-timbro.sospetto { color: #9a6a12; }
+  .sf-timbro.malato { color: #b4251c; }
+  .sf-timbro.grave { color: #1d1a17; }
+  .sf-timbro.nuovo { animation: sf-timbra 0.35s cubic-bezier(0.2, 1.6, 0.4, 1) both; }
+  @keyframes sf-timbra { from { scale: 1.8; opacity: 0; } to { scale: 1; opacity: 0.9; } }
+  .sf-ditta { font-family: var(--mono); font-weight: 600; font-size: 14px; letter-spacing: 0.06em; color: #6a2a8c; border: 3px solid #6a2a8c; padding: 3px 8px; rotate: 4deg; mix-blend-mode: multiply; white-space: nowrap; }
+  .sf-via { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: center; font-size: 18px; padding-top: 12px; }
+  .sf-via input, .sf-casella input { width: 22px; height: 22px; margin: 0; accent-color: #b4251c; }
+  .sf-via small { grid-column: 2; font-size: 15px; opacity: 0.7; }
+  .sf-piede { margin-top: 10px; border-top: 1px dashed rgba(43, 38, 32, 0.45); padding-top: 14px; font-size: 21px; line-height: 1.6; }
+  .sf-piede p { margin: 0 0 8px; }
+  .sf-casella { display: inline-flex; gap: 8px; align-items: center; margin: 0 22px 0 6px; }
+  .sf-firma { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
+  .sf-bottone-firma { font-family: var(--mano); font-weight: 700; font-size: 31px; color: #b4251c; background: transparent; border: 0; border-bottom: 2px solid #2b2620; padding: 0 28px 2px; }
+  .sf-bottone-firma:hover, .sf-bottone-firma:focus-visible { background: rgba(180, 37, 28, 0.1); outline: none; }
+  .sf-bottone-firma.invito { animation: sf-invito 1.2s ease-in-out infinite; }
+  @keyframes sf-invito { 50% { background: rgba(180, 37, 28, 0.14); } }
+  .sf-scarabocchio { font-family: var(--mano); font-weight: 700; font-size: 38px; color: #1f3a7a; }
+  .sf-scarabocchio.scrive { animation: sf-scrivi 0.8s steps(14) both; }
+  .sf-consegnato { font-family: var(--mono); font-weight: 600; font-size: 16px; color: #6a2a8c; border: 3px solid #6a2a8c; padding: 3px 10px; rotate: -3deg; mix-blend-mode: multiply; }
+  .sf-spiega { font-size: 17px; opacity: 0.6; }
+  .sf-lato { position: sticky; top: 8px; font-family: var(--mono); color: #f0eada; padding-top: 6px; }
+  .sf.stretta .sf-lato { position: static; }
+  .sf-lato h3 { margin: 0 0 14px; font-weight: 600; font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(240, 234, 218, 0.75); }
+  .sf-rastrelliera { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .sf-manico { display: grid; justify-items: center; width: 106px; padding: 6px 2px; background: transparent; border: 0; color: inherit; touch-action: none; cursor: grab; }
+  .sf-legno { width: 46px; height: 62px; border-radius: 22px 22px 8px 8px; background: linear-gradient(90deg, #5a3a22, #9a6a40 45%, #5a3a22); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); }
+  .sf-base { width: 96px; height: 18px; background: #3a2a1e; border-radius: 3px; }
+  .sf-gomma { margin-top: 6px; font-weight: 600; font-size: 15px; letter-spacing: 0.1em; padding: 2px 6px; border: 2px solid currentColor; }
+  .sf-manico.sano { color: #8fb0ee; }
+  .sf-manico.sospetto { color: #f2d16b; }
+  .sf-manico.malato { color: #ff7466; }
+  .sf-manico.grave { color: #ece8dc; }
+  .sf-scelto { outline: 3px solid var(--giallo); outline-offset: 3px; }
+  .sf-frasi { display: grid; gap: 10px; max-height: 560px; overflow: auto; padding: 4px 6px 4px 0; }
+  .sf-frasi .fot { width: auto; height: 100px; touch-action: none; }
+  .sf-frasi .fot.usata { opacity: 0.5; }
+  .sf-frasi .fot-frase { font-size: 27px; }
+  .sf-frasi .fot-meta { font-size: 14px; }
+  .sf-aiuto { margin: 18px 0 0; font-size: 17px; line-height: 1.45; color: var(--giallo); }
+  .sf-fantasma { position: fixed; z-index: 100; margin: 0; pointer-events: none; translate: -50% -60%; rotate: -5deg; opacity: 0.95; filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.6)); }
+  .sf-fantasma.fot { width: 360px; height: 100px; background: rgba(16, 15, 13, 0.85); }
 
   #foglio[data-tipo="soldi"] .carta, #foglio[data-tipo="nastri"] .carta, #foglio[data-tipo="notte"] .carta, #foglio[data-tipo="verita"] .carta { background: #121514; color: var(--testo); font-family: var(--mono); border: 1px solid var(--linea); }
   #foglio[data-tipo="notte"] h2, #foglio[data-tipo="verita"] h2, #foglio[data-tipo="nastri"] h2, #foglio[data-tipo="soldi"] h2 { font-family: var(--vcr); font-size: 2rem; font-weight: 400; color: var(--giallo); }
@@ -332,6 +406,12 @@
   <filter id="inchiostro" x="-2%" y="-2%" width="104%" height="104%">
     <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="3" result="rumore"></feTurbulence>
     <feDisplacementMap in="SourceGraphic" in2="rumore" scale="1.6" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <!-- l'inchiostro consumato dei timbri -->
+  <filter id="consumato">
+    <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="4" result="r"></feTurbulence>
+    <feColorMatrix in="r" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.3" result="m"></feColorMatrix>
+    <feComposite in="SourceGraphic" in2="m" operator="in"></feComposite>
   </filter>
 </svg>
 

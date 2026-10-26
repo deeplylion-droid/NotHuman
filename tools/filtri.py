@@ -10,7 +10,8 @@ Filtri:
   (bassa risoluzione, pochi colori, retinatura, vignetta);
 - verde_rosso: il verde, ma i rossi dell'originale restano rossi;
 - vhs: videocassetta (crominanza sbavata, righe, disturbi, scritte del videoregistratore;
-  senza la banda di tracking);
+  senza la banda di tracking), con la luce della videocamera: la stanza buia illuminata solo dalla
+  lampada della videocamera (scelta il 26 ottobre per le scene di giorno);
 - vhs_verde: il verde con i difetti della videocassetta;
 - infrarosso: come il verde, ma rosso tendente al rosa, piu' scuro e piu' tenue;
 - vhs_infrarosso: l'infrarosso con i difetti della videocassetta;
@@ -152,8 +153,19 @@ def osd(a, tint):
     return arr(im)
 
 
+def luce_videocamera(a):
+    """Stanze buie illuminate solo dalla lampada della videocamera: centro chiaro, bordi nel buio, luci che
+    bruciano con un alone, neri chiusi. E' lo stesso calcolo dello shader del gioco (gioco/js/vhs.js)."""
+    h, w = a.shape[:2]
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    d2 = ((xx - w * 0.5) / (w * 0.52)) ** 2 + ((yy - h * 0.43) / (h * 0.62)) ** 2
+    lampada = 0.28 + 1.05 * np.exp(-d2 * 1.35)
+    out = bloom(np.clip((a ** 1.18) * lampada[..., None] * 0.95, 0, 1), 0.72, 0.45, 22)
+    return np.clip((out - 0.035) / (1 - 0.035), 0, 1)
+
+
 def vhs(a):
-    return osd(vhs_artifacts(a, True, 3), (236, 236, 236))
+    return osd(vhs_artifacts(luce_videocamera(a), True, 3), (236, 236, 236))
 
 
 def vhs_verde(a):

@@ -1,6 +1,6 @@
 // La videocamera del medico: il VHS calcolato in tempo reale con WebGL.
-// Sopra la sorgente (un'immagine o un canvas) mette zoom, messa a fuoco, visione notturna verde,
-// infrarosso con la mappa di calore e i difetti del nastro. Lo shader viene dall'anteprima in
+// Sopra la sorgente (un'immagine o un canvas) mette zoom, messa a fuoco, la luce della videocamera (di giorno,
+// nelle case), visione notturna verde, infrarosso con la mappa di calore e i difetti del nastro. Lo shader viene dall'anteprima in
 // art/prove-stile/09-vhs-animato, senza la banda di disturbo e con il VHS al 50%.
 
 const VERT = `
@@ -29,6 +29,7 @@ const FRAG = `
   uniform float u_heatLevel;
   uniform float u_dark;
   uniform float u_snow;
+  uniform float u_luce;
   varying vec2 v_uv;
 
   const vec3 LUMA = vec3(0.299, 0.587, 0.114);
@@ -103,6 +104,21 @@ const FRAG = `
     ch /= 5.0;
     vec3 col = vec3(Y) + (ch - vec3(dot(ch, LUMA))) * (1.0 - u_blur * 0.5);
 
+    // luce della videocamera (scelta il 26 ottobre per le scene di giorno): la stanza e' buia e la illumina
+    // solo la lampada della videocamera, quindi il centro e' chiaro, i bordi sprofondano, le luci bruciano
+    // e i neri si chiudono. La lampada sta sulla videocamera: la luce segue lo schermo, anche con lo zoom.
+    if (u_luce > 0.001) {
+      vec2 dl = (uv - vec2(0.5, 0.57)) / vec2(0.52, 0.62);
+      float lampada = 0.28 + 1.05 * exp(-dot(dl, dl) * 1.35);
+      vec3 lit = pow(max(col, vec3(0.0)), vec3(1.18)) * lampada * 0.95;
+      vec3 g = (src(q + vec2(0.012, 0.0) / u_zoom) + src(q - vec2(0.012, 0.0) / u_zoom)
+        + src(q + vec2(0.0, 0.021) / u_zoom) + src(q - vec2(0.0, 0.021) / u_zoom)) * 0.25;
+      vec3 alone = clamp((g * lampada - 0.72) / 0.28, 0.0, 1.0);
+      lit = 1.0 - (1.0 - clamp(lit, 0.0, 1.0)) * (1.0 - alone * 0.45);
+      lit = max(lit - 0.035, vec3(0.0)) / 0.965;
+      col = mix(col, lit, u_luce);
+    }
+
     // notte: viraggio verde
     col = mix(col, greenMap(clamp((Y - 0.5) * 1.15 + 0.5, 0.0, 1.0)), u_green);
     // infrarosso: la stanza fredda resta scura, il calore si accende
@@ -159,15 +175,15 @@ export class Vhs {
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     this.u = {};
     for (const n of ["u_tex", "u_heat", "u_time", "u_amt", "u_green", "u_red", "u_burst", "u_zoom", "u_center",
-      "u_blur", "u_heatTex", "u_heatLevel", "u_dark", "u_snow"]) this.u[n] = gl.getUniformLocation(prog, n);
+      "u_blur", "u_heatTex", "u_heatLevel", "u_dark", "u_snow", "u_luce"]) this.u[n] = gl.getUniformLocation(prog, n);
     this.texSrc = this.makeTexture(0);
     this.texHeat = this.makeTexture(1);
     gl.uniform1i(this.u.u_tex, 0);
     gl.uniform1i(this.u.u_heat, 1);
-    // valori attuali; verde, rosso e buio inseguono i loro obiettivi
+    // valori attuali; verde, rosso, buio e luce della videocamera inseguono i loro obiettivi
     this.p = { amt: 0.5, green: 0, red: 0, burst: 0, zoom: 1, cx: 0.5, cy: 0.5, blur: 0, heatTex: 0, heatLevel: 0,
-      dark: 0, snow: 0 };
-    this.goal = { green: 0, red: 0, dark: 0 };
+      dark: 0, snow: 0, luce: 0 };
+    this.goal = { green: 0, red: 0, dark: 0, luce: 0 };
     this.tweens = [];
     this.time = 0;
     this.last = null;
@@ -227,6 +243,11 @@ export class Vhs {
     this.goal.dark = v;
   }
 
+  // la luce della videocamera: 1 nelle riprese di giorno, 0 sulla scrivania, sulla mappa, di notte e all'infrarosso
+  setLuce(v) {
+    this.goal.luce = v;
+  }
+
   // porta i parametri ai valori dati in "ms" millisecondi
   tween(values, ms) {
     return new Promise((resolve) => {
@@ -265,7 +286,7 @@ export class Vhs {
     this.last = now;
     if (!this.paused) this.time += dt;
     const k = Math.min(1, dt * 3);
-    for (const g of ["green", "red", "dark"]) this.p[g] += (this.goal[g] - this.p[g]) * k;
+    for (const g of ["green", "red", "dark", "luce"]) this.p[g] += (this.goal[g] - this.p[g]) * k;
     this.p.burst = Math.max(0, this.p.burst - dt * 3);
     for (const t of this.tweens) {
       if (t.t0 == null) t.t0 = now;
@@ -292,6 +313,7 @@ export class Vhs {
     gl.uniform1f(u.u_heatLevel, p.heatLevel);
     gl.uniform1f(u.u_dark, p.dark);
     gl.uniform1f(u.u_snow, p.snow);
+    gl.uniform1f(u.u_luce, p.luce);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 
