@@ -1,0 +1,78 @@
+{
+  "giovane_piange": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change only the facial expression of the pale young woman with long dark hair in the long grey cardigan in the middle: she is now crying, tears running down her cheeks, eyes red and swollen, mouth trembling. Keep her face recognizable with the same grotesque features, and keep everything else in the image exactly identical: her pose, her clothes, the old woman with the walking stick, the man in the tracksuit, the room, the light and the framing.",
+      "image_urls": [
+        "@file:../scene/02-soggiorno/finale.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giovane_piange.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "uomo_arrabbiato": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change only the facial expression of the stocky grey-haired man in the navy tracksuit on the right: he is now furious, teeth bared, brows down, nostrils flared, staring straight at the viewer with hatred. Keep his face recognizable with the same grotesque features, and keep everything else in the image exactly identical: his pose, his clothes, the old woman and the young woman, the room, the closed door, the light and the framing.",
+      "image_urls": [
+        "@file:../scene/02-soggiorno/finale.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_arrabbiato.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "uomo_nervoso": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change only the facial expression of the stocky grey-haired man in the navy tracksuit on the right: he is now nervous and evasive, sweating heavily, his eyes glancing sideways toward the closed door next to him, lips pressed together. Keep his face recognizable with the same grotesque features, and keep everything else in the image exactly identical: his pose, his clothes, the old woman and the young woman, the room, the closed door, the light and the framing.",
+      "image_urls": [
+        "@file:../scene/02-soggiorno/finale.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_nervoso.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "figlia_piange": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change only the facial expression of the thin young woman with long dark hair in the purple hoodie standing in the doorway in the background: she is now crying, tears running down her cheeks, eyes red and swollen, mouth trembling. Keep her face recognizable with the same grotesque features, and keep everything else in the image exactly identical: her pose, her hands, her clothes, the man in the foreground, the room, the table, the light and the framing.",
+      "image_urls": [
+        "@file:../scene/01-cucina/finale.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia_piange.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  }
+}

@@ -6,7 +6,8 @@
 <style>
   /* Layout: lo schermo della videocamera in 16:9 al centro, l'interfaccia sovrapposta come l'OSD di una
      videocamera anni '90; i fogli di carta (fax, giornale, taccuino, modulo) si aprono sopra tutto.
-     Un solo tema scuro, da stanza buia. */
+     Nelle visite niente riquadri: le frasi si scrivono addosso a chi parla, le domande si aprono a raggiera,
+     e in basso scorre il nastro delle frasi. Un solo tema scuro, da stanza buia. */
   :root {
     --notte: #0b0d0c;
     --pannello: rgba(9, 11, 10, 0.88);
@@ -70,6 +71,7 @@
   #osd .triangolo { width: 0; height: 0; border-top: 1.3cqw solid transparent; border-bottom: 1.3cqw solid transparent; border-left: 2cqw solid currentColor; }
   #osd-modo { color: #f0f0ec; }
   #osd-basso { position: absolute; left: 4cqw; bottom: 5.5cqw; display: flex; gap: 3cqw; font-variant-numeric: tabular-nums; }
+  #schermo[data-schermo="visita"] #osd-basso { bottom: 11.4cqw; font-size: max(12px, 2.6cqw); }
   @keyframes lampeggia { to { visibility: hidden; } }
   @media (prefers-reduced-motion: reduce) { #osd .punto { animation: none; } }
 
@@ -91,17 +93,79 @@
   .pin.luogo { background: #2d2a25; font-size: max(10px, 1.1cqw); }
   .pin:hover, .pin:focus-visible { border-color: var(--giallo); outline: none; }
 
-  #etichetta { position: absolute; left: 0; top: 0; margin: 1.6cqw 0 0 1.6cqw; font-family: var(--vcr); font-size: max(13px, 2cqw); background: rgba(0, 0, 0, 0.78); color: #f0f0ec; padding: 0.1em 0.45em; pointer-events: none; white-space: nowrap; z-index: 6; }
-  #cursore { position: absolute; left: 0; top: 0; width: 2.2cqw; height: 2.2cqw; min-width: 14px; min-height: 14px; margin: calc(-0.5 * max(14px, 2.2cqw)) 0 0 calc(-0.5 * max(14px, 2.2cqw)); border: 2px solid rgba(240, 240, 236, 0.85); border-radius: 50%; pointer-events: none; z-index: 7; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6); }
+  #etichetta { position: absolute; left: 0; top: 0; margin: 1.6cqw 0 0 1.8cqw; font-family: var(--vcr); font-size: max(14px, 2.1cqw); color: #f0f0ec; text-shadow: 0 0 2px #000, 0.14cqw 0.14cqw 0 #000, 0 0 0.8cqw rgba(0, 0, 0, 0.9); pointer-events: none; white-space: nowrap; z-index: 10; }
+  #cursore { position: absolute; left: 0; top: 0; width: 2.2cqw; height: 2.2cqw; min-width: 14px; min-height: 14px; margin: calc(-0.5 * max(14px, 2.2cqw)) 0 0 calc(-0.5 * max(14px, 2.2cqw)); border: 2px solid rgba(240, 240, 236, 0.85); border-radius: 50%; pointer-events: none; z-index: 13; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6); }
   #cursore::after { content: ""; position: absolute; left: 50%; top: 50%; width: 3px; height: 3px; margin: -1.5px 0 0 -1.5px; background: var(--rec); border-radius: 50%; }
   @media (pointer: coarse) { #cursore { display: none; } }
 
-  /* sottotitoli della videocassetta */
-  #sottotitoli { position: absolute; left: 50%; bottom: 11.5cqw; transform: translateX(-50%); width: 76%; text-align: center; pointer-events: none; z-index: 5; }
-  .riga { display: inline; margin: 0; font-family: var(--sottotitoli); font-weight: 600; font-size: max(13px, 2.25cqw); line-height: 1.55; color: #fff; background: rgba(0, 0, 0, 0.74); padding: 0.18em 0.55em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-  .riga b { color: var(--giallo); font-weight: 700; letter-spacing: 0.03em; }
-  .riga.tu { color: #cfcabd; font-style: italic; }
-  .riga.descr { color: #e9dfc1; font-style: italic; font-weight: 500; }
+  /* le parole addosso: le frasi si scrivono accanto alla testa di chi parla, senza riquadri, come i titoli di una
+     videocamera; in basso il medico, le descrizioni e chi non si vede */
+  #schermo { --sotto: 7.5cqw; }
+  #schermo[data-schermo="visita"] { --sotto: 16cqw; }
+  #schermo[data-schermo="nastro"] { --sotto: 11cqw; }
+  #parole { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+  .frase { position: absolute; margin: 0; font-family: var(--vcr); font-size: max(18px, 3.3cqw); line-height: 1.02; color: #fff; text-shadow: 0 0 2px #000, 0.18cqw 0.18cqw 0 #000, -0.1cqw -0.1cqw 0 #000, 0 0 1.2cqw rgba(0, 0, 0, 0.85); text-wrap: pretty; transition: opacity 0.6s ease; }
+  .frase.sotto { left: 50%; bottom: var(--sotto); transform: translateX(-50%); width: max-content; max-width: 64%; text-align: center; font-size: max(16px, 2.7cqw); }
+  .frase.sinistra { text-align: right; }
+  .frase.tu { color: #d8d3c4; }
+  .frase.descr { color: #f1e6c4; }
+  .frase.gesto { color: #d5ccb3; }
+  .frase.ferma { opacity: 0.86; }
+  .frase.via { opacity: 0; }
+  .frase .chi { color: var(--giallo); }
+  .frase .chiave { color: var(--giallo); text-decoration: underline; text-decoration-thickness: 0.12em; text-underline-offset: 0.16em; text-shadow: 0 0 2px #000, 0.18cqw 0.18cqw 0 #000, 0 0 1.3cqw rgba(242, 209, 107, 0.55); }
+  .frase .chiave[data-link] { pointer-events: auto; }
+  .frase .chiave[data-link]:hover { color: #fff3c4; }
+  .frase .cursore { display: inline-block; width: 0.42em; height: 0.78em; margin-left: 0.06em; vertical-align: -0.04em; background: #fff; box-shadow: 0.12cqw 0.12cqw 0 #000; animation: lampeggia 0.8s steps(2, start) infinite; }
+  .solo-lettori { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+  /* i segni sopra la scena: cosa indica una parola chiave (giallo), contro cosa si contesta (rosso) */
+  #segni { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 7; overflow: visible; }
+  .segno { fill: none; stroke-width: 2.4; stroke-dasharray: 7 5; }
+  .segno.giallo { stroke: var(--giallo); fill: rgba(242, 209, 107, 0.1); filter: url(#alone); }
+  .segno.rosso { stroke: var(--rec); stroke-width: 2.8; stroke-dasharray: none; filter: url(#alone); }
+  .filo { fill: none; stroke-linecap: round; }
+  .filo.giallo { stroke: var(--giallo); stroke-width: 2.2; stroke-dasharray: 0.5 6; filter: url(#alone); }
+  .filo.rosso { stroke: var(--rec); stroke-width: 3; filter: url(#alone); }
+  .timbro-schermo { position: absolute; z-index: 9; pointer-events: none; font-family: var(--mono); font-weight: 600; font-size: max(13px, 1.9cqw); letter-spacing: 0.08em; color: var(--rec); border: max(2px, 0.25cqw) solid currentColor; padding: 0.08em 0.6em; background: rgba(0, 0, 0, 0.3); text-shadow: 0 0 0.6cqw rgba(0, 0, 0, 0.8); white-space: nowrap; transform: translate(-50%, -50%) rotate(-8deg); animation: timbro 2.8s ease-out forwards; }
+  .timbro-schermo.combacia { color: var(--giallo); }
+  @keyframes timbro { 0% { transform: translate(-50%, -50%) rotate(-8deg) scale(1.8); opacity: 0; } 8% { transform: translate(-50%, -50%) rotate(-8deg) scale(1); opacity: 1; } 78% { opacity: 1; } 100% { transform: translate(-50%, -50%) rotate(-8deg) scale(1); opacity: 0; } }
+
+  /* le domande a raggiera: voci bianche col contorno nero, fili sottili verso il punto toccato */
+  #ruota { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
+  .ruota-fili { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .ruota-filo { stroke: rgba(255, 255, 255, 0.8); stroke-width: 1.5; filter: url(#alone-nero); }
+  .ruota-anello { fill: rgba(0, 0, 0, 0.12); stroke: #fff; stroke-width: 2.2; filter: url(#alone-nero); }
+  .ruota-punto { fill: var(--rec); }
+  .ruota-voce { position: absolute; pointer-events: auto; margin: 0; padding: 0.12em 0.25em; background: none; border: 0; font-family: var(--vcr); font-size: max(17px, 2.5cqw); line-height: 1; color: #fff; white-space: nowrap; text-shadow: 0 0 2px #000, 0.15cqw 0.15cqw 0 #000, 0 0 1cqw rgba(0, 0, 0, 0.95); transform: translate(0, -50%); }
+  .ruota-voce.a-sinistra { transform: translate(-100%, -50%); }
+  .ruota-voce.nuova { color: var(--giallo); }
+  .ruota-voce:hover, .ruota-voce:focus-visible { color: var(--giallo); text-decoration: underline; text-underline-offset: 0.16em; outline: none; }
+  .ruota-voce:disabled { color: var(--spento); text-decoration: none; }
+  .ruota-chiudi { position: absolute; pointer-events: auto; width: max(30px, 3.6cqw); height: max(30px, 3.6cqw); transform: translate(-50%, -50%); border-radius: 50%; background: transparent; border: 0; padding: 0; }
+  .ruota-titolo { position: absolute; pointer-events: none; font-family: var(--vcr); font-size: max(13px, 1.8cqw); letter-spacing: 0.06em; color: var(--giallo); text-shadow: 0 0 2px #000, 0.14cqw 0.14cqw 0 #000; white-space: nowrap; transform: translate(-50%, calc(-100% - 2.4cqw)); }
+
+  /* il nastro delle frasi: una pellicola in basso, con la faccia di chi ha parlato o la foto dell'indizio */
+  #nastro-frasi { position: absolute; left: 0; right: 0; bottom: 0; height: max(60px, 10cqw); z-index: 6; background-color: rgba(12, 11, 9, 0.34); background-image: radial-gradient(circle, rgba(236, 232, 220, 0.34) 0 0.28cqw, transparent 0.32cqw), radial-gradient(circle, rgba(236, 232, 220, 0.34) 0 0.28cqw, transparent 0.32cqw), linear-gradient(rgba(12, 11, 9, 0.55), rgba(12, 11, 9, 0.55)), linear-gradient(rgba(12, 11, 9, 0.55), rgba(12, 11, 9, 0.55)); background-size: 2.2cqw 1.1cqw, 2.2cqw 1.1cqw, 100% 1.2cqw, 100% 1.2cqw; background-repeat: repeat-x; background-position: 0 0.15cqw, 0 calc(100% - 0.15cqw), 0 0, 0 100%; }
+  #nastro-scorri { position: absolute; left: 0; right: 0; top: max(7px, 1.25cqw); bottom: max(7px, 1.25cqw); display: flex; gap: 1cqw; padding: 0 1.4cqw; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+  #nastro-scorri::-webkit-scrollbar { display: none; }
+  .fot { position: relative; flex: none; box-sizing: border-box; width: max(150px, 21cqw); display: flex; gap: 0.7cqw; padding: max(3px, 0.45cqw); background: rgba(16, 15, 13, 0.42); border: 1px solid rgba(236, 232, 220, 0.3); color: #f0f0ec; font-family: var(--vcr); text-shadow: 0 0 2px #000, 0.12cqw 0.12cqw 0 #000; touch-action: pan-x; cursor: grab; }
+  .fot-foto { flex: none; height: 100%; aspect-ratio: 6 / 7; background: rgba(42, 41, 37, 0.6) no-repeat center / cover; filter: grayscale(0.35) contrast(1.08); opacity: 0.92; }
+  .fot-foto.ir { filter: grayscale(1) sepia(1) hue-rotate(-38deg) saturate(4.5) contrast(1.25); }
+  .fot-testo { display: grid; align-content: space-between; min-width: 0; }
+  .fot-frase { font-size: max(13px, 1.7cqw); line-height: 1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .fot-meta { font-family: var(--mono); font-size: max(9px, 0.92cqw); letter-spacing: 0.04em; color: var(--spento); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fot.prova { border-color: rgba(242, 209, 107, 0.45); }
+  .fot.prova .fot-meta { color: #d1b768; }
+  .fot.nuovo { animation: arriva 1.4s ease-out; }
+  @keyframes arriva { 0% { transform: translateY(-60%); opacity: 0; border-color: var(--rec); } 35% { transform: none; opacity: 1; border-color: var(--rec); } 100% { border-color: rgba(236, 232, 220, 0.3); } }
+  .fot.presa { opacity: 0.35; }
+  .fot.scelta { border-color: var(--rec); box-shadow: 0 0 0 1px var(--rec), 0 0 1.4cqw rgba(224, 64, 47, 0.5); }
+  .fot.bersaglio { border-color: var(--giallo); box-shadow: 0 0 0 1px var(--giallo), 0 0 1.2cqw rgba(242, 209, 107, 0.45); }
+  .fot.vuoto { width: auto; max-width: 80cqw; align-items: center; padding: 0 1.2cqw; border-style: dashed; background: transparent; color: var(--spento); font-size: max(13px, 1.7cqw); cursor: default; }
+  .fot.fantasma { position: absolute; z-index: 12; pointer-events: none; margin: 0; transform: translate(-50%, -70%) rotate(-4deg); background: rgba(16, 15, 13, 0.82); border-color: var(--rec); box-shadow: 0 1.2cqw 2.6cqw rgba(0, 0, 0, 0.75); }
+  .fot:focus-visible { outline: 2px solid var(--giallo); outline-offset: 1px; }
+  @media (prefers-reduced-motion: reduce) { .fot.nuovo, .timbro-schermo { animation-duration: 0.01s; } .frase .cursore { animation: none; } }
 
   /* la scheda della casa sulla mappa: una scheda di cartoncino del medico, piena se la casa e' stata visitata */
   #scheda-casa { position: absolute; z-index: 9; width: clamp(210px, 31cqw, 380px); max-height: calc(100% - 4cqw); overflow: auto; color-scheme: light; background-color: #efe6cf; background-image: repeating-linear-gradient(180deg, transparent 0 1.55em, rgba(60, 90, 140, 0.13) 1.55em calc(1.55em + 1px)); color: #2a2520; font-family: var(--mono); font-size: max(10.5px, 1.2cqw); line-height: 1.4; padding: 0.8em 0.9em; border: 1px solid rgba(40, 30, 20, 0.35); box-shadow: 0 0.8cqw 2cqw rgba(0, 0, 0, 0.55); rotate: -0.6deg; }
@@ -125,17 +189,6 @@
   .sc-azioni .sc-vai { color: #b4302a; border-color: #b4302a; font-weight: 600; }
   .sc-azioni button:hover, .sc-azioni button:focus-visible { background: rgba(40, 30, 20, 0.08); outline: none; }
 
-  /* domande del medico e scelte */
-  #menu { position: absolute; left: 3cqw; bottom: 3cqw; width: min(40cqw, 92%); max-height: calc(100% - 6cqw); overflow: auto; background: var(--pannello); border: 1px solid var(--linea); padding: 0.6em; display: flex; flex-direction: column; gap: 0.15em; font-family: var(--mono); font-size: max(12px, 1.6cqw); z-index: 8; }
-  #menu .menu-titolo { margin: 0 0 0.3em; font-family: var(--vcr); font-size: 1.35em; color: var(--giallo); letter-spacing: 0.04em; }
-  #menu .menu-testo { margin: 0 0 0.4em; color: var(--testo); line-height: 1.45; }
-  #menu button { text-align: left; font: inherit; color: var(--testo); background: transparent; border: 0; padding: 0.42em 0.5em; line-height: 1.35; }
-  #menu button::before { content: "› "; color: var(--spento); }
-  #menu button:hover, #menu button:focus-visible { background: rgba(236, 232, 220, 0.12); outline: none; }
-  #menu button:disabled { color: var(--spento); opacity: 0.6; }
-  #menu button.secondario { color: var(--spento); }
-  #menu button.prova { font-size: 0.92em; }
-
   /* i comandi del medico, sotto lo schermo: l'immagine della videocamera resta libera */
   #hud { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; min-width: 0; }
   #hud .hud-b { font-family: var(--mono); font-size: 0.8125rem; line-height: 1.2; color: var(--testo); background: transparent; border: 1px solid var(--linea); padding: 6px 10px; }
@@ -143,7 +196,7 @@
   #hud .hud-b:hover, #hud .hud-b:focus-visible { border-color: var(--giallo); outline: none; }
   #hud .suggerimento { font-family: var(--mono); font-size: 0.8125rem; color: var(--spento); }
 
-  #avviso { position: absolute; left: 50%; top: 9cqw; transform: translateX(-50%); font-family: var(--vcr); font-size: max(13px, 2.2cqw); color: var(--giallo); background: rgba(0, 0, 0, 0.82); border: 1px solid rgba(242, 209, 107, 0.6); padding: 0.15em 0.7em; pointer-events: none; z-index: 9; }
+  #avviso { position: absolute; left: 50%; top: 4cqw; transform: translateX(-50%); font-family: var(--vcr); font-size: max(15px, 2.4cqw); color: var(--giallo); text-shadow: 0 0 2px #000, 0.15cqw 0.15cqw 0 #000, 0 0 1cqw rgba(0, 0, 0, 0.9); pointer-events: none; white-space: nowrap; z-index: 11; }
   #avviso.via { animation: svanisci 2.6s ease forwards; }
   @keyframes svanisci { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
 
@@ -169,6 +222,7 @@
   #foglio-corpo h3 { margin: 1.1rem 0 0.35rem; font-size: 0.95rem; letter-spacing: 0.06em; }
   #foglio-corpo p, #foglio-corpo li { line-height: 1.55; }
   #foglio-corpo ul, #foglio-corpo ol { padding-left: 1.3rem; margin: 0.3rem 0; display: grid; gap: 0.3rem; }
+  #foglio-corpo li.detta { list-style: "« "; opacity: 0.9; }
   .azioni { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.1rem; }
   .azioni button { font-family: var(--mono); font-size: 0.95rem; padding: 0.55rem 0.9rem; border: 1px solid currentColor; background: transparent; color: inherit; text-align: left; }
   .azioni button:hover, .azioni button:focus-visible { background: rgba(127, 127, 127, 0.16); outline: none; }
@@ -242,15 +296,27 @@
     <canvas id="vhs" aria-label="La videocamera del medico" role="img"></canvas>
     <img id="statico" alt="" width="1600" height="900">
     <div id="zone"></div>
+    <svg id="segni" viewBox="0 0 1000 562.5" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="alone" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.4" result="sfuma"></feGaussianBlur>
+          <feMerge><feMergeNode in="sfuma"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+        </filter>
+        <filter id="alone-nero" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0.6" dy="0.6" stdDeviation="0.8" flood-color="#000" flood-opacity="0.9"></feDropShadow>
+        </filter>
+      </defs>
+    </svg>
     <div id="osd" hidden aria-hidden="true">
       <div id="osd-alto"><span id="osd-stato"></span><span id="osd-modo"></span></div>
       <div id="osd-basso"><span id="osd-data"></span><span id="osd-ora"></span></div>
     </div>
     <div id="orologio" aria-live="polite"></div>
     <div id="didascalia" hidden></div>
-    <div id="sottotitoli" aria-live="polite"></div>
-    <div id="menu" hidden></div>
+    <div id="parole" aria-live="polite"></div>
+    <div id="ruota" hidden></div>
     <div id="scheda-casa" hidden></div>
+    <div id="nastro-frasi" hidden aria-label="Il nastro delle frasi"><div id="nastro-scorri"></div></div>
     <div id="comandi" hidden></div>
     <div id="avviso" hidden role="status"></div>
     <div id="etichetta" hidden></div>

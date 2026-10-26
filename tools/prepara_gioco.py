@@ -9,11 +9,16 @@ Per ogni luogo:
 - <luogo>_<persona>.png: la sagoma bianca della persona, per evidenziarla;
 - <luogo>_calore.png: la mappa di calore per l'infrarosso dei nastri: le persone (piu' calde dove si vede la
   pelle, e chi ha la febbre di piu'), i nascosti dietro le porte, le lampade.
-Poi i primi piani in img/pp, la mappa del paese e la scrivania con il 20% di fumetto (salvata anche in
-art/scrivania/scrivania.jpg). L'ordine delle persone e i calori sono quelli di gioco/js/dati.js.
+Poi i primi piani in img/pp, la mappa del paese e la scrivania disegnate al 40% (confermato il 26 ottobre; la
+scrivania e' salvata anche in art/scrivania/scrivania.jpg). L'ordine delle persone e i calori sono quelli di gioco/js/dati.js.
+Infine le espressioni: da ogni variante in art/espressioni (la stessa scena con un'altra faccia) si ritaglia solo
+la testa, riallineata alla scena, in img/espressioni/<luogo>_<persona>_<volto>.png; dove incollarla e' scritto in
+gioco/js/espressioni.js. Serve OpenCV per riallineare (pip install opencv-python-headless).
 """
+import json
 import pathlib
 
+import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 
@@ -61,6 +66,21 @@ VOLTI = {
     "giovane": ("art/scene/02-soggiorno/finale.jpg", (0.462, 0.185, 0.543, 0.375)),
     "nonna": ("art/scene/02-soggiorno/finale.jpg", (0.37, 0.225, 0.452, 0.425)),
 }
+
+# le espressioni di ogni persona (art/espressioni/<persona>_<volto>.png o .jpg) e l'ellisse della testa
+# (cx, cy, rx, ry): dentro si prende la faccia nuova, verso il bordo si sfuma nella scena
+ESPRESSIONI = {
+    "cucina": {"padre": ["nervoso", "arrabbiato"], "figlia": ["piange"]},
+    "soggiorno": {"uomo": ["nervoso", "arrabbiato"], "giovane": ["piange"]},
+}
+TESTE = {
+    "padre": (0.338, 0.2, 0.072, 0.155),
+    "figlia": (0.477, 0.29, 0.034, 0.068),
+    "uomo": (0.62, 0.172, 0.066, 0.14),
+    "giovane": (0.499, 0.262, 0.042, 0.1),
+}
+# per le foto sul nastro delle frasi: chi l'ha detta, con la faccia che aveva (ritaglio dalla scena)
+VOLTI_SCENA = {"figlia": (0.44, 0.215, 0.515, 0.36)}
 
 PRIMI = {
     "art/scene/01-cucina/primi-piani": ["padre", "figlia"],
@@ -119,17 +139,25 @@ def luogo(nome, L):
     print(nome, "ok")
 
 
+# quanto disegno sulla scrivania e sulla mappa: la foto mescolata alla versione disegnata
+DISEGNO_SCRIVANIA = 0.4
+
+
+def mescola(foto, disegno, size, quanto):
+    a = np.asarray(Image.open(foto).convert("RGB").resize(size, Image.LANCZOS)).astype(np.float32)
+    b = np.asarray(Image.open(disegno).convert("RGB").resize(size, Image.LANCZOS)).astype(np.float32)
+    return Image.fromarray(np.clip(a * (1 - quanto) + b * quanto, 0, 255).astype(np.uint8))
+
+
 def scrivania():
     base = ROOT / "art/scrivania"
-    foto = np.asarray(Image.open(base / "scrivania_foto.jpg").convert("RGB").resize((1920, 1080), Image.LANCZOS)
-                      ).astype(np.float32)
-    stile = np.asarray(Image.open(base / "scrivania_stile.jpg").convert("RGB").resize((1920, 1080), Image.LANCZOS)
-                       ).astype(np.float32)
-    out = Image.fromarray(np.clip(foto * 0.8 + stile * 0.2, 0, 255).astype(np.uint8))
+    out = mescola(base / "scrivania_foto.jpg", base / "scrivania_stile.jpg", (1920, 1080), DISEGNO_SCRIVANIA)
     out.save(base / "scrivania.jpg", quality=93)
     out.resize((W, H), Image.LANCZOS).save(OUT / "scrivania.jpg", quality=86)
-    # la mappa resta piu' grande dello schermo: nel gioco si ingrandisce
-    Image.open(base / "mappa_paese.jpg").convert("RGB").resize((2560, 1440), Image.LANCZOS).save(OUT / "mappa.jpg", quality=84)
+    # la mappa resta piu' grande dello schermo: nel gioco si ingrandisce. La versione disegnata e' quella
+    # riallineata con tools/allinea.py, altrimenti le case si sdoppiano
+    mescola(base / "mappa_paese.jpg", base / "mappa_paese_stile_allineata.jpg", (2560, 1440), DISEGNO_SCRIVANIA).save(
+        OUT / "mappa.jpg", quality=84)
     print("scrivania e mappa ok")
 
 
@@ -146,18 +174,8 @@ def primi():
 
 def volti():
     (OUT / "volti").mkdir(parents=True, exist_ok=True)
-    for persona, (src, (x0, y0, x1, y1)) in VOLTI.items():
-        im = Image.open(ROOT / src).convert("RGB")
-        c = im.crop((int(x0 * im.width), int(y0 * im.height), int(x1 * im.width), int(y1 * im.height)))
-        # 6:7 come una fototessera
-        w, h = c.size
-        if w / h > 6 / 7:
-            nw = int(h * 6 / 7)
-            c = c.crop(((w - nw) // 2, 0, (w - nw) // 2 + nw, h))
-        else:
-            nh = int(w * 7 / 6)
-            c = c.crop((0, 0, w, nh))
-        c.resize((240, 280), Image.LANCZOS).save(OUT / "volti" / f"{persona}.jpg", quality=86)
+    for persona, (src, box) in VOLTI.items():
+        ritaglio_volto(Image.open(ROOT / src).convert("RGB"), box).save(OUT / "volti" / f"{persona}.jpg", quality=86)
     print("volti:", len(VOLTI))
 
 
@@ -169,6 +187,96 @@ def giornale():
     print("giornale ok")
 
 
+def ritaglio_volto(im, box):
+    x0, y0, x1, y1 = box
+    c = im.crop((int(x0 * im.width), int(y0 * im.height), int(x1 * im.width), int(y1 * im.height)))
+    # 6:7 come una fototessera
+    w, h = c.size
+    if w / h > 6 / 7:
+        nw = int(h * 6 / 7)
+        c = c.crop(((w - nw) // 2, 0, (w - nw) // 2 + nw, h))
+    else:
+        nh = int(w * 7 / 6)
+        c = c.crop((0, 0, w, nh))
+    return c.resize((240, 280), Image.LANCZOS)
+
+
+def riallinea(scena, variante, testa):
+    """La variante deformata finche' non combacia con la scena: prima tutta (affine), poi attorno alla testa."""
+    h, w = scena.shape[:2]
+    variante = cv2.resize(variante, (w, h), interpolation=cv2.INTER_AREA)
+    grigio = lambda im: cv2.GaussianBlur(cv2.cvtColor(im, cv2.COLOR_RGB2GRAY), (0, 0), 1.5).astype(np.float32)
+    a, b = grigio(scena), grigio(variante)
+    criteri = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 200, 1e-6)
+    warp = np.eye(2, 3, dtype=np.float32)
+    try:
+        _, warp = cv2.findTransformECC(a, b, warp, cv2.MOTION_AFFINE, criteri, None, 5)
+    except cv2.error:
+        pass
+    variante = cv2.warpAffine(variante, warp, (w, h), flags=cv2.INTER_LINEAR + cv2.WARP_INVERSE_MAP,
+                              borderMode=cv2.BORDER_REPLICATE)
+    # attorno alla testa, solo uno spostamento: la faccia cambia, ma capelli e spalle restano
+    cx, cy, rx, ry = testa
+    x0, x1 = int(max(0, (cx - rx * 2) * w)), int(min(w, (cx + rx * 2) * w))
+    y0, y1 = int(max(0, (cy - ry * 1.6) * h)), int(min(h, (cy + ry * 1.6) * h))
+    a, b = grigio(scena)[y0:y1, x0:x1], grigio(variante)[y0:y1, x0:x1]
+    sposta = np.eye(2, 3, dtype=np.float32)
+    try:
+        _, sposta = cv2.findTransformECC(a, b, sposta, cv2.MOTION_TRANSLATION, criteri, None, 5)
+    except cv2.error:
+        pass
+    return cv2.warpAffine(variante, sposta, (w, h), flags=cv2.INTER_LINEAR + cv2.WARP_INVERSE_MAP,
+                          borderMode=cv2.BORDER_REPLICATE)
+
+
+def espressioni():
+    """Le teste delle espressioni, da incollare sopra la scena (ritagli RGBA) e le foto per il nastro delle frasi."""
+    (OUT / "espressioni").mkdir(parents=True, exist_ok=True)
+    (OUT / "volti").mkdir(parents=True, exist_ok=True)
+    caselle = {}
+    for luogo_, persone in ESPRESSIONI.items():
+        sorgente = Image.open(ROOT / LUOGHI[luogo_]["scena"]).convert("RGB")
+        scena = np.asarray(sorgente.resize((W, H), Image.LANCZOS))
+        grande = np.asarray(sorgente.resize((W * 2, H * 2), Image.LANCZOS))
+        gy, gx = np.mgrid[0:H, 0:W].astype(np.float32)
+        for persona, volti_ in persone.items():
+            cx, cy, rx, ry = TESTE[persona]
+            d = np.sqrt(((gx / W - cx) / rx) ** 2 + ((gy / H - cy) / ry) ** 2)
+            # pieno fino a 0.72 del raggio, poi sfuma fino al bordo
+            alpha = np.clip((1 - d) / 0.28, 0, 1)
+            alpha = alpha * alpha * (3 - 2 * alpha)
+            anello = (d > 1.0) & (d < 1.3)
+            ys, xs = np.nonzero(alpha > 0)
+            x0, x1, y0, y1 = xs.min(), xs.max() + 1, ys.min(), ys.max() + 1
+            caselle.setdefault(luogo_, {})[persona] = {"box": [round(x0 / W, 5), round(y0 / H, 5), round(x1 / W, 5),
+                                                                round(y1 / H, 5)], "volti": volti_}
+            for volto in volti_:
+                file = next((ROOT / "art/espressioni").glob(f"{persona}_{volto}.*"))
+                variante = np.asarray(Image.open(file).convert("RGB"))
+                allineata = riallinea(scena, variante, TESTE[persona]).astype(np.float32)
+                # la variante puo' avere una luce appena diversa: si corregge col colore attorno alla testa
+                allineata += (scena[anello].astype(np.float32).mean(0) - allineata[anello].mean(0))
+                rgba = np.dstack([np.clip(allineata, 0, 255), alpha * 255]).astype(np.uint8)[y0:y1, x0:x1]
+                Image.fromarray(rgba, "RGBA").save(OUT / "espressioni" / f"{luogo_}_{persona}_{volto}.png", optimize=True)
+                # la foto per il nastro: dalla scena grande con la testa nuova
+                grande_v = riallinea(grande, variante, TESTE[persona]).astype(np.float32)
+                a2 = cv2.resize(alpha, (W * 2, H * 2))[..., None]
+                misto = Image.fromarray((grande * (1 - a2) + grande_v * a2).astype(np.uint8))
+                box = VOLTI_SCENA.get(persona) or VOLTI[persona][1]
+                ritaglio_volto(misto, box).save(OUT / "volti" / f"{persona}_{volto}.jpg", quality=86)
+            print("espressioni:", luogo_, persona, ", ".join(volti_))
+    righe = ["// generato da tools/prepara_gioco.py: dove incollare le teste delle espressioni sopra la scena,",
+             "// [x0, y0, x1, y1] in frazioni dell'immagine, e quali espressioni ci sono per ogni persona",
+             "export const ESPRESSIONI = {"]
+    for luogo_, persone in caselle.items():
+        righe.append(f"  {luogo_}: {{")
+        for persona, v in persone.items():
+            righe.append(f"    {persona}: {{ box: {json.dumps(v['box'])}, volti: {json.dumps(v['volti'])} }},")
+        righe.append("  },")
+    righe.append("};")
+    (ROOT / "gioco/js/espressioni.js").write_text("\n".join(righe) + "\n")
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     for nome, L in LUOGHI.items():
@@ -177,6 +285,7 @@ def main():
     primi()
     volti()
     giornale()
+    espressioni()
 
 
 if __name__ == "__main__":

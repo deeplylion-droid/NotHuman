@@ -1,11 +1,13 @@
 // Contenuti della giornata del prototipo: persone, verita', scene, esami, domande, prove, fax, giornale.
 // Le coordinate sono frazioni dell'immagine (0-1, da sinistra e dall'alto).
-// Nelle battute, chi parla e' la prima voce: "TU" e' il medico, null una descrizione; le parentesi quadre
-// sono suoni e gesti, come nei sottotitoli per sordi.
+// Le battute sono [chi, testo, extra]: chi e' la voce ("TU" e' il medico, null una descrizione); le parentesi
+// quadre sono suoni e gesti. Tra asterischi le parole chiave, che si accendono: extra.k dice dove portano
+// ("parte:padre.collo", "zona:tavola", "persona:figlia"; una stringa per tutte, o { parola: collegamento }).
+// extra.d e' una dichiarazione che finisce sul nastro delle frasi, extra.volto l'espressione di chi parla.
 
 export const DATA_OSD = "OTT. 26 2026";
 export const INIZIO = { ora: 13 * 60, coprifuoco: 20 * 60, soldi: 180, fiducia: 50 };
-export const MINUTI = { domanda: 10, esame: 10, prova: 10, indizio: 5, porta: 5, forzare: 20, viaggio: 30 };
+export const MINUTI = { domanda: 10, esame: 10, prova: 10, sbaglio: 5, indizio: 5, porta: 5, forzare: 20, viaggio: 30 };
 export const SOLDI = { paziente: 400, profilo: 200, stanza: 40, cena: 15, cassetta: 10, mancia: 50 };
 
 export const PERSONE = {
@@ -16,17 +18,22 @@ export const PERSONE = {
   giovane: { nome: "la ragazza", voce: "RAGAZZA", casa: "casa5", luogo: "soggiorno", stato: "sano", profilo: true, calore: 0.4 },
   nonna: { nome: "la nonna", voce: "NONNA", casa: "casa5", luogo: "soggiorno", stato: "sano", profilo: false, calore: 0.5 },
 };
+// dalla voce delle battute alla persona
+export const VOCI = Object.fromEntries(Object.entries(PERSONE).map(([id, p]) => [p.voce, id]));
 // chi non si puo' vedere oggi: il ragazzo chiuso dietro la porta della casa 5
 export const NASCOSTI = { casa5: [{ nome: "il ragazzo dietro la porta", stato: "grave" }] };
 
 export const PARTI = { occhi: "occhi", bocca: "bocca", collo: "collo", ascelle: "ascelle", mani: "mani" };
 
 // le scene: immagine, mappa dei personaggi (un grigio per persona), maschere per evidenziarli, mappa di
-// calore per l'infrarosso, zone delle parti del corpo [cx, cy, rx, ry] e zone della stanza [x0, y0, x1, y1]
+// calore per l'infrarosso, zone delle parti del corpo [cx, cy, rx, ry] e zone della stanza [x0, y0, x1, y1].
+// "frasi": dove si scrivono le battute di ognuno, [x, y, lato] (vedi Parole.scrivi in parole.js), accanto alla
+// testa senza coprire le facce. "segni" di una zona: cosa cerchiare quando la si indica [cx, cy, rx, ry].
 export const LUOGHI = {
   cucina: {
     casa: "casa3", notte: false,
     persone: ["padre", "figlia"],
+    frasi: { padre: [0.405, 0.07, "destra"], figlia: [0.525, 0.2, "destra"] },
     parti: {
       padre: {
         occhi: [[0.347, 0.222, 0.032, 0.022]], bocca: [[0.332, 0.282, 0.026, 0.02]],
@@ -43,8 +50,10 @@ export const LUOGHI = {
     },
     zone: [
       { id: "tavola", nome: "la tavola", box: [0.66, 0.58, 0.97, 0.84], tipo: "indizio",
-        dice: [[null, "Quattro piatti apparecchiati. Dicono di essere in due."]], poi: { prova: "piatti" } },
-      { id: "corridoio", nome: "il corridoio", box: [0.395, 0.13, 0.52, 0.62], tipo: "porta" },
+        segni: [[0.766, 0.618, 0.03, 0.017], [0.727, 0.676, 0.036, 0.021], [0.875, 0.68, 0.038, 0.021], [0.896, 0.785, 0.048, 0.034]],
+        dice: [[null, "Quattro *piatti* apparecchiati. Dicono di essere in due.", { k: "zona:tavola" }]], poi: { prova: "piatti" } },
+      { id: "corridoio", nome: "il corridoio", box: [0.395, 0.13, 0.52, 0.62], tipo: "porta",
+        segni: [[0.459, 0.385, 0.05, 0.235]] },
     ],
     // in fondo al corridoio, nella camera, c'e' la madre: all'infrarosso si vede il suo calore
     nascosti: [{ x: 0.433, y: 0.37, rx: 0.03, ry: 0.06, prova: "calore_corridoio" }],
@@ -52,6 +61,7 @@ export const LUOGHI = {
   camera: {
     casa: "casa3", notte: true,
     persone: ["madre"],
+    frasi: { madre: [0.635, 0.15, "destra"] },
     parti: {
       madre: {
         occhi: [[0.555, 0.296, 0.028, 0.017]], bocca: [[0.558, 0.367, 0.018, 0.015]],
@@ -62,13 +72,15 @@ export const LUOGHI = {
     },
     zone: [
       { id: "comodino", nome: "il comodino", box: [0.26, 0.5, 0.38, 0.8], tipo: "indizio",
-        dice: [[null, "Sul comodino: un rosario e una scatola di aspirine vuota."]] },
+        segni: [[0.316, 0.6, 0.055, 0.15]],
+        dice: [[null, "Sul comodino: un rosario e una scatola di *aspirine* vuota.", { k: "zona:comodino" }]] },
     ],
     nascosti: [],
   },
   soggiorno: {
     casa: "casa5", notte: false,
     persone: ["uomo", "giovane", "nonna"],
+    frasi: { uomo: [0.695, 0.08, "destra"], giovane: [0.548, 0.035, "sinistra"], nonna: [0.335, 0.17, "sinistra"] },
     parti: {
       uomo: {
         occhi: [[0.615, 0.175, 0.032, 0.022]], bocca: [[0.625, 0.232, 0.022, 0.016]],
@@ -90,9 +102,11 @@ export const LUOGHI = {
       },
     },
     zone: [
-      { id: "porta", nome: "la porta chiusa", box: [0.745, 0.03, 0.925, 0.92], tipo: "porta" },
-      { id: "termosifone", nome: "il termosifone", box: [0.09, 0.46, 0.27, 0.57], tipo: "indizio",
-        dice: [[null, "Il termosifone è freddo. Spento da giorni."]], poi: { prova: "termosifone" } },
+      { id: "porta", nome: "la porta chiusa", box: [0.745, 0.03, 0.925, 0.92], tipo: "porta",
+        segni: [[0.806, 0.5, 0.115, 0.455]] },
+      { id: "termosifone", nome: "il termosifone", box: [0.08, 0.515, 0.275, 0.6], tipo: "indizio",
+        segni: [[0.176, 0.568, 0.098, 0.04]],
+        dice: [[null, "Il termosifone è *freddo*. Spento da giorni.", { k: "zona:termosifone" }]], poi: { prova: "termosifone" } },
     ],
     // dietro la porta chiusa, sdraiato: il ragazzo
     nascosti: [{ x: 0.83, y: 0.62, rx: 0.08, ry: 0.09, prova: "calore_porta" }],
@@ -100,38 +114,40 @@ export const LUOGHI = {
 };
 
 export const ARRIVO = {
-  cucina: [["PADRE", "Dottore."], ["PADRE", "Qui stiamo tutti bene. Faccia in fretta."]],
+  cucina: [["PADRE", "Dottore."], ["PADRE", "Qui stiamo tutti bene. Faccia in fretta.", { d: "tutti_bene" }]],
   camera: [["MADRE", "Chi è?"], ["MADRE", "[vede il medico]"], ["MADRE", "No. No, vi prego."]],
   soggiorno: [["UOMO", "Il medico."], ["NONNA", "Che bel becco. Mio marito ce l'aveva uguale."]],
 };
 
-// le porte: cosa si puo' fare davanti a ognuna
+// le porte: cosa si puo' fare davanti a ognuna (le voci della raggiera)
 export const PORTE = {
   corridoio: {
-    entra: { testo: "Entra nel corridoio", vai: "camera" },
+    entra: { testo: "entra nel corridoio", vai: "camera" },
     scelte: [
-      { testo: "Pretendi di passare", minuti: 20,
-        dice: [["TU", "Voglio vedere di là."], ["PADRE", "Di là non c'è niente!"], ["PADRE", "[si scansa]"],
-          ["PADRE", "Va bene. Ma non la toccate."]],
+      { testo: "pretendi di passare", minuti: 20,
+        dice: [["TU", "Voglio vedere di là."], ["PADRE", "Di là non c'è niente!", { volto: "arrabbiato" }],
+          ["PADRE", "[si scansa]", { volto: "arrabbiato" }], ["PADRE", "Va bene. Ma non la toccate.", { volto: "arrabbiato" }]],
         poi: { fiducia: -15, forzata: true, sblocca: "corridoio", conosci: "madre", vai: "camera" } },
-      { testo: "Offri 50 € al padre", minuti: 5, soldi: 50,
-        dice: [["TU", "Cinquanta euro, e non ho visto niente."], ["PADRE", "[prende i soldi]"],
+      { testo: "offri 50 € al padre", minuti: 5, soldi: 50,
+        dice: [["TU", "Cinquanta euro, e non ho visto niente."], ["PADRE", "[prende i soldi]", { volto: "nervoso" }],
           ["PADRE", "Cinque minuti."]],
         poi: { soldi: -50, sblocca: "corridoio", conosci: "madre", vai: "camera" } },
     ],
   },
   porta: {
     scelte: [
-      { testo: "Chiedi di aprire", minuti: 5,
-        dice: [["TU", "Aprite questa porta."], ["UOMO", "È il ripostiglio. Roba vecchia."],
-          ["UOMO", "La chiave non so dove sia."]], poi: { prova: "porta_chiusa" } },
-      { testo: "Ascolta alla porta", minuti: 5,
-        dice: [[null, "[da dietro la porta: una tosse lunga, soffocata]"]], poi: { prova: "tosse" } },
-      { testo: "Pretendi di passare", minuti: 10,
-        dice: [["TU", "Spostatevi."], ["UOMO", "Provateci."], ["UOMO", "[si mette davanti alla porta]"],
+      { testo: "chiedi di aprire", minuti: 5,
+        dice: [["TU", "Aprite questa porta."],
+          ["UOMO", "È il *ripostiglio*. Roba vecchia.", { d: "ripostiglio", k: "zona:porta", volto: "nervoso" }],
+          ["UOMO", "La chiave non so dove sia.", { d: "chiave", volto: "nervoso" }]] },
+      { testo: "ascolta alla porta", minuti: 5,
+        dice: [[null, "[da dietro la porta: una *tosse* lunga, soffocata]", { k: "zona:porta" }]], poi: { prova: "tosse" } },
+      { testo: "pretendi di passare", minuti: 10,
+        dice: [["TU", "Spostatevi."], ["UOMO", "Provateci.", { volto: "arrabbiato" }],
+          ["UOMO", "[si mette davanti alla porta]", { volto: "arrabbiato" }],
           [null, "È grosso il doppio di te. Senza una prova, oggi non passi."]], poi: { fiducia: -10 } },
-      { testo: "Offri 50 € all'uomo", minuti: 5, soldi: 50,
-        dice: [["TU", "Cinquanta euro per aprire."], ["UOMO", "Non sono in vendita, dottore."]] },
+      { testo: "offri 50 € all'uomo", minuti: 5, soldi: 50,
+        dice: [["TU", "Cinquanta euro per aprire."], ["UOMO", "Non sono in vendita, dottore.", { volto: "arrabbiato" }]] },
     ],
   },
 };
@@ -142,15 +158,16 @@ export const ESAMI = {
   padre: {
     occhi: { reperto: "occhi lucidi e arrossati", dice: [["PADRE", "Ho dormito poco."]] },
     bocca: { reperto: "denti marci", dice: [["PADRE", "I denti sono così da sempre."]] },
-    collo: { reperto: "gonfiore duro sotto la mascella", dice: [["PADRE", "[tira su il colletto]"], ["PADRE", "È una botta."]] },
-    ascelle: { reperto: "si è rifiutato", rifiuta: [["PADRE", "Non mi spoglio davanti a mia figlia."]] },
+    collo: { reperto: "gonfiore duro sotto la mascella",
+      dice: [["PADRE", "[tira su il colletto]"], ["PADRE", "È una *botta*.", { d: "botta", k: "parte:padre.collo" }]] },
+    ascelle: { reperto: "si è rifiutato", rifiuta: [["PADRE", "Non mi spoglio davanti a mia figlia.", { volto: "arrabbiato" }]] },
     mani: { reperto: "grasso da meccanico sotto le unghie", dice: [["PADRE", "È grasso. Faccio il meccanico."]] },
   },
   figlia: {
     occhi: { reperto: "occhiaie, occhi chiari", dice: [["FIGLIA", "Non dormo bene."]] },
     bocca: { reperto: "labbra screpolate", dice: [["FIGLIA", "[silenzio]"]] },
     collo: { reperto: "niente", dice: [["FIGLIA", "[trattiene il respiro]"]] },
-    ascelle: { reperto: "si è rifiutata", rifiuta: [["FIGLIA", "No."], ["PADRE", "Lasciatela stare."]] },
+    ascelle: { reperto: "si è rifiutata", rifiuta: [["FIGLIA", "No."], ["PADRE", "Lasciatela stare.", { volto: "arrabbiato" }]] },
     mani: { reperto: "unghie mangiate", dice: [["FIGLIA", "Me le mangio. Da quando..."], ["FIGLIA", "[si ferma]"]] },
   },
   madre: {
@@ -161,15 +178,16 @@ export const ESAMI = {
     mani: { reperto: "punte delle dita nere", dice: [["MADRE", "Non le sento più, le dita."]] },
   },
   uomo: {
-    occhi: { reperto: "occhi lucidi e arrossati, sudore", dice: [["UOMO", "È il termosifone, vi ho detto."]] },
+    occhi: { reperto: "occhi lucidi e arrossati, sudore",
+      dice: [["UOMO", "È il *termosifone*, vi ho detto.", { d: "sudo", k: "zona:termosifone" }]] },
     bocca: { reperto: "niente", dice: [["UOMO", "[ringhia]"]] },
     collo: { reperto: "sudato, niente gonfiori", dice: [["UOMO", "Avete finito?"]] },
-    ascelle: { reperto: "si è rifiutato", rifiuta: [["UOMO", "Toccatemi e vi rompo il becco."]] },
+    ascelle: { reperto: "si è rifiutato", rifiuta: [["UOMO", "Toccatemi e vi rompo il becco.", { volto: "arrabbiato" }]] },
     mani: { reperto: "niente", dice: [["UOMO", "[stringe i pugni]"]] },
   },
   giovane: {
     occhi: { reperto: "occhiaie, occhi chiari", dice: [["RAGAZZA", "[silenzio]"]] },
-    bocca: { reperto: "labbra pallide, quasi viola", dice: [["RAGAZZA", "Ho freddo."]] },
+    bocca: { reperto: "labbra pallide, quasi viola", dice: [["RAGAZZA", "Ho *freddo*.", { d: "freddo", k: "zona:termosifone" }]] },
     collo: { reperto: "pallido, niente gonfiori", dice: [["RAGAZZA", "[deglutisce]"]] },
     ascelle: { reperto: "niente", dice: [["RAGAZZA", "Va bene."]] },
     mani: { reperto: "mani fredde, unghie bluastre", dice: [["RAGAZZA", "Sono sempre fredde."]] },
@@ -183,112 +201,209 @@ export const ESAMI = {
   },
 };
 
-// domande: "se" la condizione per farla (un esame fatto o una prova trovata), "poi" cosa succede dopo
+// le domande, a raggiera attorno a chi si interroga: "breve" e' la voce della raggiera, "testo" cosa dice il
+// medico; "se" la condizione per farla (un esame fatto o una prova trovata), "poi" cosa succede dopo
 export const DOMANDE = {
   padre: [
-    { id: "chi", testo: "Chi vive in questa casa?", dice: [["PADRE", "Io e mia figlia. Basta."]] },
-    { id: "febbre", testo: "Qualcuno ha avuto la febbre?", dice: [["PADRE", "Nessuno. Stiamo bene, ve l'ho detto."]] },
-    { id: "collo", testo: "Cos'è quel gonfiore sul collo?", se: { esame: "padre_collo" },
-      dice: [["PADRE", "Una botta. Al lavoro."], ["PADRE", "Faccio il meccanico."]] },
-    { id: "corridoio", testo: "Chi c'è nel corridoio?",
-      dice: [["PADRE", "Nessuno. È saltata la luce, di là non ci andiamo."]] },
+    { id: "chi", breve: "chi vive qui?", testo: "Chi vive in questa casa?",
+      dice: [["PADRE", "Io e mia *figlia*. Basta.", { d: "solo_due", k: "persona:figlia" }]] },
+    { id: "febbre", breve: "la febbre?", testo: "Qualcuno ha avuto la febbre?",
+      dice: [["PADRE", "Nessuno ha la *febbre*. Stiamo bene.", { d: "nessuna_febbre", k: "parte:padre.occhi" }]] },
+    { id: "collo", breve: "il gonfiore?", testo: "Cos'è quel gonfiore sul collo?", se: { esame: "padre_collo" },
+      dice: [["PADRE", "Una *botta*. Al lavoro.", { d: "botta", k: "parte:padre.collo", volto: "nervoso" }],
+        ["PADRE", "Faccio il meccanico.", { volto: "nervoso" }]] },
+    { id: "corridoio", breve: "il corridoio?", testo: "Chi c'è nel corridoio?",
+      dice: [["PADRE", "Nessuno. È saltata la luce.", { volto: "nervoso" }],
+        ["PADRE", "*Di là* non ci andiamo.", { d: "luce", k: "zona:corridoio", volto: "nervoso" }]] },
+    { id: "nonno", breve: "tuo padre?", testo: "Com'è morto tuo padre?", se: { detta: "piatto_morto" },
+      dice: [["PADRE", "Era vecchio.", { volto: "nervoso" }], ["PADRE", "I vecchi muoiono, dottore. Anche senza di voi."]] },
   ],
   figlia: [
-    { id: "bene", testo: "Stai bene?", dice: [["FIGLIA", "Sì."], ["FIGLIA", "[guarda il padre]"]] },
-    { id: "corridoio", testo: "Chi c'è nel corridoio?", dice: [["FIGLIA", "Nessuno."], ["FIGLIA", "Nessuno, dottore."]] },
-    { id: "madre", testo: "Dov'è tua madre?",
-      dice: [["FIGLIA", "In città. Dalla zia."], ["PADRE", "È partita prima che chiudessero la strada."]] },
+    { id: "bene", breve: "stai bene?", testo: "Stai bene?", dice: [["FIGLIA", "Sì."], ["FIGLIA", "[guarda il padre]"]] },
+    { id: "corridoio", breve: "il corridoio?", testo: "Chi c'è nel corridoio?",
+      dice: [["FIGLIA", "Nessuno."], ["FIGLIA", "*Nessuno*, dottore.", { d: "nessuno_figlia", k: "zona:corridoio" }]] },
+    { id: "madre", breve: "tua madre?", testo: "Dov'è tua madre?",
+      dice: [["FIGLIA", "In città. Dalla zia.", { d: "madre_citta" }],
+        ["PADRE", "È partita prima che chiudessero la strada.", { volto: "nervoso" }]] },
+    { id: "nonno", breve: "il nonno?", testo: "Com'è morto il nonno?", se: { detta: "piatto_morto" },
+      dice: [["FIGLIA", "In tre giorni."], ["FIGLIA", "Aveva le dita nere.", { d: "dita_nere" }]] },
   ],
   madre: [
-    { id: "febbre", testo: "Da quanto hai la febbre?",
-      dice: [["MADRE", "Tre giorni. Forse quattro."], ["MADRE", "Mio suocero è morto così."]] },
-    { id: "nasconde", testo: "Perché ti nascondi?",
-      dice: [["MADRE", "Quelli che portate via non tornano."], ["MADRE", "Lo sanno tutti."]] },
-    { id: "cibo", testo: "Chi ti porta da mangiare?",
+    { id: "febbre", breve: "da quanto?", testo: "Da quanto hai la febbre?",
+      dice: [["MADRE", "Tre giorni. Forse quattro."], ["MADRE", "Mio suocero è morto così.", { d: "suocero" }]] },
+    { id: "nasconde", breve: "perché ti nascondi?", testo: "Perché ti nascondi?",
+      dice: [["MADRE", "Quelli che portate via non tornano.", { d: "non_tornano" }], ["MADRE", "Lo sanno tutti."]] },
+    { id: "cibo", breve: "chi ti dà da mangiare?", testo: "Chi ti porta da mangiare?",
       dice: [["MADRE", "Mia figlia. Lei sta bene."], ["MADRE", "Non toccatela."]] },
   ],
   uomo: [
-    { id: "chi", testo: "Chi vive in questa casa?", dice: [["UOMO", "Io, mia madre e mia figlia."]] },
-    { id: "febbre", testo: "Avete avuto la febbre?", dice: [["UOMO", "Io sudo sempre. È il termosifone."]] },
-    { id: "porta", testo: "Cosa c'è dietro quella porta?", dice: [["UOMO", "Il ripostiglio. Roba vecchia."]] },
+    { id: "chi", breve: "chi vive qui?", testo: "Chi vive in questa casa?",
+      dice: [["UOMO", "Io, mia madre e mia figlia. Siamo in tre.", { d: "tre_in_casa" }]] },
+    { id: "febbre", breve: "la febbre?", testo: "Avete avuto la febbre?",
+      dice: [["UOMO", "Io sudo sempre. È il *termosifone*.", { d: "sudo", k: "zona:termosifone" }]] },
+    { id: "porta", breve: "la porta?", testo: "Cosa c'è dietro quella porta?",
+      dice: [["UOMO", "Il *ripostiglio*. Roba vecchia.", { d: "ripostiglio", k: "zona:porta", volto: "nervoso" }]] },
   ],
   giovane: [
-    { id: "pallida", testo: "Sei molto pallida. Stai bene?", dice: [["RAGAZZA", "Non mangio molto, ultimamente."]] },
-    { id: "porta", testo: "Chi c'è dietro la porta?", dice: [["RAGAZZA", "[guarda il padre]"], ["RAGAZZA", "Nessuno."]] },
-    { id: "fratelli", testo: "Hai fratelli?", dice: [["RAGAZZA", "Uno. Lavora in città."], ["UOMO", "Da un anno."]] },
+    { id: "pallida", breve: "sei pallida", testo: "Sei molto pallida. Stai bene?",
+      dice: [["RAGAZZA", "Non mangio molto, ultimamente."], ["RAGAZZA", "E ho *freddo*.", { d: "freddo", k: "zona:termosifone" }]] },
+    { id: "porta", breve: "la porta?", testo: "Chi c'è dietro la porta?",
+      dice: [["RAGAZZA", "[guarda il padre]"], ["RAGAZZA", "*Nessuno*.", { d: "nessuno_ragazza", k: "zona:porta" }]] },
+    { id: "fratelli", breve: "fratelli?", testo: "Hai fratelli?",
+      dice: [["RAGAZZA", "Uno. Lavora in città.", { d: "fratello_citta" }], ["UOMO", "Da un anno.", { volto: "nervoso" }]] },
   ],
   nonna: [
-    { id: "come", testo: "Come sta, signora?",
+    { id: "come", breve: "come sta?", testo: "Come sta, signora?",
       dice: [["NONNA", "Ho ottantasei anni e un dente solo."], ["NONNA", "Benissimo."]] },
-    { id: "porta", testo: "Chi c'è dietro la porta?",
-      dice: [["NONNA", "Il ragazzo dorme. Lasciatelo dormire."], ["UOMO", "Mamma!"]], poi: { prova: "ragazzo" } },
-    { id: "peste", testo: "Ha mai visto la peste?",
-      dice: [["NONNA", "Io no. Mia nonna sì."], ["NONNA", "Diceva che arrivò insieme al medico."],
-        ["NONNA", "Uno vestito come lei."]], poi: { prova: "leggenda" } },
+    { id: "porta", breve: "la porta?", testo: "Chi c'è dietro la porta?",
+      dice: [["NONNA", "Il *ragazzo* dorme. Lasciatelo dormire.", { d: "ragazzo_dorme", k: "zona:porta" }],
+        ["UOMO", "Mamma!", { volto: "arrabbiato" }]] },
+    { id: "peste", breve: "la peste?", testo: "Ha mai visto la peste?",
+      dice: [["NONNA", "Io no. Mia nonna sì."], ["NONNA", "Diceva che arrivò insieme al medico.", { d: "leggenda" }],
+        ["NONNA", "Uno vestito come lei."]] },
   ],
 };
 
-// le prove, come finiscono nel taccuino
-export const PROVE = {
-  piatti: { casa: "casa3", testo: "Quattro piatti in tavola. Dicono di essere in due." },
-  nonno: { casa: "casa3", testo: "Un piatto è per il nonno, morto la settimana scorsa. E il quarto?" },
-  nonno_dita: { casa: "casa3", testo: "La figlia: il nonno è morto in tre giorni, con le dita nere." },
-  figlia_madre: { casa: "casa3", testo: "La figlia: la madre è di là, con la febbre da tre giorni." },
-  calore_corridoio: { casa: "casa3", testo: "Dal nastro: calore in fondo al corridoio. C'è qualcuno." },
-  porta_chiusa: { casa: "casa5", testo: "La porta chiusa: «il ripostiglio», e la chiave non si trova." },
-  tosse: { casa: "casa5", testo: "Una tosse dietro la porta chiusa." },
-  termosifone: { casa: "casa5", testo: "Il termosifone è freddo, ma l'uomo dice che suda per il caldo." },
-  ragazzo: { casa: "casa5", testo: "La nonna: «Il ragazzo dorme. Lasciatelo dormire»." },
-  ragazza_fratello: { casa: "casa5", testo: "La ragazza: «Lasciatelo stare»." },
-  leggenda: { casa: "casa5", testo: "La nonna: la peste arrivò insieme a un medico vestito come te." },
-  calore_porta: { casa: "casa5", testo: "Dal nastro: calore dietro la porta chiusa. C'è qualcuno sdraiato." },
+// le dichiarazioni che finiscono sul nastro delle frasi, con la faccia di chi le ha dette
+export const DICHIARAZIONI = {
+  tutti_bene: { chi: "padre", testo: "«Stiamo tutti bene.»" },
+  solo_due: { chi: "padre", testo: "«Io e mia figlia. Basta.»" },
+  nessuna_febbre: { chi: "padre", testo: "«Nessuno ha la febbre.»" },
+  botta: { chi: "padre", testo: "«Una botta. Al lavoro.»" },
+  luce: { chi: "padre", testo: "«Di là non ci andiamo.»" },
+  piatto_morto: { chi: "padre", testo: "«Un piatto è per mio padre, morto.»" },
+  nessuno_figlia: { chi: "figlia", testo: "«Nel corridoio? Nessuno.»" },
+  madre_citta: { chi: "figlia", testo: "«La mamma è in città.»" },
+  mamma_di_la: { chi: "figlia", testo: "«La mamma è di là, con la febbre.»" },
+  dita_nere: { chi: "figlia", testo: "«Il nonno aveva le dita nere.»" },
+  suocero: { chi: "madre", testo: "«Mio suocero è morto così.»" },
+  non_tornano: { chi: "madre", testo: "«Quelli che portate via non tornano.»" },
+  tre_in_casa: { chi: "uomo", testo: "«Siamo in tre.»" },
+  sudo: { chi: "uomo", testo: "«Sudo per il termosifone.»" },
+  ripostiglio: { chi: "uomo", testo: "«È il ripostiglio.»" },
+  chiave: { chi: "uomo", testo: "«La chiave non so dove sia.»" },
+  freddo: { chi: "giovane", testo: "«Ho freddo.»" },
+  nessuno_ragazza: { chi: "giovane", testo: "«Dietro la porta? Nessuno.»" },
+  fratello_citta: { chi: "giovane", testo: "«Mio fratello è in città.»" },
+  lasciatelo: { chi: "giovane", testo: "«È mio fratello. Lasciatelo stare.»" },
+  ragazzo_dorme: { chi: "nonna", testo: "«Il ragazzo dorme.»" },
+  leggenda: { chi: "nonna", testo: "«La peste arrivò col medico.»" },
+  polmoni: { chi: "nonna", testo: "«Ha i polmoni deboli.»" },
 };
 
-// cosa dice ognuno davanti a una prova; "_" quando la prova non gli dice niente
+// le prove: cose viste o capite. "testo" per il taccuino, "breve" per il nastro; la foto sul nastro viene da
+// una zona della scena, dal primo piano di una parte del corpo o dalla faccia di chi l'ha detto ("da")
+export const PROVE = {
+  piatti: { casa: "casa3", testo: "Quattro piatti in tavola. Dicono di essere in due.", breve: "Quattro piatti in tavola.",
+    zona: ["cucina", "tavola"] },
+  bubbone_padre: { casa: "casa3", testo: "Il padre ha un gonfiore duro sotto la mascella. Dice che è una botta.",
+    breve: "Il collo: non è una botta.", parte: ["padre", "collo"] },
+  febbre_padre: { casa: "casa3", testo: "Il padre ha gli occhi lucidi e suda, ma dice che nessuno ha la febbre.",
+    breve: "Il padre ha la febbre.", parte: ["padre", "occhi"] },
+  madre_nonno: { casa: "casa3", testo: "La madre ha le dita nere, come il nonno quando è morto.",
+    breve: "Dita nere, come il nonno.", parte: ["madre", "mani"] },
+  calore_corridoio: { casa: "casa3", testo: "Dal nastro: calore in fondo al corridoio. C'è qualcuno.",
+    breve: "Calore nel corridoio.", zona: ["cucina", "corridoio"], ir: true },
+  tosse: { casa: "casa5", testo: "Una tosse dietro la porta chiusa.", breve: "Una tosse dietro la porta.",
+    zona: ["soggiorno", "porta"] },
+  termosifone: { casa: "casa5", testo: "Il termosifone è freddo: spento da giorni.", breve: "Il termosifone è spento.",
+    zona: ["soggiorno", "termosifone"] },
+  febbre_uomo: { casa: "casa5", testo: "L'uomo suda con il termosifone spento: è febbre.", breve: "L'uomo suda al freddo.",
+    parte: ["uomo", "occhi"] },
+  tosse_ripostiglio: { casa: "casa5", testo: "Nel «ripostiglio» qualcuno tossisce. E non hanno il gatto.",
+    breve: "Il ripostiglio tossisce.", da: "nonna" },
+  calore_porta: { casa: "casa5", testo: "Dal nastro: calore dietro la porta chiusa. C'è qualcuno sdraiato.",
+    breve: "Calore dietro la porta.", zona: ["soggiorno", "porta"], ir: true },
+};
+
+// le contestazioni: trascinando una frase del nastro su qualcosa (una zona, una persona, una parte del corpo,
+// un'altra frase) che la contraddice. "coppie": [[frasi, bersagli], ...], in qualunque ordine; "se" una condizione;
+// "timbro" se non e' una contraddizione ma due cose che combaciano
+export const CONTESTAZIONI = [
+  // casa 3
+  { id: "quattro_piatti", coppie: [[["d:solo_due"], ["zona:tavola", "p:piatti"]], [["p:piatti"], ["persona:padre"]]],
+    dice: [["TU", "Siete in due. E quattro piatti?"], ["PADRE", "[guarda la tavola]", { volto: "nervoso" }],
+      ["PADRE", "Uno è per mio padre. È *morto* la settimana scorsa.", { d: "piatto_morto", k: "zona:tavola", volto: "nervoso" }],
+      ["PADRE", "Da noi si apparecchia per i morti. Quaranta giorni.", { volto: "nervoso" }]] },
+  { id: "quarto_piatto", coppie: [[["d:piatto_morto"], ["zona:tavola", "p:piatti", "persona:padre"]]],
+    dice: [["TU", "Tu, tua figlia, tuo padre. E il quarto piatto?"], ["PADRE", "...", { volto: "arrabbiato" }],
+      ["PADRE", "Avete finito? Allora andate.", { volto: "arrabbiato" }]], poi: { fiducia: -5 } },
+  { id: "figlia_cede",
+    coppie: [[["d:nessuno_figlia", "d:madre_citta"], ["zona:tavola", "p:piatti", "d:piatto_morto"]],
+      [["p:piatti", "d:piatto_morto"], ["persona:figlia"]]],
+    dice: [["TU", "Quattro piatti. Per chi è il quarto?"], ["FIGLIA", "[piange]", { volto: "piange" }],
+      ["FIGLIA", "La mamma è *di là*. Ha la febbre da tre giorni.", { d: "mamma_di_la", k: "zona:corridoio", volto: "piange" }],
+      ["FIGLIA", "Vi prego, non portatela via.", { volto: "piange" }], ["PADRE", "Stupida.", { volto: "arrabbiato" }]],
+    poi: { sblocca: "corridoio", conosci: "madre", volti: { figlia: "piange" } } },
+  { id: "botta", coppie: [[["d:botta", "d:tutti_bene"], ["parte:padre.collo"]]], se: { esame: "padre_collo" },
+    dice: [["TU", "Una botta non diventa dura e nera così."], ["PADRE", "[si tira su il colletto]", { volto: "nervoso" }],
+      ["PADRE", "Sono affari miei.", { volto: "arrabbiato" }]], poi: { prova: "bubbone_padre" } },
+  { id: "febbre_padre", coppie: [[["d:nessuna_febbre", "d:tutti_bene"], ["parte:padre.occhi"]]], se: { esame: "padre_occhi" },
+    dice: [["TU", "Occhi lucidi, sudore. Questa è febbre."], ["PADRE", "Ho dormito poco.", { volto: "nervoso" }],
+      ["PADRE", "Faccio il turno di notte, in officina.", { volto: "nervoso" }]], poi: { prova: "febbre_padre" } },
+  { id: "luce", coppie: [[["d:luce"], ["d:mamma_di_la"]], [["d:mamma_di_la"], ["persona:padre"]]],
+    dice: [["TU", "Di là non ci andate. Ma tua moglie è di là."], ["PADRE", "[guarda la figlia]", { volto: "arrabbiato" }],
+      ["PADRE", "Cosa volete da noi?", { volto: "arrabbiato" }]] },
+  { id: "come_il_nonno", timbro: "COMBACIA", coppie: [[["d:dita_nere", "d:suocero"], ["parte:madre.mani", "persona:madre"]]],
+    dice: [["TU", "Tuo suocero aveva le dita nere."], ["MADRE", "Come le mie."], ["MADRE", "[si guarda le mani]"]],
+    poi: { prova: "madre_nonno" } },
+  // casa 5
+  { id: "termosifone", coppie: [[["d:sudo"], ["zona:termosifone", "p:termosifone"]]],
+    dice: [["TU", "Il termosifone è freddo. Perché sudi?"], ["UOMO", "Si sarà spento adesso.", { volto: "nervoso" }],
+      ["NONNA", "È spento da una settimana."]], poi: { prova: "febbre_uomo" } },
+  { id: "ripostiglio_tosse", coppie: [[["d:ripostiglio", "d:chiave", "d:tre_in_casa"], ["p:tosse"]], [["p:tosse"], ["persona:uomo"]]],
+    dice: [["TU", "Dietro quella porta qualcuno tossisce."], ["UOMO", "Sarà il gatto.", { volto: "nervoso" }],
+      ["NONNA", "Non abbiamo il gatto."]], poi: { prova: "tosse_ripostiglio" } },
+  { id: "ragazzo_dorme",
+    coppie: [[["d:ripostiglio", "d:tre_in_casa", "d:chiave"], ["d:ragazzo_dorme", "d:polmoni"]],
+      [["d:ragazzo_dorme", "d:polmoni"], ["persona:uomo"]]],
+    dice: [["TU", "Siete in tre. E il ragazzo che dorme di là?"], ["UOMO", "Mamma, stai zitta.", { volto: "arrabbiato" }],
+      ["UOMO", "Non c'è nessun ragazzo. Andate via.", { volto: "arrabbiato" }]], poi: { fiducia: -5 } },
+  { id: "ragazza_cede",
+    coppie: [[["d:fratello_citta", "d:nessuno_ragazza"], ["d:ragazzo_dorme", "d:polmoni", "p:tosse", "p:tosse_ripostiglio"]],
+      [["d:ragazzo_dorme", "d:polmoni", "p:tosse", "p:tosse_ripostiglio"], ["persona:giovane"]]],
+    dice: [["TU", "Chi c'è davvero dietro quella porta?"], ["RAGAZZA", "[le tremano le labbra]", { volto: "piange" }],
+      ["RAGAZZA", "È mio *fratello*. Lasciatelo stare.", { d: "lasciatelo", k: "zona:porta", volto: "piange" }],
+      ["RAGAZZA", "Vi prego.", { volto: "piange" }], ["UOMO", "Basta così!", { volto: "arrabbiato" }]],
+    poi: { volti: { giovane: "piange" } } },
+  { id: "polmoni", timbro: "COMBACIA", coppie: [[["p:tosse", "p:tosse_ripostiglio"], ["persona:nonna"]]],
+    dice: [["TU", "Chi tossisce così, signora?"],
+      ["NONNA", "Il ragazzo ha sempre avuto i *polmoni* deboli.", { d: "polmoni", k: "zona:porta" }],
+      ["UOMO", "Mamma!", { volto: "arrabbiato" }]] },
+];
+
+// cosa dice ognuno quando gli si mette davanti una frase o una prova che non lo contraddice; "_" per tutto il resto
 export const REAZIONI = {
   padre: {
-    piatti: { dice: [["PADRE", "Uno è per mio padre. È morto la settimana scorsa."],
-      ["PADRE", "Da noi si apparecchia per i morti. Quaranta giorni."]], poi: { prova: "nonno" } },
-    nonno: { dice: [["TU", "Tu, tua figlia, tuo padre. E il quarto piatto?"], ["PADRE", "..."],
-      ["PADRE", "Avete finito? Allora andate."]], poi: { fiducia: -5 } },
-    nonno_dita: { dice: [["PADRE", "[si irrigidisce]"], ["PADRE", "Mio padre era vecchio. Basta."]] },
-    figlia_madre: { dice: [["PADRE", "[guarda la figlia]"], ["PADRE", "Stupida."]] },
-    _: { dice: [["PADRE", "E allora?"]] },
+    dita_nere: [["PADRE", "[si irrigidisce]", { volto: "nervoso" }], ["PADRE", "Mio padre era vecchio. Basta."]],
+    madre_citta: [["PADRE", "È partita prima che chiudessero la strada.", { volto: "nervoso" }]],
+    _: [["PADRE", "E allora?"]],
   },
   figlia: {
-    piatti: { dice: [["FIGLIA", "[piange]"], ["FIGLIA", "La mamma è di là. Ha la febbre da tre giorni."],
-      ["FIGLIA", "Vi prego, non portatela via."]], poi: { prova: "figlia_madre", sblocca: "corridoio", conosci: "madre" } },
-    nonno: { dice: [["FIGLIA", "Il nonno è morto in tre giorni."], ["FIGLIA", "Aveva le dita nere."]],
-      poi: { prova: "nonno_dita" } },
-    _: { dice: [["FIGLIA", "[scuote la testa]"]] },
+    solo_due: [["FIGLIA", "[guarda il padre]"], ["FIGLIA", "Sì. Io e lui."]],
+    _: [["FIGLIA", "[scuote la testa]"]],
   },
   madre: {
-    nonno_dita: { dice: [["MADRE", "Le dita nere. Come lui."], ["MADRE", "[si guarda le mani]"]] },
-    figlia_madre: { dice: [["MADRE", "Non è colpa sua. Gliel'ho chiesto io."]] },
-    _: { dice: [["MADRE", "[tossisce]"]] },
+    mamma_di_la: [["MADRE", "Non è colpa sua. Gliel'ho chiesto io."]],
+    madre_citta: [["MADRE", "In città? Ha detto così?"], ["MADRE", "Brava. Brava bambina."]],
+    piatto_morto: [["MADRE", "Gli mettiamo il piatto. Così non si offende."]],
+    _: [["MADRE", "[tossisce]"]],
   },
   uomo: {
-    termosifone: { dice: [["UOMO", "Si sarà spento adesso."], ["NONNA", "È spento da una settimana."]] },
-    tosse: { dice: [["UOMO", "Sarà il gatto."], ["NONNA", "Non abbiamo il gatto."]] },
-    ragazzo: { dice: [["UOMO", "Mamma, stai zitta."], ["UOMO", "Non c'è nessun ragazzo. Andate via."]],
-      poi: { fiducia: -5 } },
-    porta_chiusa: { dice: [["UOMO", "Vi ho detto che la chiave non c'è."]] },
-    leggenda: { dice: [["UOMO", "Favole da vecchi."]] },
-    _: { dice: [["UOMO", "Non so di cosa parlate."]] },
+    leggenda: [["UOMO", "Favole da vecchi."]],
+    termosifone: [["UOMO", "Il gasolio costa. E allora?"]],
+    _: [["UOMO", "Non so di cosa parlate."]],
   },
   giovane: {
-    ragazzo: { dice: [["RAGAZZA", "[le tremano le labbra]"], ["RAGAZZA", "Lasciatelo stare. Vi prego."]],
-      poi: { prova: "ragazza_fratello" } },
-    tosse: { dice: [["RAGAZZA", "[abbassa gli occhi]"]] },
-    termosifone: { dice: [["RAGAZZA", "Non abbiamo i soldi per il gasolio."]] },
-    _: { dice: [["RAGAZZA", "[silenzio]"]] },
+    termosifone: [["RAGAZZA", "Non abbiamo i soldi per il gasolio."]],
+    tre_in_casa: [["RAGAZZA", "[guarda il padre]"], ["RAGAZZA", "Sì. In tre."]],
+    _: [["RAGAZZA", "[silenzio]"]],
   },
   nonna: {
-    tosse: { dice: [["NONNA", "Il ragazzo ha sempre avuto i polmoni deboli."], ["UOMO", "Mamma!"]],
-      poi: { prova: "ragazzo" } },
-    termosifone: { dice: [["NONNA", "Freddo come una tomba. Ci siamo abituati."]] },
-    porta_chiusa: { dice: [["NONNA", "Le porte chiuse non fermano niente. Lo diceva mia nonna."]] },
-    _: { dice: [["NONNA", "Eh? Parli più forte, con quel becco."]] },
+    termosifone: [["NONNA", "Freddo come una tomba. Ci siamo abituati."]],
+    chiave: [["NONNA", "Le porte chiuse non fermano niente. Lo diceva mia nonna."]],
+    tre_in_casa: [["NONNA", "Tre? Mio figlio non ha mai saputo contare."]],
+    _: [["NONNA", "Eh? Parli più forte, con quel becco."]],
   },
 };
 

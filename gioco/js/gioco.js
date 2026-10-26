@@ -1,7 +1,10 @@
-// Il prototipo di una giornata: la scrivania col fax, la mappa, le visite (REC, zoom, sottotitoli,
-// domande e prove, porte), il modulo della ditta, i nastri della sera all'infrarosso e la notte.
+// Il prototipo di una giornata: la scrivania col fax, la mappa, le visite (REC, zoom, le frasi addosso a chi
+// parla, le domande a raggiera, il nastro delle frasi da contestare, le porte), il modulo della ditta, i nastri
+// della sera all'infrarosso e la notte.
 import { Vhs } from "./vhs.js";
 import * as D from "./dati.js";
+import { ESPRESSIONI } from "./espressioni.js";
+import { Parole, Ruota, Striscia, Segni } from "./parole.js";
 
 const $ = (sel) => document.querySelector(sel);
 const el = (tag, cls, text) => {
@@ -21,8 +24,6 @@ const osd = { box: $("#osd"), stato: $("#osd-stato"), modo: $("#osd-modo"), data
 const zoneBox = $("#zone");
 const etichetta = $("#etichetta");
 const cursore = $("#cursore");
-const sottotitoli = $("#sottotitoli");
-const menu = $("#menu");
 const hud = $("#hud");
 const didascalia = $("#didascalia");
 const avviso = $("#avviso");
@@ -31,6 +32,11 @@ const foglio = $("#foglio");
 const foglioCorpo = $("#foglio-corpo");
 const orologio = $("#orologio");
 const schedaCasa = $("#scheda-casa");
+const nastroFrasi = $("#nastro-frasi");
+const segni = new Segni($("#segni"));
+const parole = new Parole($("#parole"));
+const ruota = new Ruota($("#ruota"));
+const striscia = new Striscia(nastroFrasi, $("#nastro-scorri"), segni);
 
 const W = 1600, H = 900;
 const IMG = {};
@@ -44,12 +50,17 @@ function nuovoStato() {
     schermo: "scrivania", fase: "mattina", ora: D.INIZIO.ora, soldi: D.INIZIO.soldi, fiducia: D.INIZIO.fiducia,
     casa: null, luogo: null, prove: [], esami: {}, fatte: {}, sbloccate: {}, conosciute: {}, visti: {},
     forzate: {}, decisioni: {}, visitate: {}, nastri: [], intro: false, notte: null,
+    // il nastro delle frasi: dichiarazioni ("d:...") e prove ("p:...") nell'ordine in cui sono arrivate
+    dette: {}, frasi: [], contestate: {}, volti: {},
   };
 }
 let S = nuovoStato();
-// quello che non si salva: cosa c'e' sotto il puntatore, sottotitoli in corso, primo piano, nastro in riproduzione
-const R = { hover: null, hoverKey: "", occupato: false, primo: null, play: null, salta: null, turno: 0, blocco: 0,
-  ctx: null, scena: null, animaSpilli: false, mctx: null, mappa: null, casaSopra: null, casaScelta: null };
+// quello che non si salva: cosa c'e' sotto il puntatore, battute in corso, primo piano, nastro in riproduzione,
+// le facce di adesso (con la dissolvenza da una all'altra), la frase del nastro scelta col tocco
+const R = { hover: null, hoverKey: "", occupato: false, primo: null, play: null, turno: 0, blocco: 0,
+  ctx: null, scena: null, animaSpilli: false, mctx: null, mappa: null, casaSopra: null, casaScelta: null,
+  facce: {}, animaVolti: false, ritorni: {}, scelta: null, bersaglio: null };
+const DISSOLVENZA = 260;
 let vhs = null;
 
 // ---------- immagini ----------
@@ -68,6 +79,8 @@ async function caricaTutto() {
     lista[`${luogo}_persone`] = `img/${luogo}_persone.png`;
     lista[`${luogo}_calore`] = `img/${luogo}_calore.png`;
     for (const p of L.persone) lista[`${luogo}_${p}`] = `img/${luogo}_${p}.png`;
+    for (const [persona, E] of Object.entries(ESPRESSIONI[luogo] || {}))
+      for (const volto of E.volti) lista[`esp_${luogo}_${persona}_${volto}`] = `img/espressioni/${luogo}_${persona}_${volto}.png`;
   }
   const voci = await Promise.all(Object.entries(lista).map(async ([k, src]) => [k, await carica(src)]));
   for (const [k, im] of voci) IMG[k] = im;
@@ -105,6 +118,7 @@ function disegnaScena() {
   ctx.globalCompositeOperation = "source-over";
   ctx.globalAlpha = 1;
   ctx.drawImage(IMG[S.luogo], 0, 0, W, H);
+  disegnaVolti(ctx, S.luogo, R.facce);
   if (R.hover && R.hover.persona && !R.primo) {
     ctx.globalCompositeOperation = "lighter";
     ctx.globalAlpha = R.hover.parte ? 0.07 : 0.14;
@@ -113,6 +127,59 @@ function disegnaScena() {
     ctx.globalAlpha = 1;
   }
   if (vhs && vhs.source === R.scena) vhs.refresh();
+}
+
+// ---------- le facce: le espressioni sono teste ritagliate da incollare sopra la scena ----------
+
+// facce: { persona: { da, a, t0 } }, da una espressione all'altra (null e' la faccia della scena)
+function disegnaVolti(ctx, luogo, facce) {
+  const adesso = performance.now();
+  for (const [persona, f] of Object.entries(facce)) {
+    const E = ESPRESSIONI[luogo]?.[persona];
+    if (!E) continue;
+    const [x0, y0, x1, y1] = E.box;
+    const p = clamp((adesso - f.t0) / DISSOLVENZA, 0, 1);
+    const testa = (volto, a) => {
+      const im = volto && IMG[`esp_${luogo}_${persona}_${volto}`];
+      if (!im || a <= 0) return;
+      ctx.globalAlpha = a;
+      ctx.drawImage(im, x0 * W, y0 * H, (x1 - x0) * W, (y1 - y0) * H);
+    };
+    if (p < 1) testa(f.da, 1 - p);
+    testa(f.a, p);
+  }
+  ctx.globalAlpha = 1;
+}
+
+function cambiaVolto(persona, volto) {
+  clearTimeout(R.ritorni[persona]);
+  const E = ESPRESSIONI[S.luogo]?.[persona];
+  if (!E || !D.LUOGHI[S.luogo].persone.includes(persona)) return;
+  if (volto && !E.volti.includes(volto)) volto = null;
+  const f = R.facce[persona];
+  const ora = f ? f.a : null;
+  if (ora === volto) return;
+  R.facce[persona] = { da: ora, a: volto, t0: performance.now() };
+  // la videocamera "sente" il cambio: un piccolo disturbo
+  if (vhs && !R.primo) vhs.burst(0.14);
+  if (R.animaVolti) return;
+  R.animaVolti = true;
+  const giro = () => {
+    if (S.schermo !== "visita") { R.animaVolti = false; return; }
+    disegnaScena();
+    if (Object.values(R.facce).some((x) => performance.now() - x.t0 < DISSOLVENZA)) requestAnimationFrame(giro);
+    else R.animaVolti = false;
+  };
+  requestAnimationFrame(giro);
+}
+
+// entrando in una stanza le facce sono quelle rimaste (chi ha pianto, piange ancora)
+function facceDellaStanza() {
+  for (const t of Object.values(R.ritorni)) clearTimeout(t);
+  R.ritorni = {};
+  R.facce = {};
+  for (const [persona, volto] of Object.entries(S.volti))
+    if (D.LUOGHI[S.luogo]?.persone.includes(persona)) R.facce[persona] = { da: null, a: volto, t0: 0 };
 }
 
 function osdSpento() {
@@ -159,25 +226,25 @@ function notifica(testo) {
 
 function pulisci() {
   R.turno++;
-  if (R.salta) {
-    const s = R.salta;
-    R.salta = null;
-    s();
-  }
+  parole.pulisci();
+  ruota.chiudi();
+  striscia.annulla();
+  segni.svuota();
+  for (const t of schermo.querySelectorAll(".timbro-schermo")) t.remove();
   R.occupato = false;
   R.blocco = 0;
   R.hoverKey = "";
+  R.scelta = null;
+  R.bersaglio = null;
   zoneBox.replaceChildren();
   schedaCasa.hidden = true;
   delete schedaCasa.dataset.x;
-  menu.replaceChildren();
-  menu.hidden = true;
   hud.replaceChildren();
   comandi.replaceChildren();
   comandi.hidden = true;
   didascalia.hidden = true;
   etichetta.hidden = true;
-  sottotitoli.replaceChildren();
+  nastroFrasi.hidden = true;
   R.hover = null;
   schermo.dataset.schermo = S.schermo;
 }
@@ -189,57 +256,126 @@ function bottone(testo, azione, cls = "") {
   return b;
 }
 
-// ---------- sottotitoli ----------
+// ---------- le battute: scritte addosso a chi parla ----------
 
-function riga(chi, testo) {
-  const p = el("p", "riga" + (chi === "TU" ? " tu" : chi ? "" : " descr"));
-  if (chi && chi !== "TU") p.append(el("b", null, `${chi}: `));
-  p.append(document.createTextNode(chi === "TU" ? `— ${testo}` : testo));
-  return p;
-}
-
-function registra(chi, testo) {
+// sul nastro della visita: ogni battuta, con le facce che restano in quel momento (per rivederle la sera)
+function registra(chi, testo, extra) {
   const n = S.nastri[S.nastri.length - 1];
-  if (S.casa && n && n.riprese.length) n.riprese[n.riprese.length - 1].righe.push([chi, testo]);
+  if (S.casa && n && n.riprese.length) n.riprese[n.riprese.length - 1].righe.push([chi, testo, { ...extra, fermi: { ...S.volti } }]);
 }
 
-// mostra le battute una dopo l'altra; un clic passa alla successiva. Nuove battute o un cambio di schermo
-// interrompono quelle in corso. Con "blocca" intanto non si puo' fare altro (la narrazione non blocca).
+// dove si scrive una battuta: accanto alla testa di chi parla, se si vede; in basso il medico, le descrizioni
+// e chi non si vede (col nome)
+function ancora(chi, luogo = S.luogo, primo = R.primo) {
+  if (!chi || chi === "TU") return { lato: "sotto" };
+  const persona = D.VOCI[chi];
+  const L = luogo && D.LUOGHI[luogo];
+  if (primo) return primo.persona === persona ? { lato: "sotto" } : { lato: "sotto", nome: chi };
+  if (L && persona && L.persone.includes(persona)) {
+    const [x, y, lato] = L.frasi[persona];
+    return { x, y, lato };
+  }
+  return { lato: "sotto", nome: chi };
+}
+
+function chiaviDi(extra) {
+  if (!extra || !extra.k) return {};
+  return typeof extra.k === "string" ? { "*": extra.k } : extra.k;
+}
+
+// le battute una dopo l'altra, lettera per lettera; un clic completa la frase, un altro passa alla successiva.
+// Nuove battute o un cambio di schermo interrompono quelle in corso. Con "blocca" intanto non si puo' fare altro
+// (la narrazione non blocca). Le dichiarazioni finiscono sul nastro delle frasi; le facce cambiano, e a fine
+// discorso tornano com'erano (tranne quelle che restano, in S.volti).
 async function dici(righe, salva = true, blocca = true) {
   const turno = ++R.turno;
-  if (R.salta) R.salta();
   if (blocca) {
     R.occupato = true;
     R.blocco = turno;
-    menu.hidden = true;
+    ruota.chiudi();
   }
   etichetta.hidden = true;
-  for (const [chi, testo] of righe) {
+  const cambiate = new Set();
+  for (const [chi, testo, extra = {}] of righe) {
     if (R.turno !== turno) break;
-    sottotitoli.replaceChildren(riga(chi, testo));
-    if (salva) registra(chi, testo);
-    const ms = Math.max(1600, 800 + testo.length * 52);
-    await new Promise((res) => {
-      const t = setTimeout(res, ms);
-      R.salta = () => { clearTimeout(t); res(); };
-    });
+    const persona = D.VOCI[chi];
+    if (extra.volto && persona && S.schermo === "visita") {
+      cambiaVolto(persona, extra.volto);
+      cambiate.add(persona);
+    }
+    if (salva) registra(chi, testo, extra);
+    const finita = await parole.scrivi(chi, testo, ancora(chi), chiaviDi(extra));
+    if (!finita || R.turno !== turno) break;
+    if (extra.d) mettiSulNastro(`d:${extra.d}`, persona && R.facce[persona]?.a);
   }
-  if (R.turno === turno) {
-    R.salta = null;
-    sottotitoli.replaceChildren();
-  }
+  if (R.turno === turno) parole.attenua();
   if (R.blocco === turno) {
     R.occupato = false;
     R.blocco = 0;
   }
+  // a fine discorso le facce tornano com'erano (o come restano, in S.volti)
+  const luogo = S.luogo;
+  for (const p of cambiate) {
+    clearTimeout(R.ritorni[p]);
+    R.ritorni[p] = setTimeout(() => {
+      if (S.schermo === "visita" && S.luogo === luogo) cambiaVolto(p, S.volti[p] || null);
+    }, 2600);
+  }
   return R.turno === turno;
+}
+
+// ---------- il nastro delle frasi ----------
+
+function casaDi(id) {
+  const k = id.slice(2);
+  return id.startsWith("d:") ? D.PERSONE[D.DICHIARAZIONI[k].chi].casa : D.PROVE[k].casa;
+}
+
+function mettiSulNastro(id, volto) {
+  if (S.frasi.some((f) => f.id === id)) return;
+  if (id.startsWith("d:")) S.dette[id.slice(2)] = true;
+  S.frasi.push({ id, ora: S.ora, volto: volto || null });
+  if (S.schermo === "visita") aggiornaNastro();
+}
+
+// la porzione di un'immagine 16:9 da mettere nella foto del nastro (6:7), attorno a una zona della scena
+function ritaglioZona(luogo, zid) {
+  const z = D.LUOGHI[luogo].zone.find((q) => q.id === zid);
+  const [x0, y0, x1, y1] = z.box;
+  const h = clamp((y1 - y0) * 1.15, 0.22, 0.6);
+  const w = h * (6 / 7) * (9 / 16);
+  return { src: `img/${luogo}.jpg`, w, h, x: clamp((x0 + x1) / 2 - w / 2, 0, 1 - w), y: clamp((y0 + y1) / 2 - h / 2, 0, 1 - h) };
+}
+
+function fotogramma(v) {
+  const k = v.id.slice(2);
+  if (v.id.startsWith("d:")) {
+    const d = D.DICHIARAZIONI[k];
+    const volto = v.volto && ESPRESSIONI[D.PERSONE[d.chi].luogo]?.[d.chi]?.volti.includes(v.volto) ? `_${v.volto}` : "";
+    return { id: v.id, tipo: "detta", foto: { src: `img/volti/${d.chi}${volto}.jpg` }, testo: d.testo,
+      meta: `${hhmm(v.ora)} · ${D.PERSONE[d.chi].voce}` };
+  }
+  const P = D.PROVE[k];
+  let foto = null;
+  if (P.zona) foto = ritaglioZona(...P.zona);
+  else if (P.parte) foto = { src: `img/pp/${P.parte[0]}_${P.parte[1]}.jpg`, w: (6 / 7) * (9 / 16), h: 1, x: 0.5 - (6 / 7) * (9 / 32), y: 0 };
+  else if (P.da) foto = { src: `img/volti/${P.da}.jpg` };
+  if (foto && P.ir) foto.filtro = "ir";
+  return { id: v.id, tipo: "prova", foto, testo: P.breve, meta: `${hhmm(v.ora)} · ${P.ir ? "NASTRO IR" : "INDIZIO"}` };
+}
+
+function aggiornaNastro() {
+  if (S.schermo !== "visita") return;
+  const lista = S.frasi.filter((f) => casaDi(f.id) === S.casa).map(fotogramma);
+  striscia.mostra(lista, "Il nastro delle frasi: quello che conta finisce qui. Trascinalo su chi o cosa lo smentisce.");
+  for (const d of nastroFrasi.querySelectorAll(".fot")) d.classList.toggle("scelta", !!R.scelta && d.dataset.id === R.scelta.id);
 }
 
 // ---------- nastri: ogni visita registra le inquadrature e le battute ----------
 
 function nuovaRipresa(r) {
   const n = S.nastri[S.nastri.length - 1];
-  if (S.casa && n) n.riprese.push({ ...r, ora: S.ora, righe: [] });
+  if (S.casa && n) n.riprese.push({ ...r, ora: S.ora, volti: { ...S.volti }, righe: [] });
 }
 
 // ---------- effetti di domande, prove, porte ----------
@@ -248,7 +384,12 @@ function applica(poi) {
   if (!poi) return;
   if (poi.prova && !S.prove.includes(poi.prova)) {
     S.prove.push(poi.prova);
-    notifica("Annotato nel taccuino");
+    mettiSulNastro(`p:${poi.prova}`);
+    notifica(S.schermo === "visita" ? "Sul nastro" : "Annotato nel taccuino");
+  }
+  if (poi.volti) {
+    Object.assign(S.volti, poi.volti);
+    for (const [persona, volto] of Object.entries(poi.volti)) cambiaVolto(persona, volto);
   }
   if (poi.fiducia) S.fiducia += poi.fiducia;
   if (poi.soldi) { S.soldi += poi.soldi; aggiornaOrologio(); }
@@ -261,6 +402,7 @@ function condizione(se) {
   if (!se) return true;
   if (se.esame) return !!S.esami[se.esame];
   if (se.prova) return S.prove.includes(se.prova);
+  if (se.detta) return !!S.dette[se.detta];
   return true;
 }
 
@@ -422,11 +564,13 @@ function apriTaccuino() {
   corpo.push(prot);
   for (const casa of ["casa3", "casa5"]) {
     const prove = S.prove.filter((p) => D.PROVE[p].casa === casa);
+    const dette = S.frasi.filter((f) => f.id.startsWith("d:") && casaDi(f.id) === casa).map((f) => D.DICHIARAZIONI[f.id.slice(2)]);
     corpo.push(el("h3", null, `Casa ${D.CASE[casa].n}`));
-    if (!prove.length) corpo.push(el("p", "vuoto", "Ancora niente."));
+    if (!prove.length && !dette.length) corpo.push(el("p", "vuoto", "Ancora niente."));
     const ul = el("ul");
     for (const p of prove) ul.append(el("li", null, D.PROVE[p].testo));
-    if (prove.length) corpo.push(ul);
+    for (const d of dette) ul.append(el("li", "detta", `${D.PERSONE[d.chi].nome[0].toUpperCase()}${D.PERSONE[d.chi].nome.slice(1)}: ${d.testo}`));
+    if (prove.length || dette.length) corpo.push(ul);
   }
   const esami = Object.keys(S.esami);
   if (esami.length) {
@@ -658,7 +802,8 @@ function mostraScheda(id, fissa) {
       card.append(riga);
     }
     for (const n of D.NASCOSTI[id] || []) {
-      if (S.prove.some((p) => D.PROVE[p].casa === id && /calore|ragazzo|tosse/.test(p))) {
+      if (S.prove.some((p) => D.PROVE[p].casa === id && /calore|tosse/.test(p))
+        || ["ragazzo_dorme", "lasciatelo", "polmoni"].some((d) => S.dette[d])) {
         const riga = el("div", "sc-persona");
         riga.append(el("span", "sc-foto ignota", "?"));
         const testo = el("div", "sc-dati");
@@ -732,7 +877,6 @@ function posizionaScheda(px, py) {
 }
 
 async function vai(id) {
-  menu.hidden = true;
   avanza(D.MINUTI.viaggio);
   await entraCasa(id);
 }
@@ -758,11 +902,13 @@ async function vaiLuogo(luogo) {
     vhs.setDark(0);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
   }
+  facceDellaStanza();
   disegnaScena();
   mostra(R.scena, IMG[luogo].src);
   osdRec();
   osd.modo.textContent = L.notte ? "NOTTE" : "";
   hudVisita();
+  aggiornaNastro();
   nuovaRipresa({ tipo: "scena", luogo });
   if (!S.visti[luogo]) {
     S.visti[luogo] = true;
@@ -807,22 +953,42 @@ function testoColpo(c) {
   return c.parte ? `${nome} · ${maiuscolo(D.PARTI[c.parte])}` : `${nome} · PARLA`;
 }
 
+// il bersaglio di una contestazione: "parte:padre.collo", "persona:padre", "zona:tavola"
+function bersaglioDi(c) {
+  if (!c) return null;
+  if (c.parte) return `parte:${c.persona}.${c.parte}`;
+  if (c.persona) return `persona:${c.persona}`;
+  return `zona:${c.zona.id}`;
+}
+
 async function cliccaVisita(x, y) {
+  if (ruota.aperta()) { ruota.chiudi(); return; }
+  if (R.scelta) {
+    // una frase del nastro scelta col tocco: il tocco dopo dice contro cosa usarla
+    const f = R.scelta;
+    const b = R.primo ? `parte:${R.primo.persona}.${R.primo.parte}` : bersaglioDi(colpisci(x, y));
+    scegliFrase(null);
+    if (b) return contesta(f, b, x, y);
+    return;
+  }
   if (R.primo) return chiudiPrimo();
   const c = colpisci(x, y);
-  if (!c) { menu.hidden = true; return; }
+  if (!c) return;
   if (c.parte) return esamina(c.persona, c.parte);
-  if (c.persona) return parla(c.persona);
-  if (c.zona.tipo === "porta") return menuPorta(c.zona);
-  menu.hidden = true;
+  if (c.persona) return apriDomande(c.persona, x, y);
+  if (c.zona.tipo === "porta") return menuPorta(c.zona, x, y);
+  guardaZona(c.zona);
+}
+
+async function guardaZona(zona) {
   avanza(D.MINUTI.indizio);
-  await dici(c.zona.dice);
-  applica(c.zona.poi);
+  await dici(zona.dice);
+  applica(zona.poi);
   dopoAzione();
 }
 
 async function esamina(persona, parte) {
-  menu.hidden = true;
+  ruota.chiudi();
   const e = D.ESAMI[persona][parte];
   avanza(D.MINUTI.esame);
   if (e.rifiuta) {
@@ -881,68 +1047,219 @@ async function dopoAzione() {
   return true;
 }
 
-function parla(persona) {
+// dove aprire la raggiera di una persona quando ci si arriva da una parola chiave: sul petto
+function petto(persona) {
+  const [cx, cy] = D.LUOGHI[S.luogo].parti[persona].collo[0];
+  return [cx, Math.min(0.72, cy + 0.12)];
+}
+
+// le domande a raggiera attorno al punto toccato; in giallo quelle nuove, sbloccate da un esame o da una frase
+function apriDomande(persona, x, y) {
   if (R.occupato) return;
   etichetta.hidden = true;
   const lista = D.DOMANDE[persona].filter((q) => !S.fatte[`${persona}_${q.id}`] && condizione(q.se));
-  menu.replaceChildren(el("p", "menu-titolo", maiuscolo(D.PERSONE[persona].nome)));
-  for (const q of lista) menu.append(bottone(q.testo, () => chiedi(persona, q)));
-  if (S.prove.length) menu.append(bottone("Mostra una prova…", () => menuProve(persona)));
-  if (!lista.length && !S.prove.length) menu.append(el("p", "menu-testo", "Non hai altro da chiedere."));
-  menu.append(bottone("Basta così", () => { menu.hidden = true; }, "secondario"));
-  menu.hidden = false;
+  const voci = lista.map((q) => ({ testo: q.breve, nuova: !!q.se, azione: () => chiedi(persona, q, x, y) }));
+  if (!voci.length) voci.push({ testo: "nient'altro da chiedere", disattiva: true });
+  ruota.apri(x, y, voci, maiuscolo(D.PERSONE[persona].voce), 0.8);
 }
 
-async function chiedi(persona, q) {
-  menu.hidden = true;
+async function chiedi(persona, q, x, y) {
   S.fatte[`${persona}_${q.id}`] = true;
   avanza(D.MINUTI.domanda);
   await dici([["TU", q.testo], ...q.dice]);
   applica(q.poi);
-  if (!(await dopoAzione())) parla(persona);
+  if (await dopoAzione()) return;
+  // la raggiera si riapre dov'era, per la domanda dopo
+  if (S.schermo === "visita" && !R.primo && D.DOMANDE[persona].some((d) => !S.fatte[`${persona}_${d.id}`] && condizione(d.se)))
+    apriDomande(persona, x, y);
 }
 
-function menuProve(persona) {
-  menu.replaceChildren(el("p", "menu-titolo", `MOSTRA A ${maiuscolo(D.PERSONE[persona].nome)}`));
-  for (const id of S.prove) menu.append(bottone(D.PROVE[id].testo, () => mostraProva(persona, id), "prova"));
-  menu.append(bottone("Indietro", () => parla(persona), "secondario"));
-  menu.hidden = false;
+// ---------- contestare: una frase del nastro contro qualcosa o qualcuno ----------
+
+function trovaContestazione(a, b) {
+  return D.CONTESTAZIONI.find((c) => condizione(c.se) && c.coppie.some(([X, Y]) =>
+    (X.includes(a) && Y.includes(b)) || (X.includes(b) && Y.includes(a))));
 }
 
-async function mostraProva(persona, id) {
-  menu.hidden = true;
-  const r = D.REAZIONI[persona][id] || D.REAZIONI[persona]._;
-  const chiave = `${persona}_prova_${id}`;
-  avanza(D.MINUTI.prova);
-  await dici([["TU", D.PROVE[id].testo], ...r.dice]);
-  if (!S.fatte[chiave]) applica(r.poi);
-  S.fatte[chiave] = true;
-  if (!(await dopoAzione())) parla(persona);
+function personaDi(bersaglio) {
+  if (bersaglio.startsWith("persona:")) return bersaglio.slice(8);
+  if (bersaglio.startsWith("parte:")) return bersaglio.slice(6).split(".")[0];
+  return null;
 }
 
-function menuPorta(zona) {
+// dove sta il bersaglio sullo schermo, per il filo rosso e il timbro
+function centroDi(bersaglio) {
+  if (bersaglio.startsWith("d:") || bersaglio.startsWith("p:")) {
+    const d = nastroFrasi.querySelector(`.fot[data-id="${bersaglio}"]`);
+    if (!d) return [0.5, 0.85];
+    const r = schermo.getBoundingClientRect(), q = d.getBoundingClientRect();
+    return [(q.left + q.width / 2 - r.left) / r.width, (q.top - r.top) / r.height];
+  }
+  const f = formeDi(bersaglio);
+  return f ? f.centro : [0.5, 0.45];
+}
+
+function timbra(testo, x, y, cls = "") {
+  const t = el("div", `timbro-schermo ${cls}`, testo);
+  t.style.left = `${clamp(x, 0.14, 0.86) * 100}%`;
+  t.style.top = `${clamp(y - 0.07, 0.1, 0.58) * 100}%`;
+  schermo.append(t);
+  setTimeout(() => t.remove(), 2800);
+}
+
+async function contesta(f, bersaglio, x, y) {
+  if (R.occupato || !bersaglio || bersaglio === f.id) return;
+  ruota.chiudi();
+  const c = trovaContestazione(f.id, bersaglio);
+  if (c && S.contestate[c.id]) { notifica("L'hai già fatto notare"); return; }
+  const da = centroDi(f.id);
+  const [tx, ty] = x == null ? centroDi(bersaglio) : [x, y];
+  segni.filo("contesta", da[0], da[1], tx, ty, "rosso fermo");
+  if (c) {
+    S.contestate[c.id] = true;
+    avanza(D.MINUTI.prova);
+    timbra(c.timbro || "CONTRADDIZIONE", tx, ty, c.timbro ? "combacia" : "");
+    if (vhs && !R.primo) vhs.burst(0.3);
+    await dici(c.dice);
+    applica(c.poi);
+  } else {
+    // niente che non torni: chi la vede reagisce a modo suo, e il tempo passa lo stesso
+    avanza(D.MINUTI.sbaglio);
+    const persona = personaDi(bersaglio);
+    const k = f.id.slice(2);
+    const testo = f.id.startsWith("d:") ? D.DICHIARAZIONI[k].testo : D.PROVE[k].breve;
+    const r = persona ? (D.REAZIONI[persona][k] || D.REAZIONI[persona]._) : [[null, "Le due cose stanno insieme. Niente da contestare."]];
+    await dici(persona ? [["TU", testo], ...r] : r);
+  }
+  segni.togli("contesta");
+  dopoAzione();
+}
+
+// toccare una frase del nastro la sceglie (o la lascia): il tocco dopo dice contro cosa usarla
+function scegliFrase(f) {
+  R.scelta = f && R.scelta?.id !== f.id ? f : null;
+  for (const d of nastroFrasi.querySelectorAll(".fot")) d.classList.toggle("scelta", !!R.scelta && d.dataset.id === R.scelta.id);
+  if (R.scelta) {
+    // il suggerimento sopra la frase scelta (col tocco non c'e' un puntatore da seguire)
+    const d = nastroFrasi.querySelector(`.fot[data-id="${f.id}"]`);
+    if (d) {
+      const r = schermo.getBoundingClientRect(), q = d.getBoundingClientRect();
+      etichetta.style.transform = `translate(${q.left - r.left}px, ${q.top - r.top - q.height * 0.9}px)`;
+    }
+    mostraEtichetta("TOCCA CHI O COSA LA SMENTISCE");
+  } else etichetta.hidden = true;
+}
+
+// cosa c'e' sotto una frase trascinata: un'altra frase del nastro, o qualcosa nella scena
+function bersaglioSotto(f, x, y, sotto) {
+  const fot = sotto?.closest?.(".fot");
+  if (fot) return fot.dataset.id && fot.dataset.id !== f.id ? fot.dataset.id : null;
+  if (!sotto || !sotto.closest("#schermo") || sotto.closest("#nastro-frasi, #comandi")) return null;
+  return R.primo ? `parte:${R.primo.persona}.${R.primo.parte}` : bersaglioDi(colpisci(x, y));
+}
+
+// mentre si trascina una frase: cosa c'e' sotto, da illuminare
+function sopraFrase(f, x, y, sotto) {
+  const b = f ? bersaglioSotto(f, x, y, sotto) : null;
+  if (b === R.bersaglio) return;
+  R.bersaglio = b;
+  for (const d of nastroFrasi.querySelectorAll(".fot.bersaglio")) d.classList.remove("bersaglio");
+  segni.togli("bersaglio");
+  const prima = R.hover;
+  R.hover = null;
+  if (b && (b.startsWith("d:") || b.startsWith("p:"))) {
+    nastroFrasi.querySelector(`.fot[data-id="${b}"]`)?.classList.add("bersaglio");
+    mostraEtichetta("CONFRONTA");
+  } else if (b) {
+    const forme = formeDi(b);
+    if (forme?.ellissi) segni.ellissi("bersaglio", forme.ellissi, "rosso");
+    if (forme?.persona) R.hover = { persona: forme.persona };
+    mostraEtichetta(`CONTESTA · ${testoBersaglio(b)}`);
+  } else etichetta.hidden = true;
+  if (S.schermo === "visita" && !R.primo && (prima || R.hover)) disegnaScena();
+}
+
+function testoBersaglio(b) {
+  const [tipo, resto] = b.split(":");
+  if (tipo === "zona") return maiuscolo(D.LUOGHI[S.luogo].zone.find((z) => z.id === resto)?.nome || "");
+  const [persona, parte] = resto.split(".");
+  const nome = maiuscolo(D.PERSONE[persona].nome);
+  return parte ? `${nome} · ${maiuscolo(D.PARTI[parte])}` : nome;
+}
+
+// ---------- le parole chiave: dove portano ----------
+
+// le forme da illuminare per un collegamento, in frazioni dello schermo; null se non e' in questa stanza
+function formeDi(link) {
+  const L = D.LUOGHI[S.luogo];
+  if (!L || R.primo || S.schermo !== "visita") return null;
+  const [tipo, resto] = link.split(":");
+  if (tipo === "zona") {
+    const z = L.zone.find((q) => q.id === resto);
+    if (!z) return null;
+    const [x0, y0, x1, y1] = z.box;
+    const ellissi = z.segni || [[(x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2, (y1 - y0) / 2]];
+    const xs = ellissi.map((e) => e[0]), ys = ellissi.map((e) => e[1]);
+    return { ellissi, centro: [(Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...ys) + Math.max(...ys)) / 2] };
+  }
+  const [persona, parte] = resto.split(".");
+  if (!L.persone.includes(persona)) return null;
+  if (tipo === "parte") {
+    const ellissi = L.parti[persona][parte].map(([cx, cy, rx, ry]) => [cx, cy, rx * 1.6 + 0.008, ry * 1.6 + 0.012]);
+    return { ellissi, centro: [ellissi[0][0], ellissi[0][1]] };
+  }
+  return { persona, centro: petto(persona) };
+}
+
+function sopraChiave(link, span) {
+  segni.togli("chiave");
+  segni.togli("chiave-filo");
+  const prima = R.hover;
+  R.hover = null;
+  const forme = link && formeDi(link);
+  if (forme) {
+    if (forme.ellissi) segni.ellissi("chiave", forme.ellissi, "giallo");
+    if (forme.persona) R.hover = { persona: forme.persona };
+    // il filo puntinato dalla parola alla cosa
+    const r = schermo.getBoundingClientRect(), q = span.getBoundingClientRect();
+    segni.filo("chiave-filo", (q.left + q.width / 2 - r.left) / r.width, (q.bottom - r.top) / r.height + 0.004,
+      forme.centro[0], forme.centro[1], "giallo");
+  }
+  if (S.schermo === "visita" && !R.primo && (prima || R.hover)) disegnaScena();
+}
+
+function seguiChiave(link) {
+  if (R.occupato || S.schermo !== "visita") return;
+  const forme = formeDi(link);
+  if (!forme) { notifica("Non è qui"); return; }
+  sopraChiave(null);
+  const [tipo, resto] = link.split(":");
+  if (tipo === "parte") return esamina(...resto.split("."));
+  if (tipo === "persona") return apriDomande(resto, ...petto(resto));
+  const z = D.LUOGHI[S.luogo].zone.find((q) => q.id === resto);
+  if (z.tipo === "porta") return menuPorta(z, ...forme.centro);
+  return guardaZona(z);
+}
+
+function menuPorta(zona, x, y) {
+  if (R.occupato) return;
   etichetta.hidden = true;
   const P = D.PORTE[zona.id];
-  menu.replaceChildren(el("p", "menu-titolo", maiuscolo(zona.nome)));
+  const voci = [];
   if (P.entra && S.sbloccate[zona.id]) {
-    menu.append(bottone(P.entra.testo, async () => {
-      menu.hidden = true;
+    voci.push({ testo: P.entra.testo, nuova: true, azione: async () => {
       avanza(D.MINUTI.porta);
       await vaiLuogo(P.entra.vai);
-    }));
+    } });
   } else {
-    for (const s of P.scelte) {
-      const b = bottone(s.soldi ? `${s.testo}` : s.testo, () => sceltaPorta(s));
-      if (s.soldi && s.soldi > S.soldi) b.disabled = true;
-      menu.append(b);
-    }
+    for (const s of P.scelte)
+      voci.push({ testo: s.minuti > 5 ? `${s.testo} · ${s.minuti} min` : s.testo, disattiva: !!(s.soldi && s.soldi > S.soldi),
+        azione: () => sceltaPorta(s) });
   }
-  menu.append(bottone("Lascia stare", () => { menu.hidden = true; }, "secondario"));
-  menu.hidden = false;
+  ruota.apri(x, y, voci, maiuscolo(zona.nome), 0.8);
 }
 
 async function sceltaPorta(s) {
-  menu.hidden = true;
   avanza(s.minuti);
   await dici(s.dice);
   applica(s.poi);
@@ -1056,7 +1373,8 @@ function pausa() {
   p.inPausa = !p.inPausa;
   comandi.querySelector(".cmd-play").textContent = p.inPausa ? "▶" : "❚❚";
   if (vhs) vhs.paused = p.inPausa;
-  if (!p.inPausa) ripresa(p.i);
+  if (p.inPausa) parole.pulisci();
+  else ripresa(p.i);
 }
 
 function infrarosso() {
@@ -1074,20 +1392,43 @@ function modoRipresa() {
   osd.modo.textContent = p.ir ? "IR" : notte ? "NOTTE" : "";
 }
 
+// la scena del nastro con le facce che avevano in quel momento
+function componiNastro(luogo, volti) {
+  const ctx = R.ctx;
+  ctx.globalAlpha = 1;
+  ctx.drawImage(IMG[luogo], 0, 0, W, H);
+  const facce = {};
+  for (const [persona, volto] of Object.entries(volti)) facce[persona] = { da: null, a: volto, t0: 0 };
+  disegnaVolti(ctx, luogo, facce);
+  if (vhs && vhs.source === R.scena) vhs.refresh();
+}
+
 async function ripresa(i) {
   const p = R.play;
   if (!p) return;
   const n = p.nastro;
   if (i < 0) i = 0;
+  parole.pulisci();
   if (i >= n.riprese.length) {
-    sottotitoli.replaceChildren(riga(null, "[fine del nastro]"));
+    p.token++;
+    parole.scrivi(null, "[fine del nastro]", { lato: "sotto" });
     return;
   }
   p.i = i;
   const tok = ++p.token;
   const r = n.riprese[i];
+  // le facce di una battuta: quelle che restavano, piu' l'espressione di chi parla
+  const facceDi = (fermi, persona, volto) => {
+    const v = {};
+    for (const [p, x] of Object.entries(fermi || {})) if (D.LUOGHI[r.luogo].persone.includes(p)) v[p] = x;
+    if (persona && volto && D.LUOGHI[r.luogo].persone.includes(persona)) v[persona] = volto;
+    return v;
+  };
+  let volti = {};
   if (r.tipo === "scena") {
-    mostra(IMG[r.luogo]);
+    volti = facceDi(r.volti);
+    componiNastro(r.luogo, volti);
+    mostra(R.scena, IMG[r.luogo].src);
     if (vhs) vhs.setHeat(IMG[`${r.luogo}_calore`]);
     didascalia.hidden = true;
   } else {
@@ -1099,12 +1440,19 @@ async function ripresa(i) {
   if (vhs) { vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0 }); vhs.burst(0.35); }
   modoRipresa();
   osdPlay(D.DATA_OSD, hhmm(r.ora));
-  sottotitoli.replaceChildren();
-  // le battute registrate, poi la ripresa dopo
-  for (const [chi, testo] of r.righe) {
+  // le battute registrate, scritte di nuovo addosso a chi parla, poi la ripresa dopo
+  const primo = r.tipo === "primo" ? { persona: r.persona, parte: r.parte } : null;
+  for (const [chi, testo, extra = {}] of r.righe) {
     if (p.token !== tok || p.inPausa) return;
-    sottotitoli.replaceChildren(riga(chi, testo));
-    await new Promise((res) => setTimeout(res, Math.max(1600, 800 + testo.length * 52)));
+    if (r.tipo === "scena") {
+      const ora = facceDi(extra.fermi || r.volti, D.VOCI[chi], extra.volto);
+      if (JSON.stringify(ora) !== JSON.stringify(volti)) {
+        volti = ora;
+        componiNastro(r.luogo, volti);
+      }
+    }
+    const finita = await parole.scrivi(chi, testo, ancora(chi, r.tipo === "scena" ? r.luogo : null, primo));
+    if (!finita) return;
   }
   if (p.token !== tok || p.inPausa) return;
   await new Promise((res) => setTimeout(res, r.righe.length ? 600 : 2400));
@@ -1290,6 +1638,11 @@ function mostraEtichetta(testo) {
   etichetta.hidden = false;
 }
 
+// cosa c'e' sotto il puntatore: la scena, non le frasi o la raggiera sopra
+function sullaScena(t) {
+  return t === canvas || t === statico || t === zoneBox || t?.closest?.("#parole, #segni") && !t.closest(".chiave");
+}
+
 schermo.addEventListener("pointermove", (e) => {
   const p = punto(e);
   cursore.style.transform = `translate(${p.px}px, ${p.py}px)`;
@@ -1298,8 +1651,12 @@ schermo.addEventListener("pointermove", (e) => {
     if (e.target === canvas || e.target === statico || e.target === zoneBox) evidenzia(casaSotto(p.x, p.y));
     return;
   }
-  if (S.schermo !== "visita" || R.occupato || R.primo || e.pointerType === "touch") return;
-  if (e.target !== canvas && e.target !== statico && e.target !== zoneBox) return;
+  if (striscia.trascina || R.scelta) return;
+  if (S.schermo !== "visita" || R.occupato || R.primo || e.pointerType === "touch" || ruota.aperta()) return;
+  if (!sullaScena(e.target)) {
+    if (R.hoverKey) { R.hoverKey = ""; etichetta.hidden = true; if (R.hover) { R.hover = null; disegnaScena(); } }
+    return;
+  }
   const c = colpisci(p.x, p.y);
   const chiave = c ? `${c.persona || ""}|${c.parte || ""}|${c.zona ? c.zona.id : ""}` : "";
   if (chiave === R.hoverKey) return;
@@ -1310,14 +1667,16 @@ schermo.addEventListener("pointermove", (e) => {
 });
 
 schermo.addEventListener("pointerleave", () => {
+  if (striscia.trascina || R.scelta) return;
   etichetta.hidden = true;
   if (S.schermo === "visita" && R.hover) { R.hover = null; disegnaScena(); }
 });
 
 schermo.addEventListener("click", (e) => {
-  if (R.salta) { R.salta(); return; }
+  if (striscia.appenaTrascinato()) return;
+  if (e.target.closest("button, #comandi, #hud, #nastro-frasi, #ruota, .chiave")) return;
+  if (parole.occupata()) { parole.salta(); return; }
   if (R.occupato) return;
-  if (e.target.closest("button, #menu, #comandi, #hud")) return;
   const p = punto(e);
   if (S.schermo === "visita") cliccaVisita(p.x, p.y);
   else if (S.schermo === "nastro" && R.play) cliccaNastro(p.x, p.y);
@@ -1327,7 +1686,6 @@ schermo.addEventListener("click", (e) => {
     else if (R.casaScelta || !schedaCasa.hidden) { scegli(null); schedaCasa.hidden = true; }
     else zoomMappa(p.x, p.y);
   }
-  else menu.hidden = true;
 });
 
 foglio.addEventListener("click", (e) => {
@@ -1338,11 +1696,36 @@ $("#foglio .chiudi").addEventListener("click", chiudiFoglio);
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     if (!foglio.hidden) return chiudiFoglio();
+    if (ruota.aperta()) return ruota.chiudi();
+    if (R.scelta) return scegliFrase(null);
     if (R.primo) return chiudiPrimo();
-    if (!menu.hidden) { menu.hidden = true; return; }
   }
-  if (e.key === " " && R.salta && foglio.hidden) { e.preventDefault(); R.salta(); }
+  if (e.key === " " && parole.occupata() && foglio.hidden && !e.target.closest?.("button, .fot")) {
+    e.preventDefault();
+    parole.salta();
+  }
 });
+
+// le parole chiave e il nastro delle frasi
+parole.onSopraChiave = (link, span) => sopraChiave(link, span);
+parole.onChiave = (link) => seguiChiave(link);
+striscia.onSopra = (f, x, y, sotto) => sopraFrase(f, x, y, sotto);
+striscia.onRilascio = (f, x, y, sotto) => {
+  const b = bersaglioSotto(f, x, y, sotto);
+  sopraFrase(null);
+  if (!b) return;
+  if (R.occupato) { notifica("Aspetta che finisca di parlare"); return; }
+  contesta(f, b, b.startsWith("d:") || b.startsWith("p:") ? null : x, y);
+};
+striscia.onTocco = (f) => {
+  if (R.scelta && R.scelta.id !== f.id) {
+    // due frasi del nastro, una contro l'altra
+    const prima = R.scelta;
+    scegliFrase(null);
+    return contesta(prima, f.id);
+  }
+  scegliFrase(f);
+};
 
 $("#schermo-intero").addEventListener("click", async () => {
   try {
@@ -1354,7 +1737,7 @@ $("#schermo-intero").addEventListener("click", async () => {
 // ---------- avvio ----------
 
 async function avvia(dati) {
-  sottotitoli.replaceChildren(riga(null, "Carico i nastri…"));
+  parole.scrivi(null, "Carico i nastri…", { lato: "sotto" }, {}, { veloce: true });
   try {
     vhs = new Vhs(canvas);
     vhs.start();
@@ -1365,7 +1748,7 @@ async function avvia(dati) {
   try {
     await caricaTutto();
   } catch (err) {
-    sottotitoli.replaceChildren(riga(null, `Non riesco a caricare ${err.message}. Ricarica la pagina.`));
+    parole.scrivi(null, `Non riesco a caricare ${err.message}. Ricarica la pagina.`, { lato: "sotto" });
     return;
   }
   const c = document.createElement("canvas");
@@ -1377,7 +1760,7 @@ async function avvia(dati) {
   m.height = IMG.mappa.naturalHeight;
   R.mctx = m.getContext("2d");
   R.mappa = m;
-  sottotitoli.replaceChildren();
+  parole.pulisci();
   if (dati && dati.S) S = Object.assign(nuovoStato(), dati.S);
   if (S.schermo === "visita" && S.casa && S.luogo) vaiLuogo(S.luogo);
   else if (S.schermo === "mappa") vaiMappa();
