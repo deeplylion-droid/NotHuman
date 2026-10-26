@@ -152,7 +152,7 @@ export class Ruota {
     this.strato.hidden = true;
   }
 
-  // voci: [{ testo, nuova, secondaria, disattiva, azione }]; basso: fin dove possono scendere le voci
+  // voci: [{ testo, nuova, secondaria, disattiva, icona, azione }] (icona: un SVG); basso: fin dove possono scendere le voci
   apri(x, y, voci, titolo, basso = 0.8) {
     this.strato.replaceChildren();
     const svg = svgEl("svg", { viewBox: `0 0 ${VW} ${VH}`, preserveAspectRatio: "none", class: "ruota-fili" });
@@ -175,6 +175,7 @@ export class Ruota {
       b.type = "button";
       b.className = `ruota-voce ${destra ? "a-destra" : "a-sinistra"}${v.nuova ? " nuova" : ""}${v.secondaria ? " secondaria" : ""}`;
       b.textContent = v.testo;
+      if (v.icona) b.insertAdjacentHTML("afterbegin", v.icona);
       b.style.left = `${(lx / VW) * 100}%`;
       b.style.top = `${(ly / VH) * 100}%`;
       if (v.disattiva) b.disabled = true;
@@ -226,7 +227,7 @@ export class Striscia {
     return performance.now() - this.fineTrascina < 400;
   }
 
-  // fotogrammi: [{ id, tipo ("detta" o "prova"), foto: { src, x, y, w, h, filtro }, testo, meta }]
+  // fotogrammi: [{ id, tipo ("detta" o "prova"), foto: { src, x, y, w, h, filtro }, testo, meta, icona }] (icona: un SVG)
   mostra(fotogrammi, vuoto) {
     this.scorri.replaceChildren();
     for (const f of fotogrammi) {
@@ -253,7 +254,8 @@ export class Striscia {
       frase.textContent = f.testo;
       const meta = document.createElement("span");
       meta.className = "fot-meta";
-      meta.textContent = f.meta;
+      if (f.icona) meta.insertAdjacentHTML("beforeend", f.icona);
+      meta.append(document.createTextNode(f.meta));
       t.append(frase, meta);
       d.append(foto, t);
       if (!this.mostrati.has(f.id)) {

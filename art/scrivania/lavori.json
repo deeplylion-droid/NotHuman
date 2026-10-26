@@ -65,5 +65,51 @@
       "output_format": "png",
       "num_images": 1
     }
+  },
+  {
+    "nome": "mappa_35_case",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this hand-drawn village map: remove about half of the houses, so that only about 25 houses remain in the whole village. Keep the houses around the church square and along the main streets, and remove most of the scattered farmhouses and the smaller houses crowded into the blocks. Where a house is removed, draw what would naturally be there instead: a small vegetable garden, grass, a field or a tree, in exactly the same pencil-and-ink drawing style on the same paper. Keep everything else exactly as it is, in the same place, size and shape: the church with its bell tower, the streets, the river with its two stone bridges, the cemetery, the fields, the trees, the fenced compound with the white prefabricated buildings and the antenna, the paper texture, folds and stains. Keep the roofs of the remaining houses reddish. Do not add anything new. No text, no letters, no numbers.",
+      "image_urls": [
+        "@file:mappa_paese.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "mappa_25_case_toppe",
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "This is a hand-drawn map of a mountain village. In the masked areas, remove the houses completely and draw instead small vegetable gardens with rows of plants, grass, a few bushes or a single tree, in exactly the same pencil-and-ink drawing style with crosshatching, on the same old yellowed paper. There must be no houses, no buildings, no walls and no roofs in the masked areas. Everything outside the masked areas stays exactly the same. No text, no letters, no numbers.",
+      "image_urls": [
+        "@file:mappa_35_case_1080.jpg"
+      ],
+      "mask_url": "@file:mappa_35_case_maschera.png",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "mappa_25_case_stile",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Completely re-render this hand-drawn village map in the drawing style described below, redrawing every line, surface and texture in that technique. Keep the composition exactly: every house, roof, street, the church, the river with its two bridges, the cemetery, the fields, the trees and the fenced compound with the white buildings and the antenna stay in exactly the same place, size and shape. Keep the roofs of the houses reddish. Do not add anything. No text, no letters, no numbers, no signature.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "image_urls": [
+        "@file:mappa_25_case.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
   }
 ]

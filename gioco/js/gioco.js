@@ -5,6 +5,7 @@ import { Vhs } from "./vhs.js";
 import * as D from "./dati.js";
 import { ESPRESSIONI } from "./espressioni.js";
 import { Parole, Ruota, Striscia, Segni } from "./parole.js";
+import { icona, pittogramma } from "./icone.js";
 
 const $ = (sel) => document.querySelector(sel);
 const el = (tag, cls, text) => {
@@ -20,7 +21,7 @@ const maiuscolo = (s) => s.toUpperCase();
 const schermo = $("#schermo");
 const canvas = $("#vhs");
 const statico = $("#statico");
-const osd = { box: $("#osd"), stato: $("#osd-stato"), modo: $("#osd-modo"), data: $("#osd-data"), ora: $("#osd-ora") };
+const osd = { box: $("#osd"), stato: $("#osd-stato"), modo: $("#osd-modo") };
 const zoneBox = $("#zone");
 const etichetta = $("#etichetta");
 const cursore = $("#cursore");
@@ -30,7 +31,10 @@ const avviso = $("#avviso");
 const comandi = $("#comandi");
 const foglio = $("#foglio");
 const foglioCorpo = $("#foglio-corpo");
-const orologio = $("#orologio");
+const soldiHud = $("#soldi-hud");
+const indicatori = $("#indicatori");
+const indPazienza = $("#ind-pazienza");
+const indTempo = $("#ind-tempo");
 const schedaCasa = $("#scheda-casa");
 const nastroFrasi = $("#nastro-frasi");
 const segni = new Segni($("#segni"));
@@ -55,6 +59,8 @@ function nuovoStato() {
     // lo stato di famiglia: note a penna per persona, chi e' morto, i timbri della diagnosi, chi va al lazzaretto,
     // il provvedimento per casa, le note del comune barrate
     note: {}, morti: {}, diagnosi: {}, lazzaretto: {}, provv: {}, barrati: {},
+    // la pazienza di ogni famiglia e le case da cui ti hanno cacciato
+    pazienza: {}, cacciato: {},
   };
 }
 let S = nuovoStato();
@@ -196,28 +202,82 @@ function osdRec() {
   osd.box.classList.remove("play");
   osd.stato.innerHTML = "";
   osd.stato.append(el("i", "punto"), document.createTextNode("REC"));
-  osd.data.textContent = D.DATA_OSD;
-  osd.ora.textContent = hhmm(S.ora);
 }
 
-function osdPlay(data, ora) {
+function osdPlay() {
   osd.box.hidden = false;
   osd.box.classList.add("play");
   osd.stato.innerHTML = "";
   osd.stato.append(el("i", "triangolo"), document.createTextNode("PLAY"));
-  osd.data.textContent = data;
-  osd.ora.textContent = ora;
 }
 
-function aggiornaOrologio() {
-  orologio.textContent = `LUN 26 OTT · ${hhmm(S.ora)} · ${S.soldi} €`;
+// in alto i soldi, come in un videogioco; data e ora non si vedono (resta la radiosveglia nella stanza)
+function aggiornaHud() {
+  soldiHud.innerHTML = `${icona("moneta")}<span>${S.soldi} €</span>`;
   if (stanza) stanza.segnaOra(hhmm(S.ora));
-  if (!osd.box.hidden && !osd.box.classList.contains("play")) osd.ora.textContent = hhmm(S.ora);
+  disegnaIndicatori();
 }
 
 function avanza(min) {
   S.ora += min;
-  aggiornaOrologio();
+  aggiornaHud();
+  if (min > 0) colpo("tempo", `−${min} MIN`);
+}
+
+// ---------- gli indicatori: la pazienza della famiglia e il tempo che resta fino al coprifuoco ----------
+
+const ORE = (D.INIZIO.coprifuoco - D.INIZIO.ora) / 60;
+
+function pazienza() {
+  return S.casa ? S.pazienza[S.casa] ?? D.PAZIENZA : D.PAZIENZA;
+}
+
+// "visita": tutti e due; "mappa": solo il tempo; null: nessuno
+function mostraIndicatori(modo) {
+  indicatori.hidden = !modo;
+  indicatori.dataset.modo = modo || "";
+  indPazienza.hidden = modo !== "visita";
+  disegnaIndicatori();
+}
+
+function tacche(ind, n, pieno) {
+  const barra = ind.querySelector(".ind-barra");
+  if (barra.children.length !== n)
+    barra.replaceChildren(...Array.from({ length: n }, () => { const t = el("span", "tacca"); t.append(el("i")); return t; }));
+  [...barra.children].forEach((t, i) => t.style.setProperty("--pieno", pieno(i)));
+}
+
+function disegnaIndicatori() {
+  if (indicatori.hidden) return;
+  const p = pazienza();
+  indPazienza.dataset.livello = p >= 4 ? "alto" : p >= 3 ? "medio" : "basso";
+  indPazienza.querySelector(".ind-ic").innerHTML = icona(p >= 4 ? "calma" : p >= 3 ? "seria" : "arrabbiata");
+  tacche(indPazienza, D.PAZIENZA, (i) => (i < p ? 1 : 0));
+  // una tacca per ogni ora fino al coprifuoco; quella in corso si svuota a poco a poco
+  const resta = Math.max(0, D.INIZIO.coprifuoco - S.ora) / 60;
+  indTempo.dataset.livello = resta > 2 ? "alto" : resta > 1 ? "medio" : "basso";
+  indTempo.querySelector(".ind-ic").innerHTML = icona("clessidra");
+  tacche(indTempo, ORE, (i) => clamp(resta - i, 0, 1));
+}
+
+// un indicatore che cala: la cifra che sale e svanisce, l'icona che trema
+function colpo(nome, testo) {
+  const ind = nome === "tempo" ? indTempo : indPazienza;
+  if (indicatori.hidden || ind.hidden) return;
+  const d = el("span", "ind-delta", testo);
+  ind.append(d);
+  setTimeout(() => d.remove(), 1700);
+  ind.classList.remove("colpito");
+  void ind.offsetWidth;
+  ind.classList.add("colpito");
+}
+
+// qualcuno della famiglia si arrabbia: la pazienza cala di uno (a zero, dopo l'azione, ti cacciano)
+function arrabbia(n = 1) {
+  if (S.schermo !== "visita" || !S.casa || pazienza() <= 0) return;
+  S.pazienza[S.casa] = Math.max(0, pazienza() - n);
+  disegnaIndicatori();
+  colpo("pazienza", `−${n}`);
 }
 
 function notifica(testo) {
@@ -252,14 +312,17 @@ function pulisci() {
   etichetta.hidden = true;
   nastroFrasi.hidden = true;
   R.hover = null;
+  mostraIndicatori(null);
   if (stanza) stanza.esci();
   if (vhs) vhs.prima = null;
   schermo.dataset.schermo = S.schermo;
 }
 
-function bottone(testo, azione, cls = "") {
-  const b = el("button", cls, testo);
+function bottone(testo, azione, cls = "", ic = null) {
+  const b = el("button", cls);
   b.type = "button";
+  if (ic) b.insertAdjacentHTML("beforeend", icona(ic));
+  b.append(el("span", null, testo));
   b.addEventListener("click", (e) => { e.stopPropagation(); azione(); });
   return b;
 }
@@ -304,9 +367,15 @@ async function dici(righe, salva = true, blocca = true) {
   }
   etichetta.hidden = true;
   const cambiate = new Set();
+  let rabbia = false;
   for (const [chi, testo, extra = {}] of righe) {
     if (R.turno !== turno) break;
     const persona = D.VOCI[chi];
+    // la prima faccia arrabbiata di un discorso costa un punto di pazienza
+    if (extra.volto === "arrabbiato" && !rabbia) {
+      rabbia = true;
+      arrabbia();
+    }
     if (extra.volto && persona && S.schermo === "visita") {
       cambiaVolto(persona, extra.volto);
       cambiate.add(persona);
@@ -361,7 +430,7 @@ function fotogramma(v) {
     const d = D.DICHIARAZIONI[k];
     const volto = v.volto && ESPRESSIONI[D.PERSONE[d.chi].luogo]?.[d.chi]?.volti.includes(v.volto) ? `_${v.volto}` : "";
     return { id: v.id, tipo: "detta", foto: { src: `img/volti/${d.chi}${volto}.jpg` }, testo: d.testo,
-      meta: `${hhmm(v.ora)} · ${D.PERSONE[d.chi].voce}` };
+      meta: D.PERSONE[d.chi].voce, icona: icona("fumetto") };
   }
   const P = D.PROVE[k];
   let foto = null;
@@ -369,7 +438,7 @@ function fotogramma(v) {
   else if (P.parte) foto = { src: `img/pp/${P.parte[0]}_${P.parte[1]}.jpg`, w: (6 / 7) * (9 / 16), h: 1, x: 0.5 - (6 / 7) * (9 / 32), y: 0 };
   else if (P.da) foto = { src: `img/volti/${P.da}.jpg` };
   if (foto && P.ir) foto.filtro = "ir";
-  return { id: v.id, tipo: "prova", foto, testo: P.breve, meta: `${hhmm(v.ora)} · ${P.ir ? "NASTRO IR" : "INDIZIO"}` };
+  return { id: v.id, tipo: "prova", foto, testo: P.breve, meta: P.ir ? "NASTRO IR" : "INDIZIO", icona: icona(P.ir ? "fiamma" : "lente") };
 }
 
 function aggiornaNastro() {
@@ -400,7 +469,7 @@ function applica(poi) {
     for (const [persona, volto] of Object.entries(poi.volti)) cambiaVolto(persona, volto);
   }
   if (poi.fiducia) S.fiducia += poi.fiducia;
-  if (poi.soldi) { S.soldi += poi.soldi; aggiornaOrologio(); }
+  if (poi.soldi) { S.soldi += poi.soldi; aggiornaHud(); }
   if (poi.sblocca) S.sbloccate[poi.sblocca] = true;
   if (poi.conosci) S.conosciute[poi.conosci] = true;
   if (poi.forzata) S.forzate[S.casa] = true;
@@ -431,11 +500,11 @@ function vaiScrivania() {
   }
   mostra(IMG.scrivania);
   for (const z of D.SCRIVANIA) zoneBox.append(zonaHtml(z, () => azioneScrivania(z.id)));
-  if (stanza) hud.append(bottone("Alzati", () => vaiStanza("scrivania"), "hud-b"));
+  if (stanza) hud.append(bottone("Alzati", () => vaiStanza("scrivania"), "hud-b", "su"));
   hud.append(el("span", "suggerimento", S.fase === "sera"
     ? "Sera. Rivedi i nastri al videoregistratore, poi spegni la lampada."
     : "Leggi il fax, poi prendi la maschera ed esci."));
-  aggiornaOrologio();
+  aggiornaHud();
 }
 
 // ---------- la stanza del medico in 3D ----------
@@ -464,7 +533,7 @@ function vaiStanza(dove = "inizio") {
     ? "Sera. I nastri sono nel videoregistratore; poi a letto."
     : tocco ? "Trascina per guardarti attorno, tocca dove andare o cosa usare."
       : "Trascina per guardarti attorno, clicca dove andare o cosa usare. Si cammina anche con WASD."));
-  aggiornaOrologio();
+  aggiornaHud();
 }
 
 async function usaStanza(id) {
@@ -534,20 +603,36 @@ function chiudiFoglio() {
   foglio.hidden = true;
 }
 
+// il fax della ditta: il protocollo del giorno a simboli, da capire in un colpo d'occhio
 function apriFax() {
   const f = D.FAX;
-  const corpo = [el("p", "fax-testata", f.testata), el("p", "fax-sotto", f.sotto), el("hr")];
-  for (const r of f.righe) corpo.push(el("p", null, r));
-  corpo.push(el("h3", null, "SEGNI DA CERCARE"));
-  const ol = el("ol");
-  for (const [nome, desc] of f.segni) {
-    const li = el("li");
-    li.append(el("b", null, `${nome}: `), document.createTextNode(desc));
-    ol.append(li);
-  }
-  corpo.push(ol, el("h3", null, "PROFILO RICHIESTO"), el("p", null, f.profilo), el("h3", null, "COMPENSO"),
-    el("p", null, f.compenso), el("p", "fax-chiusura", f.chiusura), el("hr"), el("p", "fax-firma", f.firma));
-  apriFoglio("fax", corpo);
+  const segno = (pitto, nome, nota, cls = "") => {
+    const d = el("figure", `fx-segno ${cls}`);
+    const ic = el("div", "fx-pitto");
+    ic.innerHTML = pittogramma(pitto);
+    d.append(ic, el("b", null, nome));
+    if (nota) d.append(el("span", null, nota));
+    return d;
+  };
+  const blocco = (titolo, ...figli) => {
+    const s = el("section", "fx-blocco");
+    s.append(el("h3", null, titolo), ...figli);
+    return s;
+  };
+  const testa = el("header", "fx-testa");
+  const logo = el("div", "fx-logo");
+  logo.innerHTML = pittogramma("panacea");
+  testa.append(logo, el("b", "fx-ditta", "PANACEA"), el("span", "fx-giorno", `PROTOCOLLO · GIORNO ${f.giorno}`));
+  const segni = el("div", "fx-segni");
+  for (const s of f.segni) segni.append(segno(s.icona, s.nome, s.nota));
+  const case_ = el("div", "fx-fila");
+  for (const n of f.case) case_.append(segno("casa", `CASA ${n}`, null, "piccolo"));
+  const paga = el("div", "fx-fila");
+  paga.append(segno("moneta", `${D.SOLDI.paziente} €`, "a paziente", "piccolo"),
+    segno("mirino", `+${D.SOLDI.profilo} €`, f.profilo, "piccolo"));
+  const riga = el("div", "fx-riga");
+  riga.append(blocco("DA VISITARE", case_), blocco("PAGA", paga));
+  apriFoglio("fax", [testa, blocco("SEGNI DA CERCARE", segni), riga, el("p", "fx-motto", f.motto)]);
 }
 
 // il giornale: la carta e' disegnata, il testo e' stampato sopra con la stessa prospettiva della pagina
@@ -678,8 +763,9 @@ function vaiMappa() {
   const visite = Object.keys(S.visitate).length;
   hud.append(el("span", "suggerimento", "Tocca la mappa per ingrandire"),
     bottone(visite ? "Torna in stanza · finisce la giornata" : stanza ? "Torna in stanza" : "Torna alla scrivania",
-      () => (visite ? sera() : stanza ? vaiStanza("porta") : vaiScrivania()), "hud-b"));
-  aggiornaOrologio();
+      () => (visite ? sera() : stanza ? vaiStanza("porta") : vaiScrivania()), "hud-b", stanza ? "casa" : "indietro"));
+  mostraIndicatori("mappa");
+  aggiornaHud();
 }
 
 // gli spilli seguono l'ingrandimento della videocamera
@@ -947,6 +1033,8 @@ async function vaiLuogo(luogo) {
   mostra(R.scena, IMG[luogo].src);
   osdRec();
   osd.modo.textContent = L.notte ? "NOTTE" : "";
+  S.pazienza[S.casa] ??= D.PAZIENZA;
+  mostraIndicatori("visita");
   hudVisita();
   aggiornaNastro();
   nuovaRipresa({ tipo: "scena", luogo });
@@ -959,9 +1047,9 @@ async function vaiLuogo(luogo) {
 
 function hudVisita() {
   hud.replaceChildren();
-  if (S.luogo === "camera") hud.append(bottone("Torna in cucina", () => tornaCucina(), "hud-b"));
-  hud.append(bottone("Stato di famiglia", () => apriStato(S.casa), "hud-b"),
-    bottone("Concludi la visita", () => apriStato(S.casa, { firma: true }), "hud-b forte"));
+  if (S.luogo === "camera") hud.append(bottone("Torna in cucina", () => tornaCucina(), "hud-b", "indietro"));
+  hud.append(bottone("Stato di famiglia", () => apriStato(S.casa), "hud-b", "foglio"),
+    bottone("Concludi la visita", () => apriStato(S.casa, { firma: true }), "hud-b forte", "firma"));
 }
 
 async function tornaCucina() {
@@ -1055,7 +1143,7 @@ async function esamina(persona, parte) {
   S.esami[`${persona}_${parte}`] = true;
   didascalia.textContent = `${maiuscolo(D.PARTI[parte])} · ${maiuscolo(D.PERSONE[persona].nome)}`;
   didascalia.hidden = false;
-  hud.replaceChildren(bottone("Torna alla stanza", chiudiPrimo, "hud-b forte"));
+  hud.replaceChildren(bottone("Torna alla stanza", chiudiPrimo, "hud-b forte", "indietro"));
   nuovaRipresa({ tipo: "primo", persona, parte });
   R.occupato = false;
   await dici(e.dice);
@@ -1080,9 +1168,16 @@ async function chiudiPrimo() {
   dopoAzione();
 }
 
-// dopo ogni azione: se e' arrivato il coprifuoco, la visita finisce
+// dopo ogni azione: se la famiglia ha perso la pazienza ti cacciano; se e' arrivato il coprifuoco, la visita finisce
 async function dopoAzione() {
-  if (S.schermo !== "visita" || S.ora < D.INIZIO.coprifuoco) return false;
+  if (S.schermo !== "visita") return false;
+  if (pazienza() <= 0 && !S.cacciato[S.casa]) {
+    S.cacciato[S.casa] = true;
+    await dici(D.CACCIATA[S.casa]);
+    apriStato(S.casa, { firma: true, obbligato: true });
+    return true;
+  }
+  if (S.ora < D.INIZIO.coprifuoco) return false;
   await dici([[null, "Sono le otto: coprifuoco. Devi andare."]]);
   apriStato(S.casa, { firma: true, obbligato: true });
   return true;
@@ -1099,7 +1194,7 @@ function apriDomande(persona, x, y) {
   if (R.occupato) return;
   etichetta.hidden = true;
   const lista = D.DOMANDE[persona].filter((q) => !S.fatte[`${persona}_${q.id}`] && condizione(q.se));
-  const voci = lista.map((q) => ({ testo: q.breve, nuova: !!q.se, azione: () => chiedi(persona, q, x, y) }));
+  const voci = lista.map((q) => ({ testo: q.breve, nuova: !!q.se, icona: icona("domanda"), azione: () => chiedi(persona, q, x, y) }));
   if (!voci.length) voci.push({ testo: "nient'altro da chiedere", disattiva: true });
   ruota.apri(x, y, voci, maiuscolo(D.PERSONE[persona].voce), 0.8);
 }
@@ -1170,6 +1265,7 @@ async function contesta(f, bersaglio, x, y) {
     const k = f.id.slice(2);
     const testo = f.id.startsWith("d:") ? D.DICHIARAZIONI[k].testo : D.PROVE[k].breve;
     const r = persona ? (D.REAZIONI[persona][k] || D.REAZIONI[persona]._) : [[null, "Le due cose stanno insieme. Niente da contestare."]];
+    if (persona) arrabbia();
     await dici(persona ? [["TU", testo], ...r] : r);
   }
   segni.togli("contesta");
@@ -1288,14 +1384,14 @@ function menuPorta(zona, x, y) {
   const P = D.PORTE[zona.id];
   const voci = [];
   if (P.entra && S.sbloccate[zona.id]) {
-    voci.push({ testo: P.entra.testo, nuova: true, azione: async () => {
+    voci.push({ testo: P.entra.testo, nuova: true, icona: icona("porta"), azione: async () => {
       avanza(D.MINUTI.porta);
       await vaiLuogo(P.entra.vai);
     } });
   } else {
     for (const s of P.scelte)
-      voci.push({ testo: s.minuti > 5 ? `${s.testo} · ${s.minuti} min` : s.testo, disattiva: !!(s.soldi && s.soldi > S.soldi),
-        azione: () => sceltaPorta(s) });
+      voci.push({ testo: s.minuti > 5 ? `${s.testo} · −${s.minuti} min` : s.testo, disattiva: !!(s.soldi && s.soldi > S.soldi),
+        icona: icona(s.soldi ? "moneta" : "porta"), azione: () => sceltaPorta(s) });
   }
   ruota.apri(x, y, voci, maiuscolo(zona.nome), 0.8);
 }
@@ -1490,7 +1586,7 @@ function apriStato(casa, opzioni = {}) {
   const firma = el("div", "sf-firma");
   firma.append(el("span", null, "Il medico: "));
   if (firmata) {
-    firma.append(el("span", "sf-scarabocchio", "Dott. ———"), el("span", "sf-consegnato", `CONSEGNATO ALLA DITTA · ORE ${hhmm(S.decisioni[casa].ora ?? S.ora)}`));
+    firma.append(el("span", "sf-scarabocchio", "Dott. ———"), el("span", "sf-consegnato", "CONSEGNATO ALLA DITTA"));
   } else if (puoFirmare) {
     const b = bottone("firma e consegna alla ditta", () => firmaStato(casa, b), "sf-bottone-firma");
     firma.append(b);
@@ -1675,8 +1771,7 @@ function apriNastri() {
   const corpo = [el("h2", null, "Nastri")];
   if (!S.nastri.length) corpo.push(el("p", "vuoto", "Nessuna visita registrata, per ora."));
   for (const n of S.nastri) {
-    const durata = `${hhmm(n.inizio)}–${hhmm(n.fine ?? S.ora)}`;
-    corpo.push(azioni([[`${n.titolo} · ${durata}`, () => { chiudiFoglio(); riproduci(n); }]]));
+    corpo.push(azioni([[n.titolo, () => { chiudiFoglio(); riproduci(n); }]]));
   }
   corpo.push(azioni([[`${D.NASTRO_VECCHIO.titolo}`, () => { chiudiFoglio(); riproduciVecchio(); }, "secondario"]]));
   corpo.push(el("p", "nota", "Durante la riproduzione tocca l'immagine per ingrandire. Con l'infrarosso si vede il calore: tocca quello che non torna."));
@@ -1772,7 +1867,7 @@ async function ripresa(i) {
   }
   if (vhs) { vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0 }); vhs.burst(0.35); }
   modoRipresa();
-  osdPlay(D.DATA_OSD, hhmm(r.ora));
+  osdPlay();
   // le battute registrate, scritte di nuovo addosso a chi parla, poi la ripresa dopo
   const primo = r.tipo === "primo" ? { persona: r.persona, parte: r.parte } : null;
   for (const [chi, testo, extra = {}] of r.righe) {
@@ -1827,7 +1922,7 @@ async function riproduciVecchio() {
   nero.getContext("2d").fillRect(0, 0, 16, 9);
   mostra(nero, IMG.scrivania.src);
   if (vhs) { vhs.mode("giorno", true); vhs.setLuce(0); vhs.setDark(0); vhs.set({ snow: 1 }); }
-  osdPlay(D.NASTRO_VECCHIO.data, "03:12");
+  osdPlay();
   await dici(D.NASTRO_VECCHIO.righe, false);
   if (S.schermo === "nastro") tornaDaiNastri();
 }
@@ -1864,6 +1959,11 @@ function calcolaNotte() {
       righe.push(`Casa ${c.n}: dentro restano malati. Il contagio passa alle case ${vicini}.${dec.provvedimento === "domani" ? " Domani ci torni." : ""}`);
       contagiate.push(...c.vicini);
     } else righe.push(`Casa ${c.n}: nessun malato rimasto in casa.`);
+    // chi ti ha cacciato lo racconta in giro
+    if (S.cacciato[casa]) {
+      righe.push(`Casa ${c.n}: ti hanno cacciato. In paese se ne parla.`);
+      fiducia -= 10;
+    }
   }
   const spese = D.SOLDI.stanza + D.SOLDI.cena + D.SOLDI.cassetta * S.nastri.length;
   return { righe, contagiate: [...new Set(contagiate)], incasso, spese, fiducia, portati };
@@ -1879,7 +1979,7 @@ function dormi() {
   osdSpento();
   vaiMappa();
   hud.replaceChildren();
-  const corpo = [el("h2", null, "Notte tra il 26 e il 27 ottobre")];
+  const corpo = [el("h2", null, "La prima notte")];
   corpo.push(el("h3", null, "Al lazzaretto"));
   const portati = n.portati.map((id) => D.PERSONE[id].nome).join(", ");
   corpo.push(el("p", null, portati ? `${portati[0].toUpperCase()}${portati.slice(1)}.` : "Nessuno."));
@@ -2146,7 +2246,7 @@ async function avvia(dati) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, sera, stanza: () => stanza };
+if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, apriFax, sera, stanza: () => stanza };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);

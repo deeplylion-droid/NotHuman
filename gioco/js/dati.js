@@ -5,8 +5,13 @@
 // ("parte:padre.collo", "zona:tavola", "persona:figlia"; una stringa per tutte, o { parola: collegamento }).
 // extra.d e' una dichiarazione che finisce sul nastro delle frasi, extra.volto l'espressione di chi parla.
 
-export const DATA_OSD = "OTT. 26 2026";
 export const INIZIO = { ora: 13 * 60, coprifuoco: 20 * 60, soldi: 180, fiducia: 50 };
+// la pazienza di ogni famiglia: cala di uno quando qualcuno si arrabbia o lo accusi a torto; a zero ti cacciano
+export const PAZIENZA = 5;
+export const CACCIATA = {
+  casa3: [["PADRE", "Basta. Fuori da casa mia!", { volto: "arrabbiato" }], [null, "Ti sbattono la porta alle spalle."]],
+  casa5: [["UOMO", "Fuori di qui, dottore. Adesso.", { volto: "arrabbiato" }], [null, "Ti sbattono la porta alle spalle."]],
+};
 export const MINUTI = { domanda: 10, esame: 10, prova: 10, sbaglio: 5, indizio: 5, porta: 5, forzare: 20, viaggio: 30 };
 export const SOLDI = { paziente: 400, profilo: 200, stanza: 40, cena: 15, cassetta: 10, mancia: 50 };
 
@@ -511,23 +516,14 @@ export const SCRIVANIA = [
 // la mappa del paese: le case, numerate per file dall'alto. Per ognuna: x, y del tetto (dove va lo spillo) e
 // l'ellisse che copre tutta la casa (centro, raggi), da illuminare quando ci si passa sopra; frazioni della mappa
 const TETTI = [
-  [0.1679, 0.1792, 0.1684, 0.1893, 0.0145, 0.0277], [0.335, 0.262, 0.335, 0.2739, 0.0159, 0.0303], [0.4535, 0.2488, 0.4543, 0.2612, 0.0154, 0.0288],
-  [0.5089, 0.2683, 0.5094, 0.2757, 0.0145, 0.0277], [0.614, 0.2538, 0.6152, 0.2666, 0.0154, 0.0335], [0.6549, 0.2347, 0.6547, 0.2449, 0.0145, 0.0277],
-  [0.2855, 0.3565, 0.2852, 0.3719, 0.0159, 0.0383], [0.3582, 0.3293, 0.3586, 0.3431, 0.0149, 0.0319], [0.3906, 0.2887, 0.3906, 0.3027, 0.0149, 0.0335],
-  [0.396, 0.3425, 0.3965, 0.3543, 0.0145, 0.0288], [0.4223, 0.3374, 0.4227, 0.3476, 0.0145, 0.0277], [0.4353, 0.3038, 0.4363, 0.3167, 0.0175, 0.0303],
-  [0.481, 0.2821, 0.4812, 0.2933, 0.0145, 0.0277], [0.5001, 0.3183, 0.5004, 0.3294, 0.0145, 0.0277], [0.5299, 0.3645, 0.5301, 0.3752, 0.0175, 0.0277],
-  [0.5368, 0.3065, 0.5375, 0.322, 0.017, 0.0367], [0.5722, 0.3387, 0.5734, 0.354, 0.0191, 0.0367], [0.6135, 0.3658, 0.6141, 0.3815, 0.0223, 0.0415],
-  [0.673, 0.327, 0.6719, 0.3441, 0.0202, 0.0399], [0.0905, 0.4427, 0.0902, 0.4544, 0.0145, 0.0277], [0.2627, 0.3993, 0.2633, 0.4112, 0.0159, 0.0288],
-  [0.3029, 0.4549, 0.3027, 0.4655, 0.0175, 0.0277], [0.324, 0.422, 0.324, 0.4339, 0.0159, 0.0303], [0.325, 0.47, 0.325, 0.4819, 0.0159, 0.0303],
-  [0.3454, 0.3927, 0.3457, 0.4031, 0.0145, 0.0277], [0.3673, 0.4463, 0.3687, 0.4533, 0.0145, 0.0277], [0.5584, 0.3983, 0.5594, 0.4112, 0.017, 0.0303],
-  [0.5855, 0.4526, 0.5859, 0.4667, 0.0145, 0.0303], [0.6116, 0.4954, 0.6105, 0.5072, 0.0145, 0.0277], [0.6336, 0.4321, 0.6336, 0.4471, 0.0202, 0.0351],
-  [0.6663, 0.3908, 0.666, 0.4016, 0.0145, 0.0277], [0.7088, 0.4717, 0.7086, 0.4936, 0.0255, 0.0511], [0.7323, 0.3951, 0.7332, 0.4122, 0.0186, 0.0399],
-  [0.3235, 0.5609, 0.3277, 0.575, 0.0186, 0.0319], [0.3659, 0.526, 0.3652, 0.539, 0.0197, 0.0288], [0.398, 0.5801, 0.3984, 0.5956, 0.017, 0.0367],
-  [0.421, 0.5451, 0.4211, 0.557, 0.0145, 0.0303], [0.4482, 0.6061, 0.4484, 0.6218, 0.0181, 0.0415], [0.4689, 0.5414, 0.468, 0.5543, 0.0145, 0.0288],
-  [0.4805, 0.578, 0.4805, 0.5899, 0.0159, 0.0303], [0.5397, 0.5154, 0.5398, 0.5241, 0.0145, 0.0277], [0.5566, 0.547, 0.5566, 0.5589, 0.0159, 0.0303],
-  [0.6041, 0.5599, 0.6055, 0.5812, 0.0191, 0.0479], [0.6626, 0.5041, 0.6641, 0.5178, 0.0159, 0.0367], [0.373, 0.632, 0.373, 0.6439, 0.0159, 0.0303],
-  [0.4095, 0.6563, 0.4098, 0.6746, 0.025, 0.0415], [0.4714, 0.6722, 0.473, 0.6924, 0.0197, 0.0479], [0.5486, 0.6694, 0.5496, 0.6846, 0.0165, 0.0351],
-  [0.587, 0.642, 0.5859, 0.6633, 0.0159, 0.0447], [0.5208, 0.727, 0.5203, 0.7465, 0.0255, 0.0479],
+  [0.1688, 0.1756, 0.1691, 0.1864, 0.0184, 0.0386], [0.3375, 0.267, 0.3375, 0.2836, 0.0202, 0.0423], [0.4536, 0.2466, 0.4539, 0.2623, 0.0184, 0.0386],
+  [0.5095, 0.2648, 0.5098, 0.2753, 0.0184, 0.0386], [0.6122, 0.2496, 0.6125, 0.2676, 0.0202, 0.0415], [0.2896, 0.358, 0.2902, 0.3771, 0.025, 0.0479],
+  [0.3901, 0.2864, 0.3898, 0.3026, 0.0191, 0.0386], [0.4356, 0.3026, 0.4367, 0.3179, 0.0202, 0.0386], [0.531, 0.3663, 0.5309, 0.3856, 0.0207, 0.0431],
+  [0.5415, 0.3023, 0.543, 0.323, 0.0255, 0.0463], [0.6142, 0.3655, 0.6152, 0.3867, 0.0228, 0.0511], [0.6741, 0.3247, 0.6742, 0.3451, 0.0244, 0.0479],
+  [0.0911, 0.4421, 0.0914, 0.4556, 0.0184, 0.0386], [0.2635, 0.4005, 0.2637, 0.4151, 0.0184, 0.0386], [0.3712, 0.4473, 0.3715, 0.461, 0.0184, 0.0386],
+  [0.6325, 0.4286, 0.6324, 0.4492, 0.0239, 0.0495], [0.7083, 0.4731, 0.7086, 0.4976, 0.0276, 0.0559], [0.4227, 0.5426, 0.423, 0.5594, 0.0184, 0.0399],
+  [0.4648, 0.5408, 0.4652, 0.5567, 0.0184, 0.0386], [0.6035, 0.5607, 0.6027, 0.5826, 0.0239, 0.0495], [0.6646, 0.5061, 0.6645, 0.5244, 0.0186, 0.0447],
+  [0.5854, 0.6436, 0.5867, 0.6669, 0.0266, 0.0575], [0.5206, 0.731, 0.5207, 0.7557, 0.0271, 0.0607],
 ];
 export const CASE = {};
 TETTI.forEach(([x, y, ex, ey, rx, ry], i) => {
@@ -550,23 +546,19 @@ export const LUOGHI_MAPPA = [
     nota: "Il lazzaretto della ditta: tre prefabbricati bianchi, un'antenna, i fari accesi tutta la notte. Nessuno del paese ci è mai entrato." },
 ];
 
+// il fax della ditta: il protocollo del giorno a simboli, da capire in un colpo d'occhio (i pittogrammi sono in
+// icone.js); il pallore e' la bugia del protocollo
 export const FAX = {
-  testata: "PANACEA S.A. · DIVISIONE CONTENIMENTO",
-  sotto: "PROTOCOLLO DEL GIORNO 1 · 26.10 · 12:04",
-  righe: [
-    "Al medico incaricato.",
-    "Case segnalate oggi: n. 3, n. 5.",
-  ],
+  giorno: 1,
+  case: [3, 5],
   segni: [
-    ["FEBBRE", "occhi lucidi e arrossati, sudore."],
-    ["BUBBONI", "gonfiori duri e scuri al collo o sotto le ascelle."],
-    ["PALLORE", "pelle bianca e labbra viola indicano il contagio iniziale."],
-    ["DITA NERE", "peste avanzata. Ricovero immediato."],
+    { icona: "febbre", nome: "FEBBRE", nota: "occhi lucidi, sudore" },
+    { icona: "bubboni", nome: "BUBBONI", nota: "collo, ascelle" },
+    { icona: "pallore", nome: "PALLORE", nota: "labbra viola" },
+    { icona: "dita", nome: "DITA NERE", nota: "lazzaretto subito" },
   ],
-  profilo: "Soggetti tra i 18 e i 35 anni in apparente buona salute. Premio: 200 € a soggetto consegnato.",
-  compenso: "400 € per paziente consegnato al lazzaretto.",
-  chiusura: "La Panacea ricorda che il compenso è calcolato a paziente, non a ora. Il tempo è salute. La salute è nostra.",
-  firma: "PANACEA · Ci prendiamo cura di voi.",
+  profilo: "18–35 anni, sani",
+  motto: "Il tempo è salute. La salute è nostra.",
 };
 
 // la prima pagina del giornale disegnato (img/giornale.jpg, 1920x1072): Hf porta le coordinate della pagina (u, v),

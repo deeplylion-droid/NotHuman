@@ -155,8 +155,9 @@ def scrivania():
     out.save(base / "scrivania.jpg", quality=93)
     out.resize((W, H), Image.LANCZOS).save(OUT / "scrivania.jpg", quality=86)
     # la mappa resta piu' grande dello schermo: nel gioco si ingrandisce. La versione disegnata e' quella
-    # riallineata con tools/allinea.py, altrimenti le case si sdoppiano
-    mescola(base / "mappa_paese.jpg", base / "mappa_paese_stile_allineata.jpg", (2560, 1440), DISEGNO_SCRIVANIA).save(
+    # riallineata con tools/allinea.py, altrimenti le case si sdoppiano. Il paese ha 23 case (26 ottobre; la mappa
+    # da 50 case e' mappa_paese.jpg)
+    mescola(base / "mappa_25_case.jpg", base / "mappa_25_case_stile_allineata.jpg", (2560, 1440), DISEGNO_SCRIVANIA).save(
         OUT / "mappa.jpg", quality=84)
     print("scrivania e mappa ok")
 
