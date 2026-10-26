@@ -14,6 +14,9 @@ scrivania e' salvata anche in art/scrivania/scrivania.jpg). L'ordine delle perso
 Infine le espressioni: da ogni variante in art/espressioni (la stessa scena con un'altra faccia) si ritaglia solo
 la testa, riallineata alla scena, in img/espressioni/<luogo>_<persona>_<volto>.png; dove incollarla e' scritto in
 gioco/js/espressioni.js. Serve OpenCV per riallineare (pip install opencv-python-headless).
+Di ogni immagine con personaggi (scene, espressioni, primi piani, scheda della figlia) si usa la versione con meno
+dettagli fatta da tools/meno_dettagli.py (nella cartella meno_dettagli/ accanto), se c'e'; se manca si usa
+l'originale e lo si dice.
 """
 import json
 import pathlib
@@ -89,6 +92,16 @@ PRIMI = {
 }
 
 
+def fonte(f):
+    """La versione con meno dettagli di un'immagine (tools/meno_dettagli.py), se c'e'; se no l'originale."""
+    f = ROOT / f
+    md = f.parent / "meno_dettagli" / (f.stem + ".jpg")
+    if md.exists():
+        return md
+    print("  senza meno dettagli:", f.relative_to(ROOT))
+    return f
+
+
 def mask(paths, size):
     m = np.zeros((size[1], size[0]), np.float32)
     for p in paths:
@@ -107,7 +120,7 @@ def heat_blobs(draw_list, size):
 
 
 def luogo(nome, L):
-    scena = Image.open(ROOT / L["scena"]).convert("RGB")
+    scena = Image.open(fonte(L["scena"])).convert("RGB")
     scena.resize((W, H), Image.LANCZOS).save(OUT / f"{nome}.jpg", quality=86)
     # chi c'e' sotto il puntatore
     idw, idh = 480, 270
@@ -168,7 +181,7 @@ def primi():
     for folder, persone in PRIMI.items():
         for f in sorted((ROOT / folder).glob("*.jpg")):
             if f.stem.split("_")[0] in persone:
-                Image.open(f).convert("RGB").resize((W, H), Image.LANCZOS).save(OUT / "pp" / f.name, quality=84)
+                Image.open(fonte(f)).convert("RGB").resize((W, H), Image.LANCZOS).save(OUT / "pp" / f.name, quality=84)
                 n += 1
     print("primi piani:", n)
 
@@ -176,7 +189,7 @@ def primi():
 def volti():
     (OUT / "volti").mkdir(parents=True, exist_ok=True)
     for persona, (src, box) in VOLTI.items():
-        ritaglio_volto(Image.open(ROOT / src).convert("RGB"), box).save(OUT / "volti" / f"{persona}.jpg", quality=86)
+        ritaglio_volto(Image.open(fonte(src)).convert("RGB"), box).save(OUT / "volti" / f"{persona}.jpg", quality=86)
     print("volti:", len(VOLTI))
 
 
@@ -236,7 +249,7 @@ def espressioni():
     (OUT / "volti").mkdir(parents=True, exist_ok=True)
     caselle = {}
     for luogo_, persone in ESPRESSIONI.items():
-        sorgente = Image.open(ROOT / LUOGHI[luogo_]["scena"]).convert("RGB")
+        sorgente = Image.open(fonte(LUOGHI[luogo_]["scena"])).convert("RGB")
         scena = np.asarray(sorgente.resize((W, H), Image.LANCZOS))
         grande = np.asarray(sorgente.resize((W * 2, H * 2), Image.LANCZOS))
         gy, gx = np.mgrid[0:H, 0:W].astype(np.float32)
@@ -253,7 +266,7 @@ def espressioni():
                                                                 round(y1 / H, 5)], "volti": volti_}
             for volto in volti_:
                 file = next((ROOT / "art/espressioni").glob(f"{persona}_{volto}.*"))
-                variante = np.asarray(Image.open(file).convert("RGB"))
+                variante = np.asarray(Image.open(fonte(file)).convert("RGB"))
                 allineata = riallinea(scena, variante, TESTE[persona]).astype(np.float32)
                 # la variante puo' avere una luce appena diversa: si corregge col colore attorno alla testa
                 allineata += (scena[anello].astype(np.float32).mean(0) - allineata[anello].mean(0))
