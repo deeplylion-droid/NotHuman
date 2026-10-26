@@ -133,13 +133,32 @@ const SENZA_FILTRO = THREE.ShaderChunk.tonemapping_pars_fragment;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const angolo = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 
-// i modelli sono glTF in un file .json (gli Artifact non servono i .glb), con la geometria dentro in base64:
-// la si decodifica qui e si rimette insieme un GLB in memoria, cosi' il browser non deve leggere un indirizzo
-// data: (che il sito della pagina potrebbe bloccare); le texture WebP arrivano dai file accanto
-async function caricaModello(loader, nome) {
-  const risposta = await fetch(MOD + nome + ".json");
-  if (!risposta.ok) throw new Error(`${nome}: ${risposta.status}`);
-  const j = await risposta.json();
+// scarica un file di testo contando i byte: "parte(f)" dice a che punto e' (0-1), se il server dice quanto pesa
+async function scarica(url, parte) {
+  const risposta = await fetch(url);
+  if (!risposta.ok) throw new Error(`${url}: ${risposta.status}`);
+  const tot = Number(risposta.headers.get("content-length")) || 0;
+  if (!tot || !risposta.body) return risposta.text();
+  const lettore = risposta.body.getReader();
+  const pezzi = [];
+  let letti = 0;
+  for (;;) {
+    const { done, value } = await lettore.read();
+    if (done) break;
+    pezzi.push(value);
+    letti += value.length;
+    // compresso dal server, il file arriva piu' grande di quanto annunciato
+    parte(Math.min(0.99, letti / tot));
+  }
+  return new Blob(pezzi).text();
+}
+
+// i modelli sono glTF in un file .json (gli Artifact non servono i .glb), con la geometria compressa dentro in
+// base64 (tools/tre/alleggerisci.mjs): la si decodifica qui e si rimette insieme un GLB in memoria, cosi' il browser
+// non deve leggere un indirizzo data: (che il sito della pagina potrebbe bloccare); le texture WebP arrivano dai
+// file accanto
+async function caricaModello(loader, nome, parte) {
+  const j = JSON.parse(await scarica(MOD + nome + ".json", parte));
   const uri = j.buffers[0].uri;
   const bin = Uint8Array.from(atob(uri.slice(uri.indexOf(",") + 1)), (c) => c.charCodeAt(0));
   delete j.buffers[0].uri;
@@ -261,7 +280,13 @@ export class Stanza {
     if (this.canvas.width !== w || this.canvas.height !== h) this.renderer.setSize(w, h, false);
   }
 
-  async carica() {
+  // carica texture e modelli e costruisce la stanza; "avanzamento(f)" dice a che punto e' (0-1): le texture sono il
+  // primo decimo, il resto sono i modelli, che sono una ventina e pesano parecchio (ognuno conta per la sua parte)
+  async carica(avanzamento = () => {}) {
+    const nomiModelli = [...new Set(MODELLI.map((m) => m.nome))];
+    const parti = new Map(nomiModelli.map((n) => [n, 0]));
+    let texture = 0;
+    const dici = () => avanzamento(0.1 * texture + (0.9 * [...parti.values()].reduce((a, b) => a + b, 0)) / parti.size);
     const tl = new THREE.TextureLoader();
     const nomi = ["carta_parati.jpg", "pavimento.jpg", "pavimento_normale.jpg", "legno.jpg", "porta.jpg",
       "santino.jpg", "calendario.jpg", "finestra.jpg", "finestra_chiusa.jpg", "finestra_luce.jpg", "mappa.jpg",
@@ -275,14 +300,22 @@ export class Stanza {
     }));
     for (const n of ["carta_parati", "pavimento", "pavimento_normale", "legno"]) T[n].wrapS = T[n].wrapT = THREE.RepeatWrapping;
     this.T = T;
+    texture = 1;
+    dici();
     // la luce morbida che si riflette sui materiali (soprattutto il ferro del letto, il rubinetto, i vetri)
     const pmrem = new THREE.PMREMGenerator(this.renderer);
     this.scena.environment = pmrem.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
     pmrem.dispose();
     // un modello che non arriva non ferma la stanza: manca solo quell'oggetto
-    const gltf = new THREE.GLTFLoader();
-    const nomiModelli = [...new Set(MODELLI.map((m) => m.nome))];
-    const caricati = await Promise.allSettled(nomiModelli.map(async (n) => [n, await caricaModello(gltf, n)]));
+    const gltf = new THREE.GLTFLoader().setMeshoptDecoder(THREE.MeshoptDecoder);
+    const caricati = await Promise.allSettled(nomiModelli.map(async (n) => {
+      try {
+        return [n, await caricaModello(gltf, n, (f) => { parti.set(n, f); dici(); })];
+      } finally {
+        parti.set(n, 1);
+        dici();
+      }
+    }));
     const scene = {};
     for (const r of caricati) {
       if (r.status === "fulfilled") scene[r.value[0]] = r.value[1];

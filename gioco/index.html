@@ -86,6 +86,9 @@
      sopra il nastro delle frasi (dov'erano data e ora); sulla mappa solo il tempo, in alto a destra */
   #indicatori { position: absolute; left: 3cqw; bottom: 11.4cqw; z-index: 6; display: grid; gap: 0.8cqw; pointer-events: none; font-family: var(--gioco); font-size: max(10px, 1.3cqw); color: #f0f0ec; text-shadow: 0.13cqw 0.13cqw 0 #000, 0 0 2px #000; }
   #indicatori[data-modo="mappa"] { bottom: auto; left: auto; top: 2.2cqw; right: 2.4cqw; }
+  /* sulla mappa c'e' solo il tempo: il nome non deve allinearsi con quello della pazienza, e cosi' la clessidra non
+     tocca il cartiglio di MALVENTO sul telefono */
+  #indicatori[data-modo="mappa"] .ind { grid-template-columns: 2em auto auto; }
   #indicatori[data-modo="mappa"] .ind-delta { left: auto; right: 0; top: 100%; margin: 0.3em 0 0; }
   .ind { position: relative; display: grid; grid-template-columns: 2em 6.2em auto; align-items: center; gap: 0.5em; }
   .ind[data-livello="alto"] { --colore: var(--verde); }
@@ -104,6 +107,9 @@
   .ind.colpito .ind-ic { animation: scossa 0.45s; }
   @keyframes scossa { 20% { transform: translateX(-0.22em); } 40% { transform: translateX(0.22em); } 60% { transform: translateX(-0.14em); } 80% { transform: translateX(0.08em); } }
   @media (prefers-reduced-motion: reduce) { .ind-delta, .ind.colpito .ind-ic, .ind[data-livello="basso"] .tacca { animation: none; } }
+  /* il caricamento della stanza 3D: una barra a tacche come quelle degli indicatori, in mezzo allo schermo */
+  #caricamento { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 6; display: flex; align-items: center; gap: 0.7em; pointer-events: none; font-family: var(--gioco); font-size: max(11px, 1.5cqw); letter-spacing: 0.08em; color: var(--giallo); text-shadow: 0.13cqw 0.13cqw 0 #000, 0 0 2px #000; white-space: nowrap; }
+  #caricamento[hidden] { display: none; }
 
   #didascalia { position: absolute; left: 4cqw; top: 9cqw; font-family: var(--vcr); font-size: max(13px, 2.6cqw); color: #f0f0ec; text-shadow: 0.12cqw 0.12cqw 0 #000; pointer-events: none; }
 
@@ -235,6 +241,8 @@
   /* i comandi del medico: icone a comparsa in basso a destra (nelle visite sopra il nastro delle frasi), e il
      suggerimento in basso a sinistra. Compaiono quando si muove il puntatore o si tocca lo schermo, poi spariscono */
   #schermo[data-schermo="visita"] { --sopra: 11.4cqw; }
+  /* sulla mappa sopra la scala dei METRI */
+  #schermo[data-schermo="mappa"] { --sopra: 7.6cqw; }
   #comparsa { position: absolute; right: 2.4cqw; bottom: var(--sopra, 2.2cqw); z-index: 12; display: flex; align-items: flex-end; gap: 0.8cqw; opacity: 0; transform: translateY(0.6cqw); transition: opacity 0.25s, transform 0.25s; pointer-events: none; }
   #hud { display: flex; align-items: flex-end; gap: 0.8cqw; }
   #schermo[data-comparsa="1"] #comparsa, #comparsa:focus-within { opacity: 1; transform: none; pointer-events: auto; }
@@ -482,6 +490,7 @@
       <div class="ind" id="ind-pazienza" aria-label="La pazienza della famiglia"><span class="ind-ic"></span><span class="ind-nome">PAZIENZA</span><span class="ind-barra"></span></div>
       <div class="ind" id="ind-tempo" aria-label="Il tempo fino al coprifuoco"><span class="ind-ic"></span><span class="ind-nome">TEMPO</span><span class="ind-barra"></span></div>
     </div>
+    <div id="caricamento" class="ind" hidden role="progressbar" aria-label="Carico la stanza"><span class="ind-ic"></span><span class="ind-nome">CARICO LA STANZA</span><span class="ind-barra"></span></div>
     <div id="didascalia" hidden></div>
     <div id="parole" aria-live="polite"></div>
     <div id="ruota" hidden></div>

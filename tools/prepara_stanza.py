@@ -5,22 +5,20 @@ Uso: python3 tools/prepara_stanza.py
 
 - Le texture vengono da art/stanza3d (generate con GPT Image 2, lavori in lavori.json) e finiscono
   ridotte in gioco/img/stanza; la finestra ha anche la maschera dei vetri, per farli brillare di giorno.
-- I modelli 3D si alleggeriscono con gltf-transform (tools/tre, da installare una volta con "npm install" in
-  quella cartella) e finiscono in gioco/modelli come glTF in un file .json (la geometria dentro, le texture WebP
-  accanto): gli Artifact di claude.ai non servono i .glb. I mobili sono di Meshy (art/stanza3d/mobili, lavori in
-  lavori_3d.json, con le foto di riferimento fatte con GPT Image 2 in lavori.json): la forma resta com'e', le
-  texture (colore, rilievo, lucido) scendono a 1024 punti. Anche gli oggetti della scrivania sono di Meshy
-  (art/stanza3d/scrivania3d: fax, lampada, televisore, videoregistratore, cassette, giornale, cartella dello stato
-  di famiglia, soldi, guanti, maschera), con le texture a 1024 o a 512. Gli altri oggetti piccoli sono di Tripo
-  (art/stanza3d, lavori in lavori_3d.json), con le texture a 512. La geometria e' quantizzata (KHR_mesh_quantization), che
-  Three.js legge senza decoder.
+- I modelli 3D si alleggeriscono con tools/tre/alleggerisci.mjs (gltf-transform e meshoptimizer; tools/tre va
+  installata una volta con "npm install" in quella cartella) e finiscono in gioco/modelli come glTF in un file .json
+  (la geometria dentro, le texture WebP accanto): gli Artifact di claude.ai non servono i .glb. I mobili sono di
+  Meshy (art/stanza3d/mobili, lavori in lavori_3d.json, con le foto di riferimento fatte con GPT Image 2 in
+  lavori.json): la forma resta com'e', le texture (colore, rilievo, lucido) scendono a 1024 punti. Anche gli oggetti
+  della scrivania sono di Meshy (art/stanza3d/scrivania3d: fax, lampada, televisore, videoregistratore, cassette,
+  giornale, cartella dello stato di famiglia, soldi, guanti, maschera), con le texture a 1024 o a 512. Gli altri
+  oggetti piccoli sono di Tripo (art/stanza3d, lavori in lavori_3d.json), con le texture a 512. La geometria e'
+  quantizzata e compressa (EXT_meshopt_compression: Three.js la legge con MeshoptDecoder), e pesa meta' di prima;
+  semplificarla non conviene (vedi alleggerisci.mjs).
 - Il pavimento ha anche il rilievo delle assi (pavimento_normale.jpg), calcolato dalla sua immagine.
 """
-import base64
-import json
 import pathlib
 import subprocess
-import tempfile
 
 import cv2
 import numpy as np
@@ -39,10 +37,9 @@ TEXTURE = {
 }
 # i vetri della finestra (frazioni dell'immagine): di giorno sono la luce che entra
 VETRI = [(0.10, 0.27, 0.45, 0.905), (0.53, 0.27, 0.88, 0.905)]
-# i modelli 3D da alleggerire: nome -> (file sorgente in art/stanza3d, lato massimo delle texture[, quanta
-# geometria tenere]). Gli oggetti della scrivania sono di Meshy (art/stanza3d/scrivania3d): si guardano da vicino
-# quando ci si siede alla scrivania; quelli piatti (cassette, giornale, cartella, soldi, guanti) tengono meta' dei
-# triangoli. Gli altri oggetti piccoli sono ancora di Tripo
+# i modelli 3D da alleggerire: nome -> (file sorgente in art/stanza3d, lato massimo delle texture). Gli oggetti della
+# scrivania sono di Meshy (art/stanza3d/scrivania3d): si guardano da vicino quando ci si siede alla scrivania. Gli
+# altri oggetti piccoli sono ancora di Tripo
 OGGETTI = {
     "sedia": ("sedia.glb", 512), "cappotto": ("cappotto.glb", 512), "borsa": ("borsa.glb", 512),
     "termosifone": ("termosifone.glb", 512),
@@ -52,9 +49,9 @@ OGGETTI = {
     "tavolo": ("mobili/tavolo.glb", 1024), "brandina": ("mobili/brandina.glb", 1024),
     "fax": ("scrivania3d/fax.glb", 1024), "lampada": ("scrivania3d/lampada.glb", 1024),
     "televisore": ("scrivania3d/televisore.glb", 1024), "videoregistratore": ("scrivania3d/videoregistratore.glb", 1024),
-    "maschera": ("scrivania3d/maschera.glb", 1024), "giornale": ("scrivania3d/giornale.glb", 1024, 0.5),
-    "cassette": ("scrivania3d/cassette.glb", 512, 0.5), "cartella": ("scrivania3d/cartella.glb", 512, 0.5),
-    "soldi": ("scrivania3d/soldi.glb", 512, 0.5), "guanti": ("scrivania3d/guanti.glb", 512, 0.5),
+    "maschera": ("scrivania3d/maschera.glb", 1024), "giornale": ("scrivania3d/giornale.glb", 1024),
+    "cassette": ("scrivania3d/cassette.glb", 512), "cartella": ("scrivania3d/cartella.glb", 512),
+    "soldi": ("scrivania3d/soldi.glb", 512), "guanti": ("scrivania3d/guanti.glb", 512),
 }
 
 
@@ -109,37 +106,16 @@ def normale(nome, forza):
 
 def modelli():
     MODELLI.mkdir(parents=True, exist_ok=True)
-    cli = TRE / "node_modules/.bin/gltf-transform"
-    if not cli.exists():
+    if not (TRE / "node_modules").exists():
         print("manca gltf-transform: npm install in tools/tre")
         return
-    for nome, (file, lato, *resto) in OGGETTI.items():
+    for nome, (file, lato) in OGGETTI.items():
         sorgente = ART / file
         if not sorgente.exists():
             print(f"manca   {sorgente.name}")
             continue
-        with tempfile.TemporaryDirectory() as tmp:
-            leggero = pathlib.Path(tmp) / "leggero.glb"
-            semplifica = ["--simplify", "true", "--simplify-ratio", str(resto[0]), "--simplify-error", "0.001"] if resto \
-                else ["--simplify", "false"]
-            subprocess.run([str(cli), "optimize", str(sorgente), str(leggero), "--compress", "quantize",
-                            "--texture-compress", "webp", "--texture-size", str(lato), *semplifica],
-                           check=True, capture_output=True)
-            # il glTF separato: la geometria va dentro il .json, le immagini accanto col nome del modello
-            gltf = pathlib.Path(tmp) / "modello.gltf"
-            subprocess.run([str(cli), "copy", str(leggero), str(gltf)], check=True, capture_output=True)
-            j = json.loads(gltf.read_text())
-            for b in j.get("buffers", []):
-                dati = (gltf.parent / b["uri"]).read_bytes()
-                b["uri"] = "data:application/octet-stream;base64," + base64.b64encode(dati).decode()
-            for i, im in enumerate(j.get("images", [])):
-                if "uri" not in im:
-                    continue
-                file = f"{nome}_{i}{pathlib.Path(im['uri']).suffix}"
-                (MODELLI / file).write_bytes((gltf.parent / im["uri"]).read_bytes())
-                im["uri"] = file
-        dest = MODELLI / f"{nome}.json"
-        dest.write_text(json.dumps(j, separators=(",", ":")))
+        subprocess.run(["node", str(TRE / "alleggerisci.mjs"), str(sorgente), str(MODELLI), nome, str(lato)],
+                       check=True, capture_output=True)
         peso = sum(f.stat().st_size for f in MODELLI.glob(f"{nome}*")) // 1024
         print(f"modello {nome}: {sorgente.stat().st_size // 1024} KB -> {peso} KB")
 

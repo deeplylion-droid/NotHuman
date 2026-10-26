@@ -35,6 +35,7 @@ const foglio = $("#foglio");
 const foglioCorpo = $("#foglio-corpo");
 const soldiHud = $("#soldi-hud");
 const indicatori = $("#indicatori");
+const caricamento = $("#caricamento");
 const indPazienza = $("#ind-pazienza");
 const indTempo = $("#ind-tempo");
 const schedaCasa = $("#scheda-casa");
@@ -2506,9 +2507,17 @@ async function caricaStanza() {
   try {
     const { Stanza } = await import("./stanza.js");
     if (!Stanza.disponibile()) return;
-    parole.scrivi(null, "Carico la stanza…", { lato: "sotto" }, {}, { veloce: true });
+    // a che punto e' il caricamento: dieci tacche che si riempiono (i modelli pesano parecchio)
+    parole.pulisci();
+    caricamento.querySelector(".ind-ic").innerHTML = icona("clessidra");
+    const riempi = (f) => {
+      tacche(caricamento, 10, (i) => clamp(f * 10 - i, 0, 1));
+      caricamento.setAttribute("aria-valuenow", Math.round(f * 100));
+    };
+    riempi(0);
+    caricamento.hidden = false;
     const s = new Stanza(schermo);
-    await s.carica();
+    await s.carica(riempi);
     s.onUsa = (id) => usaStanza(id);
     s.onScrivania = (id) => { if (!R.occupato && foglio.hidden) azioneScrivania(id); };
     s.nomiPezzi = Object.fromEntries(D.SCRIVANIA.map((z) => [z.id, z.nome]));
@@ -2520,6 +2529,8 @@ async function caricaStanza() {
   } catch (err) {
     console.warn("Stanza 3D non disponibile:", err);
     stanza = null;
+  } finally {
+    caricamento.hidden = true;
   }
 }
 

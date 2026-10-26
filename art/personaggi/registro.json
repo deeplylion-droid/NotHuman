@@ -1,0 +1,98 @@
+{
+  "nonna": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a very old woman in her eighties with thin white hair, bulging eyes and a hooked nose, in a quilted dark floral housecoat). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. She leans on her wooden walking stick in every full-body view. It must be exactly the same person in every view: the same grotesque but almost photographic face, bulging eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nonna.png"
+    ],
+    "seed": null,
+    "secondi": 26,
+    "descrizione": ""
+  },
+  "madre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a sick, gaunt woman in her fifties with greasy grey-brown hair stuck to her forehead, bulging feverish eyes and bad teeth, wrapped in a green plaid wool blanket over a faded floral nightgown). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same grotesque but almost photographic face, bulging eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "madre.png"
+    ],
+    "seed": null,
+    "secondi": 27,
+    "descrizione": ""
+  },
+  "giovane": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a very pale young woman in her twenties with long dark hair, bulging tired eyes and sunken cheeks, in a long grey cardigan). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same grotesque but almost photographic face, bulging eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giovane.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "figlia": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a thin young woman in her twenties with long dark hair, bulging frightened eyes and hollow cheeks, in a purple hoodie). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same grotesque but almost photographic face, bulging eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "uomo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a stocky man in his fifties with curly grey hair, bulging eyes and a grimacing mouth, in a stained navy tracksuit with white stripes). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same grotesque but almost photographic face, bulging eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo.png"
+    ],
+    "seed": null,
+    "secondi": 26,
+    "descrizione": ""
+  },
+  "padre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a gaunt man in his fifties with dark messy hair, bulging eyes and crooked teeth, in a worn denim jacket over a grey t-shirt). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same grotesque but almost photographic face, bulging eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "padre.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  }
+}

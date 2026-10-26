@@ -1,0 +1,20 @@
+[
+  {
+    "nome": "febbre_vecchio_riferimento",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit the first image: the father (the gaunt man in the worn denim jacket) now has a high fever and the plague. His face is flushed and glistening with sweat, his eyes glassy and bloodshot, his hair stuck to his forehead, and under his jaw, on the left side of his neck, there is a swollen dark purple lump. It must be exactly the same man as in the second image: the same grotesque but almost photographic face, bulging eyes, crooked teeth, hair and clothes. Keep everything else exactly as it is: the room, the light, the camera, the young woman and every object in the same place. No text, no border.",
+      "image_urls": ["@file:../../scene/01-cucina/finale.jpg", "@file:../../scene/01-cucina/riferimento_padre.jpg"],
+      "aspect_ratio": "16:9", "resolution": "2K", "output_format": "png", "num_images": 1
+    }
+  },
+  {
+    "nome": "febbre_scheda",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit the first image: the father (the gaunt man in the worn denim jacket) now has a high fever and the plague. His face is flushed and glistening with sweat, his eyes glassy and bloodshot, his hair stuck to his forehead, and under his jaw, on the left side of his neck, there is a swollen dark purple lump. The second image is a character reference sheet: the same man seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep him identical: exactly the same grotesque but almost photographic face, bulging eyes, crooked teeth, hair and clothes. He appears only once, where he already is in the first image. Keep everything else exactly as it is: the room, the light, the camera, the young woman and every object in the same place. No text, no border.",
+      "image_urls": ["@file:../../scene/01-cucina/finale.jpg", "@file:../padre.jpg"],
+      "aspect_ratio": "16:9", "resolution": "2K", "output_format": "png", "num_images": 1
+    }
+  }
+]
