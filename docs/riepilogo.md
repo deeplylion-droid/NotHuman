@@ -50,7 +50,7 @@ Il medico visita le case. Le famiglie spesso nascondono un malato, o non sanno d
 - I sintomi peggiorano di giorno in giorno sulla stessa persona (sano, febbre, bubboni): la prova di coerenza dice che si può fare.
 - Idea da valutare: anche il medico può ammalarsi. (Non scelta come limite di gioco il 26 ottobre.)
 - Idea da valutare: la peste potrebbe essere l'unica cosa rossa sullo schermo (macchie e bubboni), così l'occhio va dritto agli indizi.
-- Idea da valutare (26 ottobre): con il filtro infrarosso si vedono gli indizi. Si lega all'infrarosso vero, quello delle termocamere, che mostra il calore: potrebbe far vedere chi ha la febbre, o qualcuno nascosto dietro una porta.
+- Con il filtro infrarosso si vedono gli indizi, come con una termocamera vera, che mostra il calore: chi ha la febbre, qualcuno nascosto dietro una porta. Deciso il 26 ottobre: si usa la sera sui nastri (vedi "La videocamera").
 - Rischio: è un progetto grande (tante case, tante famiglie).
 - Concorrenza: *Pathologic*, che però è un gioco di ruolo enorme e di altro genere, e qualche gioco da game jam su itch.io.
 
@@ -67,13 +67,15 @@ Decise il 26 ottobre, con le domande in chat.
 
 - **Mappa e tempo contato.** Ogni mattina si scelgono sulla mappa del paese le case da visitare; il tempo non basta per tutte. Di notte il contagio si sposta da una casa all'altra.
 - **La sera si rivedono i nastri** della videocamera: riavvolgere, fermare l'immagine, ingrandire, passare all'infrarosso. Si scoprono cose sfuggite durante la visita, da usare il giorno dopo.
-- **Limiti: il tempo e la fiducia del paese.** Ogni porta forzata e ogni sano portato via fanno crescere l'odio verso il medico: le famiglie mentono di più e qualcuno non apre. Non scelti come limiti: i posti al lazzaretto, la salute del medico, le scorte.
+- **Limiti: il tempo, la fiducia del paese e i soldi.** Ogni porta forzata e ogni sano portato via fanno crescere l'odio verso il medico: le famiglie mentono di più e qualcuno non apre. Non scelti come limiti: i posti al lazzaretto, la salute del medico, le scorte di aceto, guanti ed erbe.
+- **Il giornale del mattino.** Ogni mattina sulla scrivania c'è il foglio del paese: titoli, lettere e scritte sui muri dicono come il paese vede il medico. È l'unico segno della fiducia (niente numeri) e può nascondere indizi della storia.
+- **I soldi si spendono.** La ditta paga a paziente; con i soldi si pagano affitto, cibo, cassette nuove e mance per farsi aprire. È la spinta a portare via qualcuno in più.
 
 ### La visita
 
 - **Una stanza più le porte.** La famiglia riceve il medico in una stanza; si può pretendere di aprire una porta (camera, cantina) e vedere un'altra inquadratura. Aprire costa tempo e fiducia.
-- **Esame per parti del corpo.** Si indica col bastone cosa si vuole vedere (occhi, bocca, collo, ascelle, mani), come facevano i medici della peste per non toccare i malati, e compare il dettaglio da vicino. La persona può rifiutarsi, coprirsi o mentire.
-- **Domande e prove.** Si scelgono le domande da fare. Un indizio trovato (un piatto in più, una porta chiusa a chiave, il calore all'infrarosso) si può mettere davanti alla famiglia per smascherare una bugia o farsi aprire una porta.
+- **Esame per parti del corpo.** Si indica col bastone cosa si vuole vedere (occhi, bocca, collo, ascelle, mani), come facevano i medici della peste per non toccare i malati, e la videocamera zooma sul punto, a tutto schermo, con la messa a fuoco che va e viene; poi si torna alla stanza. La persona può rifiutarsi, coprirsi o mentire.
+- **Domande e prove.** Si scelgono le domande da fare. Un indizio trovato (un piatto in più, una porta chiusa a chiave, il calore all'infrarosso) si può mettere davanti alla famiglia per smascherare una bugia o farsi aprire una porta. Le frasi delle persone compaiono in basso come sottotitoli della videocassetta; le domande del medico sono un elenco corto che appare solo quando tocca a lui.
 - **Decisioni a fine visita:**
   - **portare via** una persona al lazzaretto: se era sana, la si condanna;
   - **chiudere la casa**, con la croce sulla porta: ferma il contagio verso i vicini, ma i sani chiusi dentro rischiano di ammalarsi;
@@ -84,11 +86,19 @@ Decise il 26 ottobre, con le domande in chat.
 ### La videocamera
 
 - **Il VHS è la videocamera del medico**, che riprende ogni visita. REC, ora e data fanno da interfaccia (il tempo che passa, il giorno); notte e infrarosso sono le modalità della videocamera. Durante le visite la scritta sarà REC; PLAY resta per i nastri rivisti la sera.
+- **Notte: automatica al buio.** La videocamera passa da sola alla visione notturna verde nelle ultime visite della giornata, che cadono di sera, e nelle stanze buie dietro le porte (cantine, camere con le tapparelle abbassate).
+- **Infrarosso: solo la sera, sui nastri.** Durante la visita si vede normale; riguardando il nastro all'infrarosso si scopre il calore sfuggito (qualcuno dietro una porta, una febbre nascosta) e il giorno dopo si torna in quella casa con la prova.
+- **Comandi:** mouse (il puntatore è la punta del bastone) e controller, per giocare anche su Steam Deck.
+
+### Fuori dalle case
+
+- **La scrivania del medico**, vista dall'alto, in una stanza in affitto: la mappa di carta con le puntine, il fax col protocollo, il giornale del mattino, il televisore col videoregistratore per i nastri della sera. Tutto dentro il mondo, niente menu.
 
 ### Fine della partita e storia
 
 - **Giorni contati e più finali.** La partita dura un numero fisso di giorni (per esempio 14); il finale dipende da quanti si sono ammalati e da quanto il paese si fida del medico.
 - **Famiglie scritte a mano**, ben pensate, con una **storia principale ben definita e nascosta**, da scoprire giocando, più storie a parte per le famiglie più importanti.
+- **La storia nascosta intreccia quattro tracce:** la ditta e le cavie (la peste è tornata per colpa della ditta e il lazzaretto è un laboratorio); l'immune nascosto (qualcuno che non si ammala, cercato dalla ditta e nascosto dalle famiglie di casa in casa); il passato del medico (i nastri vecchi mostrano che ha già fatto questo lavoro in altri paesi, ed è finita male); il segreto del paese (la peste di secoli fa, vecchi riti, una cripta, una promessa). Come si legano è da decidere.
 
 ## Grafica
 
@@ -230,15 +240,14 @@ NINAH è quasi tutto 2D. Per ora bastano sfondi 2D generati; il 3D servirebbe so
 
 - Tono: cupo fino in fondo, o con un filo di umorismo nero?
 - Motore: proposto Godot 4, da confermare.
-- Interfaccia: in discussione (dettaglio dell'esame, dialoghi, schermate fuori dalle case, comandi).
+- Come si legano le quattro tracce della storia nascosta.
 - Tempi e budget.
 
 ## Prossimi passi
 
 1. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
-2. Schermata completa nello stile definitivo (personaggi ammorbiditi, VHS): interfaccia e riquadro del dettaglio esaminato.
-3. Come usare i tre filtri nel gioco: quando si passa alla notte, e se l'infrarosso fa vedere gli indizi.
-4. Prototipo giocabile del ciclo base (motore proposto: Godot 4).
+2. Schermate vere nello stile definitivo: la visita (REC, zoom, sottotitoli), la scrivania, i nastri della sera.
+3. Prototipo giocabile del ciclo base (motore proposto: Godot 4).
 
 ## Fonti
 
