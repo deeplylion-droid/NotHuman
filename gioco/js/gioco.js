@@ -361,8 +361,8 @@ function aiuto(testo) {
   aiutoBox.textContent = testo || "";
 }
 
-schermo.addEventListener("pointermove", (e) => { if (e.pointerType === "mouse") mostraComparsa(); });
-schermo.addEventListener("pointerdown", () => mostraComparsa());
+schermo.addEventListener("pointermove", (e) => { if (e.pointerType === "mouse" && !document.pointerLockElement) mostraComparsa(); });
+schermo.addEventListener("pointerdown", () => { if (!document.pointerLockElement) mostraComparsa(); });
 // premere su un'icona non e' un clic sulla scena (ne' l'inizio di uno sguardo attorno nella stanza 3D)
 comparsa.addEventListener("pointerdown", (e) => e.stopPropagation());
 
@@ -572,16 +572,36 @@ function vaiStanza(dove = "inizio") {
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
   }
   stanza.fase(S.fase === "sera" ? "sera" : "mattina");
-  stanza.adatta(Math.min(canvas.width * 0.7, matchMedia("(pointer: coarse)").matches ? 720 : 960));
+  stanza.adatta(window.prova?.risoluzione || Math.min(canvas.width, tocco() ? 960 : 1600));
   stanza.entra(dove);
   mostra(stanza.canvas, IMG.scrivania.src);
   vhs.prima = (dt) => { stanza.passo(dt); vhs.refresh(); };
   tasti();
-  aiuto(S.fase === "sera"
-    ? "Sera. I nastri sono nel videoregistratore; poi a letto."
-    : tocco() ? "Trascina per guardarti attorno, tocca dove andare o cosa usare."
-      : "Trascina per guardarti attorno, clicca dove andare o cosa usare. Si cammina anche con WASD.");
+  aiutoStanza();
   aggiornaHud();
+}
+
+// il suggerimento della stanza: col mouse si clicca per girare lo sguardo (Esc libera il puntatore), col dito si
+// trascina; la sera, cosa resta da fare
+function aiutoStanza() {
+  const come = tocco() ? "Trascina per guardarti attorno, tocca dove andare o cosa usare."
+    : stanza.senzaBlocco ? "Trascina per guardarti attorno, clicca dove andare o cosa usare. Si cammina con WASD."
+      : "Clicca per guardarti attorno col mouse. WASD per camminare, clic o E per usare. Esc libera il mouse.";
+  aiuto(S.fase === "sera" ? `Sera: i nastri sono nel videoregistratore, poi a letto. ${come}` : come);
+}
+
+// quando il mouse si blocca nella stanza: niente icone ne' suggerimento, il mirino al centro e il nome di quello
+// che si guarda sotto il mirino; quando si libera, tornano le icone
+function bloccoStanza(bloccato) {
+  if (bloccato) {
+    clearTimeout(comparsaTimer);
+    delete schermo.dataset.comparsa;
+    const r = schermo.getBoundingClientRect();
+    etichetta.style.transform = `translate(${r.width / 2}px, ${r.height / 2 + 14}px)`;
+  } else {
+    etichetta.hidden = true;
+    if (S.schermo === "stanza") mostraComparsa();
+  }
 }
 
 async function usaStanza(id) {
@@ -598,7 +618,11 @@ async function usaStanza(id) {
   }
   const T = D.STANZA[id];
   const righe = T && (T[S.fase] || T.sempre);
-  if (righe) await dici(righe.map((r) => [null, r]), false);
+  if (!righe) return;
+  // la porta della stanzetta dell'ospite si socchiude mentre si guarda dentro
+  if (id === "ospite") stanza.socchiudi(true);
+  await dici(righe.map((r) => [null, r]), false);
+  if (id === "ospite") stanza.socchiudi(false);
 }
 
 // dai nastri si torna dove li si era presi: il videoregistratore della stanza o la scrivania
@@ -639,6 +663,7 @@ async function azioneScrivania(id) {
 // ---------- fogli: fax, giornale, soldi, nastri, notte (lo stato di famiglia ha la sua parte) ----------
 
 function apriFoglio(tipo, contenuto) {
+  if (stanza) stanza.rilascia();
   foglio.hidden = false;
   foglio.dataset.tipo = tipo;
   foglioCorpo.replaceChildren(...contenuto);
@@ -2206,9 +2231,12 @@ function sullaScena(t) {
 }
 
 schermo.addEventListener("pointermove", (e) => {
+  if (document.pointerLockElement) return;
   const p = punto(e);
   cursore.style.transform = `translate(${p.px}px, ${p.py}px)`;
   etichetta.style.transform = `translate(${p.px}px, ${p.py}px)`;
+  // vicino al bordo destro l'etichetta passa a sinistra del puntatore, per non uscire dallo schermo
+  etichetta.classList.toggle("sinistra", p.px + etichetta.offsetWidth + 40 > schermo.clientWidth);
   if (S.schermo === "mappa" && e.pointerType !== "touch" && foglio.hidden) {
     if (e.target === canvas || e.target === statico || e.target === zoneBox) evidenzia(casaSotto(p.x, p.y));
     return;
@@ -2324,6 +2352,8 @@ async function caricaStanza() {
     await s.carica();
     s.onUsa = (id) => usaStanza(id);
     s.onSopra = (nome) => mostraEtichetta(nome);
+    s.onBlocco = (b) => bloccoStanza(b);
+    if (location.hash === "#prova") s.senzaBlocco = true;
     s.puoi = () => S.schermo === "stanza" && !R.occupato && foglio.hidden && !parole.occupata();
     stanza = s;
   } catch (err) {
@@ -2368,7 +2398,7 @@ async function avvia(dati) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza };
+if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);

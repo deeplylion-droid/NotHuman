@@ -9,8 +9,9 @@ Per ogni luogo:
 - <luogo>_<persona>.png: la sagoma bianca della persona, per evidenziarla;
 - <luogo>_calore.png: la mappa di calore per l'infrarosso dei nastri: le persone (piu' calde dove si vede la
   pelle, e chi ha la febbre di piu'), i nascosti dietro le porte, le lampade.
-Poi i primi piani in img/pp, la mappa del paese e la scrivania disegnate al 40% (confermato il 26 ottobre; la
-scrivania e' salvata anche in art/scrivania/scrivania.jpg). L'ordine delle persone e i calori sono quelli di gioco/js/dati.js.
+Poi i primi piani in img/pp, la scrivania disegnata al 40% (confermato il 26 ottobre; e' salvata anche in
+art/scrivania/scrivania.jpg) e la mappa del paese, piatta e schematica, com'e' (non si mescola al disegno).
+L'ordine delle persone e i calori sono quelli di gioco/js/dati.js.
 Infine le espressioni: da ogni variante in art/espressioni (la stessa scena con un'altra faccia) si ritaglia solo
 la testa, riallineata alla scena, in img/espressioni/<luogo>_<persona>_<volto>.png; dove incollarla e' scritto in
 gioco/js/espressioni.js. Serve OpenCV per riallineare (pip install opencv-python-headless).
@@ -152,7 +153,7 @@ def luogo(nome, L):
     print(nome, "ok")
 
 
-# quanto disegno sulla scrivania e sulla mappa: la foto mescolata alla versione disegnata
+# quanto disegno sulla scrivania: la foto mescolata alla versione disegnata
 DISEGNO_SCRIVANIA = 0.4
 
 
@@ -167,11 +168,12 @@ def scrivania():
     out = mescola(base / "scrivania_foto.jpg", base / "scrivania_stile.jpg", (1920, 1080), DISEGNO_SCRIVANIA)
     out.save(base / "scrivania.jpg", quality=93)
     out.resize((W, H), Image.LANCZOS).save(OUT / "scrivania.jpg", quality=86)
-    # la mappa resta piu' grande dello schermo: nel gioco si ingrandisce. La versione disegnata e' quella
-    # riallineata con tools/allinea.py, altrimenti le case si sdoppiano. Il paese ha 23 case (26 ottobre; la mappa
-    # da 50 case e' mappa_paese.jpg)
-    mescola(base / "mappa_25_case.jpg", base / "mappa_25_case_stile_allineata.jpg", (2560, 1440), DISEGNO_SCRIVANIA).save(
-        OUT / "mappa.jpg", quality=84)
+    # la mappa resta piu' grande dello schermo: nel gioco si ingrandisce. E' la pianta piatta e schematica del paese
+    # (26 ottobre, GPT Image 2; le altre prove sono nella stessa cartella), usata com'e', senza mescolarla al disegno:
+    # dove sono le 23 case e' scritto in TETTI in gioco/js/dati.js (lo calcola mappa_pianta/case.py). Le mappe di
+    # prima sono mappa_25_case.jpg e mappa_paese.jpg (50 case)
+    Image.open(base / "mappa_pianta/schematica.jpg").convert("RGB").resize((2560, 1440), Image.LANCZOS).save(
+        OUT / "mappa.jpg", quality=88)
     print("scrivania e mappa ok")
 
 

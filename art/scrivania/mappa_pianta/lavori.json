@@ -1,0 +1,44 @@
+[
+  {
+    "nome": "pianta",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A vintage illustrated town plan of a small poor mountain village called MALVENTO, like an old printed guide map pinned on a desk: a flat top-down orthographic plan view, no perspective at all. Muted palette of olive green, sage and khaki on aged yellowed paper with soft stains. Buildings are flat tan and ochre blocks with thin dark brown outlines and a slightly darker side to suggest height; roads are pale cream lanes with fine dark edges, plus narrow crooked alleys; woods and orchards drawn as many small round tree symbols; fields as parcels with fine hatching; steep slopes with fine contour lines. The layout: in the center a small piazza with the church (a cross-shaped building with a square bell tower); exactly twenty-three separate small houses spread along the lanes around the church, each one a clearly distinct little building with its own small yard, none touching; a river flowing from the top left down the left side, in pale blue-green with a darker green outline, crossed by two small stone bridges; on the lower left the cemetery, a walled rectangle with rows of tiny cross symbols and cypress trees; on the right edge a fenced compound of a pharmaceutical company with three flat white prefab buildings, a radio antenna and floodlights; a small bar on the piazza. Street names in small dark serif capitals written along the roads: VIA DELLA CHIESA, VIA DEL FIUME, VICOLO STRETTO, VIA DEI MULINI, STRADA DEL CIMITERO, and PANACEA on the compound. A small title cartouche at the top center reading MALVENTO, a simple north arrow on the left, a small scale bar in metres at the bottom right, a thin double-line border around the map. No numbers anywhere on the map, no legend box, no people, no cars.",
+      "image_size": {
+        "width": 2560,
+        "height": 1440
+      },
+      "quality": "high",
+      "num_images": 2,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "piatta",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A vintage illustrated town plan of a small poor mountain village called MALVENTO, printed like an old guide map: a strictly top-down orthographic plan view like a cadastral map. Buildings are flat footprint shapes seen exactly from above, with no visible walls and no roofs in perspective, nothing in 3D: flat tan and khaki shapes with a thin dark brown outline and a slightly darker inner edge. Roads are pale cream bands with thin dark edges, plus narrow crooked alleys. Muted palette of olive green, sage and khaki on aged yellowed paper with soft stains; woods and orchards drawn as many small round tree dots; fields as parcels with fine parallel hatching; steep slopes with fine contour lines. The layout: in the center a small piazza with the church, a cross-shaped footprint with a small square bell tower and a tiny cross symbol; exactly twenty-three separate small house footprints spread along the lanes around the church, each one clearly distinct with its own small yard outlined by a thin wall, none touching; a river flowing from the top left down the left side, pale blue-green with a darker green outline, crossed by two small bridges; on the lower left the cemetery, a walled rectangle filled with rows of tiny cross symbols and cypress dots; on the right edge a fenced compound of a pharmaceutical company with three flat white rectangular prefab footprints, a small antenna symbol and floodlight symbols; a small bar footprint on the piazza. Street names in small dark serif capitals written along the roads: VIA DELLA CHIESA, VIA DEL FIUME, VICOLO STRETTO, VIA DEI MULINI, STRADA DEL CIMITERO, and PANACEA on the compound. A small title cartouche at the top center reading MALVENTO, a simple north arrow with the letter N on the left, a small scale bar labeled METRI at the bottom right, a thin double-line border around the map. No numbers anywhere on the map, no legend box, no people, no cars.",
+      "image_size": {
+        "width": 2560,
+        "height": 1440
+      },
+      "quality": "high",
+      "num_images": 2,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "schematica",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A flat schematic town plan of a small mountain village called MALVENTO, in the style of a simple old printed tourist map: strictly top-down, no perspective, no shading, no textures, very few details, clean and minimal. Only simple flat shapes: the buildings are plain flat tan rectangles and L-shapes with a thin dark brown outline; the roads are plain pale cream bands with thin dark edges; gardens and fields are flat sage-green and olive areas with a thin outline; a few woods drawn as small clusters of simple round dots; the river is a flat pale blue-green band with a thin darker outline. No hatching, no contour lines, no stains, no grass or paper texture, no small objects. Palette: olive, sage, khaki and tan on a plain light parchment background. The layout: in the center a small piazza with the church, a cross-shaped flat shape with a tiny cross symbol; exactly twenty-three separate small flat house shapes spread along the lanes around the piazza, each clearly separated from the others; the river along the left side, crossed by two small bridges; on the lower left the cemetery, a walled rectangle with a few tiny cross symbols; on the right edge a fenced rectangle with three flat white rectangles, the compound of a pharmaceutical company. Street names in small dark serif capitals along the roads: VIA DELLA CHIESA, VIA DEL FIUME, VICOLO STRETTO, VIA DEI MULINI, STRADA DEL CIMITERO, and PANACEA on the compound. A small title cartouche at the top center reading MALVENTO, a simple north arrow with the letter N on the left, a small scale bar labeled METRI at the bottom right, a thin double-line border. No numbers anywhere, no legend box, no people, no cars.",
+      "image_size": {
+        "width": 2560,
+        "height": 1440
+      },
+      "quality": "high",
+      "num_images": 2,
+      "output_format": "jpeg"
+    }
+  }
+]

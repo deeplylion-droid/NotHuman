@@ -419,13 +419,13 @@ export const REAZIONI = {
 // scrivere "nata".
 export const COMUNE = "MALVENTO";
 export const ANAGRAFE = {
-  casa3: { via: "Via del Mulino 12", righe: [
+  casa3: { via: "Via della Chiesa 12", righe: [
     { persona: "padre", nome: "ROSSI MARIO", ruolo: "intestatario", nato: 1971, mestiere: "meccanico" },
     { persona: "madre", nome: "BIANCHI ANNA", ruolo: "moglie", nato: 1974, donna: true },
     { persona: "figlia", nome: "ROSSI GIULIA", ruolo: "figlia", nato: 2004, donna: true },
     { persona: "nonno", nome: "ROSSI PIETRO", ruolo: "padre dell'intestatario", nato: 1941 },
   ] },
-  casa5: { via: "Vicolo della Fornace 3", righe: [
+  casa5: { via: "Vicolo Stretto 3", righe: [
     { persona: "uomo", nome: "FERRI LUIGI", ruolo: "intestatario", nato: 1968, mestiere: "muratore" },
     { persona: "nonna", nome: "COSTA ADELE ved. FERRI", ruolo: "madre dell'intestatario", nato: 1940, donna: true },
     { persona: "giovane", nome: "FERRI MARTA", ruolo: "figlia", nato: 2003, donna: true },
@@ -500,6 +500,17 @@ export const STANZA = {
     mattina: ["La radiosveglia. Il coprifuoco è alle otto."],
     sera: ["La radiosveglia. Domani a mezzogiorno arriva il fax nuovo."],
   },
+  tavolo: { sempre: ["Il tavolino con la tovaglia cerata. Due sedie: una in più, per chi non viene mai."] },
+  credenza: { sempre: ["Il fornellino a gas e una pentola ammaccata. Dentro: pasta, due scatolette, il caffè."] },
+  lavandino: {
+    mattina: ["L'acqua esce gialla, poi diventa fredda."],
+    sera: ["Lo specchio è macchiato. Di notte è meglio non guardarci dentro."],
+  },
+  // la stanzetta dove dorme l'ospite della notte (gioco.js socchiude la porta mentre si legge)
+  ospite: {
+    mattina: ["La stanzetta per l'ospite: una brandina dell'esercito e una coperta piegata.", "In paese dicono: chi dorme solo, il malvento se lo prende."],
+    sera: ["Il buio della stanzetta. La brandina è vuota."],
+  },
 };
 
 export const SCRIVANIA = [
@@ -513,17 +524,19 @@ export const SCRIVANIA = [
   { id: "lampada", nome: "La lampada", box: [0.03, 0.0, 0.16, 0.12] },
 ];
 
-// la mappa del paese: le case, numerate per file dall'alto. Per ognuna: x, y del tetto (dove va lo spillo) e
-// l'ellisse che copre tutta la casa (centro, raggi), da illuminare quando ci si passa sopra; frazioni della mappa
+// la mappa del paese, vista da sopra: le case, numerate per file dall'alto. Per ognuna: x, y dello spillo (un po'
+// sotto il centro, cosi' la testa sta sulla casa) e l'ellisse che copre tutta la casa (centro, raggi), da illuminare
+// quando ci si passa sopra; frazioni della mappa. Due edifici della mappa restano senza spillo: quello piccolo
+// accanto alla casa 3 e quello sulla piazza, a destra della chiesa
 const TETTI = [
-  [0.1688, 0.1756, 0.1691, 0.1864, 0.0184, 0.0386], [0.3375, 0.267, 0.3375, 0.2836, 0.0202, 0.0423], [0.4536, 0.2466, 0.4539, 0.2623, 0.0184, 0.0386],
-  [0.5095, 0.2648, 0.5098, 0.2753, 0.0184, 0.0386], [0.6122, 0.2496, 0.6125, 0.2676, 0.0202, 0.0415], [0.2896, 0.358, 0.2902, 0.3771, 0.025, 0.0479],
-  [0.3901, 0.2864, 0.3898, 0.3026, 0.0191, 0.0386], [0.4356, 0.3026, 0.4367, 0.3179, 0.0202, 0.0386], [0.531, 0.3663, 0.5309, 0.3856, 0.0207, 0.0431],
-  [0.5415, 0.3023, 0.543, 0.323, 0.0255, 0.0463], [0.6142, 0.3655, 0.6152, 0.3867, 0.0228, 0.0511], [0.6741, 0.3247, 0.6742, 0.3451, 0.0244, 0.0479],
-  [0.0911, 0.4421, 0.0914, 0.4556, 0.0184, 0.0386], [0.2635, 0.4005, 0.2637, 0.4151, 0.0184, 0.0386], [0.3712, 0.4473, 0.3715, 0.461, 0.0184, 0.0386],
-  [0.6325, 0.4286, 0.6324, 0.4492, 0.0239, 0.0495], [0.7083, 0.4731, 0.7086, 0.4976, 0.0276, 0.0559], [0.4227, 0.5426, 0.423, 0.5594, 0.0184, 0.0399],
-  [0.4648, 0.5408, 0.4652, 0.5567, 0.0184, 0.0386], [0.6035, 0.5607, 0.6027, 0.5826, 0.0239, 0.0495], [0.6646, 0.5061, 0.6645, 0.5244, 0.0186, 0.0447],
-  [0.5854, 0.6436, 0.5867, 0.6669, 0.0266, 0.0575], [0.5206, 0.731, 0.5207, 0.7557, 0.0271, 0.0607],
+  [0.3363, 0.3202, 0.3363, 0.2934, 0.0247, 0.0467], [0.4033, 0.2584, 0.4033, 0.2322, 0.0283, 0.0479], [0.4812, 0.237, 0.4812, 0.2136, 0.0228, 0.04],
+  [0.6078, 0.2725, 0.6078, 0.2537, 0.0234, 0.0361], [0.6833, 0.3091, 0.6833, 0.2785, 0.0226, 0.0518], [0.3741, 0.4134, 0.3741, 0.3886, 0.0208, 0.0424],
+  [0.4347, 0.3638, 0.4347, 0.3416, 0.0177, 0.0416], [0.5366, 0.3768, 0.5366, 0.358, 0.0187, 0.0372], [0.5876, 0.3937, 0.5876, 0.3665, 0.0206, 0.0463],
+  [0.6402, 0.4011, 0.6402, 0.383, 0.0187, 0.0361], [0.3316, 0.5367, 0.3316, 0.5189, 0.0206, 0.0424], [0.3886, 0.5058, 0.3886, 0.4842, 0.0206, 0.0372],
+  [0.7009, 0.4894, 0.7009, 0.4651, 0.0193, 0.0416], [0.3125, 0.6707, 0.3125, 0.641, 0.0267, 0.0502], [0.4061, 0.599, 0.4061, 0.5768, 0.022, 0.0392],
+  [0.4469, 0.6429, 0.4469, 0.6193, 0.0173, 0.0404], [0.5266, 0.6137, 0.5266, 0.5865, 0.0238, 0.0463], [0.5986, 0.5952, 0.5986, 0.5738, 0.0202, 0.0369],
+  [0.6722, 0.6154, 0.6722, 0.5906, 0.0193, 0.0435], [0.4343, 0.7645, 0.4343, 0.743, 0.0208, 0.0392], [0.5289, 0.7218, 0.5289, 0.7009, 0.0283, 0.0416],
+  [0.61, 0.7249, 0.61, 0.7038, 0.0163, 0.0365], [0.5165, 0.8072, 0.5165, 0.7913, 0.0181, 0.0313],
 ];
 export const CASE = {};
 TETTI.forEach(([x, y, ex, ey, rx, ry], i) => {
@@ -540,9 +553,9 @@ for (const c of Object.values(CASE)) {
     .sort((a, b) => distanza(CASE[a], c) - distanza(CASE[b], c)).slice(0, 2);
 }
 export const LUOGHI_MAPPA = [
-  { id: "chiesa", nome: "La chiesa", segno: "✝", x: 0.471, y: 0.335, nota: "Il campanile suona solo per i funerali." },
-  { id: "cimitero", nome: "Il cimitero", segno: "✝", x: 0.112, y: 0.66, nota: "Tre tombe nuove questa settimana." },
-  { id: "ditta", nome: "Il recinto della Panacea", segno: "▲", x: 0.845, y: 0.6,
+  { id: "chiesa", nome: "La chiesa", segno: "✝", x: 0.4816, y: 0.4981, nota: "Il campanile suona solo per i funerali." },
+  { id: "cimitero", nome: "Il cimitero", segno: "✝", x: 0.2526, y: 0.8813, nota: "Tre tombe nuove questa settimana." },
+  { id: "ditta", nome: "Il recinto della Panacea", segno: "▲", x: 0.8164, y: 0.4597,
     nota: "Il lazzaretto della ditta: tre prefabbricati bianchi, un'antenna, i fari accesi tutta la notte. Nessuno del paese ci è mai entrato." },
 ];
 

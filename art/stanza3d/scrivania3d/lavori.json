@@ -1,0 +1,103 @@
+[
+  {
+    "nome": "videoregistratore_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: an old VHS video recorder from the early 1990s in dark burgundy red plastic, a long flat box with a cassette slot with a hinged flap on the left of the front panel, a small dark display glowing green with the digits 12:00 on the right, two rows of small buttons, slightly scratched and dusty, no brand logo.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "cassette_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a neat stack of three black VHS video cassettes lying flat on top of each other, slightly offset, worn blank white paper labels on the spines with no writing, the clear plastic windows showing the tape reels.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "giornale_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a small stack of three old cheap local newspapers folded in half, lying flat and slightly crumpled, yellowed newsprint with columns of tiny grey lines instead of readable text and a small grainy black and white photo on the top one, no readable words.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "cartella_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a worn brown cardboard document folder lying flat and half open, with a few yellowed official certificates sticking out, each with a faded round violet rubber stamp and a small passport photo held by a paper clip, only grey lines instead of readable text.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "soldi_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a small loose pile of old crumpled paper banknotes in faded colors (generic, not a real currency, no readable text) with a few scattered worn coins next to them.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "guanti_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a pair of black leather gloves lying flat, one partly on top of the other, worn and creased leather with visible stitching.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "maschera_foto",
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Product photo of the plague doctor mask shown in the reference image, the exact same mask with the same design and materials: old dark leather beak mask, a round brass goggle on one eye, the grey 1990s camcorder module with its lens and small red light on the other eye, the straps and cables, the metal breathing filter at the tip of the beak, the small worn white sticker. The mask is turned about 45 degrees to the side, seen in three-quarter view from slightly above, so that the length of the beak and the camcorder module on the side are clearly visible. Isolated on a plain very light grey, almost white, seamless studio background, bright soft even studio lighting, no strong shadows, no vignette, the whole mask visible with generous margin around it, realistic, nothing else in the image, no cane.",
+      "image_urls": [
+        "@file:../../medico/maschera.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  }
+]

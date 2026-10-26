@@ -1,0 +1,114 @@
+[
+  {
+    "nome": "scrivania",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:scrivania_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "letto",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:letto_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "comodino",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:comodino_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "armadio",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:armadio_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "tavolo",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:tavolo_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "credenza",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:credenza_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "lavandino",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:lavandino_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "brandina",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:brandina_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  }
+]

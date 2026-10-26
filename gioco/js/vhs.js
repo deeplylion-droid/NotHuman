@@ -1,7 +1,7 @@
 // La videocamera del medico: il VHS calcolato in tempo reale con WebGL.
-// Sopra la sorgente (un'immagine o un canvas) mette zoom, messa a fuoco, la luce della videocamera (di giorno,
-// nelle case), visione notturna verde, infrarosso con la mappa di calore e i difetti del nastro. Lo shader viene dall'anteprima in
-// art/prove-stile/09-vhs-animato, senza la banda di disturbo e con il VHS al 50%.
+// Sopra la sorgente (un'immagine o un canvas) mette zoom, messa a fuoco, la luce della videocamera e il filtro
+// catrame (di giorno, nelle case), visione notturna verde, infrarosso con la mappa di calore e i difetti del nastro.
+// Lo shader viene dall'anteprima in art/prove-stile/09-vhs-animato, senza la banda di disturbo e con il VHS al 50%.
 
 const VERT = `
   attribute vec2 a_pos;
@@ -30,6 +30,7 @@ const FRAG = `
   uniform float u_dark;
   uniform float u_snow;
   uniform float u_luce;
+  uniform float u_catrame;
   varying vec2 v_uv;
 
   const vec3 LUMA = vec3(0.299, 0.587, 0.114);
@@ -54,6 +55,15 @@ const FRAG = `
     c = mix(c, vec3(150.0, 80.0, 94.0), clamp(t - 2.0, 0.0, 1.0));
     c = mix(c, vec3(214.0, 162.0, 172.0), clamp(t - 3.0, 0.0, 1.0));
     return mix(c, vec3(255.0, 236.0, 232.0), clamp(t - 4.0, 0.0, 1.0)) / 255.0;
+  }
+  // il filtro plumbeo color catrame, lo stesso della stanza 3D (stanza.js): pochi colori, ombre brune come il
+  // catrame, luci grigio piombo, tutto piu' scuro. Si calcola in luce lineare, come la' dopo il tone mapping
+  vec3 catrame(vec3 c) {
+    c = pow(max(c, vec3(0.0)), vec3(2.2));
+    float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
+    c = l + (c - l) * 0.35;
+    c *= mix(vec3(1.0, 0.8, 0.55), vec3(0.9, 0.88, 0.8), smoothstep(0.0, 0.5, l)) * 0.8;
+    return pow(max(c, vec3(0.0)), vec3(1.15 / 2.2));
   }
   vec3 src(vec2 q) { return texture2D(u_tex, clamp(q, 0.0, 1.0)).rgb; }
   // messa a fuoco: un disco di campioni attorno al punto
@@ -103,6 +113,7 @@ const FRAG = `
     }
     ch /= 5.0;
     vec3 col = vec3(Y) + (ch - vec3(dot(ch, LUMA))) * (1.0 - u_blur * 0.5);
+    if (u_catrame > 0.001) col = mix(col, catrame(col), u_catrame);
 
     // luce della videocamera (scelta il 26 ottobre per le scene di giorno): la stanza e' buia e la illumina
     // solo la lampada della videocamera, quindi il centro e' chiaro, i bordi sprofondano, le luci bruciano
@@ -175,7 +186,7 @@ export class Vhs {
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     this.u = {};
     for (const n of ["u_tex", "u_heat", "u_time", "u_amt", "u_green", "u_red", "u_burst", "u_zoom", "u_center",
-      "u_blur", "u_heatTex", "u_heatLevel", "u_dark", "u_snow", "u_luce"]) this.u[n] = gl.getUniformLocation(prog, n);
+      "u_blur", "u_heatTex", "u_heatLevel", "u_dark", "u_snow", "u_luce", "u_catrame"]) this.u[n] = gl.getUniformLocation(prog, n);
     this.texSrc = this.makeTexture(0);
     this.texHeat = this.makeTexture(1);
     gl.uniform1i(this.u.u_tex, 0);
@@ -190,6 +201,9 @@ export class Vhs {
     this.paused = false;
     // prima di ogni fotogramma: la stanza 3D ridisegna qui la sua sorgente
     this.prima = null;
+    // il filtro catrame segue la luce della videocamera: c'e' nelle riprese di giorno, nelle case. Questa e' la
+    // sua forza (0 lo spegne); la stanza del medico ha il suo, nel 3D
+    this.catrame = 1;
   }
 
   makeTexture(unit) {
@@ -317,6 +331,7 @@ export class Vhs {
     gl.uniform1f(u.u_dark, p.dark);
     gl.uniform1f(u.u_snow, p.snow);
     gl.uniform1f(u.u_luce, p.luce);
+    gl.uniform1f(u.u_catrame, p.luce * this.catrame);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 

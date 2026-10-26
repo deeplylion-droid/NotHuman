@@ -8,9 +8,14 @@ Uso: python3 tools/prepara_stanza.py
 - Gli oggetti piccoli sulla scrivania (giornali, stato di famiglia, soldi, guanti, cassette) sono
   ritagliati dalla scrivania disegnata (gioco/img/scrivania.jpg), cosi' la scrivania in 3D somiglia a
   quella che si apre in 2D.
-- I modelli 3D (Tripo, lavori in lavori_3d.json) si alleggeriscono con gltf-transform (tools/tre, da
-  installare una volta con "npm install" in quella cartella) e finiscono in gioco/modelli come glTF in un
-  file .json (la geometria dentro, le texture WebP accanto): gli Artifact di claude.ai non servono i .glb.
+- I modelli 3D si alleggeriscono con gltf-transform (tools/tre, da installare una volta con "npm install" in
+  quella cartella) e finiscono in gioco/modelli come glTF in un file .json (la geometria dentro, le texture WebP
+  accanto): gli Artifact di claude.ai non servono i .glb. I mobili sono di Meshy (art/stanza3d/mobili, lavori in
+  lavori_3d.json, con le foto di riferimento fatte con GPT Image 2 in lavori.json): la forma resta com'e', le
+  texture (colore, rilievo, lucido) scendono a 1024 punti. Gli oggetti piccoli sono di Tripo (art/stanza3d,
+  lavori in lavori_3d.json), con le texture a 512. La geometria e' quantizzata (KHR_mesh_quantization), che
+  Three.js legge senza decoder.
+- Il pavimento ha anche il rilievo delle assi (pavimento_normale.jpg), calcolato dalla sua immagine.
 """
 import base64
 import json
@@ -30,8 +35,8 @@ TRE = RADICE / "tools/tre"
 
 # texture: nome -> larghezza massima (l'altezza segue le proporzioni)
 TEXTURE = {
-    "carta_parati": 512, "pavimento": 512, "legno": 512, "coperta": 512, "porta": 320, "armadio": 384,
-    "testiera": 448, "comodino": 320, "santino": 224, "finestra": 512, "finestra_chiusa": 512,
+    "carta_parati": 1024, "pavimento": 1024, "legno": 1024, "porta": 512, "santino": 256, "finestra": 768,
+    "finestra_chiusa": 768, "mobili/tappeto": 1024,
 }
 # i vetri della finestra (frazioni dell'immagine): di giorno sono la luce che entra
 VETRI = [(0.10, 0.27, 0.45, 0.905), (0.53, 0.27, 0.88, 0.905)]
@@ -43,8 +48,16 @@ SCRIVANIA = {
     "guanti": ((820, 586, 1062, 832), True),
     "cassetta": ((1192, 588, 1314, 774), False),
 }
-# i modelli 3D da alleggerire
-OGGETTI = ["sedia", "lampada", "fax", "televisore", "cappotto", "borsa", "termosifone", "maschera"]
+# i modelli 3D da alleggerire: nome -> (file sorgente in art/stanza3d, lato massimo delle texture)
+OGGETTI = {
+    "sedia": ("sedia.glb", 512), "lampada": ("lampada.glb", 512), "fax": ("fax.glb", 512),
+    "televisore": ("televisore.glb", 512), "cappotto": ("cappotto.glb", 512), "borsa": ("borsa.glb", 512),
+    "termosifone": ("termosifone.glb", 512), "maschera": ("maschera.glb", 512),
+    "scrivania": ("mobili/scrivania.glb", 1024), "letto": ("mobili/letto.glb", 1024),
+    "comodino": ("mobili/comodino.glb", 1024), "armadio": ("mobili/armadio.glb", 1024),
+    "credenza": ("mobili/credenza.glb", 1024), "lavandino": ("mobili/lavandino.glb", 1024),
+    "tavolo": ("mobili/tavolo.glb", 1024), "brandina": ("mobili/brandina.glb", 1024),
+}
 
 
 def riduci(im, larghezza):
@@ -61,7 +74,8 @@ def texture():
             print(f"manca   {sorgente.name}")
             continue
         im = riduci(Image.open(sorgente).convert("RGB"), largo)
-        im.save(IMG / f"{nome}.jpg", quality=86)
+        im.save(IMG / f"{pathlib.Path(nome).name}.jpg", quality=86)
+    normale("pavimento", 3.0)
     # la maschera dei vetri: bianca dove entra la luce del giorno, con i bordi sfumati
     fin = Image.open(IMG / "finestra.jpg")
     m = Image.new("L", fin.size, 0)
@@ -78,6 +92,21 @@ def texture():
     # la mappa sulla scrivania e' quella del gioco
     riduci(Image.open(RADICE / "gioco/img/mappa.jpg").convert("RGB"), 768).save(IMG / "mappa.jpg", quality=84)
     print("texture ok")
+
+
+def normale(nome, forza):
+    """Il rilievo di una texture (normal map) dalla sua luce: le fessure scure diventano solchi."""
+    a = np.asarray(Image.open(IMG / f"{nome}.jpg").convert("L"), np.float32) / 255
+    # la texture si ripete: i bordi si toccano (si allarga girando attorno, si calcola, si ritaglia)
+    m = 8
+    a = cv2.copyMakeBorder(a, m, m, m, m, cv2.BORDER_WRAP)
+    a = cv2.GaussianBlur(a, (0, 0), 1.2)
+    gx = cv2.Sobel(a, cv2.CV_32F, 1, 0, ksize=3)[m:-m, m:-m] * forza
+    gy = cv2.Sobel(a, cv2.CV_32F, 0, 1, ksize=3)[m:-m, m:-m] * forza
+    a = a[m:-m, m:-m]
+    n = np.dstack([-gx, gy, np.ones_like(a)])
+    n /= np.linalg.norm(n, axis=2, keepdims=True)
+    Image.fromarray(((n * 0.5 + 0.5) * 255 + 0.5).astype(np.uint8)).save(IMG / f"{nome}_normale.jpg", quality=90)
 
 
 def scontorna(im):
@@ -122,15 +151,15 @@ def modelli():
     if not cli.exists():
         print("manca gltf-transform: npm install in tools/tre")
         return
-    for nome in OGGETTI:
-        sorgente = ART / f"{nome}.glb"
+    for nome, (file, lato) in OGGETTI.items():
+        sorgente = ART / file
         if not sorgente.exists():
             print(f"manca   {sorgente.name}")
             continue
         with tempfile.TemporaryDirectory() as tmp:
             leggero = pathlib.Path(tmp) / "leggero.glb"
-            subprocess.run([str(cli), "optimize", str(sorgente), str(leggero), "--compress", "false",
-                            "--texture-compress", "webp", "--texture-size", "512", "--simplify", "false"],
+            subprocess.run([str(cli), "optimize", str(sorgente), str(leggero), "--compress", "quantize",
+                            "--texture-compress", "webp", "--texture-size", str(lato), "--simplify", "false"],
                            check=True, capture_output=True)
             # il glTF separato: la geometria va dentro il .json, le immagini accanto col nome del modello
             gltf = pathlib.Path(tmp) / "modello.gltf"

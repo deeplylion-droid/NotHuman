@@ -1,0 +1,128 @@
+[
+  {
+    "nome": "scrivania_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: an old cheap writing desk from the 1960s in honey-brown varnished wood, a rectangular top, a column of three drawers with small brass handles on the right side, simple straight tapered legs, worn varnish with scratches. The desk is empty, nothing on top.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "letto_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: an old single bed with a dark painted wrought-iron frame (a simple tubular headboard with vertical bars, taller than the low footboard), a thin mattress with a white sheet, a faded blue-grey quilted bedspread with a small flower pattern, slightly rumpled, and one white pillow at the head.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "comodino_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a small old bedside table in dark varnished walnut wood, one drawer on top with a small brass knob and a small cupboard door below, four short legs, worn varnish. Nothing on top.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "armadio_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a tall old two-door wardrobe in dark varnished walnut wood, a simple moulded cornice on top, two small brass keyholes, standing on a low plinth, worn varnish, doors closed.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "tavolo_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a small old square kitchen table with thin wooden legs, covered by a faded red and white checked oilcloth tablecloth hanging a little over the edges. Nothing on top.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "credenza_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a low old kitchen sideboard in faded pale green painted wood, two drawers on top and two doors below, chipped paint, with a small single-burner camping gas stove and a dented aluminium pot on top.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "lavandino_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: an old white ceramic pedestal washbasin with a single chrome tap and a worn bar of soap on the edge, slightly yellowed ceramic.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "brandina_foto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: an old folding camp bed (an army cot) with a dark olive green canvas stretched on a metal frame with folding X legs, a thin grey wool blanket folded at the foot and a small flat pillow at the head.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "tappeto",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Top-down orthographic photo of an old worn rectangular rug lying flat, filling the whole image edge to edge: a faded burgundy and ochre geometric pattern with a border, threadbare in the middle, a few stains. Even lighting, no shadows, no perspective, nothing else in the image.",
+      "image_size": {
+        "width": 1536,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  }
+]

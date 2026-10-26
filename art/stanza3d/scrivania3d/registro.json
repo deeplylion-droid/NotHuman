@@ -1,0 +1,339 @@
+{
+  "videoregistratore_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: an old VHS video recorder from the early 1990s in dark burgundy red plastic, a long flat box with a cassette slot with a hinged flap on the left of the front panel, a small dark display glowing green with the digits 12:00 on the right, two rows of small buttons, slightly scratched and dusty, no brand logo.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "videoregistratore_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 29,
+    "descrizione": null
+  },
+  "soldi_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a small loose pile of old crumpled paper banknotes in faded colors (generic, not a real currency, no readable text) with a few scattered worn coins next to them.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "soldi_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": null
+  },
+  "giornale_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a small stack of three old cheap local newspapers folded in half, lying flat and slightly crumpled, yellowed newsprint with columns of tiny grey lines instead of readable text and a small grainy black and white photo on the top one, no readable words.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "giornale_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": null
+  },
+  "cartella_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a worn brown cardboard document folder lying flat and half open, with a few yellowed official certificates sticking out, each with a faded round violet rubber stamp and a small passport photo held by a paper clip, only grey lines instead of readable text.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "cartella_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": null
+  },
+  "cassette_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a neat stack of three black VHS video cassettes lying flat on top of each other, slightly offset, worn blank white paper labels on the spines with no writing, the clear plastic windows showing the tape reels.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "cassette_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": null
+  },
+  "guanti_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Product photo of a single object isolated on a plain light grey seamless studio background, seen in three-quarter view from slightly above, soft even studio lighting, no strong shadows, the whole object visible with generous margin around it, realistic, no text, nothing else in the image. The object: a pair of black leather gloves lying flat, one partly on top of the other, worn and creased leather with visible stitching.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "guanti_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": null
+  },
+  "maschera_foto": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Product photo of the plague doctor mask shown in these two reference images, the exact same mask with the same design and materials: old dark leather beak mask, round brass goggle on one eye, the grey 1990s camcorder module with its lens and small red light on the other eye, the straps and cables, the metal breathing filter at the tip of the beak, the small worn white sticker. Seen in three-quarter view from slightly above, isolated on a plain light grey seamless studio background, soft even studio lighting, no strong shadows, the whole mask visible with generous margin around it, realistic, nothing else in the image, no cane, no text except the small sticker.",
+      "image_urls": [
+        "@file:../maschera_foto.jpg",
+        "@file:../../medico/maschera.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "medium",
+      "num_images": 1,
+      "output_format": "jpeg"
+    },
+    "file": [
+      "maschera_foto.jpg"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": null
+  },
+  "fax": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:fax_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    },
+    "file": [
+      "fax.glb",
+      "fax_anteprima.png"
+    ],
+    "seed": 1774104328,
+    "secondi": 184,
+    "descrizione": null
+  },
+  "videoregistratore": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:videoregistratore_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    },
+    "file": [
+      "videoregistratore.glb",
+      "videoregistratore_anteprima.png"
+    ],
+    "seed": 648335907,
+    "secondi": 277,
+    "descrizione": null
+  },
+  "lampada": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:lampada_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    },
+    "file": [
+      "lampada.glb",
+      "lampada_anteprima.png"
+    ],
+    "seed": 19429724,
+    "secondi": 331,
+    "descrizione": null
+  },
+  "televisore": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:televisore_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    },
+    "file": [
+      "televisore.glb",
+      "televisore_anteprima.png"
+    ],
+    "seed": 1040650982,
+    "secondi": 438,
+    "descrizione": null
+  },
+  "cassette": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:cassette_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    },
+    "file": [
+      "cassette.glb",
+      "cassette_anteprima.png"
+    ],
+    "seed": 604860255,
+    "secondi": 471,
+    "descrizione": null
+  },
+  "guanti": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:guanti_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    },
+    "file": [
+      "guanti.glb",
+      "guanti_anteprima.png"
+    ],
+    "seed": 63755018,
+    "secondi": 352,
+    "descrizione": null
+  },
+  "cartella": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:cartella_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    },
+    "file": [
+      "cartella.glb",
+      "cartella_anteprima.png"
+    ],
+    "seed": 191854469,
+    "secondi": 534,
+    "descrizione": null
+  },
+  "giornale": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:giornale_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    },
+    "file": [
+      "giornale.glb",
+      "giornale_anteprima.png"
+    ],
+    "seed": 1664565331,
+    "secondi": 642,
+    "descrizione": null
+  },
+  "soldi": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:soldi_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    },
+    "file": [
+      "soldi.glb",
+      "soldi_anteprima.png"
+    ],
+    "seed": 2099474870,
+    "secondi": 592,
+    "descrizione": null
+  },
+  "maschera": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:maschera_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    },
+    "file": [
+      "maschera.glb",
+      "maschera_anteprima.png"
+    ],
+    "seed": null,
+    "secondi": 303,
+    "descrizione": null
+  }
+}

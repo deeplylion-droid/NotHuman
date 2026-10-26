@@ -1,0 +1,142 @@
+[
+  {
+    "nome": "fax",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:fax_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "lampada",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:lampada_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "televisore",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:televisore_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "videoregistratore",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:videoregistratore_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "cassette",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:cassette_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "giornale",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:giornale_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "cartella",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:cartella_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "soldi",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:soldi_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "guanti",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:guanti_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  },
+  {
+    "nome": "maschera",
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:maschera_foto.jpg",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto",
+      "should_texture": true
+    }
+  }
+]
