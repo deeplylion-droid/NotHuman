@@ -14,6 +14,7 @@
     --accent: #7fd1b0;
     --osd: #f0f0ec;
     --osd-green: #c4f8e0;
+    --osd-red: #e8bac2;
     --on-accent: #0e1110;
     --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
     --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -44,7 +45,8 @@
   .screen canvas { opacity: 0; }
   .screen.live canvas { opacity: 1; }
   .osd { position: absolute; inset: 0; pointer-events: none; font-family: var(--vcr); color: var(--osd); text-shadow: 0.12cqw 0.12cqw 0 #000; font-size: 3.4cqw; line-height: 1; }
-  .screen.buio .osd { color: var(--osd-green); }
+  .screen.notte .osd { color: var(--osd-green); }
+  .screen.infrarosso .osd { color: var(--osd-red); }
   .osd[hidden] { display: none !important; }
   .osd .play { position: absolute; left: 4cqw; top: 4.2cqw; display: flex; align-items: center; gap: 1.2cqw; }
   .osd .play i { width: 0; height: 0; border-top: 1.4cqw solid transparent; border-bottom: 1.4cqw solid transparent; border-left: 2.2cqw solid currentColor; }
@@ -79,7 +81,7 @@
   <header class="intro">
     <p class="eyebrow">Medico della peste · filtro finale</p>
     <h1>Anteprima VHS animato</h1>
-    <p class="lead">Il filtro VHS come si muoverebbe nel gioco, calcolato in tempo reale sul soggiorno nello stile scelto: stanza con il 20% di fumetto ripulito e personaggi ammorbiditi. Prova la scena al buio e abbassa l'intensità se l'effetto dà fastidio.</p>
+    <p class="lead">Il filtro VHS come si muoverebbe nel gioco, calcolato in tempo reale sul soggiorno nello stile definitivo: stanza con il 20% di fumetto ripulito e personaggi ammorbiditi. Passa dal giorno alla notte in verde e all'infrarosso, e abbassa l'intensità se l'effetto dà fastidio.</p>
   </header>
 
   <div class="screen" id="schermo">
@@ -92,9 +94,10 @@
   </div>
 
   <div class="controls">
-    <div class="seg" role="group" aria-label="Tipo di scena">
-      <button type="button" id="scena-normale" aria-pressed="true">Scena normale</button>
-      <button type="button" id="scena-buio" aria-pressed="false">Scena al buio</button>
+    <div class="seg" role="group" aria-label="Filtro">
+      <button type="button" id="modo-giorno" data-modo="giorno" aria-pressed="true">Giorno</button>
+      <button type="button" id="modo-notte" data-modo="notte" aria-pressed="false">Notte</button>
+      <button type="button" id="modo-infrarosso" data-modo="infrarosso" aria-pressed="false">Infrarosso</button>
     </div>
     <div class="slider">
       <label for="intensita">Intensità VHS</label>
@@ -108,7 +111,7 @@
   <ul class="notes">
     <li><b>100%</b> corrisponde alle immagini che hai approvato; a 0% resta solo il colore della scena.</li>
     <li>A ogni fotogramma cambiano la grana e il tremolio delle righe; in fondo c'è il rumore della testina; ogni tanto l'immagine si strappa.</li>
-    <li>Passando alla scena al buio l'immagine vira al verde con uno strappo, come un cambio di nastro.</li>
+    <li><b>Notte:</b> l'immagine vira al verde con uno strappo, come un cambio di nastro. <b>Infrarosso:</b> vira al rosso tendente al rosa, più scuro e più tenue del verde.</li>
   </ul>
 </div>
 
@@ -128,6 +131,7 @@
     uniform float u_time;
     uniform float u_amt;
     uniform float u_green;
+    uniform float u_red;
     uniform float u_burst;
     varying vec2 v_uv;
 
@@ -144,6 +148,13 @@
       c = mix(c, vec3(22.0, 96.0, 80.0), clamp(t - 1.0, 0.0, 1.0));
       c = mix(c, vec3(80.0, 178.0, 150.0), clamp(t - 2.0, 0.0, 1.0));
       return mix(c, vec3(196.0, 248.0, 224.0), clamp(t - 3.0, 0.0, 1.0)) / 255.0;
+    }
+    vec3 irMap(float l) {
+      float t = clamp(l, 0.0, 1.0) * 4.0;
+      vec3 c = mix(vec3(6.0, 2.0, 4.0), vec3(34.0, 10.0, 17.0), clamp(t, 0.0, 1.0));
+      c = mix(c, vec3(84.0, 30.0, 44.0), clamp(t - 1.0, 0.0, 1.0));
+      c = mix(c, vec3(150.0, 80.0, 94.0), clamp(t - 2.0, 0.0, 1.0));
+      return mix(c, vec3(214.0, 162.0, 172.0), clamp(t - 3.0, 0.0, 1.0)) / 255.0;
     }
 
     void main() {
@@ -179,8 +190,9 @@
       ch /= 5.0;
       vec3 col = vec3(Y) + (ch - vec3(dot(ch, LUMA)));
 
-      // scena al buio: viraggio verde
+      // notte: viraggio verde; infrarosso: rosso tendente al rosa, piu' scuro e piu' tenue
       col = mix(col, greenMap(clamp((Y - 0.5) * 1.15 + 0.5, 0.0, 1.0)), u_green);
+      col = mix(col, irMap(pow(clamp(Y, 0.0, 1.0), 1.25)), u_red);
 
       // neri sollevati, righe di scansione, sfarfallio
       col = mix(col, 0.05 + col * 0.9, a);
@@ -189,15 +201,15 @@
 
       // disturbi chiari su testina e strappi
       float n = hash(floor(uv * vec2(960.0, 540.0)) + frame);
-      vec3 snow = vec3(n) * mix(vec3(1.0), vec3(0.6, 1.0, 0.85), u_green);
+      vec3 snow = vec3(n) * (vec3(1.0) + vec3(-0.4, 0.0, -0.15) * u_green + vec3(0.0, -0.3, -0.24) * u_red);
       col = mix(col, snow, clamp((head * 0.5 + tear * 0.4) * a + u_burst * 0.3, 0.0, 1.0));
 
       // grana
       col += (n - 0.5) * 0.09 * a;
 
-      // vignetta, piu' forte al buio
+      // vignetta, piu' forte di notte e ancora di piu' con l'infrarosso
       vec2 q = (uv - 0.5) * vec2(1.0, 0.9);
-      col *= 1.0 - mix(0.3, 0.6, u_green) * pow(clamp(length(q) * 1.41, 0.0, 1.0), 2.2);
+      col *= 1.0 - (0.3 + 0.3 * u_green + 0.4 * u_red) * pow(clamp(length(q) * 1.41, 0.0, 1.0), 2.2);
 
       gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
     }
@@ -209,13 +221,12 @@
   const clock = document.getElementById("orologio");
   const slider = document.getElementById("intensita");
   const sliderVal = document.getElementById("intensita-val");
-  const btnNormal = document.getElementById("scena-normale");
-  const btnDark = document.getElementById("scena-buio");
+  const modeButtons = Array.from(document.querySelectorAll("[data-modo]"));
   const btnPause = document.getElementById("pausa");
   const chkOsd = document.getElementById("scritte");
 
   const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const state = { amt: 1, green: 0, greenTarget: 0, burst: 0, paused: reduceMotion, time: 0, last: null, clockBase: 23 * 3600 + 47 * 60 };
+  const state = { amt: 1, green: 0, greenTarget: 0, red: 0, redTarget: 0, burst: 0, paused: reduceMotion, time: 0, last: null, clockBase: 23 * 3600 + 47 * 60 };
 
   function fallback(msg) {
     const p = document.createElement("p");
@@ -253,7 +264,7 @@
     gl.enableVertexAttribArray(loc);
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     const u = {};
-    ["u_tex", "u_time", "u_amt", "u_green", "u_burst"].forEach((n) => { u[n] = gl.getUniformLocation(prog, n); });
+    ["u_tex", "u_time", "u_amt", "u_green", "u_red", "u_burst"].forEach((n) => { u[n] = gl.getUniformLocation(prog, n); });
 
     const img = new Image();
     img.onload = () => {
@@ -287,6 +298,7 @@
       gl.uniform1f(u.u_time, state.time);
       gl.uniform1f(u.u_amt, state.amt);
       gl.uniform1f(u.u_green, state.green);
+      gl.uniform1f(u.u_red, state.red);
       gl.uniform1f(u.u_burst, state.burst);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       screen.classList.add("live");
@@ -298,6 +310,7 @@
       if (!state.paused) state.time += dt;
       const k = Math.min(1, dt * 3);
       state.green += (state.greenTarget - state.green) * (state.paused ? 1 : k);
+      state.red += (state.redTarget - state.red) * (state.paused ? 1 : k);
       state.burst = Math.max(0, state.burst - dt * 3);
       const secs = Math.floor(state.clockBase + state.time) % 86400;
       clock.textContent = [Math.floor(secs / 3600), Math.floor(secs / 60) % 60, secs % 60].map((v) => String(v).padStart(2, "0")).join(":");
@@ -306,16 +319,16 @@
     }
   }
 
-  function setScene(dark) {
-    state.greenTarget = dark ? 1 : 0;
+  function setMode(mode) {
+    state.greenTarget = mode === "notte" ? 1 : 0;
+    state.redTarget = mode === "infrarosso" ? 1 : 0;
     state.burst = state.paused ? 0 : 1;
-    btnNormal.setAttribute("aria-pressed", String(!dark));
-    btnDark.setAttribute("aria-pressed", String(dark));
-    screen.classList.toggle("buio", dark);
+    modeButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.modo === mode)));
+    screen.classList.toggle("notte", mode === "notte");
+    screen.classList.toggle("infrarosso", mode === "infrarosso");
   }
 
-  btnNormal.addEventListener("click", () => setScene(false));
-  btnDark.addEventListener("click", () => setScene(true));
+  modeButtons.forEach((b) => b.addEventListener("click", () => setMode(b.dataset.modo)));
   slider.addEventListener("input", () => {
     state.amt = Number(slider.value) / 100;
     sliderVal.textContent = slider.value + "%";

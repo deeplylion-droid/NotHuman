@@ -12,12 +12,11 @@ Un gioco originale da vendere su Steam, nel filone dei giochi di ispezione e par
 - **Candidato unico, per ora: il Medico della peste.** Ospedale, Barbiere e Confessionale sono accantonati.
 - **Ambientazione: moderna.** Case povere di oggi in un paese sperduto dove la peste è tornata. Il villaggio rurale è accantonato.
 - **Ambientazione italiana: accantonata** per ora.
-- **Lo stile grafico è deciso:**
+- **Lo stile grafico è definitivo** (26 ottobre):
   - **Stanza:** foto con lo stile 07 fumetto underground al 20%, come nella combinazione 02 (`art/prove-stile/06-cucina`). Del fumetto si vuole solo un accenno: niente elementi in più che confondano lo sfondo (intonaco scrostato, crepe, macchie), quindi il 20% si prende dalla stanza a fumetto ripulita (26 ottobre). **Il 20% è confermato** (26 ottobre): fa più contrasto con i personaggi. Scartati il 30%, il 40% e la stanza tutta in foto (vedi "Scene fatte").
   - **Personaggi grotteschi ma ammorbiditi, quasi fotografici** (scelta del 26 ottobre): `art/prove-stile/11-personaggi-50/c_ammorbiditi_sfondo20.jpg`. Hanno preso il posto dei personaggi a fumetto al 100%. Metodo in "Personaggi ammorbiditi".
-  - **Filtro finale: VHS** per le scene normali e **VHS verde** per le scene al buio (`art/prove-stile/08-filtri`, `tools/filtri.py`). Se il VHS dà fastidio, si attenua. **Senza la banda di disturbo grossa** che scorreva sull'immagine: tolta il 26 ottobre, sia dal filtro fisso sia da quello animato (le prove in `art/prove-stile` sono di prima e ce l'hanno ancora).
-  - **Variante da valutare: VHS infrarosso** (26 ottobre), rosso tendente al rosa, più scuro e più tenue del verde. Confronto sulle due stanze: `art/scene/foglio_scene_filtri.jpg`.
-  - **Il VHS sarà animato**, calcolato in tempo reale (uno shader): grana e tremolio delle righe a ogni fotogramma, il rumore della testina in fondo, uno strappo ogni tanto, e uno strappo più forte quando si passa alla scena al buio. Anteprima sul soggiorno con intensità regolabile: https://claude.ai/artifact/RU45gcnW8J3ttttUTSde2R (copia in `art/prove-stile/09-vhs-animato`; lo shader WebGL è la base per quello del gioco).
+  - **Tre filtri finali, tutti tenuti** (26 ottobre): **VHS** per il giorno, **VHS verde** per la notte e le scene al buio, **VHS infrarosso** (rosso tendente al rosa, più scuro e più tenue del verde). Come usarli nel gioco si decide più avanti; per l'infrarosso c'è l'idea degli indizi (vedi "Il Medico della peste"). Filtri in `tools/filtri.py` (prove in `art/prove-stile/08-filtri`), confronto sulle due stanze in `art/scene/foglio_scene_filtri.jpg`. Se il VHS dà fastidio, si attenua. **Senza la banda di disturbo grossa** che scorreva sull'immagine: tolta il 26 ottobre, sia dal filtro fisso sia da quello animato (le prove in `art/prove-stile` sono di prima e ce l'hanno ancora).
+  - **Il VHS sarà animato**, calcolato in tempo reale (uno shader): grana e tremolio delle righe a ogni fotogramma, il rumore della testina in fondo, uno strappo ogni tanto, e uno strappo più forte quando si cambia filtro. Anteprima sul soggiorno con i tre filtri e intensità regolabile: https://claude.ai/artifact/RU45gcnW8J3ttttUTSde2R (copia in `art/prove-stile/09-vhs-animato`; lo shader WebGL è la base per quello del gioco).
 - **Per ora niente mano e bastone del medico sullo schermo** (26 ottobre): non piacciono. Le scene si fanno senza (`"mano": false` in `scena.json`, il valore di base).
 - **Regola per le stanze:** partire sempre da stanze con pochi dettagli (muri lisci, pochi oggetti), altrimenti i personaggi si perdono.
 - **Grafica generata con l'AI**, montata a strati come in NINAH. Niente fotogrammi "da film".
@@ -50,6 +49,7 @@ Il medico visita le case. Le famiglie spesso nascondono un malato, o non sanno d
 - I sintomi peggiorano di giorno in giorno sulla stessa persona (sano, febbre, bubboni): la prova di coerenza dice che si può fare.
 - Idea da valutare: anche il medico può ammalarsi.
 - Idea da valutare: la peste potrebbe essere l'unica cosa rossa sullo schermo (macchie e bubboni), così l'occhio va dritto agli indizi.
+- Idea da valutare (26 ottobre): con il filtro infrarosso si vedono gli indizi. Si lega all'infrarosso vero, quello delle termocamere, che mostra il calore: potrebbe far vedere chi ha la febbre, o qualcuno nascosto dietro una porta.
 - Rischio: è un progetto grande (tante case, tante famiglie).
 - Concorrenza: *Pathologic*, che però è un gioco di ruolo enorme e di altro genere, e qualche gioco da game jam su itch.io.
 
@@ -63,7 +63,7 @@ Il medico visita le case. Le famiglie spesso nascondono un malato, o non sanno d
 4. **Sfondo pulito:** la stanza senza persone né mano, ottenuta togliendole dalla foto (Nano Banana Pro), oppure la stanza vuota già esistente.
 5. **Sfondo nello stile:** la stanza vuota trasformata nello stesso stile. Va fatta con Nano Banana Pro, che lascia gli oggetti al loro posto; con GPT gli oggetti si spostano e nel mescolamento compaiono doppi.
 6. **Montaggio:** `tools/intensita.py` fa lo sfondo con 80% di foto e 20% di sfondo trasformato, e sopra mette i personaggi nello stile pieno. L'intensità dello sfondo è un numero nel file della scena.
-7. **Filtro:** `tools/filtri.py` con `vhs` o `vhs_verde` (nel gioco sarà lo shader animato).
+7. **Filtro:** `tools/filtri.py` con `vhs`, `vhs_verde` o `vhs_infrarosso` (nel gioco sarà lo shader animato).
 
 Attenzione: i modelli a volte inventano dettagli (per esempio una faccia nel televisore). Si guardano sempre i risultati e si rigenera chiedendo di non aggiungerli.
 
@@ -129,7 +129,7 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 - `06-cucina`: la cucina moderna semplificata: 04 e 07 al 20% / 100%, tutto al 100%, sfondo 04 al 100% con personaggi 04 al 20%, sfondo 04 all'80% con personaggi 07 al 100%.
 - `07-combo-inventate`: tre proposte di Claude sulla cucina: "il rosso è la peste" (tutto in bianco e nero, rossi solo i sintomi), "al buio" (stanza nel buio, luce sui personaggi), "schermata di gioco" (trattamento leggero e interfaccia).
 - `08-filtri`: le combinazioni approvate 02 e 04 con sette filtri finali: verde, verde acido, verde retinato, verde con il rosso, VHS, VHS verde, fotocopia.
-- `09-vhs-animato`: anteprima del VHS animato in tempo reale, con intensità regolabile, sul soggiorno nello stile scelto (senza la banda di disturbo, tolta il 26 ottobre).
+- `09-vhs-animato`: anteprima del VHS animato in tempo reale sul soggiorno nello stile definitivo, con i tre filtri (giorno, notte in verde, infrarosso) e intensità regolabile. Senza la banda di disturbo, tolta il 26 ottobre.
 - `10-coerenza`: lo stesso personaggio in più stati e inquadrature (vedi sopra).
 - `11-personaggi-50`: prove per avere personaggi meno disegnati. **Scelta:** la prima prova, con i personaggi rifatti in foto e ammorbiditi, montati sulla stanza al 20% (`c_ammorbiditi_sfondo20.jpg`, con il VHS `c_ammorbiditi_sfondo20_vhs.jpg`, in versione notturna con il VHS verde `c_ammorbiditi_sfondo20_vhs_verde.jpg`). Scartate: il mescolamento 50% foto e 50% fumetto (`a_mescolati_50_vhs.jpg`) e i personaggi ridisegnati "a metà" (`b_meta_disegnati.jpg`).
 
@@ -142,7 +142,7 @@ Questionario delle combinazioni della cucina (06 e 07), con i voti salvati: http
 Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQTM96TzxD7idhqAUXdp86
 - **Approvati, tutti sulla 02:** verde, verde retinato, verde con il rosso, VHS, VHS verde.
 - **Scartati:** tutti i filtri sulla 04; verde acido e fotocopia anche sulla 02.
-- Scelta finale: VHS e VHS verde, sulla 02.
+- Scelta finale: VHS e VHS verde, sulla 02. Il 26 ottobre si è aggiunto il VHS infrarosso.
 
 ### Strumenti
 
@@ -197,9 +197,9 @@ NINAH è quasi tutto 2D. Per ora bastano sfondi 2D generati; il 3D servirebbe so
 
 ## Prossimi passi
 
-1. Decidere se tenere il VHS infrarosso, al posto del verde o accanto.
-2. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
-3. Schermata completa nello stile scelto (personaggi ammorbiditi, VHS): interfaccia e riquadro del dettaglio esaminato.
+1. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
+2. Schermata completa nello stile definitivo (personaggi ammorbiditi, VHS): interfaccia e riquadro del dettaglio esaminato.
+3. Come usare i tre filtri nel gioco: quando si passa alla notte, e se l'infrarosso fa vedere gli indizi.
 4. Prototipo giocabile del ciclo base (motore proposto: Godot 4).
 
 ## Fonti
