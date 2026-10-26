@@ -1,0 +1,57 @@
+{
+  "scrivania_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Top-down photograph looking straight down at an old, worn wooden desk in a cheap rented room, present day, but everything on it looks like the 1990s. On the left, a beige fax machine with a curled sheet of thermal paper coming out of it. In the center, an unfolded paper map of a small mountain village with a few red pushpins stuck in it. On the right, a small portable CRT television with a VHS video recorder next to it and three black VHS tapes. At the top, a folded local newspaper. At the bottom, a leather plague doctor beak mask with round glass eyes lying next to a pair of black leather gloves. A small notebook with a pencil, a few coins and banknotes, a cheap desk lamp casting warm light from the upper left. Few objects, with generous empty wood between them and nothing overlapping. Realistic photograph, evenly exposed, everything clearly readable, no dramatic shadows. No readable text anywhere. 16:9, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "scrivania_foto.png"
+    ],
+    "seed": null,
+    "secondi": 77,
+    "descrizione": null
+  },
+  "mappa": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A hand-drawn map of a small, remote mountain village on old yellowed paper, seen from directly above and filling the whole frame: a winding road, a small river with a stone bridge, nine small houses drawn as simple rectangles with roofs, spread out and well separated, a church with a bell tower, a small cemetery with crosses, a few trees and fields. Pencil and black ink, slightly smudged, folding creases and a faint coffee stain. No text, no letters, no numbers and no labels anywhere. 16:9, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "mappa.png"
+    ],
+    "seed": null,
+    "secondi": 90,
+    "descrizione": null
+  },
+  "scrivania_stile": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Completely re-render this photograph in the drawing style described below, redrawing every surface, light and texture in that technique. Keep the composition exactly: every object stays in exactly the same place, size and shape (the fax machine, the newspaper, the map with the pins, the television, the video recorder, the tapes, the beak mask, the gloves, the notebook, the money and the lamp). Do not add cracks, stains, scratches or marks that are not real objects. No text, no signature.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "image_urls": [
+        "@file:scrivania_foto.png"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "scrivania_stile.png"
+    ],
+    "seed": null,
+    "secondi": 37,
+    "descrizione": ""
+  }
+}

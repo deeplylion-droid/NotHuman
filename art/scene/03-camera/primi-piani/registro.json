@@ -1,0 +1,97 @@
+{
+  "madre_ascelle": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of her right armpit: she weakly lifts her arm, the nightgown sleeve pulled down and the blanket slipping off her shoulder of the person in the reference image (a sick, gaunt woman in her fifties with greasy grey-brown hair stuck to her forehead, bulging feverish eyes and bad teeth, wrapped in a green plaid wool blanket over a faded floral nightgown), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Under the armpit there is a large, swollen, dark purple lump, a plague bubo, the skin stretched and shiny around it. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_madre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "madre_ascelle.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "madre_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a sick, gaunt woman in her fifties with greasy grey-brown hair stuck to her forehead, bulging feverish eyes and bad teeth, wrapped in a green plaid wool blanket over a faded floral nightgown), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Glassy, unfocused, deeply bloodshot eyes with high fever, sweat on the skin, greasy strands of hair stuck to the forehead. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_madre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "madre_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "madre_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a sick, gaunt woman in her fifties with greasy grey-brown hair stuck to her forehead, bulging feverish eyes and bad teeth, wrapped in a green plaid wool blanket over a faded floral nightgown), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Cracked, dry lips with a whitish coating and bad teeth; she breathes through the mouth. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_madre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "madre_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "madre_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of the neck, from under the jaw to the collarbone of the person in the reference image (a sick, gaunt woman in her fifties with greasy grey-brown hair stuck to her forehead, bulging feverish eyes and bad teeth, wrapped in a green plaid wool blanket over a faded floral nightgown), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A thin, sweaty neck with swollen glands slightly visible under the skin, but no clear lump. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_madre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "madre_collo.png"
+    ],
+    "seed": null,
+    "secondi": 31,
+    "descrizione": ""
+  },
+  "madre_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both hands held out in front, palms down, from the wrists to the fingertips of the person in the reference image (a sick, gaunt woman in her fifties with greasy grey-brown hair stuck to her forehead, bulging feverish eyes and bad teeth, wrapped in a green plaid wool blanket over a faded floral nightgown), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. The fingertips of both hands are blackened and dry, as if burned (gangrene); the rest of the hands is pale, sweaty and trembling. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_madre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "madre_mani.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "nome": "scheda_figlia",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Make a sharp, high-resolution portrait of this same young woman from the waist up, facing the viewer, in front of a plain dark grey backdrop. Keep exactly her face and her grotesque but almost photographic features (bulging frightened eyes, hollow cheeks, long dark greasy hair), the same purple hoodie and the same pose with her hands clutched at her chest. Realistic photograph, natural colors, even soft light. No text, no border.",
+      "image_urls": ["@file:riferimento_figlia.jpg"],
+      "aspect_ratio": "3:4",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  }
+]

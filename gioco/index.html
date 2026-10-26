@@ -1,0 +1,231 @@
+<title>Il medico della peste</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Caveat:wght@500;700&family=IBM+Plex+Mono:wght@400;600&family=Old+Standard+TT:wght@400;700&family=VT323&display=swap">
+<style>
+  /* Layout: lo schermo della videocamera in 16:9 al centro, l'interfaccia sovrapposta come l'OSD di una
+     videocamera anni '90; i fogli di carta (fax, giornale, taccuino, modulo) si aprono sopra tutto.
+     Un solo tema scuro, da stanza buia. */
+  :root {
+    --notte: #0b0d0c;
+    --pannello: rgba(9, 11, 10, 0.88);
+    --linea: rgba(236, 232, 220, 0.22);
+    --testo: #ece8dc;
+    --spento: #a7a294;
+    --rec: #e0402f;
+    --giallo: #f2d16b;
+    --carta-fax: #e8e7e1;
+    --carta-giornale: #e6dfcd;
+    --carta-taccuino: #f1eee3;
+    --carta-modulo: #f4f3ef;
+    --inchiostro: #23221f;
+    --timbro: #b4302a;
+    --vcr: "VT323", "IBM Plex Mono", ui-monospace, monospace;
+    --sottotitoli: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --giornale: "Old Standard TT", Georgia, "Times New Roman", serif;
+    --mano: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+    color-scheme: dark;
+  }
+  html, body { height: 100%; }
+  body {
+    background: var(--notte);
+    color: var(--testo);
+    font-family: var(--sottotitoli);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  #app { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: var(--notte); }
+  .gira { display: none; margin: 0; font-family: var(--mono); font-size: 0.8125rem; color: var(--spento); text-align: center; }
+  @media (orientation: portrait) and (max-width: 700px) { .gira { display: block; } }
+
+  #schermo {
+    position: relative;
+    width: min(100%, calc((100dvh - 64px) * 16 / 9));
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    overflow: hidden;
+    container-type: inline-size;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  @media (pointer: fine) { #schermo { cursor: none; } #schermo button { cursor: none; } }
+  #vhs, #statico { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  #statico { object-fit: cover; opacity: 0; }
+  #schermo.senza-webgl #statico { opacity: 1; }
+  #schermo.senza-webgl #vhs { display: none; }
+
+  /* OSD della videocamera */
+  #osd { position: absolute; inset: 0; pointer-events: none; font-family: var(--vcr); color: #f0f0ec; text-shadow: 0.12cqw 0.12cqw 0 #000; font-size: max(13px, 3.2cqw); line-height: 1; }
+  #osd-alto { position: absolute; left: 4cqw; top: 4cqw; display: flex; gap: 2.4cqw; align-items: center; }
+  #osd-stato { display: flex; align-items: center; gap: 1cqw; }
+  #osd .punto { width: 1.5cqw; height: 1.5cqw; min-width: 7px; min-height: 7px; border-radius: 50%; background: var(--rec); animation: lampeggia 1s steps(2, start) infinite; }
+  #osd .triangolo { width: 0; height: 0; border-top: 1.3cqw solid transparent; border-bottom: 1.3cqw solid transparent; border-left: 2cqw solid currentColor; }
+  #osd-modo { color: #f0f0ec; }
+  #osd-basso { position: absolute; left: 4cqw; bottom: 5.5cqw; display: flex; gap: 3cqw; font-variant-numeric: tabular-nums; }
+  @keyframes lampeggia { to { visibility: hidden; } }
+  @media (prefers-reduced-motion: reduce) { #osd .punto { animation: none; } }
+
+  #orologio { position: absolute; left: 2.4cqw; top: 2.2cqw; font-family: var(--mono); font-size: max(11px, 1.45cqw); color: var(--testo); background: var(--pannello); padding: 0.35em 0.7em; pointer-events: none; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+  #schermo[data-schermo="visita"] #orologio, #schermo[data-schermo="nastro"] #orologio { display: none; }
+
+  #didascalia { position: absolute; left: 4cqw; top: 9cqw; font-family: var(--vcr); font-size: max(13px, 2.6cqw); color: #f0f0ec; text-shadow: 0.12cqw 0.12cqw 0 #000; pointer-events: none; }
+
+  /* zone cliccabili della scrivania e spilli della mappa */
+  #zone { position: absolute; inset: 0; pointer-events: none; }
+  .zona { position: absolute; pointer-events: auto; background: transparent; border: 1px solid transparent; padding: 0; }
+  .zona:hover, .zona:focus-visible { border-color: rgba(242, 209, 107, 0.55); box-shadow: inset 0 0 2cqw rgba(242, 209, 107, 0.18); outline: none; }
+  .pin { position: absolute; pointer-events: auto; transform: translate(-50%, -135%); min-width: max(24px, 2.8cqw); height: max(24px, 2.8cqw); padding: 0 0.3em; border-radius: 999px; background: #6d665a; border: 2px solid #f1eadb; color: #fff; font-family: var(--mono); font-weight: 600; font-size: max(11px, 1.3cqw); line-height: 1; display: grid; place-items: center; box-shadow: 0 0.3cqw 0.6cqw rgba(0, 0, 0, 0.45); }
+  .pin::after { content: ""; position: absolute; left: 50%; top: 100%; width: 2px; height: max(8px, 1.1cqw); margin-left: -1px; background: #f1eadb; }
+  .pin.segnalata { background: var(--timbro); }
+  .pin.visitata { background: #3f4a43; }
+  .pin.croce { background: #1b1b1b; }
+  .pin.contagiata { background: var(--rec); box-shadow: 0 0 0 0.5cqw rgba(224, 64, 47, 0.35); }
+  .pin.luogo { background: #2d2a25; font-size: max(10px, 1.1cqw); }
+  .pin:hover, .pin:focus-visible { border-color: var(--giallo); outline: none; }
+
+  #etichetta { position: absolute; left: 0; top: 0; margin: 1.6cqw 0 0 1.6cqw; font-family: var(--vcr); font-size: max(13px, 2cqw); background: rgba(0, 0, 0, 0.78); color: #f0f0ec; padding: 0.1em 0.45em; pointer-events: none; white-space: nowrap; z-index: 6; }
+  #cursore { position: absolute; left: 0; top: 0; width: 2.2cqw; height: 2.2cqw; min-width: 14px; min-height: 14px; margin: calc(-0.5 * max(14px, 2.2cqw)) 0 0 calc(-0.5 * max(14px, 2.2cqw)); border: 2px solid rgba(240, 240, 236, 0.85); border-radius: 50%; pointer-events: none; z-index: 7; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6); }
+  #cursore::after { content: ""; position: absolute; left: 50%; top: 50%; width: 3px; height: 3px; margin: -1.5px 0 0 -1.5px; background: var(--rec); border-radius: 50%; }
+  @media (pointer: coarse) { #cursore { display: none; } }
+
+  /* sottotitoli della videocassetta */
+  #sottotitoli { position: absolute; left: 50%; bottom: 11.5cqw; transform: translateX(-50%); width: 76%; text-align: center; pointer-events: none; z-index: 5; }
+  .riga { display: inline; margin: 0; font-family: var(--sottotitoli); font-weight: 600; font-size: max(13px, 2.25cqw); line-height: 1.55; color: #fff; background: rgba(0, 0, 0, 0.74); padding: 0.18em 0.55em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .riga b { color: var(--giallo); font-weight: 700; letter-spacing: 0.03em; }
+  .riga.tu { color: #cfcabd; font-style: italic; }
+  .riga.descr { color: #e9dfc1; font-style: italic; font-weight: 500; }
+
+  /* domande del medico e scelte */
+  #menu { position: absolute; left: 3cqw; bottom: 3cqw; width: min(40cqw, 92%); max-height: calc(100% - 6cqw); overflow: auto; background: var(--pannello); border: 1px solid var(--linea); padding: 0.6em; display: flex; flex-direction: column; gap: 0.15em; font-family: var(--mono); font-size: max(12px, 1.6cqw); z-index: 8; }
+  #menu .menu-titolo { margin: 0 0 0.3em; font-family: var(--vcr); font-size: 1.35em; color: var(--giallo); letter-spacing: 0.04em; }
+  #menu .menu-testo { margin: 0 0 0.4em; color: var(--testo); line-height: 1.45; }
+  #menu button { text-align: left; font: inherit; color: var(--testo); background: transparent; border: 0; padding: 0.42em 0.5em; line-height: 1.35; }
+  #menu button::before { content: "› "; color: var(--spento); }
+  #menu button:hover, #menu button:focus-visible { background: rgba(236, 232, 220, 0.12); outline: none; }
+  #menu button:disabled { color: var(--spento); opacity: 0.6; }
+  #menu button.secondario { color: var(--spento); }
+  #menu button.prova { font-size: 0.92em; }
+
+  #hud { position: absolute; right: 2.4cqw; top: 2.2cqw; display: flex; gap: 0.5em; flex-wrap: wrap; justify-content: flex-end; max-width: 60%; z-index: 8; }
+  #hud .hud-b { font-family: var(--mono); font-size: max(11px, 1.4cqw); color: var(--testo); background: var(--pannello); border: 1px solid var(--linea); padding: 0.45em 0.8em; }
+  #hud .hud-b.forte { border-color: rgba(242, 209, 107, 0.7); color: var(--giallo); }
+  #hud .hud-b:hover, #hud .hud-b:focus-visible { background: rgba(30, 33, 31, 0.95); outline: 1px solid var(--giallo); }
+  #hud .suggerimento { font-family: var(--mono); font-size: max(11px, 1.35cqw); color: var(--testo); background: var(--pannello); padding: 0.45em 0.8em; }
+
+  #avviso { position: absolute; left: 50%; top: 9cqw; transform: translateX(-50%); font-family: var(--vcr); font-size: max(13px, 2.2cqw); color: var(--giallo); background: rgba(0, 0, 0, 0.82); border: 1px solid rgba(242, 209, 107, 0.6); padding: 0.15em 0.7em; pointer-events: none; z-index: 9; }
+  #avviso.via { animation: svanisci 2.6s ease forwards; }
+  @keyframes svanisci { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
+
+  /* comandi del videoregistratore */
+  #comandi { position: absolute; left: 50%; bottom: 2.2cqw; transform: translateX(-50%); display: flex; gap: 0.4em; z-index: 8; }
+  #comandi .cmd { font-family: var(--vcr); font-size: max(15px, 2.4cqw); color: #f0f0ec; background: var(--pannello); border: 1px solid var(--linea); padding: 0.05em 0.7em; min-width: 2.6em; }
+  #comandi .cmd.attivo { color: #ffd9d4; border-color: #e8a3ad; background: rgba(120, 30, 44, 0.85); }
+  #comandi .cmd:hover, #comandi .cmd:focus-visible { outline: 1px solid var(--giallo); }
+
+  .barra { display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; font-family: var(--mono); font-size: 0.8125rem; color: var(--spento); width: min(100%, calc((100dvh - 64px) * 16 / 9)); }
+  .barra button { font: inherit; color: var(--testo); background: transparent; border: 1px solid var(--linea); padding: 4px 10px; }
+  .barra button:hover, .barra button:focus-visible { border-color: var(--giallo); outline: none; }
+
+  /* i fogli */
+  #foglio { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, 0.62); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+  #foglio[hidden] { display: none; }
+  .carta { position: relative; width: min(44rem, 100%); max-height: calc(100dvh - 32px); display: flex; flex-direction: column; box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.6); }
+  #foglio-corpo { overflow: auto; padding: 2rem 2.2rem 1.8rem; min-width: 0; }
+  .chiudi { position: absolute; right: 0.6rem; top: 0.5rem; z-index: 2; font-family: var(--mono); font-size: 0.8125rem; background: transparent; border: 1px solid currentColor; padding: 3px 8px; color: inherit; opacity: 0.75; }
+  .chiudi:hover, .chiudi:focus-visible { opacity: 1; outline: none; }
+  #foglio[data-bloccato="1"] .chiudi { display: none; }
+  #foglio-corpo h2 { margin: 0 0 0.6rem; text-wrap: balance; }
+  #foglio-corpo h3 { margin: 1.1rem 0 0.35rem; font-size: 0.95rem; letter-spacing: 0.06em; }
+  #foglio-corpo p, #foglio-corpo li { line-height: 1.55; }
+  #foglio-corpo ul, #foglio-corpo ol { padding-left: 1.3rem; margin: 0.3rem 0; display: grid; gap: 0.3rem; }
+  .azioni { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.1rem; }
+  .azioni button { font-family: var(--mono); font-size: 0.95rem; padding: 0.55rem 0.9rem; border: 1px solid currentColor; background: transparent; color: inherit; text-align: left; }
+  .azioni button:hover, .azioni button:focus-visible { background: rgba(127, 127, 127, 0.16); outline: none; }
+  .azioni button.secondario { opacity: 0.75; }
+  .nota { font-size: 0.9rem; opacity: 0.85; }
+  .vuoto { opacity: 0.6; font-style: italic; }
+
+  #foglio[data-tipo="fax"] .carta { background: var(--carta-fax); color: #2f2f2c; font-family: var(--mono); }
+  #foglio[data-tipo="fax"] #foglio-corpo { background-image: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.025) 0 2px, transparent 2px 4px); font-size: 0.93rem; }
+  #foglio[data-tipo="fax"] .fax-testata { font-weight: 600; letter-spacing: 0.08em; margin: 0; }
+  #foglio[data-tipo="fax"] .fax-sotto { margin: 0.2rem 0 0; opacity: 0.8; }
+  #foglio[data-tipo="fax"] hr { border: 0; border-top: 1px dashed #6b6b65; margin: 0.9rem 0; }
+  #foglio[data-tipo="fax"] .fax-chiusura { margin-top: 1rem; font-style: italic; }
+  #foglio[data-tipo="fax"] .fax-firma { letter-spacing: 0.12em; font-weight: 600; margin: 0; }
+
+  #foglio[data-tipo="giornale"] .carta { background: var(--carta-giornale); color: var(--inchiostro); font-family: var(--giornale); }
+  .gio-testata { margin: 0; font-size: clamp(2.2rem, 7vw, 3.4rem); font-weight: 700; text-align: center; letter-spacing: 0.04em; border-bottom: 3px double var(--inchiostro); line-height: 1.1; }
+  .gio-data { margin: 0.3rem 0 1rem; text-align: center; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  #foglio-corpo .gio-titolo { font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.08; margin-bottom: 0.5rem; }
+  .gio-sommario { font-size: 1.1rem; font-style: italic; margin: 0 0 0.9rem; }
+  .gio-colonne { columns: 2 16rem; column-gap: 1.6rem; column-rule: 1px solid rgba(35, 34, 31, 0.3); }
+  .gio-colonne p { margin: 0 0 0.8rem; break-inside: avoid; }
+  .gio-pubblicita { margin: 1rem 0 0; padding: 0.6rem; border: 2px solid var(--inchiostro); text-align: center; font-weight: 700; letter-spacing: 0.1em; }
+
+  #foglio[data-tipo="taccuino"] .carta { background-color: var(--carta-taccuino); color: #1f2a44; background-image: linear-gradient(rgba(70, 110, 170, 0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(70, 110, 170, 0.14) 1px, transparent 1px); background-size: 22px 22px; font-family: var(--mano); }
+  #foglio[data-tipo="taccuino"] #foglio-corpo { font-size: 1.3rem; }
+  #foglio[data-tipo="taccuino"] h2 { font-size: 2rem; }
+  #foglio[data-tipo="taccuino"] h3 { font-size: 1.35rem; letter-spacing: 0; }
+  #foglio[data-tipo="taccuino"] .chiudi { font-family: var(--mono); }
+
+  #foglio[data-tipo="modulo"] .carta { background: var(--carta-modulo); color: var(--inchiostro); font-family: var(--sottotitoli); }
+  .modulo fieldset { border: 1px solid rgba(35, 34, 31, 0.35); margin: 0.9rem 0 0; padding: 0.6rem 0.9rem; display: grid; gap: 0.35rem; }
+  .modulo legend { font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0 0.3rem; }
+  .mod-testata { margin: 0; font-family: var(--mono); font-weight: 600; letter-spacing: 0.1em; font-size: 0.85rem; }
+  .mod-dati { margin: 0; font-family: var(--mono); font-size: 0.9rem; }
+  .mod-riga { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; line-height: 1.4; }
+  .mod-riga input { width: 1.05rem; height: 1.05rem; accent-color: var(--timbro); translate: 0 0.15rem; }
+  .mod-comp { margin-left: auto; font-family: var(--mono); font-size: 0.85rem; }
+  .mod-profilo { color: var(--timbro); font-style: normal; font-weight: 600; }
+  .firma { margin-top: 1.1rem; font-family: var(--mono); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--timbro); background: transparent; border: 2px solid var(--timbro); padding: 0.6rem 1.1rem; rotate: -1.5deg; }
+  .firma:hover, .firma:focus-visible { background: rgba(180, 48, 42, 0.1); outline: none; }
+  .mod-piede { margin: 1rem 0 0; font-family: var(--mono); font-size: 0.78rem; opacity: 0.7; }
+
+  #foglio[data-tipo="soldi"] .carta, #foglio[data-tipo="nastri"] .carta, #foglio[data-tipo="notte"] .carta, #foglio[data-tipo="verita"] .carta { background: #121514; color: var(--testo); font-family: var(--mono); border: 1px solid var(--linea); }
+  #foglio[data-tipo="notte"] h2, #foglio[data-tipo="verita"] h2, #foglio[data-tipo="nastri"] h2, #foglio[data-tipo="soldi"] h2 { font-family: var(--vcr); font-size: 2rem; font-weight: 400; color: var(--giallo); }
+  #foglio[data-tipo="nastri"] .azioni { margin-top: 0.5rem; }
+
+  button:focus-visible { outline: 2px solid var(--giallo); outline-offset: 2px; }
+</style>
+
+<div id="app">
+  <p class="gira">Gira il telefono: si gioca in orizzontale.</p>
+  <div id="schermo" data-schermo="scrivania">
+    <canvas id="vhs" aria-label="La videocamera del medico" role="img"></canvas>
+    <img id="statico" alt="" width="1600" height="900">
+    <div id="zone"></div>
+    <div id="osd" hidden aria-hidden="true">
+      <div id="osd-alto"><span id="osd-stato"></span><span id="osd-modo"></span></div>
+      <div id="osd-basso"><span id="osd-data"></span><span id="osd-ora"></span></div>
+    </div>
+    <div id="orologio" aria-live="polite"></div>
+    <div id="didascalia" hidden></div>
+    <div id="sottotitoli" aria-live="polite"></div>
+    <div id="menu" hidden></div>
+    <div id="hud"></div>
+    <div id="comandi" hidden></div>
+    <div id="avviso" hidden role="status"></div>
+    <div id="etichetta" hidden></div>
+    <div id="cursore" aria-hidden="true"></div>
+  </div>
+  <div class="barra">
+    <span>Prototipo · una giornata</span>
+    <button type="button" id="schermo-intero">Schermo intero</button>
+  </div>
+</div>
+
+<div id="foglio" hidden>
+  <div class="carta">
+    <button type="button" class="chiudi">Chiudi</button>
+    <div id="foglio-corpo"></div>
+  </div>
+</div>
+
+<script type="module" src="js/gioco.js"></script>

@@ -1,0 +1,249 @@
+{
+  "uomo_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a stocky man in his fifties with curly grey hair, bulging eyes and a grimacing mouth, in a stained navy tracksuit with white stripes), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. His eyes are glassy and bloodshot with fever, the rims red and watery, drops of sweat on his forehead and temples. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_uomo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "uomo_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a stocky man in his fifties with curly grey hair, bulging eyes and a grimacing mouth, in a stained navy tracksuit with white stripes), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Yellowed teeth with a gap, grey stubble around the mouth, chapped lips; nothing else unusual. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_uomo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 31,
+    "descrizione": ""
+  },
+  "uomo_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of the neck, from under the jaw to the collarbone of the person in the reference image (a stocky man in his fifties with curly grey hair, bulging eyes and a grimacing mouth, in a stained navy tracksuit with white stripes), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A thick, sweaty neck with grey stubble and the collar of the tracksuit; no swelling, no lumps. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_uomo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_collo.png"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": ""
+  },
+  "uomo_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both hands held out in front, palms down, from the wrists to the fingertips of the person in the reference image (a stocky man in his fifties with curly grey hair, bulging eyes and a grimacing mouth, in a stained navy tracksuit with white stripes), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Big sweaty hands with cracked knuckles and short dirty nails; the skin is healthy. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_uomo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_mani.png"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": ""
+  },
+  "giovane_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a very pale young woman in her twenties with long dark hair, bulging tired eyes and sunken cheeks, in a long grey cardigan), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Pale skin with dark circles under the eyes. Her irises are dark brown and the whites of her eyes are clear and white: no redness, no fever, no cataract, no clouding. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_giovane.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giovane_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 27,
+    "descrizione": ""
+  },
+  "giovane_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a very pale young woman in her twenties with long dark hair, bulging tired eyes and sunken cheeks, in a long grey cardigan), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Very pale, almost bluish lips, as if she were cold and exhausted; healthy teeth. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_giovane.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giovane_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 51,
+    "descrizione": ""
+  },
+  "giovane_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both hands held out in front, palms down, from the wrists to the fingertips of the person in the reference image (a very pale young woman in her twenties with long dark hair, bulging tired eyes and sunken cheeks, in a long grey cardigan), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Pale, cold-looking hands with slightly bluish nails; the skin is healthy. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_giovane.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giovane_mani.png"
+    ],
+    "seed": null,
+    "secondi": 52,
+    "descrizione": ""
+  },
+  "giovane_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of the neck, from under the jaw to the collarbone of the person in the reference image (a very pale young woman in her twenties with long dark hair, bulging tired eyes and sunken cheeks, in a long grey cardigan), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A thin, very pale neck with faint blue veins under the skin; no swelling, no lumps. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_giovane.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giovane_collo.png"
+    ],
+    "seed": null,
+    "secondi": 55,
+    "descrizione": ""
+  },
+  "nonna_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a very old woman in her eighties with thin white hair, bulging eyes and a hooked nose, in a quilted dark floral housecoat), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Very old eyes clouded with milky cataracts, deep wrinkles all around, but not red and not feverish. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_nonna.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nonna_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 50,
+    "descrizione": ""
+  },
+  "giovane_ascelle": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of her left armpit: she raises her arm, the grey cardigan pulled back over a thin sleeveless top of the person in the reference image (a very pale young woman in her twenties with long dark hair, bulging tired eyes and sunken cheeks, in a long grey cardigan), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Pale skin with no swelling and no marks at all. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_giovane.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giovane_ascelle.png"
+    ],
+    "seed": null,
+    "secondi": 55,
+    "descrizione": ""
+  },
+  "nonna_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a very old woman in her eighties with thin white hair, bulging eyes and a hooked nose, in a quilted dark floral housecoat), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. An almost toothless mouth with a single crooked tooth left, deep wrinkles around the lips; she is smirking. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_nonna.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nonna_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "nonna_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of the neck, from under the jaw to the collarbone of the person in the reference image (a very old woman in her eighties with thin white hair, bulging eyes and a hooked nose, in a quilted dark floral housecoat), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A very wrinkled old neck with a thin chain and a small tarnished religious medal; no swelling. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_nonna.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nonna_collo.png"
+    ],
+    "seed": null,
+    "secondi": 29,
+    "descrizione": ""
+  },
+  "nonna_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both hands held out in front, palms down, from the wrists to the fingertips of the person in the reference image (a very old woman in her eighties with thin white hair, bulging eyes and a hooked nose, in a quilted dark floral housecoat), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Gnarled old hands with swollen arthritic knuckles, thin skin with age spots and a worn wedding ring; healthy. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:riferimento_nonna.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nonna_mani.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  }
+}

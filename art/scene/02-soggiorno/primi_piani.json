@@ -1,0 +1,36 @@
+{
+  "uomo": {
+    "riferimento": "riferimento_uomo.jpg",
+    "aspetto": "a stocky man in his fifties with curly grey hair, bulging eyes and a grimacing mouth, in a stained navy tracksuit with white stripes",
+    "parti": {
+      "occhi": "His eyes are glassy and bloodshot with fever, the rims red and watery, drops of sweat on his forehead and temples.",
+      "bocca": "Yellowed teeth with a gap, grey stubble around the mouth, chapped lips; nothing else unusual.",
+      "collo": "A thick, sweaty neck with grey stubble and the collar of the tracksuit; no swelling, no lumps.",
+      "mani": "Big sweaty hands with cracked knuckles and short dirty nails; the skin is healthy."
+    }
+  },
+  "giovane": {
+    "riferimento": "riferimento_giovane.jpg",
+    "aspetto": "a very pale young woman in her twenties with long dark hair, bulging tired eyes and sunken cheeks, in a long grey cardigan",
+    "parti": {
+      "occhi": "Pale skin with dark circles under the eyes. Her irises are dark brown and the whites of her eyes are clear and white: no redness, no fever, no cataract, no clouding.",
+      "bocca": "Very pale, almost bluish lips, as if she were cold and exhausted; healthy teeth.",
+      "collo": "A thin, very pale neck with faint blue veins under the skin; no swelling, no lumps.",
+      "ascelle": {
+        "inquadratura": "her left armpit: she raises her arm, the grey cardigan pulled back over a thin sleeveless top",
+        "segni": "Pale skin with no swelling and no marks at all."
+      },
+      "mani": "Pale, cold-looking hands with slightly bluish nails; the skin is healthy."
+    }
+  },
+  "nonna": {
+    "riferimento": "riferimento_nonna.jpg",
+    "aspetto": "a very old woman in her eighties with thin white hair, bulging eyes and a hooked nose, in a quilted dark floral housecoat",
+    "parti": {
+      "occhi": "Very old eyes clouded with milky cataracts, deep wrinkles all around, but not red and not feverish.",
+      "bocca": "An almost toothless mouth with a single crooked tooth left, deep wrinkles around the lips; she is smirking.",
+      "collo": "A very wrinkled old neck with a thin chain and a small tarnished religious medal; no swelling.",
+      "mani": "Gnarled old hands with swollen arthritic knuckles, thin skin with age spots and a worn wedding ring; healthy."
+    }
+  }
+}

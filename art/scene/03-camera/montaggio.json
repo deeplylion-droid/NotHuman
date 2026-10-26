@@ -1,0 +1,12 @@
+{
+  "stile": "ammorbiditi.jpg",
+  "sfondo": "stanza_vuota.jpg",
+  "sfondo_stile": "stanza_stile_pulita.jpg",
+  "intensita_sfondo": 0.2,
+  "maschere": [
+    "maschere/persone_maschera1.png"
+  ],
+  "allarga": 3,
+  "sfuma": 1.2,
+  "uscita": "finale.jpg"
+}

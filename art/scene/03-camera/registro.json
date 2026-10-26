@@ -1,0 +1,136 @@
+{
+  "base": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor standing in a tiny, bare bedroom at the end of a hallway in a poor modern apartment in a remote mountain village, present day, at night with the ceiling light broken: plain painted walls with a few damp stains and nothing hanging on them, a single iron bed with a thin mattress and a grey wool blanket, a small wooden nightstand with a cheap bedside lamp giving weak yellow light, a closed wardrobe, and a window with closed plastic roller blinds. A sick woman in her fifties sits on the edge of the bed facing the viewer, wrapped in the grey wool blanket over a faded floral nightgown: feverish, sweaty and exhausted, her greasy hair stuck to her forehead, staring at the viewer with fear. Her family has been hiding her here. No hands, arms or objects belonging to the viewer are visible in the frame. Realistic photograph, evenly exposed, everything clearly readable, no dramatic shadows. 16:9, no text, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "base.png"
+    ],
+    "seed": null,
+    "secondi": 67,
+    "descrizione": null
+  },
+  "fumetto": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the iron bed, the nightstand with the lamp, the wardrobe and the window with the closed blinds, and the sick woman sitting on the edge of the bed, in the same places and poses. The one people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "fumetto.png"
+    ],
+    "seed": null,
+    "secondi": 80,
+    "descrizione": null
+  },
+  "ammorbiditi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render only the one people as realistic photographs: real skin with pores, real hair, real fabric and real leather, photographic lighting. Keep exactly their grotesque, deformed features from this image: the same bulging eyes, crooked noses, bad teeth, sunken cheeks, bony elongated fingers, and the same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do not make them look more normal. Everything else in the image stays exactly identical.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ammorbiditi.png"
+    ],
+    "seed": null,
+    "secondi": 29,
+    "descrizione": ""
+  },
+  "stanza_stile": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Remove the one people completely, with everything they hold. Reconstruct the empty room behind them naturally, in the same drawing style. Keep everything else exactly identical and in the same place: the iron bed, the nightstand with the lamp, the wardrobe and the window with the closed blinds, the same lighting and the same camera. Do not draw any face anywhere.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "stanza_stile_pulita": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this comic drawing of an empty room. Keep exactly the same drawing style (bold black brush-ink outlines, flat muted colors with no gradients, light crosshatching only where there is shadow), the same composition and every object in exactly the same place and size. Clean only the walls and the ceiling: they become smooth, plain painted plaster in a warm off-white color, like a modest but cared-for home, with at most two or three faint damp stains. Remove all peeling and flaking paint, exposed patches, cracks, dirt streaks and texture marks that are not real objects. Do not add anything. No people, no faces, no text.",
+      "image_urls": [
+        "@file:stanza_stile.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile_pulita.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "stanza_vuota": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render this drawing of an empty room as a realistic photograph, like an ordinary amateur snapshot, evenly exposed. The walls and the ceiling are smooth, plain painted plaster in a warm off-white color, like a modest but cared-for home, with at most two or three faint damp stains: do not copy the drawing's cracks, peeling or flaking paint, stains or hatching. Keep everything else exactly identical and in exactly the same place and size: the iron bed, the nightstand with the lamp, the wardrobe and the window with the closed blinds, the lighting, the camera and the framing. Do not add any people, hands or objects, and no faces anywhere.",
+      "image_urls": [
+        "@file:stanza_stile_pulita.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_vuota.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../ammorbiditi.jpg",
+      "prompt": "person",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "persone.png",
+      "persone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 6,
+    "descrizione": null
+  }
+}

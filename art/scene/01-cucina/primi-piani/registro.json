@@ -1,0 +1,78 @@
+{
+  "figlia_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a thin young woman in her twenties with long dark hair, bulging frightened eyes and hollow cheeks, in a purple hoodie), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Dry, chapped lips; healthy gums and teeth. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:scheda_figlia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "figlia_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of the neck, from under the jaw to the collarbone of the person in the reference image (a thin young woman in her twenties with long dark hair, bulging frightened eyes and hollow cheeks, in a purple hoodie), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A thin neck with prominent tendons and the edge of the purple hoodie; pale but healthy skin, no swelling. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:scheda_figlia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia_collo.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "figlia_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both hands held out in front, palms down, from the wrists to the fingertips of the person in the reference image (a thin young woman in her twenties with long dark hair, bulging frightened eyes and hollow cheeks, in a purple hoodie), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Thin hands with the nails bitten down to the skin and a few small cuts around them; otherwise healthy. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:scheda_figlia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia_mani.png"
+    ],
+    "seed": null,
+    "secondi": 39,
+    "descrizione": ""
+  },
+  "figlia_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a thin young woman in her twenties with long dark hair, bulging frightened eyes and hollow cheeks, in a purple hoodie), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Tired, frightened eyes with dark circles from lack of sleep; the whites are clear, not red, no fever. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border.",
+      "image_urls": [
+        "@file:scheda_figlia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 39,
+    "descrizione": ""
+  }
+}

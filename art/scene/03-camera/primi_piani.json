@@ -1,0 +1,16 @@
+{
+  "madre": {
+    "riferimento": "riferimento_madre.jpg",
+    "aspetto": "a sick, gaunt woman in her fifties with greasy grey-brown hair stuck to her forehead, bulging feverish eyes and bad teeth, wrapped in a green plaid wool blanket over a faded floral nightgown",
+    "parti": {
+      "occhi": "Glassy, unfocused, deeply bloodshot eyes with high fever, sweat on the skin, greasy strands of hair stuck to the forehead.",
+      "bocca": "Cracked, dry lips with a whitish coating and bad teeth; she breathes through the mouth.",
+      "collo": "A thin, sweaty neck with swollen glands slightly visible under the skin, but no clear lump.",
+      "ascelle": {
+        "inquadratura": "her right armpit: she weakly lifts her arm, the nightgown sleeve pulled down and the blanket slipping off her shoulder",
+        "segni": "Under the armpit there is a large, swollen, dark purple lump, a plague bubo, the skin stretched and shiny around it."
+      },
+      "mani": "The fingertips of both hands are blackened and dry, as if burned (gangrene); the rest of the hands is pale, sweaty and trembling."
+    }
+  }
+}

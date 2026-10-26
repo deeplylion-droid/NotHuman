@@ -62,6 +62,7 @@ Decise il 26 ottobre, con le domande in chat.
 ### Il mondo
 
 - **Retrofuturo anni '90.** Il mondo è quello di oggi, ma la tecnologia del medico e del potere ha l'aspetto degli anni '80-'90: cassette, monitor a fosfori verdi, fax, floppy. Le case povere restano come sono.
+- **Elementi cyberpunk** (26 ottobre, da sviluppare): il medico della peste è futuristico, in un mondo distopico dove alcune tecnologie sono rimaste ma cozzano con la vita povera e arretrata della gente comune. Va deciso come si lega al retrofuturo anni '90: per esempio l'attrezzatura del medico e della ditta futuristica, il paese povero com'è.
 - **La ditta.** Il medico lavora a contratto per una multinazionale farmaceutica. Ogni mattina la ditta manda via fax il protocollo, cioè i segni da cercare, e paga a paziente. A volte il protocollo è sbagliato apposta, perché alla ditta servono cavie: il giocatore impara da sé di cosa fidarsi.
 
 ### La giornata
@@ -77,6 +78,7 @@ Decise il 26 ottobre, con le domande in chat.
 - **Una stanza più le porte.** La famiglia riceve il medico in una stanza; si può pretendere di aprire una porta (camera, cantina) e vedere un'altra inquadratura. Aprire costa tempo e fiducia.
 - **Esame per parti del corpo.** Si indica col bastone cosa si vuole vedere (occhi, bocca, collo, ascelle, mani), come facevano i medici della peste per non toccare i malati, e la videocamera zooma sul punto, a tutto schermo, con la messa a fuoco che va e viene; poi si torna alla stanza. La persona può rifiutarsi, coprirsi o mentire.
 - **Domande e prove.** Si scelgono le domande da fare. Un indizio trovato (un piatto in più, una porta chiusa a chiave, il calore all'infrarosso) si può mettere davanti alla famiglia per smascherare una bugia o farsi aprire una porta. Le frasi delle persone compaiono in basso come sottotitoli della videocassetta; le domande del medico sono un elenco corto che appare solo quando tocca a lui.
+- **Dialoghi e prove originali e interattivi** (richiesta del 26 ottobre, da proporre quando ci si arriva): le frasi compaiono in modo particolare, si evidenziano parti della scena, i personaggi cambiano espressione mentre vengono interrogati. Il prototipo per ora usa sottotitoli ed elenchi di domande semplici.
 - **Decisioni a fine visita:**
   - **portare via** una persona al lazzaretto: se era sana, la si condanna;
   - **chiudere la casa**, con la croce sulla porta: ferma il contagio verso i vicini, ma i sani chiusi dentro rischiano di ammalarsi;
@@ -181,6 +183,7 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 - `08-filtri`: le combinazioni approvate 02 e 04 con sette filtri finali: verde, verde acido, verde retinato, verde con il rosso, VHS, VHS verde, fotocopia.
 - `09-vhs-animato`: anteprima del VHS animato in tempo reale sul soggiorno nello stile definitivo, con i tre filtri (giorno, notte in verde, infrarosso) e intensità regolabile, che parte dal 50%. Senza la banda di disturbo, tolta il 26 ottobre.
 - `10-coerenza`: lo stesso personaggio in più stati e inquadrature (vedi sopra).
+- `12-scrivania`: la scrivania del medico com'è nel gioco (20% di fumetto e VHS al 50%) e tre varianti senza VHS: pixellata (il trattamento delle prime schermate: bassa risoluzione, pochi colori, retinatura), disegnata al 60%, disegnata al 60% e pixellata.
 - `11-personaggi-50`: prove per avere personaggi meno disegnati. **Scelta:** la prima prova, con i personaggi rifatti in foto e ammorbiditi, montati sulla stanza al 20% (`c_ammorbiditi_sfondo20.jpg`, con il VHS `c_ammorbiditi_sfondo20_vhs.jpg`, in versione notturna con il VHS verde `c_ammorbiditi_sfondo20_vhs_verde.jpg`). Scartate: il mescolamento 50% foto e 50% fumetto (`a_mescolati_50_vhs.jpg`) e i personaggi ridisegnati "a metà" (`b_meta_disegnati.jpg`).
 
 Questionario delle combinazioni della cucina (06 e 07), con i voti salvati: https://claude.ai/artifact/3TEf1Gyxsk5XU5saPN3K6r
@@ -246,9 +249,11 @@ NINAH è quasi tutto 2D. Per ora bastano sfondi 2D generati; il 3D servirebbe so
 
 ## Prossimi passi
 
-1. **Prototipo giocabile di una giornata** (scelto il 26 ottobre): la scrivania con fax, giornale e mappa; le due case con REC, zoom e sottotitoli, domande e prove, decisioni; la sera i nastri all'infrarosso.
-2. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
-3. Il gioco completo: famiglie, storia, giorni.
+1. **Prototipo giocabile di una giornata** (scelto il 26 ottobre): la scrivania con fax, giornale e mappa; le due case con REC, zoom e sottotitoli, domande e prove, decisioni; la sera i nastri all'infrarosso. Il codice è in `gioco/` (scritto, non ancora provato); le immagini si preparano con `tools/prepara_gioco.py`, i primi piani si generano con `tools/primi_piani.py`.
+2. Scegliere l'aspetto della scrivania (`art/prove-stile/12-scrivania`).
+3. Proposte per gli elementi cyberpunk e per un sistema di dialoghi e prove più originale.
+4. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
+5. Il gioco completo: famiglie, storia, giorni.
 
 ## Fonti
 
