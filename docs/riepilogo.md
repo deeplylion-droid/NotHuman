@@ -74,7 +74,7 @@ Attenzione: i modelli a volte inventano dettagli (per esempio una faccia nel tel
 2. **Fumetto** (GPT Image 2): la scena ridisegnata nello stile 07, personaggi deformi.
 3. **Personaggi ammorbiditi** (Nano Banana Pro): rifà in foto solo i personaggi (e la mano, se c'è), lasciando il resto com'è e **senza** passare un riferimento a fumetto: le deformità si ammorbidiscono, ed è proprio l'effetto voluto.
 4. **Stanza nello stile** (Nano Banana Pro): il fumetto senza persone (né mano).
-5. **Stanza in foto** (Nano Banana Pro): la stanza nello stile rifatta in foto. Le due stanze vuote vengono dal fumetto e non dalla foto di partenza, perché GPT ridisegnando sposta un po' l'inquadratura: così stanza e personaggi combaciano sempre.
+5. **Stanza in foto** (Nano Banana Pro): la stanza nello stile rifatta in foto, con i muri puliti. Le due stanze vuote vengono dal fumetto e non dalla foto di partenza, perché GPT ridisegnando sposta un po' l'inquadratura: così stanza e personaggi combaciano sempre. Attenzione: il ridisegno a fumetto aggiunge segni che nella foto non devono esserci (intonaco scrostato, crepe), quindi nel prompt si descrivono i muri come devono essere (`"muri"` in `scena.json`, di base intonaco liscio e chiaro con qualche macchia di umidità). Passare anche la foto di partenza come riferimento non funziona: i muri vengono giusti, ma porta e mobili si spostano.
 6. **Maschere** (SAM 3): persone e bastoni (quelli delle persone, per esempio della nonna), più il guanto se c'è la mano. Con `"ritagli"` in `scena.json` si sceglie cosa ritagliare.
 7. **Montaggio** (`tools/intensita.py`): personaggi sulla stanza al 20%. Con `"escludi_maschere"` si toglie qualcosa dalla scena senza rigenerarla (così è stata tolta la mano dal soggiorno).
 8. **Filtri** (`tools/filtri.py`): VHS, VHS verde e VHS infrarosso.
@@ -89,7 +89,7 @@ Mescolare i personaggi a un'intensità intermedia (per esempio 50% foto e 50% fu
 
 Ogni scena ha `finale.jpg` (senza filtro), `finale_vhs.jpg`, `finale_vhs_verde.jpg` e `finale_vhs_infrarosso.jpg`, tutte senza la mano del medico. Confronto dei filtri: `art/scene/foglio_scene_filtri.jpg`.
 
-Variante da valutare (26 ottobre): la stanza tutta in foto, senza il 20% di fumetto, con gli stessi personaggi: `finale_foto.jpg` e `finale_foto_vhs.jpg` in ogni scena (montaggio in `montaggio_foto.json`, con `"intensita_sfondo": 0`). Confronto: `art/scene/confronto_20_foto.jpg`. Nella cucina il 20% si nota (tratteggi negli angoli, retino sul muro); nel soggiorno quasi no, perché la sua stanza in foto è ricavata dal fumetto e ne porta già i segni (i muri scrostati); con il VHS la differenza quasi sparisce.
+Variante da valutare (26 ottobre): la stanza tutta in foto, senza il 20% di fumetto, con gli stessi personaggi: `finale_foto.jpg` e `finale_foto_vhs.jpg` in ogni scena (montaggio in `montaggio_foto.json`, con `"intensita_sfondo": 0`). Confronto: `art/scene/confronto_20_foto.jpg`. Il 20% si nota: nella cucina tratteggi negli angoli e retino sul muro, nel soggiorno l'ombra dell'intonaco scrostato del fumetto; in foto i muri sono puliti. Con il VHS la differenza quasi sparisce. (La prima versione della stanza in foto del soggiorno si portava dietro l'intonaco scrostato del fumetto: corretta.)
 
 - **01 Cucina** (`art/scene/01-cucina`): il padre e la figlia; quattro piatti in tavola, una porta socchiusa su un corridoio buio.
 - **02 Soggiorno** (`art/scene/02-soggiorno`): una nonna col bastone, una giovane donna pallida e un uomo in tuta davanti a una porta chiusa; dietro la porta nascondono qualcuno.

@@ -9,6 +9,8 @@ La cartella contiene scena.json con i campi (in inglese, vanno nei prompt):
 - "n_persone": quante sono, in lettere ("two", "three");
 - "pose": le persone in breve, per dire al modello di lasciarle al loro posto;
 - "oggetti": gli oggetti della stanza che devono restare fermi;
+- "muri" (facoltativo): com'e' fatta la stanza in foto, muri e soffitto (di base intonaco liscio e chiaro con
+  qualche macchia di umidita');
 - "mano" (facoltativo, false se manca): true per avere in scena la mano del medico col bastone;
 - "ritagli" (facoltativo): cosa ritagliare con SAM 3; di base persone e bastoni (quelli delle persone),
   piu' il guanto se c'e' la mano;
@@ -20,10 +22,13 @@ Passaggi (ognuno salta se il suo file esiste gia': per rifarne uno, cancellalo):
 2. fumetto.jpg: la scena ridisegnata nello stile 07, personaggi deformi (GPT Image 2);
 3. ammorbiditi.jpg: personaggi e mano rifatti in foto, ammorbiditi (Nano Banana Pro);
 4. stanza_stile.jpg: fumetto.jpg senza persone e senza mano (Nano Banana Pro);
-5. stanza_vuota.jpg: stanza_stile.jpg rifatta in foto (Nano Banana Pro);
+5. stanza_vuota.jpg: stanza_stile.jpg rifatta in foto, con i muri puliti, perche' il ridisegno a fumetto
+   aggiunge segni (intonaco scrostato, crepe) che in foto non ci devono essere (Nano Banana Pro). Passandogli
+   anche base.jpg i muri vengono giusti, ma porta e mobili si spostano: per questo si descrivono i muri a parole;
 6. maschere/: i ritagli, da ammorbiditi.jpg (SAM 3);
 7. finale.jpg: personaggi sulla stanza al 20% (tools/intensita.py);
-8. finale_vhs.jpg, finale_vhs_verde.jpg e finale_vhs_infrarosso.jpg (tools/filtri.py).
+8. finale_vhs.jpg, finale_vhs_verde.jpg e finale_vhs_infrarosso.jpg (tools/filtri.py);
+9. finale_foto.jpg e finale_foto_vhs.jpg: la variante con la stanza tutta in foto (0% di fumetto).
 Le due stanze vuote vengono dalla versione a fumetto, non dalla foto di partenza: GPT, ridisegnando,
 cambia un po' l'inquadratura, e cosi' stanza e personaggi combaciano comunque.
 Con "fino_a" (per esempio "base") si ferma dopo quel passaggio.
@@ -47,6 +52,8 @@ STYLE_07 = ("STYLE: a 1970s European underground comic panel: bold black brush-i
             "halftone dots in the shadows.")
 GLOVE = ("In the lower right foreground, the doctor's own black leather glove holds a long wooden cane, like the held "
          "item in a first-person video game.")
+WALLS = ("smooth, plain painted plaster in a warm off-white color, like a modest but cared-for home, with at most two "
+         "or three faint damp stains")
 STEPS = ["base", "fumetto", "ammorbiditi", "stanza_stile", "stanza_vuota", "maschere", "finale", "filtri"]
 
 
@@ -80,11 +87,11 @@ def prompts(s):
                          "the empty room behind them naturally, in the same drawing style. Keep everything else exactly "
                          f"identical and in the same place: {s['oggetti']}, the same lighting and the same camera. Do "
                          "not draw any face anywhere."),
-        "stanza_vuota": ("Re-render this drawing of an empty room as a realistic photograph: real materials, real "
-                         "light, real textures, like an ordinary amateur snapshot, evenly exposed. Keep every object "
-                         "exactly where it is, with the same composition, perspective, proportions and camera; "
-                         f"{s['oggetti']} must stay exactly at the same pixel positions and sizes. Do not add any "
-                         "people, hands or objects, and no faces anywhere."),
+        "stanza_vuota": ("Re-render this drawing of an empty room as a realistic photograph, like an ordinary amateur "
+                         f"snapshot, evenly exposed. The walls and the ceiling are {s.get('muri', WALLS)}: do not copy "
+                         "the drawing's cracks, peeling or flaking paint, stains or hatching. Keep everything else "
+                         f"exactly identical and in exactly the same place and size: {s['oggetti']}, the lighting, the "
+                         "camera and the framing. Do not add any people, hands or objects, and no faces anywhere."),
     }
 
 
@@ -96,8 +103,8 @@ def job(name, model, prompt=None, image=None, **extra):
         inp = {"prompt": prompt, "image_urls": [image], "image_size": {"width": 1920, "height": 1080},
                "quality": "high", "output_format": "png"}
     elif model == NB_EDIT:
-        inp = {"prompt": prompt, "image_urls": [image], "aspect_ratio": "16:9", "resolution": "2K",
-               "output_format": "png", "num_images": 1}
+        inp = {"prompt": prompt, "image_urls": image if isinstance(image, list) else [image], "aspect_ratio": "16:9",
+               "resolution": "2K", "output_format": "png", "num_images": 1}
     else:
         inp = {"image_url": image, "prompt": prompt, "apply_mask": False, "include_scores": True,
                "output_format": "png", "return_multiple_masks": True, **extra}
@@ -177,6 +184,13 @@ def main():
     for f in ["vhs", "vhs_verde", "vhs_infrarosso"]:
         subprocess.run([sys.executable, "-I", str(HERE / "filtri.py"), f, str(folder / "finale.jpg"),
                         str(folder / f"finale_{f}.jpg")], check=True)
+    # variante da valutare: la stanza tutta in foto
+    montage = json.loads((folder / "montaggio.json").read_text())
+    (folder / "montaggio_foto.json").write_text(json.dumps(
+        {**montage, "intensita_sfondo": 0.0, "uscita": "finale_foto.jpg"}, indent=2))
+    subprocess.run([sys.executable, "-I", str(HERE / "intensita.py"), str(folder / "montaggio_foto.json")], check=True)
+    subprocess.run([sys.executable, "-I", str(HERE / "filtri.py"), "vhs", str(folder / "finale_foto.jpg"),
+                    str(folder / "finale_foto_vhs.jpg")], check=True)
     done("filtri")
 
 

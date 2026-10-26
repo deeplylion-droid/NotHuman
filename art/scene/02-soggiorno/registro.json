@@ -76,25 +76,6 @@
     "secondi": 43,
     "descrizione": ""
   },
-  "stanza_vuota": {
-    "modello": "fal-ai/nano-banana-pro/edit",
-    "input": {
-      "prompt": "Re-render this drawing of an empty room as a realistic photograph: real materials, real light, real textures, like an ordinary amateur snapshot, evenly exposed. Keep every object exactly where it is, with the same composition, perspective, proportions and camera; the sofa, the coffee table, the radiator, the window with the closed blinds and the closed door must stay exactly at the same pixel positions and sizes. Do not add any people, hands or objects, and no faces anywhere.",
-      "image_urls": [
-        "@file:stanza_stile.jpg"
-      ],
-      "aspect_ratio": "16:9",
-      "resolution": "2K",
-      "output_format": "png",
-      "num_images": 1
-    },
-    "file": [
-      "stanza_vuota.png"
-    ],
-    "seed": null,
-    "secondi": 50,
-    "descrizione": ""
-  },
   "guanto": {
     "modello": "fal-ai/sam-3/image",
     "input": {
@@ -155,5 +136,24 @@
     "seed": null,
     "secondi": 9,
     "descrizione": null
+  },
+  "stanza_vuota": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render this drawing of an empty room as a realistic photograph, like an ordinary amateur snapshot, evenly exposed. The walls and the ceiling are smooth, plain painted plaster in a warm off-white color, like a modest but cared-for home, with at most two or three faint damp stains: do not copy the drawing's cracks, peeling or flaking paint, stains or hatching. Keep everything else exactly identical and in exactly the same place and size: the window with the closed roller blinds, the radiator, the sofa, the coffee table, the door, the light switch, the ceiling lamp, the floor, the lighting, the camera and the framing. Do not add any people, hands or objects, and no faces anywhere.",
+      "image_urls": [
+        "@file:stanza_stile.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "pulita_da_fumetto.png"
+    ],
+    "seed": null,
+    "secondi": 120,
+    "descrizione": ""
   }
 }

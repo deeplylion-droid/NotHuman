@@ -44,8 +44,14 @@ def main():
     for m in sc["maschere"]:
         mask = Image.fromarray(np.maximum(np.asarray(mask), np.asarray(
             Image.open(base / m).convert("L").resize((W, H), Image.NEAREST))))
-    # allarga di un paio di pixel per prendere i contorni disegnati, poi ammorbidisci il bordo
-    mask = mask.filter(ImageFilter.MaxFilter(sc.get("allarga", 5))).filter(ImageFilter.GaussianBlur(sc.get("sfuma", 1.5)))
+    # "allarga" (dispari) allarga la maschera per prendere i contorni disegnati; negativo la stringe, per
+    # togliere l'alone chiaro attorno ai personaggi; poi si ammorbidisce il bordo
+    grow = sc.get("allarga", 5)
+    if grow > 1:
+        mask = mask.filter(ImageFilter.MaxFilter(grow))
+    elif grow < -1:
+        mask = mask.filter(ImageFilter.MinFilter(-grow))
+    mask = mask.filter(ImageFilter.GaussianBlur(sc.get("sfuma", 1.5)))
     m = np.asarray(mask).astype(np.float32)[..., None] / 255.0
     k = sc.get("intensita_sfondo", 0.2)
     styled_plate = load(base / sc["sfondo_stile"]) if sc.get("sfondo_stile") else style
