@@ -2349,8 +2349,9 @@ document.addEventListener("fullscreenchange", iconaIntero);
 tastoIntero.addEventListener("click", async (e) => {
   e.stopPropagation();
   try {
+    // tutta la pagina, non solo il gioco: i fogli (fax, giornale, stato di famiglia...) stanno fuori da #app
     if (document.fullscreenElement) await document.exitFullscreen();
-    else await $("#app").requestFullscreen();
+    else await document.documentElement.requestFullscreen();
   } catch { /* non tutti i telefoni lo permettono */ }
 });
 
