@@ -1,0 +1,194 @@
+{
+  "soggiorno_640_esrgan": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:soggiorno_640.png",
+      "model": "RealESRGAN_x4plus",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "soggiorno_640_esrgan.png"
+    ],
+    "seed": null,
+    "secondi": 6,
+    "descrizione": null
+  },
+  "camera_960_esrgan": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:camera_960.png",
+      "model": "RealESRGAN_x2plus",
+      "scale": 2,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "camera_960_esrgan.png"
+    ],
+    "seed": null,
+    "secondi": 9,
+    "descrizione": null
+  },
+  "cucina_960_esrgan": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:cucina_960.png",
+      "model": "RealESRGAN_x2plus",
+      "scale": 2,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "cucina_960_esrgan.png"
+    ],
+    "seed": null,
+    "secondi": 11,
+    "descrizione": null
+  },
+  "camera_640_esrgan": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:camera_640.png",
+      "model": "RealESRGAN_x4plus",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "camera_640_esrgan.png"
+    ],
+    "seed": null,
+    "secondi": 12,
+    "descrizione": null
+  },
+  "soggiorno_960_esrgan": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:soggiorno_960.png",
+      "model": "RealESRGAN_x2plus",
+      "scale": 2,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "soggiorno_960_esrgan.png"
+    ],
+    "seed": null,
+    "secondi": 18,
+    "descrizione": null
+  },
+  "cucina_640_esrgan": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:cucina_640.png",
+      "model": "RealESRGAN_x4plus",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "cucina_640_esrgan.png"
+    ],
+    "seed": null,
+    "secondi": 37,
+    "descrizione": null
+  },
+  "cucina_640_wdn": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:cucina_640.png",
+      "model": "RealESRGAN_x4_wdn_v3",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "cucina_640_wdn.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "soggiorno_640_anime": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:soggiorno_640.png",
+      "model": "RealESRGAN_x4plus_anime_6B",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "soggiorno_640_anime.png"
+    ],
+    "seed": null,
+    "secondi": 7,
+    "descrizione": null
+  },
+  "cucina_640_anime": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:cucina_640.png",
+      "model": "RealESRGAN_x4plus_anime_6B",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "cucina_640_anime.png"
+    ],
+    "seed": null,
+    "secondi": 10,
+    "descrizione": null
+  },
+  "camera_640_wdn": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:camera_640.png",
+      "model": "RealESRGAN_x4_wdn_v3",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "camera_640_wdn.png"
+    ],
+    "seed": null,
+    "secondi": 11,
+    "descrizione": null
+  },
+  "soggiorno_640_wdn": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:soggiorno_640.png",
+      "model": "RealESRGAN_x4_wdn_v3",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "soggiorno_640_wdn.png"
+    ],
+    "seed": null,
+    "secondi": 15,
+    "descrizione": null
+  },
+  "camera_640_anime": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:camera_640.png",
+      "model": "RealESRGAN_x4plus_anime_6B",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    },
+    "file": [
+      "camera_640_anime.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": null
+  }
+}

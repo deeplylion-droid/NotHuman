@@ -1,0 +1,134 @@
+[
+  {
+    "nome": "cucina_960_esrgan",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:cucina_960.png",
+      "model": "RealESRGAN_x2plus",
+      "scale": 2,
+      "face": false,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "cucina_640_esrgan",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:cucina_640.png",
+      "model": "RealESRGAN_x4plus",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "soggiorno_960_esrgan",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:soggiorno_960.png",
+      "model": "RealESRGAN_x2plus",
+      "scale": 2,
+      "face": false,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "soggiorno_640_esrgan",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:soggiorno_640.png",
+      "model": "RealESRGAN_x4plus",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "camera_960_esrgan",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:camera_960.png",
+      "model": "RealESRGAN_x2plus",
+      "scale": 2,
+      "face": false,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "camera_640_esrgan",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:camera_640.png",
+      "model": "RealESRGAN_x4plus",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "cucina_640_wdn",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:cucina_640.png",
+      "model": "RealESRGAN_x4_wdn_v3",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "cucina_640_anime",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:cucina_640.png",
+      "model": "RealESRGAN_x4plus_anime_6B",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "soggiorno_640_wdn",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:soggiorno_640.png",
+      "model": "RealESRGAN_x4_wdn_v3",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "soggiorno_640_anime",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:soggiorno_640.png",
+      "model": "RealESRGAN_x4plus_anime_6B",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "camera_640_wdn",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:camera_640.png",
+      "model": "RealESRGAN_x4_wdn_v3",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    }
+  },
+  {
+    "nome": "camera_640_anime",
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:camera_640.png",
+      "model": "RealESRGAN_x4plus_anime_6B",
+      "scale": 3,
+      "face": false,
+      "output_format": "png"
+    }
+  }
+]
