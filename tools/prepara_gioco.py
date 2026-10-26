@@ -196,9 +196,10 @@ def volti():
 
 
 def giornale():
-    # il giornale disegnato (il testo lo stampa il gioco) e la foto della prima pagina, in bianco e nero
+    # il giornale disegnato (il testo lo stampa il gioco) e la foto della prima pagina, in bianco e nero: il medico di
+    # spalle con la maschera della scheda (la videocamera, il cavo e la batteria sulla nuca) e il bastone-sonda
     Image.open(ROOT / "art/giornale/giornale.jpg").convert("RGB").save(OUT / "giornale.jpg", quality=86)
-    Image.open(ROOT / "art/giornale/foto_medico.jpg").convert("L").resize((960, 720), Image.LANCZOS).save(
+    Image.open(ROOT / "art/giornale/foto_medico_maschera.jpg").convert("L").resize((960, 720), Image.LANCZOS).save(
         OUT / "foto_medico.jpg", quality=84)
     print("giornale ok")
 

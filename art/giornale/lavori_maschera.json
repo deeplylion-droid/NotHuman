@@ -1,0 +1,14 @@
+[
+  {
+    "nome": "foto_medico_maschera",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit the first image, a black and white halftone newspaper photograph drawn as a 1970s underground comic panel. Change only the plague doctor walking in the middle of the street, seen from behind: his mask becomes the one in the second image, a reference sheet of the mask and of the staff. Under his wide-brimmed hat, the dark leather beak of the mask sticks out to the side, held by leather straps around the back of his head; a boxy 1990s camcorder block is strapped to the side of the mask at eye level, with a coiled cable running down to a small battery box on the back of his neck, and its small REC light glows. In his right hand he holds the long black staff from the second image, with its T-shaped handle and a coiled cable along the shaft, its metal tip touching the mud. Keep everything else exactly as it is: the same drawing style, halftone dots, contrast and grain, the street, the houses, the villagers at the doors and windows, the cars, the power lines, the satellite dish, his long waxed coat and his hat. Black and white only. No text, no border.",
+      "image_urls": ["@file:foto_medico.jpg", "@file:../medico/maschera.jpg"],
+      "aspect_ratio": "4:3",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  }
+]
