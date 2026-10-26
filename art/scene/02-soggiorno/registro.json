@@ -1,0 +1,159 @@
+{
+  "base": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor standing in a small, bare living room of a poor modern house in a remote mountain village, present day, evening: plain painted walls with a few damp stains and nothing hanging on them, a worn brown sofa against the back wall, a low wooden coffee table, an old radiator under a window with closed plastic roller blinds, and on the right a closed door with a thin line of light leaking from under it, as if someone were in there. A ceiling lamp gives even light. Three people stand in the middle of the room facing the viewer in tense silence: an elderly woman in her seventies in a quilted floral housecoat and slippers, leaning on a walking stick; a stocky man in his fifties in a stained tracksuit, standing protectively in front of the closed door; a pale young woman in her twenties in a long grey cardigan, holding the old woman's free hand. They are hiding someone behind that door, and their faces show it. In the lower right foreground, the doctor's own black leather glove holds a long wooden cane, like the held item in a first-person video game. Realistic photograph, evenly exposed, everything clearly readable, no dramatic shadows. 16:9, no text, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "base.png"
+    ],
+    "seed": null,
+    "secondi": 70,
+    "descrizione": null
+  },
+  "fumetto": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the sofa, the coffee table, the radiator, the window with the closed blinds and the closed door, the gloved hand holding the cane in the lower right foreground, and the old woman with the walking stick, the stocky man standing in front of the closed door and the young woman holding her hand, in the same places and poses. The three people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "fumetto.png"
+    ],
+    "seed": null,
+    "secondi": 85,
+    "descrizione": null
+  },
+  "ammorbiditi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render only the three people and the black leather gloved hand holding the cane as realistic photographs: real skin with pores, real hair, real fabric and real leather, photographic lighting. Keep exactly their grotesque, deformed features from this image: the same bulging eyes, crooked noses, bad teeth, sunken cheeks, bony elongated fingers, and the same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do not make them look more normal. Everything else in the image stays exactly identical.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ammorbiditi.png"
+    ],
+    "seed": null,
+    "secondi": 44,
+    "descrizione": ""
+  },
+  "stanza_stile": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Remove the three people completely, with everything they hold, and also remove the black leather gloved hand and the wooden cane in the lower right foreground. Reconstruct the empty room behind them naturally, in the same drawing style. Keep everything else exactly identical and in the same place: the sofa, the coffee table, the radiator, the window with the closed blinds and the closed door, the same lighting and the same camera. Do not draw any face anywhere.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile.png"
+    ],
+    "seed": null,
+    "secondi": 43,
+    "descrizione": ""
+  },
+  "stanza_vuota": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render this drawing of an empty room as a realistic photograph: real materials, real light, real textures, like an ordinary amateur snapshot, evenly exposed. Keep every object exactly where it is, with the same composition, perspective, proportions and camera; the sofa, the coffee table, the radiator, the window with the closed blinds and the closed door must stay exactly at the same pixel positions and sizes. Do not add any people, hands or objects, and no faces anywhere.",
+      "image_urls": [
+        "@file:stanza_stile.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_vuota.png"
+    ],
+    "seed": null,
+    "secondi": 50,
+    "descrizione": ""
+  },
+  "guanto": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../ammorbiditi.jpg",
+      "prompt": "glove",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 2
+    },
+    "file": [
+      "guanto.png",
+      "guanto_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../ammorbiditi.jpg",
+      "prompt": "person",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "persone.png",
+      "persone_maschera1.png",
+      "persone_maschera2.png",
+      "persone_maschera3.png",
+      "persone_maschera4.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "bastone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../ammorbiditi.jpg",
+      "prompt": "cane",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 3
+    },
+    "file": [
+      "bastone.png",
+      "bastone_maschera1.png",
+      "bastone_maschera2.png"
+    ],
+    "seed": null,
+    "secondi": 9,
+    "descrizione": null
+  }
+}

@@ -68,14 +68,28 @@ Attenzione: i modelli a volte inventano dettagli (per esempio una faccia nel tel
 
 ### Personaggi ammorbiditi (il metodo scelto)
 
-1. Scena a fumetto, come al passo 2 del metodo sopra.
-2. Nano Banana Pro rifà in foto solo i personaggi e la mano del medico, lasciando il resto com'è e **senza** passare il riferimento a fumetto: le deformità si ammorbidiscono, ed è proprio l'effetto voluto (prompt in `art/prove-stile/11-personaggi-50/lavori.json`).
-3. SAM 3 fa le maschere dei personaggi e del bastone sulla versione in foto.
-4. `tools/intensita.py` monta i personaggi sulla stanza al 20% (esempio: `art/prove-stile/11-personaggi-50/scena_c.json`), poi `tools/filtri.py` applica il VHS.
+**Tutto il procedimento è automatico in `tools/scena.py`**: si scrive la descrizione della scena in `scena.json` (stanza, persone, pose, oggetti; esempio in `art/scene/02-soggiorno/scena.json`) e lo script fa i passaggi:
+1. **Foto di partenza** (GPT Image 2): stanza con pochi dettagli, persone, mano del medico in primo piano.
+2. **Fumetto** (GPT Image 2): la scena ridisegnata nello stile 07, personaggi deformi.
+3. **Personaggi ammorbiditi** (Nano Banana Pro): rifà in foto solo personaggi e mano, lasciando il resto com'è e **senza** passare un riferimento a fumetto: le deformità si ammorbidiscono, ed è proprio l'effetto voluto.
+4. **Stanza nello stile** (Nano Banana Pro): il fumetto senza persone né mano.
+5. **Stanza in foto** (Nano Banana Pro): la stanza nello stile rifatta in foto. Le due stanze vuote vengono dal fumetto e non dalla foto di partenza, perché GPT ridisegnando sposta un po' l'inquadratura: così stanza e personaggi combaciano sempre.
+6. **Maschere** (SAM 3): persone, bastone e guanto, dalla versione con i personaggi ammorbiditi.
+7. **Montaggio** (`tools/intensita.py`): personaggi sulla stanza al 20%.
+8. **Filtri** (`tools/filtri.py`): VHS e VHS verde.
 
-D'ora in poi il riferimento del padre per gli altri stati e inquadrature è `art/prove-stile/11-personaggi-50/padre_riferimento_ammorbidito.jpg`.
+Costa circa 1 dollaro a scena. Ogni passaggio salta se il suo file esiste già: per rifarne uno basta cancellarlo.
+
+La cucina (scena 01) è stata fatta a mano prima dello script, con gli stessi passaggi: `art/prove-stile/11-personaggi-50` (montaggio in `scena_c.json`). D'ora in poi il riferimento del padre per gli altri stati e inquadrature è `art/prove-stile/11-personaggi-50/padre_riferimento_ammorbidito.jpg`.
 
 Mescolare i personaggi a un'intensità intermedia (per esempio 50% foto e 50% fumetto) funziona solo se le due versioni hanno le stesse sagome e le stesse facce, altrimenti si vedono due paia di occhi (`intensita_personaggi` e `personaggi_originale` in `tools/intensita.py`).
+
+### Scene fatte
+
+- **01 Cucina** (`art/prove-stile/11-personaggi-50`): il padre e la figlia; quattro piatti in tavola, una porta socchiusa su un corridoio buio.
+- **02 Soggiorno** (`art/scene/02-soggiorno`): una nonna col bastone, una giovane donna pallida e un uomo in tuta davanti a una porta chiusa; dietro la porta nascondono qualcuno. Nella foto di partenza il bastone del medico è venuto col manico ricurvo, diverso da quello della cucina.
+
+Idea emersa: nel gioco la mano del medico col bastone dovrebbe essere un elemento fisso, disegnato una volta sola e uguale in tutte le scene (come l'arma in NINAH), non generata ogni volta con la scena.
 
 ### Coerenza dei personaggi (`art/prove-stile/10-coerenza`)
 
@@ -121,18 +135,19 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 
 ### Strumenti
 
+- `tools/scena.py`: produce una scena intera nello stile scelto, dalla descrizione all'immagine finale con i filtri (vedi "Personaggi ammorbiditi").
 - `tools/fal_batch.py`: genera immagini su fal.ai da un file di lavori JSON; passa immagini locali con `@file:` e salva anche le maschere dei modelli di segmentazione.
 - `tools/schermata.py`: monta una schermata a strati; con un "trattamento" applica la resa unica, senza fa solo il montaggio.
 - `tools/intensita.py`: applica lo stile con intensità diverse a sfondo e personaggi; con "buio" fa sprofondare la stanza nel buio fuori da un cono di luce.
 - `tools/filtri.py`: filtri finali per rendere omogenee immagini di stili diversi (verdi, VHS, fotocopia). Non usa l'AI, quindi non costa niente.
 - Servizio: **fal.ai**. La chiave si legge da `FAL_KEY` (impostazioni dell'ambiente cloud) o da `~/.config/fal/key`; mai nel repo.
 - Modelli:
-  - **GPT Image 2** (`openai/gpt-image-2`, `/edit`): il migliore per scene nuove e trasformazioni di stile. Non fa sfondi trasparenti, e il filtro dei contenuti blocca parole come "soldato ferito" o "insanguinato".
+  - **GPT Image 2** (`openai/gpt-image-2`, `/edit`): il migliore per scene nuove e trasformazioni di stile. Non fa sfondi trasparenti, e il filtro dei contenuti blocca parole come "soldato ferito" o "insanguinato", e anche i bambini in una scena horror: nelle scene niente bambini.
   - **Nano Banana Pro** (`fal-ai/nano-banana-pro/edit`): per modificare un'immagine lasciando il resto al suo posto (togliere persone, semplificare una stanza, sfondi nello stile, cambiare lo stato di un personaggio) e per mettere un personaggio di riferimento dentro la foto di una stanza.
   - **SAM 3** (`fal-ai/sam-3/image`): maschere dei personaggi da un testo ("person").
   - **BiRefNet v2** (`fal-ai/birefnet/v2`): ritaglio di una figura su fondo neutro.
   - **Flux 2 Max**: scartato, resa inferiore.
-- Spesa per tutte le prove: circa 13,5 dollari.
+- Spesa per tutte le prove: circa 15 dollari.
 - Steam chiede di dichiarare sulla pagina del gioco i contenuti generati con l'AI.
 
 ### 3D
@@ -165,16 +180,15 @@ NINAH è quasi tutto 2D. Per ora bastano sfondi 2D generati; il 3D servirebbe so
 
 ## Domande aperte
 
-- Metodo di produzione delle scene: "passaggio unico" con Nano Banana Pro, o la ricetta 20% / 100%?
 - Tono: cupo fino in fondo, o con un filo di umorismo nero?
 - Motore: proposto Godot 4, da confermare.
 - Tempi e budget.
 
 ## Prossimi passi
 
-1. Decidere il metodo di produzione delle scene, guardando la prova di coerenza.
-2. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene.
-3. Schermata completa nello stile scelto (02 con VHS): interfaccia e riquadro del dettaglio esaminato.
+1. La mano del medico col bastone come elemento fisso, uguale in tutte le scene.
+2. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
+3. Schermata completa nello stile scelto (personaggi ammorbiditi, VHS): interfaccia e riquadro del dettaglio esaminato.
 4. Prototipo giocabile del ciclo base (motore proposto: Godot 4).
 
 ## Fonti
