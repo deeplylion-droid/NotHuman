@@ -1,0 +1,15 @@
+{
+  "stile": "personaggi_foto_allineati.jpg",
+  "sfondo": "../06-cucina/cucina_semplice.jpg",
+  "sfondo_stile": "../06-cucina/sfondi_stile/07_fumetto_underground.jpg",
+  "intensita_sfondo": 0.2,
+  "maschere": [
+    "maschere/ammorbiditi_persone_maschera1.png",
+    "maschere/ammorbiditi_persone_maschera2.png",
+    "maschere/ammorbiditi_persone_maschera3.png",
+    "maschere/ammorbiditi_bastone_maschera1.png"
+  ],
+  "allarga": 3,
+  "sfuma": 1.2,
+  "uscita": "c_ammorbiditi_sfondo20.jpg"
+}

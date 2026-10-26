@@ -13,10 +13,11 @@ Un gioco originale da vendere su Steam, nel filone dei giochi di ispezione e par
 - **Ambientazione: moderna.** Case povere di oggi in un paese sperduto dove la peste è tornata. Il villaggio rurale è accantonato.
 - **Ambientazione italiana: accantonata** per ora.
 - **Lo stile grafico è deciso:**
-  - **Stile 07 fumetto underground**, come nella combinazione 02: stanza al 20% e personaggi al 100% (`art/prove-stile/06-cucina`).
+  - **Stanza:** foto con lo stile 07 fumetto underground al 20%, come nella combinazione 02 (`art/prove-stile/06-cucina`).
+  - **Personaggi grotteschi ma ammorbiditi, quasi fotografici** (scelta del 26 ottobre): `art/prove-stile/11-personaggi-50/c_ammorbiditi_sfondo20.jpg`. Hanno preso il posto dei personaggi a fumetto al 100%. Metodo in "Personaggi ammorbiditi".
   - **Filtro finale: VHS** per le scene normali e **VHS verde** per le scene al buio (`art/prove-stile/08-filtri`, `tools/filtri.py`). Se il VHS dà fastidio, si attenua.
   - **Il VHS sarà animato**, calcolato in tempo reale (uno shader): grana e tremolio delle righe a ogni fotogramma, una banda di disturbo che sale lentamente, il rumore della testina in fondo, uno strappo ogni tanto, e uno strappo più forte quando si passa alla scena al buio. Anteprima con intensità regolabile: https://claude.ai/artifact/RU45gcnW8J3ttttUTSde2R (copia in `art/prove-stile/09-vhs-animato`; lo shader WebGL è la base per quello del gioco).
-  - **Personaggi deformi e disegnati**, anche la mano e il bastone del medico.
+  - La mano e il bastone del medico seguono i personaggi.
 - **Regola per le stanze:** partire sempre da stanze con pochi dettagli (muri lisci, pochi oggetti), altrimenti i personaggi si perdono.
 - **Grafica generata con l'AI**, montata a strati come in NINAH. Niente fotogrammi "da film".
 
@@ -65,7 +66,16 @@ Il medico visita le case. Le famiglie spesso nascondono un malato, o non sanno d
 
 Attenzione: i modelli a volte inventano dettagli (per esempio una faccia nel televisore). Si guardano sempre i risultati e si rigenera chiedendo di non aggiungerli.
 
-Personaggi sotto il 100% (per esempio al 50%): serve una versione fotografica degli stessi personaggi, con le stesse deformità e le stesse sagome, da mescolare con quella disegnata (`intensita_personaggi` e `personaggi_originale` in `tools/intensita.py`). Si fa con Nano Banana Pro passando anche il riferimento del personaggio; senza, le deformità si ammorbidiscono e i vestiti cambiano.
+### Personaggi ammorbiditi (il metodo scelto)
+
+1. Scena a fumetto, come al passo 2 del metodo sopra.
+2. Nano Banana Pro rifà in foto solo i personaggi e la mano del medico, lasciando il resto com'è e **senza** passare il riferimento a fumetto: le deformità si ammorbidiscono, ed è proprio l'effetto voluto (prompt in `art/prove-stile/11-personaggi-50/lavori.json`).
+3. SAM 3 fa le maschere dei personaggi e del bastone sulla versione in foto.
+4. `tools/intensita.py` monta i personaggi sulla stanza al 20% (esempio: `art/prove-stile/11-personaggi-50/scena_c.json`), poi `tools/filtri.py` applica il VHS.
+
+D'ora in poi il riferimento del padre per gli altri stati e inquadrature è `art/prove-stile/11-personaggi-50/padre_riferimento_ammorbidito.jpg`.
+
+Mescolare i personaggi a un'intensità intermedia (per esempio 50% foto e 50% fumetto) funziona solo se le due versioni hanno le stesse sagome e le stesse facce, altrimenti si vedono due paia di occhi (`intensita_personaggi` e `personaggi_originale` in `tools/intensita.py`).
 
 ### Coerenza dei personaggi (`art/prove-stile/10-coerenza`)
 
@@ -96,7 +106,7 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 - `08-filtri`: le combinazioni approvate 02 e 04 con sette filtri finali: verde, verde acido, verde retinato, verde con il rosso, VHS, VHS verde, fotocopia.
 - `09-vhs-animato`: anteprima del VHS animato in tempo reale, con intensità regolabile.
 - `10-coerenza`: lo stesso personaggio in più stati e inquadrature (vedi sopra).
-- `11-personaggi-50`: la cucina con i personaggi al 50% (metà foto, metà disegno) e il VHS: `a_mescolati_50_vhs.jpg`. Da giudicare. C'è anche una seconda strada, i personaggi ridisegnati direttamente "a metà" (`b_meta_disegnati.jpg`), che però resta più vicina al 100%.
+- `11-personaggi-50`: prove per avere personaggi meno disegnati. **Scelta:** la prima prova, con i personaggi rifatti in foto e ammorbiditi, montati sulla stanza al 20% (`c_ammorbiditi_sfondo20.jpg`, con il VHS `c_ammorbiditi_sfondo20_vhs.jpg`). Scartate: il mescolamento 50% foto e 50% fumetto (`a_mescolati_50_vhs.jpg`) e i personaggi ridisegnati "a metà" (`b_meta_disegnati.jpg`).
 
 Questionario delle combinazioni della cucina (06 e 07), con i voti salvati: https://claude.ai/artifact/3TEf1Gyxsk5XU5saPN3K6r
 - **Approvate:** 01 (linoleografia, stanza 20% e personaggi 100%), 02 (fumetto, stanza 20% e personaggi 100%), 04 (stanza in linoleografia all'80%, personaggi in fumetto al 100%), 10 (la 04 come schermata di gioco, con trattamento leggero e interfaccia).

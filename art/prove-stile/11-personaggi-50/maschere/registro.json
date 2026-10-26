@@ -38,5 +38,45 @@
     "seed": null,
     "secondi": 8,
     "descrizione": null
+  },
+  "ammorbiditi_bastone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:personaggi_foto_allineati.jpg",
+      "prompt": "long wooden cane held in a gloved hand",
+      "return_multiple_masks": true,
+      "max_masks": 2,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "ammorbiditi_bastone.png",
+      "ammorbiditi_bastone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "ammorbiditi_persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:personaggi_foto_allineati.jpg",
+      "prompt": "person",
+      "return_multiple_masks": true,
+      "max_masks": 4,
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png"
+    },
+    "file": [
+      "ammorbiditi_persone.png",
+      "ammorbiditi_persone_maschera1.png",
+      "ammorbiditi_persone_maschera2.png",
+      "ammorbiditi_persone_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
   }
 }
