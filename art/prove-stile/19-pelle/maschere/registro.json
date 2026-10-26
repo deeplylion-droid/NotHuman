@@ -1,0 +1,212 @@
+{
+  "cucina_neck": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/01-cucina/finale.jpg",
+      "prompt": "neck",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    },
+    "file": [
+      "cucina_neck.png",
+      "cucina_neck_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "cucina_mouth": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/01-cucina/finale.jpg",
+      "prompt": "mouth",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    },
+    "file": [
+      "cucina_mouth.png",
+      "cucina_mouth_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "cucina_hand": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/01-cucina/finale.jpg",
+      "prompt": "hand",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    },
+    "file": [
+      "cucina_hand.png",
+      "cucina_hand_maschera1.png",
+      "cucina_hand_maschera2.png",
+      "cucina_hand_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "cucina_face": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/01-cucina/finale.jpg",
+      "prompt": "face",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    },
+    "file": [
+      "cucina_face.png",
+      "cucina_face_maschera1.png",
+      "cucina_face_maschera2.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "cucina_eye": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/01-cucina/finale.jpg",
+      "prompt": "eye",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    },
+    "file": [
+      "cucina_eye.png",
+      "cucina_eye_maschera1.png",
+      "cucina_eye_maschera2.png",
+      "cucina_eye_maschera3.png",
+      "cucina_eye_maschera4.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "soggiorno_face": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/02-soggiorno/finale.jpg",
+      "prompt": "face",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    },
+    "file": [
+      "soggiorno_face.png",
+      "soggiorno_face_maschera1.png",
+      "soggiorno_face_maschera2.png",
+      "soggiorno_face_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "soggiorno_neck": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/02-soggiorno/finale.jpg",
+      "prompt": "neck",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    },
+    "file": [
+      "soggiorno_neck.png",
+      "soggiorno_neck_maschera1.png",
+      "soggiorno_neck_maschera2.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "soggiorno_mouth": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/02-soggiorno/finale.jpg",
+      "prompt": "mouth",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    },
+    "file": [
+      "soggiorno_mouth.png",
+      "soggiorno_mouth_maschera1.png",
+      "soggiorno_mouth_maschera2.png",
+      "soggiorno_mouth_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "soggiorno_hand": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/02-soggiorno/finale.jpg",
+      "prompt": "hand",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    },
+    "file": [
+      "soggiorno_hand.png",
+      "soggiorno_hand_maschera1.png",
+      "soggiorno_hand_maschera2.png",
+      "soggiorno_hand_maschera3.png",
+      "soggiorno_hand_maschera4.png",
+      "soggiorno_hand_maschera5.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "soggiorno_eye": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../../../scene/02-soggiorno/finale.jpg",
+      "prompt": "eye",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 8
+    },
+    "file": [
+      "soggiorno_eye.png",
+      "soggiorno_eye_maschera1.png",
+      "soggiorno_eye_maschera2.png",
+      "soggiorno_eye_maschera3.png",
+      "soggiorno_eye_maschera4.png",
+      "soggiorno_eye_maschera5.png",
+      "soggiorno_eye_maschera6.png"
+    ],
+    "seed": null,
+    "secondi": 6,
+    "descrizione": null
+  }
+}

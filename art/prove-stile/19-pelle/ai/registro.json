@@ -1,0 +1,45 @@
+{
+  "cucina_nb": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Retouch only the skin of the people in the first image (faces, necks and hands). Make their skin much simpler and smoother, with far fewer details, like a soft picture taken with an old home video camera: remove the pores, the fine wrinkles, the small spots, freckles, moles, blemishes, red blotches, stubble texture and any rough texture. Keep only the big shapes and the shading of the faces. The face shapes, the deep folds, the bulging eyes, the eyebrows, the noses, the mouths and teeth, the expressions and the skin color must stay the same. The other images are references of the same people: keep their faces recognizable as them, but with the simpler skin. Do not change anything else: the hair, the clothes, the poses, the positions, the room, the lighting and the framing must stay exactly identical, pixel for pixel.",
+      "image_urls": [
+        "@file:../../../scene/01-cucina/finale.jpg",
+        "@file:../../../scene/01-cucina/riferimento_padre.jpg",
+        "@file:../../../scene/01-cucina/riferimento_figlia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "cucina_nb.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "soggiorno_nb": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Retouch only the skin of the people in the first image (faces, necks and hands). Make their skin much simpler and smoother, with far fewer details, like a soft picture taken with an old home video camera: remove the pores, the fine wrinkles, the small spots, freckles, moles, blemishes, red blotches, stubble texture and any rough texture. Keep only the big shapes and the shading of the faces. The face shapes, the deep folds, the bulging eyes, the eyebrows, the noses, the mouths and teeth, the expressions and the skin color must stay the same. The other images are references of the same people: keep their faces recognizable as them, but with the simpler skin. Do not change anything else: the hair, the clothes, the poses, the positions, the room, the lighting and the framing must stay exactly identical, pixel for pixel.",
+      "image_urls": [
+        "@file:../../../scene/02-soggiorno/finale.jpg",
+        "@file:../../../scene/02-soggiorno/riferimento_nonna.jpg",
+        "@file:../../../scene/02-soggiorno/riferimento_giovane.jpg",
+        "@file:../../../scene/02-soggiorno/riferimento_uomo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "soggiorno_nb.png"
+    ],
+    "seed": null,
+    "secondi": 40,
+    "descrizione": ""
+  }
+}
