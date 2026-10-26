@@ -1,0 +1,13 @@
+{
+  "stile": "../../prove-stile/11-personaggi-50/personaggi_foto_allineati.jpg",
+  "sfondo": "../../prove-stile/06-cucina/cucina_semplice.jpg",
+  "sfondo_stile": "../../prove-stile/06-cucina/sfondi_stile/07_fumetto_underground.jpg",
+  "intensita_sfondo": 0.0,
+  "maschere": [
+    "../../prove-stile/11-personaggi-50/maschere/ammorbiditi_persone_maschera1.png",
+    "../../prove-stile/11-personaggi-50/maschere/ammorbiditi_persone_maschera2.png"
+  ],
+  "allarga": 3,
+  "sfuma": 1.2,
+  "uscita": "finale_foto.jpg"
+}

@@ -89,6 +89,8 @@ Mescolare i personaggi a un'intensità intermedia (per esempio 50% foto e 50% fu
 
 Ogni scena ha `finale.jpg` (senza filtro), `finale_vhs.jpg`, `finale_vhs_verde.jpg` e `finale_vhs_infrarosso.jpg`, tutte senza la mano del medico. Confronto dei filtri: `art/scene/foglio_scene_filtri.jpg`.
 
+Variante da valutare (26 ottobre): la stanza tutta in foto, senza il 20% di fumetto, con gli stessi personaggi: `finale_foto.jpg` e `finale_foto_vhs.jpg` in ogni scena (montaggio in `montaggio_foto.json`, con `"intensita_sfondo": 0`). Confronto: `art/scene/confronto_20_foto.jpg`. Nella cucina il 20% si nota (tratteggi negli angoli, retino sul muro); nel soggiorno quasi no, perché la sua stanza in foto è ricavata dal fumetto e ne porta già i segni (i muri scrostati); con il VHS la differenza quasi sparisce.
+
 - **01 Cucina** (`art/scene/01-cucina`): il padre e la figlia; quattro piatti in tavola, una porta socchiusa su un corridoio buio.
 - **02 Soggiorno** (`art/scene/02-soggiorno`): una nonna col bastone, una giovane donna pallida e un uomo in tuta davanti a una porta chiusa; dietro la porta nascondono qualcuno.
 
