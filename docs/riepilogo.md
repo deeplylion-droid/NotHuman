@@ -19,6 +19,7 @@ Un gioco originale da vendere su Steam, nel filone dei giochi di ispezione e par
   - **Il VHS sarà animato**, calcolato in tempo reale (uno shader): grana e tremolio delle righe a ogni fotogramma, il rumore della testina in fondo, uno strappo ogni tanto, e uno strappo più forte quando si cambia filtro. Anteprima sul soggiorno con i tre filtri e intensità regolabile: https://claude.ai/artifact/RU45gcnW8J3ttttUTSde2R (copia in `art/prove-stile/09-vhs-animato`; lo shader WebGL è la base per quello del gioco).
 - **Per ora niente mano e bastone del medico sullo schermo** (26 ottobre): non piacciono. Le scene si fanno senza (`"mano": false` in `scena.json`, il valore di base).
 - **Meccaniche e interfaccia:** decise il 26 ottobre, vedi "Meccaniche e interfaccia".
+- **Motore: tecnologie web** (26 ottobre). Il gioco gira in un browser e per Steam si impacchetta come programma (per esempio con Electron), come ha fatto all'inizio *Vampire Survivors*. Ogni versione si prova subito come pagina, anche dal telefono; lo shader del VHS è già pronto. Godot 4 è scartato.
 - **Regola per le stanze:** partire sempre da stanze con pochi dettagli (muri lisci, pochi oggetti), altrimenti i personaggi si perdono.
 - **Grafica generata con l'AI**, montata a strati come in NINAH. Niente fotogrammi "da film".
 
@@ -98,7 +99,9 @@ Decise il 26 ottobre, con le domande in chat.
 
 - **Giorni contati e più finali.** La partita dura un numero fisso di giorni (per esempio 14); il finale dipende da quanti si sono ammalati e da quanto il paese si fida del medico.
 - **Famiglie scritte a mano**, ben pensate, con una **storia principale ben definita e nascosta**, da scoprire giocando, più storie a parte per le famiglie più importanti.
-- **La storia nascosta intreccia quattro tracce:** la ditta e le cavie (la peste è tornata per colpa della ditta e il lazzaretto è un laboratorio); l'immune nascosto (qualcuno che non si ammala, cercato dalla ditta e nascosto dalle famiglie di casa in casa); il passato del medico (i nastri vecchi mostrano che ha già fatto questo lavoro in altri paesi, ed è finita male); il segreto del paese (la peste di secoli fa, vecchi riti, una cripta, una promessa). Come si legano è da decidere.
+- **La storia nascosta intreccia quattro tracce:** la ditta e le cavie (la peste è tornata per colpa della ditta e il lazzaretto è un laboratorio); l'immune nascosto (qualcuno che non si ammala, cercato dalla ditta e nascosto dalle famiglie di casa in casa); il passato del medico (i nastri vecchi mostrano che ha già fatto questo lavoro in altri paesi, ed è finita male); il segreto del paese (la peste di secoli fa, vecchi riti, una cripta, una promessa).
+- **Come si legano: il medico è la peste** (26 ottobre). Secoli fa un medico della peste portò il contagio in paese, e il paese se lo ricorda: per questo le famiglie temono il medico e nascondono i loro cari. Il medico di oggi è un portatore sano e non lo sa. La ditta lo manda di paese in paese (lo dicono i nastri vecchi), usa i malati come cavie e cerca chi non si ammala, per farne il vaccino da vendere. Lo si scopre anche giocando: le case dove entra il medico si ammalano di più. Il gancio in una frase: il medico della peste è la peste.
+- **Tono: cupo, con umorismo nero** (26 ottobre). Il paese e le famiglie sono tragici, la ditta è grottesca: fax burocratici, premi di produzione, slogan aziendali. Come in *Papers, Please*, il riso amaro rende il cupo ancora più cupo.
 
 ## Grafica
 
@@ -238,16 +241,14 @@ NINAH è quasi tutto 2D. Per ora bastano sfondi 2D generati; il 3D servirebbe so
 
 ## Domande aperte
 
-- Tono: cupo fino in fondo, o con un filo di umorismo nero?
-- Motore: proposto Godot 4, da confermare.
-- Come si legano le quattro tracce della storia nascosta.
+- Nomi: il paese, i personaggi, la ditta. E in che paese siamo (l'Italia è accantonata).
 - Tempi e budget.
 
 ## Prossimi passi
 
-1. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
-2. Schermate vere nello stile definitivo: la visita (REC, zoom, sottotitoli), la scrivania, i nastri della sera.
-3. Prototipo giocabile del ciclo base (motore proposto: Godot 4).
+1. **Prototipo giocabile di una giornata** (scelto il 26 ottobre): la scrivania con fax, giornale e mappa; le due case con REC, zoom e sottotitoli, domande e prove, decisioni; la sera i nastri all'infrarosso.
+2. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
+3. Il gioco completo: famiglie, storia, giorni.
 
 ## Fonti
 
