@@ -1,7 +1,7 @@
 {
   "stile": "ammorbiditi.jpg",
   "sfondo": "stanza_vuota.jpg",
-  "sfondo_stile": "stanza_stile.jpg",
+  "sfondo_stile": "stanza_stile_pulita.jpg",
   "intensita_sfondo": 0.0,
   "maschere": [
     "maschere/bastone_maschera1.png",

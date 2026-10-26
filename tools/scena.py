@@ -22,9 +22,11 @@ Passaggi (ognuno salta se il suo file esiste gia': per rifarne uno, cancellalo):
 2. fumetto.jpg: la scena ridisegnata nello stile 07, personaggi deformi (GPT Image 2);
 3. ammorbiditi.jpg: personaggi e mano rifatti in foto, ammorbiditi (Nano Banana Pro);
 4. stanza_stile.jpg: fumetto.jpg senza persone e senza mano (Nano Banana Pro);
-5. stanza_vuota.jpg: stanza_stile.jpg rifatta in foto, con i muri puliti, perche' il ridisegno a fumetto
-   aggiunge segni (intonaco scrostato, crepe) che in foto non ci devono essere (Nano Banana Pro). Passandogli
-   anche base.jpg i muri vengono giusti, ma porta e mobili si spostano: per questo si descrivono i muri a parole;
+4b. stanza_stile_pulita.jpg: stanza_stile.jpg con i muri ripuliti, stesso tratto. Il ridisegno a fumetto
+   aggiunge segni (intonaco scrostato, crepe, macchie) che confondono lo sfondo: del fumetto si vuole solo un
+   accenno, e il 20% si prende da qui (Nano Banana Pro);
+5. stanza_vuota.jpg: stanza_stile_pulita.jpg rifatta in foto, con i muri descritti a parole (Nano Banana Pro).
+   Passandogli anche base.jpg i muri vengono giusti, ma porta e mobili si spostano;
 6. maschere/: i ritagli, da ammorbiditi.jpg (SAM 3);
 7. finale.jpg: personaggi sulla stanza al 20% (tools/intensita.py);
 8. finale_vhs.jpg, finale_vhs_verde.jpg e finale_vhs_infrarosso.jpg (tools/filtri.py);
@@ -54,7 +56,8 @@ GLOVE = ("In the lower right foreground, the doctor's own black leather glove ho
          "item in a first-person video game.")
 WALLS = ("smooth, plain painted plaster in a warm off-white color, like a modest but cared-for home, with at most two "
          "or three faint damp stains")
-STEPS = ["base", "fumetto", "ammorbiditi", "stanza_stile", "stanza_vuota", "maschere", "finale", "filtri"]
+STEPS = ["base", "fumetto", "ammorbiditi", "stanza_stile", "stanza_stile_pulita", "stanza_vuota", "maschere",
+         "finale", "filtri"]
 
 
 def prompts(s):
@@ -87,6 +90,13 @@ def prompts(s):
                          "the empty room behind them naturally, in the same drawing style. Keep everything else exactly "
                          f"identical and in the same place: {s['oggetti']}, the same lighting and the same camera. Do "
                          "not draw any face anywhere."),
+        "stanza_stile_pulita": ("Edit this comic drawing of an empty room. Keep exactly the same drawing style (bold "
+                                "black brush-ink outlines, flat muted colors with no gradients, light crosshatching "
+                                "only where there is shadow), the same composition and every object in exactly the "
+                                "same place and size. Clean only the walls and the ceiling: they become "
+                                f"{s.get('muri', WALLS)}. Remove all peeling and flaking paint, exposed patches, "
+                                "cracks, dirt streaks and texture marks that are not real objects. Do not add "
+                                "anything. No people, no faces, no text."),
         "stanza_vuota": ("Re-render this drawing of an empty room as a realistic photograph, like an ordinary amateur "
                          f"snapshot, evenly exposed. The walls and the ceiling are {s.get('muri', WALLS)}: do not copy "
                          "the drawing's cracks, peeling or flaking paint, stains or hatching. Keep everything else "
@@ -159,8 +169,13 @@ def main():
         run_jobs(jobs, folder, key, log)
     if done("stanza_stile"):
         return
+    if todo("stanza_stile_pulita"):
+        run_jobs([job("stanza_stile_pulita", NB_EDIT, p["stanza_stile_pulita"], "@file:stanza_stile.jpg")],
+                 folder, key, log)
+    if done("stanza_stile_pulita"):
+        return
     if todo("stanza_vuota"):
-        run_jobs([job("stanza_vuota", NB_EDIT, p["stanza_vuota"], "@file:stanza_stile.jpg")], folder, key, log)
+        run_jobs([job("stanza_vuota", NB_EDIT, p["stanza_vuota"], "@file:stanza_stile_pulita.jpg")], folder, key, log)
     if done("stanza_vuota"):
         return
     masks_dir = folder / "maschere"
@@ -176,7 +191,7 @@ def main():
     skip = set(s.get("escludi_maschere", []))
     masks = sorted(str(m.relative_to(folder)) for m in masks_dir.glob("*_maschera*.png") if m.name not in skip)
     (folder / "montaggio.json").write_text(json.dumps({
-        "stile": "ammorbiditi.jpg", "sfondo": "stanza_vuota.jpg", "sfondo_stile": "stanza_stile.jpg",
+        "stile": "ammorbiditi.jpg", "sfondo": "stanza_vuota.jpg", "sfondo_stile": "stanza_stile_pulita.jpg",
         "intensita_sfondo": 0.2, "maschere": masks, "allarga": 3, "sfuma": 1.2, "uscita": "finale.jpg"}, indent=2))
     subprocess.run([sys.executable, "-I", str(HERE / "intensita.py"), str(folder / "montaggio.json")], check=True)
     if done("finale"):

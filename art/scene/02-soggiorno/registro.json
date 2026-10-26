@@ -155,5 +155,24 @@
     "seed": null,
     "secondi": 120,
     "descrizione": ""
+  },
+  "stanza_stile_pulita": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this comic drawing of an empty room. Keep exactly the same drawing style (bold black brush-ink outlines, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), light crosshatching only where there is shadow), the same composition and every object in exactly the same place and size. Clean only the walls and the ceiling: they become smooth, plain painted plaster, like a modest but cared-for home, with at most two or three faint damp stains. Remove all peeling and flaking paint, exposed patches, cracks, dirt streaks and texture marks that are not real objects. Do not add anything. No people, no faces, no text.",
+      "image_urls": [
+        "@file:stanza_stile.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "A_pulito_dal_fumetto.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
   }
 }
