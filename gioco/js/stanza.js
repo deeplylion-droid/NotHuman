@@ -28,19 +28,20 @@ const SCRIVANIA = { x: -0.7, z: -2.62 };
 const OSPITE = { z: 1.7, largo: 0.84, alto: 2.05, muro: 0.12 };
 const STANZETTA = { x1: X1 + 2.0, z0: 0.35, z1: Z1 };
 
-// le cose che si usano: dove si ferma il medico [x, z] e dove guarda [x, y, z]
+// le cose che si usano: dove si ferma il medico [x, z] e dove guarda [x, y, z]. La sosta dev'essere libera: a
+// RAGGIO dai mobili (la sedia della scrivania arriva a z -1,46)
 const OGGETTI = {
-  scrivania: { nome: "La scrivania", sosta: [-0.7, -1.5], guarda: [-0.7, 0.78, -2.65] },
+  scrivania: { nome: "La scrivania", sosta: [-0.7, -1.35], guarda: [-0.7, 0.78, -2.65] },
   videoregistratore: { nome: "Il videoregistratore", sosta: [-0.15, -1.55], guarda: [-0.15, 0.84, -2.55] },
-  finestra: { nome: "La finestra", sosta: [-0.7, -1.5], guarda: [-0.7, 1.7, -3.1] },
+  finestra: { nome: "La finestra", sosta: [-0.7, -1.35], guarda: [-0.7, 1.7, -3.1] },
   porta: { nome: "La porta", sosta: [-1.5, 2.3], guarda: [-1.5, 1.15, 3.0] },
   letto: { nome: "Il letto", sosta: [1.15, -1.5], guarda: [1.95, 0.55, -1.9] },
   armadio: { nome: "L'armadio", sosta: [-1.35, -1.8], guarda: [-2.2, 1.2, -1.8] },
-  cappotto: { nome: "Il cappotto", sosta: [-0.55, 2.2], guarda: [-0.55, 1.5, 3.0] },
+  cappotto: { nome: "Il cappotto", sosta: [-0.75, 2.35], guarda: [-0.55, 1.5, 3.0] },
   calendario: { nome: "Il calendario della ditta", sosta: [-1.55, 0.25], guarda: [-2.5, 1.62, 0.25] },
   santino: { nome: "Il santino", sosta: [1.1, -1.7], guarda: [2.5, 1.7, -2.3] },
   termosifone: { nome: "Il termosifone", sosta: [0.6, -2.15], guarda: [0.6, 0.35, -2.95] },
-  borsa: { nome: "La borsa", sosta: [-1.6, -2.3], guarda: [-2.1, 0.15, -2.72] },
+  borsa: { nome: "La borsa", sosta: [-1.5, -1.95], guarda: [-2.1, 0.15, -2.72] },
   orologio: { nome: "La radiosveglia", sosta: [0.95, -2.1], guarda: [1.18, 0.6, -2.75] },
   tavolo: { nome: "Il tavolino", sosta: [-0.75, 1.65], guarda: [0.05, 0.75, 1.65] },
   credenza: { nome: "La credenza", sosta: [-1.45, 0.25], guarda: [-2.25, 0.95, 0.25] },
@@ -51,7 +52,7 @@ const OGGETTI = {
 // da dove si parte entrando nella stanza: [x, z, direzione dello sguardo in radianti, inclinazione]
 const ARRIVI = {
   inizio: [1.0, -0.9, 0.82, -0.12],
-  scrivania: [-0.7, -1.5, 0, -0.34],
+  scrivania: [-0.7, -1.35, 0, -0.34],
   porta: [-1.5, 2.3, -0.16, -0.06],
   nastri: [-0.15, -1.55, 0, -0.3],
 };
@@ -1007,6 +1008,7 @@ export class Stanza {
     this.percorso = this.strada(this.pos.x, this.pos.y, x, z);
     this.meta = oggetto;
     this.verso = null;
+    this.fermo = 0;
     if (!this.percorso.length && oggetto) this.arriva();
   }
 
@@ -1065,8 +1067,14 @@ export class Stanza {
         }
         ok = this.sposta(dx / d * s, dz / d * s);
         cammina = cammina || ok;
+        // strisciando contro un mobile si muove senza avvicinarsi: dopo un attimo cosi' la tappa si salta (e
+        // all'ultima si usa la cosa da li')
+        const dopo = Math.hypot(tx - this.pos.x, tz - this.pos.y);
+        this.fermo = dopo < d - s * 0.3 ? 0 : (this.fermo || 0) + dt;
+        if (this.fermo > 0.4) ok = false;
       }
       if (d < 0.03 || !ok) {
+        this.fermo = 0;
         this.percorso.shift();
         if (!this.percorso.length) this.arriva();
       }

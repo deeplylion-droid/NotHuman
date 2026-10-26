@@ -1,6 +1,7 @@
 // La videocamera del medico: il VHS calcolato in tempo reale con WebGL.
 // Sopra la sorgente (un'immagine o un canvas) mette zoom, messa a fuoco, la luce della videocamera e il filtro
-// catrame (di giorno, nelle case), visione notturna verde, infrarosso con la mappa di calore e i difetti del nastro.
+// catrame (di giorno, nelle case), visione notturna verde, infrarosso con la mappa di calore, il rosso scuro
+// dell'esame (nei primi piani delle parti del corpo) e i difetti del nastro.
 // Lo shader viene dall'anteprima in art/prove-stile/09-vhs-animato, senza la banda di disturbo e con il VHS al 50%.
 
 const VERT = `
@@ -31,6 +32,7 @@ const FRAG = `
   uniform float u_snow;
   uniform float u_luce;
   uniform float u_catrame;
+  uniform float u_esame;
   varying vec2 v_uv;
 
   const vec3 LUMA = vec3(0.299, 0.587, 0.114);
@@ -64,6 +66,14 @@ const FRAG = `
     c = l + (c - l) * 0.35;
     c *= mix(vec3(1.0, 0.8, 0.55), vec3(0.9, 0.88, 0.8), smoothstep(0.0, 0.5, l)) * 0.8;
     return pow(max(c, vec3(0.0)), vec3(1.15 / 2.2));
+  }
+  // esame: rosso scuro, come la luce di sicurezza di una camera oscura; le luci forti restano rosa
+  vec3 rossoScuro(float l) {
+    float t = clamp(l, 0.0, 1.0) * 4.0;
+    vec3 c = mix(vec3(4.0, 0.0, 1.0), vec3(36.0, 4.0, 6.0), clamp(t, 0.0, 1.0));
+    c = mix(c, vec3(94.0, 14.0, 14.0), clamp(t - 1.0, 0.0, 1.0));
+    c = mix(c, vec3(170.0, 40.0, 32.0), clamp(t - 2.0, 0.0, 1.0));
+    return mix(c, vec3(236.0, 130.0, 112.0), clamp(t - 3.0, 0.0, 1.0)) / 255.0;
   }
   vec3 src(vec2 q) { return texture2D(u_tex, clamp(q, 0.0, 1.0)).rgb; }
   // messa a fuoco: un disco di campioni attorno al punto
@@ -130,11 +140,15 @@ const FRAG = `
       col = mix(col, lit, u_luce);
     }
 
+    // l'esame, calcolato prima del verde e dell'infrarosso, che sostituisce
+    vec3 esame = rossoScuro(clamp((dot(col, LUMA) - 0.5) * 1.15 + 0.5, 0.0, 1.0));
+
     // notte: viraggio verde
     col = mix(col, greenMap(clamp((Y - 0.5) * 1.15 + 0.5, 0.0, 1.0)), u_green);
     // infrarosso: la stanza fredda resta scura, il calore si accende
     float h = mix(u_heatLevel * smoothstep(0.1, 0.55, Y), texture2D(u_heat, clamp(q, 0.0, 1.0)).r, u_heatTex);
     col = mix(col, irMap(clamp(Y * 0.38 + h * 0.86, 0.0, 1.0)), u_red);
+    col = mix(col, esame, u_esame);
     // la sera la stanza e' piu' buia
     col *= 1.0 - 0.5 * u_dark;
 
@@ -145,7 +159,8 @@ const FRAG = `
 
     // disturbi chiari su testina, strappi e nastro rovinato
     float n = hash(floor(uv * vec2(960.0, 540.0)) + frame);
-    vec3 snow = vec3(n) * (vec3(1.0) + vec3(-0.4, 0.0, -0.15) * u_green + vec3(0.0, -0.3, -0.24) * u_red);
+    vec3 snow = vec3(n) * (vec3(1.0) + vec3(-0.4, 0.0, -0.15) * u_green + vec3(0.0, -0.3, -0.24) * u_red
+      + vec3(0.0, -0.6, -0.6) * u_esame);
     col = mix(col, snow, clamp((head * 0.5 + tear * 0.4) * a + u_burst * 0.3 + u_snow * 0.88, 0.0, 1.0));
 
     // grana
@@ -153,7 +168,7 @@ const FRAG = `
 
     // vignetta, piu' forte di notte, con l'infrarosso e la sera
     vec2 v = (uv - 0.5) * vec2(1.0, 0.9);
-    col *= 1.0 - (0.3 + 0.3 * u_green + 0.4 * u_red + 0.25 * u_dark) * pow(clamp(length(v) * 1.41, 0.0, 1.0), 2.2);
+    col *= 1.0 - (0.3 + 0.3 * u_green + 0.4 * u_red + 0.25 * u_dark + 0.2 * u_esame) * pow(clamp(length(v) * 1.41, 0.0, 1.0), 2.2);
 
     gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
   }
@@ -186,14 +201,14 @@ export class Vhs {
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     this.u = {};
     for (const n of ["u_tex", "u_heat", "u_time", "u_amt", "u_green", "u_red", "u_burst", "u_zoom", "u_center",
-      "u_blur", "u_heatTex", "u_heatLevel", "u_dark", "u_snow", "u_luce", "u_catrame"]) this.u[n] = gl.getUniformLocation(prog, n);
+      "u_blur", "u_heatTex", "u_heatLevel", "u_dark", "u_snow", "u_luce", "u_catrame", "u_esame"]) this.u[n] = gl.getUniformLocation(prog, n);
     this.texSrc = this.makeTexture(0);
     this.texHeat = this.makeTexture(1);
     gl.uniform1i(this.u.u_tex, 0);
     gl.uniform1i(this.u.u_heat, 1);
     // valori attuali; verde, rosso, buio e luce della videocamera inseguono i loro obiettivi
     this.p = { amt: 0.5, green: 0, red: 0, burst: 0, zoom: 1, cx: 0.5, cy: 0.5, blur: 0, heatTex: 0, heatLevel: 0,
-      dark: 0, snow: 0, luce: 0 };
+      dark: 0, snow: 0, luce: 0, esame: 0 };
     this.goal = { green: 0, red: 0, dark: 0, luce: 0 };
     this.tweens = [];
     this.time = 0;
@@ -264,6 +279,11 @@ export class Vhs {
     this.goal.luce = v;
   }
 
+  // il rosso scuro dell'esame: 1 nei primi piani delle parti del corpo. Cambia di colpo, col taglio dello zoom
+  setEsame(v) {
+    this.p.esame = v;
+  }
+
   // porta i parametri ai valori dati in "ms" millisecondi
   tween(values, ms) {
     return new Promise((resolve) => {
@@ -332,6 +352,7 @@ export class Vhs {
     gl.uniform1f(u.u_snow, p.snow);
     gl.uniform1f(u.u_luce, p.luce);
     gl.uniform1f(u.u_catrame, p.luce * this.catrame);
+    gl.uniform1f(u.u_esame, p.esame);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 

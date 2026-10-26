@@ -317,7 +317,7 @@ function pulisci() {
   R.hover = null;
   mostraIndicatori(null);
   if (stanza) stanza.esci();
-  if (vhs) vhs.prima = null;
+  if (vhs) { vhs.prima = null; vhs.setEsame(0); }
   schermo.dataset.schermo = S.schermo;
 }
 
@@ -1269,6 +1269,8 @@ async function esamina(persona, parte) {
   mostra(im);
   if (vhs) {
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5 });
+    // nel primo piano la videocamera passa al rosso scuro dell'esame
+    vhs.setEsame(1);
     vhs.burst(0.3);
     vhs.hunt();
   }
@@ -1291,6 +1293,7 @@ async function chiudiPrimo() {
   disegnaScena();
   mostra(R.scena, IMG[S.luogo].src);
   if (vhs) {
+    vhs.setEsame(0);
     const z = 2.6;
     vhs.set({ zoom: z, cx: clamp(cx, 0.5 / z, 1 - 0.5 / z), cy: clamp(cy, 0.5 / z, 1 - 0.5 / z), blur: 0.6 });
     await vhs.tween({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0 }, 420);
@@ -1949,6 +1952,7 @@ function modoRipresa() {
   if (vhs) {
     vhs.mode(p.ir ? "ir" : notte ? "notte" : "giorno");
     vhs.setLuce(p.ir || notte ? 0 : 1);
+    vhs.setEsame(!p.ir && r.tipo === "primo" ? 1 : 0);
   }
   osd.modo.textContent = p.ir ? "IR" : notte ? "NOTTE" : "";
 }
