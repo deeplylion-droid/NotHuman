@@ -47,7 +47,8 @@ function nuovoStato() {
 }
 let S = nuovoStato();
 // quello che non si salva: cosa c'e' sotto il puntatore, sottotitoli in corso, primo piano, nastro in riproduzione
-const R = { hover: null, occupato: false, primo: null, play: null, salta: null, ctx: null, scena: null };
+const R = { hover: null, hoverKey: "", occupato: false, primo: null, play: null, salta: null, turno: 0, blocco: 0,
+  ctx: null, scena: null, animaSpilli: false };
 let vhs = null;
 
 // ---------- immagini ----------
@@ -156,6 +157,15 @@ function notifica(testo) {
 }
 
 function pulisci() {
+  R.turno++;
+  if (R.salta) {
+    const s = R.salta;
+    R.salta = null;
+    s();
+  }
+  R.occupato = false;
+  R.blocco = 0;
+  R.hoverKey = "";
   zoneBox.replaceChildren();
   menu.replaceChildren();
   menu.hidden = true;
@@ -190,12 +200,19 @@ function registra(chi, testo) {
   if (S.casa && n && n.riprese.length) n.riprese[n.riprese.length - 1].righe.push([chi, testo]);
 }
 
-// mostra le battute una dopo l'altra; un clic passa alla successiva
-async function dici(righe, salva = true) {
-  R.occupato = true;
-  menu.hidden = true;
+// mostra le battute una dopo l'altra; un clic passa alla successiva. Nuove battute o un cambio di schermo
+// interrompono quelle in corso. Con "blocca" intanto non si puo' fare altro (la narrazione non blocca).
+async function dici(righe, salva = true, blocca = true) {
+  const turno = ++R.turno;
+  if (R.salta) R.salta();
+  if (blocca) {
+    R.occupato = true;
+    R.blocco = turno;
+    menu.hidden = true;
+  }
   etichetta.hidden = true;
   for (const [chi, testo] of righe) {
+    if (R.turno !== turno) break;
     sottotitoli.replaceChildren(riga(chi, testo));
     if (salva) registra(chi, testo);
     const ms = Math.max(1600, 800 + testo.length * 52);
@@ -203,10 +220,16 @@ async function dici(righe, salva = true) {
       const t = setTimeout(res, ms);
       R.salta = () => { clearTimeout(t); res(); };
     });
-    R.salta = null;
   }
-  sottotitoli.replaceChildren();
-  R.occupato = false;
+  if (R.turno === turno) {
+    R.salta = null;
+    sottotitoli.replaceChildren();
+  }
+  if (R.blocco === turno) {
+    R.occupato = false;
+    R.blocco = 0;
+  }
+  return R.turno === turno;
 }
 
 // ---------- nastri: ogni visita registra le inquadrature e le battute ----------
@@ -380,42 +403,76 @@ function vaiMappa() {
   S.schermo = "mappa";
   pulisci();
   osdSpento();
-  if (vhs) { vhs.setDark(0); vhs.set({ zoom: 1, cx: 0.5, cy: 0.5 }); }
+  if (vhs) {
+    vhs.mode("giorno", false);
+    vhs.setHeat(null);
+    vhs.setDark(0);
+    vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+  }
   mostra(IMG.mappa);
-  for (const [id, c] of Object.entries(D.CASE)) {
-    const b = el("button", "pin");
+  const spillo = (cls, testo, x, y, nome, azione) => {
+    const b = el("button", cls, testo);
     b.type = "button";
-    b.textContent = c.n;
+    b.dataset.x = x;
+    b.dataset.y = y;
+    b.setAttribute("aria-label", nome);
+    b.addEventListener("pointerenter", () => mostraEtichetta(maiuscolo(nome)));
+    b.addEventListener("pointerleave", () => { etichetta.hidden = true; });
+    b.addEventListener("click", (e) => { e.stopPropagation(); azione(); });
+    zoneBox.append(b);
+    return b;
+  };
+  for (const [id, c] of Object.entries(D.CASE)) {
+    const b = spillo("pin", String(c.n), c.x, c.y, `Casa ${c.n}${c.segnalata ? " · segnalata" : ""}`, () => schedaCasa(id));
     if (c.segnalata) b.classList.add("segnalata");
     if (c.croce || S.decisioni[id]?.provvedimento === "chiudi") b.classList.add("croce");
     if (S.visitate[id]) b.classList.add("visitata");
     if (S.notte?.contagiate?.includes(id)) b.classList.add("contagiata");
-    b.style.left = `${c.x * 100}%`;
-    b.style.top = `${c.y * 100}%`;
-    b.setAttribute("aria-label", `Casa ${c.n}`);
-    b.addEventListener("pointerenter", () => mostraEtichetta(`CASA ${c.n}${c.segnalata ? " · SEGNALATA" : ""}`));
-    b.addEventListener("pointerleave", () => { etichetta.hidden = true; });
-    b.addEventListener("click", (e) => { e.stopPropagation(); schedaCasa(id); });
-    zoneBox.append(b);
   }
-  for (const l of D.LUOGHI_MAPPA) {
-    const b = el("button", "pin luogo", "✝");
-    b.type = "button";
-    b.style.left = `${l.x * 100}%`;
-    b.style.top = `${l.y * 100}%`;
-    b.setAttribute("aria-label", l.nome);
-    b.addEventListener("pointerenter", () => mostraEtichetta(maiuscolo(l.nome)));
-    b.addEventListener("pointerleave", () => { etichetta.hidden = true; });
-    b.addEventListener("click", (e) => { e.stopPropagation(); scheda(l.nome, l.nota, []); });
-    zoneBox.append(b);
-  }
+  for (const l of D.LUOGHI_MAPPA) spillo("pin luogo", l.segno, l.x, l.y, l.nome, () => scheda(l.nome, l.nota, []));
+  posizionaSpilli();
   const visite = Object.keys(S.visitate).length;
-  hud.append(bottone(visite ? "Torna in stanza · finisce la giornata" : "Torna alla scrivania",
-    () => (visite ? sera() : vaiScrivania()), "hud-b"));
+  hud.append(el("span", "suggerimento", "Tocca la mappa per ingrandire"),
+    bottone(visite ? "Torna in stanza · finisce la giornata" : "Torna alla scrivania",
+      () => (visite ? sera() : vaiScrivania()), "hud-b"));
   aggiornaOrologio();
 }
 
+// gli spilli seguono l'ingrandimento della videocamera
+function posizionaSpilli() {
+  const v = vhs ? vhs.p : { zoom: 1, cx: 0.5, cy: 0.5 };
+  for (const b of zoneBox.querySelectorAll(".pin")) {
+    const sx = (Number(b.dataset.x) - v.cx) * v.zoom + 0.5;
+    const sy = (Number(b.dataset.y) - v.cy) * v.zoom + 0.5;
+    b.style.left = `${sx * 100}%`;
+    b.style.top = `${sy * 100}%`;
+    b.hidden = sx < 0.01 || sx > 0.99 || sy < 0.06 || sy > 1;
+  }
+}
+
+async function zoomMappa(x, y) {
+  if (!vhs) return;
+  const v = vhs.p;
+  const ix = v.cx + (x - 0.5) / v.zoom;
+  const iy = v.cy + (y - 0.5) / v.zoom;
+  const z = v.zoom > 1.05 ? 1 : 2.2;
+  const meta = z === 1 ? { zoom: 1, cx: 0.5, cy: 0.5 }
+    : { zoom: z, cx: clamp(ix, 0.5 / z, 1 - 0.5 / z), cy: clamp(iy, 0.5 / z, 1 - 0.5 / z) };
+  const fine = vhs.tween(meta, 380);
+  R.animaSpilli = true;
+  const segui = () => {
+    if (!R.animaSpilli || S.schermo !== "mappa") return;
+    posizionaSpilli();
+    requestAnimationFrame(segui);
+  };
+  requestAnimationFrame(segui);
+  await fine;
+  R.animaSpilli = false;
+  if (S.schermo === "mappa") posizionaSpilli();
+}
+
 function scheda(titolo, testo, bottoni) {
+  etichetta.hidden = true;
   menu.replaceChildren(el("p", "menu-titolo", titolo), el("p", "menu-testo", testo));
   for (const b of bottoni) menu.append(b);
   menu.append(bottone("Chiudi", () => { menu.hidden = true; }, "secondario"));
@@ -585,6 +642,7 @@ async function dopoAzione() {
 
 function parla(persona) {
   if (R.occupato) return;
+  etichetta.hidden = true;
   const lista = D.DOMANDE[persona].filter((q) => !S.fatte[`${persona}_${q.id}`] && condizione(q.se));
   menu.replaceChildren(el("p", "menu-titolo", maiuscolo(D.PERSONE[persona].nome)));
   for (const q of lista) menu.append(bottone(q.testo, () => chiedi(persona, q)));
@@ -622,6 +680,7 @@ async function mostraProva(persona, id) {
 }
 
 function menuPorta(zona) {
+  etichetta.hidden = true;
   const P = D.PORTE[zona.id];
   menu.replaceChildren(el("p", "menu-titolo", maiuscolo(zona.nome)));
   if (P.entra && S.sbloccate[zona.id]) {
@@ -721,7 +780,7 @@ async function sera() {
   S.fase = "sera";
   S.ora = Math.max(S.ora, D.INIZIO.coprifuoco);
   vaiScrivania();
-  await dici([[null, "Le otto. Coprifuoco."], [null, "I nastri di oggi sono nel videoregistratore."]], false);
+  await dici([[null, "Le otto. Coprifuoco."], [null, "I nastri di oggi sono nel videoregistratore."]], false, false);
 }
 
 function apriNastri() {
@@ -900,7 +959,8 @@ function dormi() {
   hud.replaceChildren();
   const corpo = [el("h2", null, "Notte tra il 26 e il 27 ottobre")];
   corpo.push(el("h3", null, "Al lazzaretto"));
-  corpo.push(el("p", null, n.portati.length ? n.portati.map((id) => D.PERSONE[id].nome).join(", ") + "." : "Nessuno."));
+  const portati = n.portati.map((id) => D.PERSONE[id].nome).join(", ");
+  corpo.push(el("p", null, portati ? `${portati[0].toUpperCase()}${portati.slice(1)}.` : "Nessuno."));
   corpo.push(el("h3", null, "Il contagio"));
   const ul = el("ul");
   for (const r of n.righe) ul.append(el("li", null, r));
@@ -972,7 +1032,7 @@ async function introduzione() {
   if (S.intro) return;
   S.intro = true;
   await dici([[null, "Giorno 1. La ditta ti ha mandato in paese ieri sera."],
-    [null, "Il fax con il protocollo è arrivato a mezzogiorno."]], false);
+    [null, "Il fax con il protocollo è arrivato a mezzogiorno."]], false, false);
 }
 
 // ---------- puntatore, tastiera ----------
@@ -993,12 +1053,14 @@ schermo.addEventListener("pointermove", (e) => {
   cursore.style.transform = `translate(${p.px}px, ${p.py}px)`;
   etichetta.style.transform = `translate(${p.px}px, ${p.py}px)`;
   if (S.schermo !== "visita" || R.occupato || R.primo || e.pointerType === "touch") return;
-  if (e.target !== canvas && e.target !== statico && e.target !== zoneBox) { return; }
+  if (e.target !== canvas && e.target !== statico && e.target !== zoneBox) return;
   const c = colpisci(p.x, p.y);
-  const prima = R.hover?.persona;
+  const chiave = c ? `${c.persona || ""}|${c.parte || ""}|${c.zona ? c.zona.id : ""}` : "";
+  if (chiave === R.hoverKey) return;
+  R.hoverKey = chiave;
   R.hover = c && c.persona ? c : null;
   mostraEtichetta(testoColpo(c));
-  if (prima !== R.hover?.persona || (R.hover && c.parte !== undefined)) disegnaScena();
+  disegnaScena();
 });
 
 schermo.addEventListener("pointerleave", () => {
@@ -1013,6 +1075,7 @@ schermo.addEventListener("click", (e) => {
   const p = punto(e);
   if (S.schermo === "visita") cliccaVisita(p.x, p.y);
   else if (S.schermo === "nastro" && R.play) cliccaNastro(p.x, p.y);
+  else if (S.schermo === "mappa" && menu.hidden && foglio.hidden) zoomMappa(p.x, p.y);
   else menu.hidden = true;
 });
 

@@ -118,7 +118,8 @@ def scrivania():
     out = Image.fromarray(np.clip(foto * 0.8 + stile * 0.2, 0, 255).astype(np.uint8))
     out.save(base / "scrivania.jpg", quality=93)
     out.resize((W, H), Image.LANCZOS).save(OUT / "scrivania.jpg", quality=86)
-    Image.open(base / "mappa.jpg").convert("RGB").resize((W, H), Image.LANCZOS).save(OUT / "mappa.jpg", quality=86)
+    # la mappa resta piu' grande dello schermo: nel gioco si ingrandisce
+    Image.open(base / "mappa_paese.jpg").convert("RGB").resize((2560, 1440), Image.LANCZOS).save(OUT / "mappa.jpg", quality=84)
     print("scrivania e mappa ok")
 
 

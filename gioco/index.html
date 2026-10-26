@@ -29,6 +29,7 @@
     color-scheme: dark;
   }
   html, body { height: 100%; }
+  [hidden] { display: none !important; }
   body {
     background: var(--notte);
     color: var(--testo);
@@ -81,7 +82,7 @@
   #zone { position: absolute; inset: 0; pointer-events: none; }
   .zona { position: absolute; pointer-events: auto; background: transparent; border: 1px solid transparent; padding: 0; }
   .zona:hover, .zona:focus-visible { border-color: rgba(242, 209, 107, 0.55); box-shadow: inset 0 0 2cqw rgba(242, 209, 107, 0.18); outline: none; }
-  .pin { position: absolute; pointer-events: auto; transform: translate(-50%, -135%); min-width: max(24px, 2.8cqw); height: max(24px, 2.8cqw); padding: 0 0.3em; border-radius: 999px; background: #6d665a; border: 2px solid #f1eadb; color: #fff; font-family: var(--mono); font-weight: 600; font-size: max(11px, 1.3cqw); line-height: 1; display: grid; place-items: center; box-shadow: 0 0.3cqw 0.6cqw rgba(0, 0, 0, 0.45); }
+  .pin { position: absolute; pointer-events: auto; transform: translate(-50%, -135%); min-width: max(20px, 2.1cqw); height: max(20px, 2.1cqw); padding: 0 0.25em; border-radius: 999px; background: #6d665a; border: 2px solid #f1eadb; color: #fff; font-family: var(--mono); font-weight: 600; font-size: max(10px, 1.05cqw); line-height: 1; display: grid; place-items: center; box-shadow: 0 0.3cqw 0.6cqw rgba(0, 0, 0, 0.45); }
   .pin::after { content: ""; position: absolute; left: 50%; top: 100%; width: 2px; height: max(8px, 1.1cqw); margin-left: -1px; background: #f1eadb; }
   .pin.segnalata { background: var(--timbro); }
   .pin.visitata { background: #3f4a43; }
@@ -113,11 +114,12 @@
   #menu button.secondario { color: var(--spento); }
   #menu button.prova { font-size: 0.92em; }
 
-  #hud { position: absolute; right: 2.4cqw; top: 2.2cqw; display: flex; gap: 0.5em; flex-wrap: wrap; justify-content: flex-end; max-width: 60%; z-index: 8; }
-  #hud .hud-b { font-family: var(--mono); font-size: max(11px, 1.4cqw); color: var(--testo); background: var(--pannello); border: 1px solid var(--linea); padding: 0.45em 0.8em; }
+  /* i comandi del medico, sotto lo schermo: l'immagine della videocamera resta libera */
+  #hud { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; min-width: 0; }
+  #hud .hud-b { font-family: var(--mono); font-size: 0.8125rem; line-height: 1.2; color: var(--testo); background: transparent; border: 1px solid var(--linea); padding: 6px 10px; }
   #hud .hud-b.forte { border-color: rgba(242, 209, 107, 0.7); color: var(--giallo); }
-  #hud .hud-b:hover, #hud .hud-b:focus-visible { background: rgba(30, 33, 31, 0.95); outline: 1px solid var(--giallo); }
-  #hud .suggerimento { font-family: var(--mono); font-size: max(11px, 1.35cqw); color: var(--testo); background: var(--pannello); padding: 0.45em 0.8em; }
+  #hud .hud-b:hover, #hud .hud-b:focus-visible { border-color: var(--giallo); outline: none; }
+  #hud .suggerimento { font-family: var(--mono); font-size: 0.8125rem; color: var(--spento); }
 
   #avviso { position: absolute; left: 50%; top: 9cqw; transform: translateX(-50%); font-family: var(--vcr); font-size: max(13px, 2.2cqw); color: var(--giallo); background: rgba(0, 0, 0, 0.82); border: 1px solid rgba(242, 209, 107, 0.6); padding: 0.15em 0.7em; pointer-events: none; z-index: 9; }
   #avviso.via { animation: svanisci 2.6s ease forwards; }
@@ -129,9 +131,9 @@
   #comandi .cmd.attivo { color: #ffd9d4; border-color: #e8a3ad; background: rgba(120, 30, 44, 0.85); }
   #comandi .cmd:hover, #comandi .cmd:focus-visible { outline: 1px solid var(--giallo); }
 
-  .barra { display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; font-family: var(--mono); font-size: 0.8125rem; color: var(--spento); width: min(100%, calc((100dvh - 64px) * 16 / 9)); }
-  .barra button { font: inherit; color: var(--testo); background: transparent; border: 1px solid var(--linea); padding: 4px 10px; }
-  .barra button:hover, .barra button:focus-visible { border-color: var(--giallo); outline: none; }
+  .barra { display: flex; gap: 8px 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; font-family: var(--mono); font-size: 0.8125rem; color: var(--spento); width: min(100%, calc((100dvh - 64px) * 16 / 9)); min-height: 34px; }
+  #schermo-intero { font: inherit; color: var(--spento); background: transparent; border: 1px solid var(--linea); padding: 6px 10px; margin-left: auto; }
+  #schermo-intero:hover, #schermo-intero:focus-visible { border-color: var(--giallo); color: var(--testo); outline: none; }
 
   /* i fogli */
   #foglio { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, 0.62); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
@@ -152,6 +154,7 @@
   .nota { font-size: 0.9rem; opacity: 0.85; }
   .vuoto { opacity: 0.6; font-style: italic; }
 
+  #foglio[data-tipo="fax"] .carta, #foglio[data-tipo="giornale"] .carta, #foglio[data-tipo="taccuino"] .carta, #foglio[data-tipo="modulo"] .carta { color-scheme: light; }
   #foglio[data-tipo="fax"] .carta { background: var(--carta-fax); color: #2f2f2c; font-family: var(--mono); }
   #foglio[data-tipo="fax"] #foglio-corpo { background-image: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.025) 0 2px, transparent 2px 4px); font-size: 0.93rem; }
   #foglio[data-tipo="fax"] .fax-testata { font-weight: 600; letter-spacing: 0.08em; margin: 0; }
@@ -209,14 +212,13 @@
     <div id="didascalia" hidden></div>
     <div id="sottotitoli" aria-live="polite"></div>
     <div id="menu" hidden></div>
-    <div id="hud"></div>
     <div id="comandi" hidden></div>
     <div id="avviso" hidden role="status"></div>
     <div id="etichetta" hidden></div>
     <div id="cursore" aria-hidden="true"></div>
   </div>
   <div class="barra">
-    <span>Prototipo · una giornata</span>
+    <div id="hud"></div>
     <button type="button" id="schermo-intero">Schermo intero</button>
   </div>
 </div>

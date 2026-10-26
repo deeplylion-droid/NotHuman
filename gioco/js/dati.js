@@ -303,24 +303,35 @@ export const SCRIVANIA = [
   { id: "lampada", nome: "La lampada", box: [0.03, 0.0, 0.16, 0.12] },
 ];
 
-// la mappa: le case (x, y del tetto) e i vicini, da cui passa il contagio di notte
-export const CASE = {
-  casa1: { n: 1, x: 0.448, y: 0.265, nota: "Croce sulla porta. Chiusa da ieri.", croce: true },
-  casa2: { n: 2, x: 0.37, y: 0.325, nota: "Nessuna segnalazione." },
-  casa3: { n: 3, x: 0.41, y: 0.47, segnalata: "Un vicino: «Di notte tossiscono. E la moglie non si vede da giorni.»",
-    vicini: ["casa2", "casa4"], luogo: "cucina" },
-  casa4: { n: 4, x: 0.525, y: 0.565, nota: "Nessuna segnalazione." },
-  casa5: { n: 5, x: 0.585, y: 0.655, segnalata: "Biglietto anonimo: «Tengono un ragazzo chiuso in casa.»",
-    vicini: ["casa4", "casa6"], luogo: "soggiorno" },
-  casa6: { n: 6, x: 0.73, y: 0.665, nota: "Nessuna segnalazione." },
-  casa7: { n: 7, x: 0.545, y: 0.385, nota: "Nessuna segnalazione." },
-  casa8: { n: 8, x: 0.67, y: 0.275, nota: "Nessuna segnalazione." },
-  casa9: { n: 9, x: 0.22, y: 0.505, nota: "Nessuna segnalazione." },
-  casa10: { n: 10, x: 0.19, y: 0.71, nota: "Nessuna segnalazione." },
-};
+// la mappa del paese: le case (x, y del tetto, frazioni della mappa), numerate per file dall'alto
+const TETTI = [
+  [0.1679, 0.1792], [0.335, 0.262], [0.4535, 0.2488], [0.5089, 0.2683], [0.614, 0.2538], [0.6549, 0.2347],
+  [0.2855, 0.3565], [0.3582, 0.3293], [0.3906, 0.2887], [0.396, 0.3425], [0.4223, 0.3374], [0.4353, 0.3038],
+  [0.481, 0.2821], [0.5001, 0.3183], [0.5299, 0.3645], [0.5368, 0.3065], [0.5722, 0.3387], [0.6135, 0.3658],
+  [0.673, 0.327], [0.0905, 0.4427], [0.2627, 0.3993], [0.3029, 0.4549], [0.324, 0.422], [0.325, 0.47],
+  [0.3454, 0.3927], [0.3673, 0.4463], [0.5584, 0.3983], [0.5855, 0.4526], [0.6116, 0.4954], [0.6336, 0.4321],
+  [0.6663, 0.3908], [0.7088, 0.4717], [0.7323, 0.3951], [0.3235, 0.5609], [0.3659, 0.526], [0.398, 0.5801],
+  [0.421, 0.5451], [0.4482, 0.6061], [0.4689, 0.5414], [0.4805, 0.578], [0.5397, 0.5154], [0.5566, 0.547],
+  [0.6041, 0.5599], [0.6626, 0.5041], [0.373, 0.632], [0.4095, 0.6563], [0.4714, 0.6722], [0.5486, 0.6694],
+  [0.587, 0.642], [0.5208, 0.727],
+];
+export const CASE = {};
+TETTI.forEach(([x, y], i) => { CASE[`casa${i + 1}`] = { n: i + 1, x, y, nota: "Nessuna segnalazione." }; });
+Object.assign(CASE.casa1, { nota: "Croce sulla porta. Chiusa da ieri.", croce: true });
+Object.assign(CASE.casa3, { luogo: "cucina",
+  segnalata: "Un vicino: «Di notte tossiscono. E la moglie non si vede da giorni.»" });
+Object.assign(CASE.casa5, { luogo: "soggiorno", segnalata: "Biglietto anonimo: «Tengono un ragazzo chiuso in casa.»" });
+// i vicini: le due case piu' vicine, da cui passa il contagio di notte
+const distanza = (a, b) => Math.hypot((a.x - b.x) * 16 / 9, a.y - b.y);
+for (const c of Object.values(CASE)) {
+  c.vicini = Object.keys(CASE).filter((id) => CASE[id] !== c)
+    .sort((a, b) => distanza(CASE[a], c) - distanza(CASE[b], c)).slice(0, 2);
+}
 export const LUOGHI_MAPPA = [
-  { id: "chiesa", nome: "La chiesa", x: 0.785, y: 0.36, nota: "Il campanile suona solo per i funerali." },
-  { id: "cimitero", nome: "Il cimitero", x: 0.88, y: 0.29, nota: "Tre tombe nuove questa settimana." },
+  { id: "chiesa", nome: "La chiesa", segno: "✝", x: 0.471, y: 0.335, nota: "Il campanile suona solo per i funerali." },
+  { id: "cimitero", nome: "Il cimitero", segno: "✝", x: 0.112, y: 0.66, nota: "Tre tombe nuove questa settimana." },
+  { id: "ditta", nome: "Il recinto della Panacea", segno: "▲", x: 0.845, y: 0.6,
+    nota: "Il lazzaretto della ditta: tre prefabbricati bianchi, un'antenna, i fari accesi tutta la notte. Nessuno del paese ci è mai entrato." },
 ];
 
 export const FAX = {
