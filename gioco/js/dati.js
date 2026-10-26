@@ -482,7 +482,6 @@ export const TIMBRI = [
   { id: "malato", testo: "MALATO" }, { id: "grave", testo: "GRAVE" },
 ];
 
-// la scrivania: zone [x0, y0, x1, y1]
 // la stanza del medico in 3D: cosa si legge usando le cose che non portano altrove (per la mattina, la sera o
 // sempre); scrivania, videoregistratore, porta e letto li gestisce gioco.js
 export const STANZA = {
@@ -513,6 +512,7 @@ export const STANZA = {
   },
 };
 
+// la scrivania disegnata (senza WebGL 2): zone [x0, y0, x1, y1]; id e nomi valgono anche per quella in 3D
 export const SCRIVANIA = [
   { id: "fax", nome: "Il fax", box: [0.03, 0.12, 0.3, 0.57] },
   { id: "giornale", nome: "Il giornale", box: [0.38, 0.05, 0.6, 0.26] },

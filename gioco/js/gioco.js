@@ -544,10 +544,21 @@ function vaiScrivania() {
     vhs.setLuce(0);
     vhs.setHeat(null);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
-    vhs.setDark(S.fase === "sera" ? 1 : 0);
+    // la scrivania disegnata la sera si scurisce; quella in 3D ha gia' la luce della sera
+    vhs.setDark(S.fase === "sera" && !stanza ? 1 : 0);
   }
-  mostra(IMG.scrivania);
-  for (const z of D.SCRIVANIA) zoneBox.append(zonaHtml(z, () => azioneScrivania(z.id)));
+  if (stanza) {
+    // la scrivania in 3D: ci si siede nella stanza e si usano le cose sul piano (stanza.onScrivania)
+    stanza.fase(S.fase === "sera" ? "sera" : "mattina");
+    stanza.adatta(window.prova?.risoluzione || Math.min(canvas.width, tocco() ? 960 : 1600));
+    stanza.siedi();
+    mostra(stanza.canvas, IMG.scrivania.src);
+    vhs.prima = (dt) => { stanza.passo(dt); vhs.refresh(); };
+  } else {
+    // senza WebGL 2 resta la scrivania disegnata, con le sue zone
+    mostra(IMG.scrivania);
+    for (const z of D.SCRIVANIA) zoneBox.append(zonaHtml(z, () => azioneScrivania(z.id)));
+  }
   tasti(...(stanza ? [tasto("Alzati", () => vaiStanza("scrivania"), "su")] : []));
   aiuto(S.fase === "sera"
     ? "Sera. Rivedi i nastri al videoregistratore, poi spegni la lampada."
@@ -2355,10 +2366,12 @@ async function caricaStanza() {
     const s = new Stanza(schermo);
     await s.carica();
     s.onUsa = (id) => usaStanza(id);
+    s.onScrivania = (id) => { if (!R.occupato && foglio.hidden) azioneScrivania(id); };
+    s.nomiPezzi = Object.fromEntries(D.SCRIVANIA.map((z) => [z.id, z.nome]));
     s.onSopra = (nome) => mostraEtichetta(nome);
     s.onBlocco = (b) => bloccoStanza(b);
     if (location.hash === "#prova") s.senzaBlocco = true;
-    s.puoi = () => S.schermo === "stanza" && !R.occupato && foglio.hidden && !parole.occupata();
+    s.puoi = () => (S.schermo === "stanza" || S.schermo === "scrivania") && !R.occupato && foglio.hidden && !parole.occupata();
     stanza = s;
   } catch (err) {
     console.warn("Stanza 3D non disponibile:", err);

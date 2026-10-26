@@ -3,8 +3,9 @@
 // (vhs.js): la stanza ha lo stesso VHS del resto del gioco.
 // Sul computer si clicca nella stanza e il mouse gira lo sguardo (il puntatore resta bloccato, Esc lo libera); si
 // cammina con WASD o con le frecce, e con un clic o con E si usa quello che c'e' nel mirino. Col dito si trascina
-// per guardarsi attorno e si tocca dove andare o cosa usare. Cosa succede usando una cosa (la scrivania che si apre
-// in 2D, la porta, il letto...) lo decide gioco.js con onUsa.
+// per guardarsi attorno e si tocca dove andare o cosa usare. Cosa succede usando una cosa (la porta, il letto...)
+// lo decide gioco.js con onUsa. Alla scrivania ci si siede (siedi): la camera guarda il piano dall'alto, il
+// puntatore e' libero e si usano le cose che ci sono sopra (onScrivania), fatte con Meshy come i mobili.
 // Texture e modelli si preparano con tools/prepara_stanza.py: i mobili sono di Meshy, gli oggetti piccoli di Tripo.
 import * as THREE from "../lib/three.js";
 
@@ -18,11 +19,15 @@ const OCCHI = 1.62;
 const RAGGIO = 0.22;
 const PASSO = 1.7; // metri al secondo
 const MOUSE = 0.0022; // radianti per punto, col puntatore bloccato
+const VISTA = 58; // il campo visivo in piedi, in gradi
 // la finestra, incassata nel muro sopra la scrivania, e la porta
 const FIN = { x0: -1.35, x1: -0.05, y0: 0.95, y1: 2.4, fondo: 0.24 };
 const PORTA = { x: -1.5, largo: 0.96, alto: 2.08 };
 // la scrivania sotto la finestra (centro); il piano si misura sul modello
 const SCRIVANIA = { x: -0.7, z: -2.62 };
+// seduti alla scrivania: da dove si guarda il piano (piu' in alto degli occhi di chi siede, quasi da sopra, come la
+// scrivania disegnata), dove, e con che campo visivo
+const SEDUTO = { pos: [SCRIVANIA.x, 1.78, SCRIVANIA.z + 0.59], guarda: [SCRIVANIA.x, 0.77, SCRIVANIA.z - 0.01], fov: 52 };
 // la porta della stanzetta dove dorme l'ospite della notte, sulla parete a est (z del centro; "muro" e' lo spessore
 // del muro), e la stanzetta dietro: buia, con la brandina in fondo. Non ci si entra, la si guarda dalla porta
 const OSPITE = { z: 1.7, largo: 0.84, alto: 2.05, muro: 0.12 };
@@ -78,12 +83,26 @@ const MODELLI = [
   { nome: "termosifone", x: 0.6, z: -2.93, alto: 0.62, rotY: -Math.PI / 2, oggetto: "termosifone" },
   { nome: "cappotto", x: -0.55, y: 0.45, z: 2.93, alto: 1.42, rotY: Math.PI / 2, fondo: 0.6, oggetto: "cappotto" },
   { nome: "borsa", x: -2.12, z: -2.72, alto: 0.3, rotY: -0.9, oggetto: "borsa" },
-  { nome: "lampada", sopra: [-0.65, -0.25], alto: 0.46, rotY: 1.15, oggetto: "scrivania", ombra: false },
-  { nome: "fax", sopra: [-0.46, -0.01], largo: 0.33, rotY: -1.42, oggetto: "scrivania" },
-  { nome: "televisore", sopra: [0.54, -0.2], largo: 0.36, rotY: -1.75, oggetto: "videoregistratore" },
-  // la maschera e' sdraiata sul fianco destro: il becco di profilo e la videocamera verso l'alto
-  { nome: "maschera", sopra: [-0.15, 0.24], lungo: 0.36, rotX: Math.PI / 2, rotY: -0.25, oggetto: "scrivania" },
+  // sulla scrivania gli oggetti di Meshy, messi come nella scrivania disegnata, col davanti verso chi siede; "pezzo"
+  // e' cosa si usa da seduti (gli id della scrivania in gioco.js): i guanti vanno con la maschera, per uscire
+  { nome: "lampada", sopra: [-0.64, -0.24], alto: 0.45, rotY: 2.75, oggetto: "scrivania", pezzo: "lampada", ombra: false },
+  { nome: "fax", sopra: [-0.46, -0.05], lungo: 0.32, rotY: 0.18, oggetto: "scrivania", pezzo: "fax" },
+  { nome: "giornale", sopra: [-0.03, -0.27], lungo: 0.3, rotY: 0.04, oggetto: "scrivania", pezzo: "giornale" },
+  { nome: "televisore", sopra: [0.5, -0.21], largo: 0.36, rotY: -0.15, oggetto: "videoregistratore", pezzo: "nastri" },
+  { nome: "videoregistratore", sopra: [0.5, 0.08], largo: 0.36, rotY: -0.06, oggetto: "videoregistratore", pezzo: "nastri" },
+  { nome: "cassette", sopra: [0.4, 0.3], lungo: 0.19, rotY: -0.2, oggetto: "videoregistratore", pezzo: "nastri" },
+  { nome: "cartella", sopra: [-0.57, 0.22], lungo: 0.3, rotY: 0.1, oggetto: "scrivania", pezzo: "taccuino" },
+  { nome: "soldi", sopra: [-0.33, 0.22], lungo: 0.2, rotY: -0.3, oggetto: "scrivania", pezzo: "soldi" },
+  // la maschera e' sdraiata sul fianco destro, un po' inclinata, davanti alla mappa: il becco verso destra, la lente
+  // e la videocamera verso chi siede
+  { nome: "maschera", sopra: [-0.06, 0.24], lungo: 0.36, rotZ: 1.25, rotY: 1.35, oggetto: "scrivania", pezzo: "maschera" },
+  { nome: "guanti", sopra: [0.2, 0.22], lungo: 0.24, rotY: 0.5, oggetto: "scrivania", pezzo: "maschera" },
 ];
+
+// il display sul davanti del videoregistratore di Meshy: centro (frazioni della larghezza e dell'altezza del modello)
+// e larghezza (frazione della larghezza)
+const DISPLAY = { x: 0.77, y: 0.69, largo: 0.3 };
+const ALTO = new THREE.Vector3(0, 1, 0);
 
 // la luce della mattina e della sera; "ambiente" e' la luce morbida che si riflette sui materiali
 const LUCI = {
@@ -191,15 +210,21 @@ export class Stanza {
     r.toneMapping = THREE.ShaderChunk.tonemapping_pars_fragment !== SENZA_FILTRO ? THREE.CustomToneMapping : THREE.ACESFilmicToneMapping;
     r.shadowMap.enabled = true;
     r.shadowMap.type = THREE.PCFShadowMap;
+    // le ombre si ricalcolano solo quando qualcosa cambia (la luce, la porta dell'ospite): la stanza e' ferma, e
+    // ogni ricalcolo ridisegna tutti i modelli due volte (per il sole e per la lampada)
+    r.shadowMap.autoUpdate = false;
     r.setPixelRatio(1);
     this.renderer = r;
     this.adatta(1280);
     this.scena = new THREE.Scene();
     this.scena.background = new THREE.Color(0x050403);
-    this.camera = new THREE.PerspectiveCamera(58, 16 / 9, 0.03, 40);
+    this.camera = new THREE.PerspectiveCamera(VISTA, 16 / 9, 0.03, 40);
     this.camera.rotation.order = "YXZ";
     this.raggio = new THREE.Raycaster();
-    this.pezzi = {}; // id dell'oggetto -> mesh, per illuminarle quando ci si passa sopra
+    this.pezzi = {}; // id dell'oggetto (o "@" e il pezzo della scrivania) -> mesh, per illuminarle passandoci sopra
+    this.nomiPezzi = {}; // id del pezzo della scrivania -> nome da scrivere (li da' gioco.js)
+    this.seduto = null; // alla scrivania: da dove parte la camera e a che punto e' del movimento
+    this.puntatore = [0.5, 0.5];
     this.ingombri = []; // la pianta dei mobili [x0, z0, x1, z1]: li' non si cammina
     // chi cammina: posizione sul pavimento, velocita', sguardo, percorso verso un punto o un oggetto
     this.pos = new THREE.Vector2(0, 0);
@@ -221,6 +246,7 @@ export class Stanza {
     // chi usa la stanza: cosa fare con un oggetto, cosa scrivere sotto il mirino, se ora si puo' muovere, e
     // cosa fare quando il puntatore si blocca o si libera
     this.onUsa = () => {};
+    this.onScrivania = () => {};
     this.onSopra = () => {};
     this.onBlocco = () => {};
     this.puoi = () => true;
@@ -238,7 +264,7 @@ export class Stanza {
     const tl = new THREE.TextureLoader();
     const nomi = ["carta_parati.jpg", "pavimento.jpg", "pavimento_normale.jpg", "legno.jpg", "porta.jpg",
       "santino.jpg", "calendario.jpg", "finestra.jpg", "finestra_chiusa.jpg", "finestra_luce.jpg", "mappa.jpg",
-      "giornali.jpg", "cassetta.jpg", "tappeto.jpg", "taccuino.png", "soldi.png", "guanti.png"];
+      "tappeto.jpg"];
     const T = {};
     await Promise.all(nomi.map(async (n) => {
       const t = await tl.loadAsync(IMG + n);
@@ -620,6 +646,7 @@ export class Stanza {
     obj.position.set(x - c.x, y - box.min.y, z - c.z);
     obj.updateMatrixWorld(true);
     if (m.oggetto) this.registra(m.oggetto, obj);
+    if (m.pezzo) this.segna(m.pezzo, obj);
     this.scena.add(obj);
     this.modelli[m.nome] = this.modelli[m.nome] || obj;
     // la pianta del mobile, per non camminarci attraverso (non quello che sta sulla scrivania)
@@ -649,53 +676,41 @@ export class Stanza {
     this.su = 0.76;
   }
 
-  // sulla scrivania, come nel disegno: giornali, mappa, stato di famiglia, soldi, guanti, videoregistratore, cassette
+  // sulla scrivania, oltre agli oggetti di Meshy: la mappa del paese aperta in mezzo e il display del
+  // videoregistratore (le 12:00 che lampeggiano, su un piano davanti a quello stampato nella texture); e la
+  // radiosveglia sul comodino
   sullaScrivania(T) {
     const S = this.scena;
-    const { mat, intera, nero } = this.mat;
-    const su = this.su;
-    const X = (dx) => SCRIVANIA.x + dx, Z = (dz) => SCRIVANIA.z + dz;
-    const carte = new THREE.Group();
-    for (let i = 0; i < 4; i++) {
-      const top = i === 3;
-      const g = this.scatola(0.34, 0.008, 0.24, [mat({ color: 0xd9d2bf }), mat({ color: 0xd9d2bf }),
-        top ? intera({ map: T.giornali }) : mat({ color: 0xd9d2bf }), mat({ color: 0xd9d2bf }),
-        mat({ color: 0xcfc7b2 }), mat({ color: 0xcfc7b2 })]);
-      g.position.set(X((i % 2) * 0.008), su + 0.004 + i * 0.008, Z(-0.25 + i * 0.004));
-      g.rotation.y = (i - 1.5) * 0.02;
-      carte.add(g);
-    }
+    const { intera, nero } = this.mat;
     const mappa = this.superficie(0.5, 0.28, intera({ map: T.mappa, roughness: 0.8 }));
     mappa.rotation.x = -Math.PI / 2;
-    mappa.position.set(X(0), su + 0.002, Z(-0.01));
-    carte.add(mappa);
-    for (const [n, w, d, dx, dz, ry] of [["taccuino", 0.12, 0.16, -0.58, 0.26, 0.06], ["soldi", 0.13, 0.14, -0.4, 0.23, -0.1],
-      ["guanti", 0.21, 0.21, 0.12, 0.25, 0.05]]) {
-      const p = this.superficie(w, d, intera({ map: T[n], transparent: true, alphaTest: 0.4 }));
-      p.rotation.set(-Math.PI / 2, 0, ry);
-      p.position.set(X(dx), su + 0.003, Z(dz));
-      carte.add(p);
-    }
-    this.registra("scrivania", carte);
-    S.add(carte);
+    mappa.position.set(SCRIVANIA.x, this.su + 0.002, SCRIVANIA.z - 0.03);
+    this.registra("scrivania", mappa);
+    this.segna("mappa", mappa);
+    S.add(mappa);
 
-    // il videoregistratore e le cassette: il display segna l'ora
     this.display = this.disegnaDisplay();
-    const vcr = this.scatola(0.38, 0.085, 0.27, [mat({ color: 0x3a1714, roughness: 0.5 }), mat({ color: 0x3a1714, roughness: 0.5 }),
-      mat({ color: 0x45201b, roughness: 0.5 }), nero, intera({ map: this.display, roughness: 0.4 }), nero]);
-    vcr.position.set(X(0.55), su + 0.0425, Z(0.09));
-    vcr.rotation.y = -0.03;
-    this.registra("videoregistratore", vcr);
-    S.add(vcr);
-    const nastri = new THREE.Group();
-    for (let i = 0; i < 3; i++) {
-      const c = this.scatola(0.105, 0.026, 0.19, [nero, nero, intera({ map: T.cassetta, roughness: 0.5 }), nero, nero, nero]);
-      c.position.set(X(0.45 + i * 0.118), su + 0.013, Z(0.29));
-      c.rotation.y = (i - 1) * 0.04;
-      nastri.add(c);
+    const vcr = this.modelli.videoregistratore;
+    if (vcr) {
+      // il punto del display sul davanti del modello, col modello dritto; poi lo si gira come il modello
+      const ry = vcr.rotation.y;
+      vcr.rotation.y = 0;
+      vcr.updateMatrixWorld(true);
+      const b = new THREE.Box3().setFromObject(vcr);
+      vcr.rotation.y = ry;
+      vcr.updateMatrixWorld(true);
+      const w = b.max.x - b.min.x, h = b.max.y - b.min.y;
+      const punto = new THREE.Vector3(b.min.x + w * DISPLAY.x, b.min.y + h * DISPLAY.y, b.max.z + 0.008)
+        .sub(vcr.position).applyAxisAngle(ALTO, ry).add(vcr.position);
+      // le cifre verdi si accendono da sole, anche al buio
+      const d = this.superficie(w * DISPLAY.largo, w * DISPLAY.largo * 0.24,
+        intera({ map: this.display, emissiveMap: this.display, emissive: 0xffffff, roughness: 0.4 }));
+      d.position.copy(punto);
+      d.rotation.y = ry;
+      this.registra("videoregistratore", d);
+      this.segna("nastri", d);
+      S.add(d);
     }
-    this.registra("videoregistratore", nastri);
-    S.add(nastri);
 
     // la radiosveglia sul comodino (o per terra accanto al letto, se il comodino non c'e')
     this.sveglia = this.disegnaSveglia();
@@ -745,6 +760,15 @@ export class Stanza {
     });
   }
 
+  // segna una mesh (o un gruppo) come pezzo della scrivania, da usare da seduti; i materiali li ha gia' copiati registra
+  segna(id, obj) {
+    obj.traverse((o) => {
+      if (!o.isMesh) return;
+      o.userData.pezzo = id;
+      (this.pezzi["@" + id] = this.pezzi["@" + id] || []).push(o);
+    });
+  }
+
   // la porta della stanzetta dell'ospite: socchiusa per guardarci dentro, o chiusa
   socchiudi(aperta) {
     this.aperturaOspite = aperta ? -0.75 : 0;
@@ -770,20 +794,17 @@ export class Stanza {
     return t;
   }
 
+  // la finestrella del display: le 12:00 verdi che lampeggiano, su fondo nero
   aggiornaDisplay(acceso) {
     const g = this.ctxDisplay;
-    g.fillStyle = "#2a100d";
+    g.fillStyle = "#070404";
     g.fillRect(0, 0, 256, 58);
-    g.fillStyle = "#120807";
-    g.fillRect(14, 12, 120, 10);
-    g.fillStyle = "#0c0606";
-    g.fillRect(150, 10, 74, 30);
-    g.fillStyle = "#5a3029";
-    for (let i = 0; i < 5; i++) g.fillRect(16 + i * 22, 34, 16, 8);
     if (acceso) {
       g.fillStyle = "#64ffb0";
-      g.font = "bold 24px monospace";
-      g.fillText("12:00", 152, 34);
+      g.font = "bold 40px monospace";
+      g.textAlign = "center";
+      g.textBaseline = "middle";
+      g.fillText("12:00", 128, 31);
     }
     this.texDisplay.needsUpdate = true;
   }
@@ -818,16 +839,10 @@ export class Stanza {
 
   luci() {
     const S = this.scena;
-    // la testa della lampada: in alto, dalla parte verso cui guarda il paralume; dentro, la lampadina accesa
+    // la testa della lampada: il paralume, cioe' il centro dei punti piu' alti del modello; la lampadina appena sotto
     let testa = new THREE.Vector3(SCRIVANIA.x - 0.6, this.su + 0.4, SCRIVANIA.z - 0.22);
     const lm = this.modelli?.lampada;
-    if (lm) {
-      const b = new THREE.Box3().setFromObject(lm);
-      const s = b.getSize(new THREE.Vector3());
-      const dir = new THREE.Vector3(Math.sin(lm.rotation.y), 0, Math.cos(lm.rotation.y));
-      testa = b.getCenter(new THREE.Vector3()).addScaledVector(dir, (Math.abs(dir.x) * s.x + Math.abs(dir.z) * s.z) / 2 - 0.1);
-      testa.y = b.max.y - 0.1;
-    }
+    if (lm) testa = this.paralume(lm);
     const lampadina = new THREE.Mesh(new THREE.SphereGeometry(0.016, 10, 8), new THREE.MeshBasicMaterial({ color: 0xfff1d6 }));
     lampadina.position.copy(testa).add(new THREE.Vector3(0, -0.03, 0));
     S.add(lampadina);
@@ -863,6 +878,24 @@ export class Stanza {
     this.L = { lamp, alone, cielo, sole };
   }
 
+  // il centro del quinto piu' alto dei punti di un modello, un po' piu' giu': dove sta la lampadina nel paralume
+  paralume(obj) {
+    const punti = [];
+    obj.updateMatrixWorld(true);
+    obj.traverse((o) => {
+      if (!o.isMesh) return;
+      const pos = o.geometry.attributes.position;
+      const passo = Math.max(1, Math.floor(pos.count / 3000));
+      for (let i = 0; i < pos.count; i += passo) punti.push(new THREE.Vector3().fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld));
+    });
+    const ys = punti.map((p) => p.y).sort((a, b) => a - b);
+    const soglia = ys[Math.floor(ys.length * 0.8)];
+    const c = new THREE.Vector3();
+    let n = 0;
+    for (const p of punti) if (p.y >= soglia) { c.add(p); n++; }
+    return c.divideScalar(Math.max(1, n)).add(new THREE.Vector3(0, -0.035, 0));
+  }
+
   // la mattina la tapparella e' alzata e dai vetri entra il giorno; la sera e' abbassata e resta la lampada
   fase(f) {
     const l = LUCI[f] || LUCI.mattina;
@@ -873,6 +906,7 @@ export class Stanza {
     this.L.sole.visible = l.sole > 0;
     this.scena.environmentIntensity = l.ambiente;
     this.renderer.toneMappingExposure = l.esposizione;
+    this.renderer.shadowMap.needsUpdate = true;
     for (const o of this.pezzi.finestra || []) {
       o.material.map = l.giorno ? this.T.finestra : this.T.finestra_chiusa;
       o.material.emissiveIntensity = l.giorno ? 1.25 : 0;
@@ -894,11 +928,30 @@ export class Stanza {
     this.verso = null;
     this.tasti = {};
     this.attiva = true;
+    this.seduto = null;
+    this.camera.fov = VISTA;
+    this.camera.updateProjectionMatrix();
+    this.schermo.dataset.sopra = "";
+  }
+
+  // ci si siede alla scrivania: il puntatore si libera e la camera va a guardare il piano, da dov'era
+  siedi() {
+    this.rilascia();
+    this.evidenzia(null);
+    this.percorso = [];
+    this.meta = null;
+    this.verso = null;
+    this.vel.set(0, 0);
+    this.tasti = {};
+    this.giu = null;
+    this.attiva = true;
+    this.seduto = { t: 0, pos: this.camera.position.clone(), rot: this.camera.quaternion.clone(), fov: this.camera.fov };
     this.schermo.dataset.sopra = "";
   }
 
   esci() {
     this.attiva = false;
+    this.seduto = null;
     this.percorso = [];
     this.meta = null;
     this.verso = null;
@@ -1025,9 +1078,19 @@ export class Stanza {
   }
 
   passo(dt) {
-    if (this.attiva) this.aggiorna(Math.min(dt, 0.1));
-    // la porta della stanzetta va piano verso la sua apertura
-    if (this.cardine) this.cardine.rotation.y += (this.aperturaOspite - this.cardine.rotation.y) * Math.min(1, dt * 2.2);
+    if (this.attiva) {
+      if (this.seduto) this.alTavolo(dt);
+      else this.aggiorna(Math.min(dt, 0.1));
+    }
+    // il display del videoregistratore lampeggia ogni mezzo secondo
+    this.tempo = (this.tempo || 0) + dt;
+    const acceso = Math.floor(this.tempo * 2) % 2 === 0;
+    if (acceso !== this.acceso) { this.acceso = acceso; this.aggiornaDisplay(acceso); }
+    // la porta della stanzetta va piano verso la sua apertura (e intanto le ombre cambiano)
+    if (this.cardine && Math.abs(this.aperturaOspite - this.cardine.rotation.y) > 0.0005) {
+      this.cardine.rotation.y += (this.aperturaOspite - this.cardine.rotation.y) * Math.min(1, dt * 2.2);
+      this.renderer.shadowMap.needsUpdate = true;
+    }
     this.renderer.render(this.scena, this.camera);
   }
 
@@ -1101,10 +1164,20 @@ export class Stanza {
       const c = this.colpisci(0.5, 0.5);
       this.evidenzia(c && c.oggetto && this.puoi() ? c.oggetto : null);
     }
-    // il display del videoregistratore lampeggia ogni mezzo secondo
-    this.tempo = (this.tempo || 0) + dt;
-    const acceso = Math.floor(this.tempo * 2) % 2 === 0;
-    if (acceso !== this.acceso) { this.acceso = acceso; this.aggiornaDisplay(acceso); }
+  }
+
+  // seduti: la camera va da dov'era alla vista sul piano, poi la testa segue appena il puntatore
+  alTavolo(dt) {
+    const s = this.seduto;
+    s.t = Math.min(1, s.t + dt / 0.75);
+    const k = s.t * s.t * (3 - 2 * s.t);
+    const [px, py] = this.puntatore;
+    const pos = new THREE.Vector3(SEDUTO.pos[0] + (px - 0.5) * 0.05, SEDUTO.pos[1] - (py - 0.5) * 0.03, SEDUTO.pos[2]);
+    const q = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(pos, new THREE.Vector3(...SEDUTO.guarda), ALTO));
+    this.camera.position.lerpVectors(s.pos, pos, k);
+    this.camera.quaternion.slerpQuaternions(s.rot, q, k);
+    this.camera.fov = s.fov + (SEDUTO.fov - s.fov) * k;
+    this.camera.updateProjectionMatrix();
   }
 
   // ---------- puntatore, tocchi, tastiera ----------
@@ -1114,7 +1187,16 @@ export class Stanza {
     this.raggio.setFromCamera(new THREE.Vector2(fx * 2 - 1, 1 - fy * 2), this.camera);
     const hit = this.raggio.intersectObjects(this.scena.children, true)[0];
     if (!hit) return null;
-    return { punto: hit.point, oggetto: hit.object.userData.oggetto || null, pavimento: !!hit.object.userData.pavimento, d: hit.distance };
+    const u = hit.object.userData;
+    return { punto: hit.point, oggetto: u.oggetto || null, pezzo: u.pezzo || null, pavimento: !!u.pavimento, d: hit.distance };
+  }
+
+  // da seduti: quale pezzo della scrivania c'e' sotto un punto dello schermo (il raggio prova solo quelli)
+  colpisciPezzo(fx, fy) {
+    this.tuttiPezzi = this.tuttiPezzi || Object.keys(this.pezzi).filter((k) => k[0] === "@").flatMap((k) => this.pezzi[k]);
+    this.raggio.setFromCamera(new THREE.Vector2(fx * 2 - 1, 1 - fy * 2), this.camera);
+    const hit = this.raggio.intersectObjects(this.tuttiPezzi, false)[0];
+    return hit ? hit.object.userData.pezzo : null;
   }
 
   // dove cade sullo schermo un punto della stanza (frazioni da 0 a 1)
@@ -1129,7 +1211,7 @@ export class Stanza {
     this.sopra = id;
     for (const o of this.pezzi[id] || []) for (const m of [].concat(o.material)) if (!m.emissiveMap) m.emissive.setHex(0x221a08);
     this.schermo.dataset.sopra = id ? "1" : "";
-    this.onSopra(id ? OGGETTI[id].nome : null);
+    this.onSopra(!id ? null : id[0] === "@" ? this.nomiPezzi[id.slice(1)] || null : OGGETTI[id].nome);
   }
 
   usa(c) {
@@ -1177,6 +1259,12 @@ export class Stanza {
     };
     this.schermo.addEventListener("pointerdown", (e) => {
       if (!this.attiva || fuori(e) || this.giu || (e.pointerType === "mouse" && e.button !== 0)) return;
+      if (this.seduto) {
+        // seduti: un clic (o un tocco) usa il pezzo che c'e' sotto
+        const [fx, fy] = frazioni(e);
+        this.giu = { id: e.pointerId, x: e.clientX, y: e.clientY, fx, fy, mosso: false, tipo: e.pointerType };
+        return;
+      }
       if (this.bloccato) {
         // col mouse bloccato, il clic usa quello che c'e' nel mirino
         const c = this.colpisci(0.5, 0.5);
@@ -1197,6 +1285,19 @@ export class Stanza {
     });
     this.schermo.addEventListener("pointermove", (e) => {
       if (!this.attiva) return;
+      if (this.seduto) {
+        const [fx, fy] = frazioni(e);
+        this.puntatore = [fx, fy];
+        const g = this.giu;
+        if (g && g.id === e.pointerId && Math.hypot(e.clientX - g.x, e.clientY - g.y) > 12) g.mosso = true;
+        if (e.pointerType === "touch" || fuori(e)) return;
+        const ora = performance.now();
+        if (ora - this.ultimoSopra < 40) return;
+        this.ultimoSopra = ora;
+        const pezzo = this.colpisciPezzo(fx, fy);
+        this.evidenzia(pezzo && this.puoi() ? "@" + pezzo : null);
+        return;
+      }
       if (this.bloccato) {
         this.yaw -= e.movementX * MOUSE;
         this.pitch = clamp(this.pitch - e.movementY * MOUSE, -1.2, 1.2);
@@ -1233,6 +1334,13 @@ export class Stanza {
       this.giu = null;
       this.schermo.classList.remove("guarda");
       if (e.type === "pointercancel" || g.mosso || !this.attiva || !this.puoi()) return;
+      if (this.seduto) {
+        const pezzo = this.colpisciPezzo(g.fx, g.fy);
+        this.evidenzia(null);
+        // dopo il clic: se no il clic stesso arriva alla schermata che si apre (la mappa si ingrandiva)
+        if (pezzo) setTimeout(() => this.onScrivania(pezzo), 0);
+        return;
+      }
       this.usa(this.colpisci(g.fx, g.fy));
     };
     this.schermo.addEventListener("pointerup", su);
@@ -1240,7 +1348,7 @@ export class Stanza {
     this.schermo.addEventListener("pointerleave", () => { if (this.attiva && !this.giu && !this.bloccato) this.evidenzia(null); });
     const tasti = ["KeyW", "KeyA", "KeyS", "KeyD", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
     window.addEventListener("keydown", (e) => {
-      if (!this.attiva || e.target.closest?.("input, textarea, #foglio")) return;
+      if (!this.attiva || this.seduto || e.target.closest?.("input, textarea, #foglio")) return;
       if (tasti.includes(e.code)) {
         this.tasti[e.code] = true;
         e.preventDefault();
