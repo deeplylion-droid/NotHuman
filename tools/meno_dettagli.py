@@ -15,6 +15,8 @@ Per ogni immagine si fa una versione con meno dettagli nella cartella meno_detta
 4. Occhi e bocche restano originali (Real-ESRGAN li rovinava): maschere di SAM 3 ("eye" e "mouth"), allargate in
    proporzione per prendere palpebre, occhiaie e labbra, coi bordi sfumati. Le bocche che SAM 3 non trova sono
    ellissi scritte a mano in A_MANO.
+5. Le facce piccole, lontane (meno di PICCOLA della larghezza dell'immagine, per esempio la figlia sulla porta),
+   restano originali per intero: li' i dettagli non si vedono comunque, e Real-ESRGAN le deforma (maschere "face").
 Ogni passaggio salta se il suo file c'e' gia' (meno_dettagli/esrgan/, meno_dettagli/maschere/, l'immagine finale):
 per rifarne uno basta cancellarlo. Costa un paio di centesimi a immagine.
 """
@@ -36,6 +38,8 @@ import prepara_gioco  # noqa: E402
 
 ESRGAN, SAM = "fal-ai/esrgan", "fal-ai/sam-3/image"
 SUPERFICIE = 640 * 360
+# una faccia e' piccola se il lato (la radice della sua superficie) e' meno di questa frazione della larghezza
+PICCOLA = 0.04
 # bocche che SAM 3 non trova (nemmeno come "lips" o "teeth"): ellissi (cx, cy, rx, ry) in frazioni dell'immagine
 A_MANO = {
     "art/scene/01-cucina/finale.jpg": [(0.48698, 0.30556, 0.00625, 0.00648)],  # la figlia sulla porta, troppo piccola
@@ -81,7 +85,7 @@ def lavori(f):
         out.append({"nome": f"{f.stem}_esrgan", "modello": ESRGAN, "cartella": c / "esrgan",
                     "input": {"image_url": f"@file:{piccola}", "model": "RealESRGAN_x4plus", "scale": round(1 / s, 3),
                               "face": False, "output_format": "png"}})
-    for parte in ("eye", "mouth"):
+    for parte in ("eye", "mouth", "face"):
         if not any((c / "maschere").glob(f"{f.stem}_{parte}*")):
             (c / "maschere").mkdir(parents=True, exist_ok=True)
             out.append({"nome": f"{f.stem}_{parte}", "modello": SAM, "cartella": c / "maschere",
@@ -125,15 +129,21 @@ def maschera(paths, size):
 
 
 def occhi_bocche(f, w, h):
-    """Dove tenere l'originale: occhi e bocche, allargati in proporzione alla loro grandezza e sfumati."""
-    pezzi = [np.asarray(Image.open(p).convert("L").resize((w, h), Image.BILINEAR), np.float32) / 255
-             for p in sorted((cartella(f) / "maschere").glob(f"{f.stem}_*_maschera*.png"))]
+    """Dove tenere l'originale: occhi, bocche e facce piccole, allargati in proporzione alla grandezza e sfumati."""
+    carica = lambda p: np.asarray(Image.open(p).convert("L").resize((w, h), Image.BILINEAR), np.float32) / 255  # noqa: E731
+    pezzi = [(carica(p), 0.25) for parte in ("eye", "mouth")
+             for p in sorted((cartella(f) / "maschere").glob(f"{f.stem}_{parte}_maschera*.png"))]
+    for p in sorted((cartella(f) / "maschere").glob(f"{f.stem}_face_maschera*.png")):
+        x = carica(p)
+        if np.sqrt((x > 0.5).sum()) < PICCOLA * w:
+            pezzi.append((x, 0.12))
     for cx, cy, rx, ry in A_MANO.get(str(f.relative_to(ROOT)), []):
         e = np.zeros((h, w), np.float32)
-        pezzi.append(cv2.ellipse(e, (round(cx * w), round(cy * h)), (round(rx * w), round(ry * h)), 0, 0, 360, 1.0, -1))
+        e = cv2.ellipse(e, (round(cx * w), round(cy * h)), (round(rx * w), round(ry * h)), 0, 0, 360, 1.0, -1)
+        pezzi.append((e, 0.25))
     m = np.zeros((h, w), np.float32)
-    for x in pezzi:
-        r = max(2, round(np.sqrt((x > 0.5).sum()) * 0.25))
+    for x, quanto in pezzi:
+        r = max(2, round(np.sqrt((x > 0.5).sum()) * quanto))
         x = cv2.dilate(x, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * r + 1, 2 * r + 1)))
         m = np.maximum(m, cv2.GaussianBlur(x, (0, 0), max(1.0, r * 0.5)))
     return m[..., None]
