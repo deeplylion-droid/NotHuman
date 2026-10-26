@@ -97,6 +97,8 @@ Decise il 26 ottobre, con le domande in chat.
 
 - **La scrivania del medico**, vista dall'alto, in una stanza in affitto: la mappa di carta con le puntine, il fax col protocollo, il giornale del mattino, il televisore col videoregistratore per i nastri della sera. Tutto dentro il mondo, niente menu.
 - **La mappa del paese** (26 ottobre, rifatta più grande): 50 case numerate attorno alla chiesa, il fiume con due ponti, il cimitero e, ai margini, il recinto della Panacea (prefabbricati bianchi, antenna, fari): la tecnologia della ditta fuori posto nel paese. I tetti sono rossi apposta, per trovare le case in automatico e metterci gli spilli. Nel gioco la mappa si ingrandisce toccandola. La mappa di prima, più piccola, è in `art/scrivania/mappa_prima.jpg`.
+- **Le case sulla mappa** (26 ottobre): passandoci sopra la casa si illumina e il medico la cerchia a matita rossa; accanto appare la sua scheda, un cartoncino con la segnalazione e gli occupanti. Prima della visita le foto sono vuote (punti di domanda); dopo la visita la scheda è piena: foto degli occupanti visti, cosa ha visto l'esame, chi è finito al lazzaretto, le prove, il provvedimento. Le foto sono ritagli delle scene (`gioco/img/volti`).
+- **Il giornale** (26 ottobre): disegnato nello stile a fumetto, inclinato, con le pagine dietro storte come se fosse piegato male (`art/giornale/giornale.jpg`, GPT Image 2). Sulla carta c'è solo la testata: titolo, sommario, foto e colonne li stampa il gioco con la stessa prospettiva della pagina (`PAGINA` in `gioco/js/dati.js`), con un filtro che fa tremare un po' l'inchiostro. Così il testo cambia ogni giorno e resta leggibile. In prima pagina la foto del medico di spalle nella via del paese (`art/giornale/foto_medico.jpg`). Sugli schermi piccoli sotto la pagina c'è lo stesso testo da leggere.
 - **I comandi del medico** (Taccuino, Concludi la visita, Torna alla scrivania) stanno in una barra sotto lo schermo, così l'immagine della videocamera resta libera; dentro lo schermo solo l'OSD, i sottotitoli e le domande.
 
 ### Fine della partita e storia
@@ -185,8 +187,9 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 - `08-filtri`: le combinazioni approvate 02 e 04 con sette filtri finali: verde, verde acido, verde retinato, verde con il rosso, VHS, VHS verde, fotocopia.
 - `09-vhs-animato`: anteprima del VHS animato in tempo reale sul soggiorno nello stile definitivo, con i tre filtri (giorno, notte in verde, infrarosso) e intensità regolabile, che parte dal 50%. Senza la banda di disturbo, tolta il 26 ottobre.
 - `10-coerenza`: lo stesso personaggio in più stati e inquadrature (vedi sopra).
-- `13-mappa`: la mappa nuova com'è nel gioco (con il VHS) e tre varianti senza VHS: pixellata, a fumetto pieno, a fumetto e pixellata. Nella versione a fumetto il modello ha spostato un po' le case: mescolata al 60% le sdoppiava, quindi è al 100%. Se si sceglie, vanno rifatte le posizioni degli spilli.
-- `12-scrivania`: la scrivania del medico com'è nel gioco (20% di fumetto e VHS al 50%) e tre varianti senza VHS: pixellata (il trattamento delle prime schermate: bassa risoluzione, pochi colori, retinatura), disegnata al 60%, disegnata al 60% e pixellata.
+- `13-mappa`: la mappa nuova com'è nel gioco (con il VHS) e varianti senza VHS: pixellata, a fumetto pieno, a fumetto e pixellata, disegnata al 40%. Nella versione a fumetto il modello ha spostato un po' le case e mescolandola le sdoppiava: per il 40% è stata riallineata all'originale con `tools/allinea.py` (`art/scrivania/mappa_paese_stile_allineata.jpg`).
+- `14-dialoghi`: tre proposte per dialoghi e prove, su immagini di esempio della cucina: A "Le parole addosso", B "Il nastro delle frasi", C "La maschera legge"; e il padre con altre due espressioni, nervoso e arrabbiato (Nano Banana Pro cambia solo la faccia).
+- `12-scrivania`: la scrivania del medico com'è nel gioco (20% di fumetto e VHS al 50%) e varianti senza VHS: pixellata (il trattamento delle prime schermate: bassa risoluzione, pochi colori, retinatura), disegnata al 60%, disegnata al 60% e pixellata, disegnata al 40%.
 - `11-personaggi-50`: prove per avere personaggi meno disegnati. **Scelta:** la prima prova, con i personaggi rifatti in foto e ammorbiditi, montati sulla stanza al 20% (`c_ammorbiditi_sfondo20.jpg`, con il VHS `c_ammorbiditi_sfondo20_vhs.jpg`, in versione notturna con il VHS verde `c_ammorbiditi_sfondo20_vhs_verde.jpg`). Scartate: il mescolamento 50% foto e 50% fumetto (`a_mescolati_50_vhs.jpg`) e i personaggi ridisegnati "a metà" (`b_meta_disegnati.jpg`).
 
 Questionario delle combinazioni della cucina (06 e 07), con i voti salvati: https://claude.ai/artifact/3TEf1Gyxsk5XU5saPN3K6r
@@ -208,6 +211,7 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 - `tools/intensita.py`: applica lo stile con intensità diverse a sfondo e personaggi; con "buio" fa sprofondare la stanza nel buio fuori da un cono di luce.
 - `tools/primi_piani.py`: i primi piani delle parti del corpo per l'esame, con il riferimento del personaggio (descrizione in `primi_piani.json` nella cartella della scena).
 - `tools/prepara_gioco.py`: prepara le immagini del prototipo in `gioco/img` (scene, mappe dei personaggi per i clic, sagome, mappe di calore per l'infrarosso, scrivania al 20%, mappa, primi piani).
+- `tools/allinea.py`: riallinea un'immagine ridisegnata all'originale (spostamento d'insieme e poi punto per punto, con OpenCV), per mescolarle senza contorni doppi.
 - `tools/filtri.py`: filtri finali per rendere omogenee immagini di stili diversi (verdi, infrarosso, VHS, fotocopia). Non usa l'AI, quindi non costa niente.
 - Servizio: **fal.ai**. La chiave si legge da `FAL_KEY` (impostazioni dell'ambiente cloud) o da `~/.config/fal/key`; mai nel repo.
 - Modelli:
@@ -256,9 +260,10 @@ NINAH è quasi tutto 2D. Per ora bastano sfondi 2D generati; il 3D servirebbe so
 
 1. **Prototipo giocabile di una giornata** (26 ottobre): https://claude.ai/artifact/PWFyiToQ3fwPAjNgiHYJYT. La scrivania con fax, giornale, taccuino e mappa; le case 3 e 5 con REC, zoom della videocamera, sottotitoli, domande e prove, porte; il modulo della ditta; la sera i nastri all'infrarosso; la notte con il contagio, i conti, il giornale del giorno dopo e la verità. Il codice è in `gioco/`; le immagini si preparano con `tools/prepara_gioco.py`, i primi piani si generano con `tools/primi_piani.py`. Provato tutto in Chromium sul computer e a misura di telefono. Da giocare e commentare.
 2. Scegliere l'aspetto della scrivania e della mappa (`art/prove-stile/12-scrivania`, `art/prove-stile/13-mappa`).
-3. Proposte per gli elementi cyberpunk e per un sistema di dialoghi e prove più originale.
-4. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
-5. Il gioco completo: famiglie, storia, giorni.
+3. Scegliere il sistema di dialoghi e prove tra le proposte A, B e C (`art/prove-stile/14-dialoghi`) e realizzarlo: la versione attuale con i sottotitoli nel riquadro nero e l'elenco di domande è scartata (26 ottobre).
+4. Proposte per gli elementi cyberpunk.
+5. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
+6. Il gioco completo: famiglie, storia, giorni.
 
 ## Fonti
 

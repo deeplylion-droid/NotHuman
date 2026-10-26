@@ -136,49 +136,50 @@ export const PORTE = {
   },
 };
 
-// gli esami: "rifiuta" se la persona non si fa guardare, altrimenti il primo piano e cosa dice
+// gli esami: "rifiuta" se la persona non si fa guardare, altrimenti il primo piano e cosa dice;
+// "reperto" e' cosa ha visto il medico, per la scheda della casa
 export const ESAMI = {
   padre: {
-    occhi: { dice: [["PADRE", "Ho dormito poco."]] },
-    bocca: { dice: [["PADRE", "I denti sono così da sempre."]] },
-    collo: { dice: [["PADRE", "[tira su il colletto]"], ["PADRE", "È una botta."]] },
-    ascelle: { rifiuta: [["PADRE", "Non mi spoglio davanti a mia figlia."]] },
-    mani: { dice: [["PADRE", "È grasso. Faccio il meccanico."]] },
+    occhi: { reperto: "occhi lucidi e arrossati", dice: [["PADRE", "Ho dormito poco."]] },
+    bocca: { reperto: "denti marci", dice: [["PADRE", "I denti sono così da sempre."]] },
+    collo: { reperto: "gonfiore duro sotto la mascella", dice: [["PADRE", "[tira su il colletto]"], ["PADRE", "È una botta."]] },
+    ascelle: { reperto: "si è rifiutato", rifiuta: [["PADRE", "Non mi spoglio davanti a mia figlia."]] },
+    mani: { reperto: "grasso da meccanico sotto le unghie", dice: [["PADRE", "È grasso. Faccio il meccanico."]] },
   },
   figlia: {
-    occhi: { dice: [["FIGLIA", "Non dormo bene."]] },
-    bocca: { dice: [["FIGLIA", "[silenzio]"]] },
-    collo: { dice: [["FIGLIA", "[trattiene il respiro]"]] },
-    ascelle: { rifiuta: [["FIGLIA", "No."], ["PADRE", "Lasciatela stare."]] },
-    mani: { dice: [["FIGLIA", "Me le mangio. Da quando..."], ["FIGLIA", "[si ferma]"]] },
+    occhi: { reperto: "occhiaie, occhi chiari", dice: [["FIGLIA", "Non dormo bene."]] },
+    bocca: { reperto: "labbra screpolate", dice: [["FIGLIA", "[silenzio]"]] },
+    collo: { reperto: "niente", dice: [["FIGLIA", "[trattiene il respiro]"]] },
+    ascelle: { reperto: "si è rifiutata", rifiuta: [["FIGLIA", "No."], ["PADRE", "Lasciatela stare."]] },
+    mani: { reperto: "unghie mangiate", dice: [["FIGLIA", "Me le mangio. Da quando..."], ["FIGLIA", "[si ferma]"]] },
   },
   madre: {
-    occhi: { dice: [["MADRE", "[non riesce a tenere gli occhi aperti]"]] },
-    bocca: { dice: [["MADRE", "Acqua..."]] },
-    collo: { dice: [["MADRE", "[geme]"]] },
-    ascelle: { dice: [["MADRE", "Fa male. Fa tanto male."]] },
-    mani: { dice: [["MADRE", "Non le sento più, le dita."]] },
+    occhi: { reperto: "occhi lucidi, febbre alta", dice: [["MADRE", "[non riesce a tenere gli occhi aperti]"]] },
+    bocca: { reperto: "labbra secche", dice: [["MADRE", "Acqua..."]] },
+    collo: { reperto: "ghiandole gonfie", dice: [["MADRE", "[geme]"]] },
+    ascelle: { reperto: "bubbone sotto l'ascella", dice: [["MADRE", "Fa male. Fa tanto male."]] },
+    mani: { reperto: "punte delle dita nere", dice: [["MADRE", "Non le sento più, le dita."]] },
   },
   uomo: {
-    occhi: { dice: [["UOMO", "È il termosifone, vi ho detto."]] },
-    bocca: { dice: [["UOMO", "[ringhia]"]] },
-    collo: { dice: [["UOMO", "Avete finito?"]] },
-    ascelle: { rifiuta: [["UOMO", "Toccatemi e vi rompo il becco."]] },
-    mani: { dice: [["UOMO", "[stringe i pugni]"]] },
+    occhi: { reperto: "occhi lucidi e arrossati, sudore", dice: [["UOMO", "È il termosifone, vi ho detto."]] },
+    bocca: { reperto: "niente", dice: [["UOMO", "[ringhia]"]] },
+    collo: { reperto: "sudato, niente gonfiori", dice: [["UOMO", "Avete finito?"]] },
+    ascelle: { reperto: "si è rifiutato", rifiuta: [["UOMO", "Toccatemi e vi rompo il becco."]] },
+    mani: { reperto: "niente", dice: [["UOMO", "[stringe i pugni]"]] },
   },
   giovane: {
-    occhi: { dice: [["RAGAZZA", "[silenzio]"]] },
-    bocca: { dice: [["RAGAZZA", "Ho freddo."]] },
-    collo: { dice: [["RAGAZZA", "[deglutisce]"]] },
-    ascelle: { dice: [["RAGAZZA", "Va bene."]] },
-    mani: { dice: [["RAGAZZA", "Sono sempre fredde."]] },
+    occhi: { reperto: "occhiaie, occhi chiari", dice: [["RAGAZZA", "[silenzio]"]] },
+    bocca: { reperto: "labbra pallide, quasi viola", dice: [["RAGAZZA", "Ho freddo."]] },
+    collo: { reperto: "pallido, niente gonfiori", dice: [["RAGAZZA", "[deglutisce]"]] },
+    ascelle: { reperto: "niente", dice: [["RAGAZZA", "Va bene."]] },
+    mani: { reperto: "mani fredde, unghie bluastre", dice: [["RAGAZZA", "Sono sempre fredde."]] },
   },
   nonna: {
-    occhi: { dice: [["NONNA", "Ci vedo poco. Ma lei la vedo benissimo."]] },
-    bocca: { dice: [["NONNA", "L'ultimo dente. Lo tengo per le feste."]] },
-    collo: { dice: [["NONNA", "La Madonna. Contro i medici."]] },
-    ascelle: { rifiuta: [["NONNA", "Alla mia età? Si vergogni, dottore."]] },
-    mani: { dice: [["NONNA", "Ottant'anni di lavoro. Guardi pure."]] },
+    occhi: { reperto: "cataratta", dice: [["NONNA", "Ci vedo poco. Ma lei la vedo benissimo."]] },
+    bocca: { reperto: "un dente solo", dice: [["NONNA", "L'ultimo dente. Lo tengo per le feste."]] },
+    collo: { reperto: "una medaglietta", dice: [["NONNA", "La Madonna. Contro i medici."]] },
+    ascelle: { reperto: "si è rifiutata", rifiuta: [["NONNA", "Alla mia età? Si vergogni, dottore."]] },
+    mani: { reperto: "artrite", dice: [["NONNA", "Ottant'anni di lavoro. Guardi pure."]] },
   },
 };
 
@@ -303,20 +304,31 @@ export const SCRIVANIA = [
   { id: "lampada", nome: "La lampada", box: [0.03, 0.0, 0.16, 0.12] },
 ];
 
-// la mappa del paese: le case (x, y del tetto, frazioni della mappa), numerate per file dall'alto
+// la mappa del paese: le case, numerate per file dall'alto. Per ognuna: x, y del tetto (dove va lo spillo) e
+// l'ellisse che copre tutta la casa (centro, raggi), da illuminare quando ci si passa sopra; frazioni della mappa
 const TETTI = [
-  [0.1679, 0.1792], [0.335, 0.262], [0.4535, 0.2488], [0.5089, 0.2683], [0.614, 0.2538], [0.6549, 0.2347],
-  [0.2855, 0.3565], [0.3582, 0.3293], [0.3906, 0.2887], [0.396, 0.3425], [0.4223, 0.3374], [0.4353, 0.3038],
-  [0.481, 0.2821], [0.5001, 0.3183], [0.5299, 0.3645], [0.5368, 0.3065], [0.5722, 0.3387], [0.6135, 0.3658],
-  [0.673, 0.327], [0.0905, 0.4427], [0.2627, 0.3993], [0.3029, 0.4549], [0.324, 0.422], [0.325, 0.47],
-  [0.3454, 0.3927], [0.3673, 0.4463], [0.5584, 0.3983], [0.5855, 0.4526], [0.6116, 0.4954], [0.6336, 0.4321],
-  [0.6663, 0.3908], [0.7088, 0.4717], [0.7323, 0.3951], [0.3235, 0.5609], [0.3659, 0.526], [0.398, 0.5801],
-  [0.421, 0.5451], [0.4482, 0.6061], [0.4689, 0.5414], [0.4805, 0.578], [0.5397, 0.5154], [0.5566, 0.547],
-  [0.6041, 0.5599], [0.6626, 0.5041], [0.373, 0.632], [0.4095, 0.6563], [0.4714, 0.6722], [0.5486, 0.6694],
-  [0.587, 0.642], [0.5208, 0.727],
+  [0.1679, 0.1792, 0.1684, 0.1893, 0.0145, 0.0277], [0.335, 0.262, 0.335, 0.2739, 0.0159, 0.0303], [0.4535, 0.2488, 0.4543, 0.2612, 0.0154, 0.0288],
+  [0.5089, 0.2683, 0.5094, 0.2757, 0.0145, 0.0277], [0.614, 0.2538, 0.6152, 0.2666, 0.0154, 0.0335], [0.6549, 0.2347, 0.6547, 0.2449, 0.0145, 0.0277],
+  [0.2855, 0.3565, 0.2852, 0.3719, 0.0159, 0.0383], [0.3582, 0.3293, 0.3586, 0.3431, 0.0149, 0.0319], [0.3906, 0.2887, 0.3906, 0.3027, 0.0149, 0.0335],
+  [0.396, 0.3425, 0.3965, 0.3543, 0.0145, 0.0288], [0.4223, 0.3374, 0.4227, 0.3476, 0.0145, 0.0277], [0.4353, 0.3038, 0.4363, 0.3167, 0.0175, 0.0303],
+  [0.481, 0.2821, 0.4812, 0.2933, 0.0145, 0.0277], [0.5001, 0.3183, 0.5004, 0.3294, 0.0145, 0.0277], [0.5299, 0.3645, 0.5301, 0.3752, 0.0175, 0.0277],
+  [0.5368, 0.3065, 0.5375, 0.322, 0.017, 0.0367], [0.5722, 0.3387, 0.5734, 0.354, 0.0191, 0.0367], [0.6135, 0.3658, 0.6141, 0.3815, 0.0223, 0.0415],
+  [0.673, 0.327, 0.6719, 0.3441, 0.0202, 0.0399], [0.0905, 0.4427, 0.0902, 0.4544, 0.0145, 0.0277], [0.2627, 0.3993, 0.2633, 0.4112, 0.0159, 0.0288],
+  [0.3029, 0.4549, 0.3027, 0.4655, 0.0175, 0.0277], [0.324, 0.422, 0.324, 0.4339, 0.0159, 0.0303], [0.325, 0.47, 0.325, 0.4819, 0.0159, 0.0303],
+  [0.3454, 0.3927, 0.3457, 0.4031, 0.0145, 0.0277], [0.3673, 0.4463, 0.3687, 0.4533, 0.0145, 0.0277], [0.5584, 0.3983, 0.5594, 0.4112, 0.017, 0.0303],
+  [0.5855, 0.4526, 0.5859, 0.4667, 0.0145, 0.0303], [0.6116, 0.4954, 0.6105, 0.5072, 0.0145, 0.0277], [0.6336, 0.4321, 0.6336, 0.4471, 0.0202, 0.0351],
+  [0.6663, 0.3908, 0.666, 0.4016, 0.0145, 0.0277], [0.7088, 0.4717, 0.7086, 0.4936, 0.0255, 0.0511], [0.7323, 0.3951, 0.7332, 0.4122, 0.0186, 0.0399],
+  [0.3235, 0.5609, 0.3277, 0.575, 0.0186, 0.0319], [0.3659, 0.526, 0.3652, 0.539, 0.0197, 0.0288], [0.398, 0.5801, 0.3984, 0.5956, 0.017, 0.0367],
+  [0.421, 0.5451, 0.4211, 0.557, 0.0145, 0.0303], [0.4482, 0.6061, 0.4484, 0.6218, 0.0181, 0.0415], [0.4689, 0.5414, 0.468, 0.5543, 0.0145, 0.0288],
+  [0.4805, 0.578, 0.4805, 0.5899, 0.0159, 0.0303], [0.5397, 0.5154, 0.5398, 0.5241, 0.0145, 0.0277], [0.5566, 0.547, 0.5566, 0.5589, 0.0159, 0.0303],
+  [0.6041, 0.5599, 0.6055, 0.5812, 0.0191, 0.0479], [0.6626, 0.5041, 0.6641, 0.5178, 0.0159, 0.0367], [0.373, 0.632, 0.373, 0.6439, 0.0159, 0.0303],
+  [0.4095, 0.6563, 0.4098, 0.6746, 0.025, 0.0415], [0.4714, 0.6722, 0.473, 0.6924, 0.0197, 0.0479], [0.5486, 0.6694, 0.5496, 0.6846, 0.0165, 0.0351],
+  [0.587, 0.642, 0.5859, 0.6633, 0.0159, 0.0447], [0.5208, 0.727, 0.5203, 0.7465, 0.0255, 0.0479],
 ];
 export const CASE = {};
-TETTI.forEach(([x, y], i) => { CASE[`casa${i + 1}`] = { n: i + 1, x, y, nota: "Nessuna segnalazione." }; });
+TETTI.forEach(([x, y, ex, ey, rx, ry], i) => {
+  CASE[`casa${i + 1}`] = { n: i + 1, x, y, ex, ey, rx, ry, nota: "Nessuna segnalazione." };
+});
 Object.assign(CASE.casa1, { nota: "Croce sulla porta. Chiusa da ieri.", croce: true });
 Object.assign(CASE.casa3, { luogo: "cucina",
   segnalata: "Un vicino: «Di notte tossiscono. E la moglie non si vede da giorni.»" });
@@ -353,6 +365,18 @@ export const FAX = {
   firma: "PANACEA · Ci prendiamo cura di voi.",
 };
 
+// la prima pagina del giornale disegnato (img/giornale.jpg, 1920x1072): Hf porta le coordinate della pagina (u, v),
+// dove il riquadro della foto e' il quadrato 0-1, alle frazioni dell'immagine; i blocchi di testo sono in (u, v)
+export const PAGINA = {
+  Hf: [[0.296124, 0.022831, 0.2104], [-0.056189, 0.324735, 0.5858], [-0.000545, -0.004989, 1.0]],
+  rapporto: 1920 / 1072,
+  blocchi: {
+    data: [0.04, -0.69, 1.9, -0.62], titolo: [0.04, -0.6, 1.88, -0.31], sommario: [0.08, -0.29, 1.82, -0.06],
+    foto: [0.03, 0.03, 0.97, 0.83], didascalia: [0.03, 0.85, 0.97, 0.98],
+    colonna1: [1.06, 0.03, 1.47, 1.03], colonna2: [1.56, 0.03, 1.93, 1.03],
+  },
+};
+
 export const GIORNALE = {
   testata: "LA VOCE",
   data: "Foglio del paese · lunedì 26 ottobre",
@@ -362,6 +386,7 @@ export const GIORNALE = {
   lettera: "«Mia nonna diceva che la peste arrivò in paese insieme a un medico. Chiudete le porte.» Lettera firmata.",
   breve: "Tre funerali questa settimana. Il parroco: «Vecchiaia e freddo».",
   pubblicita: "PANACEA · Ci prendiamo cura di voi.",
+  didascalia: "Il medico, ieri sera, nella via principale.",
 };
 
 // il nastro vecchio nel cassetto: il passato del medico

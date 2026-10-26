@@ -1,0 +1,40 @@
+{
+  "padre_arrabbiato": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change only the facial expression of the gaunt man in the denim jacket in the foreground: he is now furious, teeth bared, brows down, staring straight at the viewer with hatred. Keep his face recognizable with the same grotesque features, and keep everything else in the image exactly identical: his pose, his clothes, the woman in the doorway, the room, the light and the framing.",
+      "image_urls": [
+        "@file:../../scene/01-cucina/finale.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "padre_arrabbiato.png"
+    ],
+    "seed": null,
+    "secondi": 27,
+    "descrizione": ""
+  },
+  "padre_nervoso": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change only the facial expression of the gaunt man in the denim jacket in the foreground: he is now nervous and guilty, sweating, his eyes looking sideways away from the viewer, lips pressed together. Keep his face recognizable with the same grotesque features, and keep everything else in the image exactly identical: his pose, his clothes, the woman in the doorway, the room, the light and the framing.",
+      "image_urls": [
+        "@file:../../scene/01-cucina/finale.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "padre_nervoso.png"
+    ],
+    "seed": null,
+    "secondi": 27,
+    "descrizione": ""
+  }
+}

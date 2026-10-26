@@ -30,6 +30,7 @@ const comandi = $("#comandi");
 const foglio = $("#foglio");
 const foglioCorpo = $("#foglio-corpo");
 const orologio = $("#orologio");
+const schedaCasa = $("#scheda-casa");
 
 const W = 1600, H = 900;
 const IMG = {};
@@ -48,7 +49,7 @@ function nuovoStato() {
 let S = nuovoStato();
 // quello che non si salva: cosa c'e' sotto il puntatore, sottotitoli in corso, primo piano, nastro in riproduzione
 const R = { hover: null, hoverKey: "", occupato: false, primo: null, play: null, salta: null, turno: 0, blocco: 0,
-  ctx: null, scena: null, animaSpilli: false };
+  ctx: null, scena: null, animaSpilli: false, mctx: null, mappa: null, casaSopra: null, casaScelta: null };
 let vhs = null;
 
 // ---------- immagini ----------
@@ -167,6 +168,8 @@ function pulisci() {
   R.blocco = 0;
   R.hoverKey = "";
   zoneBox.replaceChildren();
+  schedaCasa.hidden = true;
+  delete schedaCasa.dataset.x;
   menu.replaceChildren();
   menu.hidden = true;
   hud.replaceChildren();
@@ -342,20 +345,73 @@ function apriFax() {
   apriFoglio("fax", corpo);
 }
 
+// il giornale: la carta e' disegnata, il testo e' stampato sopra con la stessa prospettiva della pagina
+const U = 400, V0 = -0.72;
+
 function apriGiornale(domani) {
   const g = domani ? giornaleDomani() : D.GIORNALE;
-  const corpo = [
-    el("p", "gio-testata", g.testata), el("p", "gio-data", g.data), el("h2", "gio-titolo", g.titolo),
-    el("p", "gio-sommario", g.sommario),
-  ];
-  const col = el("div", "gio-colonne");
-  col.append(el("p", null, g.articolo));
-  const lett = el("p", "gio-lettera");
-  lett.append(el("b", null, "LETTERE · "), document.createTextNode(g.lettera));
-  col.append(lett, el("p", "gio-breve", g.breve));
-  corpo.push(col, el("p", "gio-pubblicita", g.pubblicita));
+  const stampa = el("div", "gio-stampa");
+  const carta = el("img", "gio-carta");
+  carta.src = "img/giornale.jpg";
+  carta.alt = `La Voce, il giornale del paese: ${g.titolo}`;
+  const piano = el("div", "gio-piano");
+  const blocco = (nome, cls, ...figli) => {
+    const [u0, v0, u1, v1] = D.PAGINA.blocchi[nome];
+    const b = el("div", `gio-blocco ${cls}`);
+    Object.assign(b.style, { left: `${u0 * U}px`, top: `${(v0 - V0) * U}px`, width: `${(u1 - u0) * U}px`,
+      height: `${(v1 - v0) * U}px` });
+    b.append(...figli);
+    return b;
+  };
+  const foto = el("img", "gio-foto");
+  foto.src = "img/foto_medico.jpg";
+  foto.alt = "";
+  const lettera = el("p");
+  lettera.append(el("b", null, "LETTERE · "), document.createTextNode(g.lettera));
+  piano.append(
+    blocco("data", "gio-data", document.createTextNode(g.data)),
+    blocco("titolo", "gio-titolo", el("span", null, g.titolo)),
+    blocco("sommario", "gio-sommario", document.createTextNode(g.sommario)),
+    blocco("foto", "gio-riquadro", foto),
+    blocco("didascalia", "gio-didascalia", document.createTextNode(g.didascalia)),
+    blocco("colonna1", "gio-colonna", el("p", null, g.articolo)),
+    blocco("colonna2", "gio-colonna", lettera, el("p", null, g.breve), el("p", "gio-pubblicita", g.pubblicita)),
+  );
+  stampa.append(carta, piano);
+  // sugli schermi stretti la pagina e' troppo piccola: sotto c'e' lo stesso testo da leggere
+  const leggibile = el("div", "gio-leggibile");
+  leggibile.append(el("h2", null, g.titolo), el("p", "gio-l-sommario", g.sommario), el("p", null, g.articolo),
+    el("p", null, `LETTERE · ${g.lettera}`), el("p", null, g.breve));
+  const corpo = [stampa, leggibile];
   if (domani) corpo.push(azioni([["Com'era davvero", verita]]));
   apriFoglio("giornale", corpo);
+  const proietta = () => {
+    const r = stampa.getBoundingClientRect();
+    if (!r.width) return;
+    const A = [[1 / U, 0, 0], [0, 1 / U, V0], [0, 0, 1]];
+    const S2 = [[r.width, 0, 0], [0, r.height, 0], [0, 0, 1]];
+    const M = moltiplica(moltiplica(S2, D.PAGINA.Hf), A);
+    const k = M[2][2];
+    const m = M.map((riga) => riga.map((v) => v / k));
+    piano.style.transform = `matrix3d(${m[0][0]},${m[1][0]},0,${m[2][0]},${m[0][1]},${m[1][1]},0,${m[2][1]},0,0,1,0,${m[0][2]},${m[1][2]},0,${m[2][2]})`;
+  };
+  // il titolo si stringe finche' non entra nella fascia
+  const titolo = piano.querySelector(".gio-titolo span");
+  const adatta = () => {
+    let fs = 68;
+    titolo.style.fontSize = `${fs}px`;
+    while (fs > 34 && titolo.offsetWidth > D.PAGINA.blocchi.titolo[2] * U * 0.98) {
+      fs -= 2;
+      titolo.style.fontSize = `${fs}px`;
+    }
+  };
+  requestAnimationFrame(() => { adatta(); proietta(); });
+  if (document.fonts) document.fonts.ready.then(() => { adatta(); proietta(); });
+  if (window.ResizeObserver) new ResizeObserver(proietta).observe(stampa);
+}
+
+function moltiplica(A, B) {
+  return A.map((riga, i) => B[0].map((_, j) => riga.reduce((s, _, k) => s + A[i][k] * B[k][j], 0)));
 }
 
 function apriTaccuino() {
@@ -409,27 +465,34 @@ function vaiMappa() {
     vhs.setDark(0);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
   }
-  mostra(IMG.mappa);
+  R.casaSopra = null;
+  R.casaScelta = null;
+  schedaCasa.hidden = true;
+  disegnaMappa();
+  mostra(R.mappa, IMG.mappa.src);
   const spillo = (cls, testo, x, y, nome, azione) => {
     const b = el("button", cls, testo);
     b.type = "button";
     b.dataset.x = x;
     b.dataset.y = y;
     b.setAttribute("aria-label", nome);
-    b.addEventListener("pointerenter", () => mostraEtichetta(maiuscolo(nome)));
-    b.addEventListener("pointerleave", () => { etichetta.hidden = true; });
     b.addEventListener("click", (e) => { e.stopPropagation(); azione(); });
     zoneBox.append(b);
     return b;
   };
   for (const [id, c] of Object.entries(D.CASE)) {
-    const b = spillo("pin", String(c.n), c.x, c.y, `Casa ${c.n}${c.segnalata ? " · segnalata" : ""}`, () => schedaCasa(id));
+    const b = spillo("pin", String(c.n), c.x, c.y, `Casa ${c.n}${c.segnalata ? " · segnalata" : ""}`, () => scegli(id));
+    b.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") evidenzia(id); });
     if (c.segnalata) b.classList.add("segnalata");
     if (c.croce || S.decisioni[id]?.provvedimento === "chiudi") b.classList.add("croce");
     if (S.visitate[id]) b.classList.add("visitata");
     if (S.notte?.contagiate?.includes(id)) b.classList.add("contagiata");
   }
-  for (const l of D.LUOGHI_MAPPA) spillo("pin luogo", l.segno, l.x, l.y, l.nome, () => scheda(l.nome, l.nota, []));
+  for (const l of D.LUOGHI_MAPPA) {
+    const b = spillo("pin luogo", l.segno, l.x, l.y, l.nome, () => mostraLuogo(l));
+    b.addEventListener("pointerenter", () => mostraEtichetta(maiuscolo(l.nome)));
+    b.addEventListener("pointerleave", () => { etichetta.hidden = true; });
+  }
   posizionaSpilli();
   const visite = Object.keys(S.visitate).length;
   hud.append(el("span", "suggerimento", "Tocca la mappa per ingrandire"),
@@ -447,6 +510,10 @@ function posizionaSpilli() {
     b.style.left = `${sx * 100}%`;
     b.style.top = `${sy * 100}%`;
     b.hidden = sx < 0.01 || sx > 0.99 || sy < 0.06 || sy > 1;
+  }
+  if (!schedaCasa.hidden) {
+    if (schedaCasa.dataset.x && !R.casaScelta && !R.casaSopra) posizionaScheda(Number(schedaCasa.dataset.x), Number(schedaCasa.dataset.y));
+    else posizionaScheda();
   }
 }
 
@@ -471,24 +538,197 @@ async function zoomMappa(x, y) {
   if (S.schermo === "mappa") posizionaSpilli();
 }
 
-function scheda(titolo, testo, bottoni) {
-  etichetta.hidden = true;
-  menu.replaceChildren(el("p", "menu-titolo", titolo), el("p", "menu-testo", testo));
-  for (const b of bottoni) menu.append(b);
-  menu.append(bottone("Chiudi", () => { menu.hidden = true; }, "secondario"));
-  menu.hidden = false;
+// ---------- la scheda della casa: appare passando sopra una casa, piena se la casa e' stata visitata ----------
+
+function casaSotto(x, y) {
+  const v = vhs ? vhs.p : { zoom: 1, cx: 0.5, cy: 0.5 };
+  const ix = v.cx + (x - 0.5) / v.zoom;
+  const iy = v.cy + (y - 0.5) / v.zoom;
+  let migliore = null;
+  let dmin = 1.35;
+  for (const [id, c] of Object.entries(D.CASE)) {
+    const d = Math.hypot((ix - c.ex) / c.rx, (iy - c.ey) / c.ry);
+    if (d < dmin) { dmin = d; migliore = id; }
+  }
+  return migliore;
 }
 
-function schedaCasa(id) {
+function disegnaMappa() {
+  if (!R.mctx) return;
+  const ctx = R.mctx;
+  const w = R.mappa.width, h = R.mappa.height;
+  ctx.globalCompositeOperation = "source-over";
+  ctx.globalAlpha = 1;
+  ctx.drawImage(IMG.mappa, 0, 0, w, h);
+  for (const id of new Set([R.casaScelta, R.casaSopra])) {
+    if (!id) continue;
+    const c = D.CASE[id];
+    const cx = c.ex * w, cy = c.ey * h, rx = c.rx * w * 1.3, ry = c.ry * h * 1.2;
+    // luce calda sulla casa
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(rx, ry));
+    g.addColorStop(0, "rgba(255, 232, 180, 0.46)");
+    g.addColorStop(0.65, "rgba(255, 232, 180, 0.24)");
+    g.addColorStop(1, "rgba(255, 232, 180, 0)");
+    ctx.save();
+    ctx.globalCompositeOperation = "lighter";
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+    matita(ctx, cx, cy, rx, ry, c.n);
+  }
+  if (vhs && vhs.source === R.mappa) vhs.refresh();
+}
+
+// il cerchio a matita rossa del medico, un po' storto e sempre uguale per la stessa casa
+function matita(ctx, cx, cy, rx, ry, seme) {
+  let s = seme * 7919;
+  const caso = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  ctx.save();
+  ctx.strokeStyle = "rgba(170, 30, 24, 0.9)";
+  ctx.lineWidth = Math.max(2, R.mappa.width / 820);
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  for (let giro = 0; giro < 2; giro++) {
+    ctx.beginPath();
+    const a0 = caso() * Math.PI * 2;
+    const fine = Math.PI * 2 * (1.06 + caso() * 0.1);
+    for (let k = 0; k <= 70; k++) {
+      const a = a0 + (k / 70) * fine;
+      const j = 1.04 + giro * 0.05 + (caso() - 0.5) * 0.05;
+      const x = cx + Math.cos(a) * rx * j;
+      const y = cy + Math.sin(a) * ry * j;
+      if (k) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+    }
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function evidenzia(id) {
+  if (R.casaSopra === id) return;
+  R.casaSopra = id;
+  disegnaMappa();
+  if (!R.casaScelta) {
+    if (id) mostraScheda(id, false);
+    else schedaCasa.hidden = true;
+  }
+}
+
+function scegli(id) {
+  R.casaScelta = id;
+  R.casaSopra = id;
+  disegnaMappa();
+  if (id) mostraScheda(id, true);
+  else schedaCasa.hidden = true;
+}
+
+function timbro(testo, cls) {
+  return el("span", `timbro ${cls}`, testo);
+}
+
+function mostraScheda(id, fissa) {
   const c = D.CASE[id];
-  const bott = [];
-  let testo = c.segnalata || c.nota;
-  if (S.visitate[id]) testo = "Visitata oggi.";
-  else if (c.segnalata) {
-    if (S.ora + D.MINUTI.viaggio >= D.INIZIO.coprifuoco) testo += " Non fai in tempo prima del coprifuoco.";
-    else bott.push(bottone(`Vai · ${D.MINUTI.viaggio} min`, () => vai(id)));
-  } else if (!c.croce) testo += " Oggi no: la ditta paga le case segnalate.";
-  scheda(`Casa ${c.n}`, testo, bott);
+  const card = schedaCasa;
+  card.replaceChildren();
+  const testa = el("div", "sc-testa");
+  testa.append(el("b", null, `Casa ${c.n}`));
+  if (c.segnalata) testa.append(timbro("segnalata", "rosso"));
+  if (c.croce || S.decisioni[id]?.provvedimento === "chiudi") testa.append(timbro("croce", "nero"));
+  if (S.visitate[id]) testa.append(timbro("visitata", "blu"));
+  if (S.notte?.contagiate?.includes(id)) testa.append(timbro("contagio", "rosso"));
+  card.append(testa);
+  card.append(el("p", "sc-nota", c.segnalata || c.nota));
+  card.append(el("p", "sc-titolo", "Occupanti"));
+  if (S.visitate[id]) {
+    const dec = S.decisioni[id] || { via: [], provvedimento: "nessuno" };
+    for (const [pid, persona] of personeDellaCasa(id)) {
+      const riga = el("div", "sc-persona");
+      const foto = el("img", "sc-foto");
+      foto.src = `img/volti/${pid}.jpg`;
+      foto.alt = persona.nome;
+      const testo = el("div", "sc-dati");
+      testo.append(el("b", null, `${persona.nome[0].toUpperCase()}${persona.nome.slice(1)}`));
+      const visti = Object.keys(D.ESAMI[pid]).filter((parte) => S.esami[`${pid}_${parte}`]);
+      const reperti = visti.map((parte) => `${parte}: ${D.ESAMI[pid][parte].reperto}`);
+      testo.append(el("span", null, reperti.length ? reperti.join(" · ") : "non esaminato"));
+      testo.append(el("em", dec.via.includes(pid) ? "via" : "", dec.via.includes(pid) ? "al lazzaretto" : "resta in casa"));
+      riga.append(foto, testo);
+      card.append(riga);
+    }
+    for (const n of D.NASCOSTI[id] || []) {
+      if (S.prove.some((p) => D.PROVE[p].casa === id && /calore|ragazzo|tosse/.test(p))) {
+        const riga = el("div", "sc-persona");
+        riga.append(el("span", "sc-foto ignota", "?"));
+        const testo = el("div", "sc-dati");
+        testo.append(el("b", null, "Qualcuno dietro la porta"), el("span", null, "non visto"));
+        riga.append(testo);
+        card.append(riga);
+      }
+    }
+    const prove = S.prove.filter((p) => D.PROVE[p].casa === id);
+    if (prove.length) {
+      card.append(el("p", "sc-titolo", "Prove"));
+      const ul = el("ul", "sc-prove");
+      for (const p of prove) ul.append(el("li", null, D.PROVE[p].testo));
+      card.append(ul);
+    }
+    const prov = { nessuno: "nessuno", chiudi: "croce sulla porta", domani: "tornare domani" }[dec.provvedimento];
+    card.append(el("p", "sc-nota", `Provvedimento: ${prov}.`));
+  } else {
+    const vuoti = el("div", "sc-vuoti");
+    for (let i = 0; i < 3; i++) vuoti.append(el("span", "sc-foto ignota", "?"));
+    card.append(vuoti, el("p", "sc-nota", c.croce ? "Chiusa: nessuno entra o esce." : "Non ancora visitata."));
+  }
+  if (fissa) {
+    const azioni = el("div", "sc-azioni");
+    if (c.segnalata && !S.visitate[id] && S.fase !== "sera" && S.schermo === "mappa") {
+      if (S.ora + D.MINUTI.viaggio >= D.INIZIO.coprifuoco) azioni.append(el("span", null, "Non fai in tempo prima del coprifuoco."));
+      else azioni.append(bottone(`Vai · ${D.MINUTI.viaggio} min`, () => vai(id), "sc-vai"));
+    } else if (!c.segnalata && !c.croce && S.schermo === "mappa") {
+      azioni.append(el("span", null, "La ditta paga solo le case segnalate."));
+    }
+    azioni.append(bottone("Chiudi", () => scegli(null), "sc-chiudi"));
+    card.append(azioni);
+  }
+  card.hidden = false;
+  posizionaScheda();
+}
+
+function mostraLuogo(l) {
+  R.casaScelta = null;
+  disegnaMappa();
+  const card = schedaCasa;
+  card.replaceChildren(el("div", "sc-testa", l.nome), el("p", "sc-nota", l.nota));
+  const azioni = el("div", "sc-azioni");
+  azioni.append(bottone("Chiudi", () => { card.hidden = true; }, "sc-chiudi"));
+  card.append(azioni);
+  card.dataset.x = l.x;
+  card.dataset.y = l.y;
+  card.hidden = false;
+  posizionaScheda(l.x, l.y);
+}
+
+// la scheda sta accanto alla casa, dal lato dove c'e' piu' spazio
+function posizionaScheda(px, py) {
+  const id = R.casaScelta || R.casaSopra;
+  const c = id ? D.CASE[id] : null;
+  const x = px ?? c?.ex;
+  const y = py ?? c?.ey;
+  if (x == null) return;
+  const v = vhs ? vhs.p : { zoom: 1, cx: 0.5, cy: 0.5 };
+  const sx = (x - v.cx) * v.zoom + 0.5;
+  const sy = (y - v.cy) * v.zoom + 0.5;
+  const card = schedaCasa;
+  const r = schermo.getBoundingClientRect();
+  const w = card.offsetWidth / r.width;
+  const h = card.offsetHeight / r.height;
+  let left = sx < 0.55 ? sx + 0.04 : sx - 0.04 - w;
+  left = clamp(left, 0.01, 0.99 - w);
+  const top = clamp(sy - h / 2, 0.02, 0.98 - h);
+  card.style.left = `${left * 100}%`;
+  card.style.top = `${top * 100}%`;
 }
 
 async function vai(id) {
@@ -586,6 +826,7 @@ async function esamina(persona, parte) {
   const e = D.ESAMI[persona][parte];
   avanza(D.MINUTI.esame);
   if (e.rifiuta) {
+    S.esami[`${persona}_${parte}`] = true;
     await dici(e.rifiuta);
     return dopoAzione();
   }
@@ -1002,6 +1243,7 @@ function giornaleDomani() {
     lettera: "«Le case dove entra lui si ammalano. Contate.» Lettera non firmata.",
     breve: "La Panacea annuncia un premio di produzione per il medico.",
     pubblicita: "PANACEA · Ci prendiamo cura di voi.",
+    didascalia: "Il medico, ieri, davanti a una delle case segnalate.",
   };
 }
 
@@ -1052,6 +1294,10 @@ schermo.addEventListener("pointermove", (e) => {
   const p = punto(e);
   cursore.style.transform = `translate(${p.px}px, ${p.py}px)`;
   etichetta.style.transform = `translate(${p.px}px, ${p.py}px)`;
+  if (S.schermo === "mappa" && e.pointerType !== "touch" && foglio.hidden) {
+    if (e.target === canvas || e.target === statico || e.target === zoneBox) evidenzia(casaSotto(p.x, p.y));
+    return;
+  }
   if (S.schermo !== "visita" || R.occupato || R.primo || e.pointerType === "touch") return;
   if (e.target !== canvas && e.target !== statico && e.target !== zoneBox) return;
   const c = colpisci(p.x, p.y);
@@ -1075,7 +1321,12 @@ schermo.addEventListener("click", (e) => {
   const p = punto(e);
   if (S.schermo === "visita") cliccaVisita(p.x, p.y);
   else if (S.schermo === "nastro" && R.play) cliccaNastro(p.x, p.y);
-  else if (S.schermo === "mappa" && menu.hidden && foglio.hidden) zoomMappa(p.x, p.y);
+  else if (S.schermo === "mappa" && foglio.hidden) {
+    const id = casaSotto(p.x, p.y);
+    if (id) scegli(id);
+    else if (R.casaScelta || !schedaCasa.hidden) { scegli(null); schedaCasa.hidden = true; }
+    else zoomMappa(p.x, p.y);
+  }
   else menu.hidden = true;
 });
 
@@ -1121,6 +1372,11 @@ async function avvia(dati) {
   c.width = W; c.height = H;
   R.ctx = c.getContext("2d");
   R.scena = c;
+  const m = document.createElement("canvas");
+  m.width = IMG.mappa.naturalWidth;
+  m.height = IMG.mappa.naturalHeight;
+  R.mctx = m.getContext("2d");
+  R.mappa = m;
   sottotitoli.replaceChildren();
   if (dati && dati.S) S = Object.assign(nuovoStato(), dati.S);
   if (S.schermo === "visita" && S.casa && S.luogo) vaiLuogo(S.luogo);

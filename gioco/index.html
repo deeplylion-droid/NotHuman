@@ -103,6 +103,28 @@
   .riga.tu { color: #cfcabd; font-style: italic; }
   .riga.descr { color: #e9dfc1; font-style: italic; font-weight: 500; }
 
+  /* la scheda della casa sulla mappa: una scheda di cartoncino del medico, piena se la casa e' stata visitata */
+  #scheda-casa { position: absolute; z-index: 9; width: clamp(210px, 31cqw, 380px); max-height: calc(100% - 4cqw); overflow: auto; color-scheme: light; background-color: #efe6cf; background-image: repeating-linear-gradient(180deg, transparent 0 1.55em, rgba(60, 90, 140, 0.13) 1.55em calc(1.55em + 1px)); color: #2a2520; font-family: var(--mono); font-size: max(10.5px, 1.2cqw); line-height: 1.4; padding: 0.8em 0.9em; border: 1px solid rgba(40, 30, 20, 0.35); box-shadow: 0 0.8cqw 2cqw rgba(0, 0, 0, 0.55); rotate: -0.6deg; }
+  .sc-testa { display: flex; align-items: center; gap: 0.5em; flex-wrap: wrap; font-weight: 600; font-size: 1.12em; letter-spacing: 0.04em; text-transform: uppercase; }
+  .timbro { font-size: 0.7em; letter-spacing: 0.1em; border: 2px solid currentColor; padding: 0.02em 0.4em; rotate: -5deg; }
+  .timbro.rosso { color: #b4302a; }
+  .timbro.blu { color: #2b4a7a; }
+  .timbro.nero { color: #1d1b18; }
+  .sc-nota { margin: 0.4em 0; }
+  .sc-titolo { margin: 0.7em 0 0.3em; font-size: 0.78em; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; }
+  .sc-persona { display: flex; gap: 0.6em; align-items: flex-start; margin: 0.4em 0; }
+  .sc-foto { width: 3.6em; height: 4.2em; object-fit: cover; border: 3px solid #fbf8ef; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); filter: sepia(0.25) contrast(1.05); flex: none; }
+  .sc-foto.ignota { display: grid; place-items: center; background: rgba(0, 0, 0, 0.05); border: 1px dashed rgba(40, 30, 20, 0.45); box-shadow: none; font-size: 1.4em; color: rgba(40, 30, 20, 0.5); filter: none; }
+  .sc-vuoti { display: flex; gap: 0.5em; }
+  .sc-dati { display: grid; gap: 0.1em; min-width: 0; }
+  .sc-dati em { font-style: normal; font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.75; }
+  .sc-dati em.via { color: #b4302a; opacity: 1; font-weight: 600; }
+  .sc-prove { margin: 0; padding-left: 1.1em; display: grid; gap: 0.15em; }
+  .sc-azioni { display: flex; gap: 0.5em; flex-wrap: wrap; margin-top: 0.7em; align-items: center; }
+  .sc-azioni button { font: inherit; color: inherit; background: transparent; border: 1px solid rgba(40, 30, 20, 0.5); padding: 0.35em 0.7em; }
+  .sc-azioni .sc-vai { color: #b4302a; border-color: #b4302a; font-weight: 600; }
+  .sc-azioni button:hover, .sc-azioni button:focus-visible { background: rgba(40, 30, 20, 0.08); outline: none; }
+
   /* domande del medico e scelte */
   #menu { position: absolute; left: 3cqw; bottom: 3cqw; width: min(40cqw, 92%); max-height: calc(100% - 6cqw); overflow: auto; background: var(--pannello); border: 1px solid var(--linea); padding: 0.6em; display: flex; flex-direction: column; gap: 0.15em; font-family: var(--mono); font-size: max(12px, 1.6cqw); z-index: 8; }
   #menu .menu-titolo { margin: 0 0 0.3em; font-family: var(--vcr); font-size: 1.35em; color: var(--giallo); letter-spacing: 0.04em; }
@@ -163,14 +185,30 @@
   #foglio[data-tipo="fax"] .fax-chiusura { margin-top: 1rem; font-style: italic; }
   #foglio[data-tipo="fax"] .fax-firma { letter-spacing: 0.12em; font-weight: 600; margin: 0; }
 
-  #foglio[data-tipo="giornale"] .carta { background: var(--carta-giornale); color: var(--inchiostro); font-family: var(--giornale); }
-  .gio-testata { margin: 0; font-size: clamp(2.2rem, 7vw, 3.4rem); font-weight: 700; text-align: center; letter-spacing: 0.04em; border-bottom: 3px double var(--inchiostro); line-height: 1.1; }
-  .gio-data { margin: 0.3rem 0 1rem; text-align: center; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; }
-  #foglio-corpo .gio-titolo { font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.08; margin-bottom: 0.5rem; }
-  .gio-sommario { font-size: 1.1rem; font-style: italic; margin: 0 0 0.9rem; }
-  .gio-colonne { columns: 2 16rem; column-gap: 1.6rem; column-rule: 1px solid rgba(35, 34, 31, 0.3); }
-  .gio-colonne p { margin: 0 0 0.8rem; break-inside: avoid; }
-  .gio-pubblicita { margin: 1rem 0 0; padding: 0.6rem; border: 2px solid var(--inchiostro); text-align: center; font-weight: 700; letter-spacing: 0.1em; }
+  /* il giornale disegnato: la carta e' un'immagine, il testo e' stampato sopra con la prospettiva della pagina */
+  #foglio[data-tipo="giornale"] .carta { width: min(100%, calc((100dvh - 32px) * 1920 / 1072)); background: transparent; box-shadow: none; color: #f0e9d8; }
+  #foglio[data-tipo="giornale"] #foglio-corpo { padding: 0; overflow: auto; }
+  #foglio[data-tipo="giornale"] .chiudi { background: rgba(0, 0, 0, 0.6); color: #f0e9d8; right: 1rem; top: 1rem; }
+  #foglio[data-tipo="giornale"] .azioni { justify-content: center; margin: 0.6rem 0; }
+  #foglio[data-tipo="giornale"] .azioni button { background: rgba(0, 0, 0, 0.6); }
+  .gio-stampa { position: relative; width: 100%; aspect-ratio: 1920 / 1072; overflow: hidden; }
+  .gio-carta { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .gio-piano { position: absolute; left: 0; top: 0; width: 800px; height: 720px; transform-origin: 0 0; color: #221c16; font-family: var(--giornale); mix-blend-mode: multiply; filter: url(#inchiostro); }
+  .gio-blocco { position: absolute; overflow: hidden; }
+  .gio-data { display: grid; place-items: center; font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .gio-titolo { display: grid; place-items: center; text-align: center; }
+  .gio-titolo span { display: inline-block; white-space: nowrap; font-weight: 700; font-size: 68px; line-height: 1; text-transform: uppercase; letter-spacing: -0.01em; }
+  .gio-sommario { display: grid; place-items: center; text-align: center; font-style: italic; font-size: 19px; line-height: 1.25; padding: 0 10px; }
+  .gio-riquadro { overflow: hidden; }
+  .gio-foto { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.15); }
+  .gio-didascalia { font-style: italic; font-size: 15px; line-height: 1.2; }
+  .gio-colonna { font-size: 17px; line-height: 1.32; text-align: justify; hyphens: auto; }
+  .gio-colonna p { margin: 0 0 10px; }
+  .gio-pubblicita { border: 2px solid #221c16; padding: 6px; text-align: center; font-weight: 700; letter-spacing: 0.08em; font-size: 14px; }
+  .gio-leggibile { display: none; background: var(--carta-giornale); color: var(--inchiostro); font-family: var(--giornale); padding: 1rem 1.2rem; }
+  .gio-leggibile h2 { font-size: 1.5rem; line-height: 1.1; }
+  .gio-l-sommario { font-style: italic; }
+  @media (max-width: 700px), (max-height: 500px) { .gio-leggibile { display: block; } }
 
   #foglio[data-tipo="taccuino"] .carta { background-color: var(--carta-taccuino); color: #1f2a44; background-image: linear-gradient(rgba(70, 110, 170, 0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(70, 110, 170, 0.14) 1px, transparent 1px); background-size: 22px 22px; font-family: var(--mano); }
   #foglio[data-tipo="taccuino"] #foglio-corpo { font-size: 1.3rem; }
@@ -212,6 +250,7 @@
     <div id="didascalia" hidden></div>
     <div id="sottotitoli" aria-live="polite"></div>
     <div id="menu" hidden></div>
+    <div id="scheda-casa" hidden></div>
     <div id="comandi" hidden></div>
     <div id="avviso" hidden role="status"></div>
     <div id="etichetta" hidden></div>
@@ -222,6 +261,13 @@
     <button type="button" id="schermo-intero">Schermo intero</button>
   </div>
 </div>
+
+<svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+  <filter id="inchiostro" x="-2%" y="-2%" width="104%" height="104%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="3" result="rumore"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="rumore" scale="1.6" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+</svg>
 
 <div id="foglio" hidden>
   <div class="carta">

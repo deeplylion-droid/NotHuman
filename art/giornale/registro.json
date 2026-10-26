@@ -1,0 +1,38 @@
+{
+  "giornale": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Top-down view of a badly folded local newspaper lying on a dark wooden desk, drawn as a 1970s European underground comic panel: bold black brush-ink outlines, scratchy crosshatching, flat muted colors (dirty beige paper, mustard, olive, brick red), halftone dots in the shadows. The front page is rotated about 7 degrees counterclockwise and fills most of the frame; behind it the inner pages stick out crooked and creased, fanned out unevenly, with a dog-eared corner and a coffee ring. The front page has the masthead 'LA VOCE' in big old-fashioned black letters at the top, a thin double rule under it, then a large completely blank band of plain off-white paper for a headline, a blank rectangular frame for a photo in the lower left, and two blank columns of plain paper in the lower right. Apart from the masthead there is no text, no letters, no lines of text and no scribbles anywhere on the paper. 16:9, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "giornale.png"
+    ],
+    "seed": null,
+    "secondi": 71,
+    "descrizione": null
+  },
+  "foto_medico": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A newspaper photograph redrawn as a 1970s European underground comic panel in black and white with halftone dots: seen from behind and far away, a tall dark figure in a long waxed coat, wide-brimmed hat and plague doctor beak mask with two small glowing lenses walks up the muddy main street of a poor mountain village of today; villagers watch from half-closed doors and windows; old cars, power lines, a satellite dish on a crumbling wall. Grainy, high contrast. 4:3, no text, no border.",
+      "image_size": {
+        "width": 1440,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "foto_medico.png"
+    ],
+    "seed": null,
+    "secondi": 99,
+    "descrizione": null
+  }
+}

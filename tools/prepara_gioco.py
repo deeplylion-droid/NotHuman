@@ -52,6 +52,16 @@ LUOGHI = {
     },
 }
 
+# le foto degli occupanti per la scheda della casa sulla mappa: ritaglio attorno alla faccia [x0, y0, x1, y1]
+VOLTI = {
+    "padre": ("art/scene/01-cucina/finale.jpg", (0.275, 0.09, 0.42, 0.36)),
+    "figlia": ("art/scene/01-cucina/scheda_figlia.jpg", (0.16, 0.08, 0.84, 0.62)),
+    "madre": ("art/scene/03-camera/finale.jpg", (0.5, 0.19, 0.615, 0.43)),
+    "uomo": ("art/scene/02-soggiorno/finale.jpg", (0.565, 0.06, 0.68, 0.3)),
+    "giovane": ("art/scene/02-soggiorno/finale.jpg", (0.462, 0.185, 0.543, 0.375)),
+    "nonna": ("art/scene/02-soggiorno/finale.jpg", (0.37, 0.225, 0.452, 0.425)),
+}
+
 PRIMI = {
     "art/scene/01-cucina/primi-piani": ["padre", "figlia"],
     "art/scene/02-soggiorno/primi-piani": ["uomo", "giovane", "nonna"],
@@ -134,12 +144,39 @@ def primi():
     print("primi piani:", n)
 
 
+def volti():
+    (OUT / "volti").mkdir(parents=True, exist_ok=True)
+    for persona, (src, (x0, y0, x1, y1)) in VOLTI.items():
+        im = Image.open(ROOT / src).convert("RGB")
+        c = im.crop((int(x0 * im.width), int(y0 * im.height), int(x1 * im.width), int(y1 * im.height)))
+        # 6:7 come una fototessera
+        w, h = c.size
+        if w / h > 6 / 7:
+            nw = int(h * 6 / 7)
+            c = c.crop(((w - nw) // 2, 0, (w - nw) // 2 + nw, h))
+        else:
+            nh = int(w * 7 / 6)
+            c = c.crop((0, 0, w, nh))
+        c.resize((240, 280), Image.LANCZOS).save(OUT / "volti" / f"{persona}.jpg", quality=86)
+    print("volti:", len(VOLTI))
+
+
+def giornale():
+    # il giornale disegnato (il testo lo stampa il gioco) e la foto della prima pagina, in bianco e nero
+    Image.open(ROOT / "art/giornale/giornale.jpg").convert("RGB").save(OUT / "giornale.jpg", quality=86)
+    Image.open(ROOT / "art/giornale/foto_medico.jpg").convert("L").resize((960, 720), Image.LANCZOS).save(
+        OUT / "foto_medico.jpg", quality=84)
+    print("giornale ok")
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     for nome, L in LUOGHI.items():
         luogo(nome, L)
     scrivania()
     primi()
+    volti()
+    giornale()
 
 
 if __name__ == "__main__":
