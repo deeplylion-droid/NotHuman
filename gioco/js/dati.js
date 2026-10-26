@@ -505,10 +505,60 @@ export const STANZA = {
     mattina: ["L'acqua esce gialla, poi diventa fredda."],
     sera: ["Lo specchio è macchiato. Di notte è meglio non guardarci dentro."],
   },
-  // la stanzetta dove dorme l'ospite della notte (gioco.js socchiude la porta mentre si legge)
+  // la stanzetta dove dorme l'ospite della notte, la mattina (gioco.js socchiude la porta mentre si legge); la sera
+  // la si controlla, vedi OSPITE
   ospite: {
     mattina: ["La stanzetta per l'ospite: una brandina dell'esercito e una coperta piegata.", "In paese dicono: chi dorme solo, il malvento se lo prende."],
-    sera: ["Il buio della stanzetta. La brandina è vuota."],
+  },
+};
+
+// l'ospite della notte (deciso il 26 ottobre): chi dorme solo, il malvento se lo prende. Nello stato di famiglia si
+// sceglie chi si porta a casa (solo chi e' timbrato SANO, uno per notte). La sera dorme nella stanzetta: lo si
+// controlla dalla porta (img/ospite/ospite_<persona>.jpg, al buio, in verde); la mattina c'e' il nastro della notte,
+// girato dalla maschera rimasta accesa sulla scrivania (notte_dorme, poi notte_<persona>_1 e _2, una frase per
+// ripresa). Chi dorme solo ha il suo nastro ("solo"). "mattina" va nel resoconto della notte
+export const OSPITE = {
+  figlia: {
+    arriva: "La figlia ti ha seguito fino a casa senza dire una parola. Dorme nella stanzetta.",
+    controllo: [["FIGLIA", "Non riesco a dormire."], [null, "Tiene gli occhi aperti nel buio, finché non chiudi la porta."]],
+    nastro: ["[la stanza al buio. Il medico dorme]", "[la porta della stanzetta si apre. La figlia resta lì, a guardarti dormire]", "[fruga nelle tasche del tuo cappotto]"],
+    mattina: "All'alba la figlia è tornata a casa. Sul nastro fruga nelle tasche del tuo cappotto; non manca niente. Cercava qualcosa sulla sua famiglia?",
+  },
+  giovane: {
+    arriva: "La ragazza è venuta con te senza fare domande. Ha freddo. Dorme nella stanzetta.",
+    controllo: [["RAGAZZA", "Qui almeno c'è il termosifone."], [null, "Il termosifone è spento. Lei trema lo stesso, seduta sulla brandina."]],
+    nastro: ["[la stanza al buio. Il medico dorme]", "[la ragazza è sulla porta della stanzetta. Ti guarda]", "[si china su di te. Resta così, a lungo]"],
+    mattina: "All'alba la ragazza è tornata a casa. Sul nastro resta china su di te quasi un'ora, poi torna di là senza un rumore.",
+  },
+  nonna: {
+    arriva: "La nonna ha voluto venire. «Così vedo chi sei», ha detto. Dorme nella stanzetta.",
+    controllo: [["NONNA", "Ave Maria, piena di grazia…"], [null, "Prega a occhi aperti. Non smette quando apri la porta."]],
+    nastro: ["[la stanza al buio. Il medico dorme]", "[la nonna è sulla porta della stanzetta, col rosario]", "[ai piedi del letto ti benedice con l'acqua santa]"],
+    mattina: "All'alba la nonna è tornata a casa. Sul nastro ti benedice nel sonno, come si fa con i morti. Sul cuscino ha lasciato una medaglietta del santo.",
+  },
+  padre: {
+    arriva: "Il padre ti ha seguito fino a casa. Suda, ma dice che è la stanchezza. Dorme nella stanzetta.",
+    controllo: [["PADRE", "Sto bene, dottore. È solo il freddo."], [null, "Trema sotto la coperta. Sul collo il gonfiore è più grosso di stamattina."]],
+    nastro: ["[la stanza al buio. Il medico dorme]", "[il padre è sulla porta della stanzetta. Tossisce sangue nella mano]", "[ti respira addosso, chino sul letto]"],
+    mattina: "Hai dormito con un malato nella stanza accanto. Sul nastro ti respira addosso per ore. All'alba è tornato a casa, con la febbre più alta.",
+  },
+  uomo: {
+    arriva: "L'uomo in tuta è venuto con te, a malincuore. Suda. Dorme nella stanzetta.",
+    controllo: [["UOMO", "Chiudi quella porta. Sto bene."], [null, "Tossisce nel pugno. La brandina è troppo piccola per lui."]],
+    nastro: ["[la stanza al buio. Il medico dorme]", "[l'uomo si regge alla porta della stanzetta. Barcolla]", "[si siede sul tuo letto, ai tuoi piedi, e tossisce verso la videocamera]"],
+    mattina: "Hai dormito con un malato in casa. Sul nastro si siede sul tuo letto e tossisce. All'alba è tornato a casa, con la febbre.",
+  },
+  madre: {
+    arriva: "La madre è venuta con te, appoggiata al tuo braccio. Brucia di febbre. Dorme nella stanzetta.",
+    controllo: [["MADRE", "Non dite niente a mio marito."], [null, "Respira con la bocca aperta. Le dita nere pendono fuori dalla brandina."]],
+    nastro: ["[la stanza al buio. Il medico dorme]", "[la madre striscia fuori dalla stanzetta, sul pavimento]", "[è in piedi accanto al letto. Allunga la mano verso di te]"],
+    mattina: "Hai portato in casa una malata grave. Sul nastro allunga verso di te le dita nere. All'alba l'hai riaccompagnata a casa: respira ancora.",
+  },
+  solo: {
+    arriva: "Stanotte dormi solo. In paese dicono: chi dorme solo, il malvento se lo prende.",
+    controllo: [[null, "Il buio della stanzetta. La brandina è vuota."], [null, "Chi dorme solo, il malvento se lo prende."]],
+    nastro: ["[la stanza al buio. Il medico dorme]", "[la porta della stanzetta si apre da sola. Nel buio c'è qualcosa]", "[qualcosa è in piedi accanto al letto, chino su di te]"],
+    mattina: "Hai dormito solo. Sul nastro, accanto al letto, c'è qualcosa di alto e nero. È la prima notte: in paese dicono che alla terza ti porta via.",
   },
 };
 

@@ -1,0 +1,40 @@
+{
+  "basi": {
+    "stanzetta": {
+      "render": "basi/stanzetta.jpg",
+      "stanza": "a tiny bare spare room in an old rented flat in a poor mountain village, seen through its open doorway: dark wooden floorboards, walls covered in old floral wallpaper, and against the far wall a folding army camp bed (olive canvas on a thin metal frame) with a small white pillow at the left end and a folded grey wool blanket at the right end.",
+      "oggetti": "the camp bed against the far wall with the pillow and the folded grey blanket, the floorboards and the walls"
+    },
+    "notte": {
+      "render": "basi/notte.jpg",
+      "stanza": "a rented room above a bar in a poor mountain village, seen from high up on the doctor's desk: on the left an old single iron bed with a white pillow and a grey-blue bedspread, a small wooden nightstand with a radio alarm clock and a small framed holy picture on the wall; at the back, on the right wall, the door of a small spare room, slightly ajar on darkness; on the right a small table with a red and white checked tablecloth and two wooden chairs, a coat rack with a black oilskin coat and a hat; a worn rug on the wooden floor; in the foreground the corner of the desk with the back of an old CRT television and a stack of VHS tapes, and a wooden chair.",
+      "oggetti": "the iron bed with the nightstand and the holy picture on the left, the ajar door of the spare room at the back, the table with the checked tablecloth and the chairs, the coat rack with the coat and hat, the rug, the television and the VHS tapes on the desk in the foreground, the wooden chair"
+    }
+  },
+  "immagini": {
+    "ospite_figlia": {"base": "stanzetta", "persona": "figlia", "azione": "She lies on her side on the camp bed under the grey wool blanket, pulled up to her chin; she is awake, her frightened bulging eyes wide open, staring straight at the viewer standing in the doorway, one thin hand gripping the edge of the blanket."},
+    "ospite_giovane": {"base": "stanzetta", "persona": "giovane", "azione": "She sits on the edge of the camp bed with the grey wool blanket around her shoulders, hugging her knees, very pale and shivering with cold, staring at the viewer in the doorway with tired bulging eyes."},
+    "ospite_nonna": {"base": "stanzetta", "persona": "nonna", "azione": "She lies on her back on the camp bed with the grey wool blanket up to her chest, her bony hands folded on it around a rosary; her bulging eyes are open, fixed on the ceiling, and her thin lips move in a whispered prayer."},
+    "ospite_padre": {"base": "stanzetta", "persona": "padre", "azione": "He lies on the camp bed shivering under the grey wool blanket, drenched in sweat, his face flushed and glistening with fever; under his jaw, on the left side of his neck, the swollen dark purple lump of a plague bubo; his bulging bloodshot eyes stare at the viewer."},
+    "ospite_uomo": {"base": "stanzetta", "persona": "uomo", "azione": "He lies curled up on the camp bed, too big for it, sweating and feverish, his tracksuit jacket open, coughing into his fist; his bulging eyes are glassy with fever and stare at the viewer."},
+    "ospite_madre": {"base": "stanzetta", "persona": "madre", "azione": "She lies on the camp bed wrapped in her green plaid wool blanket, gaunt, gasping with her mouth open; her fingertips are black and shrivelled and one hand hangs off the edge of the camp bed; her bulging feverish eyes are fixed on the viewer."},
+
+    "notte_dorme": {"base": "notte", "azione": "Under the blue bedspread of the iron bed on the left lies the shape of a sleeping person, completely covered from head to toe, the head under the covers too: nothing of the person is visible, no head, no hair, no face, no hands, only the long lump of the body under the bedspread, which is pulled up over the pillow. The room is still."},
+
+    "notte_figlia_1": {"base": "notte", "sopra": "notte_dorme", "persona": "figlia", "azione": "She stands motionless in the ajar doorway of the small room at the back, half in the dark, barefoot, staring at the man asleep in the bed."},
+    "notte_figlia_2": {"base": "notte", "sopra": "notte_dorme", "persona": "figlia", "azione": "She stands by the coat rack on the right, holding the doctor's black oilskin coat open and searching its inside pockets, looking anxiously toward the bed."},
+    "notte_giovane_1": {"base": "notte", "sopra": "notte_dorme", "persona": "giovane", "azione": "She stands motionless in the ajar doorway of the small room at the back, wrapped in her cardigan, pale as a ghost, staring at the man asleep in the bed."},
+    "notte_giovane_2": {"base": "notte", "sopra": "notte_dorme", "persona": "giovane", "azione": "She stands right beside the iron bed, leaning over the man asleep under the covers, her face very close to him, staring at him without blinking."},
+    "notte_nonna_1": {"base": "notte", "sopra": "notte_dorme", "persona": "nonna", "azione": "She stands bent over her walking stick in the ajar doorway of the small room at the back, a rosary hanging from her hand, staring at the man asleep in the bed."},
+    "notte_nonna_2": {"base": "notte", "sopra": "notte_dorme", "persona": "nonna", "azione": "She stands at the foot of the iron bed, making the sign of the cross over the man asleep under the covers, a small bottle of holy water in her other hand."},
+    "notte_padre_1": {"base": "notte", "sopra": "notte_dorme", "persona": "padre", "azione": "He stands hunched in the ajar doorway of the small room at the back, drenched in sweat, coughing blood into his hand."},
+    "notte_padre_2": {"base": "notte", "sopra": "notte_dorme", "persona": "padre", "azione": "He stands right beside the iron bed, bent over the man asleep under the covers, watching him closely, his face pale and glistening with fever sweat."},
+    "notte_uomo_1": {"base": "notte", "sopra": "notte_dorme", "persona": "uomo", "azione": "He leans against the frame of the ajar doorway of the small room at the back, swaying, feverish and sweating, his tracksuit jacket open."},
+    "notte_uomo_2": {"base": "notte", "sopra": "notte_dorme", "persona": "uomo", "azione": "He sits heavily on the edge of the iron bed, at the feet of the man asleep under the covers, coughing into his fist, his feverish eyes turned toward the camera."},
+    "notte_madre_1": {"base": "notte", "sopra": "notte_dorme", "persona": "madre", "azione": "She crawls out of the ajar doorway of the small room at the back on her hands and knees, dragging her green plaid blanket on the floorboards, her black fingertips spread on the wood."},
+    "notte_madre_2": {"base": "notte", "sopra": "notte_dorme", "persona": "madre", "azione": "She stands at the side of the iron bed, wrapped in her green plaid blanket, staring down at the man asleep under the covers, one hand with black shrivelled fingertips reaching toward him."},
+
+    "notte_solo_1": {"base": "notte", "sopra": "notte_dorme", "azione": "The door of the small room at the back is ajar on complete darkness; in the gap stands a tall, thin, dark shape, darker than the dark, with no face and no features, like the shadow of a person."},
+    "notte_solo_2": {"base": "notte", "sopra": "notte_dorme", "azione": "A tall, thin, dark shape with no face and no features, like the shadow of a person with very long arms, stands at the foot of the iron bed, bent over the man asleep under the covers."}
+  }
+}

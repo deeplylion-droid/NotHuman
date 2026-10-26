@@ -60,6 +60,7 @@ const ARRIVI = {
   scrivania: [-0.7, -1.35, 0, -0.34],
   porta: [-1.5, 2.3, -0.16, -0.06],
   nastri: [-0.15, -1.55, 0, -0.3],
+  ospite: [1.75, 1.7, -Math.PI / 2, -0.05],
 };
 
 // i modelli, uno per oggetto, fatti da una foto. I mobili sono di Meshy: "allinea" li raddrizza (Meshy li consegna

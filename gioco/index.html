@@ -225,6 +225,7 @@
   .sc-dati { display: grid; gap: 0.1em; min-width: 0; }
   .sc-dati em { font-style: normal; font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.75; }
   .sc-dati em.via { color: #b4302a; opacity: 1; font-weight: 600; }
+  .sc-dati em.ospite { color: #3a5aa0; opacity: 1; font-weight: 600; }
   .sc-prove { margin: 0; padding-left: 1.1em; display: grid; gap: 0.15em; }
   .sc-azioni { display: flex; gap: 0.5em; flex-wrap: wrap; margin-top: 0.7em; align-items: center; }
   .sc-azioni button { font: inherit; color: inherit; background: transparent; border: 1px solid rgba(40, 30, 20, 0.5); padding: 0.35em 0.7em; }
@@ -366,7 +367,7 @@
   .sf-ufficio { text-align: center; font-size: 19px; letter-spacing: 0.12em; margin-top: 4px; }
   .sf-titolo { text-align: center; font-size: 27px; letter-spacing: 0.1em; margin-top: 18px; border-top: 2px solid #2b2620; border-bottom: 2px solid #2b2620; padding: 6px 0; }
   .sf-premessa { font-size: 20px; line-height: 1.45; margin: 22px 0 8px; }
-  .sf-riga { position: relative; display: grid; grid-template-columns: 120px minmax(0, 1fr) 80px 220px 150px; gap: 16px; align-items: start; min-height: 150px; padding: 16px 6px 12px; border-top: 1px dashed rgba(43, 38, 32, 0.45); }
+  .sf-riga { position: relative; display: grid; grid-template-columns: 120px minmax(0, 1fr) 80px 200px 196px; gap: 16px; align-items: start; min-height: 150px; padding: 16px 6px 12px; border-top: 1px dashed rgba(43, 38, 32, 0.45); }
   .sf-riga.sotto { background: rgba(224, 64, 47, 0.1); outline: 2px dashed rgba(180, 37, 28, 0.6); }
   .sf-carta.in-attesa .sf-riga { cursor: pointer; }
   .sf-carta.in-attesa .sf-riga:hover { background: rgba(224, 64, 47, 0.08); }
@@ -402,10 +403,19 @@
   .sf-timbro.grave { color: #1d1a17; }
   .sf-timbro.nuovo { animation: sf-timbra 0.35s cubic-bezier(0.2, 1.6, 0.4, 1) both; }
   @keyframes sf-timbra { from { scale: 1.8; opacity: 0; } to { scale: 1; opacity: 0.9; } }
-  .sf-ditta { font-family: var(--mono); font-weight: 600; font-size: 14px; letter-spacing: 0.06em; color: #6a2a8c; border: 3px solid #6a2a8c; padding: 3px 8px; rotate: 4deg; mix-blend-mode: multiply; white-space: nowrap; }
-  .sf-via { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: center; font-size: 18px; padding-top: 12px; }
-  .sf-via input, .sf-casella input { width: 22px; height: 22px; margin: 0; accent-color: #b4251c; }
-  .sf-via small { grid-column: 2; font-size: 15px; opacity: 0.7; }
+  .sf-ditta { font-family: var(--mono); font-weight: 600; font-size: 14px; letter-spacing: 0.06em; color: #6a2a8c; border: 3px solid #6a2a8c; padding: 3px 8px; rotate: 4deg; mix-blend-mode: multiply; max-width: 180px; }
+  /* le decisioni: due interruttori grandi, col riquadro segnato a penna; rosso il lazzaretto, blu l'ospite */
+  .sf-decidi { display: grid; gap: 10px; padding-top: 6px; }
+  .sf-scelta { --c: #b4251c; display: grid; grid-template-columns: 34px 1fr; align-items: center; gap: 0 10px; width: 196px; padding: 8px 10px 7px; text-align: left; font-family: var(--mono); color: var(--c); background: transparent; border: 3px dashed color-mix(in srgb, var(--c) 70%, transparent); border-radius: 6px; cursor: pointer; transition: background 0.12s, rotate 0.12s; }
+  .sf-scelta.ospite { --c: #2a4a8a; }
+  .sf-scelta:hover:not(:disabled), .sf-scelta:focus-visible { background: color-mix(in srgb, var(--c) 10%, transparent); outline: none; }
+  .sf-scelta[aria-pressed="true"] { border-style: solid; background: color-mix(in srgb, var(--c) 14%, transparent); rotate: -1.5deg; box-shadow: 0 0 0 1px color-mix(in srgb, var(--c) 40%, transparent); }
+  .sf-scelta:disabled { cursor: not-allowed; opacity: 0.38; }
+  .sf-scelta[aria-pressed="true"]:disabled { opacity: 0.9; }
+  .sf-quadro { grid-row: span 2; width: 30px; height: 30px; border: 3px solid var(--c); display: grid; place-items: center; font-family: var(--mano); font-weight: 700; font-size: 34px; line-height: 1; color: #2b2620; }
+  .sf-scelta-nome { font-weight: 700; font-size: 17px; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.1; }
+  .sf-scelta small { font-family: var(--mono); font-size: 14px; color: #2b2620; opacity: 0.75; }
+  .sf-casella input { width: 22px; height: 22px; margin: 0; accent-color: #b4251c; }
   .sf-piede { margin-top: 10px; border-top: 1px dashed rgba(43, 38, 32, 0.45); padding-top: 14px; font-size: 21px; line-height: 1.6; }
   .sf-piede p { margin: 0 0 8px; }
   .sf-casella { display: inline-flex; gap: 8px; align-items: center; margin: 0 22px 0 6px; }

@@ -61,6 +61,8 @@ function nuovoStato() {
     // lo stato di famiglia: note a penna per persona, chi e' morto, i timbri della diagnosi, chi va al lazzaretto,
     // il provvedimento per casa, le note del comune barrate
     note: {}, morti: {}, diagnosi: {}, lazzaretto: {}, provv: {}, barrati: {},
+    // l'ospite della notte: chi si porta a casa (solo un sano, uno per notte)
+    ospite: null,
     // la pazienza di ogni famiglia e le case da cui ti hanno cacciato
     pazienza: {}, cacciato: {},
   };
@@ -107,6 +109,10 @@ async function caricaTutto() {
     ID[luogo] = { w: c.width, h: c.height, data: ctx.getImageData(0, 0, c.width, c.height).data };
   }
 }
+
+// le immagini che servono solo a volte (l'ospite della notte): caricate la prima volta che servono
+const IMMAGINI = {};
+const immagine = (src) => (IMMAGINI[src] ||= carica(src));
 
 function primoPiano(persona, parte) {
   const k = `${persona}_${parte}`;
@@ -627,6 +633,7 @@ async function usaStanza(id) {
     if (S.fase === "sera") return dormi();
     return dici([[null, "Non è ancora ora di dormire. La ditta paga a paziente."]], false);
   }
+  if (id === "ospite" && S.fase === "sera") return controllaOspite();
   const T = D.STANZA[id];
   const righe = T && (T[S.fase] || T.sempre);
   if (!righe) return;
@@ -1067,7 +1074,8 @@ function mostraScheda(id, fissa) {
       const visti = Object.keys(D.ESAMI[pid]).filter((parte) => S.esami[`${pid}_${parte}`]);
       const reperti = visti.map((parte) => `${parte}: ${D.ESAMI[pid][parte].reperto}`);
       testo.append(el("span", null, reperti.length ? reperti.join(" · ") : "non esaminato"));
-      testo.append(el("em", dec.via.includes(pid) ? "via" : "", dec.via.includes(pid) ? "al lazzaretto" : "resta in casa"));
+      testo.append(el("em", dec.via.includes(pid) ? "via" : dec.ospite === pid ? "ospite" : "",
+        dec.via.includes(pid) ? "al lazzaretto" : dec.ospite === pid ? "ospite stanotte" : "resta in casa"));
       riga.append(foto, testo);
       card.append(riga);
     }
@@ -1662,17 +1670,48 @@ function rigaStato(casa, r, firmata) {
   if (S.diagnosi[persona]) esito.append(timbroDiagnosi(S.diagnosi[persona], R.sfNuovoTimbro === persona));
   else esito.append(el("span", "sf-vuoto-timbro", "diagnosi"));
   if (P?.profilo) esito.append(el("span", "sf-ditta", `★ PROFILO RICHIESTO · +${D.SOLDI.profilo} €`));
-  const via = el("label", "sf-via");
+  // le decisioni, ben visibili: al lazzaretto, o ospite stanotte (solo un sano, uno per notte; mai tutte e due)
+  const decidi = el("div", "sf-decidi");
   if (P && vista(persona) && !S.morti[persona]) {
-    const cb = el("input");
-    cb.type = "checkbox";
-    cb.checked = firmata ? S.decisioni[casa].via.includes(persona) : !!S.lazzaretto[persona];
-    cb.disabled = !!firmata;
-    cb.addEventListener("change", () => { S.lazzaretto[persona] = cb.checked; });
-    via.append(cb, el("span", null, "al lazzaretto"), el("small", null, `${D.SOLDI.paziente} €`));
+    const dec = firmata ? S.decisioni[casa] : null;
+    const via = dec ? dec.via.includes(persona) : !!S.lazzaretto[persona];
+    const ospite = dec ? dec.ospite === persona : S.ospite === persona;
+    const sano = S.diagnosi[persona] === "sano";
+    // un altro ospite gia' deciso, in una casa gia' firmata: stanotte il posto e' preso
+    const preso = S.ospite && S.ospite !== persona && S.decisioni[D.PERSONE[S.ospite].casa];
+    decidi.append(
+      sceltaStato("lazzaretto", "Al lazzaretto", `+${D.SOLDI.paziente} €`, via, !!firmata, () => {
+        S.lazzaretto[persona] = !S.lazzaretto[persona];
+        if (S.lazzaretto[persona] && S.ospite === persona) S.ospite = null;
+        ridisegnaStato(casa);
+      }),
+      sceltaStato("ospite", "Ospite stanotte", ospite ? "dorme da te" : !sano ? "solo chi è sano"
+        : preso ? `c'è già ${D.PERSONE[S.ospite].nome}` : "dorme da te", ospite, !!firmata || !sano || !!preso, () => {
+        S.ospite = S.ospite === persona ? null : persona;
+        if (S.ospite === persona) S.lazzaretto[persona] = false;
+        ridisegnaStato(casa);
+      }));
   }
-  riga.append(foto, dati, sagoma(persona), esito, via);
+  riga.append(foto, dati, sagoma(persona), esito, decidi);
   return riga;
+}
+
+// un interruttore grande dello stato di famiglia: un riquadro col segno a penna, il nome e una nota sotto
+function sceltaStato(tipo, nome, nota, attiva, spenta, azione) {
+  const b = el("button", `sf-scelta ${tipo}`);
+  b.type = "button";
+  b.setAttribute("aria-pressed", attiva ? "true" : "false");
+  b.disabled = spenta;
+  b.append(el("span", "sf-quadro", attiva ? "✗" : ""), el("span", "sf-scelta-nome", nome), el("small", null, nota));
+  b.addEventListener("click", (e) => { e.stopPropagation(); azione(); });
+  return b;
+}
+
+// lo stato di famiglia ridisegnato dopo una scelta, allo stesso punto
+function ridisegnaStato(casa) {
+  const scroll = foglioCorpo.scrollTop;
+  apriStato(R.sfCasa === casa && !S.casa ? null : casa, { obbligato: foglio.dataset.bloccato === "1" });
+  foglioCorpo.scrollTop = scroll;
 }
 
 // il certificato di una casa; casa null: dalla scrivania, con le linguette delle case segnalate.
@@ -1778,7 +1817,7 @@ function apriStato(casa, opzioni = {}) {
     trascinabile(d, { tipo: "frase", id: v.id, testo: f.testo }, casa);
     frasi.append(d);
   }
-  lato.append(frasi, el("p", "sf-aiuto", "Trascina un timbro su una persona: è la tua diagnosi. Trascina una frase sul nome giusto: la penna la scrive, e barra quello che smentisce. Spunta chi porti al lazzaretto, poi firma."));
+  lato.append(frasi, el("p", "sf-aiuto", "Trascina un timbro su una persona: è la tua diagnosi. Trascina una frase sul nome giusto: la penna la scrive, e barra quello che smentisce. Decidi chi porti al lazzaretto e chi ospiti stanotte (solo un sano: chi dorme solo, il malvento se lo prende), poi firma."));
   tavolo.append(carta, lato);
   sf.append(tavolo);
   // il clic su una riga, dopo aver scelto un timbro o una frase col tocco
@@ -1866,6 +1905,7 @@ function usaSu(dato, persona, casa) {
   if (dato.tipo === "timbro") {
     S.diagnosi[persona] = dato.id;
     R.sfNuovoTimbro = persona;
+    if (dato.id !== "sano" && S.ospite === persona) S.ospite = null;
   } else {
     const esito = annota(dato.id, persona);
     if (esito === "gia") notifica("Già annotato");
@@ -1877,16 +1917,15 @@ function usaSu(dato, persona, casa) {
       return;
     }
   }
-  const scroll = foglioCorpo.scrollTop;
-  apriStato(R.sfCasa === casa && !S.casa ? null : casa, { obbligato: foglio.dataset.bloccato === "1" });
-  foglioCorpo.scrollTop = scroll;
+  ridisegnaStato(casa);
 }
 
 function firmaStato(casa, bottoneFirma) {
   bottoneFirma.disabled = true;
   bottoneFirma.replaceWith(el("span", "sf-scarabocchio scrive", "Dott. ———"));
   const via = personeDellaCasa(casa).map(([id]) => id).filter((id) => S.lazzaretto[id]);
-  S.decisioni[casa] = { via, provvedimento: S.provv[casa] || "nessuno", ora: S.ora };
+  const ospite = S.ospite && D.PERSONE[S.ospite].casa === casa ? S.ospite : null;
+  S.decisioni[casa] = { via, ospite, provvedimento: S.provv[casa] || "nessuno", ora: S.ora };
   S.visitate[casa] = true;
   const n = S.nastri[S.nastri.length - 1];
   if (n) n.fine = S.ora;
@@ -1911,7 +1950,93 @@ async function sera() {
   S.ora = Math.max(S.ora, D.INIZIO.coprifuoco);
   if (stanza) vaiStanza("porta");
   else vaiScrivania();
-  await dici([[null, "Le otto. Coprifuoco."], [null, "I nastri di oggi sono nel videoregistratore."]], false, false);
+  await dici([[null, "Le otto. Coprifuoco."], [null, D.OSPITE[S.ospite || "solo"].arriva],
+    [null, "I nastri di oggi sono nel videoregistratore."]], false, false);
+}
+
+// la stanzetta, la sera: la porta 3D si socchiude e si guarda dentro, al buio (un'immagine in verde), con l'ospite
+// o con la brandina vuota; "Chiudi la porta" riporta nella stanza
+async function controllaOspite() {
+  const O = D.OSPITE[S.ospite || "solo"];
+  const quadro = immagine(`img/ospite/${S.ospite ? `ospite_${S.ospite}` : "stanzetta_20"}.jpg`);
+  R.occupato = true;
+  stanza.socchiudi(true);
+  await new Promise((r) => setTimeout(r, 700));
+  let im;
+  try {
+    im = await quadro;
+  } catch {
+    R.occupato = false;
+    stanza.socchiudi(false);
+    return dici(O.controllo, false);
+  }
+  S.schermo = "stanzetta";
+  pulisci();
+  osdRec();
+  osd.modo.textContent = "NOTTE";
+  if (vhs) {
+    vhs.mode("notte");
+    vhs.setLuce(0);
+    vhs.setHeat(null);
+    vhs.setDark(0);
+    vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+    vhs.hunt();
+  }
+  mostra(im);
+  // la videocamera si abitua al buio e stringe sulla brandina
+  if (vhs) vhs.tween({ zoom: 1.5, cx: 0.45, cy: 0.55 }, 1800);
+  tasti(tasto("Chiudi la porta", () => { stanza.socchiudi(false); vaiStanza("ospite"); }, "indietro", true));
+  aiuto("Chiudi la porta per tornare nella stanza.");
+  await dici(O.controllo, false);
+}
+
+// il nastro della notte: la maschera e' rimasta accesa sulla scrivania. Tre riprese al buio, in verde, ognuna con
+// la sua frase; si guarda la mattina, prima del resoconto
+async function nastroNotte() {
+  const chi = S.ospite;
+  const O = D.OSPITE[chi || "solo"];
+  const quadri = ["notte_dorme", ...(chi ? [`notte_${chi}_1`, `notte_${chi}_2`] : ["notte_solo_1", "notte_solo_2"])];
+  let imgs;
+  try {
+    imgs = await Promise.all(quadri.map((q) => immagine(`img/ospite/${q}.jpg`)));
+  } catch {
+    return; // senza le immagini, niente nastro: si passa al resoconto
+  }
+  S.schermo = "nastro-notte";
+  pulisci();
+  osdPlay();
+  osd.modo.textContent = "NOTTE";
+  if (vhs) {
+    vhs.mode("notte");
+    vhs.setLuce(0);
+    vhs.setHeat(null);
+    vhs.setDark(0);
+    vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+  }
+  aiuto("Il nastro della notte: la maschera è rimasta accesa sulla scrivania.");
+  for (let i = 0; i < quadri.length; i++) {
+    mostra(imgs[i]);
+    if (vhs) vhs.burst(0.45);
+    await dici([[null, O.nastro[i]]], false);
+    await attendi(7000);
+  }
+  osdSpento();
+}
+
+// aspetta un clic sullo schermo (o Spazio, Invio), al massimo "ms" millisecondi: il nastro va avanti da solo
+function attendi(ms) {
+  return new Promise((ok) => {
+    const tasto = (e) => { if (e.key === " " || e.key === "Enter") fine(); };
+    const fine = () => {
+      clearTimeout(t);
+      schermo.removeEventListener("pointerdown", fine);
+      window.removeEventListener("keydown", tasto);
+      ok();
+    };
+    const t = setTimeout(fine, ms);
+    schermo.addEventListener("pointerdown", fine);
+    window.addEventListener("keydown", tasto);
+  });
 }
 
 function apriNastri() {
@@ -2113,11 +2238,21 @@ function calcolaNotte() {
       fiducia -= 10;
     }
   }
+  // l'ospite: averne preso uno sano si sa in giro, e piace; uno malato in casa del medico no
+  let ospite = null;
+  if (S.ospite) {
+    const malato = D.PERSONE[S.ospite].stato !== "sano";
+    ospite = { chi: S.ospite, malato };
+    fiducia += malato ? -5 : 5;
+    if (malato) righe.push(`Hai dormito con ${D.PERSONE[S.ospite].nome} malato in casa: il contagio è entrato nella tua stanza.`);
+  }
   const spese = D.SOLDI.stanza + D.SOLDI.cena + D.SOLDI.cassetta * S.nastri.length;
-  return { righe, contagiate: [...new Set(contagiate)], incasso, spese, fiducia, portati };
+  return { righe, contagiate: [...new Set(contagiate)], incasso, spese, fiducia, portati, ospite };
 }
 
-function dormi() {
+async function dormi() {
+  if (S.schermo === "notte" || S.schermo === "nastro-notte") return;
+  await nastroNotte();
   const n = calcolaNotte();
   S.notte = n;
   S.soldi += n.incasso - n.spese;
@@ -2131,6 +2266,8 @@ function dormi() {
   corpo.push(el("h3", null, "Al lazzaretto"));
   const portati = n.portati.map((id) => D.PERSONE[id].nome).join(", ");
   corpo.push(el("p", null, portati ? `${portati[0].toUpperCase()}${portati.slice(1)}.` : "Nessuno."));
+  corpo.push(el("h3", null, n.ospite ? "L'ospite" : "Da solo"));
+  corpo.push(el("p", null, D.OSPITE[n.ospite ? n.ospite.chi : "solo"].mattina));
   corpo.push(el("h3", null, "Il contagio"));
   const ul = el("ul");
   for (const r of n.righe) ul.append(el("li", null, r));
@@ -2153,6 +2290,11 @@ function giornaleDomani() {
   } else if (presi.includes("figlia")) {
     titolo = "Portata via la figlia del meccanico";
     sommario = "«Stava bene», giurano i vicini. La ditta non risponde.";
+  } else if (n.ospite) {
+    const nome = D.PERSONE[n.ospite.chi].nome;
+    titolo = n.ospite.malato ? "Il medico si porta a casa un malato" : `Il medico ospita ${nome}`;
+    sommario = n.ospite.malato ? "Lo hanno visto entrare con lui sopra il bar. «Così ci ammaliamo tutti», dice il barista."
+      : "«Chi dorme solo, il malvento se lo prende», dicono in paese. Qualcuno ride, qualcuno no.";
   } else if (S.forzate.casa3) {
     titolo = "Il medico entra con la forza";
     sommario = "Alla casa 3 ha spinto via il padrone di casa per entrare nel corridoio.";
@@ -2169,7 +2311,8 @@ function giornaleDomani() {
   return {
     testata: "LA VOCE", data: "Foglio del paese · martedì 27 ottobre", titolo, sommario,
     articolo: umore,
-    lettera: "«Le case dove entra lui si ammalano. Contate.» Lettera non firmata.",
+    lettera: n.ospite ? "«Le case dove entra lui si ammalano. Contate.» Lettera non firmata."
+      : "«Ha dormito solo. Chi dorme solo, il malvento se lo prende.» Lettera non firmata.",
     breve: "La Panacea annuncia un premio di produzione per il medico.",
     pubblicita: "PANACEA · Ci prendiamo cura di voi.",
     didascalia: "Il medico, ieri, davanti a una delle case segnalate.",
