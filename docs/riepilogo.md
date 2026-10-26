@@ -62,8 +62,8 @@ Decise il 26 ottobre, con le domande in chat.
 ### Il mondo
 
 - **Retrofuturo anni '90.** Il mondo è quello di oggi, ma la tecnologia del medico e del potere ha l'aspetto degli anni '80-'90: cassette, monitor a fosfori verdi, fax, floppy. Le case povere restano come sono.
-- **Elementi cyberpunk** (26 ottobre): il medico della peste è futuristico, in un mondo distopico dove alcune tecnologie sono rimaste ma cozzano con la vita povera e arretrata della gente comune. Proposte (da approvare):
-  - **la maschera è la tecnologia:** dentro c'è la videocamera (il REC è il suo occhio), le lenti leggono battito, temperatura e voce (la proposta C dei dialoghi), il filtro dell'aria ronza. Il medico non si vede mai, la maschera sì: sulla scrivania e nella foto del giornale;
+- **Elementi cyberpunk** (26 ottobre): il medico della peste è futuristico, in un mondo distopico dove alcune tecnologie sono rimaste ma cozzano con la vita povera e arretrata della gente comune. **Approvate tutte e quattro le proposte** (26 ottobre):
+  - **la maschera è la tecnologia:** dentro c'è la videocamera (il REC è il suo occhio), le lenti leggono battito, temperatura e voce (la proposta C dei dialoghi), il filtro dell'aria ronza. Il medico non si vede mai, la maschera sì: sulla scrivania e nella foto del giornale. **Scheda della maschera e del bastone** (da approvare): `art/medico/maschera.jpg` (GPT Image 2, lavoro in `art/medico/lavori.json`). Maschera a becco di cuoio scuro con le cinghie; l'occhio destro è una lente d'ottone col vetro graffiato e un riflesso verde, al posto del sinistro c'è il blocco grigio di una videocamera anni '90 con la luce rossa del REC, legato con una cinghia, coi cavi che vanno a una batteria sulla nuca; il filtro dell'aria in punta al becco; un adesivo PANACEA consumato e rattoppi di nastro grigio. Il bastone nero ha il manico a T, un cavo a spirale lungo l'asta e la punta di metallo con una lucina, il sensore;
   - **il bastone-sonda:** la punta con cui si indicano le parti del corpo è un sensore, e come il protocollo può sbagliare;
   - **la ditta:** il recinto con prefabbricati, antenna e fari (già sulla mappa), il fax, il computer a fosfori verdi, il furgone bianco che porta via i malati di notte;
   - **il paese:** stufe a legna, termosifoni spenti, santini e medagliette, nessuno schermo tranne il vecchio televisore.
@@ -110,7 +110,7 @@ Decise il 26 ottobre, con le domande in chat.
 - **Le case sulla mappa** (26 ottobre): passandoci sopra la casa si illumina e il medico la cerchia a matita rossa; accanto appare la sua scheda, un cartoncino con la segnalazione e gli occupanti. Prima della visita le foto sono vuote (punti di domanda); dopo la visita la scheda è piena: foto degli occupanti visti, cosa ha visto l'esame, chi è finito al lazzaretto, le prove, il provvedimento. Le foto sono ritagli delle scene (`gioco/img/volti`).
 - **Il giornale** (26 ottobre): disegnato nello stile a fumetto, inclinato, con le pagine dietro storte come se fosse piegato male (`art/giornale/giornale.jpg`, GPT Image 2). Sulla carta c'è solo la testata: titolo, sommario, foto e colonne li stampa il gioco con la stessa prospettiva della pagina (`PAGINA` in `gioco/js/dati.js`), con un filtro che fa tremare un po' l'inchiostro. Così il testo cambia ogni giorno e resta leggibile. In prima pagina la foto del medico di spalle nella via del paese (`art/giornale/foto_medico.jpg`). Sugli schermi piccoli sotto la pagina c'è lo stesso testo da leggere.
 - **I comandi del medico** (Stato di famiglia, Concludi la visita, Torna alla scrivania) stanno in una barra sotto lo schermo, così l'immagine della videocamera resta libera; dentro lo schermo solo l'OSD, le frasi, la raggiera e il nastro delle frasi.
-- **Il taccuino è scartato** (26 ottobre: laborioso e antipatico, un elenco da leggere). **Al suo posto lo stato di famiglia** (proposta A, realizzata nel prototipo il 26 ottobre), che sostituisce anche il modulo della ditta:
+- **Il taccuino è scartato** (26 ottobre: laborioso e antipatico, un elenco da leggere). **Al suo posto lo stato di famiglia** (proposta A, realizzata nel prototipo e confermata il 26 ottobre), che sostituisce anche il modulo della ditta:
   - per ogni casa segnalata il certificato dell'anagrafe del comune (`ANAGRAFE` in `gioco/js/dati.js`), con chi ci risulta: può essere vecchio o sbagliato (il nonno è morto, il figlio della casa 5 risulta emigrato in città). Si legge già dalla scrivania, prima delle visite;
   - le foto arrivano da sole dalla videocamera, quando la persona si vede (con la faccia che ha adesso, per esempio la figlia che ha pianto); chi non si è visto resta un punto di domanda, chi è morto una croce;
   - accanto a ogni nome un corpo con i cinque punti dell'esame: rossi i segni del protocollo trovati, neri le dita nere, grigi gli esami senza niente, vuoti quelli non fatti (passandoci sopra si legge il reperto). Il protocollo mente sul pallore, quindi la ragazza sana ha i pallini rossi;
@@ -122,6 +122,8 @@ Decise il 26 ottobre, con le domande in chat.
   - **A · Lo stato di famiglia:** quella scelta;
   - **B · La cartella della ditta:** il computer a fosfori verdi della Panacea mette insieme esami e letture della maschera e dà una probabilità di contagio e una raccomandazione; ma usa il protocollo del giorno, che a volte mente (la figlia sana all'81% perché pallida, e la ditta la vuole). Si conferma o si smentisce;
   - **C · La parete:** una bacheca nella stanza del medico con foto, frasi e nastri di ogni casa, collegati col filo rosso (il filo si tende se il legame è vero); resta da un giorno all'altro e racconta la storia del paese. Si legherebbe alla casa in 3D.
+
+  B e C non sono state scelte.
 
 ### Fine della partita e storia
 
@@ -214,6 +216,7 @@ Sfondo e personaggi fotografici montati a strati, poi un trattamento comune (bas
 - `12-scrivania`: la scrivania del medico com'è nel gioco (20% di fumetto e VHS al 50%) e varianti senza VHS: pixellata (il trattamento delle prime schermate: bassa risoluzione, pochi colori, retinatura), disegnata al 60%, disegnata al 60% e pixellata, disegnata al 40% (**scelta**, 26 ottobre).
 - `15-giorno`: come nascondere l'aspetto "da AI" delle scene di giorno (la notte e l'infrarosso vanno già bene), sulla cucina e sul soggiorno: 0 com'è ora; 1 vera definizione del VHS (luminanza a circa 430 punti per riga, colore a circa 80, alone sui contorni); 2 luce della videocamera (stanza buia, centro chiaro, bordi nel buio, luci bruciate); 3 colore da videocamera economica (bilanciamento del bianco sbagliato, poco saturo, ombre verdastre, rumore di colore); 4 copia di copia (più morbida, eco, colore che scappa, buchi nel nastro); 5 = 1 + 2 + 3. Fogli `foglio_cucina.jpg`, `foglio_soggiorno.jpg` e le facce al 100% in `dettaglio_soggiorno.jpg`; lo script è `giorno.py`. **Scelta la 2, luce della videocamera** (26 ottobre), ora nello shader del gioco e nel filtro `vhs`.
 - `16-taccuino`: tre proposte per sostituire il taccuino (vedi "Fuori dalle case"); la parete vuota della C è generata con GPT Image 2 (`parete.jpg`).
+- `17-casa-del-medico`: la stanza del medico sopra il bar (`stanza.jpg`), da cui doveva partire il panorama a 360°; il panorama è scartato (vedi "3D").
 - `11-personaggi-50`: prove per avere personaggi meno disegnati. **Scelta:** la prima prova, con i personaggi rifatti in foto e ammorbiditi, montati sulla stanza al 20% (`c_ammorbiditi_sfondo20.jpg`, con il VHS `c_ammorbiditi_sfondo20_vhs.jpg`, in versione notturna con il VHS verde `c_ammorbiditi_sfondo20_vhs_verde.jpg`). Scartate: il mescolamento 50% foto e 50% fumetto (`a_mescolati_50_vhs.jpg`) e i personaggi ridisegnati "a metà" (`b_meta_disegnati.jpg`).
 
 Questionario delle combinazioni della cucina (06 e 07), con i voti salvati: https://claude.ai/artifact/3TEf1Gyxsk5XU5saPN3K6r
@@ -251,8 +254,9 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 
 - **NINAH ha una parte in 3D:** la casa del protagonista si esplora in prima persona. (Correzione del 26 ottobre: all'inizio avevo scritto che era quasi tutto 2D.)
 - **Da valutare: la casa del medico in 3D** (idea del 26 ottobre): la stanza in affitto sopra il bar, dove ci si muove; cliccando la scrivania la si rivede in 2D com'è adesso. Altre cose da usare: la parete dei nastri, la finestra sul paese, il letto per chiudere la giornata, il videoregistratore.
+- **Il panorama a 360° è scartato** (26 ottobre): non piace. La prova è stata fermata prima del panorama; resta la stanza da cui partiva, generata con GPT Image 2 (`art/prove-stile/17-casa-del-medico/stanza.jpg`: porta, scrivania sotto la finestra con le tapparelle, fax, mappa con gli spilli, maschera, guanti, televisore sul videoregistratore, cassette, letto), utile come riferimento della stanza.
 - **Tre strade, dalla più semplice:**
-  1. **panorami a 360°** (consigliata per cominciare): la stanza generata come panorama sferico con Hunyuan World su fal (`fal-ai/hunyuan_world`, anche da un'immagine con `image-to-world`), vista dall'interno di una sfera con Three.js. Ci si guarda attorno e si salta tra due o tre punti. Lo stile resta quello delle scene (foto, 20% di fumetto, VHS), costa poco e va anche sul telefono; non si cammina liberamente;
+  1. **panorami a 360°** (scartata): la stanza generata come panorama sferico con Hunyuan World su fal (`fal-ai/hunyuan_world`, anche da un'immagine con `image-to-world`), vista dall'interno di una sfera. Ci si guarda attorno e si salta tra due o tre punti; non si cammina liberamente;
   2. **stanza 3D vera**, come NINAH: stanza semplice in Three.js, mobili da immagine a 3D (Hunyuan 3D 3.1, Tripo H3.1, Meshy 7.1 su fal), il VHS come filtro sopra, luci e collisioni. Si cammina, ma è molto più lavoro, i modelli fatti dall'AI hanno un'aria di plastica che il VHS nasconde solo in parte, ed è più pesante sui telefoni;
   3. **gaussian splat** (`tripo3d/triposplat` su fal): stanze quasi fotografiche in 3D, ancora sperimentali e pesanti.
 - Il motore web le regge tutte e tre (Three.js). World Labs Marble genera stanze intere, ma richiede un account a parte.
@@ -283,16 +287,16 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 
 ## Domande aperte
 
-- Nomi: il paese, i personaggi, la ditta. E in che paese siamo (l'Italia è accantonata). Proposta per il paese: San Rocco, il santo protettore degli appestati (usato per prova nello stato di famiglia).
+- Nomi: il paese, i personaggi, la ditta. E in che paese siamo (l'Italia è accantonata). Per il paese **San Rocco è scartato** (26 ottobre; nel prototipo resta per prova nello stato di famiglia, `COMUNE` in `gioco/js/dati.js`). Nuove proposte, nomi inventati che non risultano comuni italiani: **Malvento** (il "mal vento", l'aria cattiva da cui i medici della peste si riparavano col becco; esiste solo un belvedere con questo nome nel Pollino), **Acquaferma** (l'acqua stagnante, un paese dove non cambia niente; esistono Acquafredda e Acquafondata), **Valcupa** (la valle cupa) e **Borgofreddo** (case senza riscaldamento, dove all'infrarosso si vede chi è caldo; è anche il nome di una casa vacanze a Monopoli).
 - Tempi e budget.
 
 ## Prossimi passi
 
 1. **Prototipo giocabile di una giornata** (26 ottobre): https://claude.ai/artifact/PWFyiToQ3fwPAjNgiHYJYT. La scrivania (al 40%) con fax, giornale, stati di famiglia e mappa; le case 3 e 5 con REC, luce della videocamera, zoom, frasi addosso a chi parla, domande a raggiera, nastro delle frasi da contestare, espressioni, porte; lo stato di famiglia con timbri, note a penna e firma (al posto del taccuino e del modulo della ditta); la sera i nastri all'infrarosso; la notte con il contagio, i conti, il giornale del giorno dopo, la verità e il confronto delle diagnosi. Il codice è in `gioco/`; le immagini si preparano con `tools/prepara_gioco.py`, i primi piani si generano con `tools/primi_piani.py`. Provato tutto in Chromium sul computer e a misura di telefono. Da giocare e commentare.
 2. Dialoghi: per ora A + B; l'interfaccia va ancora trovata (il misto B + C non ha convinto).
-3. Provare lo stato di famiglia e dire se è la strada giusta.
-4. Casa del medico in 3D: se va bene, una prova con un panorama a 360° della stanza (vedi "3D").
-5. Elementi cyberpunk: approvare le proposte (vedi "Il mondo") e fare la scheda della maschera del medico.
+3. Il nome del paese, tra le proposte in "Domande aperte".
+4. Casa del medico: il panorama a 360° è scartato; resta da decidere se fare la stanza 3D vera, una stanza 2D da cliccare o rimandare (vedi "3D").
+5. Elementi cyberpunk (approvati): approvare la scheda della maschera e del bastone (`art/medico/maschera.jpg`), poi metterla sulla scrivania e nella foto del giornale.
 6. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
 7. Il gioco completo: famiglie, storia, giorni.
 
@@ -311,3 +315,4 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 - [Shutterstock: licenza "sensitive use"](https://submit.shutterstock.com/help/en/articles/10594576-what-is-a-sensitive-use-license)
 - [Adobe Stock: licenze](https://helpx.adobe.com/stock/how-to/adobe-stock-licenses.html)
 - [Recensione di Generated Photos](https://fritz.ai/generated-photos-review/)
+- Nomi del paese: [il belvedere Malvento nel Pollino (Komoot)](https://www.komoot.com/highlight/490741), [Malvito (Wikipedia)](https://en.wikipedia.org/wiki/Malvito), [Acquafredda (Tuttitalia)](https://www.tuttitalia.it/lombardia/87-acquafredda/), [Acquafondata (Tuttitalia)](https://www.tuttitalia.it/lazio/68-acquafondata/), [Borgofreddo, Monopoli (Hotels.com)](https://lookup.hotels.com/ho3291061856/borgofreddo-monopoli-italy)

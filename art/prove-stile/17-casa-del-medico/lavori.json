@@ -1,0 +1,16 @@
+[
+ {
+  "nome": "stanza",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "Eye-level wide photo of a small cheap rented room above a village bar, at night, seen from the middle of the room. In front: a plain wall with a wooden desk under a window with closed roller shutters. On the desk: an old beige fax machine, a folded paper map of a village with red pins, a small CRT television standing on a VCR, a few VHS cassettes, a dark leather plague doctor mask with round brass goggles, a pair of black gloves, a small notepad with a pencil, a few banknotes, and a desk lamp that is switched on. A wooden chair pushed under the desk. Faded floral wallpaper, wooden floor, few objects, clean walls without stains or cracks. Realistic photo with deep shadows and warm light from the lamp only, 1990s feel. No people. 16:9 landscape.",
+   "image_size": {
+    "width": 1920,
+    "height": 1080
+   },
+   "quality": "high",
+   "num_images": 1,
+   "output_format": "jpeg"
+  }
+ }
+]
