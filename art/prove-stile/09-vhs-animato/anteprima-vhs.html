@@ -81,7 +81,7 @@
   <header class="intro">
     <p class="eyebrow">Medico della peste · filtro finale</p>
     <h1>Anteprima VHS animato</h1>
-    <p class="lead">Il filtro VHS come si muoverebbe nel gioco, calcolato in tempo reale sul soggiorno nello stile definitivo: stanza con il 20% di fumetto ripulito e personaggi ammorbiditi. Passa dal giorno alla notte in verde e all'infrarosso, e abbassa l'intensità se l'effetto dà fastidio.</p>
+    <p class="lead">Il filtro VHS come si muoverebbe nel gioco, calcolato in tempo reale sul soggiorno nello stile definitivo: stanza con il 20% di fumetto ripulito e personaggi ammorbiditi. Il VHS parte dal 50%, l'intensità scelta; passa dal giorno alla notte in verde e all'infrarosso.</p>
   </header>
 
   <div class="screen" id="schermo">
@@ -101,15 +101,15 @@
     </div>
     <div class="slider">
       <label for="intensita">Intensità VHS</label>
-      <input type="range" id="intensita" min="0" max="100" step="5" value="100">
-      <output id="intensita-val" for="intensita">100%</output>
+      <input type="range" id="intensita" min="0" max="100" step="5" value="50">
+      <output id="intensita-val" for="intensita">50%</output>
     </div>
     <label class="check"><input type="checkbox" id="scritte" checked> Scritte PLAY e data</label>
     <button type="button" class="btn" id="pausa">Pausa</button>
   </div>
 
   <ul class="notes">
-    <li><b>100%</b> corrisponde alle immagini che hai approvato; a 0% resta solo il colore della scena.</li>
+    <li><b>50%</b> è l'intensità scelta, la stessa delle immagini ferme; a 100% il VHS è pieno come nelle prime prove, a 0% resta solo il colore della scena.</li>
     <li>A ogni fotogramma cambiano la grana e il tremolio delle righe; in fondo c'è il rumore della testina; ogni tanto l'immagine si strappa.</li>
     <li><b>Notte:</b> l'immagine vira al verde con uno strappo, come un cambio di nastro. <b>Infrarosso:</b> vira al rosso tendente al rosa, più scuro e più tenue del verde.</li>
   </ul>
@@ -226,7 +226,7 @@
   const chkOsd = document.getElementById("scritte");
 
   const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const state = { amt: 1, green: 0, greenTarget: 0, red: 0, redTarget: 0, burst: 0, paused: reduceMotion, time: 0, last: null, clockBase: 23 * 3600 + 47 * 60 };
+  const state = { amt: 0.5, green: 0, greenTarget: 0, red: 0, redTarget: 0, burst: 0, paused: reduceMotion, time: 0, last: null, clockBase: 23 * 3600 + 47 * 60 };
 
   function fallback(msg) {
     const p = document.createElement("p");
@@ -329,10 +329,12 @@
   }
 
   modeButtons.forEach((b) => b.addEventListener("click", () => setMode(b.dataset.modo)));
-  slider.addEventListener("input", () => {
+  function syncAmount() {
     state.amt = Number(slider.value) / 100;
     sliderVal.textContent = slider.value + "%";
-  });
+  }
+  slider.addEventListener("input", syncAmount);
+  syncAmount();
   chkOsd.addEventListener("change", () => { osd.hidden = !chkOsd.checked; });
   function syncPause() { btnPause.textContent = state.paused ? "Riprendi" : "Pausa"; }
   btnPause.addEventListener("click", () => { state.paused = !state.paused; syncPause(); });

@@ -15,6 +15,9 @@ Filtri:
 - infrarosso: come il verde, ma rosso tendente al rosa, piu' scuro e piu' tenue;
 - vhs_infrarosso: l'infrarosso con i difetti della videocassetta;
 - fotocopia: bianco e nero sporco da fotocopiatrice.
+
+I difetti della videocassetta sono al 50% (VHS_AMOUNT, deciso il 26 ottobre), come lo slider
+dell'anteprima animata a 50%; il colore dei filtri (verde, infrarosso) resta pieno.
 """
 import pathlib
 import sys
@@ -29,6 +32,7 @@ import schermata  # noqa: E402  (per il trattamento retinato)
 W, H = 1920, 1080
 FONT = HERE.parent / "art/prove-stile/03-schermate/font/VT323-Regular.ttf"
 GREEN = [(2, 10, 8), (8, 38, 30), (22, 96, 80), (80, 178, 150), (196, 248, 224)]
+VHS_AMOUNT = 0.5
 
 
 def arr(im):
@@ -109,29 +113,31 @@ def verde_retinato(a):
     return arr(schermata.treat(img(a), t))
 
 
-def vhs_artifacts(a, color, seed):
+def vhs_artifacts(a, color, seed, k=VHS_AMOUNT):
+    # k: intensita' dei difetti, da 0 a 1; la vignetta resta piena, come nell'anteprima animata
     rng = np.random.default_rng(seed)
     h, w = a.shape[:2]
     # risoluzione da nastro: meta' delle righe, contorni morbidi
-    a = arr(img(a).resize((w // 2, h // 2), Image.BILINEAR).resize((w, h), Image.BILINEAR))
+    soft = arr(img(a).resize((w // 2, h // 2), Image.BILINEAR).resize((w, h), Image.BILINEAR))
+    a = a * (1 - k) + soft * k
     if color:
         # colore sbavato e spostato a destra, neri sollevati
         y = lum(a)[..., None]
-        chroma = arr(img((a - y) * 0.5 + 0.5).filter(ImageFilter.BoxBlur(6))) * 2 - 1
-        a = y + np.roll(chroma, 5, axis=1) * 0.85
-        a = 0.05 + a * 0.9
+        chroma = arr(img((a - y) * 0.5 + 0.5).filter(ImageFilter.BoxBlur(6 * k))) * 2 - 1
+        a = y + np.roll(chroma, int(5 * k + 0.5), axis=1) * (1 - 0.15 * k)
+        a = a * (1 - 0.1 * k) + 0.05 * k
     # alone sui contorni, tipico dei videoregistratori
-    a = arr(img(a).filter(ImageFilter.UnsharpMask(radius=3, percent=60, threshold=0)))
+    a = arr(img(a).filter(ImageFilter.UnsharpMask(radius=3, percent=int(60 * k), threshold=0)))
     # righe che tremano
-    shifts = np.round(rng.normal(0, 0.8, h)).astype(int)
+    shifts = np.round(rng.normal(0, 0.8 * k, h)).astype(int)
     a = np.stack([np.roll(a[i], shifts[i], axis=0) for i in range(h)])
     # niente banda di tracking: e' stata tolta (26 ottobre), dava fastidio
     # righe di scansione e disturbi
-    a[::2] *= 0.9
-    a = a + rng.normal(0, 0.035, (h, w, 1))
+    a[::2] *= 1 - 0.1 * k
+    a = a + rng.normal(0, 0.035 * k, (h, w, 1))
     for _ in range(12):
         yy, xx, ln = rng.integers(0, h), rng.integers(0, w - 300), rng.integers(40, 300)
-        a[yy, xx:xx + ln] = np.clip(a[yy, xx:xx + ln] + 0.4, 0, 1)
+        a[yy, xx:xx + ln] = np.clip(a[yy, xx:xx + ln] + 0.4 * k, 0, 1)
     return vignette(a, 0.35)
 
 
