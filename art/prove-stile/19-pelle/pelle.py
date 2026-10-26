@@ -106,6 +106,63 @@ def filtro(a, scena, forza, tieni):
     return np.clip(out, 0, 1)
 
 
+def importanza(base, mm, scala, s0, s1):
+    """Dove sono i tratti che contano (sopracciglia, naso, bocca, pieghe profonde): i contorni forti che restano
+    nella pelle lisciata, dove la grana fine non arriva."""
+    b = cv2.GaussianBlur(base, (0, 0), 0.6 + 0.25 * scala)
+    g = np.hypot(cv2.Sobel(b, cv2.CV_32F, 1, 0, ksize=3), cv2.Sobel(b, cv2.CV_32F, 0, 1, ksize=3)) / 8
+    g *= scala  # a parita' di contrasto, su una faccia piccola il contorno e' piu' ripido
+    t = np.clip((g - s0) / (s1 - s0), 0, 1)
+    # e i buchi scuri: la bocca aperta, le narici, le occhiaie (piu' scuri della pelle attorno anche dopo il filtro)
+    buio = np.clip((cv2.GaussianBlur(base, (0, 0), 4 * scala) - base - 0.06) / 0.1, 0, 1)
+    t = np.maximum(t, buio)
+    t = t * t * (3 - 2 * t)
+    t = cv2.GaussianBlur(cv2.dilate(t, np.ones((3, 3), np.uint8)), (0, 0), 0.5 + 0.3 * scala)
+    # il bordo della faccia non conta: li' il contorno e' tra la pelle e i capelli o lo sfondo
+    dentro = cv2.erode((mm > 0.5).astype(np.uint8), np.ones((3, 3), np.uint8), iterations=max(1, round(1.5 * scala)))
+    return t * cv2.GaussianBlur(dentro.astype(np.float32), (0, 0), 1 + 0.5 * scala)
+
+
+def pelle_pulita(a, mm, scala, minimo, s0, s1, grana, seme):
+    """Come pelle(), ma piu' pulita: sulla pelle liscia resta pochissimo dettaglio, sui tratti che contano quasi
+    tutto; sopra, una grana finissima e uguale, perche' la pelle non sembri di cera."""
+    lab = cv2.cvtColor(a, cv2.COLOR_RGB2LAB)
+    l = lab[..., 0] / 100
+    base = liscia(l, scala, max(2, round(2.5 * scala)), 0.01)
+    imp = importanza(base, mm, scala, s0, s1)
+    l2 = base + (l - base) * (minimo + (1 - minimo) * imp)
+    rumore = np.random.default_rng(seme).normal(0, 1, l.shape).astype(np.float32)
+    l2 += cv2.GaussianBlur(rumore, (0, 0), 0.7) * grana * (1 - imp)
+    s = 2.5 * scala + 2
+    ab = lab[..., 1:]
+    media = cv2.GaussianBlur(ab * mm[..., None], (0, 0), s) / (cv2.GaussianBlur(mm, (0, 0), s) + 1e-4)[..., None]
+    out = np.dstack([l2 * 100, media + (ab - media) * (0.45 * imp)[..., None]]).astype(np.float32)
+    return np.clip(cv2.cvtColor(out, cv2.COLOR_LAB2RGB), 0, 1)
+
+
+def pulito(a, scena, forza=2.6, minimo=0.08, s0=0.05, s1=0.12, grana=0.006):
+    """Il filtro 1 piu' pulito, una faccia (o mano, collo, gamba, piede) alla volta."""
+    forma = a.shape[:2]
+    occhi = maschera(scena, ["eye", "mouth"], forma)
+    occhi = cv2.GaussianBlur(cv2.dilate(occhi, np.ones((5, 5), np.uint8)), (0, 0), 2)
+    out = a.copy()
+    for i, m in enumerate(istanze(scena, PELLE, forma)):
+        ys, xs = np.nonzero(m > 0.5)
+        if len(ys) < 50:
+            continue
+        # le facce piccole, lontane, si lisciano meno: la grana li' non si vede, e la bocca diventerebbe una macchia
+        lato = np.sqrt(len(ys))
+        scala = max(0.6, forza * lato / 100 * np.clip(lato / 80, 0.5, 1))
+        bordo = round(12 * scala) + 12
+        y0, y1 = max(0, ys.min() - bordo), min(forma[0], ys.max() + bordo)
+        x0, x1 = max(0, xs.min() - bordo), min(forma[1], xs.max() + bordo)
+        pezzo, mm = out[y0:y1, x0:x1], m[y0:y1, x0:x1]
+        w = cv2.GaussianBlur(mm, (0, 0), 1 + 0.5 * scala) * (1 - 0.85 * occhi[y0:y1, x0:x1])
+        liscio = pelle_pulita(pezzo, mm, scala, minimo, s0, s1, grana, i)
+        out[y0:y1, x0:x1] = pezzo * (1 - w[..., None]) + liscio * w[..., None]
+    return np.clip(out, 0, 1)
+
+
 def ai(scena, a):
     """Il ritocco di Nano Banana Pro, preso solo dentro la pelle (occhi e bocche restano gli originali)."""
     f = QUI / f"ai/{scena}_nb_allineata.jpg"  # riallineata con tools/allinea.py
