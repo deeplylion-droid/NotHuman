@@ -133,6 +133,12 @@ const SENZA_FILTRO = THREE.ShaderChunk.tonemapping_pars_fragment;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const angolo = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 
+// la geometria compressa dei modelli si decodifica con WebAssembly; se la pagina non lo lascia usare, con la versione
+// in JavaScript (piu' lenta, ma la stanza c'e' lo stesso)
+const DECODER = THREE.MeshoptDecoder.supported
+  ? THREE.MeshoptDecoder.ready.then(() => THREE.MeshoptDecoder, () => THREE.MeshoptDecoderJS)
+  : Promise.resolve(THREE.MeshoptDecoderJS);
+
 // scarica un file di testo contando i byte: "parte(f)" dice a che punto e' (0-1), se il server dice quanto pesa
 async function scarica(url, parte) {
   const risposta = await fetch(url);
@@ -307,7 +313,7 @@ export class Stanza {
     this.scena.environment = pmrem.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
     pmrem.dispose();
     // un modello che non arriva non ferma la stanza: manca solo quell'oggetto
-    const gltf = new THREE.GLTFLoader().setMeshoptDecoder(THREE.MeshoptDecoder);
+    const gltf = new THREE.GLTFLoader().setMeshoptDecoder(await DECODER);
     const caricati = await Promise.allSettled(nomiModelli.map(async (n) => {
       try {
         return [n, await caricaModello(gltf, n, (f) => { parti.set(n, f); dici(); })];
