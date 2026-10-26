@@ -685,6 +685,10 @@ function apriFax() {
 
 // il giornale: la carta e' disegnata, il testo e' stampato sopra con la stessa prospettiva della pagina
 const U = 400, V0 = -0.72;
+// la lente d'ingrandimento per i testi piccoli: quanto ingrandisce, e se e' in mano (resta com'era tra un giornale
+// e l'altro). Col dito parte posata: in mano, trascinare il dito muove la lente invece di far scorrere il foglio
+const ZOOM_LENTE = 2.4;
+let lenteInMano = !matchMedia("(pointer: coarse)").matches;
 
 function apriGiornale(domani) {
   const g = domani ? giornaleDomani() : D.GIORNALE;
@@ -716,6 +720,7 @@ function apriGiornale(domani) {
     blocco("colonna2", "gio-colonna", lettera, el("p", null, g.breve), el("p", "gio-pubblicita", g.pubblicita)),
   );
   stampa.append(carta, piano);
+  lente(stampa, carta, piano);
   // sugli schermi stretti la pagina e' troppo piccola: sotto c'e' lo stesso testo da leggere
   const leggibile = el("div", "gio-leggibile");
   leggibile.append(el("h2", null, g.titolo), el("p", "gio-l-sommario", g.sommario), el("p", null, g.articolo),
@@ -746,6 +751,62 @@ function apriGiornale(domani) {
   requestAnimationFrame(() => { adatta(); proietta(); });
   if (document.fonts) document.fonts.ready.then(() => { adatta(); proietta(); });
   if (window.ResizeObserver) new ResizeObserver(proietta).observe(stampa);
+}
+
+// la lente: un doppione della pagina (carta e testo), ingrandito, dentro un cerchio che segue il puntatore. Col dito
+// sta un po' sopra il punto toccato (sotto, se in cima alla pagina non c'e' posto), se no il dito la copre. L'icona in
+// alto a sinistra la posa e la riprende
+function lente(stampa, carta, piano) {
+  const vetro = el("div", "gio-lente");
+  vetro.hidden = true;
+  const icona_ = el("button", "gio-prendi-lente");
+  icona_.type = "button";
+  icona_.insertAdjacentHTML("beforeend", icona("lente"));
+  const nome = el("span", "gio-prendi-nome");
+  icona_.append(nome);
+  const segna = () => {
+    const testo = lenteInMano ? "Posa la lente" : "Prendi la lente";
+    icona_.setAttribute("aria-label", testo);
+    icona_.setAttribute("aria-pressed", String(lenteInMano));
+    nome.textContent = testo;
+    stampa.classList.toggle("con-lente", lenteInMano);
+    if (!lenteInMano) vetro.hidden = true;
+  };
+  icona_.addEventListener("click", (e) => {
+    e.stopPropagation();
+    lenteInMano = !lenteInMano;
+    segna();
+  });
+  stampa.append(vetro, icona_);
+  segna();
+  let doppione = null;
+  const guarda = (e) => {
+    const r = stampa.getBoundingClientRect();
+    const x = e.clientX - r.left;
+    const y = e.clientY - r.top;
+    if (!lenteInMano || e.target.closest(".gio-prendi-lente") || x < 0 || y < 0 || x > r.width || y > r.height) {
+      vetro.hidden = true;
+      return;
+    }
+    if (vetro.hidden) {
+      // il doppione si rifa' a ogni comparsa, cosi' ha sempre la prospettiva e il titolo di adesso
+      doppione = el("div", "gio-doppione");
+      doppione.append(carta.cloneNode(true), piano.cloneNode(true));
+      doppione.style.width = `${r.width}px`;
+      doppione.style.height = `${r.height}px`;
+      vetro.replaceChildren(doppione);
+      vetro.hidden = false;
+    }
+    const R = vetro.offsetWidth / 2;
+    const su = e.pointerType === "touch" ? (y > R * 1.6 ? R * 1.15 : -R * 1.15) : 0;
+    vetro.style.transform = `translate(${x - R}px, ${y - R - su}px)`;
+    doppione.style.transform = `translate(${R - x * ZOOM_LENTE}px, ${R - y * ZOOM_LENTE}px) scale(${ZOOM_LENTE})`;
+  };
+  stampa.addEventListener("pointermove", guarda);
+  stampa.addEventListener("pointerdown", guarda);
+  stampa.addEventListener("pointerleave", () => { vetro.hidden = true; });
+  stampa.addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") vetro.hidden = true; });
+  stampa.addEventListener("pointercancel", () => { vetro.hidden = true; });
 }
 
 function moltiplica(A, B) {
@@ -2307,7 +2368,7 @@ async function avvia(dati) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, sera, stanza: () => stanza };
+if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);
