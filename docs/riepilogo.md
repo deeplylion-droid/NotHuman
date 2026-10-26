@@ -256,6 +256,7 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 
 - **NINAH ha una parte in 3D:** la casa del protagonista si esplora in prima persona. (Correzione del 26 ottobre: all'inizio avevo scritto che era quasi tutto 2D.)
 - **La casa del medico in 3D** (idea del 26 ottobre): la stanza in affitto sopra il bar, dove ci si muove; cliccando la scrivania la si rivede in 2D com'è adesso. **Scelta la stanza 3D vera** (26 ottobre), dopo il panorama scartato; la prima prova è nel prototipo (vedi "La stanza 3D nel prototipo").
+- **La stanza 3D vera si fa più avanti** (deciso il 26 ottobre, dopo la prima prova), e **i mobili si fanno con Meshy** (`meshy/v7.1/image-to-3d` su fal: un modello con texture da una foto, 1,20 dollari; si può chiedere un modello leggero, `model_type` "lowpoly" o "smart-topology" con `target_polycount`, e guidare la texture con `texture_prompt` o `texture_image_url`; c'è anche `meshy/v7.1/multi-image-to-3d` da più foto dello stesso mobile). Fino ad allora nel prototipo resta la prima prova.
 - **Il panorama a 360° è scartato** (26 ottobre): non piace. La prova è stata fermata prima del panorama; resta la stanza da cui partiva, generata con GPT Image 2 (`art/prove-stile/17-casa-del-medico/stanza.jpg`: porta, scrivania sotto la finestra con le tapparelle, fax, mappa con gli spilli, maschera, guanti, televisore sul videoregistratore, cassette, letto), utile come riferimento della stanza.
 - **Tre strade, dalla più semplice:**
   1. **panorami a 360°** (scartata): la stanza generata come panorama sferico con Hunyuan World su fal (`fal-ai/hunyuan_world`, anche da un'immagine con `image-to-world`), vista dall'interno di una sfera. Ci si guarda attorno e si salta tra due o tre punti; non si cammina liberamente;
@@ -265,7 +266,7 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 
 ### La stanza 3D nel prototipo
 
-Fatta il 26 ottobre (`gioco/js/stanza.js`). La giornata comincia qui, e qui si torna.
+Fatta il 26 ottobre (`gioco/js/stanza.js`), come prima prova: la stanza vera si fa più avanti, con i mobili di Meshy (vedi sopra). La giornata comincia qui, e qui si torna.
 
 - **La stanza:** 3,4 x 4 metri, alta 2,75. Davanti la finestra con la scrivania sotto (come nel disegno della scrivania: lampada, fax, giornali, mappa, stato di famiglia, soldi, maschera, guanti, televisore, videoregistratore rosso scuro col display delle 12:00 che lampeggia, tre cassette); a sinistra la porta con la luce delle scale che passa sotto, l'interruttore, il calendario della Panacea (qualcuno ha cerchiato il 17) e l'attaccapanni col cappotto incerato e il cappello; dietro l'armadio; a destra il letto con la coperta a fiori, il comodino con la radiosveglia che segna l'ora del gioco, un santino del santo degli appestati, il termosifone freddo; la borsa del medico per terra; una lampadina nuda spenta.
 - **Come è fatta:** muri, pavimento e mobili semplici sono scatole con texture generate con GPT Image 2 (qualità media, circa 5 centesimi l'una): carta da parati, pavimento, legno, coperta, il davanti di porta, finestra, armadio, comodino e testiera. Gli oggetti piccoli e piatti della scrivania sono ritagliati dalla scrivania disegnata, così la scrivania in 3D somiglia a quella in 2D. Gli otto oggetti complicati (sedia, lampada, fax, televisore, maschera, borsa, termosifone, attaccapanni col cappotto) sono modelli fatti da una foto con **Tripo H3.1** su fal (`tripo3d/h3.1/image-to-3d`, 30 centesimi l'uno, 4.000-12.000 triangoli); le foto degli oggetti sono di GPT Image 2, la maschera è la vista di tre quarti della scheda. Tutto in `art/stanza3d` (`lavori.json`, `lavori_3d.json`); `tools/prepara_stanza.py` riduce le texture in `gioco/img/stanza` e alleggerisce i modelli in `gioco/modelli` (150-450 KB l'uno): glTF in un file `.json` con la texture WebP a 512 punti accanto, perché gli Artifact di claude.ai non servono i `.glb`.
@@ -283,7 +284,7 @@ Fatta il 26 ottobre (`gioco/js/stanza.js`). La giornata comincia qui, e qui si t
 - Stanze troppo cariche di dettagli.
 - Il villaggio rurale.
 - Librerie di foto stock: Adobe Stock vieta di mostrare le persone delle foto in luce negativa; Shutterstock lo permette solo con una licenza "sensitive use" a parte. Generated Photos vende volti sintetici, ma sono ritratti moderni da studio.
-- NovelAI (fatto per lo stile anime) e Meshy (modelli 3D): non adatti ai volti di questo progetto.
+- NovelAI (fatto per lo stile anime) e Meshy (modelli 3D): non adatti ai volti di questo progetto. Meshy però è scelto per i mobili della stanza 3D (vedi "3D").
 
 ## Idee accantonate
 
@@ -309,7 +310,7 @@ Fatta il 26 ottobre (`gioco/js/stanza.js`). La giornata comincia qui, e qui si t
 1. **Prototipo giocabile di una giornata** (26 ottobre): https://claude.ai/artifact/PWFyiToQ3fwPAjNgiHYJYT. La scrivania (al 40%) con fax, giornale, stati di famiglia e mappa; le case 3 e 5 con REC, luce della videocamera, zoom, frasi addosso a chi parla, domande a raggiera, nastro delle frasi da contestare, espressioni, porte; lo stato di famiglia con timbri, note a penna e firma (al posto del taccuino e del modulo della ditta); la sera i nastri all'infrarosso; la notte con il contagio, i conti, il giornale del giorno dopo, la verità e il confronto delle diagnosi. Il codice è in `gioco/`; le immagini si preparano con `tools/prepara_gioco.py`, i primi piani si generano con `tools/primi_piani.py`. Provato tutto in Chromium sul computer e a misura di telefono. Da giocare e commentare.
 2. Dialoghi: per ora A + B; l'interfaccia va ancora trovata (il misto B + C non ha convinto).
 3. Il nome del paese, tra le proposte in "Domande aperte".
-4. La stanza del medico in 3D: provarla e dire cosa cambiare (vedi "La stanza 3D nel prototipo").
+4. La stanza del medico in 3D vera, più avanti: i mobili con Meshy (vedi "3D"). Nel prototipo per ora c'è la prima prova.
 5. Elementi cyberpunk (approvati): approvare la scheda della maschera e del bastone (`art/medico/maschera.jpg`), poi metterla sulla scrivania e nella foto del giornale.
 6. Schede dei personaggi: un riferimento per ognuno, da usare in tutte le scene e in tutti gli stati.
 7. Il gioco completo: famiglie, storia, giorni.
