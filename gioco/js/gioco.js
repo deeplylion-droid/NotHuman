@@ -2246,7 +2246,7 @@ async function avvia(dati) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, apriFax, sera, stanza: () => stanza };
+if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, sera, stanza: () => stanza };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);
