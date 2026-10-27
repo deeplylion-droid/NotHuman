@@ -75,12 +75,15 @@ const FRAG = `
     float l = dot(c, LUMA);
     float mx = max(c.r, max(c.g, c.b)), mn = min(c.r, min(c.g, c.b));
     float sat = (mx - mn) / max(mx, 0.0001);
-    // la tinta, in sesti di giro: 0 e' il rosso pieno, 0.33 l'arancione della pelle
+    // la tinta, in sesti di giro: 0 e' il rosso pieno, 0.33 l'arancione della pelle (che resta fuori); dal 27 ottobre
+    // piu' rossi (anche quelli spenti e quelli verso il magenta) e il resto non del tutto grigio ("non eliminare
+    // completamente i colori")
     float tinta = c.r >= mx ? (c.g - c.b) / max(mx - mn, 0.0001) : 9.0;
-    float rosso = (1.0 - smoothstep(0.1, 0.28, abs(tinta))) * smoothstep(0.32, 0.55, sat) * smoothstep(0.06, 0.18, mx);
-    vec3 g = pow(vec3(l), vec3(1.12)) * vec3(0.97, 0.99, 1.02);
-    vec3 r = vec3(0.12 + l * 1.35, l * 0.16, l * 0.14);
-    return mix(g, r, rosso);
+    float rosso = (1.0 - smoothstep(0.17, 0.31, abs(tinta))) * smoothstep(0.2, 0.42, sat) * smoothstep(0.04, 0.14, mx);
+    vec3 grigio = pow(vec3(l), vec3(1.08)) * vec3(0.97, 0.99, 1.02);
+    vec3 resto = mix(grigio, c, 0.33);
+    vec3 r = vec3(0.1 + l * 1.5, l * 0.13, l * 0.12);
+    return mix(resto, r, rosso);
   }
   vec3 bluBianco(vec3 c) {
     float l = dot(c, LUMA);
