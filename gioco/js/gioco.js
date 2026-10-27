@@ -2728,7 +2728,8 @@ async function avvia(dati) {
     vhs = new Vhs(canvas);
     vhs.start();
     // gli strappi del nastro si sentono: un crepitio, piu' forte quanto piu' e' forte lo strappo
-    vhs.onBurst = (v) => suoni.suona("disturbo", { volume: Math.min(1, 0.35 + v * 0.65), varia: 0.1 });
+    // solo gli strappi forti (i cambi di inquadratura, lo zoom, la contraddizione), non i piccoli disturbi
+    vhs.onBurst = (v) => { if (v >= 0.3) suoni.suona("disturbo", { volume: Math.min(1, 0.35 + v * 0.65), varia: 0.1 }); };
   } catch {
     vhs = null;
     schermo.classList.add("senza-webgl");

@@ -5,16 +5,27 @@
 // volta che serve, gli ambienti sfumano uno nell'altro, i colpi cambiano un poco ogni volta. L'icona
 // dell'altoparlante toglie e rimette l'audio, e il browser se lo ricorda. I file si preparano con
 // tools/prepara_suoni.py.
+// Piu' cupi e piu' rari (deciso il 27 ottobre): tutto passa da un filtro che toglie gli acuti, come sentire
+// attraverso la maschera, e suona un poco piu' grave; alcuni colpi non ci sono piu' (TOLTI), altri non si ripetono
+// troppo spesso (PAUSE), dei passi se ne sente uno si' e uno no.
 
 const DIR = "suoni/";
 // il volume di ogni suono: i file arrivano tutti alla stessa intensita' percepita (tools/prepara_suoni.py), qui gli
 // ambienti stanno sotto i colpi e il fruscio del nastro si sente appena
 const VOLUMI = {
-  nastro: 0.1, vento: 0.25, notte: 0.8, cucina: 0.2, soggiorno: 0.34, camera: 0.28,
-  passo1: 0.42, passo2: 0.42, passo3: 0.42, fax: 1, carta: 0.57, giornale: 1, timbro: 0.7, firma: 0.45, porta: 0.56,
-  zoom: 0.32, rec: 0.32, videoregistratore: 0.84, sedia: 0.8, contraddizione: 0.63, malvento: 0.8, monete: 0.84,
-  disturbo: 0.4, interruttore: 0.5,
+  nastro: 0.08, vento: 0.18, notte: 0.6, cucina: 0.14, soggiorno: 0.24, camera: 0.22,
+  passo1: 0.32, passo2: 0.32, passo3: 0.32, fax: 0.8, carta: 0.57, giornale: 0.8, timbro: 0.6, firma: 0.35, porta: 0.45,
+  zoom: 0.32, rec: 0.3, videoregistratore: 0.7, sedia: 0.8, contraddizione: 0.63, malvento: 0.85, monete: 0.84,
+  disturbo: 0.3, interruttore: 0.4,
 };
+// i colpi che non suonano piu' (troppi, per un gioco cupo): i fogli, lo zoom, la sedia, le monete
+const TOLTI = new Set(["carta", "zoom", "sedia", "monete"]);
+// secondi minimi tra due volte lo stesso colpo
+const PAUSE = { disturbo: 4 };
+// quanto piu' grave: la velocita' (e l'altezza) degli ambienti e dei colpi
+const GRAVE = { ambienti: 0.9, colpi: 0.93 };
+// sopra questa frequenza il suono si smorza (Hz): come sentire attraverso la maschera
+const CUPO = 1900;
 const SFUMA = 1.2; // secondi per far entrare e uscire un ambiente
 const CHIAVE = "malvento-muto";
 
@@ -55,7 +66,16 @@ export class Suoni {
     limite.ratio.value = 12;
     limite.attack.value = 0.003;
     limite.release.value = 0.25;
-    this.uscita.connect(limite).connect(this.ctx.destination);
+    // piu' cupo: via gli acuti, un poco di bassi in piu'
+    const filtro = this.ctx.createBiquadFilter();
+    filtro.type = "lowpass";
+    filtro.frequency.value = CUPO;
+    filtro.Q.value = 0.5;
+    const bassi = this.ctx.createBiquadFilter();
+    bassi.type = "lowshelf";
+    bassi.frequency.value = 180;
+    bassi.gain.value = 3;
+    this.uscita.connect(filtro).connect(bassi).connect(limite).connect(this.ctx.destination);
     this.ambiente(...this.voluti);
   }
 
@@ -92,6 +112,7 @@ export class Suoni {
         const src = ctx.createBufferSource();
         src.buffer = buf;
         src.loop = true;
+        src.playbackRate.value = GRAVE.ambienti;
         [src.loopStart, src.loopEnd] = bordi(buf);
         src.connect(gain);
         // ogni volta da un punto diverso dell'anello, cosi' non suona sempre uguale
@@ -107,11 +128,15 @@ export class Suoni {
   // un colpo: "varia" cambia un poco la velocita' (e l'altezza) ogni volta
   suona(nome, { volume = 1, varia = 0.03, ritardo = 0 } = {}) {
     const ctx = this.ctx;
-    if (!ctx || this.muto) return;
+    if (!ctx || this.muto || TOLTI.has(nome)) return;
+    if (PAUSE[nome]) {
+      if (ctx.currentTime - (this.ultimo?.[nome] ?? -99) < PAUSE[nome]) return;
+      (this.ultimo ||= {})[nome] = ctx.currentTime;
+    }
     this.carica(nome).then((buf) => {
       const src = ctx.createBufferSource();
       src.buffer = buf;
-      src.playbackRate.value = 1 + (Math.random() * 2 - 1) * varia;
+      src.playbackRate.value = GRAVE.colpi * (1 + (Math.random() * 2 - 1) * varia);
       const g = ctx.createGain();
       g.gain.value = (VOLUMI[nome] ?? 0.5) * volume;
       src.connect(g).connect(this.uscita);
@@ -119,9 +144,11 @@ export class Suoni {
     }).catch(() => {});
   }
 
-  // un passo sulle assi del pavimento: uno dei tre, ogni volta un po' diverso
+  // un passo sulle assi del pavimento: uno dei tre, ogni volta un po' diverso; se ne sente uno si' e uno no
   passo() {
-    this.suona(`passo${1 + Math.floor(Math.random() * 3)}`, { volume: 0.75 + Math.random() * 0.25, varia: 0.08 });
+    this.passi = (this.passi || 0) + 1;
+    if (this.passi % 2) return;
+    this.suona(`passo${1 + Math.floor(Math.random() * 3)}`, { volume: 0.6 + Math.random() * 0.25, varia: 0.08 });
   }
 
   silenzia(muto) {
