@@ -401,6 +401,7 @@ Fatta il 26 ottobre (`gioco/js/stanza.js`) e **rifatta lo stesso giorno** (la pr
 
 - Nomi: i personaggi, la ditta. E in che paese siamo (l'Italia è accantonata). **Il paese si chiama Malvento** (scelto il 26 ottobre): il "mal vento", l'aria cattiva da cui i medici della peste si riparavano col becco; è un nome inventato, non risulta un comune italiano (esiste solo un belvedere con questo nome nel Pollino). Nel prototipo è sullo stato di famiglia (`COMUNE` in `gioco/js/dati.js`). Scartati San Rocco e le altre proposte: Acquaferma, Valcupa, Borgofreddo.
 - Tempi e budget.
+- **Lo stile e la piattaforma** (27 ottobre, sera): visto il gioco in plastilina, l'utente scrive che lo stile grafico "non mi convince proprio" e chiede se trasporre il gioco come modalità di Roblox, e come sarebbe il multiplayer. Il parere di Claude è in chat: Roblox si può fare, ma è un altro gioco (riscritto in Luau, contenuti da adattare alle regole sull'età, pubblico giovane che vuole partite brevi e sociali, niente Steam); se si va su Roblox conviene una modalità multigiocatore nuova (il medico contro le famiglie che nascondono i malati), non il gioco a una persona com'è. Da decidere.
 
 ## Prossimi passi
 
