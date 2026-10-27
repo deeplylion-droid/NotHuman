@@ -573,7 +573,7 @@ function cucina(st) {
     neon.userData.forza = 3;
     g.userData.neon = neon;
     g.add(neon, neon.target);
-    const faro = new THREE.SpotLight(0xffe6c4, 11, 0, 0.42, 0.75, 1.3);
+    const faro = new THREE.SpotLight(0xffe6c4, 9.5, 0, 0.49, 0.75, 1.3);
     faro.position.copy(OCCHIO).add(new THREE.Vector3(0.05, 0.08, 0));
     faro.target.position.copy(FARO_MIRA.creta);
     faro.castShadow = true;
@@ -581,7 +581,7 @@ function cucina(st) {
     faro.shadow.bias = -0.0005;
     faro.shadow.normalBias = 0.02;
     faro.shadow.radius = 4;
-    faro.userData.forza = 11;
+    faro.userData.forza = 9.5;
     g.userData.faro = faro;
     g.add(faro, faro.target);
     // in fondo al corridoio una lampadina debole: la figlia quasi non si vede
@@ -935,6 +935,7 @@ const dove = new THREE.Vector3(), base = new THREE.Vector3(), destra = new THREE
 // dove punta la lampada della videocamera: nella plastilina sul padre, che e' quasi l'unica cosa illuminata
 const FARO_MIRA = { ps1: new THREE.Vector3(-0.3, 1.2, -3), creta: new THREE.Vector3(-0.5, 1.25, -2.3) };
 let faro = null, neon = null;
+const SCARTO_FARO = new THREE.Vector3(0.05, 0.08, 0), luce = new THREE.Vector3(), lato = new THREE.Vector3();
 
 function inquadra(dt, t) {
   testa.x += (testa.tx - testa.x) * Math.min(1, dt * 4);
@@ -944,10 +945,11 @@ function inquadra(dt, t) {
   // la maschera non sta mai ferma: un respiro e un tremito leggero
   const respiro = new THREE.Vector3(Math.sin(t * 0.7) * 0.004, Math.sin(t * 1.3) * 0.006, 0);
   camera.position.copy(OCCHIO).add(respiro);
+  const volta = -testa.x * 0.2 * (1 - z), china = -testa.y * 0.11 * (1 - z);
   base.subVectors(MIRA, OCCHIO).normalize();
-  base.applyAxisAngle(SU, -testa.x * 0.2 * (1 - z));
+  base.applyAxisAngle(SU, volta);
   destra.crossVectors(base, SU).normalize();
-  base.applyAxisAngle(destra, -testa.y * 0.11 * (1 - z));
+  base.applyAxisAngle(destra, china);
   bersaglio.copy(camera.position).addScaledVector(base, 3);
   if (bub && z > 0) {
     bub.getWorldPosition(dove);
@@ -956,7 +958,12 @@ function inquadra(dt, t) {
   camera.fov = FOV + (FOV_ESAME[stile] - FOV) * z;
   if (faro) {
     faro.intensity = faro.userData.forza * (1 + (stile === "ps1" ? 3 : 0.6) * z);
-    faro.target.position.lerpVectors(FARO_MIRA[stile], bersaglio, z);
+    // la lampada sta sulla maschera: si sposta e si gira con la testa (nell'esame va sul bubbone)
+    faro.position.copy(camera.position).add(SCARTO_FARO);
+    luce.subVectors(FARO_MIRA[stile], OCCHIO).applyAxisAngle(SU, volta);
+    lato.crossVectors(luce, SU).normalize();
+    luce.applyAxisAngle(lato, china).add(camera.position);
+    faro.target.position.lerpVectors(luce, bersaglio, z);
   }
   camera.updateProjectionMatrix();
   camera.lookAt(bersaglio);
