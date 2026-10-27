@@ -108,8 +108,11 @@ const carica = (src) => new Promise((res, rej) => {
   i.src = src;
 });
 
-// la versione 2D di prima (le scene disegnate, il VHS, il filtro catrame), per confrontarla: #2d nell'indirizzo
-const VERSIONE_2D = /2d/.test(location.hash);
+// le visite (27 ottobre, sera): si torna alle scene 2D; quelle in plastilina restano per riferimento con #creta
+// nell'indirizzo. Niente VHS da nessuna parte (restano la lampada, lo zoom, la notte verde e l'infrarosso); al posto
+// del catrame il tono del giorno, da scegliere: grigio coi rossi (#rosso, per ora) o blu col bianco (#blu)
+const VISITE_3D = /creta/.test(location.hash);
+const TONO = /blu/.test(location.hash) ? 2 : /catrame/.test(location.hash) ? 0 : 1;
 
 // le scene 2D di prima servono solo se le visite in plastilina non partono (senza WebGL 2): allora si caricano dopo
 const conWebgl2 = (() => {
@@ -124,7 +127,7 @@ async function caricaTutto() {
   const lista = { scrivania: "img/scrivania.jpg", mappa: "img/mappa.jpg" };
   const voci = await Promise.all(Object.entries(lista).map(async ([k, src]) => [k, await carica(src)]));
   for (const [k, im] of voci) IMG[k] = im;
-  if (!vhs || !conWebgl2 || VERSIONE_2D) await caricaLuoghi(D.LUOGHI);
+  if (!vhs || !conWebgl2 || !VISITE_3D) await caricaLuoghi(D.LUOGHI);
 }
 
 // le scene di un giorno: l'immagine, le persone (un grigio per persona), il calore, le sagome, le espressioni. Il nome
@@ -2967,7 +2970,7 @@ function riempiCaricamento(f) {
 
 // le visite in plastilina: stanze e pupazzi del giorno, caricati in sottofondo
 async function caricaVisite() {
-  if (!vhs || !conWebgl2) return;
+  if (!vhs || !conWebgl2 || !VISITE_3D) return;
   try {
     const { Visita3D } = await import("./visita3d.js");
     if (!Visita3D.disponibile()) throw new Error("niente WebGL 2");
@@ -3026,8 +3029,10 @@ async function avvia(dati) {
   parole.scrivi(null, "Carico i nastri…", { lato: "sotto" }, {}, { veloce: true });
   try {
     vhs = new Vhs(canvas);
-    // niente effetto VHS (27 ottobre): la videocamera passa l'immagine pulita
-    vhs.pulito = !VERSIONE_2D;
+    // niente VHS (27 ottobre): niente difetti del nastro; restano la lampada, lo zoom, la notte e l'infrarosso
+    vhs.pulito = false;
+    vhs.difetti = 0;
+    vhs.tono = TONO;
     vhs.start();
     // gli strappi del nastro si sentono: un crepitio, piu' forte quanto piu' e' forte lo strappo
     // solo gli strappi forti (i cambi di inquadratura, lo zoom, la contraddizione), non i piccoli disturbi
@@ -3057,9 +3062,9 @@ async function avvia(dati) {
   // ripreso a meta' del secondo giorno (il codice ricaricato tiene lo stato): le tabelle e le scene di quel giorno
   if (S.giorno === 2) {
     D = { ...D1, ...giorno2(S.ieri) };
-    if (!vhs || !conWebgl2 || VERSIONE_2D) await caricaLuoghi(D.LUOGHI).catch(() => {});
+    if (!vhs || !conWebgl2 || !VISITE_3D) await caricaLuoghi(D.LUOGHI).catch(() => {});
   }
-  visitaPronta = VERSIONE_2D ? null : caricaVisite();
+  visitaPronta = VISITE_3D ? caricaVisite() : null;
   if (S.schermo === "visita" && S.casa && S.luogo) vaiLuogo(S.luogo);
   else if (S.schermo === "mappa") vaiMappa();
   else if (S.schermo === "scrivania") vaiScrivania();

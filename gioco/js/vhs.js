@@ -32,6 +32,7 @@ const FRAG = `
   uniform float u_snow;
   uniform float u_luce;
   uniform float u_catrame;
+  uniform float u_tono;
   uniform float u_esame;
   uniform float u_vignetta;
   varying vec2 v_uv;
@@ -67,6 +68,24 @@ const FRAG = `
     c = l + (c - l) * 0.35;
     c *= mix(vec3(1.0, 0.8, 0.55), vec3(0.9, 0.88, 0.8), smoothstep(0.0, 0.5, l)) * 0.8;
     return pow(max(c, vec3(0.0)), vec3(1.15 / 2.2));
+  }
+  // i toni del giorno al posto del catrame (27 ottobre, da scegliere): tutto grigio tranne i rossi (il sangue, le
+  // rose della tovaglia, i fiori della vestaglia; la pelle no, e' arancione), oppure blu con le luci forti bianche
+  vec3 grigioRosso(vec3 c) {
+    float l = dot(c, LUMA);
+    float mx = max(c.r, max(c.g, c.b)), mn = min(c.r, min(c.g, c.b));
+    float sat = (mx - mn) / max(mx, 0.0001);
+    // la tinta, in sesti di giro: 0 e' il rosso pieno, 0.33 l'arancione della pelle
+    float tinta = c.r >= mx ? (c.g - c.b) / max(mx - mn, 0.0001) : 9.0;
+    float rosso = (1.0 - smoothstep(0.1, 0.28, abs(tinta))) * smoothstep(0.32, 0.55, sat) * smoothstep(0.06, 0.18, mx);
+    vec3 g = pow(vec3(l), vec3(1.12)) * vec3(0.97, 0.99, 1.02);
+    vec3 r = vec3(0.12 + l * 1.35, l * 0.16, l * 0.14);
+    return mix(g, r, rosso);
+  }
+  vec3 bluBianco(vec3 c) {
+    float l = dot(c, LUMA);
+    vec3 b = mix(vec3(0.015, 0.03, 0.08), vec3(0.17, 0.32, 0.58), smoothstep(0.0, 0.62, l));
+    return mix(b, vec3(0.95, 0.97, 1.0), smoothstep(0.6, 0.88, l));
   }
   // esame: rosso scuro, come la luce di sicurezza di una camera oscura; le luci forti restano rosa
   vec3 rossoScuro(float l) {
@@ -124,7 +143,10 @@ const FRAG = `
     }
     ch /= 5.0;
     vec3 col = vec3(Y) + (ch - vec3(dot(ch, LUMA))) * (1.0 - u_blur * 0.5);
-    if (u_catrame > 0.001) col = mix(col, catrame(col), u_catrame);
+    if (u_catrame > 0.001) {
+      vec3 t = u_tono < 0.5 ? catrame(col) : u_tono < 1.5 ? grigioRosso(col) : bluBianco(col);
+      col = mix(col, t, u_catrame);
+    }
 
     // luce della videocamera (scelta il 26 ottobre per le scene di giorno): la stanza e' buia e la illumina
     // solo la lampada della videocamera, quindi il centro e' chiaro, i bordi sprofondano, le luci bruciano
@@ -135,7 +157,8 @@ const FRAG = `
       vec3 lit = pow(max(col, vec3(0.0)), vec3(1.18)) * lampada * 0.95;
       vec3 g = (src(q + vec2(0.012, 0.0) / u_zoom) + src(q - vec2(0.012, 0.0) / u_zoom)
         + src(q + vec2(0.0, 0.021) / u_zoom) + src(q - vec2(0.0, 0.021) / u_zoom)) * 0.25;
-      vec3 alone = clamp((g * lampada - 0.72) / 0.28, 0.0, 1.0);
+      // l'alone delle luci forti, senza colore (se no col tono del giorno si vedrebbe il colore di prima)
+      vec3 alone = vec3(clamp((dot(g, LUMA) * lampada - 0.72) / 0.28, 0.0, 1.0));
       lit = 1.0 - (1.0 - clamp(lit, 0.0, 1.0)) * (1.0 - alone * 0.45);
       lit = max(lit - 0.035, vec3(0.0)) / 0.965;
       col = mix(col, lit, u_luce);
@@ -202,7 +225,7 @@ export class Vhs {
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     this.u = {};
     for (const n of ["u_tex", "u_heat", "u_time", "u_amt", "u_green", "u_red", "u_burst", "u_zoom", "u_center",
-      "u_blur", "u_heatTex", "u_heatLevel", "u_dark", "u_snow", "u_luce", "u_catrame", "u_esame", "u_vignetta"]) this.u[n] = gl.getUniformLocation(prog, n);
+      "u_blur", "u_heatTex", "u_heatLevel", "u_dark", "u_snow", "u_luce", "u_catrame", "u_tono", "u_esame", "u_vignetta"]) this.u[n] = gl.getUniformLocation(prog, n);
     this.texSrc = this.makeTexture(0);
     this.texHeat = this.makeTexture(1);
     gl.uniform1i(this.u.u_tex, 0);
@@ -224,6 +247,11 @@ export class Vhs {
     // l'immagine passa pulita, senza righe, rumore, strappi, colori sbavati, catrame, luce finta, rosso dell'esame e
     // vignetta; restano lo zoom, la messa a fuoco, il buio della sera, il verde della notte e la neve dei nastri vecchi
     this.pulito = false;
+    // il tono del giorno, nelle riprese con la luce della videocamera: 0 il catrame, 1 grigio coi rossi, 2 blu col bianco
+    this.tono = 0;
+    // i difetti del nastro (righe, rumore, strappi, colori sbavati, grana): dal 27 ottobre niente VHS, quindi 0; il
+    // resto della videocamera (lampada, zoom, messa a fuoco, notte, infrarosso, il rosso dell'esame) resta
+    this.difetti = 1;
   }
 
   makeTexture(unit) {
@@ -273,7 +301,7 @@ export class Vhs {
 
   // lo strappo del nastro; onBurst(v) per farlo anche sentire (solo quando lo strappo cresce davvero)
   burst(v = 1) {
-    if (this.pulito) return;
+    if (this.pulito || !this.difetti) return;
     if (v > this.p.burst + 0.05) this.onBurst?.(v);
     this.p.burst = Math.max(this.p.burst, v);
   }
@@ -349,10 +377,10 @@ export class Vhs {
     const gl = this.gl, u = this.u, p = this.p;
     gl.uniform1f(u.u_time, this.time);
     const pulito = this.pulito;
-    gl.uniform1f(u.u_amt, pulito ? 0 : p.amt);
+    gl.uniform1f(u.u_amt, pulito ? 0 : p.amt * this.difetti);
     gl.uniform1f(u.u_green, p.green);
     gl.uniform1f(u.u_red, p.red);
-    gl.uniform1f(u.u_burst, pulito ? 0 : p.burst);
+    gl.uniform1f(u.u_burst, pulito ? 0 : p.burst * this.difetti);
     gl.uniform1f(u.u_zoom, p.zoom);
     gl.uniform2f(u.u_center, p.cx, 1 - p.cy);
     gl.uniform1f(u.u_blur, p.blur);
@@ -362,6 +390,7 @@ export class Vhs {
     gl.uniform1f(u.u_snow, p.snow);
     gl.uniform1f(u.u_luce, pulito ? 0 : p.luce);
     gl.uniform1f(u.u_catrame, pulito ? 0 : p.luce * this.catrame);
+    gl.uniform1f(u.u_tono, this.tono);
     gl.uniform1f(u.u_esame, pulito ? 0 : p.esame);
     gl.uniform1f(u.u_vignetta, pulito ? 0 : 1);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
