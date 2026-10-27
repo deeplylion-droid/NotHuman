@@ -33,6 +33,7 @@ const FRAG = `
   uniform float u_luce;
   uniform float u_catrame;
   uniform float u_esame;
+  uniform float u_vignetta;
   varying vec2 v_uv;
 
   const vec3 LUMA = vec3(0.299, 0.587, 0.114);
@@ -168,7 +169,7 @@ const FRAG = `
 
     // vignetta, piu' forte di notte, con l'infrarosso e la sera
     vec2 v = (uv - 0.5) * vec2(1.0, 0.9);
-    col *= 1.0 - (0.3 + 0.3 * u_green + 0.4 * u_red + 0.25 * u_dark + 0.2 * u_esame) * pow(clamp(length(v) * 1.41, 0.0, 1.0), 2.2);
+    col *= 1.0 - (0.3 * u_vignetta + 0.3 * u_green + 0.4 * u_red + 0.25 * u_dark + 0.2 * u_esame) * pow(clamp(length(v) * 1.41, 0.0, 1.0), 2.2);
 
     gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
   }
@@ -201,7 +202,7 @@ export class Vhs {
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     this.u = {};
     for (const n of ["u_tex", "u_heat", "u_time", "u_amt", "u_green", "u_red", "u_burst", "u_zoom", "u_center",
-      "u_blur", "u_heatTex", "u_heatLevel", "u_dark", "u_snow", "u_luce", "u_catrame", "u_esame"]) this.u[n] = gl.getUniformLocation(prog, n);
+      "u_blur", "u_heatTex", "u_heatLevel", "u_dark", "u_snow", "u_luce", "u_catrame", "u_esame", "u_vignetta"]) this.u[n] = gl.getUniformLocation(prog, n);
     this.texSrc = this.makeTexture(0);
     this.texHeat = this.makeTexture(1);
     gl.uniform1i(this.u.u_tex, 0);
@@ -219,6 +220,10 @@ export class Vhs {
     // il filtro catrame segue la luce della videocamera: c'e' nelle riprese di giorno, nelle case. Questa e' la
     // sua forza (0 lo spegne); la stanza del medico ha il suo, nel 3D
     this.catrame = 1;
+    // senza VHS (deciso il 27 ottobre: lo stile e' la plastilina, la videocamera resta solo come oggetto del gioco):
+    // l'immagine passa pulita, senza righe, rumore, strappi, colori sbavati, catrame, luce finta, rosso dell'esame e
+    // vignetta; restano lo zoom, la messa a fuoco, il buio della sera, il verde della notte e la neve dei nastri vecchi
+    this.pulito = false;
   }
 
   makeTexture(unit) {
@@ -268,6 +273,7 @@ export class Vhs {
 
   // lo strappo del nastro; onBurst(v) per farlo anche sentire (solo quando lo strappo cresce davvero)
   burst(v = 1) {
+    if (this.pulito) return;
     if (v > this.p.burst + 0.05) this.onBurst?.(v);
     this.p.burst = Math.max(this.p.burst, v);
   }
@@ -314,7 +320,8 @@ export class Vhs {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let w = Math.max(2, Math.round(r.width * dpr));
     let h = Math.max(2, Math.round(r.height * dpr));
-    if (w > 1600) { h = Math.round(h * 1600 / w); w = 1600; }
+    const max = this.pulito ? 2560 : 1600;
+    if (w > max) { h = Math.round(h * max / w); w = max; }
     if (this.canvas.width !== w || this.canvas.height !== h) { this.canvas.width = w; this.canvas.height = h; }
     this.gl.viewport(0, 0, w, h);
   }
@@ -341,10 +348,11 @@ export class Vhs {
   draw() {
     const gl = this.gl, u = this.u, p = this.p;
     gl.uniform1f(u.u_time, this.time);
-    gl.uniform1f(u.u_amt, p.amt);
+    const pulito = this.pulito;
+    gl.uniform1f(u.u_amt, pulito ? 0 : p.amt);
     gl.uniform1f(u.u_green, p.green);
     gl.uniform1f(u.u_red, p.red);
-    gl.uniform1f(u.u_burst, p.burst);
+    gl.uniform1f(u.u_burst, pulito ? 0 : p.burst);
     gl.uniform1f(u.u_zoom, p.zoom);
     gl.uniform2f(u.u_center, p.cx, 1 - p.cy);
     gl.uniform1f(u.u_blur, p.blur);
@@ -352,9 +360,10 @@ export class Vhs {
     gl.uniform1f(u.u_heatLevel, p.heatLevel);
     gl.uniform1f(u.u_dark, p.dark);
     gl.uniform1f(u.u_snow, p.snow);
-    gl.uniform1f(u.u_luce, p.luce);
-    gl.uniform1f(u.u_catrame, p.luce * this.catrame);
-    gl.uniform1f(u.u_esame, p.esame);
+    gl.uniform1f(u.u_luce, pulito ? 0 : p.luce);
+    gl.uniform1f(u.u_catrame, pulito ? 0 : p.luce * this.catrame);
+    gl.uniform1f(u.u_esame, pulito ? 0 : p.esame);
+    gl.uniform1f(u.u_vignetta, pulito ? 0 : 1);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 

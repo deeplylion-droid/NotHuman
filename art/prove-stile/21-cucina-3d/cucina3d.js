@@ -364,11 +364,12 @@ async function stanza() {
   ombre(neon, 2048, 0.1, 6, 3);
   neon.userData.forza = 3;
   g.add(neon, neon.target);
-  faro = new THREE.SpotLight(0xffe6c4, 9.5, 0, 0.49, 0.75, 1.3);
+  // meno forte (27 ottobre: "la luce illumina ancora troppo intensamente")
+  faro = new THREE.SpotLight(0xffe6c4, 6.2, 0, 0.5, 0.8, 1.3);
   faro.position.copy(OCCHIO).add(SCARTO_FARO);
   faro.target.position.copy(FARO_MIRA);
   ombre(faro, 2048, 0.25, 10, 2);
-  faro.userData.forza = 9.5;
+  faro.userData.forza = 6.2;
   g.add(faro, faro.target);
   // in fondo al corridoio la lampadina, che illumina in giu': la figlia quasi non si vede
   const lamp = new THREE.SpotLight(0xffb870, 0.7, 0, 1.25, 0.8, 1.8);
@@ -899,7 +900,7 @@ function inquadra(dt, t) {
   }
   camera.fov = FOV + ((zoomSu ? ZOOM[zoomSu] : FOV) - FOV) * z;
   FORZA_BOLLE.value = 1 - 0.5 * z;
-  faro.intensity = faro.userData.forza * (1 + 0.6 * z);
+  faro.intensity = faro.userData.forza * (1 + 0.3 * z);
   // la lampada sta sulla maschera: si sposta e si gira con la testa (nello zoom va dove si guarda)
   faro.position.copy(camera.position).add(SCARTO_FARO);
   luce.subVectors(FARO_MIRA, OCCHIO).applyAxisAngle(SU, volta);

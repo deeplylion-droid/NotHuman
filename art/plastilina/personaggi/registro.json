@@ -1,0 +1,194 @@
+{
+  "nonna_creta": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Re-create the person from this character reference sheet as one single full-body handmade plasticine puppet for a dark stop-motion film (claymation): everything sculpted from matte modelling clay, including the hair and the clothes, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly lumpy hand-made shapes and simplified grotesque features; the eyes are glossy glass beads set into the clay. Keep the person recognizable: A tiny hunched old woman over eighty with thin white hair pulled back, a deeply wrinkled face, big staring eyes where the left eye is clouded milky white (a cataract), a long nose and a sunken toothless mouth with one single tooth left; a small round religious medal on a thin chain around her neck; a dark navy quilted housecoat with a pattern of small red flowers, dark trousers and old brown shoes; swollen knobbly arthritic knuckles. Standing in a neutral A-pose facing the camera, arms held slightly away from the body, hands open with the fingers separated, legs slightly apart, the whole body from head to feet visible and centered, on a plain flat light grey background, soft even studio light, photographed like a real puppet. No text, no border, only this one figure.",
+      "image_urls": [
+        "@file:../../personaggi/nonna.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "nonna_creta.png"
+    ],
+    "seed": null,
+    "secondi": 79,
+    "descrizione": null
+  },
+  "madre_creta": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Re-create the person from this character reference sheet as one single full-body handmade plasticine puppet for a dark stop-motion film (claymation): everything sculpted from matte modelling clay, including the hair and the clothes, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly lumpy hand-made shapes and simplified grotesque features; the eyes are glossy glass beads set into the clay. Keep the person recognizable: A gaunt, gravely ill woman in her fifties with long thin greasy grey-brown hair, huge feverish bulging eyes with dark sunken circles, hollow cheeks, a long nose and crooked yellow teeth in a half-open mouth, sweaty waxy skin; a faded cream nightgown with a small floral print, falling to below the knees, and over the shoulders a short dark green plaid wool shawl that ends at the waist; bare feet. Standing in a neutral A-pose facing the camera, arms held slightly away from the body, hands open with the fingers separated, legs slightly apart, the whole body from head to feet visible and centered, on a plain flat light grey background, soft even studio light, photographed like a real puppet. No text, no border, only this one figure.",
+      "image_urls": [
+        "@file:../../personaggi/madre.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "madre_creta.png"
+    ],
+    "seed": null,
+    "secondi": 79,
+    "descrizione": null
+  },
+  "giovane_creta": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Re-create the person from this character reference sheet as one single full-body handmade plasticine puppet for a dark stop-motion film (claymation): everything sculpted from matte modelling clay, including the hair and the clothes, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly lumpy hand-made shapes and simplified grotesque features; the eyes are glossy glass beads set into the clay. Keep the person recognizable: A very thin, pale young woman about twenty with long straight dark brown hair parted in the middle, huge tired eyes with red rims and dark circles, pale lips tinged purple-blue, a sad worried mouth; a long shabby grey-green coat buttoned down to the knees; dark socks and worn brown shoes; her fingernails are bluish. Standing in a neutral A-pose facing the camera, arms held slightly away from the body, hands open with the fingers separated, legs slightly apart, the whole body from head to feet visible and centered, on a plain flat light grey background, soft even studio light, photographed like a real puppet. No text, no border, only this one figure.",
+      "image_urls": [
+        "@file:../../personaggi/giovane.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "giovane_creta.png"
+    ],
+    "seed": null,
+    "secondi": 80,
+    "descrizione": null
+  },
+  "uomo_creta": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Re-create the person from this character reference sheet as one single full-body handmade plasticine puppet for a dark stop-motion film (claymation): everything sculpted from matte modelling clay, including the hair and the clothes, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly lumpy hand-made shapes and simplified grotesque features; the eyes are glossy glass beads set into the clay. Keep the person recognizable: A heavy-set man in his fifties with messy curly grey hair, a broad angry face with heavy eyebrows, bulging bloodshot eyes, a big nose, a red sweaty feverish face and bad teeth in a snarling mouth; a dirty navy blue tracksuit, zipped jacket and trousers, with two tan stripes along the sleeves and the legs; old grey sneakers. Standing in a neutral A-pose facing the camera, arms held slightly away from the body, hands open with the fingers separated, legs slightly apart, the whole body from head to feet visible and centered, on a plain flat light grey background, soft even studio light, photographed like a real puppet. No text, no border, only this one figure.",
+      "image_urls": [
+        "@file:../../personaggi/uomo.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "uomo_creta.png"
+    ],
+    "seed": null,
+    "secondi": 88,
+    "descrizione": null
+  },
+  "madre_creta_3d": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:madre_creta.png",
+      "should_texture": true,
+      "symmetry_mode": "auto",
+      "pose_mode": "a-pose",
+      "enable_rigging": true,
+      "rigging_height_meters": 1.62,
+      "enable_animation": true,
+      "animation_action_id": 0,
+      "model_type": "standard",
+      "topology": "quad",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true
+    },
+    "file": [
+      "madre_creta_3d.glb",
+      "madre_creta_3d_anteprima.png",
+      "madre_creta_3d_scheletro.glb",
+      "madre_creta_3d_animato.glb"
+    ],
+    "seed": 1564419641,
+    "secondi": 295,
+    "descrizione": null
+  },
+  "giovane_creta_3d": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:giovane_creta.png",
+      "should_texture": true,
+      "symmetry_mode": "auto",
+      "pose_mode": "a-pose",
+      "enable_rigging": true,
+      "rigging_height_meters": 1.66,
+      "enable_animation": true,
+      "animation_action_id": 0,
+      "model_type": "standard",
+      "topology": "quad",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true
+    },
+    "file": [
+      "giovane_creta_3d.glb",
+      "giovane_creta_3d_anteprima.png",
+      "giovane_creta_3d_scheletro.glb",
+      "giovane_creta_3d_animato.glb"
+    ],
+    "seed": 523016491,
+    "secondi": 300,
+    "descrizione": null
+  },
+  "nonna_creta_3d": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:nonna_creta.png",
+      "should_texture": true,
+      "symmetry_mode": "auto",
+      "pose_mode": "a-pose",
+      "enable_rigging": true,
+      "rigging_height_meters": 1.5,
+      "enable_animation": true,
+      "animation_action_id": 0,
+      "model_type": "standard",
+      "topology": "quad",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true
+    },
+    "file": [
+      "nonna_creta_3d.glb",
+      "nonna_creta_3d_anteprima.png",
+      "nonna_creta_3d_scheletro.glb",
+      "nonna_creta_3d_animato.glb"
+    ],
+    "seed": 1271228889,
+    "secondi": 309,
+    "descrizione": null
+  },
+  "uomo_creta_3d": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:uomo_creta.png",
+      "should_texture": true,
+      "symmetry_mode": "auto",
+      "pose_mode": "a-pose",
+      "enable_rigging": true,
+      "rigging_height_meters": 1.74,
+      "enable_animation": true,
+      "animation_action_id": 0,
+      "model_type": "standard",
+      "topology": "quad",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true
+    },
+    "file": [
+      "uomo_creta_3d.glb",
+      "uomo_creta_3d_anteprima.png",
+      "uomo_creta_3d_scheletro.glb",
+      "uomo_creta_3d_animato.glb"
+    ],
+    "seed": 302186824,
+    "secondi": 318,
+    "descrizione": null
+  }
+}

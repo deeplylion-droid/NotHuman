@@ -1,0 +1,184 @@
+[
+ {
+  "nome": "letto_ferro_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "An old narrow single bed with a black iron frame with simple vertical bars at the head and the foot, a thin sagging mattress with a crumpled white sheet and one flat pillow, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "coperta_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "A rumpled dark green plaid wool blanket lying loosely spread out flat, with soft folds and creases, seen from above at an angle, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "comodino_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "A small old wooden bedside table with one drawer and a shelf, and on top a small table lamp with a cream fabric shade, a wooden rosary and a small empty open box of aspirin, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "armadio_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "A tall old two-door wardrobe of dark brown wood with simple metal handles, slightly crooked doors, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "finestra_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "An old window in a white painted wooden frame, about 120 cm wide and 140 cm tall, with the grey plastic roller shutter pulled down completely behind the glass so no light passes, with a marble sill, seen from the front, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "divano_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "An old small two-seat sofa with worn brown fabric, sagging cushions and wooden feet, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "tavolino_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "A low rectangular wooden coffee table, scratched and stained, with a small doily in the middle, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "termosifone_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "An old white cast-iron radiator with twelve columns on two small feet, with chipped paint, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "lampadario_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "A simple old ceiling lamp: a cream frosted glass bowl shade hanging from a short brass stem with a round ceiling cap, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "porta_marrone_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "An old interior door leaf of dark brown varnished wood standing upright on its own, about 80 by 200 cm and 4 cm thick, with two recessed panels and a dull metal lever handle with a keyhole plate on the right, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "orologio_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "An old round wall clock with a dark wooden frame, a yellowed dial with black numbers and two hands, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "brandina_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "An old folding camp cot with a metal frame and a thin striped mattress, unmade, with a crumpled grey blanket half on the floor and a stained flat pillow, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "botola_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "A square wooden trapdoor about 70 by 70 cm set flush in a floor of worn planks, with an iron ring handle, a heavy hasp and a shiny new padlock, seen from above at an angle, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "scaffale_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "An old narrow wooden shelf unit with three shelves holding a few dusty glass jars of preserves, a tin can and some folded rags, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ }
+]

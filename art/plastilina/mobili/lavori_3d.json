@@ -1,0 +1,198 @@
+[
+ {
+  "nome": "letto_ferro",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:letto_ferro_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 20000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "divano",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:divano_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 16000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "brandina",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:brandina_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 16000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "coperta",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:coperta_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "comodino",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:comodino_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "armadio",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:armadio_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 10000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "finestra",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:finestra_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 10000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "tavolino",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:tavolino_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 10000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "termosifone",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:termosifone_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "lampadario",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:lampadario_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 8000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "porta_marrone",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:porta_marrone_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "orologio",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:orologio_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 8000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "botola",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:botola_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 10000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "scaffale",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:scaffale_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ }
+]

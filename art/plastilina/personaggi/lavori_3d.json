@@ -1,0 +1,78 @@
+[
+ {
+  "nome": "madre_creta_3d",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:madre_creta.png",
+   "should_texture": true,
+   "symmetry_mode": "auto",
+   "pose_mode": "a-pose",
+   "enable_rigging": true,
+   "rigging_height_meters": 1.62,
+   "enable_animation": true,
+   "animation_action_id": 0,
+   "model_type": "standard",
+   "topology": "quad",
+   "target_polycount": 30000,
+   "should_remesh": true,
+   "enable_pbr": true
+  }
+ },
+ {
+  "nome": "uomo_creta_3d",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:uomo_creta.png",
+   "should_texture": true,
+   "symmetry_mode": "auto",
+   "pose_mode": "a-pose",
+   "enable_rigging": true,
+   "rigging_height_meters": 1.74,
+   "enable_animation": true,
+   "animation_action_id": 0,
+   "model_type": "standard",
+   "topology": "quad",
+   "target_polycount": 30000,
+   "should_remesh": true,
+   "enable_pbr": true
+  }
+ },
+ {
+  "nome": "giovane_creta_3d",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:giovane_creta.png",
+   "should_texture": true,
+   "symmetry_mode": "auto",
+   "pose_mode": "a-pose",
+   "enable_rigging": true,
+   "rigging_height_meters": 1.66,
+   "enable_animation": true,
+   "animation_action_id": 0,
+   "model_type": "standard",
+   "topology": "quad",
+   "target_polycount": 30000,
+   "should_remesh": true,
+   "enable_pbr": true
+  }
+ },
+ {
+  "nome": "nonna_creta_3d",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:nonna_creta.png",
+   "should_texture": true,
+   "symmetry_mode": "auto",
+   "pose_mode": "a-pose",
+   "enable_rigging": true,
+   "rigging_height_meters": 1.5,
+   "enable_animation": true,
+   "animation_action_id": 0,
+   "model_type": "standard",
+   "topology": "quad",
+   "target_polycount": 30000,
+   "should_remesh": true,
+   "enable_pbr": true
+  }
+ }
+]

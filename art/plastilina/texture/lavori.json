@@ -1,0 +1,67 @@
+[
+ {
+  "nome": "pavimento_legno",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "Seamless tileable texture of an old wooden floor: narrow warm brown planks running vertically, made of pressed plasticine, with grooves between the boards, worn and scuffed, faint fingerprints and tool marks, seen from directly above, for a stop-motion puppet film set, everything made of matte modelling clay (plasticine). Flat straight-on view with even, soft, shadowless lighting, no perspective, the surface fills the entire square edge to edge, nothing else in the picture, no objects, no text.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "muro_camera",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "Seamless tileable texture of an old bedroom wall: smoothed pale cream plasticine pressed flat by hand, with faint thumb smears, shallow fingerprint whorls and gentle unevenness, a few faint greyish damp stains, for a stop-motion puppet film set, everything made of matte modelling clay (plasticine). Flat straight-on view with even, soft, shadowless lighting, no perspective, the surface fills the entire square edge to edge, nothing else in the picture, no objects, no text.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "muro_soggiorno",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "Seamless tileable texture of an old living room wall: smoothed light peach-beige plasticine pressed flat by hand, with faint thumb smears, shallow fingerprint whorls and gentle unevenness, a little dirty, for a stop-motion puppet film set, everything made of matte modelling clay (plasticine). Flat straight-on view with even, soft, shadowless lighting, no perspective, the surface fills the entire square edge to edge, nothing else in the picture, no objects, no text.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "intonaco_grezzo",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "Seamless tileable texture of a rough unfinished storeroom wall: lumpy grey plasticine roughly pressed by hand, with deep thumb marks, scrapes and dirt, for a stop-motion puppet film set, everything made of matte modelling clay (plasticine). Flat straight-on view with even, soft, shadowless lighting, no perspective, the surface fills the entire square edge to edge, nothing else in the picture, no objects, no text.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "cemento",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "Seamless tileable texture of an old cracked concrete floor: flat dark grey plasticine pressed by hand, with a few cracks drawn with a tool, stains and dust, seen from directly above, for a stop-motion puppet film set, everything made of matte modelling clay (plasticine). Flat straight-on view with even, soft, shadowless lighting, no perspective, the surface fills the entire square edge to edge, nothing else in the picture, no objects, no text.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ }
+]

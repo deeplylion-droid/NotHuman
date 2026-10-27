@@ -1,0 +1,167 @@
+{
+  "figlia_febbre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make her feverish: glassy watery eyes with reddened rims, flushed red cheeks and nose, a sheen of sweat on the forehead and temples, dry slightly cracked pale lips. Only the small shine of the sweat. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:figlia_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia_febbre.png"
+    ],
+    "seed": null,
+    "secondi": 21,
+    "descrizione": ""
+  },
+  "uomo_arrabbiato": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make him furious: the eyebrows pulled down hard into a deep frown with deep creases between them, glaring eyes, flared nostrils, the mouth open in an angry shout showing the teeth. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:uomo_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "errore": "403 https://queue.fal.run/fal-ai/nano-banana-pro/edit: {\"detail\":\"User is locked. Reason: Exhausted balance. Top up your balance at fal.ai/dashboard/billing.\"}"
+  },
+  "uomo_grave": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make him gravely ill: a feverish sweaty face with a sickly grey pallor showing under the redness, bloodshot watery eyes with dark circles, and dark red blood smeared at the corners of his mouth, on his lower lip and on his chin, as if he has been coughing blood. Only the small shine of the sweat. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:uomo_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "errore": "403 https://queue.fal.run/fal-ai/nano-banana-pro/edit: {\"detail\":\"User is locked. Reason: Exhausted balance. Top up your balance at fal.ai/dashboard/billing.\"}"
+  },
+  "giovane_piange": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make her cry: the eyes red and wet, with reddened, swollen rims, the inner ends of the eyebrows raised in grief, the corners of the mouth pulled down and the lips slightly apart and trembling, and a few glistening clear tears running from the inner corners of the eyes down both cheeks. Only the small shine of the tears. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:giovane_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "errore": "403 https://queue.fal.run/fal-ai/nano-banana-pro/edit: {\"detail\":\"User is locked. Reason: Exhausted balance. Top up your balance at fal.ai/dashboard/billing.\"}"
+  },
+  "giovane_febbre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make her feverish: glassy watery eyes with reddened rims, flushed red cheeks and nose, a sheen of sweat on the forehead and temples, dry slightly cracked pale lips. Only the small shine of the sweat. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:giovane_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "errore": "403 https://queue.fal.run/fal-ai/nano-banana-pro/edit: {\"detail\":\"User is locked. Reason: Exhausted balance. Top up your balance at fal.ai/dashboard/billing.\"}"
+  },
+  "nonna_base": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Her left eye (on the right side of the picture) is completely clouded milky white-grey by a thick cataract, with no visible pupil; her toothless mouth is a little more open, and a single long yellowed tooth stands clearly in the lower gum. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:nonna_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "errore": "403 https://queue.fal.run/fal-ai/nano-banana-pro/edit: {\"detail\":\"User is locked. Reason: Exhausted balance. Top up your balance at fal.ai/dashboard/billing.\"}"
+  },
+  "uomo_nervoso": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make him nervous and evasive: the eyebrows drawn together and pushed up in the middle, the eyes glancing slightly to the side, a tight worried mouth with the corners pulled down, a few beads of sweat on the forehead. The mouth closed. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:uomo_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_nervoso.png"
+    ],
+    "seed": null,
+    "secondi": 23,
+    "descrizione": ""
+  },
+  "madre_morta": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make her dead: the eyes closed with heavy, sunken grey eyelids drawn over them, the face slack and without expression, the mouth slightly open, the skin a waxy grey-yellow, bluish-grey lips and dark purple shadows around the eyes. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:madre_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "madre_morta.png"
+    ],
+    "seed": null,
+    "secondi": 24,
+    "descrizione": ""
+  },
+  "padre_arrabbiato": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make him furious: the eyebrows pulled down hard into a deep frown with deep creases between them, glaring eyes, flared nostrils, the mouth open in an angry shout showing the teeth. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:padre_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "padre_arrabbiato.png"
+    ],
+    "seed": null,
+    "secondi": 24,
+    "descrizione": ""
+  },
+  "padre_nervoso": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make him nervous and evasive: the eyebrows drawn together and pushed up in the middle, the eyes glancing slightly to the side, a tight worried mouth with the corners pulled down, a few beads of sweat on the forehead. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:padre_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "padre_nervoso.png"
+    ],
+    "seed": null,
+    "secondi": 24,
+    "descrizione": ""
+  }
+}

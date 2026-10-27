@@ -1,0 +1,534 @@
+{
+  "coperta_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A rumpled dark green plaid wool blanket lying loosely spread out flat, with soft folds and creases, seen from above at an angle, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "coperta_foto.png"
+    ],
+    "seed": null,
+    "secondi": 105,
+    "descrizione": null
+  },
+  "armadio_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A tall old two-door wardrobe of dark brown wood with simple metal handles, slightly crooked doors, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "armadio_foto.png"
+    ],
+    "seed": null,
+    "secondi": 105,
+    "descrizione": null
+  },
+  "finestra_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An old window in a white painted wooden frame, about 120 cm wide and 140 cm tall, with the grey plastic roller shutter pulled down completely behind the glass so no light passes, with a marble sill, seen from the front, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "finestra_foto.png"
+    ],
+    "seed": null,
+    "secondi": 105,
+    "descrizione": null
+  },
+  "comodino_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A small old wooden bedside table with one drawer and a shelf, and on top a small table lamp with a cream fabric shade, a wooden rosary and a small empty open box of aspirin, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "comodino_foto.png"
+    ],
+    "seed": null,
+    "secondi": 107,
+    "descrizione": null
+  },
+  "letto_ferro_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An old narrow single bed with a black iron frame with simple vertical bars at the head and the foot, a thin sagging mattress with a crumpled white sheet and one flat pillow, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "letto_ferro_foto.png"
+    ],
+    "seed": null,
+    "secondi": 111,
+    "descrizione": null
+  },
+  "lampadario_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A simple old ceiling lamp: a cream frosted glass bowl shade hanging from a short brass stem with a round ceiling cap, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "lampadario_foto.png"
+    ],
+    "seed": null,
+    "secondi": 96,
+    "descrizione": null
+  },
+  "termosifone_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An old white cast-iron radiator with twelve columns on two small feet, with chipped paint, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "termosifone_foto.png"
+    ],
+    "seed": null,
+    "secondi": 103,
+    "descrizione": null
+  },
+  "tavolino_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A low rectangular wooden coffee table, scratched and stained, with a small doily in the middle, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "tavolino_foto.png"
+    ],
+    "seed": null,
+    "secondi": 105,
+    "descrizione": null
+  },
+  "porta_marrone_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An old interior door leaf of dark brown varnished wood standing upright on its own, about 80 by 200 cm and 4 cm thick, with two recessed panels and a dull metal lever handle with a keyhole plate on the right, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "porta_marrone_foto.png"
+    ],
+    "seed": null,
+    "secondi": 102,
+    "descrizione": null
+  },
+  "divano_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An old small two-seat sofa with worn brown fabric, sagging cushions and wooden feet, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "divano_foto.png"
+    ],
+    "seed": null,
+    "secondi": 115,
+    "descrizione": null
+  },
+  "orologio_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An old round wall clock with a dark wooden frame, a yellowed dial with black numbers and two hands, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "orologio_foto.png"
+    ],
+    "seed": null,
+    "secondi": 106,
+    "descrizione": null
+  },
+  "brandina_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An old folding camp cot with a metal frame and a thin striped mattress, unmade, with a crumpled grey blanket half on the floor and a stained flat pillow, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "brandina_foto.png"
+    ],
+    "seed": null,
+    "secondi": 101,
+    "descrizione": null
+  },
+  "botola_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A square wooden trapdoor about 70 by 70 cm set flush in a floor of worn planks, with an iron ring handle, a heavy hasp and a shiny new padlock, seen from above at an angle, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "botola_foto.png"
+    ],
+    "seed": null,
+    "secondi": 111,
+    "descrizione": null
+  },
+  "scaffale_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An old narrow wooden shelf unit with three shelves holding a few dusty glass jars of preserves, a tin can and some folded rags, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "scaffale_foto.png"
+    ],
+    "seed": null,
+    "secondi": 112,
+    "descrizione": null
+  },
+  "letto_ferro": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:letto_ferro_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 20000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "letto_ferro.glb",
+      "letto_ferro_anteprima.png"
+    ],
+    "seed": 865489513,
+    "secondi": 123,
+    "descrizione": null
+  },
+  "comodino": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:comodino_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "comodino.glb",
+      "comodino_anteprima.png"
+    ],
+    "seed": 348982579,
+    "secondi": 133,
+    "descrizione": null
+  },
+  "coperta": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:coperta_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "coperta.glb",
+      "coperta_anteprima.png"
+    ],
+    "seed": 1566611852,
+    "secondi": 134,
+    "descrizione": null
+  },
+  "brandina": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:brandina_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 16000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "brandina.glb",
+      "brandina_anteprima.png"
+    ],
+    "seed": 747798973,
+    "secondi": 161,
+    "descrizione": null
+  },
+  "divano": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:divano_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 16000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "divano.glb",
+      "divano_anteprima.png"
+    ],
+    "seed": 1872354056,
+    "secondi": 162,
+    "descrizione": null
+  },
+  "armadio": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:armadio_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 10000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "armadio.glb",
+      "armadio_anteprima.png"
+    ],
+    "seed": 875681265,
+    "secondi": 116,
+    "descrizione": null
+  },
+  "finestra": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:finestra_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 10000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "finestra.glb",
+      "finestra_anteprima.png"
+    ],
+    "seed": 1963328596,
+    "secondi": 141,
+    "descrizione": null
+  },
+  "tavolino": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:tavolino_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 10000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "tavolino.glb",
+      "tavolino_anteprima.png"
+    ],
+    "seed": 205313850,
+    "secondi": 141,
+    "descrizione": null
+  },
+  "termosifone": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:termosifone_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "termosifone.glb",
+      "termosifone_anteprima.png"
+    ],
+    "seed": 1446749210,
+    "secondi": 119,
+    "descrizione": null
+  },
+  "lampadario": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:lampadario_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 8000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "lampadario.glb",
+      "lampadario_anteprima.png"
+    ],
+    "seed": 1564486818,
+    "secondi": 153,
+    "descrizione": null
+  },
+  "porta_marrone": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:porta_marrone_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "porta_marrone.glb",
+      "porta_marrone_anteprima.png"
+    ],
+    "seed": 140719604,
+    "secondi": 114,
+    "descrizione": null
+  },
+  "botola": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:botola_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 10000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "botola.glb",
+      "botola_anteprima.png"
+    ],
+    "seed": 978326352,
+    "secondi": 98,
+    "descrizione": null
+  },
+  "orologio": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:orologio_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 8000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "orologio.glb",
+      "orologio_anteprima.png"
+    ],
+    "seed": 752788777,
+    "secondi": 113,
+    "descrizione": null
+  },
+  "scaffale": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:scaffale_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "scaffale.glb",
+      "scaffale_anteprima.png"
+    ],
+    "seed": 1472052133,
+    "secondi": 113,
+    "descrizione": null
+  }
+}
