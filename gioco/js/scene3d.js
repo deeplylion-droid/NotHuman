@@ -216,3 +216,114 @@ export const ASPETTO = {
 
 // quanto scotta ognuno all'infrarosso, se il gioco non lo dice (D.PERSONE[...].calore)
 export const CALORE_MORTO = 0.12;
+
+// le facce di ricambio che ci sono (gioco/modelli/creta/<nome>.webp, cotte con tools/facce.mjs): le altre non si
+// cercano nemmeno (niente richieste a vuoto); quando se ne cuoce una nuova si aggiunge qui
+export const FACCE = new Set(["padre_creta_grave", "padre_creta_nervoso", "padre_creta_arrabbiato", "figlia_creta_piange",
+  "figlia_creta_febbre", "figlia_creta_febbre_piange", "madre_creta_morta", "uomo_creta_nervoso", "uomo_creta_arrabbiato",
+  "uomo_creta_grave", "uomo_creta_grave_arrabbiato", "giovane_creta_piange", "giovane_creta_febbre", "nonna_creta_febbre"]);
+
+// ---------- la notte nella stanza del medico (stanza.js): l'ospite nella stanzetta e il nastro della notte ----------
+// Le pose della notte (si aggiungono a POSE). Sdraiati sulla schiena "in avanti" e' in su; seduti, "seduta" e'
+// l'altezza del bacino.
+Object.assign(POSE, {
+  // sdraiato sulla brandina, gli occhi aperti verso la porta
+  brandina_sveglia: { sdraiato: -90, su: 0.55, ossa: { neck: [-6, 0, 0], Head: [-4, 28, 0] },
+    braccia: [[0.2, -0.95, 0.2], [0.1, -0.9, 0.35]], vita: { respiro: [0.3, 1.2], testa: 1.5 } },
+  // sdraiato e malato: trema, respira con la bocca aperta, un braccio che pende fuori
+  brandina_malato: { sdraiato: -90, su: 0.55, ossa: { neck: [-4, 0, 0], Head: [-2, 18, 0] },
+    braccia: { Left: [[0.2, -0.95, 0.2], [0.1, -0.9, 0.35]], Right: [[-0.95, -0.05, -0.25], [-0.2, 0.05, -0.98]] },
+    vita: { respiro: [0.8, 2.6], tremito: 5, testa: 1.5 } },
+  // seduto sul bordo della brandina, curvo, le braccia strette attorno (ha freddo e trema)
+  brandina_seduta: { seduta: 0.42,
+    ossa: { LeftUpLeg: [-84, 0, -6], RightUpLeg: [-84, 0, 6], LeftLeg: [88, 0, 0], RightLeg: [88, 0, 0], Spine01: [14, 0, 0],
+      Spine02: [10, 0, 0], neck: [8, 0, 0], Head: [-6, 0, 0] },
+    braccia: { Left: [[0.18, -0.85, 0.42], [-0.95, 0.18, 0.25]], Right: [[-0.18, -0.85, 0.42], [0.95, 0.24, 0.3]] },
+    vita: { respiro: [0.5, 1.6], tremito: 6, testa: 2 } },
+  // seduta sulla brandina che prega: le mani giunte davanti al petto, gli occhi aperti
+  brandina_prega: { seduta: 0.42,
+    ossa: { LeftUpLeg: [-84, 0, -6], RightUpLeg: [-84, 0, 6], LeftLeg: [88, 0, 0], RightLeg: [88, 0, 0], Spine01: [10, 0, 0],
+      Spine02: [8, 0, 0], neck: [-2, 0, 0], Head: [-8, 0, 0] },
+    braccia: [[0.12, -0.8, 0.55], [-0.35, 0.75, 0.55]],
+    vita: { respiro: [0.36, 1.2], testa: 1.2 } },
+  // seduto sulla brandina, tossisce nel pugno
+  brandina_tosse: { seduta: 0.42,
+    ossa: { LeftUpLeg: [-84, 0, -8], RightUpLeg: [-84, 0, 8], LeftLeg: [88, 0, 0], RightLeg: [88, 0, 0], Spine01: [12, 0, 0],
+      Spine02: [8, 0, 0], neck: [10, 0, 0], Head: [-4, 0, 0] },
+    braccia: { Left: [[0.12, -0.75, 0.62], [0.04, -0.55, 0.84]], Right: { verso: "bocca", avanti: 0.08 } },
+    vita: { respiro: [0.6, 2.4], tosse: true, testa: 1.5 } },
+  // in piedi sulla porta della stanzetta, fermo, le braccia lungo i fianchi, la testa in avanti: guarda
+  sulla_porta: { ossa: { Spine01: [4, 0, 0], Spine02: [4, 0, 0], neck: [12, 0, 0], Head: [-6, 0, 0] },
+    braccia: [[0.12, -1, 0.06], [0.06, -1, 0.14]], vita: { respiro: [0.2, 0.8], testa: 0.8 } },
+  // sulla porta, col rosario
+  sulla_porta_rosario: { ossa: { Spine01: [10, 0, 0], Spine02: [8, 0, 0], neck: [-2, 0, 0], Head: [-8, 0, 0] },
+    braccia: [[0.12, -0.8, 0.55], [-0.35, 0.75, 0.55]], vita: { respiro: [0.3, 1.0], testa: 1 } },
+  // sulla porta che tossisce nella mano (il padre)
+  sulla_porta_tosse: { ossa: { Spine01: [10, 0, 0], Spine02: [8, 0, 0], neck: [10, 0, 0], Head: [-4, 0, 0] },
+    braccia: { Left: [[0.15, -1, 0.08], [0.06, -1, 0.32]], Right: { verso: "bocca", avanti: 0.08 } },
+    vita: { respiro: [0.7, 2.8], tosse: true, testa: 1.5 } },
+  // si regge allo stipite e barcolla (l'uomo)
+  sulla_porta_regge: { ossa: { Hips: [0, 0, 3], Spine01: [10, 0, 4], Spine02: [8, 0, 3], neck: [12, 0, 0], Head: [-4, 0, -6] },
+    braccia: { Left: [[0.15, -1, 0.08], [0.06, -1, 0.32]], Right: [[-0.9, 0.25, 0.3], [-0.6, 0.6, 0.5]] },
+    vita: { respiro: [0.7, 2.6], ondeggia: 5, tremito: 3, tosse: true } },
+  // chino sul letto, la faccia sopra quella di chi dorme
+  chino: { ossa: { Spine01: [24, 0, 0], Spine02: [22, 0, 0], neck: [14, 0, 0], Head: [6, 0, 0] },
+    braccia: [[0.15, -0.9, 0.38], [0.05, -0.75, 0.66]], vita: { respiro: [0.25, 1.4], testa: 0.8 } },
+  // fruga nelle tasche del cappotto appeso: le mani avanti, all'altezza della vita
+  fruga: { ossa: { Spine01: [8, 0, 0], Spine02: [6, 0, 0], neck: [14, 0, 0], Head: [8, 0, 0] },
+    braccia: [[0.1, -0.75, 0.66], [-0.12, -0.35, 0.93]], vita: { respiro: [0.4, 1.0], tremito: 2 } },
+  // ai piedi del letto benedice: la destra alzata, la sinistra col rosario al petto
+  benedice: { ossa: { Spine01: [8, 0, 0], Spine02: [6, 0, 0], neck: [4, 0, 0], Head: [6, 0, 0] },
+    braccia: { Left: [[0.12, -0.8, 0.55], [-0.4, 0.7, 0.55]], Right: [[-0.25, 0.25, 0.93], [-0.1, 0.55, 0.83]] },
+    vita: { respiro: [0.3, 1.0], testa: 1 } },
+  // seduto sul letto del medico, ai suoi piedi: tossisce verso la videocamera
+  seduto_letto_medico: { seduta: 0.58,
+    ossa: { LeftUpLeg: [-80, 0, -8], RightUpLeg: [-80, 0, 8], LeftLeg: [86, 0, 0], RightLeg: [86, 0, 0], Spine01: [12, 0, 0],
+      Spine02: [10, 0, 0], neck: [10, 0, 0], Head: [-6, 0, 0] },
+    braccia: { Left: [[0.14, -0.75, 0.62], [0.04, -0.55, 0.84]], Right: { verso: "bocca", avanti: 0.1 } },
+    vita: { respiro: [0.6, 2.4], tosse: true, testa: 1.5 } },
+  // in piedi accanto al letto, allunga la mano verso chi dorme
+  allunga: { ossa: { Spine01: [14, 0, 0], Spine02: [12, 0, 0], neck: [8, 0, 0], Head: [4, 0, 0] },
+    braccia: { Left: [[0.15, -1, 0.08], [0.06, -1, 0.32]], Right: [[-0.15, -0.35, 0.92], [-0.05, -0.45, 0.89]] },
+    vita: { respiro: [0.8, 2.6], tremito: 6 } },
+  // striscia sul pavimento, a pancia in giu', le braccia in avanti
+  striscia: { sdraiato: 90, su: 0.13, ossa: { neck: [-25, 0, 0], Head: [-25, 0, 0], LeftUpLeg: [0, 0, -6], RightUpLeg: [0, 0, 6] },
+    braccia: [[0.35, 0.92, -0.15], [0.1, 0.99, -0.1]], vita: { respiro: [0.7, 2.2], tremito: 4 } },
+  // seduto sul letto accanto a chi dorme, una mano sul suo petto
+  mano_sul_petto: { seduta: 0.58,
+    ossa: { LeftUpLeg: [-80, 0, -8], RightUpLeg: [-80, 0, 8], LeftLeg: [86, 0, 0], RightLeg: [86, 0, 0], Spine01: [16, 0, 0],
+      Spine02: [12, 0, 0], neck: [10, 0, 0], Head: [8, 0, 0] },
+    braccia: { Left: [[0.14, -0.75, 0.62], [0.04, -0.55, 0.84]], Right: [[-0.6, -0.55, 0.58], [-0.75, -0.6, 0.27]] },
+    vita: { respiro: [0.15, 0.8] } },
+});
+
+// dove sta l'ospite stanotte. "stanzetta": la sera, sulla brandina (x, z dei piedi per chi e' sdraiato, del bacino
+// per chi e' seduto; gira in radianti, 0 = verso sud). "nastro": le tre riprese della maschera rimasta accesa sulla
+// scrivania (null: nessuno; "porta": la porta della stanzetta aperta). "solo2" e' la seconda notte da solo: la cosa nera
+// e' gia' accanto al letto. La "cosa" e' un pupazzo nero e lungo (cosa: true).
+export const NOTTE = {
+  figlia: { stanzetta: { x: 4.08, z: 2.62, gira: 0, posa: "brandina_sveglia" },
+    nastro: [null, { porta: true, x: 2.66, z: 1.7, gira: -Math.PI / 2, posa: "sulla_porta" },
+      { porta: true, x: 2.08, z: 0.45, gira: Math.PI / 2, posa: "fruga" }] },
+  giovane: { stanzetta: { x: 3.9, z: 1.75, gira: -Math.PI / 2, posa: "brandina_seduta" },
+    nastro: [null, { porta: true, x: 2.66, z: 1.7, gira: -Math.PI / 2, posa: "sulla_porta" },
+      { porta: true, x: 1.22, z: -1.95, gira: Math.PI / 2, posa: "chino" }] },
+  nonna: { stanzetta: { x: 3.9, z: 1.75, gira: -Math.PI / 2, posa: "brandina_prega" },
+    nastro: [null, { porta: true, x: 2.66, z: 1.7, gira: -Math.PI / 2, posa: "sulla_porta_rosario" },
+      { porta: true, x: 1.98, z: -0.48, gira: Math.PI, posa: "benedice" }] },
+  padre: { stanzetta: { x: 4.08, z: 2.62, gira: 0, posa: "brandina_malato", coperta: true },
+    nastro: [null, { porta: true, x: 2.66, z: 1.7, gira: -Math.PI / 2, posa: "sulla_porta_tosse" },
+      { porta: true, x: 1.22, z: -2.25, gira: Math.PI / 2, posa: "chino" }] },
+  uomo: { stanzetta: { x: 3.9, z: 1.75, gira: -Math.PI / 2, posa: "brandina_tosse" },
+    nastro: [null, { porta: true, x: 2.6, z: 1.55, gira: -Math.PI / 2, posa: "sulla_porta_regge" },
+      { porta: true, x: 1.72, z: -1.15, gira: -Math.PI / 2 - 0.5, posa: "seduto_letto_medico" }] },
+  madre: { stanzetta: { x: 4.08, z: 2.62, gira: 0, posa: "brandina_malato" },
+    nastro: [null, { porta: true, x: 2.1, z: 1.7, gira: -Math.PI / 2, posa: "striscia" },
+      { porta: true, x: 1.15, z: -1.85, gira: Math.PI / 2, posa: "allunga" }] },
+  solo: { stanzetta: null,
+    nastro: [null, { porta: true, x: 3.3, z: 1.6, gira: -Math.PI / 2, posa: "sulla_porta", cosa: true },
+      { porta: true, x: 1.15, z: -1.95, gira: Math.PI / 2, posa: "chino", cosa: true }] },
+  solo2: { stanzetta: null,
+    nastro: [null, { porta: true, x: 1.15, z: -1.95, gira: Math.PI / 2, posa: "chino", cosa: true },
+      { porta: true, x: 1.62, z: -1.75, gira: -Math.PI / 2 - 0.3, posa: "mano_sul_petto", cosa: true }] },
+};

@@ -271,8 +271,9 @@ const MODELLI = {};
 
 // dal .json col glTF si rimette insieme un GLB in memoria, come fa la stanza del medico (stanza.js). La texture di
 // metallo e ruvidezza non serve (la plastilina e' tutta uguale): non si carica, risparmia memoria
-export function modello(nome, avanzamento) {
-  MODELLI[nome] ??= (async () => {
+export function modello(nome, avanzamento, nuovo = false) {
+  // "nuovo": un'altra copia, non quella gia' in scena (la cosa nera della notte e' un altro pupazzo)
+  const carica = async () => {
     const risposta = await fetch(`${MOD}${nome}.json`);
     if (!risposta.ok) throw new Error(`${nome}: ${risposta.status}`);
     const j = await risposta.json();
@@ -298,7 +299,9 @@ export function modello(nome, avanzamento) {
     const gltf = await loader.parseAsync(glb.buffer, MOD);
     avanzamento?.();
     return gltf;
-  })();
+  };
+  if (nuovo) return carica();
+  MODELLI[nome] ??= carica();
   return MODELLI[nome];
 }
 

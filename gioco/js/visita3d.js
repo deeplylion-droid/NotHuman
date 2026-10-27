@@ -10,7 +10,7 @@
 // Three.js disegna su un canvas fuori dallo schermo, che diventa la sorgente della videocamera (vhs.js, senza effetti).
 import * as THREE from "../lib/three.js";
 import * as C from "./plastilina.js";
-import { STANZE, POSE, POSTI, ASPETTO, stanzaDi, CALORE_MORTO } from "./scene3d.js";
+import { STANZE, POSE, POSTI, ASPETTO, FACCE, stanzaDi, CALORE_MORTO } from "./scene3d.js";
 
 const FOV = 54;
 const SU = new THREE.Vector3(0, 1, 0);
@@ -438,6 +438,8 @@ export class Visita3D {
     this.zoom.chi = this.zoom.parte = null;
     this.evidenzia(null);
     this.anima(0, true);
+    // la videocamera subito al suo posto (le proiezioni e le foto non aspettano il primo fotogramma)
+    this.inquadra(0);
   }
 
   // l'aspetto di un pupazzo nel suo stato: le mani, i bubboni, gli oggetti addosso e in mano
@@ -466,22 +468,27 @@ export class Visita3D {
     }
   }
 
-  // un'espressione (null: la faccia del suo stato)
+  // un'espressione (null: la faccia del suo stato); pp.volto e' quella che ha addosso adesso (per le foto)
   async volto(chi, volto) {
     const pp = this.attori[chi];
     if (!pp) return;
+    const giro = (pp.giroVolto = (pp.giroVolto || 0) + 1);
     const stato = pp.aspetto?.faccia;
-    const nomi = [stato && volto && `${chi}_creta_${stato}_${volto}`, volto && `${chi}_creta_${volto}`, stato && `${chi}_creta_${stato}`].filter(Boolean);
+    const nomi = [stato && volto && `${chi}_creta_${stato}_${volto}`, volto && `${chi}_creta_${volto}`, stato && `${chi}_creta_${stato}`]
+      .filter((n) => n && FACCE.has(n) && this.facce[n] !== false);
+    let t = null;
     for (const n of nomi) {
-      if (this.facce[n] === false) continue;
       try {
-        pp.faccia(await C.faccia(n));
-        return;
+        t = await C.faccia(n);
+        break;
       } catch {
         this.facce[n] = false;
       }
     }
-    pp.faccia(null);
+    // un cambio arrivato dopo vince
+    if (pp.giroVolto !== giro) return;
+    pp.faccia(t);
+    pp.volto = volto ?? null;
   }
 
   // ---------- ogni fotogramma ----------
@@ -527,11 +534,15 @@ export class Visita3D {
 
   // il punto dello zoom: la parte (le ascelle: quella sinistra, alzata; le mani: tra le due)
   puntoZoom(v = new THREE.Vector3()) {
-    const pp = this.pronti(this.zoom.chi);
+    return this.punto(this.zoom.chi, this.zoom.parte, v);
+  }
+
+  punto(chi, parte, v = new THREE.Vector3()) {
+    const pp = this.pronti(chi);
     if (!pp) return null;
-    const a = pp.ancore(this.zoom.parte);
+    const a = pp.ancore(parte);
     if (!a.length) return null;
-    if (this.zoom.parte === "mani" && a.length > 1) return { p: v.copy(a[0][0]).lerp(a[1][0], 0.5), r: a[0][1] * 1.6 };
+    if (parte === "mani" && a.length > 1) return { p: v.copy(a[0][0]).lerp(a[1][0], 0.5), r: a[0][1] * 1.6 };
     return { p: v.copy(a[0][0]), r: a[0][1] };
   }
 
@@ -671,6 +682,105 @@ export class Visita3D {
       return Promise.resolve();
     }
     return new Promise((res) => { Z.fatto = res; });
+  }
+
+  // ---------- i pupazzi prestati alla stanza del medico, la notte ----------
+
+  // l'ospite (il pupazzo delle visite: esce dalla scena della visita) o la "cosa" nera di chi dorme solo, un pupazzo a
+  // parte, piu' alto e tutto nero
+  async prestito(chi) {
+    if (chi === "cosa") {
+      this.cosa ??= C.modello("uomo_creta", null, true).then((gltf) => {
+        const pp = new C.Pupazzo("cosa", gltf);
+        const nero = C.materiale({ color: 0x0b0a09, ruvido: 0.95, impronte: 1 });
+        for (const o of pp.pelle) { o.material = nero; o.userData.calore = 0.05; }
+        pp.radice.scale.set(0.9, 1.22, 0.9);
+        pp.attrezzi = [];
+        return pp;
+      });
+      return this.cosa;
+    }
+    const pp = await this.pupazzo(chi);
+    this.presenti = this.presenti.filter((p) => p !== chi);
+    return pp;
+  }
+
+  // in posa in un punto della stanza del medico: qui = { x, z, gira, posa } (scene3d.js, NOTTE); stato per vestirlo
+  async inPosa(pp, qui, stato) {
+    const posa = POSE[qui.posa];
+    pp.metti(qui, posa, new THREE.Vector3(qui.x, 1.6, qui.z + 1));
+    if (pp.chi === "cosa") {
+      pp.posa = posa;
+      if (posa.seduta != null) pp.radice.position.y = posa.seduta - pp.dove.Hips.y * pp.radice.scale.y;
+    } else {
+      this.vesti(pp, posa, { stato });
+      pp.stato = stato;
+      await this.volto(pp.chi, null);
+    }
+    pp.aggiorna(0);
+    pp.radice.updateMatrixWorld(true);
+  }
+
+  // ---------- le foto della videocamera ----------
+
+  // un fotogramma 6:7 (un canvas w x h) per il nastro delle frasi, lo stato di famiglia e la scheda della casa, preso
+  // dalla scena com'e' adesso (la notte in verde, i nastri all'infrarosso):
+  // - chi: il ritratto (la testa e le spalle, con la faccia che ha adesso), dalla porta, con la lampada su di lui;
+  //   con parte: la parte del corpo, stretta come nello zoom dell'esame;
+  // - box [x0, y0, x1, y1] (frazioni dello schermo): un ritaglio attorno a una zona;
+  // - niente: il centro dello schermo (lo zoom dell'esame, quando la videocamera e' gia' li').
+  scatta({ chi = null, parte = null, box = null, w = 240, h = 280 } = {}) {
+    if (!this.stanza) return null;
+    const W = this.canvas.width, H = this.canvas.height;
+    let sw = H * (w / h), sh = H, sx = (W - sw) / 2, sy = 0;
+    let rimetti = null;
+    if (chi) {
+      const pp = this.pronti(chi);
+      if (!pp || !this.presenti.includes(chi)) return null;
+      let bers, mezzo;
+      if (parte) {
+        const pz = this.punto(chi, parte);
+        if (!pz) return null;
+        bers = pz.p;
+        mezzo = pz.r / IN_ZOOM;
+      } else {
+        const [testa, r] = pp.ancore("testa")[0];
+        bers = testa.clone().add(new THREE.Vector3(0, -r * 0.9, 0));
+        mezzo = r * 2.6;
+      }
+      const c = this.camera, f = this.faro;
+      const fov = c.fov, q = c.quaternion.clone(), t = f.target.position.clone();
+      c.fov = clamp((2 * Math.atan(mezzo / bers.distanceTo(c.position)) * 180) / Math.PI, 3, 40);
+      c.updateProjectionMatrix();
+      c.lookAt(bers);
+      f.target.position.copy(bers);
+      f.target.updateMatrixWorld();
+      rimetti = () => {
+        c.fov = fov;
+        c.updateProjectionMatrix();
+        c.quaternion.copy(q);
+        f.target.position.copy(t);
+        f.target.updateMatrixWorld();
+      };
+    } else if (box) {
+      const [x0, y0, x1, y1] = box;
+      const fh = clamp((y1 - y0) * 1.15, 0.22, 0.6), fw = (fh * (w / h) * H) / W;
+      sx = clamp((x0 + x1) / 2 - fw / 2, 0, 1 - fw) * W;
+      sy = clamp((y0 + y1) / 2 - fh / 2, 0, 1 - fh) * H;
+      sw = fw * W;
+      sh = fh * H;
+    }
+    // il canvas di WebGL si legge solo subito dopo averci disegnato (nello stesso giro)
+    this.disegna();
+    const out = document.createElement("canvas");
+    out.width = w;
+    out.height = h;
+    out.getContext("2d").drawImage(this.canvas, sx, sy, sw, sh, 0, 0, w, h);
+    if (rimetti) {
+      rimetti();
+      this.disegna();
+    }
+    return out;
   }
 
   // ---------- quello che il gioco chiede: i punti sullo schermo, i clic ----------

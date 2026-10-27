@@ -2,7 +2,7 @@
   "name": "nothuman",
   "productName": "NotHuman",
   "version": "0.1.0",
-  "description": "NotHuman come programma per Windows: per ora la prova della cucina in plastilina",
+  "description": "NotHuman come programma per Windows",
   "private": true,
   "main": "main.js",
   "scripts": {

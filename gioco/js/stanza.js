@@ -7,10 +7,17 @@
 // lo decide gioco.js con onUsa. Alla scrivania ci si siede (siedi): la camera guarda il piano dall'alto, il
 // puntatore e' libero e si usano le cose che ci sono sopra (onScrivania), fatte con Meshy come i mobili.
 // Texture e modelli si preparano con tools/prepara_stanza.py: i mobili sono di Meshy, gli oggetti piccoli di Tripo.
+// Dal 27 ottobre la stanza e' in plastilina come le visite (CRETA): muri, pavimento e soffitto di creta, i mobili in
+// plastilina dove ci sono gia' (gioco/modelli/creta), gli altri con la creta sopra (le texture di prima ammorbidite,
+// come lisciate col dito, e le impronte), il mondo che "bolle" a scatti; niente filtro catrame.
 import * as THREE from "../lib/three.js";
+import * as C from "./plastilina.js";
 
 const IMG = "img/stanza/";
 const MOD = "modelli/";
+const CRETA = true;
+// in plastilina le texture di creta si ripetono ogni tot metri (la carta da parati di prima ogni 55 centimetri)
+const METRI_MURO = CRETA ? 1.5 : 0.55;
 
 // la stanza: 5 x 6 metri, alta 3 (una casa vecchia, coi soffitti alti). x verso destra (est), z verso la porta;
 // all'inizio si guarda verso -z, la parete della finestra con la scrivania sotto; la porta e' sulla parete di fronte
@@ -42,7 +49,7 @@ const OGGETTI = {
   porta: { nome: "La porta", sosta: [-1.5, 2.3], guarda: [-1.5, 1.15, 3.0] },
   letto: { nome: "Il letto", sosta: [1.15, -1.5], guarda: [1.95, 0.55, -1.9] },
   armadio: { nome: "L'armadio", sosta: [-1.35, -1.8], guarda: [-2.2, 1.2, -1.8] },
-  cappotto: { nome: "Il cappotto", sosta: [-0.75, 2.35], guarda: [-0.55, 1.5, 3.0] },
+  cappotto: { nome: "Il cappotto", sosta: [1.9, 0.45], guarda: [2.5, 1.5, 0.45] },
   calendario: { nome: "Il calendario della ditta", sosta: [-1.55, 0.25], guarda: [-2.5, 1.62, 0.25] },
   santino: { nome: "Il santino", sosta: [1.1, -1.7], guarda: [2.5, 1.7, -2.3] },
   termosifone: { nome: "Il termosifone", sosta: [0.6, -2.15], guarda: [0.6, 0.35, -2.95] },
@@ -71,18 +78,19 @@ const ARRIVI = {
 // dz dal centro; la lampada non fa ombra, se no il paralume coprirebbe la sua stessa luce
 const MODELLI = [
   { nome: "scrivania", x: SCRIVANIA.x, z: SCRIVANIA.z, dim: [1.6, 0.77, 0.75], allinea: true, rotY: 0, oggetto: "scrivania", meshy: true },
-  { nome: "letto", x: 1.98, z: -1.96, dim: [1.0, 1.05, 2.05], allinea: true, rotY: 0, oggetto: "letto", meshy: true },
-  { nome: "comodino", x: 1.2, z: -2.78, dim: [0.46, 0.58, 0.4], allinea: true, rotY: 0, meshy: true },
-  { nome: "armadio", x: -2.19, z: -1.75, dim: [0.6, 2.05, 1.2], allinea: true, rotY: Math.PI / 2, oggetto: "armadio", meshy: true },
+  { nome: "letto", x: 1.98, z: -1.96, dim: [1.0, 1.05, 2.05], allinea: true, rotY: 0, oggetto: "letto", meshy: true, creta: "letto_ferro" },
+  { nome: "comodino", x: 1.2, z: -2.78, dim: [0.46, 0.58, 0.4], allinea: true, rotY: 0, meshy: true, creta: "comodino" },
+  { nome: "armadio", x: -2.19, z: -1.75, dim: [0.6, 2.05, 1.2], allinea: true, rotY: Math.PI / 2, oggetto: "armadio", meshy: true, creta: "armadio" },
   { nome: "credenza", x: -2.23, z: 0.25, dim: [0.52, 1.15, 1.4], allinea: true, rotY: Math.PI / 2, oggetto: "credenza", meshy: true },
   { nome: "lavandino", x: -2.27, z: 1.75, dim: [0.45, 0.88, 0.55], allinea: true, rotY: Math.PI / 2, oggetto: "lavandino", meshy: true },
   { nome: "tavolo", x: 0.05, z: 1.65, dim: [0.85, 0.76, 0.85], allinea: true, rotY: 0, oggetto: "tavolo", meshy: true },
-  { nome: "brandina", x: STANZETTA.x1 - 0.42, z: 1.75, dim: [0.7, 0.45, 1.9], allinea: true, rotY: Math.PI / 2, oggetto: "ospite", meshy: true },
-  { nome: "sedia", x: -0.7, z: -1.95, alto: 0.88, rotY: Math.PI / 2, oggetto: "scrivania" },
-  { nome: "sedia", x: 0.05, z: 0.98, alto: 0.88, rotY: -Math.PI / 2 + 0.15, oggetto: "tavolo" },
-  { nome: "sedia", x: 0.12, z: 2.32, alto: 0.88, rotY: Math.PI / 2 - 0.2, oggetto: "tavolo" },
-  { nome: "termosifone", x: 0.6, z: -2.93, alto: 0.62, rotY: -Math.PI / 2, oggetto: "termosifone" },
-  { nome: "cappotto", x: -0.55, y: 0.45, z: 2.93, alto: 1.42, rotY: Math.PI / 2, fondo: 0.6, oggetto: "cappotto" },
+  { nome: "brandina", x: STANZETTA.x1 - 0.42, z: 1.75, dim: [0.7, 0.45, 1.9], allinea: true, rotY: Math.PI / 2, oggetto: "ospite", meshy: true, creta: "brandina" },
+  { nome: "sedia", x: -0.7, z: -1.95, alto: 0.88, rotY: Math.PI / 2, oggetto: "scrivania", creta: "sedia", giraCreta: Math.PI },
+  { nome: "sedia", x: 0.05, z: 0.98, alto: 0.88, rotY: -Math.PI / 2 + 0.15, oggetto: "tavolo", creta: "sedia", giraCreta: 0.15 },
+  { nome: "sedia", x: 0.12, z: 2.32, alto: 0.88, rotY: Math.PI / 2 - 0.2, oggetto: "tavolo", creta: "sedia", giraCreta: Math.PI - 0.2 },
+  { nome: "termosifone", x: 0.6, z: -2.93, alto: 0.62, rotY: -Math.PI / 2, oggetto: "termosifone", creta: "termosifone", giraCreta: 0 },
+  // il cappotto e' appeso alla parete dell'ospite, tra il letto e la stanzetta (la maschera, dalla scrivania, lo riprende)
+  { nome: "cappotto", x: 2.43, y: 0.45, z: 0.45, alto: 1.42, rotY: Math.PI, fondo: 0.6, oggetto: "cappotto" },
   { nome: "borsa", x: -2.12, z: -2.72, alto: 0.3, rotY: -0.9, oggetto: "borsa" },
   // sulla scrivania gli oggetti di Meshy, messi come nella scrivania disegnata, col davanti verso chi siede; "pezzo"
   // e' cosa si usa da seduti (gli id della scrivania in gioco.js): i guanti vanno con la maschera, per uscire
@@ -106,7 +114,11 @@ const DISPLAY = { x: 0.77, y: 0.69, largo: 0.3 };
 const ALTO = new THREE.Vector3(0, 1, 0);
 
 // la luce della mattina e della sera; "ambiente" e' la luce morbida che si riflette sui materiali
-const LUCI = {
+const LUCI = CRETA ? {
+  // in plastilina, senza il filtro catrame che scuriva tutto: una mattina grigia, la stanza in penombra
+  mattina: { giorno: true, sole: 1.5, cielo: 0.22, lampada: 1.1, alone: 0.3, porta: 0.0, ambiente: 0.1, esposizione: 0.82 },
+  sera: { giorno: false, sole: 0, cielo: 0.05, lampada: 2.4, alone: 1.7, porta: 2.0, ambiente: 0.03, esposizione: 1.0 },
+} : {
   mattina: { giorno: true, sole: 2.6, cielo: 0.55, lampada: 1.2, alone: 0.35, porta: 0.0, ambiente: 0.32, esposizione: 1.05 },
   sera: { giorno: false, sole: 0, cielo: 0.08, lampada: 2.6, alone: 2.2, porta: 2.2, ambiente: 0.05, esposizione: 1.3 },
 };
@@ -165,6 +177,8 @@ async function scarica(url, parte) {
 // file accanto
 async function caricaModello(loader, nome, parte) {
   const j = JSON.parse(await scarica(MOD + nome + ".json", parte));
+  // i mobili in plastilina: senza la texture di metallo e ruvidezza (troppa memoria sul telefono, e la creta non luccica)
+  if (nome.startsWith("creta/")) for (const m of j.materials || []) delete m.pbrMetallicRoughness?.metallicRoughnessTexture;
   const uri = j.buffers[0].uri;
   const bin = Uint8Array.from(atob(uri.slice(uri.indexOf(",") + 1)), (c) => c.charCodeAt(0));
   delete j.buffers[0].uri;
@@ -182,7 +196,35 @@ async function caricaModello(loader, nome, parte) {
   v.setUint32(20 + lj, lb, true);
   v.setUint32(24 + lj, 0x004e4942, true); // "BIN"
   glb.set(bin, 28 + lj);
-  return (await loader.parseAsync(glb.buffer, MOD)).scene;
+  return (await loader.parseAsync(glb.buffer, MOD + nome.replace(/[^/]*$/, ""))).scene;
+}
+
+// le texture dei mobili fatti prima della plastilina (quasi foto): rimpicciolite e ingrandite di nuovo, come creta
+// lisciata col dito (le impronte le mette il materiale)
+function ammorbidisci(t, lato = 256) {
+  const im = t?.image;
+  if (!im || !im.width || im.width <= lato) return t;
+  const k = lato / Math.max(im.width, im.height);
+  const c = document.createElement("canvas");
+  c.width = Math.max(8, Math.round(im.width * k));
+  c.height = Math.max(8, Math.round(im.height * k));
+  const g = c.getContext("2d");
+  g.imageSmoothingQuality = "high";
+  g.drawImage(im, 0, 0, c.width, c.height);
+  const n = new THREE.CanvasTexture(c);
+  for (const k2 of ["colorSpace", "flipY", "wrapS", "wrapT", "channel"]) n[k2] = t[k2];
+  n.repeat.copy(t.repeat);
+  n.offset.copy(t.offset);
+  n.anisotropy = 4;
+  return n;
+}
+
+// un materiale copiato (per illuminare un oggetto da solo) tiene il "bollire" della creta e l'ombra degli angoli
+function copia(m) {
+  const c = m.clone();
+  c.onBeforeCompile = m.onBeforeCompile;
+  if (Object.hasOwn(m, "customProgramCacheKey")) c.customProgramCacheKey = m.customProgramCacheKey;
+  return c;
 }
 
 // l'angolo che raddrizza un mobile: quello per cui il rettangolo che contiene la sua pianta e' il piu' piccolo
@@ -233,7 +275,7 @@ export class Stanza {
     const r = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: false, powerPreference: "high-performance" });
     r.outputColorSpace = THREE.SRGBColorSpace;
     // ACES col filtro plumbeo (se una versione nuova di Three.js non lo lascia mettere, ACES da solo)
-    r.toneMapping = THREE.ShaderChunk.tonemapping_pars_fragment !== SENZA_FILTRO ? THREE.CustomToneMapping : THREE.ACESFilmicToneMapping;
+    r.toneMapping = !CRETA && THREE.ShaderChunk.tonemapping_pars_fragment !== SENZA_FILTRO ? THREE.CustomToneMapping : THREE.ACESFilmicToneMapping;
     r.shadowMap.enabled = true;
     r.shadowMap.type = THREE.PCFShadowMap;
     // le ombre si ricalcolano solo quando qualcosa cambia (la luce, la porta dell'ospite): la stanza e' ferma, e
@@ -314,7 +356,8 @@ export class Stanza {
   // carica texture e modelli e costruisce la stanza; "avanzamento(f)" dice a che punto e' (0-1): le texture sono il
   // primo decimo, il resto sono i modelli, che sono una ventina e pesano parecchio (ognuno conta per la sua parte)
   async carica(avanzamento = () => {}) {
-    const nomiModelli = [...new Set(MODELLI.map((m) => m.nome))];
+    const sorgente = (m) => (CRETA && m.creta ? `creta/${m.creta}` : m.nome);
+    const nomiModelli = [...new Set(MODELLI.map(sorgente))];
     const parti = new Map(nomiModelli.map((n) => [n, 0]));
     let texture = 0;
     const dici = () => avanzamento(0.1 * texture + (0.9 * [...parti.values()].reduce((a, b) => a + b, 0)) / parti.size);
@@ -330,6 +373,15 @@ export class Stanza {
       T[n.replace(/\.\w+$/, "")] = t;
     }));
     for (const n of ["carta_parati", "pavimento", "pavimento_normale", "legno"]) T[n].wrapS = T[n].wrapT = THREE.RepeatWrapping;
+    if (CRETA) {
+      // le superfici di creta (tools/texture_creta.py): le coordinate dei muri sono gia' in "metri"
+      const [muro, pavimento, soffitto, grezzo] = await Promise.all(["muro_camera", "pavimento_legno", "soffitto", "intonaco_grezzo"]
+        .map((n) => C.superficie(n, 1)));
+      Object.assign(T, { creta: { muro, pavimento, soffitto, grezzo } });
+      // le immagini di prima (quasi foto) ammorbidite: dalla finestra si vede appena, come da un vetro sporco
+      for (const [n, lato] of [["legno", 128], ["finestra", 40], ["finestra_luce", 40], ["finestra_chiusa", 160], ["porta", 192],
+        ["calendario", 160], ["santino", 128], ["tappeto", 128]]) T[n] = ammorbidisci(T[n], lato);
+    }
     this.T = T;
     texture = 1;
     dici();
@@ -357,11 +409,11 @@ export class Stanza {
     const usati = {};
     for (const m of MODELLI) {
       if (m.sopra && !this.su) this.pianoScrivania();
-      const s = scene[m.nome];
+      const n = sorgente(m), s = scene[n];
       if (!s) continue;
       // la prima volta il modello com'e', le altre una copia (le sedie)
-      this.mettiModello(m, usati[m.nome] ? s.clone(true) : s);
-      usati[m.nome] = true;
+      this.mettiModello(m, usati[n] ? s.clone(true) : s);
+      usati[n] = true;
     }
     if (!this.su) this.pianoScrivania();
     this.sullaScrivania(T);
@@ -374,26 +426,39 @@ export class Stanza {
 
   costruisci(T) {
     const S = this.scena;
-    const mat = (o) => new THREE.MeshStandardMaterial({ roughness: 0.9, metalness: 0, ...o });
-    const intera = (o) => { const m = mat(o); m.userData.intera = true; return m; };
+    // in plastilina tutto e' creta (tranne lo specchio, che resta vetro); le immagini intere (la porta, il calendario,
+    // la mappa...) con impronte leggere
+    const creta = ({ map = null, normalMap, color = 0xffffff, roughness = 0.8, emissive, emissiveMap, aoMap, impronte = 0.9, normalScale, ...resto }) => {
+      const m = C.materiale({ map, normalMap, color, ruvido: Math.max(0.45, roughness), emissive, impronte });
+      if (normalScale) m.normalScale.copy(normalScale);
+      if (emissiveMap) m.emissiveMap = emissiveMap;
+      if (aoMap) m.aoMap = aoMap;
+      if (resto.envMapIntensity != null) m.envMapIntensity = resto.envMapIntensity * 0.4;
+      return m;
+    };
+    const mat = (o) => CRETA && !(o.metalness > 0.5) ? creta(o) : new THREE.MeshStandardMaterial({ roughness: 0.9, metalness: 0, ...o });
+    const intera = (o) => { const m = mat(CRETA ? { impronte: 0.35, ...o } : o); m.userData.intera = true; return m; };
     this.mat = { mat, intera };
+    const K = T.creta;
     // l'ombra negli angoli: piu' scuro vicino al pavimento, al soffitto e negli spigoli
     this.aoMuri = this.angoli();
-    const carta = this.conAngoli(mat({ map: T.carta_parati, color: 0xe4d8bf, aoMap: this.aoMuri }));
+    const carta = this.conAngoli(CRETA ? mat({ map: K.muro.map, normalMap: K.muro.normalMap, color: 0xb9a586, aoMap: this.aoMuri, impronte: 1 })
+      : mat({ map: T.carta_parati, color: 0xe4d8bf, aoMap: this.aoMuri }));
     const intonaco = mat({ color: 0xd8cfbd, roughness: 0.95 });
     const scuro = mat({ map: T.legno, color: 0x5e3f2a, roughness: 0.7 });
     const bianco = mat({ color: 0xe9e4d8, roughness: 0.6 });
     this.mat.scuro = scuro;
 
     // il pavimento: le assi col loro rilievo; l'ombra sotto i mobili arriva dopo (ombreSulPavimento)
-    const pav = this.superficie(X1 - X0, Z1 - Z0, mat({ map: T.pavimento, normalMap: T.pavimento_normale,
-      normalScale: new THREE.Vector2(0.55, 0.55), color: 0xc6b49c, roughness: 0.78 }), 1.2);
+    const pav = this.superficie(X1 - X0, Z1 - Z0, CRETA ? mat({ map: K.pavimento.map, normalMap: K.pavimento.normalMap, color: 0xb7a089, roughness: 0.7, impronte: 1 })
+      : mat({ map: T.pavimento, normalMap: T.pavimento_normale, normalScale: new THREE.Vector2(0.55, 0.55), color: 0xc6b49c, roughness: 0.78 }), CRETA ? 1.5 : 1.2);
     pav.rotation.x = -Math.PI / 2;
     pav.userData.pavimento = true;
     S.add(pav);
     this.pavimento = pav;
     // il soffitto: fa ombra, se no il sole entrerebbe da sopra
-    const sof = this.superficie(X1 - X0, Z1 - Z0, this.conAngoli(mat({ color: 0xd6cdbb, roughness: 1, aoMap: this.aoMuri })));
+    const sof = this.superficie(X1 - X0, Z1 - Z0, this.conAngoli(CRETA ? mat({ map: K.soffitto.map, normalMap: K.soffitto.normalMap, color: 0xd6cdbb, roughness: 1, aoMap: this.aoMuri })
+      : mat({ color: 0xd6cdbb, roughness: 1, aoMap: this.aoMuri })), CRETA ? 1.5 : null);
     sof.rotation.x = Math.PI / 2;
     sof.position.y = ALTA;
     sof.castShadow = true;
@@ -402,7 +467,7 @@ export class Stanza {
     // le pareti, con la carta da parati che continua da un pezzo all'altro; quella della finestra e' fatta a pezzi
     // attorno al buco della finestra, e fa ombra: il sole entra solo dai vetri
     const parete = (verso, a0, a1, y0, y1) => {
-      const m = this.muro(verso, a0, a1, y0, y1, carta);
+      const m = this.muro(verso, a0, a1, y0, y1, carta, METRI_MURO);
       m.castShadow = true;
       S.add(m);
       return m;
@@ -515,13 +580,14 @@ export class Stanza {
     const sx0 = X1 + OSPITE.muro, { x1: sx1, z0: sz0, z1: sz1 } = STANZETTA;
     const sw = sx1 - sx0, sd = sz1 - sz0, mx = (sx0 + sx1) / 2, mz = (sz0 + sz1) / 2;
     const buio = (o) => mat({ envMapIntensity: 0.35, ...o });
-    const muroBuio = buio({ map: T.carta_parati, color: 0x4a4034 });
+    const muroBuio = CRETA ? buio({ map: K.grezzo.map, normalMap: K.grezzo.normalMap, color: 0x6a5d4c }) : buio({ map: T.carta_parati, color: 0x4a4034 });
+    const pavBuio = CRETA ? buio({ map: K.pavimento.map, normalMap: K.pavimento.normalMap, color: 0x5a4a3c }) : buio({ map: T.pavimento, color: 0x5a4a3c });
     for (const [w, h, m, metri, pos, rot] of [
-      [sw, sd, buio({ map: T.pavimento, color: 0x5a4a3c }), 1.2, [mx, 0, mz], [-Math.PI / 2, 0, 0]],
+      [sw, sd, pavBuio, CRETA ? 1.5 : 1.2, [mx, 0, mz], [-Math.PI / 2, 0, 0]],
       [sw, sd, buio({ color: 0x3a342c }), null, [mx, ALTA, mz], [Math.PI / 2, 0, 0]],
-      [sd, ALTA, muroBuio, 0.55, [sx1, ALTA / 2, mz], [0, -Math.PI / 2, 0]],
-      [sw, ALTA, muroBuio, 0.55, [mx, ALTA / 2, sz0], [0, 0, 0]],
-      [sw, ALTA, muroBuio, 0.55, [mx, ALTA / 2, sz1], [0, Math.PI, 0]],
+      [sd, ALTA, muroBuio, METRI_MURO, [sx1, ALTA / 2, mz], [0, -Math.PI / 2, 0]],
+      [sw, ALTA, muroBuio, METRI_MURO, [mx, ALTA / 2, sz0], [0, 0, 0]],
+      [sw, ALTA, muroBuio, METRI_MURO, [mx, ALTA / 2, sz1], [0, Math.PI, 0]],
     ]) {
       const f = this.superficie(w, h, m, metri);
       f.position.set(...pos);
@@ -595,10 +661,14 @@ export class Stanza {
 
   // l'ombra degli angoli anche sulla luce diretta (la lampada), non solo su quella d'ambiente
   conAngoli(m, forza = 0.7) {
-    m.onBeforeCompile = (sh) => {
+    const prima = Object.hasOwn(m, "onBeforeCompile") ? m.onBeforeCompile : null;
+    m.onBeforeCompile = (sh, r) => {
+      prima?.(sh, r);
       sh.fragmentShader = sh.fragmentShader.replace("#include <aomap_fragment>",
         `#include <aomap_fragment>\n#ifdef USE_AOMAP\nreflectedLight.directDiffuse *= mix(1.0, texture2D(aoMap, vAoMapUv).r, ${forza.toFixed(2)});\n#endif`);
     };
+    // la forza cambia lo shader: programmi diversi
+    m.customProgramCacheKey = () => `angoli${forza}${prima ? "creta" : ""}`;
     return m;
   }
 
@@ -678,6 +748,13 @@ export class Stanza {
     obj.add(dentro);
     scena.traverse((o) => {
       if (!o.isMesh) return;
+      if (CRETA) {
+        // i mobili in plastilina come nelle visite; quelli di prima con la texture ammorbidita e la creta sopra
+        if (!m.creta && o.material.map) o.material.map = ammorbidisci(o.material.map);
+        C.aCreta(o, m.creta ? 0.62 : 0.7);
+        o.castShadow = m.ombra !== false;
+        return;
+      }
       o.castShadow = m.ombra !== false;
       o.receiveShadow = true;
       for (const mt of [].concat(o.material)) {
@@ -689,8 +766,10 @@ export class Stanza {
         mt.envMapIntensity = 1;
       }
     });
-    if (m.allinea) dentro.rotation.y = -raddrizza(dentro);
-    obj.rotation.set(m.rotX || 0, m.rotY || 0, m.rotZ || 0, "YXZ");
+    // i mobili in plastilina sono gia' dritti (guardano verso +z): "giraCreta" li volta come quelli di prima
+    const plastilina = CRETA && m.creta;
+    if (m.allinea && !plastilina) dentro.rotation.y = -raddrizza(dentro);
+    obj.rotation.set(m.rotX || 0, plastilina ? (m.giraCreta ?? m.rotY ?? 0) : (m.rotY || 0), m.rotZ || 0, "YXZ");
     obj.updateMatrixWorld(true);
     let box = new THREE.Box3().setFromObject(obj);
     const dim = box.getSize(new THREE.Vector3());
@@ -820,7 +899,7 @@ export class Stanza {
     obj.traverse((o) => {
       if (!o.isMesh) return;
       o.userData.oggetto = id;
-      o.material = Array.isArray(o.material) ? o.material.map((m) => m.clone()) : o.material.clone();
+      o.material = Array.isArray(o.material) ? o.material.map(copia) : copia(o.material);
       (this.pezzi[id] = this.pezzi[id] || []).push(o);
     });
   }
@@ -834,9 +913,137 @@ export class Stanza {
     });
   }
 
-  // la porta della stanzetta dell'ospite: socchiusa per guardarci dentro, o chiusa
-  socchiudi(aperta) {
-    this.aperturaOspite = aperta ? -0.75 : 0;
+  // la porta della stanzetta dell'ospite: socchiusa per guardarci dentro, o chiusa ("subito": senza muoversi, per le
+  // riprese della notte; "quanto": aperta di quanti radianti)
+  socchiudi(aperta, subito = false, quanto = 0.75) {
+    this.aperturaOspite = aperta ? -quanto : 0;
+    if (subito && this.cardine) {
+      this.cardine.rotation.y = this.aperturaOspite;
+      this.renderer.shadowMap.needsUpdate = true;
+    }
+  }
+
+  // ---------- la notte: l'ospite nella stanzetta e il nastro della notte (solo in plastilina) ----------
+
+  // i pupazzi delle visite, prestati per la notte (gioco.js li veste e li mette in posa): si animano a scatti
+  mettiPupazzo(pp) {
+    this.pupazzi ??= [];
+    if (!this.pupazzi.includes(pp)) this.pupazzi.push(pp);
+    this.scena.add(pp.radice);
+    this.renderer.shadowMap.needsUpdate = true;
+  }
+
+  togliPupazzi() {
+    for (const pp of this.pupazzi || []) this.scena.remove(pp.radice);
+    this.pupazzi = [];
+    this.renderer.shadowMap.needsUpdate = true;
+  }
+
+  // l'altezza del materasso (del letto o della brandina): un raggio dall'alto sul modello
+  piano(nome, x, z) {
+    const m = this.modelli?.[nome];
+    if (!m) return 0.5;
+    const r = new THREE.Raycaster(new THREE.Vector3(x, 3, z), new THREE.Vector3(0, -1, 0));
+    return r.intersectObject(m, true)[0]?.point.y ?? 0.5;
+  }
+
+  // il medico che dorme: non si vede mai, e' tutto sotto la coperta (la testa compresa). Una coperta di lana sul letto,
+  // gonfia dove c'e' il corpo
+  dormiente(si) {
+    if (!this.coperta && si) {
+      const b = new THREE.Box3().setFromObject(this.modelli?.letto || new THREE.Object3D());
+      const largo = b.isEmpty() ? 1.0 : b.max.x - b.min.x, lungo = b.isEmpty() ? 2.0 : b.max.z - b.min.z;
+      const cx = b.isEmpty() ? 1.98 : (b.min.x + b.max.x) / 2, z0 = b.isEmpty() ? -2.98 : b.min.z;
+      const su = this.piano("letto", cx, z0 + lungo * 0.6);
+      this.coperta = this.coperta3d(largo - 0.06, lungo - 0.16, 0x8a8178);
+      this.coperta.position.set(cx, su + 0.01, z0 + 0.12);
+      this.scena.add(this.coperta);
+    }
+    if (this.coperta) this.coperta.visible = !!si;
+    this.renderer.shadowMap.needsUpdate = true;
+  }
+
+  // una coperta che copre un corpo sdraiato a pancia in su (la testa dalla parte di z0): un piano gonfio con le pieghe,
+  // che ricade ai lati
+  coperta3d(largo, lungo, colore, corpo = true) {
+    const nx = 28, nz = 56;
+    const g = new THREE.PlaneGeometry(largo, lungo, nx, nz);
+    g.rotateX(-Math.PI / 2);
+    g.translate(0, 0, lungo / 2);
+    const pos = g.attributes.position;
+    const gauss = (d, s) => Math.exp(-(d * d) / (2 * s * s));
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i), z = pos.getZ(i);
+      let h = 0;
+      if (corpo) {
+        const t = z / lungo;
+        // la testa sotto la coperta, il busto, le gambe (due), i piedi in fondo
+        h = Math.max(h, 0.2 * gauss(x, 0.12) * gauss(z - 0.2, 0.11));
+        h = Math.max(h, 0.25 * gauss(x, 0.2) * C.liscio(0.1, 0.2, t) * (1 - C.liscio(0.5, 0.62, t)));
+        for (const lx of [-0.1, 0.1]) h = Math.max(h, 0.15 * gauss(x - lx, 0.08) * C.liscio(0.45, 0.55, t) * (1 - C.liscio(0.9, 0.97, t)));
+        h = Math.max(h, 0.19 * gauss(x, 0.16) * gauss(z - lungo * 0.92, 0.08));
+      }
+      // ai lati la coperta ricade oltre il materasso
+      const bordo = C.liscio(largo / 2 - 0.12, largo / 2, Math.abs(x));
+      h = h * (1 - bordo) - 0.12 * bordo + 0.025;
+      h += C.rumore3(x * 9, z * 9, 3) * 0.007 + C.rumore3(x * 3, z * 2.5, 8) * 0.012;
+      pos.setY(i, h);
+    }
+    g.computeVertexNormals();
+    const m = new THREE.Mesh(g, C.materiale({ color: colore, ruvido: 0.9, impronte: 1, side: THREE.DoubleSide }));
+    m.castShadow = m.receiveShadow = true;
+    return m;
+  }
+
+  // la luce della notte: tutte le luci spente; resta la lampada infrarossa della videocamera (invisibile, la si vede
+  // solo nel verde della visione notturna), da "da" verso "a". null: la luce di prima
+  notte(da, a, forza = 5) {
+    if (!da) {
+      if (this.ir) this.ir.visible = false;
+      this.fase(this.faseOra || "mattina");
+      return;
+    }
+    if (!this.ir) {
+      this.ir = new THREE.SpotLight(0xffffff, forza, 0, 0.75, 0.9, 1.4);
+      this.ir.castShadow = true;
+      this.ir.shadow.mapSize.set(1024, 1024);
+      this.ir.shadow.bias = -0.0004;
+      this.ir.shadow.normalBias = 0.02;
+      this.ir.shadow.camera.near = 0.1;
+      this.ir.shadow.camera.far = 9;
+      this.scena.add(this.ir, this.ir.target);
+    }
+    this.ir.visible = true;
+    this.ir.intensity = forza;
+    this.ir.position.set(...da);
+    this.ir.target.position.set(...a);
+    this.ir.target.updateMatrixWorld();
+    const L = this.L;
+    L.lamp.intensity = 0;
+    L.lamp.castShadow = false;
+    L.alone.intensity = 0;
+    L.cielo.intensity = 0.03;
+    L.sole.intensity = 0;
+    L.sole.visible = false;
+    this.scena.environmentIntensity = 0.01;
+    this.renderer.toneMappingExposure = 1;
+    for (const o of this.pezzi.finestra || []) {
+      o.material.map = this.T.finestra_chiusa;
+      o.material.emissiveIntensity = 0;
+      o.material.needsUpdate = true;
+    }
+    this.matFessura.color.setHex(0x000000);
+    this.renderer.shadowMap.needsUpdate = true;
+  }
+
+  // la videocamera ferma in un punto (la maschera sulla scrivania, la porta della stanzetta): niente passi, niente mouse
+  inquadra(da, a, fov) {
+    this.attiva = false;
+    this.seduto = null;
+    this.camera.position.set(...da);
+    this.camera.fov = fov;
+    this.camera.updateProjectionMatrix();
+    this.camera.lookAt(new THREE.Vector3(...a));
   }
 
   // dove sta un oggetto (il centro dei suoi pezzi): per le prove
@@ -963,7 +1170,9 @@ export class Stanza {
 
   // la mattina la tapparella e' alzata e dai vetri entra il giorno; la sera e' abbassata e resta la lampada
   fase(f) {
+    this.faseOra = f;
     const l = LUCI[f] || LUCI.mattina;
+    this.L.lamp.castShadow = true;
     this.L.lamp.intensity = l.lampada;
     this.L.alone.intensity = l.alone;
     this.L.cielo.intensity = l.cielo;
@@ -1144,6 +1353,18 @@ export class Stanza {
 
   passo(dt) {
     this.regola(dt);
+    if (CRETA) {
+      // la plastilina "bolle" a ogni posa, 12 volte al secondo, come nelle visite
+      this.tempoPose = (this.tempoPose || 0) + dt;
+      const n = Math.floor(this.tempoPose * 12);
+      if (n !== this.ultimaPosa) {
+        this.ultimaPosa = n;
+        C.BOLLE.value = Math.random() * 50;
+        // i pupazzi della notte cambiano posa con la plastilina (e le loro ombre con loro)
+        for (const pp of this.pupazzi || []) pp.aggiorna(n / 12);
+        if (this.pupazzi?.length) this.renderer.shadowMap.needsUpdate = true;
+      }
+    }
     if (this.attiva) {
       if (this.seduto) this.alTavolo(dt);
       else this.aggiorna(Math.min(dt, 0.1));

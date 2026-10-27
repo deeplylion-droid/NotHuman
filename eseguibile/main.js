@@ -1,6 +1,6 @@
 // NotHuman come programma per Windows (27 ottobre: "il gioco uscira' su Steam, provalo come eseguibile"). Electron e'
 // Chromium con la scheda video del computer: la stessa pagina del browser, a tutto schermo, senza il visualizzatore
-// degli Artifact attorno. Per ora apre la prova della cucina in plastilina (pagina/, la prepara prepara.mjs).
+// degli Artifact attorno. Apre il gioco (pagina/, la prepara prepara.mjs).
 // I file si servono dal protocollo gioco:// (con file:// il browser non lascia caricare i moduli e i modelli).
 const { app, BrowserWindow, protocol, net } = require("electron");
 const path = require("node:path");
@@ -36,7 +36,7 @@ app.whenReady().then(() => {
   finestra.webContents.on("before-input-event", (e, tasto) => {
     if (tasto.type === "keyDown" && tasto.key === "F12") finestra.webContents.toggleDevTools();
   });
-  finestra.loadURL("gioco://nothuman/index.html?pc");
+  finestra.loadURL("gioco://nothuman/index.html");
 });
 
 app.on("window-all-closed", () => app.quit());

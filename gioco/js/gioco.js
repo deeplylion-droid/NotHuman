@@ -94,6 +94,10 @@ let controller = null;
 // medico, in sottofondo (visitaPronta); senza WebGL 2 restano le scene 2D di prima
 let visita = null;
 let visitaPronta = null;
+// le foto della videocamera nelle visite in plastilina (data URL): i ritratti ("ritratto:giorno:persona:volto"), lo
+// zoom degli esami ("parte:giorno:persona:parte") e i fotogrammi delle prove ("prova:giorno:id"). Non si salvano:
+// arrivano quando la persona o la cosa si e' vista
+const FOTO = {};
 
 // ---------- immagini ----------
 
@@ -104,11 +108,20 @@ const carica = (src) => new Promise((res, rej) => {
   i.src = src;
 });
 
+// le scene 2D di prima servono solo se le visite in plastilina non partono (senza WebGL 2): allora si caricano dopo
+const conWebgl2 = (() => {
+  try {
+    return !!document.createElement("canvas").getContext("webgl2");
+  } catch {
+    return false;
+  }
+})();
+
 async function caricaTutto() {
   const lista = { scrivania: "img/scrivania.jpg", mappa: "img/mappa.jpg" };
   const voci = await Promise.all(Object.entries(lista).map(async ([k, src]) => [k, await carica(src)]));
   for (const [k, im] of voci) IMG[k] = im;
-  await caricaLuoghi(D.LUOGHI);
+  if (!vhs || !conWebgl2) await caricaLuoghi(D.LUOGHI);
 }
 
 // le scene di un giorno: l'immagine, le persone (un grigio per persona), il calore, le sagome, le espressioni. Il nome
@@ -153,6 +166,7 @@ function primoPiano(persona, parte) {
 }
 
 function precaricaPrimi() {
+  if (visita || visitaPronta) return;
   for (const [persona, esami] of Object.entries(D.ESAMI))
     for (const [parte, e] of Object.entries(esami)) if (!e.rifiuta) primoPiano(persona, parte).catch(() => {});
 }
@@ -209,14 +223,20 @@ function disegnaVolti(ctx, luogo, facce) {
 function cambiaVolto(persona, volto) {
   clearTimeout(R.ritorni[persona]);
   const E = ESPRESSIONI[S.luogo]?.[persona];
-  if (!E || !D.LUOGHI[S.luogo].persone.includes(persona)) return;
-  if (volto && !E.volti.includes(volto)) volto = null;
+  if (!D.LUOGHI[S.luogo].persone.includes(persona)) return;
+  // in plastilina ogni pupazzo ha le sue facce di ricambio (visita3d.js: se manca, resta la sua)
+  if (!visita && !E) return;
+  if (!visita && volto && !E.volti.includes(volto)) volto = null;
   const f = R.facce[persona];
   const ora = f ? f.a : null;
   if (ora === volto) return;
   R.facce[persona] = { da: ora, a: volto, t0: performance.now() };
-  // in plastilina si cambia la faccia del pupazzo, come negli stop-motion
-  if (visita) { visita.volto(persona, volto); return; }
+  // in plastilina si cambia la faccia del pupazzo, come negli stop-motion; la videocamera ne tiene la foto
+  if (visita) {
+    const luogo = S.luogo;
+    visita.volto(persona, volto).then(() => { if (S.luogo === luogo) ritratto(persona, volto); });
+    return;
+  }
   // la videocamera "sente" il cambio: un piccolo disturbo
   if (vhs && !R.primo) vhs.burst(0.14);
   if (R.animaVolti) return;
@@ -522,16 +542,55 @@ function fotoVolto(persona) {
   return D.PERSONE[persona]?.volto || persona;
 }
 
+// in plastilina: il ritratto di una persona con una faccia, preso dalla videocamera se adesso e' davanti con quella
+// faccia (e non nella posa di un esame), altrimenti quello gia' preso (o quello con la faccia di sempre)
+function ritratto(persona, volto = null) {
+  const k = (v) => `ritratto:${S.giorno}:${persona}:${v || ""}`;
+  if (!FOTO[k(volto)] && visita && S.schermo === "visita" && visita.presenti.includes(persona) && !visita.zoom.chi
+    && (visita.pronti(persona)?.volto ?? null) === (volto || null))
+    FOTO[k(volto)] = visita.scatta({ chi: persona })?.toDataURL("image/jpeg", 0.86);
+  return FOTO[k(volto)] || FOTO[k(null)] || null;
+}
+
+// in plastilina: il fotogramma di una prova, nel momento in cui si trova (la zona della scena, la parte del corpo
+// com'era nello zoom dell'esame, l'infrarosso del nastro), o la foto di chi l'ha detta
+function fotoProva(id) {
+  const P = D.PROVE[id];
+  const k = `prova:${S.giorno}:${id}`;
+  if (!FOTO[k] && visita && visita.luogo) {
+    let f = null;
+    if (P.parte) {
+      const [persona, parte] = P.parte;
+      if (R.primo?.persona === persona && R.primo?.parte === parte) f = visita.scatta();
+      else if (!FOTO[`parte:${S.giorno}:${persona}:${parte}`] && !visita.zoom.chi) f = visita.scatta({ chi: persona, parte });
+    } else if (P.zona && visita.luogo === P.zona[0] && !visita.zoom.chi) {
+      const z = D.LUOGHI[P.zona[0]]?.zone.find((q) => q.id === P.zona[1]);
+      if (z) f = visita.scatta({ box: z.box });
+    }
+    if (f) FOTO[k] = f.toDataURL("image/jpeg", 0.86);
+  }
+  if (FOTO[k]) return FOTO[k];
+  if (P.parte) return FOTO[`parte:${S.giorno}:${P.parte[0]}:${P.parte[1]}`] || ritratto(P.parte[0]);
+  if (P.da) return ritratto(P.da);
+  return null;
+}
+
 function fotogramma(v) {
   const k = v.id.slice(2);
   if (v.id.startsWith("d:")) {
     const d = D.DICHIARAZIONI[k];
     const volto = v.volto && ESPRESSIONI[D.PERSONE[d.chi]?.luogo]?.[d.chi]?.volti.includes(v.volto) ? `_${v.volto}` : "";
-    return { id: v.id, tipo: "detta", foto: { src: `img/volti/${fotoVolto(d.chi)}${volto}.jpg` }, testo: d.testo,
+    const src = visita ? ritratto(d.chi, v.volto) : `img/volti/${fotoVolto(d.chi)}${volto}.jpg`;
+    return { id: v.id, tipo: "detta", foto: src ? { src } : null, testo: d.testo,
       meta: D.PERSONE[d.chi]?.voce || "", icona: icona("fumetto") };
   }
   const P = D.PROVE[k];
   let foto = null;
+  if (visita) {
+    const src = fotoProva(k);
+    return { id: v.id, tipo: "prova", foto: src ? { src } : null, testo: P.breve, meta: P.ir ? "NASTRO IR" : "INDIZIO",
+      icona: icona(P.ir ? "fiamma" : "lente") };
+  }
   if (P.zona) foto = ritaglioZona(...P.zona);
   else if (P.parte) foto = { src: `img/pp/${fotoPrimo(...P.parte)}.jpg`, w: (6 / 7) * (9 / 16), h: 1, x: 0.5 - (6 / 7) * (9 / 32), y: 0 };
   else if (P.da) foto = { src: `img/volti/${fotoVolto(P.da)}.jpg` };
@@ -558,6 +617,7 @@ function nuovaRipresa(r) {
 function applica(poi) {
   if (!poi) return;
   if (poi.prova && !S.prove.includes(poi.prova)) {
+    if (visita) fotoProva(poi.prova);
     S.prove.push(poi.prova);
     mettiSulNastro(`p:${poi.prova}`);
     notifica("Sul nastro delle frasi");
@@ -1130,9 +1190,12 @@ function mostraScheda(id, fissa) {
     const dec = S.decisioni[id] || { via: [], provvedimento: "nessuno" };
     for (const [pid, persona] of personeDellaCasa(id)) {
       const riga = el("div", "sc-persona");
-      const foto = el("img", "sc-foto");
-      foto.src = `img/volti/${fotoVolto(pid)}.jpg`;
-      foto.alt = persona.nome;
+      const src = visita ? ritratto(pid) : `img/volti/${fotoVolto(pid)}.jpg`;
+      const foto = el(src ? "img" : "span", src ? "sc-foto" : "sc-foto ignota", src ? null : "?");
+      if (src) {
+        foto.src = src;
+        foto.alt = persona.nome;
+      }
       const testo = el("div", "sc-dati");
       const nome = el("b", null, `${persona.nome[0].toUpperCase()}${persona.nome.slice(1)} `);
       if (S.diagnosi[pid]) nome.append(timbro(D.TIMBRI.find((t) => t.id === S.diagnosi[pid]).testo, S.diagnosi[pid] === "sano" ? "blu" : "rosso"));
@@ -1255,6 +1318,8 @@ async function vaiLuogo(luogo) {
       vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
     }
     await apriVisita(luogo, Object.fromEntries(Object.entries(R.facce).map(([p, f]) => [p, f.a])));
+    // la videocamera tiene la foto di chi c'e' (per il nastro delle frasi e lo stato di famiglia)
+    for (const p of L.persone) ritratto(p, R.facce[p]?.a ?? null);
   } else {
     if (vhs) {
       vhs.mode(L.notte ? "notte" : "giorno");
@@ -1411,6 +1476,7 @@ async function esamina(persona, parte) {
     // la videocamera stringe sulla parte, e la persona la mostra (le mani in avanti, il braccio alzato, la testa piegata)
     disegnaScena();
     await visita.esamina(persona, parte);
+    FOTO[`parte:${S.giorno}:${persona}:${parte}`] ??= visita.scatta()?.toDataURL("image/jpeg", 0.86);
     if (vhs) vhs.hunt();
   } else {
     const z = 3.2;
@@ -1787,10 +1853,12 @@ function rigaStato(casa, r, firmata) {
   riga.dataset.persona = persona;
   // la foto arriva da sola dalla videocamera, quando la persona si e' vista
   const foto = el("div", "sf-foto");
-  if (vista(persona)) {
-    const v = S.volti[persona];
+  const v = S.volti[persona];
+  const src = !vista(persona) ? null : visita ? ritratto(persona, v) || ritratto(persona)
+    : `img/volti/${fotoVolto(persona)}${v && ESPRESSIONI[P.luogo]?.[persona]?.volti.includes(v) ? `_${v}` : ""}.jpg`;
+  if (src) {
     const im = el("img");
-    im.src = `img/volti/${fotoVolto(persona)}${v && ESPRESSIONI[P.luogo]?.[persona]?.volti.includes(v) ? `_${v}` : ""}.jpg`;
+    im.src = src;
     im.alt = P.nome;
     foto.append(el("span", "sf-graffetta"), im);
   } else {
@@ -2110,6 +2178,7 @@ async function sera() {
 // o con la brandina vuota; "Chiudi la porta" riporta nella stanza
 async function controllaOspite() {
   const O = D.OSPITE[S.ospite || "solo"];
+  if (visita && stanza?.mettiPupazzo) return controllaOspite3D(O);
   const quadro = immagine(`img/ospite/${S.ospite ? `ospite_${S.ospite}` : "stanzetta_20"}.jpg`);
   R.occupato = true;
   stanza.socchiudi(true);
@@ -2143,11 +2212,117 @@ async function controllaOspite() {
   await dici(O.controllo, false);
 }
 
+// in plastilina: la porta si socchiude e la videocamera guarda dentro, al buio (la visione notturna, in verde, con la
+// sua lampada infrarossa): l'ospite sulla brandina, o la brandina vuota
+async function controllaOspite3D(O) {
+  const { NOTTE } = await import("./scene3d.js");
+  const chi = S.ospite, N = NOTTE[chi || "solo"];
+  R.occupato = true;
+  // la porta si apre quasi tutta: dalla soglia si vede la brandina
+  stanza.socchiudi(true, false, 1.3);
+  suoni.suona("porta");
+  try {
+    if (chi && N?.stanzetta) {
+      const pp = await visita.prestito(chi);
+      await visita.inPosa(pp, N.stanzetta, D.PERSONE[chi]?.stato || "sano");
+      stanza.mettiPupazzo(pp);
+    }
+  } catch (err) {
+    console.warn("L'ospite non si vede:", err);
+  }
+  await new Promise((r) => setTimeout(r, 600));
+  S.schermo = "stanzetta";
+  pulisci();
+  osdRec();
+  osd.modo.textContent = "NOTTE";
+  // pulisci() ferma la stanza: qui la si riprende ancora
+  mostra(stanza.canvas, IMG.scrivania.src);
+  vhs.prima = (dt) => { stanza.passo(dt); vhs.refresh(); };
+  if (vhs) {
+    vhs.mode("notte");
+    vhs.setLuce(0);
+    vhs.setHeat(null);
+    vhs.setDark(0);
+    vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+    vhs.hunt();
+  }
+  stanza.inquadra([1.85, 1.5, 1.7], [4.0, 0.6, 1.75], 50);
+  stanza.notte([1.9, 1.55, 1.6], [4.0, 0.5, 1.75], 2.2);
+  tasti(tasto("Chiudi la porta", () => {
+    stanza.togliPupazzi();
+    stanza.notte(null);
+    stanza.socchiudi(false);
+    suoni.suona("porta", { volume: 0.5 });
+    vaiStanza("ospite");
+  }, "indietro", true));
+  aiuto("Chiudi la porta per tornare nella stanza.");
+  R.occupato = false;
+  await dici(O.controllo, false);
+}
+
+// il nastro della notte in plastilina: la stanza ripresa dalla maschera rimasta accesa sulla scrivania, al buio, con la
+// sua lampada infrarossa; il medico dorme sotto la coperta. Tre riprese: la stanza ferma, la porta della stanzetta
+// aperta (con l'ospite, o qualcosa nel buio), l'ospite (o la cosa nera) accanto al letto
+async function nastroNotte3D(O) {
+  const { NOTTE } = await import("./scene3d.js");
+  const chi = S.ospite;
+  const N = NOTTE[chi || (S.giorno >= 2 ? "solo2" : "solo")] || NOTTE.solo;
+  // la cosa nera e' un pupazzo in piu': lo si carica subito, mentre scorre la prima ripresa
+  if (N.nastro.some((q) => q?.cosa)) visita.prestito("cosa").catch(() => {});
+  S.schermo = "nastro-notte";
+  pulisci();
+  osdPlay();
+  osd.modo.textContent = "NOTTE";
+  if (vhs) {
+    vhs.mode("notte");
+    vhs.setLuce(0);
+    vhs.setHeat(null);
+    vhs.setDark(0);
+    vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+  }
+  aiuto("Il nastro della notte: la maschera è rimasta accesa sulla scrivania.");
+  suoni.suona("videoregistratore");
+  suoni.ambiente("nastro", "notte");
+  mostra(stanza.canvas, IMG.scrivania.src);
+  vhs.prima = (dt) => { stanza.passo(dt); vhs.refresh(); };
+  // la maschera in fondo alla scrivania, accanto al videoregistratore: larga come le videocamere di sorveglianza, prende
+  // il letto, il cappotto e la porta della stanzetta
+  const MASCHERA = [0.0, 1.25, -2.42], GUARDA = [2.4, 0.55, -0.8];
+  stanza.inquadra(MASCHERA, GUARDA, 70);
+  stanza.notte(MASCHERA, GUARDA, 3.2);
+  stanza.dormiente(true);
+  for (let i = 0; i < 3; i++) {
+    const q = N.nastro[i];
+    stanza.togliPupazzi();
+    stanza.socchiudi(!!q?.porta, true, 1.25);
+    if (q) {
+      try {
+        const pp = await visita.prestito(q.cosa ? "cosa" : chi);
+        await visita.inPosa(pp, q, D.PERSONE[chi]?.stato || "sano");
+        stanza.mettiPupazzo(pp);
+      } catch (err) {
+        console.warn("Il nastro della notte senza pupazzo:", err);
+      }
+    }
+    if (vhs) vhs.burst(0.45);
+    if (!chi && i > 0) suoni.suona("malvento", { volume: 0.8 + 0.2 * i, ritardo: 0.3 });
+    await dici([[null, O.nastro[i]]], false);
+    await attendi(7000);
+  }
+  // la mattina: la stanza com'era
+  stanza.togliPupazzi();
+  stanza.dormiente(false);
+  stanza.socchiudi(false, true);
+  stanza.notte(null);
+  osdSpento();
+}
+
 // il nastro della notte: la maschera e' rimasta accesa sulla scrivania. Tre riprese al buio, in verde, ognuna con
 // la sua frase; si guarda la mattina, prima del resoconto
 async function nastroNotte() {
   const chi = S.ospite;
   const O = D.OSPITE[chi || "solo"];
+  if (visita && stanza?.mettiPupazzo) return nastroNotte3D(O);
   // la seconda notte chi dorme solo ha le sue riprese (la cosa nera piu' vicina): "immagini"
   const quadri = O.immagini || ["notte_dorme", ...(chi ? [`notte_${chi}_1`, `notte_${chi}_2`] : ["notte_solo_1", "notte_solo_2"])];
   let imgs;
@@ -2575,8 +2750,9 @@ async function iniziaGiorno2() {
   // le scene di oggi (con chi e' rimasto in casa) e i primi piani nuovi; sul telefono ci vuole qualche secondo
   parole.scrivi(null, "Riavvolgo i nastri…", { lato: "sotto" }, {}, { veloce: true });
   try {
-    await caricaLuoghi(D.LUOGHI);
+    if (visitaPronta && !visita) await visitaPronta;
     if (visita) await visita.prepara(D.LUOGHI);
+    else await caricaLuoghi(D.LUOGHI);
   } catch (err) {
     notifica("Le scene del secondo giorno non si caricano");
     console.error(err);
@@ -2788,16 +2964,20 @@ function riempiCaricamento(f) {
 
 // le visite in plastilina: stanze e pupazzi del giorno, caricati in sottofondo
 async function caricaVisite() {
-  if (!vhs) return;
+  if (!vhs || !conWebgl2) return;
   try {
     const { Visita3D } = await import("./visita3d.js");
-    if (!Visita3D.disponibile()) return;
+    if (!Visita3D.disponibile()) throw new Error("niente WebGL 2");
     const v = new Visita3D();
     await v.prepara(D.LUOGHI, (f) => { R.caricoVisite = f; });
     visita = v;
   } catch (err) {
     console.warn("Visite 3D non disponibili:", err);
     visita = null;
+    // si torna alle scene 2D di prima (intanto chi entra in una casa aspetta)
+    await caricaLuoghi(D.LUOGHI).catch((e) => notifica(`Non riesco a caricare ${e.message}`));
+    visitaPronta = null;
+    precaricaPrimi();
   }
 }
 
@@ -2869,14 +3049,14 @@ async function avvia(dati) {
   R.mctx = m.getContext("2d");
   R.mappa = m;
   await caricaStanza();
-  visitaPronta = caricaVisite();
   parole.pulisci();
   if (dati && dati.S) S = Object.assign(nuovoStato(), dati.S);
   // ripreso a meta' del secondo giorno (il codice ricaricato tiene lo stato): le tabelle e le scene di quel giorno
   if (S.giorno === 2) {
     D = { ...D1, ...giorno2(S.ieri) };
-    await caricaLuoghi(D.LUOGHI).catch(() => {});
+    if (!vhs || !conWebgl2) await caricaLuoghi(D.LUOGHI).catch(() => {});
   }
+  visitaPronta = caricaVisite();
   if (S.schermo === "visita" && S.casa && S.luogo) vaiLuogo(S.luogo);
   else if (S.schermo === "mappa") vaiMappa();
   else if (S.schermo === "scrivania") vaiScrivania();
@@ -2906,7 +3086,7 @@ async function avvia(dati) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash === "#prova") window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, verita, dormi, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
+if (location.hash === "#prova") window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);

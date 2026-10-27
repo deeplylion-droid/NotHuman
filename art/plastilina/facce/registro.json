@@ -30,7 +30,12 @@
       "output_format": "png",
       "num_images": 1
     },
-    "errore": "403 https://queue.fal.run/fal-ai/nano-banana-pro/edit: {\"detail\":\"User is locked. Reason: Exhausted balance. Top up your balance at fal.ai/dashboard/billing.\"}"
+    "file": [
+      "uomo_arrabbiato.png"
+    ],
+    "seed": null,
+    "secondi": 23,
+    "descrizione": ""
   },
   "uomo_grave": {
     "modello": "fal-ai/nano-banana-pro/edit",
@@ -44,7 +49,12 @@
       "output_format": "png",
       "num_images": 1
     },
-    "errore": "403 https://queue.fal.run/fal-ai/nano-banana-pro/edit: {\"detail\":\"User is locked. Reason: Exhausted balance. Top up your balance at fal.ai/dashboard/billing.\"}"
+    "file": [
+      "uomo_grave.png"
+    ],
+    "seed": null,
+    "secondi": 25,
+    "descrizione": ""
   },
   "giovane_piange": {
     "modello": "fal-ai/nano-banana-pro/edit",
@@ -58,7 +68,12 @@
       "output_format": "png",
       "num_images": 1
     },
-    "errore": "403 https://queue.fal.run/fal-ai/nano-banana-pro/edit: {\"detail\":\"User is locked. Reason: Exhausted balance. Top up your balance at fal.ai/dashboard/billing.\"}"
+    "file": [
+      "giovane_piange.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
   },
   "giovane_febbre": {
     "modello": "fal-ai/nano-banana-pro/edit",
@@ -72,7 +87,12 @@
       "output_format": "png",
       "num_images": 1
     },
-    "errore": "403 https://queue.fal.run/fal-ai/nano-banana-pro/edit: {\"detail\":\"User is locked. Reason: Exhausted balance. Top up your balance at fal.ai/dashboard/billing.\"}"
+    "file": [
+      "giovane_febbre.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
   },
   "nonna_base": {
     "modello": "fal-ai/nano-banana-pro/edit",
@@ -86,7 +106,12 @@
       "output_format": "png",
       "num_images": 1
     },
-    "errore": "403 https://queue.fal.run/fal-ai/nano-banana-pro/edit: {\"detail\":\"User is locked. Reason: Exhausted balance. Top up your balance at fal.ai/dashboard/billing.\"}"
+    "file": [
+      "nonna_base.png"
+    ],
+    "seed": null,
+    "secondi": 24,
+    "descrizione": ""
   },
   "uomo_nervoso": {
     "modello": "fal-ai/nano-banana-pro/edit",
@@ -162,6 +187,63 @@
     ],
     "seed": null,
     "secondi": 24,
+    "descrizione": ""
+  },
+  "figlia_febbre_piange": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make her cry: the eyes red and wet, with reddened, swollen rims, the inner ends of the eyebrows raised in grief, the corners of the mouth pulled down and the lips slightly apart and trembling, and a few glistening clear tears running from the inner corners of the eyes down both cheeks. Only the small shine of the tears. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:figlia_febbre.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia_febbre_piange.png"
+    ],
+    "seed": null,
+    "secondi": 23,
+    "descrizione": ""
+  },
+  "nonna_febbre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make her feverish: glassy watery eyes with reddened rims, flushed red cheeks and nose, a sheen of sweat on the forehead and temples, dry slightly cracked pale lips. Only the small shine of the sweat. Keep the clouded left eye and the single tooth. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:nonna_base.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nonna_febbre.png"
+    ],
+    "seed": null,
+    "secondi": 23,
+    "descrizione": ""
+  },
+  "uomo_grave_arrabbiato": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make him furious: the eyebrows pulled down hard into a deep frown with deep creases between them, glaring eyes, flared nostrils, the mouth open in an angry shout showing the teeth. Keep the blood at the mouth and the sickly sweaty skin. Keep exactly the same puppet face with every feature in exactly the same position and size (the eyes, the eyebrows, the nose, the mouth, the teeth, the ears, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:uomo_grave.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_grave_arrabbiato.png"
+    ],
+    "seed": null,
+    "secondi": 23,
     "descrizione": ""
   }
 }
