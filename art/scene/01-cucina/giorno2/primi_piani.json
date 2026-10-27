@@ -1,0 +1,25 @@
+{
+  "padre": {
+    "riferimento": "riferimento_padre.jpg",
+    "scheda": "padre",
+    "aspetto": "a gaunt man in his fifties with messy dark hair and bulging eyes, in a worn denim jacket over a grey t-shirt, very sick with the plague: pale skin shiny with sweat",
+    "parti": {
+      "occhi": "His eyes are glassy, red-rimmed and watery with very high fever, the whites bloodshot, heavy dark rings under them, drops of sweat on his forehead and temples.",
+      "bocca": "Dry, cracked lips with a little dried blood in the cracks, yellowed bad teeth; he breathes with his mouth half open.",
+      "collo": {"inquadratura": "the left side of his neck under the jaw, the jacket collar pulled aside",
+                "segni": "A big hard swelling the size of an egg under the jaw, dark purple and shiny, with a small open crusted sore in the middle; the collar of the grey t-shirt is stained."},
+      "ascelle": {"inquadratura": "his left armpit: he lifts his arm, the denim jacket and the grey t-shirt pulled up",
+                  "segni": "A hard dark red swelling the size of a walnut in the armpit, the skin around it stretched and shiny with sweat."},
+      "mani": "Trembling, sweaty hands with mechanic's grease under the nails; the tips of two fingers are turning dark, bluish black."
+    }
+  },
+  "figlia": {
+    "riferimento": "../riferimento_figlia.jpg",
+    "scheda": "figlia",
+    "aspetto": "a thin young woman in her twenties with long dark hair, in a purple hoodie with a grey wool blanket around her shoulders, sick with a fever",
+    "parti": {
+      "occhi": "Her eyes are glassy and shining with fever, the rims red, dark circles under them, her cheeks flushed red, sweat on her forehead and damp hair stuck to her temples.",
+      "collo": "The side of her thin neck under the ear: a small, hard swelling just beginning, pink and tender; the skin is damp with sweat."
+    }
+  }
+}

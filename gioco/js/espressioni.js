@@ -9,4 +9,10 @@ export const ESPRESSIONI = {
     uomo: { box: [0.56, 0.03222, 0.68625, 0.31222], volti: ["nervoso", "arrabbiato"] },
     giovane: { box: [0.4575, 0.16222, 0.54125, 0.36222], volti: ["piange"] },
   },
+  cucina2: {
+    figlia: { box: [0.445, 0.22556, 0.51, 0.35889], volti: ["piange"] },
+  },
+  soggiorno2: {
+    uomo: { box: [0.56125, 0.03222, 0.68625, 0.31222], volti: ["arrabbiato"] },
+  },
 };

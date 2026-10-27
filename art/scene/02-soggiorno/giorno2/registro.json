@@ -1,0 +1,84 @@
+{
+  "persone_grezza": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "The images after the first one are character reference sheets, one per person (each shows the same person five times: front, three-quarter view, profile, back and a close-up of the face). Use them only to keep each person's face and body identical; every person appears only once, in the first image's place. The second image is the reference sheet of the very old woman, the third of the young woman, the fourth of the man. Edit the first image, one day later. The three people stay in the same places, at the same size, with the same clothes, but they no longer hold hands. The very old woman with white hair, on the left, leans on her walking stick with both hands and coughs into a crumpled white handkerchief. The pale young woman with long dark hair in the grey cardigan, in the middle, stands with her arms crossed over her chest, shivering. The stocky man in the navy tracksuit, on the right in front of the door, is now gravely ill with the plague, but he is still a living man with exactly the same face, the same skin tone and the same eyes: his skin is pale and shiny with sweat (not grey), his eyes are glassy and red-rimmed with fever, there is a swollen lump under his jaw; he coughs into a white handkerchief with a few bright red spots of blood on it, and a thin trickle of blood runs from the corner of his mouth. He must not look like a zombie or a corpse. Also remove the black leather gloved hand holding the wooden cane in the lower right foreground. Keep the room, the furniture, the camera, the framing and the light exactly identical, pixel for pixel. The people keep the same grotesque but almost photographic features: bulging eyes, crooked noses, bad teeth, sunken cheeks. Realistic photograph, no text, no border.",
+      "image_urls": [
+        "@file:../ammorbiditi.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/nonna.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/giovane.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/uomo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "persone_grezza.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "bastone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../persone.jpg",
+      "prompt": "cane",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "bastone.png",
+      "bastone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../persone_febbre.jpg",
+      "prompt": "person",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "persone.png",
+      "persone_maschera1.png",
+      "persone_maschera2.png",
+      "persone_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "persone_febbre_grezza": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "The images after the first one are character reference sheets, one per person (each shows the same person five times: front, three-quarter view, profile, back and a close-up of the face). Use them only to keep each person's face and body identical; every person appears only once, in the first image's place. The second image is the reference sheet of the young woman. Edit the first image: change only the pale young woman with long dark hair in the grey cardigan, in the middle: she now has a fever: flushed red cheeks, glassy shining eyes, sweat on her forehead and temples, damp hair stuck to her face. Her pose, her clothes and her place stay the same. The other two people stay exactly identical, pixel for pixel. Keep the room, the furniture, the camera, the framing and the light exactly identical, pixel for pixel. The people keep the same grotesque but almost photographic features: bulging eyes, crooked noses, bad teeth, sunken cheeks. Realistic photograph, no text, no border.",
+      "image_urls": [
+        "@file:persone.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/giovane.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "persone_febbre_grezza.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  }
+}

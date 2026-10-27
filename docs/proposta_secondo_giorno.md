@@ -1,6 +1,6 @@
 # Il secondo giorno: proposta
 
-Proposta di Claude del 27 ottobre, da approvare. Oggi il prototipo finisce dopo la prima notte, con il resoconto, il giornale e la verità. Il secondo giorno fa contare le scelte del primo ("tornare domani", il lazzaretto, l'ospite, il contagio che passa ai vicini) e mostra il ciclo dei giorni, che è il cuore del gioco.
+Proposta di Claude del 27 ottobre, da approvare. **Realizzata come bozza nel prototipo la stessa notte** (com'è fatta: `docs/riepilogo.md`, "Il secondo giorno (bozza)"); rispetto a qui il padre resta in cucina, appoggiato al mobile, e il ragazzo non si trova in cantina: lo si scopre soltanto. Oggi il prototipo finisce dopo la prima notte, con il resoconto, il giornale e la verità. Il secondo giorno fa contare le scelte del primo ("tornare domani", il lazzaretto, l'ospite, il contagio che passa ai vicini) e mostra il ciclo dei giorni, che è il cuore del gioco.
 
 ## La mattina
 

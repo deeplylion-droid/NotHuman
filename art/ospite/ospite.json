@@ -35,6 +35,7 @@
     "notte_madre_2": {"base": "notte", "sopra": "notte_dorme", "persona": "madre", "azione": "She stands at the side of the iron bed, wrapped in her green plaid blanket, staring down at the man asleep under the covers, one hand with black shrivelled fingertips reaching toward him."},
 
     "notte_solo_1": {"base": "notte", "sopra": "notte_dorme", "azione": "The door of the small room at the back is ajar on complete darkness; in the gap stands a tall, thin, dark shape, darker than the dark, with no face and no features, like the shadow of a person."},
-    "notte_solo_2": {"base": "notte", "sopra": "notte_dorme", "azione": "A tall, thin, dark shape with no face and no features, like the shadow of a person with very long arms, stands at the foot of the iron bed, bent over the man asleep under the covers."}
+    "notte_solo_2": {"base": "notte", "sopra": "notte_dorme", "azione": "A tall, thin, dark shape with no face and no features, like the shadow of a person with very long arms, stands at the foot of the iron bed, bent over the man asleep under the covers."},
+    "notte_solo_3": {"base": "notte", "sopra": "notte_dorme", "azione": "A tall, thin, dark shape with no face and no features, like the shadow of a person with very long arms, sits on the edge of the iron bed, right next to the man asleep under the covers, one long dark hand resting on the bedspread over his chest. The room is still."}
   }
 }

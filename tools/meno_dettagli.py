@@ -55,7 +55,21 @@ def immagini():
         for persona in prepara_gioco.ESPRESSIONI.get(luogo, {}):
             for volto in prepara_gioco.ESPRESSIONI[luogo][persona]:
                 out[next((ROOT / "art/espressioni").glob(f"{persona}_{volto}.*"))] = persone
-    for cartella, persone in prepara_gioco.PRIMI.items():
+    # le espressioni del secondo giorno, con le maschere delle persone della loro variante
+    for luogo, persone in prepara_gioco.ESPRESSIONI2.items():
+        maschere = [p for _, _, src, paths in prepara_gioco.GIORNO2[luogo]["strati"].values() if "/giorno2/" in src for p in paths]
+        for persona, volti in persone.items():
+            for volto in volti:
+                for f in (ROOT / "art/espressioni/giorno2").glob(f"{persona}_{volto}.*"):
+                    if f.suffix in (".png", ".jpg"):
+                        out[f] = maschere
+    # il secondo giorno: le varianti con le persone cambiate, con le maschere di chi se ne prende
+    for G in prepara_gioco.GIORNO2.values():
+        for _, _, src, paths in G["strati"].values():
+            if "/giorno2/" in src:
+                lista = out.setdefault(ROOT / src, [])
+                lista += [p for p in paths if p not in lista]
+    for cartella, persone in {**prepara_gioco.PRIMI, **prepara_gioco.PRIMI2}.items():
         for f in sorted((ROOT / cartella).glob("*.jpg")):
             if f.stem.split("_")[0] in persone:
                 out[f] = None

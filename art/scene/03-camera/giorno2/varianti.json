@@ -1,0 +1,18 @@
+{
+  "maschere_da": [
+    "../maschere/persone_maschera1.png"
+  ],
+  "varianti": {
+    "persone": {
+      "da": "../finale.jpg",
+      "schede": [
+        "madre"
+      ],
+      "prompt": "The second image is the reference sheet of the woman. Edit the first image, one day later. The woman is now dead: she lies on her back in the same iron bed, her head on the white pillow, the white sheet and the green checked blanket pulled up to her chest; her eyes are closed, her mouth slightly open, her skin waxy and grey; her bony hands are folded on her chest around a wooden rosary, and the tips of her fingers are black. She no longer sits on the edge of the bed, and her feet are not visible. She is a realistic photograph with real skin, real hair and real fabric, exactly as she is in the first image, not a drawing, with the same grotesque but almost photographic features. The bed, the nightstand with the lamp, the window and the wardrobe stay exactly where they are, in the same style as in the first image.",
+      "ritagli": [
+        "person",
+        "bed"
+      ]
+    }
+  }
+}

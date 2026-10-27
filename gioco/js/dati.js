@@ -64,7 +64,8 @@ export const LUOGHI = {
     nascosti: [{ x: 0.433, y: 0.37, rx: 0.03, ry: 0.06, prova: "calore_corridoio" }],
   },
   camera: {
-    casa: "casa3", notte: true,
+    // dietro la porta del corridoio: si torna in cucina, e chi c'e' si conosce entrando
+    casa: "casa3", notte: true, ritorno: "cucina", conosci: ["madre"],
     persone: ["madre"],
     frasi: { madre: [0.635, 0.15, "destra"] },
     parti: {

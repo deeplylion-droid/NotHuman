@@ -1,0 +1,122 @@
+{
+  "uomo_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a stocky man in his fifties with curly grey hair, bulging eyes and a grimacing mouth, in a stained navy tracksuit with white stripes, very sick with the plague: pale skin shiny with sweat), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A few small dark red spots on his chapped lips and in the grey stubble of his chin, and a thin dark red line at the corner of his mouth, as after a bad cough; yellowed teeth with a gap. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_uomo.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/uomo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "uomo_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a stocky man in his fifties with curly grey hair, bulging eyes and a grimacing mouth, in a stained navy tracksuit with white stripes, very sick with the plague: pale skin shiny with sweat), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. His eyes are glassy and red-rimmed with high fever, the whites bloodshot, heavy dark rings under them, drops of sweat on his forehead. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_uomo.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/uomo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "uomo_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of the neck, from under the jaw to the collarbone of the person in the reference image (a stocky man in his fifties with curly grey hair, bulging eyes and a grimacing mouth, in a stained navy tracksuit with white stripes, very sick with the plague: pale skin shiny with sweat), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A thick, sweaty neck with grey stubble: under the jaw a hard swelling the size of an egg, red and shiny. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_uomo.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/uomo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_collo.png"
+    ],
+    "seed": null,
+    "secondi": 31,
+    "descrizione": ""
+  },
+  "uomo_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of one big hand held out palm up, from the wrist to the fingertips of the person in the reference image (a stocky man in his fifties with curly grey hair, bulging eyes and a grimacing mouth, in a stained navy tracksuit with white stripes, very sick with the plague: pale skin shiny with sweat), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Bright red blood smeared in the palm and on the fingers, as if he had just coughed into his hand; cracked knuckles, short dirty nails, sweaty skin. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_uomo.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/uomo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "uomo_mani.png"
+    ],
+    "seed": null,
+    "secondi": 31,
+    "descrizione": ""
+  },
+  "giovane_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a very pale young woman in her twenties with long dark hair, bulging tired eyes and sunken cheeks, in a long grey cardigan, sick with a fever), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Her eyes are glassy and shining with fever, the rims red, her cheeks flushed, sweat on her forehead and damp hair stuck to her temples. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:../riferimento_giovane.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/giovane.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giovane_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 31,
+    "descrizione": ""
+  },
+  "nonna_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a very old woman in her eighties with thin white hair, bulging eyes and a hooked nose, in a quilted dark floral housecoat, sick with a fever), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Very old eyes clouded with milky cataracts, now red-rimmed, watery and glassy with fever, deep wrinkles all around, sweat on her forehead. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:../riferimento_nonna.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/nonna.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nonna_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 28,
+    "descrizione": ""
+  }
+}

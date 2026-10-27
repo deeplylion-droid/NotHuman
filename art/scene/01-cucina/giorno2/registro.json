@@ -1,0 +1,44 @@
+{
+  "persone_grezza": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "The images after the first one are character reference sheets, one per person (each shows the same person five times: front, three-quarter view, profile, back and a close-up of the face). Use them only to keep each person's face and body identical; every person appears only once, in the first image's place. The second image is the reference sheet of the man, the third of the young woman. Edit the first image, one day later: change only how sick the two people look. Keep exactly their grotesque, deformed features from the first image: the same bulging eyes, crooked noses, bad teeth, sunken cheeks, bony elongated fingers, the same proportions and silhouettes; do not make them look more normal, and do not turn them into zombies or corpses. The gaunt man in the denim jacket in the left foreground is much sicker than yesterday: his skin is pale and shiny with sweat, his bulging eyes are red-rimmed and glassy with high fever, his lips are dry and cracked; under the left side of his jaw the hard swelling has grown and turned dark purple, with a small open crusted sore in the middle; he is hunched and leans one hand against the kitchen counter as if he could fall. The young woman in the purple hoodie in the doorway at the back now has a fever: flushed red cheeks, glassy shining eyes, sweat on her forehead, a grey wool blanket wrapped around her shoulders. Both stay in the same places, at the same size, with the same clothes. Everything else in the image, including the room, the table with the plates, the drawing style of the room and the gloved hand with the cane in the lower right corner, stays exactly identical. Keep the room, the furniture, the camera, the framing and the light exactly identical, pixel for pixel. The people keep the same grotesque but almost photographic features: bulging eyes, crooked noses, bad teeth, sunken cheeks. Realistic photograph, no text, no border.",
+      "image_urls": [
+        "@file:../../../prove-stile/11-personaggi-50/personaggi_foto_allineati.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/padre.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/figlia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "persone_grezza.png"
+    ],
+    "seed": null,
+    "secondi": 43,
+    "descrizione": ""
+  },
+  "persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../persone.jpg",
+      "prompt": "person",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "persone.png",
+      "persone_maschera1.png",
+      "persone_maschera2.png",
+      "persone_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  }
+}

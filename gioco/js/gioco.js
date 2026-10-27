@@ -2,7 +2,8 @@
 // visite (REC, zoom, le frasi addosso a chi parla, le domande a raggiera, il nastro delle frasi da contestare,
 // le porte), lo stato di famiglia, i nastri della sera all'infrarosso e la notte.
 import { Vhs } from "./vhs.js";
-import * as D from "./dati.js";
+import * as D1 from "./dati.js";
+import { giorno2, verita2, giornale3 } from "./giorno2.js";
 import { ESPRESSIONI } from "./espressioni.js";
 import { Parole, Ruota, Striscia, Segni } from "./parole.js";
 import { icona, pittogramma } from "./icone.js";
@@ -48,6 +49,10 @@ const suoni = new Suoni();
 const ruota = new Ruota($("#ruota"));
 const striscia = new Striscia(nastroFrasi, $("#nastro-scorri"), segni);
 
+// i contenuti del giorno: quelli di dati.js, e dal secondo giorno quelli di giorno2.js al posto delle tabelle che
+// cambiano (persone, scene, domande, esami, frasi, fax...)
+let D = { ...D1 };
+
 const W = 1600, H = 900;
 const IMG = {};
 const ID = {};
@@ -69,6 +74,9 @@ function nuovoStato() {
     ospite: null,
     // la pazienza di ogni famiglia e le case da cui ti hanno cacciato
     pazienza: {}, cacciato: {},
+    // il giorno (la bozza ne ha due), i giorni passati (diagnosi e morti, per la verita' alla fine) e il giornale
+    // di stamattina
+    giorno: 1, giorni: [], giornale: null,
   };
 }
 let S = nuovoStato();
@@ -94,18 +102,28 @@ const carica = (src) => new Promise((res, rej) => {
 
 async function caricaTutto() {
   const lista = { scrivania: "img/scrivania.jpg", mappa: "img/mappa.jpg" };
-  for (const [luogo, L] of Object.entries(D.LUOGHI)) {
-    lista[luogo] = `img/${luogo}.jpg`;
-    lista[`${luogo}_persone`] = `img/${luogo}_persone.png`;
-    lista[`${luogo}_calore`] = `img/${luogo}_calore.png`;
-    for (const p of L.persone) lista[`${luogo}_${p}`] = `img/${luogo}_${p}.png`;
+  const voci = await Promise.all(Object.entries(lista).map(async ([k, src]) => [k, await carica(src)]));
+  for (const [k, im] of voci) IMG[k] = im;
+  await caricaLuoghi(D.LUOGHI);
+}
+
+// le scene di un giorno: l'immagine, le persone (un grigio per persona), il calore, le sagome, le espressioni. Il nome
+// dei file e' quello del luogo, o "img" (le scene del secondo giorno cambiano con chi e' rimasto in casa)
+async function caricaLuoghi(luoghi) {
+  const lista = {};
+  for (const [luogo, L] of Object.entries(luoghi)) {
+    const f = L.img || luogo;
+    lista[luogo] = `img/${f}.jpg`;
+    lista[`${luogo}_persone`] = `img/${f}_persone.png`;
+    lista[`${luogo}_calore`] = `img/${f}_calore.png`;
+    for (const p of L.persone) lista[`${luogo}_${p}`] = `img/${f}_${p}.png`;
     for (const [persona, E] of Object.entries(ESPRESSIONI[luogo] || {}))
       for (const volto of E.volti) lista[`esp_${luogo}_${persona}_${volto}`] = `img/espressioni/${luogo}_${persona}_${volto}.png`;
   }
   const voci = await Promise.all(Object.entries(lista).map(async ([k, src]) => [k, await carica(src)]));
   for (const [k, im] of voci) IMG[k] = im;
   // mappe dei personaggi: un grigio per persona (40, 80, 120...) da leggere sotto il puntatore
-  for (const luogo of Object.keys(D.LUOGHI)) {
+  for (const luogo of Object.keys(luoghi)) {
     const im = IMG[`${luogo}_persone`];
     const c = document.createElement("canvas");
     c.width = im.naturalWidth; c.height = im.naturalHeight;
@@ -119,8 +137,13 @@ async function caricaTutto() {
 const IMMAGINI = {};
 const immagine = (src) => (IMMAGINI[src] ||= carica(src));
 
+// il primo piano di una parte del corpo: quello del primo giorno, o "foto" se oggi e' cambiata (img/pp/g2/...)
+function fotoPrimo(persona, parte) {
+  return D.ESAMI[persona]?.[parte]?.foto || `${persona}_${parte}`;
+}
+
 function primoPiano(persona, parte) {
-  const k = `${persona}_${parte}`;
+  const k = fotoPrimo(persona, parte);
   if (!PRIMI[k]) PRIMI[k] = carica(`img/pp/${k}.jpg`);
   return PRIMI[k];
 }
@@ -480,22 +503,28 @@ function ritaglioZona(luogo, zid) {
   const [x0, y0, x1, y1] = z.box;
   const h = clamp((y1 - y0) * 1.15, 0.22, 0.6);
   const w = h * (6 / 7) * (9 / 16);
-  return { src: `img/${luogo}.jpg`, w, h, x: clamp((x0 + x1) / 2 - w / 2, 0, 1 - w), y: clamp((y0 + y1) / 2 - h / 2, 0, 1 - h) };
+  return { src: `img/${D.LUOGHI[luogo]?.img || luogo}.jpg`, w, h, x: clamp((x0 + x1) / 2 - w / 2, 0, 1 - w), y: clamp((y0 + y1) / 2 - h / 2, 0, 1 - h) };
+}
+
+// la foto di una persona (per lo stato di famiglia, la scheda della casa, il nastro delle frasi): quella del primo
+// giorno, o "volto" se oggi la faccia e' cambiata (img/volti/g2/...)
+function fotoVolto(persona) {
+  return D.PERSONE[persona]?.volto || persona;
 }
 
 function fotogramma(v) {
   const k = v.id.slice(2);
   if (v.id.startsWith("d:")) {
     const d = D.DICHIARAZIONI[k];
-    const volto = v.volto && ESPRESSIONI[D.PERSONE[d.chi].luogo]?.[d.chi]?.volti.includes(v.volto) ? `_${v.volto}` : "";
-    return { id: v.id, tipo: "detta", foto: { src: `img/volti/${d.chi}${volto}.jpg` }, testo: d.testo,
-      meta: D.PERSONE[d.chi].voce, icona: icona("fumetto") };
+    const volto = v.volto && ESPRESSIONI[D.PERSONE[d.chi]?.luogo]?.[d.chi]?.volti.includes(v.volto) ? `_${v.volto}` : "";
+    return { id: v.id, tipo: "detta", foto: { src: `img/volti/${fotoVolto(d.chi)}${volto}.jpg` }, testo: d.testo,
+      meta: D.PERSONE[d.chi]?.voce || "", icona: icona("fumetto") };
   }
   const P = D.PROVE[k];
   let foto = null;
   if (P.zona) foto = ritaglioZona(...P.zona);
-  else if (P.parte) foto = { src: `img/pp/${P.parte[0]}_${P.parte[1]}.jpg`, w: (6 / 7) * (9 / 16), h: 1, x: 0.5 - (6 / 7) * (9 / 32), y: 0 };
-  else if (P.da) foto = { src: `img/volti/${P.da}.jpg` };
+  else if (P.parte) foto = { src: `img/pp/${fotoPrimo(...P.parte)}.jpg`, w: (6 / 7) * (9 / 16), h: 1, x: 0.5 - (6 / 7) * (9 / 32), y: 0 };
+  else if (P.da) foto = { src: `img/volti/${fotoVolto(P.da)}.jpg` };
   if (foto && P.ir) foto.filtro = "ir";
   return { id: v.id, tipo: "prova", foto, testo: P.breve, meta: P.ir ? "NASTRO IR" : "INDIZIO", icona: icona(P.ir ? "fiamma" : "lente") };
 }
@@ -756,7 +785,8 @@ const ZOOM_LENTE = 2.4;
 let lenteInMano = !matchMedia("(pointer: coarse)").matches;
 
 function apriGiornale(domani) {
-  const g = domani ? giornaleDomani() : D.GIORNALE;
+  const g = domani ? (S.giorno === 1 ? giornaleDomani() : giornale3(S.notte, S)) : S.giornale || D.GIORNALE;
+  if (domani) S.giornaleDomani = g;
   suoni.suona("giornale");
   const stampa = el("div", "gio-stampa");
   const carta = el("img", "gio-carta");
@@ -792,7 +822,8 @@ function apriGiornale(domani) {
   leggibile.append(el("h2", null, g.titolo), el("p", "gio-l-sommario", g.sommario), el("p", null, g.articolo),
     el("p", null, `LETTERE · ${g.lettera}`), el("p", null, g.breve));
   const corpo = [stampa, leggibile];
-  if (domani) corpo.push(azioni([["Com'era davvero", verita]]));
+  // dopo la prima notte comincia il secondo giorno; dopo la seconda, la verita'
+  if (domani) corpo.push(azioni([S.giorno === 1 ? ["Il secondo giorno", iniziaGiorno2] : ["Com'era davvero", verita]]));
   apriFoglio("giornale", corpo);
   const proietta = () => {
     const r = stampa.getBoundingClientRect();
@@ -1090,7 +1121,7 @@ function mostraScheda(id, fissa) {
     for (const [pid, persona] of personeDellaCasa(id)) {
       const riga = el("div", "sc-persona");
       const foto = el("img", "sc-foto");
-      foto.src = `img/volti/${pid}.jpg`;
+      foto.src = `img/volti/${fotoVolto(pid)}.jpg`;
       foto.alt = persona.nome;
       const testo = el("div", "sc-dati");
       const nome = el("b", null, `${persona.nome[0].toUpperCase()}${persona.nome.slice(1)} `);
@@ -1200,7 +1231,8 @@ async function vaiLuogo(luogo) {
   const L = D.LUOGHI[luogo];
   pulisci();
   R.primo = null;
-  suoni.ambiente("nastro", luogo);
+  // il suono del posto: di base quello col suo nome; "ambiente" per un altro (null: solo il nastro)
+  suoni.ambiente(...["nastro", L.ambiente === undefined ? luogo : L.ambiente].filter(Boolean));
   if (vhs) {
     vhs.mode(L.notte ? "notte" : "giorno");
     vhs.setLuce(L.notte ? 0 : 1);
@@ -1220,13 +1252,15 @@ async function vaiLuogo(luogo) {
   nuovaRipresa({ tipo: "scena", luogo });
   if (!S.visti[luogo]) {
     S.visti[luogo] = true;
-    if (luogo === "camera") S.conosciute.madre = true;
+    // chi si conosce entrando (la madre nascosta in camera) e chi si trova morto
+    for (const p of L.conosci || []) S.conosciute[p] = true;
+    for (const p of L.morti || []) S.morti[p] = true;
     await dici(D.ARRIVO[luogo]);
   }
 }
 
 function hudVisita() {
-  tasti(...(S.luogo === "camera" ? [tasto("Torna in cucina", () => tornaCucina(), "indietro")] : []),
+  tasti(...(D.LUOGHI[S.luogo].ritorno ? [tasto("Torna in cucina", () => tornaCucina(), "indietro")] : []),
     tasto("Stato di famiglia", () => apriStato(S.casa), "foglio"),
     tasto("Concludi la visita", () => apriStato(S.casa, { firma: true }), "firma", true));
 }
@@ -1235,7 +1269,7 @@ async function tornaCucina() {
   if (R.occupato) return;
   avanza(D.MINUTI.porta);
   suoni.suona("porta", { volume: 0.6 });
-  await vaiLuogo("cucina");
+  await vaiLuogo(D.LUOGHI[S.luogo].ritorno);
 }
 
 function colpisci(x, y) {
@@ -1378,9 +1412,10 @@ function petto(persona) {
 function apriDomande(persona, x, y) {
   if (R.occupato) return;
   etichetta.hidden = true;
-  const lista = D.DOMANDE[persona].filter((q) => !S.fatte[`${persona}_${q.id}`] && condizione(q.se));
+  const lista = (D.DOMANDE[persona] || []).filter((q) => !S.fatte[`${persona}_${q.id}`] && condizione(q.se));
   const voci = lista.map((q) => ({ testo: q.breve, nuova: !!q.se, icona: icona("domanda"), azione: () => chiedi(persona, q, x, y) }));
-  if (!voci.length) voci.push({ testo: "nient'altro da chiedere", disattiva: true });
+  // i morti non rispondono piu' (la madre, il secondo giorno)
+  if (!voci.length) voci.push({ testo: D.PERSONE[persona].stato === "morto" ? "non risponde più" : "nient'altro da chiedere", disattiva: true });
   ruota.apri(x, y, voci, maiuscolo(D.PERSONE[persona].voce), 0.8);
 }
 
@@ -1575,7 +1610,8 @@ function menuPorta(zona, x, y) {
       await vaiLuogo(P.entra.vai);
     } });
   } else {
-    for (const s of P.scelte)
+    // "se": una scelta che compare solo dopo una prova (la botola, dopo aver visto il ripostiglio vuoto)
+    for (const s of P.scelte.filter((x) => condizione(x.se)))
       voci.push({ testo: s.minuti > 5 ? `${s.testo} · −${s.minuti} min` : s.testo, disattiva: !!(s.soldi && s.soldi > S.soldi),
         icona: icona(s.soldi ? "moneta" : "porta"), azione: () => sceltaPorta(s) });
   }
@@ -1598,7 +1634,7 @@ async function sceltaPorta(s) {
 // chi della casa si e' visto (la madre solo se si e' entrati in camera)
 function vista(persona) {
   const p = D.PERSONE[persona];
-  return !!(p && S.visti[p.luogo] && (p.luogo !== "camera" || S.conosciute[persona]));
+  return !!(p && S.visti[p.luogo] && (!D.LUOGHI[p.luogo].ritorno || S.conosciute[persona]));
 }
 
 function personeDellaCasa(casa) {
@@ -1681,7 +1717,7 @@ function rigaStato(casa, r, firmata) {
   if (vista(persona)) {
     const v = S.volti[persona];
     const im = el("img");
-    im.src = `img/volti/${persona}${v && ESPRESSIONI[P.luogo]?.[persona]?.volti.includes(v) ? `_${v}` : ""}.jpg`;
+    im.src = `img/volti/${fotoVolto(persona)}${v && ESPRESSIONI[P.luogo]?.[persona]?.volti.includes(v) ? `_${v}` : ""}.jpg`;
     im.alt = P.nome;
     foto.append(el("span", "sf-graffetta"), im);
   } else {
@@ -1693,6 +1729,8 @@ function rigaStato(casa, r, firmata) {
   const info = el("small", null, `${r.ruolo} · nat${r.donna ? "a" : "o"} nel ${r.nato}${r.mestiere ? ` · ${r.mestiere}` : ""}`.toUpperCase());
   dati.append(nome, info);
   if (r.anagrafe) dati.append(el("small", `sf-anagrafe${S.barrati[persona] ? " barrato" : ""}`, r.anagrafe.toUpperCase()));
+  // il secondo giorno: chi ieri e' andato al lazzaretto ha il timbro della ditta
+  if (r.ditta) dati.append(el("small", "sf-ditta-nota", r.ditta));
   const note = el("ul", "sf-note");
   for (const n of S.note[persona] || []) {
     const li = el("li", `penna${n.barrata ? " barrata" : ""}${n.nuova ? " nuova" : ""}`, n.testo);
@@ -1703,6 +1741,9 @@ function rigaStato(casa, r, firmata) {
   const esito = el("div", "sf-esito");
   if (S.diagnosi[persona]) esito.append(timbroDiagnosi(S.diagnosi[persona], R.sfNuovoTimbro === persona));
   else esito.append(el("span", "sf-vuoto-timbro", "diagnosi"));
+  // la diagnosi dei giorni prima, a matita
+  const ieri = S.giorni[S.giorni.length - 1]?.diagnosi[persona];
+  if (ieri) esito.append(el("small", "sf-ieri", `ieri: ${D.TIMBRI.find((t) => t.id === ieri).testo}`));
   if (P?.profilo) esito.append(el("span", "sf-ditta", `★ PROFILO RICHIESTO · +${D.SOLDI.profilo} €`));
   // le decisioni, ben visibili: al lazzaretto, o ospite stanotte (solo un sano, uno per notte; mai tutte e due)
   const decidi = el("div", "sf-decidi");
@@ -2034,7 +2075,8 @@ async function controllaOspite() {
 async function nastroNotte() {
   const chi = S.ospite;
   const O = D.OSPITE[chi || "solo"];
-  const quadri = ["notte_dorme", ...(chi ? [`notte_${chi}_1`, `notte_${chi}_2`] : ["notte_solo_1", "notte_solo_2"])];
+  // la seconda notte chi dorme solo ha le sue riprese (la cosa nera piu' vicina): "immagini"
+  const quadri = O.immagini || ["notte_dorme", ...(chi ? [`notte_${chi}_1`, `notte_${chi}_2`] : ["notte_solo_1", "notte_solo_2"])];
   let imgs;
   try {
     imgs = await Promise.all(quadri.map((q) => immagine(`img/ospite/${q}.jpg`)));
@@ -2127,7 +2169,7 @@ function infrarosso() {
 function modoRipresa() {
   const p = R.play;
   const r = p.nastro.riprese[p.i];
-  const notte = r.tipo === "scena" ? D.LUOGHI[r.luogo].notte : D.PERSONE[r.persona].luogo === "camera";
+  const notte = r.tipo === "scena" ? D.LUOGHI[r.luogo].notte : !!D.LUOGHI[D.PERSONE[r.persona]?.luogo]?.notte;
   if (vhs) {
     vhs.mode(p.ir ? "ir" : notte ? "notte" : "giorno");
     vhs.setLuce(p.ir || notte ? 0 : 1);
@@ -2251,7 +2293,7 @@ function calcolaNotte() {
   let incasso = 0;
   let fiducia = S.fiducia;
   const portati = [];
-  for (const casa of ["casa3", "casa5"]) {
+  for (const casa of D.FAX.case.map((n) => `casa${n}`)) {
     const c = D.CASE[casa];
     const dec = S.decisioni[casa];
     const membri = Object.entries(D.PERSONE).filter(([, p]) => p.casa === casa);
@@ -2306,7 +2348,7 @@ async function dormi() {
   osdSpento();
   vaiMappa();
   hud.replaceChildren();
-  const corpo = [el("h2", null, "La prima notte")];
+  const corpo = [el("h2", null, S.giorno === 1 ? "La prima notte" : "La seconda notte")];
   corpo.push(el("h3", null, "Al lazzaretto"));
   const portati = n.portati.map((id) => D.PERSONE[id].nome).join(", ");
   corpo.push(el("p", null, portati ? `${portati[0].toUpperCase()}${portati.slice(1)}.` : "Nessuno."));
@@ -2363,44 +2405,114 @@ function giornaleDomani() {
   };
 }
 
-function verita() {
-  const corpo = [el("h2", null, "Com'era davvero")];
+// le diagnosi timbrate sugli stati di famiglia di un giorno, contro com'era davvero
+function confronto(diagnosi, morti, anagrafe, persone, altri) {
+  const stati = { sano: "sano", malato: "malato", grave: "grave", morto: "morto", lazzaretto: "nel recinto" };
   const ul = el("ul");
-  for (const t of [
-    "Casa 3: il padre era malato (febbre, bubbone al collo). La madre era grave, nascosta in camera, con le dita nere. La figlia era sana.",
-    "Casa 5: l'uomo aveva la febbre, il contagio era all'inizio. La ragazza era sana: pallida per il freddo e la fame, non per la peste. La nonna era sana. Dietro la porta c'era il figlio, grave.",
-    "Il protocollo mentiva sul pallore, e la ditta paga di più per i giovani sani.",
-    "La nonna e il nastro 7 dicono la stessa cosa: la peste arriva con il medico.",
-  ]) ul.append(el("li", null, t));
-  corpo.push(ul);
-  // le diagnosi del medico, timbrate sugli stati di famiglia, contro la verita'
-  const stati = { sano: "sano", malato: "malato", grave: "grave", morto: "morto" };
-  const dg = el("ul");
   let giuste = 0, date = 0;
-  for (const A of Object.values(D.ANAGRAFE)) {
+  for (const A of Object.values(anagrafe)) {
     for (const r of A.righe) {
-      const vero = D.PERSONE[r.persona]?.stato || D.ALTRI[r.persona]?.stato;
-      const mio = S.diagnosi[r.persona];
+      const vero = persone[r.persona]?.stato || altri[r.persona]?.stato;
+      const mio = diagnosi[r.persona];
+      // chi era morto e lo hai segnato morto (la croce sullo stato di famiglia)
+      if (vero === "morto" && morti[r.persona] && persone[r.persona]) {
+        date++; giuste++;
+        ul.append(el("li", null, `✓ ${r.nome}: l'hai trovata morta.`));
+        continue;
+      }
       if (!mio) continue;
       date++;
       const giusta = mio === vero || (mio === "sospetto" && vero !== "sano" && vero !== "morto");
       if (giusta) giuste++;
-      dg.append(el("li", null, `${giusta ? "✓" : "✗"} ${r.nome}: hai timbrato ${D.TIMBRI.find((t) => t.id === mio).testo}, era ${stati[vero]}.`));
+      ul.append(el("li", null, `${giusta ? "✓" : "✗"} ${r.nome}: hai timbrato ${D.TIMBRI.find((t) => t.id === mio).testo}, era ${stati[vero] || vero}.`));
     }
   }
-  corpo.push(el("h3", null, `Le tue diagnosi: ${giuste} giuste su ${date}`));
-  if (date) corpo.push(dg);
-  else corpo.push(el("p", "vuoto", "Non hai timbrato nessuno stato di famiglia."));
-  corpo.push(el("p", "nota", "Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove."));
-  corpo.push(azioni([["Ricomincia la giornata", ricomincia]]));
+  return { giuste, date, ul };
+}
+
+const VERITA1 = [
+  "Casa 3: il padre era malato (febbre, bubbone al collo). La madre era grave, nascosta in camera, con le dita nere. La figlia era sana.",
+  "Casa 5: l'uomo aveva la febbre, il contagio era all'inizio. La ragazza era sana: pallida per il freddo e la fame, non per la peste. La nonna era sana. Dietro la porta c'era il figlio, grave.",
+  "Il protocollo mentiva sul pallore, e la ditta paga di più per i giovani sani.",
+  "La nonna e il nastro 7 dicono la stessa cosa: la peste arriva con il medico.",
+];
+
+function verita() {
+  const corpo = [el("h2", null, "Com'era davvero")];
+  // i giorni: quelli passati (archiviati) e oggi
+  const giorni = [...S.giorni, { giorno: S.giorno, diagnosi: S.diagnosi, morti: S.morti, ieri: S.ieri,
+    anagrafe: D.ANAGRAFE, persone: D.PERSONE, altri: D.ALTRI }];
+  let tutte = 0, tutteDate = 0;
+  for (const g of giorni) {
+    if (giorni.length > 1) corpo.push(el("h3", null, g.giorno === 1 ? "Il primo giorno" : "Il secondo giorno"));
+    const ul = el("ul");
+    for (const t of g.giorno === 1 ? VERITA1 : verita2(g.ieri)) ul.append(el("li", null, t));
+    corpo.push(ul);
+    if (g.saltato) corpo.push(el("p", "nota", "Il primo giorno l'hai saltato (#giorno2): come se nessuno fosse andato al lazzaretto, e senza ospiti."));
+    const { giuste, date, ul: dg } = confronto(g.diagnosi, g.morti, g.anagrafe, g.persone, g.altri);
+    tutte += giuste;
+    tutteDate += date;
+    corpo.push(el("h3", null, `Le tue diagnosi: ${giuste} giuste su ${date}`));
+    if (date) corpo.push(dg);
+    else corpo.push(el("p", "vuoto", "Non hai timbrato nessuno stato di famiglia."));
+  }
+  if (giorni.length > 1) corpo.push(el("p", "nota", `In tutto: ${tutte} giuste su ${tutteDate}.`));
+  corpo.push(el("p", "nota", S.giorno === 1 ? "Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove."
+    : "Fine della bozza: due giornate. Nel gioco, domani torneresti alla casa 5: il ragazzo è giù in cantina."));
+  corpo.push(azioni([["Ricomincia dal primo giorno", ricomincia]]));
   apriFoglio("verita", corpo);
 }
 
+// il secondo giorno (bozza): le tabelle di giorno2.js, calcolate dalle scelte di ieri, prendono il posto di quelle di
+// dati.js; dello stato restano i soldi, la fiducia, la notte (il contagio sulla mappa) e il giornale di stamattina
+async function iniziaGiorno2() {
+  const ieri = { via: Object.values(S.decisioni).flatMap((d) => d.via), ospite: S.ospite, contagiate: S.notte?.contagiate || [] };
+  const giorni = [...S.giorni, { giorno: S.giorno, diagnosi: S.diagnosi, morti: S.morti, ieri: S.ieri, saltato: S.saltato,
+    anagrafe: D.ANAGRAFE, persone: D.PERSONE, altri: D.ALTRI }];
+  // i morti restano morti (il nonno, scoperto ieri)
+  const resta = { soldi: S.soldi, fiducia: S.fiducia, notte: S.notte, giornale: S.giornaleDomani, morti: { ...S.morti } };
+  D = { ...D1, ...giorno2(ieri) };
+  S = Object.assign(nuovoStato(), resta, { giorno: 2, giorni, ieri });
+  foglio.dataset.bloccato = "0";
+  foglio.hidden = true;
+  R.play = null;
+  R.primo = null;
+  R.scelta = null;
+  // le scene di oggi (con chi e' rimasto in casa) e i primi piani nuovi
+  try {
+    await caricaLuoghi(D.LUOGHI);
+  } catch (err) {
+    notifica("Le scene del secondo giorno non si caricano");
+    console.error(err);
+  }
+  precaricaPrimi();
+  aggiornaNastro();
+  if (stanza) vaiStanza("inizio");
+  else vaiScrivania();
+  introduzione();
+}
+
+// il secondo giorno come se il primo fosse finito senza nessuno al lazzaretto e senza ospiti (con #giorno2)
+function saltaAlGiorno2() {
+  S.saltato = true;
+  for (const n of D.FAX.case) {
+    S.visitate[`casa${n}`] = true;
+    S.decisioni[`casa${n}`] = { via: [], ospite: null, provvedimento: "nessuno", ora: D.INIZIO.coprifuoco };
+  }
+  S.notte = calcolaNotte();
+  S.soldi += S.notte.incasso - S.notte.spese;
+  S.fiducia = S.notte.fiducia;
+  S.giornaleDomani = giornaleDomani();
+  return iniziaGiorno2();
+}
+
 function ricomincia() {
+  D = { ...D1 };
   S = nuovoStato();
   foglio.dataset.bloccato = "0";
   foglio.hidden = true;
   R.play = null;
+  aggiornaNastro();
   if (stanza) vaiStanza("inizio");
   else vaiScrivania();
   introduzione();
@@ -2409,9 +2521,9 @@ function ricomincia() {
 async function introduzione() {
   if (S.intro) return;
   S.intro = true;
-  await dici([[null, "Giorno 1. La ditta ti ha mandato in paese ieri sera."],
-    [null, "Il fax con il protocollo è arrivato a mezzogiorno."],
-    ...(stanza ? [[null, "È sulla scrivania, sotto la finestra."]] : [])], false, false);
+  const righe = D.INTRO || [[null, "Giorno 1. La ditta ti ha mandato in paese ieri sera."],
+    [null, "Il fax con il protocollo è arrivato a mezzogiorno."]];
+  await dici([...righe, ...(stanza ? [[null, "È sulla scrivania, sotto la finestra."]] : [])], false, false);
 }
 
 // ---------- puntatore, tastiera ----------
@@ -2637,12 +2749,20 @@ async function avvia(dati) {
   await caricaStanza();
   parole.pulisci();
   if (dati && dati.S) S = Object.assign(nuovoStato(), dati.S);
+  // ripreso a meta' del secondo giorno (il codice ricaricato tiene lo stato): le tabelle e le scene di quel giorno
+  if (S.giorno === 2) {
+    D = { ...D1, ...giorno2(S.ieri) };
+    await caricaLuoghi(D.LUOGHI).catch(() => {});
+  }
   if (S.schermo === "visita" && S.casa && S.luogo) vaiLuogo(S.luogo);
   else if (S.schermo === "mappa") vaiMappa();
   else if (S.schermo === "scrivania") vaiScrivania();
   else vaiStanza("inizio");
   precaricaPrimi();
-  introduzione();
+  // per giudicare la bozza del secondo giorno senza rigiocare il primo: #giorno2 nell'indirizzo
+  // (non quando il codice si ricarica a meta' partita: lo stato e' gia' quello)
+  if (location.hash === "#giorno2" && !(dati && dati.S)) saltaAlGiorno2();
+  else introduzione();
   // il controller (per lo Steam Deck): nella stanza 3D si cammina e si guarda con le levette, altrove la levetta
   // muove la punta del bastone
   controller = avviaController({
@@ -2663,7 +2783,7 @@ async function avvia(dati) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
+if (location.hash === "#prova") window.prova = { get S() { return S; }, get D() { return D; }, iniziaGiorno2, verita, dormi, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);

@@ -1,0 +1,20 @@
+{
+  "maschere_da": [
+    "../../../prove-stile/11-personaggi-50/maschere/ammorbiditi_persone_maschera1.png",
+    "../../../prove-stile/11-personaggi-50/maschere/ammorbiditi_persone_maschera2.png",
+    "../../../prove-stile/11-personaggi-50/maschere/ammorbiditi_bastone_maschera1.png"
+  ],
+  "varianti": {
+    "persone": {
+      "da": "../../../prove-stile/11-personaggi-50/personaggi_foto_allineati.jpg",
+      "schede": [
+        "padre",
+        "figlia"
+      ],
+      "prompt": "The second image is the reference sheet of the man, the third of the young woman. Edit the first image, one day later: change only how sick the two people look. Keep exactly their grotesque, deformed features from the first image: the same bulging eyes, crooked noses, bad teeth, sunken cheeks, bony elongated fingers, the same proportions and silhouettes; do not make them look more normal, and do not turn them into zombies or corpses. The gaunt man in the denim jacket in the left foreground is much sicker than yesterday: his skin is pale and shiny with sweat, his bulging eyes are red-rimmed and glassy with high fever, his lips are dry and cracked; under the left side of his jaw the hard swelling has grown and turned dark purple, with a small open crusted sore in the middle; he is hunched and leans one hand against the kitchen counter as if he could fall. The young woman in the purple hoodie in the doorway at the back now has a fever: flushed red cheeks, glassy shining eyes, sweat on her forehead, a grey wool blanket wrapped around her shoulders. Both stay in the same places, at the same size, with the same clothes. Everything else in the image, including the room, the table with the plates, the drawing style of the room and the gloved hand with the cane in the lower right corner, stays exactly identical.",
+      "ritagli": [
+        "person"
+      ]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "maschere_da": [
+    "../maschere/persone_maschera1.png",
+    "../maschere/persone_maschera2.png",
+    "../maschere/persone_maschera3.png",
+    "../maschere/persone_maschera4.png",
+    "../maschere/bastone_maschera1.png",
+    "../maschere/bastone_maschera2.png",
+    "../maschere/guanto_maschera1.png"
+  ],
+  "varianti": {
+    "persone": {
+      "da": "../ammorbiditi.jpg",
+      "schede": [
+        "nonna",
+        "giovane",
+        "uomo"
+      ],
+      "prompt": "The second image is the reference sheet of the very old woman, the third of the young woman, the fourth of the man. Edit the first image, one day later. The three people stay in the same places, at the same size, with the same clothes, but they no longer hold hands. The very old woman with white hair, on the left, leans on her walking stick with both hands and coughs into a crumpled white handkerchief. The pale young woman with long dark hair in the grey cardigan, in the middle, stands with her arms crossed over her chest, shivering. The stocky man in the navy tracksuit, on the right in front of the door, is now gravely ill with the plague, but he is still a living man with exactly the same face, the same skin tone and the same eyes: his skin is pale and shiny with sweat (not grey), his eyes are glassy and red-rimmed with fever, there is a swollen lump under his jaw; he coughs into a white handkerchief with a few bright red spots of blood on it, and a thin trickle of blood runs from the corner of his mouth. He must not look like a zombie or a corpse. Also remove the black leather gloved hand holding the wooden cane in the lower right foreground.",
+      "ritagli": [
+        "person",
+        "cane"
+      ]
+    },
+    "persone_febbre": {
+      "da": "persone.jpg",
+      "maschere_da": [
+        "maschere_persone/persone_maschera1.png",
+        "maschere_persone/persone_maschera2.png",
+        "maschere_persone/persone_maschera3.png"
+      ],
+      "schede": [
+        "giovane"
+      ],
+      "prompt": "The second image is the reference sheet of the young woman. Edit the first image: change only the pale young woman with long dark hair in the grey cardigan, in the middle: she now has a fever: flushed red cheeks, glassy shining eyes, sweat on her forehead and temples, damp hair stuck to her face. Her pose, her clothes and her place stay the same. The other two people stay exactly identical, pixel for pixel.",
+      "ritagli": [
+        "person"
+      ]
+    }
+  }
+}

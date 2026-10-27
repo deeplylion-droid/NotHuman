@@ -1,0 +1,13 @@
+{
+  "madre": {
+    "riferimento": "riferimento_madre.jpg",
+    "scheda": "madre",
+    "aspetto": "a gaunt woman in her fifties with long grey-brown hair, dead, lying in bed under a green checked blanket",
+    "parti": {
+      "occhi": "Her eyes are closed, the eyelids slightly sunken and bluish, the skin waxy, grey and still: she is dead.",
+      "bocca": "Her mouth is slightly open, the lips grey-blue and dry, with a thin line of dried dark blood at one corner: she is dead.",
+      "mani": {"inquadratura": "both hands folded on her chest over the green checked blanket, from the wrists to the fingertips",
+               "segni": "Bony, waxy hands folded around a wooden rosary; the tips of all the fingers are black, dry and shriveled: she is dead."}
+    }
+  }
+}

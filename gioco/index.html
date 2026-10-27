@@ -312,6 +312,8 @@
   .fx-giorno { margin-left: auto; font-family: var(--gioco); font-size: 0.78rem; letter-spacing: 0.08em; }
   #foglio-corpo .fx-blocco h3 { margin: 0.9rem 0 0.55rem; font-family: var(--gioco); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.12em; }
   .fx-segni { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; }
+  /* il secondo giorno i segni sono cinque (entra la tosse col sangue) */
+  .fx-segni:has(> :nth-child(5)) { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .fx-segno { margin: 0; display: grid; justify-items: center; align-content: start; gap: 0.25rem; text-align: center; }
   .fx-pitto { width: 4rem; height: 4rem; }
   .fx-segno b { font-family: var(--gioco); font-size: 0.8rem; letter-spacing: 0.05em; }
@@ -320,7 +322,7 @@
   .fx-fila { display: flex; gap: 1.2rem; }
   .fx-segno.piccolo .fx-pitto { width: 2.8rem; height: 2.8rem; }
   .fx-motto { margin: 1rem 0 0; text-align: center; font-size: 0.78rem; font-style: italic; opacity: 0.75; }
-  @media (max-width: 560px) { .fx-segni { grid-template-columns: repeat(2, minmax(0, 1fr)); } .fx-riga { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 560px) { .fx-segni, .fx-segni:has(> :nth-child(5)) { grid-template-columns: repeat(2, minmax(0, 1fr)); } .fx-riga { grid-template-columns: minmax(0, 1fr); } }
   @media (max-height: 480px) { #foglio[data-tipo="fax"] #foglio-corpo { padding: 0.9rem 1.2rem 0.7rem; } .fx-pitto { width: 2.9rem; height: 2.9rem; } .fx-segno.piccolo .fx-pitto { width: 2.2rem; height: 2.2rem; } #foglio-corpo .fx-blocco h3 { margin: 0.5rem 0 0.35rem; } .fx-motto { margin-top: 0.5rem; } }
 
   /* il giornale disegnato: la carta e' un'immagine, il testo e' stampato sopra con la prospettiva della pagina */
@@ -393,6 +395,9 @@
   .sf-graffetta { position: absolute; left: 42px; top: -14px; width: 16px; height: 46px; border: 3px solid #8c8c86; border-radius: 9px; rotate: 8deg; }
   .sf-dati b { display: block; font-weight: 400; font-size: 26px; }
   .sf-dati small { display: block; font-size: 16px; letter-spacing: 0.06em; opacity: 0.8; margin-top: 3px; }
+  /* il secondo giorno: chi e' nel recinto della ditta (il timbro viola della Panacea) e la diagnosi di ieri */
+  .sf-ditta-nota { display: inline-block; margin-top: 4px; font-family: var(--mono); font-weight: 600; font-size: 12px; letter-spacing: 0.06em; color: #6a2a8c; border: 2px solid #6a2a8c; padding: 1px 6px; rotate: -2deg; mix-blend-mode: multiply; width: fit-content; }
+  .sf-ieri { display: block; margin-top: 4px; font-family: var(--mono); font-size: 12px; color: #6d6458; letter-spacing: 0.04em; }
   .sf-dati .barrato, .sf-anagrafe.barrato { text-decoration: line-through; text-decoration-color: #b4251c; text-decoration-thickness: 3px; }
   .sf-note { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; }
   #foglio-corpo .sf-note li { line-height: 1.05; }

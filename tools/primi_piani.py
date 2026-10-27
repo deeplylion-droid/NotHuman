@@ -16,7 +16,8 @@ Nella cartella della scena, primi_piani.json descrive le persone (in inglese, va
   }
 }
 Una parte puo' essere solo la descrizione dei segni (l'inquadratura e' quella di base, in PARTS) oppure
-inquadratura e segni. Per ogni persona e parte fa primi-piani/<persona>_<parte>.jpg con Nano Banana Pro,
+inquadratura e segni. Con "scheda" (il nome in art/personaggi, per esempio "padre") si passa anche la scheda del
+personaggio: serve quando la persona cambia stato (piu' malata, morta), perche' la faccia resti quella. Per ogni persona e parte fa primi-piani/<persona>_<parte>.jpg con Nano Banana Pro,
 passando il riferimento del personaggio, cosi' la faccia resta quella. Salta i file che esistono gia':
 per rifarne uno, cancellalo. Il registro e' in primi-piani/registro.json.
 """
@@ -28,8 +29,10 @@ import sys
 from PIL import Image
 
 HERE = pathlib.Path(__file__).resolve().parent
+ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 import fal_batch  # noqa: E402
+from schede import COME_RIFERIMENTO  # noqa: E402
 
 NB_EDIT = "fal-ai/nano-banana-pro/edit"
 PARTS = {
@@ -63,8 +66,13 @@ def main():
             if isinstance(desc, str):
                 desc = {"segni": desc}
             prompt = PROMPT.format(frame=desc.get("inquadratura", PARTS[part]), look=p["aspetto"], signs=desc["segni"])
+            immagini = [f"@file:{p['riferimento']}"]
+            # con la scheda del personaggio (art/personaggi) la faccia resta quella anche cambiando stato
+            if p.get("scheda"):
+                immagini.append(f"@file:{ROOT / 'art/personaggi' / (p['scheda'] + '.jpg')}")
+                prompt += " " + COME_RIFERIMENTO
             jobs.append({"nome": name, "modello": NB_EDIT, "input": {
-                "prompt": prompt, "image_urls": [f"@file:{p['riferimento']}"], "aspect_ratio": "16:9",
+                "prompt": prompt, "image_urls": immagini, "aspect_ratio": "16:9",
                 "resolution": "2K", "output_format": "png", "num_images": 1}})
     key = fal_batch.load_key()
     log_path = out / "registro.json"

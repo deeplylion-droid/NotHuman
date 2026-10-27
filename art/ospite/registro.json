@@ -470,5 +470,21 @@
     "seed": null,
     "secondi": 29,
     "descrizione": ""
+  },
+  "notte_solo_3": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this image: A tall, thin, dark shape with no face and no features, like the shadow of a person with very long arms, sits on the edge of the iron bed, right next to the man asleep under the covers, one long dark hand resting on the bedspread over his chest. The room is still. Keep the sleeping person in the iron bed exactly as in the first image: completely covered by the bedspread from head to toe, the head under the covers too, nothing of him visible: do not show his head, hair, face or hands, and do not remove him. Keep everything else exactly as it is, in the same drawing style, with the same camera, framing and lighting, and every object in the same place: the iron bed with the nightstand and the holy picture on the left, the ajar door of the spare room at the back, the table with the checked tablecloth and the chairs, the coat rack with the coat and hat, the rug, the television and the VHS tapes on the desk in the foreground, the wooden chair. No faces visible, no hands or objects belonging to the viewer, no text.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "notte_solo_3.png"
+    ],
+    "seed": null,
+    "secondi": 31,
+    "descrizione": ""
   }
 }
