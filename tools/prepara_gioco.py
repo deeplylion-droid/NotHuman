@@ -235,10 +235,11 @@ def scrivania():
     # la mappa resta piu' grande dello schermo: nel gioco si ingrandisce. E' la pianta piatta e schematica del paese
     # (26 ottobre, GPT Image 2; le altre prove sono nella stessa cartella), usata com'e', senza mescolarla al disegno:
     # dove sono le 23 case e' scritto in TETTI in gioco/js/dati.js (lo calcola mappa_pianta/case.py). Le mappe di
-    # prima sono mappa_25_case.jpg e mappa_paese.jpg (50 case). Dal 27 ottobre, sera, la pianta e' piu' curata:
-    # colori, carta, aloni di caffe' e oggetti appoggiati sopra (tools/mappa.py)
+    # prima sono mappa_25_case.jpg e mappa_paese.jpg (50 case). Dal 27 ottobre, sera, la mappa e' il paese in 3D
+    # visto in obliquo (tools/mappa.py: il render di Blender sta in art/scrivania/mappa3d, qui si rimettono solo le
+    # etichette e il pannello; per rifare anche il 3D: python3 tools/mappa.py tutto)
     import mappa
-    mappa.main(OUT / "mappa.jpg")
+    mappa.componi()
     print("scrivania e mappa ok")
 
 

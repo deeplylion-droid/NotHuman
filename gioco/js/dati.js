@@ -4,6 +4,7 @@
 // quadre sono suoni e gesti. Tra asterischi le parole chiave, che si accendono: extra.k dice dove portano
 // ("parte:padre.collo", "zona:tavola", "persona:figlia"; una stringa per tutte, o { parola: collegamento }).
 // extra.d e' una dichiarazione che finisce sul nastro delle frasi, extra.volto l'espressione di chi parla.
+import { MAPPA_3D } from "./mappa3d.js";
 
 export const INIZIO = { ora: 13 * 60, coprifuoco: 20 * 60, soldi: 180, fiducia: 50 };
 // la pazienza di ogni famiglia: cala di uno quando qualcuno si arrabbia o lo accusi a torto; a zero ti cacciano
@@ -590,23 +591,27 @@ const TETTI = [
   [0.61, 0.7249, 0.61, 0.7038, 0.0163, 0.0365], [0.5165, 0.8072, 0.5165, 0.7913, 0.0181, 0.0313],
 ];
 export const CASE = {};
-TETTI.forEach(([x, y, ex, ey, rx, ry], i) => {
-  CASE[`casa${i + 1}`] = { n: i + 1, x, y, ex, ey, rx, ry, nota: "Nessuna segnalazione." };
+// dal 27 ottobre, sera, la mappa e' il paese in 3D visto in obliquo (tools/mappa.py): dove cadono le case sullo schermo
+// lo dice MAPPA_3D (x, y, ex, ey, rx, ry come sopra); la pianta di TETTI resta in gx, gy, per le distanze del contagio
+TETTI.forEach(([gx, gy], i) => {
+  const [x, y, ex, ey, rx, ry] = MAPPA_3D.case[i];
+  CASE[`casa${i + 1}`] = { n: i + 1, x, y, ex, ey, rx, ry, gx, gy, nota: "Nessuna segnalazione." };
 });
 Object.assign(CASE.casa1, { nota: "Croce sulla porta. Chiusa da ieri.", croce: true });
 Object.assign(CASE.casa3, { luogo: "cucina",
   segnalata: "Un vicino: «Di notte tossiscono. E la moglie non si vede da giorni.»" });
 Object.assign(CASE.casa5, { luogo: "soggiorno", segnalata: "Biglietto anonimo: «Tengono un ragazzo chiuso in casa.»" });
 // i vicini: le due case piu' vicine, da cui passa il contagio di notte
-const distanza = (a, b) => Math.hypot((a.x - b.x) * 16 / 9, a.y - b.y);
+const distanza = (a, b) => Math.hypot((a.gx - b.gx) * 16 / 9, a.gy - b.gy);
 for (const c of Object.values(CASE)) {
   c.vicini = Object.keys(CASE).filter((id) => CASE[id] !== c)
     .sort((a, b) => distanza(CASE[a], c) - distanza(CASE[b], c)).slice(0, 2);
 }
+// i luoghi: sulla mappa in 3D hanno la loro lettera gialla (A, B, C, come nel pannello: le case hanno i numeri)
 export const LUOGHI_MAPPA = [
-  { id: "chiesa", nome: "La chiesa", segno: "✝", x: 0.4816, y: 0.4981, nota: "Il campanile suona solo per i funerali." },
-  { id: "cimitero", nome: "Il cimitero", segno: "✝", x: 0.2526, y: 0.8813, nota: "Tre tombe nuove questa settimana." },
-  { id: "ditta", nome: "Il recinto della Panacea", segno: "▲", x: 0.8164, y: 0.4597,
+  { id: "chiesa", nome: "La chiesa", segno: "A", x: MAPPA_3D.luoghi.chiesa[0], y: MAPPA_3D.luoghi.chiesa[1], nota: "Il campanile suona solo per i funerali." },
+  { id: "cimitero", nome: "Il cimitero", segno: "B", x: MAPPA_3D.luoghi.cimitero[0], y: MAPPA_3D.luoghi.cimitero[1], nota: "Tre tombe nuove questa settimana." },
+  { id: "ditta", nome: "Il recinto della Panacea", segno: "C", x: MAPPA_3D.luoghi.ditta[0], y: MAPPA_3D.luoghi.ditta[1],
     nota: "Il lazzaretto della ditta: tre prefabbricati bianchi, un'antenna, i fari accesi tutta la notte. Nessuno del paese ci è mai entrato." },
 ];
 

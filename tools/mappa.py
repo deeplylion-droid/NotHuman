@@ -1,173 +1,331 @@
-"""La mappa di Malvento sulla scrivania (27 ottobre, sera: "e' semplice, ok, ma e' troppo poco curata. Oggetti
-appoggiati sopra? Una macchia di caffe'? Piu' contrasto e colore?").
+"""La mappa di Malvento in 3D (27 ottobre, sera). Dopo la pianta "troppo poco curata", la prima prova con gli oggetti
+incollati ("sembra fatta da un bambino all'asilo") e la planimetria tecnica (tools/mappa_tecnica.py), l'utente manda la
+mappa di Night City di Cyberpunk 2077: "prova ad ispirarti a questa per la mappa", "cambiamo stile quindi".
 
-Parte dalla pianta schematica (art/scrivania/mappa_pianta/schematica.jpg): le case restano esattamente dove sono
-(TETTI in gioco/js/dati.js), cambia solo come e' stampata e cosa c'e' sopra.
-- Piu' colore e contrasto: i tetti color coppo, i campi verdi, il fiume blu, l'inchiostro piu' scuro, e la luce
-  della lampada che viene da sinistra.
-- La carta: la grana, le pieghe di quando stava piegata in quattro, un angolo piegato e i bordi consumati.
-- Gli aloni del caffe' e gli oggetti appoggiati (art/scrivania/mappa_oggetti: tazzina, matita rossa, gomma, graffette,
-  fiammiferi), sui campi, sul fiume e sui bordi, mai sulle case, con la loro ombra.
+Il paese diventa un plastico luminoso visto dall'alto in obliquo, su fondo blu notte: le case sono blocchi azzurri
+con gli spigoli accesi, le strade linee gialle, la montagna una rete di curve di livello; sopra, le etichette gialle
+con il filo che scende sul posto e il pannello coi nomi. Le forme vengono dalla pianta schematica (mappa_forme.py).
 
-Uso: python3 tools/mappa.py [uscita.jpg]   (di base gioco/img/mappa.jpg)
+I passi:
+1. qui: le forme -> art/scrivania/mappa3d/forme.json e la texture del terreno (terreno.png: strade, isolati, rive,
+   recinto della ditta, cimitero, alberi);
+2. Blender (art/scrivania/mappa3d/scena.py): il paese in 3D sul pendio, la foto in prospettiva (render.png) e dove
+   cadono sullo schermo case, luoghi ed etichette (proiezioni.json);
+3. qui: le etichette, il pannello e gioco/img/mappa.jpg; le posizioni sullo schermo vanno in gioco/js/mappa3d.js (le
+   usano gli spilli e la scheda della casa; la pianta, TETTI in dati.js, resta per le distanze del contagio).
+
+Uso: python3 tools/mappa.py [forme|render|componi|tutto]   (di base: tutto)
 """
+import json
+import math
+import os
+import subprocess
 import sys
 from pathlib import Path
 
+import cv2
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import mappa_forme as mf  # noqa: E402
 
 RADICE = Path(__file__).resolve().parent.parent
-BASE = RADICE / "art/scrivania/mappa_pianta/schematica.jpg"
-OGGETTI = RADICE / "art/scrivania/mappa_oggetti"
+CART = RADICE / "art/scrivania/mappa3d"
+FONT = CART / "font"
 USCITA = RADICE / "gioco/img/mappa.jpg"
-W, H = 2560, 1440
+JS = RADICE / "gioco/js/mappa3d.js"
+BLENDER = os.environ.get("BLENDER", "blender")
+W, H = mf.W, mf.H
+T = 1.6  # la texture del terreno e' 1,6 volte la pianta: 4096 x 2304
 
-# i colori della pianta e quelli nuovi: ogni pixel si sposta come il colore della pianta piu' vicino, cosi' i bordi
-# sfumati e l'inchiostro restano com'erano
-TAVOLOZZA = [
-    ((248, 232, 200), (246, 232, 202)),  # la carta e le strade
-    ((200, 200, 136), (146, 172, 84)),   # i campi
-    ((184, 184, 120), (122, 152, 70)),   # i campi piu' scuri
-    ((200, 184, 136), (176, 160, 98)),   # i prati secchi
-    ((216, 184, 136), (214, 132, 84)),   # i tetti: coppi
-    ((216, 200, 168), (226, 176, 128)),  # i tetti chiari, i ponti
-    ((200, 216, 200), (96, 160, 200)),   # il fiume
-    ((184, 216, 200), (84, 150, 196)),   # il fiume, la riva
-    ((136, 120, 88), (58, 92, 46)),      # gli alberi
-    ((152, 136, 104), (72, 108, 56)),    # gli alberi chiari
-    ((80, 70, 54), (34, 28, 22)),        # l'inchiostro
+# le etichette delle vie e dei luoghi: il testo e il punto della pianta su cui scende il filo
+ETICHETTE = [
+    ("VIA DELLA CHIESA", (1480, 408)),
+    ("VIA DEL FIUME", (790, 900)),
+    ("VIA DEI MULINI", (1228, 1000)),
+    ("VICOLO STRETTO", (1700, 640)),
+    ("STRADA DEL CIMITERO", (1000, 1172)),
+    ("TORRENTE", (470, 1060)),
 ]
+# i numeri dei luoghi nel pannello e i loro punti
+LUOGHI = {"chiesa": (1233, 717), "cimitero": (650, 1245), "ditta": (2090, 662)}
 
 
-def rumore(w, h, scala, seme, ottave=4):
-    """rumore liscio in [-1, 1], somma di griglie casuali ingrandite"""
-    rng = np.random.default_rng(seme)
-    tot = np.zeros((h, w), np.float32)
-    amp, peso = 1.0, 0.0
-    for o in range(ottave):
-        gw, gh = max(2, int(w / scala * 2 ** o)), max(2, int(h / scala * 2 ** o))
-        g = Image.fromarray(rng.random((gh, gw)).astype(np.float32), "F").resize((w, h), Image.BICUBIC)
-        tot += amp * (np.asarray(g) * 2 - 1)
-        peso += amp
-        amp *= 0.5
-    return tot / peso
+def esporta_forme():
+    F = mf.forme()
+    case = mf.poligoni(F["case"], 2.4, 250, allarga=1)
+    # i numeri delle case: la casa della pianta piu' vicina al centro dell'ellisse di TETTI (gioco/js/dati.js)
+    tetti = tetti_da_dati()
+    numerate = {}
+    for i, (_, _, ex, ey, _, _) in enumerate(tetti):
+        c = np.array([ex * W, ey * H])
+        j = int(np.argmin([np.hypot(*(p.mean(0) - c)) for p in case]))
+        numerate[j] = i + 1
+    edifici = []
+    for j, p in enumerate(case):
+        c = p.mean(0)
+        chiesa = abs(c[0] / W - 0.4816) < 0.03 and abs(c[1] / H - 0.48) < 0.06
+        edifici.append({"punti": p.round(1).tolist(), "casa": numerate.get(j), "chiesa": bool(chiesa)})
+    # per ogni etichetta, piu' punti possibili lungo la sua via (sulla linea gialla, vicino al punto scelto): la
+    # composizione prende quello dove il cartellino non copre spilli, pannello e altre etichette
+    linea = np.argwhere(F["strade"] > 0)[:, ::-1].astype(np.float32)
+    etichette = []
+    for t, p in ETICHETTE:
+        d = np.hypot(*(linea - np.array(p, np.float32)).T)
+        vicini = linea[d < 230]
+        scelti = []
+        for q in vicini[np.argsort(np.hypot(*(vicini - np.array(p, np.float32)).T))]:
+            if all(np.hypot(*(q - np.array(r))) > 24 for r in scelti):
+                scelti.append(q.tolist())
+            if len(scelti) >= 18:
+                break
+        etichette.append({"testo": t, "punto": p, "candidati": [p] + scelti})
+    dati = {"larghezza": W, "altezza": H, "edifici": edifici,
+            "prefab": [p.round(1).tolist() for p in F["prefab"]], "etichette": etichette, "luoghi": LUOGHI}
+    CART.mkdir(parents=True, exist_ok=True)
+    (CART / "forme.json").write_text(json.dumps(dati))
+    terreno(F)
+    print("forme e terreno ok:", len(edifici), "edifici,", len(numerate), "case numerate")
 
 
-def ricolora(img):
-    p = img.reshape(-1, 3)
-    sorg = np.array([s for s, _ in TAVOLOZZA], np.float32) / 255
-    dest = np.array([d for _, d in TAVOLOZZA], np.float32) / 255
-    d2 = ((p[:, None, :] - sorg[None, :, :]) ** 2).sum(-1)
-    w = np.exp(-d2 / (2 * 0.055 ** 2))
-    somma = w.sum(1, keepdims=True)
-    spinta = (w[:, :, None] * (dest - sorg)[None]).sum(1) / (somma + 0.02)
-    out = p + spinta
-    # un po' di contrasto in piu' (una S leggera) e i colori piu' pieni
-    lum = out @ np.array([0.2126, 0.7152, 0.0722], np.float32)
-    s = lum + 0.18 * (lum - 0.5) * (1 - np.abs(2 * lum - 1))
-    out = out + (s - lum)[:, None]
-    lum2 = out @ np.array([0.2126, 0.7152, 0.0722], np.float32)
-    out = lum2[:, None] + (out - lum2[:, None]) * 1.08
-    return np.clip(out, 0, 1).reshape(img.shape)
+def tetti_da_dati():
+    s = (RADICE / "gioco/js/dati.js").read_text(encoding="utf-8")
+    a = s.index("const TETTI = [")
+    b = s.index("];", a)
+    return json.loads("[" + s[a + len("const TETTI = ["):b].strip().rstrip(",") + "]")
 
 
-def carta(img):
-    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-    # la grana e le macchie dell'eta'
-    grana = rumore(W, H, 6, 1, 3) * 0.018 + rumore(W, H, 300, 2, 4) * 0.035
-    img = img * (1 + grana[..., None])
-    # le pieghe: stava piegata in quattro. Una riga scura, un filo di luce da un lato e la carta un po' curva
-    piega = np.zeros((H, W), np.float32)
-    for d, larg in ((xx - W * 0.5, W), (yy - H * 0.5, H)):
-        piega += -0.11 * np.exp(-(d / 2.2) ** 2) + 0.06 * np.exp(-((d - 5) / 3.5) ** 2) \
-            + 0.035 * np.tanh(d / 90.0) * np.exp(-np.abs(d) / 260.0)
-    # dove le pieghe si incrociano la carta e' consumata e piu' chiara
-    piega += 0.05 * np.exp(-(((xx - W * 0.5) / 26) ** 2 + ((yy - H * 0.5) / 26) ** 2))
-    img = img * (1 + piega[..., None])
-    # i bordi ingialliti e consumati
-    bordo = np.minimum(np.minimum(xx, W - 1 - xx), np.minimum(yy, H - 1 - yy))
-    giallo = np.exp(-bordo / (34 + 22 * (rumore(W, H, 120, 3, 3) + 1)))
-    img = img * (1 - 0.22 * giallo[..., None] * np.array([0.55, 0.75, 1.0], np.float32))
-    # la luce della lampada, da sinistra in alto: la mappa non e' piatta come uno schermo
-    luce = 1.06 - 0.2 * np.clip(np.hypot((xx - W * 0.28) / W, (yy - H * 0.2) / H * 0.75) / 0.75, 0, 1) ** 1.6
-    return img * luce[..., None]
+def terreno(F):
+    """la texture del terreno: cosa si accende sulla montagna (colori in luce, sRGB)"""
+    w, h = int(W * T), int(H * T)
+    img = np.zeros((h, w, 3), np.float32)
+
+    def maschera(m):
+        return cv2.resize(m.astype(np.uint8), (w, h), interpolation=cv2.INTER_LINEAR) > 0
+
+    def linee(polys, colore, spessore, chiuse=True):
+        tela = np.zeros((h, w), np.uint8)
+        for p in polys:
+            cv2.polylines(tela, [(p * T).astype(np.int32)], chiuse, 255, max(1, int(spessore * T)), cv2.LINE_AA)
+        a = tela.astype(np.float32)[..., None] / 255
+        img[:] = img * (1 - a) + np.array(colore, np.float32) * a
+
+    def bagliore(m, colore, raggio):
+        g = cv2.GaussianBlur(m.astype(np.float32), (0, 0), raggio * T)
+        img[:] = img + np.array(colore, np.float32) * g[..., None]
+
+    iso = mf.poligoni(F["isolati"], 1.6, 1500, allarga=1)
+    # gli isolati: appena accesi dentro, il bordo azzurro
+    img[maschera(F["isolati"])] = (0.008, 0.014, 0.007)
+    linee(iso, (0.15, 0.34, 0.08), 1.6)
+    # il fiume: nero, con le rive accese e due righe dentro
+    fiume = F["fiume"]
+    img[maschera(fiume)] = (0.004, 0.03, 0.026)
+    for passo, col in ((7, (0.05, 0.2, 0.14)), (16, (0.03, 0.12, 0.08))):
+        linee(mf.poligoni(cv2.erode(fiume, mf.k(passo * 2 + 1)), 1.5, 3000), col, 1.2)
+    linee(mf.poligoni(fiume, 1.5, 3000), (0.24, 0.6, 0.4), 2.2)
+    # gli alberi: punti verdi spenti
+    tela = np.zeros((h, w), np.uint8)
+    for x, y, r in F["alberi"]:
+        cv2.circle(tela, (int(x * T), int(y * T)), max(3, int(r * 0.55 * T)), 255, -1, cv2.LINE_AA)
+    a = tela.astype(np.float32)[..., None] / 255
+    img[:] = img * (1 - a) + np.array((0.08, 0.2, 0.05), np.float32) * a
+    # il cimitero: il muro e le croci, bianco spento
+    if F["cimitero"] is not None:
+        cim = mf.poligoni(F["cimitero"], 1.5, 1000)
+        linee(cim, (0.55, 0.53, 0.47), 2.4)
+        for p in cim:
+            x0, y0 = p.min(0)
+            x1, y1 = p.max(0)
+            tela = np.zeros((h, w), np.uint8)
+            for y in np.arange(y0 + 34, y1 - 22, 30):
+                for x in np.arange(x0 + 32, x1 - 22, 30):
+                    if cv2.pointPolygonTest(p.reshape(-1, 1, 2), (float(x), float(y)), True) > 16:
+                        cv2.line(tela, (int(x * T), int((y - 7) * T)), (int(x * T), int((y + 8) * T)), 255, 2, cv2.LINE_AA)
+                        cv2.line(tela, (int((x - 5) * T), int((y - 2) * T)), (int((x + 5) * T), int((y - 2) * T)), 255, 2,
+                                 cv2.LINE_AA)
+            a = tela.astype(np.float32)[..., None] / 255
+            img[:] = img * (1 - a) + np.array((0.5, 0.48, 0.43), np.float32) * a
+    # il recinto della ditta: righe rosse fitte dentro e il bordo a tratti rosso acceso
+    if F["ditta"] is not None:
+        md = maschera(F["ditta"])
+        yy, xx = np.mgrid[0:h, 0:w]
+        righe = ((xx + yy) % int(14 * T)) < int(2.2 * T)
+        img[md & righe] = (0.36, 0.03, 0.02)
+        img[md & ~righe] = (0.05, 0.004, 0.003)
+        for p in mf.poligoni(F["ditta"], 1.5, 1000):
+            pts = np.vstack([p, p[:1]]) * T
+            tela = np.zeros((h, w), np.uint8)
+            tot = 0.0
+            for a_, b_ in zip(pts[:-1], pts[1:]):
+                L = float(np.hypot(*(b_ - a_)))
+                pos = 0.0
+                while pos < L:
+                    seg = min(16 * T, L - pos)
+                    if (tot // (16 * T)) % 2 == 0:
+                        q0 = a_ + (b_ - a_) * pos / L
+                        q1 = a_ + (b_ - a_) * (pos + seg) / L
+                        cv2.line(tela, tuple(q0.astype(int)), tuple(q1.astype(int)), 255, int(3 * T), cv2.LINE_AA)
+                    pos += seg
+                    tot += seg
+            a = tela.astype(np.float32)[..., None] / 255
+            img[:] = img * (1 - a) + np.array((0.95, 0.12, 0.07), np.float32) * a
+    # le strade: le vie gialle piene, i sentieri tra i campi sottili; un alone giallo sul terreno
+    L = F["larghezza"]
+    princ = (L >= 11).astype(np.uint8)
+    sent = ((L > 0) & (L < 11)).astype(np.uint8)
+    pr = cv2.dilate(cv2.resize(princ, (w, h), interpolation=cv2.INTER_NEAREST), mf.k(int(7 * T)))
+    se = cv2.dilate(cv2.resize(sent, (w, h), interpolation=cv2.INTER_NEAREST), mf.k(max(3, int(2.2 * T))))
+    # il giallo del gioco (--giallo)
+    bagliore(pr, (0.45, 0.3, 0.06), 7)
+    img[se > 0] = (0.5, 0.36, 0.09)
+    img[pr > 0] = (0.95, 0.72, 0.2)
+    # il bordo della texture resta nero: fuori dalla pianta c'e' solo la montagna
+    img[:4], img[-4:], img[:, :4], img[:, -4:] = 0, 0, 0, 0
+    Image.fromarray((np.clip(img, 0, 1) ** (1 / 2.2) * 255 + 0.5).astype(np.uint8)).save(CART / "terreno.png")
 
 
-def alone(img, cx, cy, r, forza, seme, aperto=0.0):
-    """l'alone di una tazza: il bordo scuro e sottile, dentro una velatura, qua e la' interrotto"""
-    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-    dx, dy = xx - cx, yy - cy
-    d = np.hypot(dx, dy)
-    ang = np.arctan2(dy, dx)
-    rng = np.random.default_rng(seme)
-    fasi = rng.random(4) * 6.28
-    onda = sum(np.sin(ang * k + fasi[i]) / k for i, k in enumerate((2, 3, 5, 9)))
-    rr = r * (1 + 0.025 * onda)
-    bordo = np.exp(-((d - rr) / 3.2) ** 2) * 0.9 + np.exp(-((d - rr + 7) / 6) ** 2) * 0.25
-    dentro = (d < rr).astype(np.float32) * (0.16 + 0.08 * rumore(W, H, 40, seme, 3))
-    # un pezzo di bordo manca (la tazza era inclinata)
-    buco = 1 - aperto * np.clip(np.cos(ang - fasi[0]) * 2.2 - 1.2, 0, 1)
-    a = np.clip((bordo + dentro) * buco * forza, 0, 1)
-    caffe = np.array([0.6, 0.42, 0.27], np.float32)
-    return img * (1 - a[..., None] * (1 - caffe))
+def render(larghezza=2560):
+    scena = CART / "scena.py"
+    r = subprocess.run([BLENDER, "-b", "--python", str(scena), "--", str(larghezza)], capture_output=True, text=True)
+    righe = [l for l in r.stdout.splitlines() if l.startswith("mappa3d")]
+    print("\n".join(righe) or r.stdout[-3000:] + r.stderr[-3000:])
 
 
-def orecchia(img, lato):
-    """l'angolo piegato in basso a sinistra: sotto si vede la scrivania, sopra il retro della carta"""
-    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-    u, v = xx, (H - 1 - yy)  # distanza dal bordo sinistro e da quello basso
-    via = (u + v) < lato
-    # il lembo ripiegato: il simmetrico del triangolo rispetto alla piega
-    lembo = ((u + v) >= lato) & ((u + v) < lato * 2) & (u < lato) & (v < lato)
-    ombra = ((u + v) >= lato) & ((u + v) < lato * 2 + 26) & (u < lato + 14) & (v < lato + 14) & ~lembo
-    out = img.copy()
-    scrivania = np.array([0.24, 0.25, 0.26], np.float32) * (1 + 0.06 * rumore(W, H, 30, 7, 3))[..., None]
-    out[ombra] *= 0.62
-    t = ((u + v - lato) / lato)[lembo][:, None]
-    out[lembo] = np.array([0.9, 0.86, 0.77], np.float32) * (0.82 + 0.16 * t)
-    out[via] = scrivania[via]
-    return out
+# ---------------------------------------------------------------- le etichette sopra la foto
+
+def carattere(nome, px):
+    return ImageFont.truetype(str(FONT / nome), int(px))
 
 
-def incolla(img, nome, cx, cy, lato, angolo, ombra=(14, 18), sfoca=10, forza=0.5):
-    o = Image.open(OGGETTI / f"{nome}_ritaglio.png").convert("RGBA")
-    o = o.crop(o.getbbox())
-    k = lato / max(o.size)
-    o = o.resize((max(1, int(o.width * k)), max(1, int(o.height * k))), Image.LANCZOS)
-    o = o.rotate(angolo, resample=Image.BICUBIC, expand=True)
-    ox, oy = int(cx * W - o.width / 2), int(cy * H - o.height / 2)
-    tela = Image.fromarray((np.clip(img, 0, 1) * 255).astype(np.uint8), "RGB").convert("RGBA")
-    a = o.getchannel("A")
-    om = Image.new("L", (W, H), 0)
-    om.paste(a, (ox + ombra[0], oy + ombra[1]))
-    om = om.filter(ImageFilter.GaussianBlur(sfoca))
-    scuro = Image.new("RGBA", (W, H), (30, 20, 12, 255))
-    scuro.putalpha(om.point(lambda x: int(x * forza)))
-    tela = Image.alpha_composite(tela, scuro)
-    tela.alpha_composite(o, (ox, oy)) if ox >= 0 and oy >= 0 else tela.paste(o, (ox, oy), o)
-    return np.asarray(tela.convert("RGB"), np.float32) / 255
+# i colori del gioco (gioco/index.html: --giallo, --notte, --rec, --verde, --testo)
+GIALLO = (242, 209, 107)
+NERO = (11, 13, 12)
+ROSSO = (224, 64, 47)
+VERDE = (166, 217, 124)
+TESTO = (236, 232, 220)
 
 
-def main(uscita=None):
-    uscita = Path(uscita or (sys.argv[1] if len(sys.argv) > 1 else USCITA))
-    img = np.asarray(Image.open(BASE).convert("RGB").resize((W, H), Image.LANCZOS), np.float32) / 255
-    img = ricolora(img)
-    img = carta(img)
-    # gli aloni: uno fresco vicino alla tazzina, sulla scala dei metri, e uno vecchio, piu' grande, a ovest del fiume
-    img = alone(img, W * 0.836, H * 0.866, 74, 0.85, 11, aperto=0.7)
-    img = alone(img, W * 0.858, H * 0.835, 72, 0.45, 12, aperto=1.0)
-    img = alone(img, W * 0.083, H * 0.52, 118, 0.42, 13, aperto=0.4)
-    img = orecchia(img, 92)
-    # gli oggetti: dove non coprono case, strade col nome o segni della mappa
-    img = incolla(img, "matita", 0.11, 0.86, 640, -17)
-    img = incolla(img, "gomma", 0.215, 0.135, 175, -22, ombra=(8, 10), sfoca=6, forza=0.45)
-    img = incolla(img, "graffette", 0.012, 0.33, 150, 88, ombra=(5, 7), sfoca=4, forza=0.4)
-    img = incolla(img, "fiammiferi", 0.957, 0.33, 230, -14, ombra=(10, 13), sfoca=8)
-    img = incolla(img, "tazzina", 0.928, 0.705, 400, 18, ombra=(22, 28), sfoca=18, forza=0.55)
-    Image.fromarray((np.clip(img, 0, 1) * 255).astype(np.uint8), "RGB").save(uscita, quality=90)
-    print("fatto", uscita)
+def misura_etichetta(testo, font, spazio):
+    larghi = [font.getlength(ch) + spazio * font.size for ch in testo]
+    asc, desc = font.getmetrics()
+    ph, pw = int(font.size * 0.42), int(font.size * 0.55)
+    return sum(larghi), larghi, asc, desc, ph, pw, sum(larghi) + 2 * pw, asc + desc * 0.2 + 2 * ph
+
+
+def riquadro_etichetta(testo, font, punto, alto, lato, spazio):
+    """il rettangolo del cartellino: sopra il punto (alto > 0) o sotto (alto < 0), spostato di lato"""
+    *_, bw, bh = misura_etichetta(testo, font, spazio)
+    x, y = punto
+    bx = x - bw / 2 + lato * bw * 0.5
+    by = y - alto - bh if alto > 0 else y - alto
+    return bx, by, bw, bh
+
+
+def etichetta(d, img, testo, punto, alto, font, spazio=0.06, lato=0):
+    """un cartellino giallo col testo nero, sopra (o sotto) il punto, col filo che arriva fino a un pallino"""
+    x, y = punto
+    tw, larghi, asc, desc, ph, pw, bw, bh = misura_etichetta(testo, font, spazio)
+    bx, by, bw, bh = riquadro_etichetta(testo, font, punto, alto, lato, spazio)
+    attacco = by + bh if alto > 0 else by
+    d.line([(x, y), (min(max(x, bx + 8), bx + bw - 8), attacco)], fill=GIALLO, width=3)
+    d.ellipse([x - 6, y - 6, x + 6, y + 6], fill=GIALLO)
+    d.rectangle([bx, by, bx + bw, by + bh], fill=GIALLO)
+    # l'angolo tagliato, come nei cartellini di Night City
+    t = bh * 0.32
+    d.polygon([(bx + bw - t, by + bh), (bx + bw, by + bh - t), (bx + bw, by + bh)], fill=NERO)
+    cx = bx + pw
+    for ch, lw in zip(testo, larghi):
+        d.text((cx, by + ph - desc * 0.15), ch, font=font, fill=NERO)
+        cx += lw
+
+
+def sovrapposizione(a, b):
+    ax, ay, aw, ah = a
+    bx, by, bw, bh = b
+    return max(0, min(ax + aw, bx + bw) - max(ax, bx)) * max(0, min(ay + ah, by + bh) - max(ay, by))
+
+
+def posti_etichette(pro, font, spazio, ostacoli):
+    """dove mettere i cartellini: per ognuno, tra i punti lungo la sua via e i modi di appenderlo (sopra, sotto, un
+    po' a destra o a sinistra), quello che copre meno spilli, pannello, comandi e cartellini gia' messi"""
+    scelte = []
+    occupati = list(ostacoli)
+    for e in sorted(pro["etichette"], key=lambda e: -len(e["testo"])):
+        migliore = None
+        for i, (u, v) in enumerate(e["candidati_xy"]):
+            punto = (u * W, v * H)
+            for alto, lato in ((74, 0), (74, 0.8), (74, -0.8), (-34, 0), (-34, 0.8), (-34, -0.8)):
+                r = riquadro_etichetta(e["testo"], font, punto, alto, lato, spazio)
+                costo = sum(sovrapposizione(r, o) for o in occupati)
+                fuori = max(0, 40 - r[0]) + max(0, r[0] + r[2] - (W - 40)) + max(0, 40 - r[1]) + max(0, r[1] + r[3] - (H - 40))
+                costo += fuori * 400 + i * 30 + (0 if alto > 0 else 400) + abs(lato) * 200
+                if migliore is None or costo < migliore[0]:
+                    migliore = (costo, punto, alto, lato, r)
+        scelte.append((e["testo"], *migliore[1:4]))
+        occupati.append(migliore[4])
+    return scelte
+
+
+def componi():
+    pro = json.loads((CART / "proiezioni.json").read_text())
+    img = Image.open(CART / "render.png").convert("RGB").resize((W, H), Image.LANCZOS)
+    d = ImageDraw.Draw(img)
+    pixel = lambda px: carattere("Silkscreen-Regular.ttf", px)
+    # le etichette delle vie, dove non coprono gli spilli delle case e dei luoghi, il pannello e i comandi del gioco
+    font_e = pixel(32)
+    ostacoli = [(46, 236, 540, 640), (0, 0, 420, 210), (1880, 0, 680, 210), (2080, 1140, 480, 300), (0, 1320, 960, 120)]
+    for x, y, *_ in pro["case"]:
+        ostacoli.append((x * W - 32, y * H - 78, 64, 82))
+    for x, y in pro["luoghi"].values():
+        ostacoli.append((x * W - 32, y * H - 78, 64, 82))
+    for testo, punto, alto, lato in posti_etichette(pro, font_e, 0.02, ostacoli):
+        etichetta(d, img, testo, punto, alto, font_e, spazio=0.02, lato=lato)
+    # il pannello coi nomi, a sinistra, sotto i soldi
+    px, py, pw, ph = 46, 236, 540, 640
+    pannello = Image.new("RGBA", (pw, ph), NERO + (222,))
+    img.paste(pannello, (px, py), pannello)
+    d.rectangle([px, py, px + pw, py + ph], outline=GIALLO, width=3)
+    d.line([(px + pw - 40, py + ph), (px + pw, py + ph - 40)], fill=GIALLO, width=3)
+    d.text((px + 28, py + 22), "MALVENTO_", font=pixel(66), fill=GIALLO)
+    d.line([(px + 28, py + 114), (px + pw - 28, py + 114)], fill=GIALLO, width=2)
+    voce = pixel(27)
+    y = py + 136
+    # i luoghi con le lettere, per non confonderli con i numeri delle case
+    for n, testo in [("A", "Chiesa di S. Rocco"), ("B", "Cimitero"), ("C", "Recinto PANACEA")]:
+        d.rectangle([px + 28, y + 2, px + 68, y + 42], fill=GIALLO)
+        d.text((px + 48, y + 22), n, font=pixel(28), fill=NERO, anchor="mm")
+        d.text((px + 88, y + 22), testo, font=voce, fill=TESTO, anchor="lm")
+        y += 56
+    y += 18
+    d.text((px + 28, y), "CASE", font=pixel(30), fill=GIALLO)
+    y += 54
+    for fondo, cifra, bordo, testo in [(ROSSO, (255, 255, 255), None, "segnalata"), (VERDE, NERO, None, "visitata"),
+                                        (TESTO, NERO, None, "croce sulla porta"), (NERO, VERDE, VERDE, "nessuna segnalazione")]:
+        d.rounded_rectangle([px + 28, y + 2, px + 68, y + 42], radius=5, fill=fondo, outline=bordo, width=2)
+        d.text((px + 48, y + 22), "7", font=pixel(24), fill=cifra, anchor="mm")
+        d.text((px + 88, y + 22), testo, font=voce, fill=TESTO, anchor="lm")
+        y += 56
+    # le lettere dei luoghi (A, B, C) le mette il gioco: sono spilli gialli, come le case
+    img.save(USCITA, quality=92)
+    # dove cadono le case sullo schermo, per gli spilli del gioco
+    righe_js = ",\n  ".join(json.dumps([round(v, 4) for v in c]) for c in pro["case"])
+    luoghi = {k: [round(v, 4) for v in pro["luoghi"][k]] for k in pro["luoghi"]}
+    JS.write_text(
+        "// La mappa di Malvento e' una vista 3D in prospettiva (tools/mappa.py, art/scrivania/mappa3d): dove cadono sullo\n"
+        "// schermo le 23 case (x, y dello spillo, poi centro e raggi dell'ellisse che le copre) e i luoghi, in frazioni\n"
+        "// dell'immagine. File scritto da tools/mappa.py: non si modifica a mano\n"
+        f"export const MAPPA_3D = {{\n  case: [\n  {righe_js},\n  ],\n  luoghi: {json.dumps(luoghi)},\n}};\n",
+        encoding="utf-8")
+    print("fatto", USCITA, "e", JS)
 
 
 if __name__ == "__main__":
-    main()
+    passo = sys.argv[1] if len(sys.argv) > 1 else "tutto"
+    if passo in ("forme", "tutto"):
+        esporta_forme()
+    if passo in ("render", "tutto"):
+        render(int(sys.argv[2]) if len(sys.argv) > 2 else 2560)
+    if passo in ("componi", "tutto"):
+        componi()

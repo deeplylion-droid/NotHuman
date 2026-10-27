@@ -117,16 +117,18 @@
   #zone { position: absolute; inset: 0; pointer-events: none; }
   .zona { position: absolute; pointer-events: auto; background: transparent; border: 1px solid transparent; padding: 0; }
   .zona:hover, .zona:focus-visible { border-color: rgba(242, 209, 107, 0.55); box-shadow: inset 0 0 2cqw rgba(242, 209, 107, 0.18); outline: none; }
-  /* gli spilli sono puntine da disegno piantate nella mappa: la testa lucida col numero, l'ago d'acciaio e l'ombra
-     verso destra, come gli oggetti appoggiati (la luce della lampada viene da sinistra) */
-  .pin { --testa: #efe6d2; --cifra: #2a241c; position: absolute; pointer-events: auto; transform: translate(-50%, -135%); min-width: max(20px, 2.1cqw); height: max(20px, 2.1cqw); padding: 0 0.25em; border-radius: 999px; background: radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 34%), var(--testa); border: 1px solid rgba(0, 0, 0, 0.45); color: var(--cifra); font-family: var(--mono); font-weight: 700; font-size: max(10px, 1.05cqw); line-height: 1; display: grid; place-items: center; box-shadow: inset -0.16cqw -0.26cqw 0.32cqw rgba(0, 0, 0, 0.4), inset 0.1cqw 0.12cqw 0.2cqw rgba(255, 255, 255, 0.35), 0.5cqw 0.7cqw 0.45cqw rgba(30, 18, 8, 0.5); }
-  .pin::after { content: ""; position: absolute; left: 50%; top: 100%; width: 3px; height: max(8px, 1.1cqw); margin-left: -1.5px; background: linear-gradient(90deg, #6f6f6f, #f2f2f2 45%, #7a7a7a); box-shadow: 0.35cqw 0.2cqw 0.25cqw rgba(30, 18, 8, 0.4); z-index: -1; }
-  .pin.segnalata { --testa: #c8322a; --cifra: #fff; }
-  .pin.visitata { --testa: #2f5f8c; --cifra: #fff; }
-  .pin.croce { --testa: #1b1b1b; --cifra: #fff; }
-  .pin.contagiata { --testa: var(--rec); --cifra: #fff; box-shadow: inset -0.16cqw -0.26cqw 0.32cqw rgba(0, 0, 0, 0.4), 0 0 0 0.5cqw rgba(224, 64, 47, 0.35), 0.5cqw 0.7cqw 0.45cqw rgba(30, 18, 8, 0.5); }
-  .pin.luogo { --testa: #2d2a25; --cifra: #f1eadb; font-size: max(10px, 1.1cqw); }
-  .pin:hover, .pin:focus-visible { border-color: var(--giallo); outline: 2px solid var(--giallo); outline-offset: 1px; }
+  /* gli spilli della mappa in 3D, come i segnalini di Night City ma coi colori del gioco: un quadratino col numero e
+     un filo che scende sulla casa, con un punto in fondo. Rosse le case segnalate, verdi le visitate, bianche quelle
+     con la croce, nere col bordo verde le altre; gialli i luoghi (A chiesa, B cimitero, C recinto della ditta) */
+  .pin { --testa: var(--notte); --cifra: var(--verde); --bordo: var(--verde); position: absolute; pointer-events: auto; transform: translate(-50%, -135%); min-width: max(18px, 1.9cqw); height: max(18px, 1.9cqw); padding: 0 0.25em; border-radius: 3px; background: var(--testa); border: 2px solid var(--bordo); color: var(--cifra); font-family: var(--gioco); font-size: max(10px, 1.05cqw); line-height: 1; display: grid; place-items: center; box-shadow: 0 0 0.5cqw rgba(0, 0, 0, 0.7); }
+  .pin::after { content: ""; position: absolute; left: 50%; top: 100%; width: 2px; height: max(8px, 1.1cqw); margin-left: -1px; background: var(--bordo); }
+  .pin::before { content: ""; position: absolute; left: 50%; top: calc(100% + max(8px, 1.1cqw) - 3px); width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: var(--bordo); }
+  .pin.segnalata { --testa: var(--rec); --cifra: #fff; --bordo: var(--rec); }
+  .pin.visitata { --testa: var(--verde); --cifra: var(--notte); --bordo: var(--verde); }
+  .pin.croce { --testa: var(--testo); --cifra: var(--notte); --bordo: var(--testo); }
+  .pin.contagiata { --testa: var(--rec); --cifra: #fff; --bordo: var(--rec); box-shadow: 0 0 0 0.45cqw rgba(224, 64, 47, 0.4), 0 0 0.5cqw rgba(0, 0, 0, 0.7); }
+  .pin.luogo { --testa: var(--giallo); --cifra: var(--notte); --bordo: var(--giallo); font-size: max(10px, 1.1cqw); }
+  .pin:hover, .pin:focus-visible { outline: 2px solid var(--giallo); outline-offset: 2px; }
 
   #etichetta { position: absolute; left: 0; top: 0; margin: 1.6cqw 0 0 1.8cqw; font-family: var(--gioco); font-size: max(11px, 1.45cqw); letter-spacing: 0.06em; color: #f0f0ec; text-shadow: 0 0 2px #000, 0.14cqw 0.14cqw 0 #000, 0 0 0.8cqw rgba(0, 0, 0, 0.9); pointer-events: none; white-space: nowrap; z-index: 10; }
   #etichetta.sinistra { margin: 1.6cqw 0 0 -1.8cqw; translate: -100% 0; }
@@ -224,7 +226,19 @@
   @media (prefers-reduced-motion: reduce) { .fot.nuovo, .timbro-schermo { animation-duration: 0.01s; } .frase .cursore { animation: none; } }
 
   /* la scheda della casa sulla mappa: una scheda di cartoncino del medico, piena se la casa e' stata visitata */
-  #scheda-casa { position: absolute; z-index: 9; width: clamp(210px, 31cqw, 380px); max-height: calc(100% - 4cqw); overflow: auto; color-scheme: light; background-color: #efe6cf; background-image: repeating-linear-gradient(180deg, transparent 0 1.55em, rgba(60, 90, 140, 0.13) 1.55em calc(1.55em + 1px)); color: #2a2520; font-family: var(--mono); font-size: max(10.5px, 1.2cqw); line-height: 1.4; padding: 0.8em 0.9em; border: 1px solid rgba(40, 30, 20, 0.35); box-shadow: 0 0.8cqw 2cqw rgba(0, 0, 0, 0.55); rotate: -0.6deg; }
+  /* la scheda della casa sulla mappa in 3D: un pannello scuro col bordo giallo, come il pannello MALVENTO_ */
+  #scheda-casa { position: absolute; z-index: 9; width: clamp(210px, 31cqw, 380px); max-height: calc(100% - 4cqw); overflow: auto; color-scheme: dark; background: rgba(11, 13, 12, 0.94); color: var(--testo); font-family: var(--mono); font-size: max(10.5px, 1.2cqw); line-height: 1.4; padding: 0.8em 0.9em; border: 2px solid var(--giallo); box-shadow: 0 0.8cqw 2cqw rgba(0, 0, 0, 0.6); }
+  #scheda-casa .sc-testa { font-family: var(--gioco); color: var(--giallo); font-weight: 400; }
+  #scheda-casa .timbro.rosso { color: var(--rec); }
+  #scheda-casa .timbro.blu { color: var(--verde); }
+  #scheda-casa .timbro.nero { color: var(--testo); }
+  #scheda-casa .sc-foto { border-color: var(--testo); filter: none; }
+  #scheda-casa .sc-foto.ignota { background: rgba(255, 255, 255, 0.04); border-color: rgba(236, 232, 220, 0.4); color: rgba(236, 232, 220, 0.5); }
+  #scheda-casa .sc-dati em.via { color: var(--rec); }
+  #scheda-casa .sc-dati em.ospite { color: var(--verde); }
+  #scheda-casa .sc-azioni button { border-color: rgba(236, 232, 220, 0.5); }
+  #scheda-casa .sc-azioni .sc-vai { color: var(--giallo); border-color: var(--giallo); }
+  #scheda-casa .sc-azioni button:hover, #scheda-casa .sc-azioni button:focus-visible { background: rgba(242, 209, 107, 0.12); }
   .sc-testa { display: flex; align-items: center; gap: 0.5em; flex-wrap: wrap; font-weight: 600; font-size: 1.12em; letter-spacing: 0.04em; text-transform: uppercase; }
   .timbro { font-size: 0.7em; letter-spacing: 0.1em; border: 2px solid currentColor; padding: 0.02em 0.4em; rotate: -5deg; }
   .timbro.rosso { color: #b4302a; }

@@ -1,0 +1,14 @@
+[
+ {
+  "nome": "persone_senza_ringhiera",
+  "modello": "fal-ai/nano-banana-pro/edit",
+  "input": {
+   "prompt": "Edit this image with one single change: remove the black iron footboard at the foot of the bed, nearest to the viewer (its top rail, its vertical bars and its two corner posts). This bed has no footboard: the foot of the thin mattress and the green checked wool blanket hanging over it are fully visible, straight down to the low dark bed frame just above the floor. Keep everything else exactly identical, pixel for pixel: the dead woman lying in the bed with her face, hands and rosary, the pillows, the sheet, the headboard, nightstand and lamp, the window with the closed blinds, the wardrobe, the floor, the framing, light and colors.",
+   "image_urls": ["@file:persone.jpg"],
+   "aspect_ratio": "16:9",
+   "resolution": "2K",
+   "output_format": "jpeg",
+   "num_images": 1
+  }
+ }
+]

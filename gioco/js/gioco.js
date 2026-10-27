@@ -1117,44 +1117,35 @@ function disegnaMappa() {
   for (const id of new Set([R.casaScelta, R.casaSopra])) {
     if (!id) continue;
     const c = D.CASE[id];
-    const cx = c.ex * w, cy = c.ey * h, rx = c.rx * w * 1.3, ry = c.ry * h * 1.2;
-    // luce calda sulla casa
-    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(rx, ry));
-    g.addColorStop(0, "rgba(255, 232, 180, 0.46)");
-    g.addColorStop(0.65, "rgba(255, 232, 180, 0.24)");
-    g.addColorStop(1, "rgba(255, 232, 180, 0)");
-    ctx.save();
-    ctx.globalCompositeOperation = "lighter";
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-    matita(ctx, cx, cy, rx, ry, c.n);
+    mirino(ctx, c.ex * w, c.ey * h, c.rx * w * 1.25, c.ry * h * 1.15);
   }
   if (vhs && vhs.source === R.mappa) vhs.refresh();
 }
 
-// il cerchio a matita rossa del medico, un po' storto e sempre uguale per la stessa casa
-function matita(ctx, cx, cy, rx, ry, seme) {
-  let s = seme * 7919;
-  const caso = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+// la casa sotto il puntatore, sulla mappa in 3D: un alone giallo e gli angoli di un mirino, col giallo
+// dell'interfaccia (--giallo)
+function mirino(ctx, cx, cy, rx, ry) {
+  const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(rx, ry));
+  g.addColorStop(0, "rgba(242, 209, 107, 0.3)");
+  g.addColorStop(1, "rgba(242, 209, 107, 0)");
   ctx.save();
-  ctx.strokeStyle = "rgba(170, 30, 24, 0.9)";
-  ctx.lineWidth = Math.max(2, R.mappa.width / 820);
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  for (let giro = 0; giro < 2; giro++) {
+  ctx.globalCompositeOperation = "lighter";
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+  ctx.save();
+  ctx.strokeStyle = "#f2d16b";
+  ctx.lineWidth = Math.max(3, R.mappa.width / 640);
+  ctx.lineCap = "square";
+  const l = Math.min(rx, ry) * 0.45;
+  for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
+    const x = cx + sx * rx, y = cy + sy * ry;
     ctx.beginPath();
-    const a0 = caso() * Math.PI * 2;
-    const fine = Math.PI * 2 * (1.06 + caso() * 0.1);
-    for (let k = 0; k <= 70; k++) {
-      const a = a0 + (k / 70) * fine;
-      const j = 1.04 + giro * 0.05 + (caso() - 0.5) * 0.05;
-      const x = cx + Math.cos(a) * rx * j;
-      const y = cy + Math.sin(a) * ry * j;
-      if (k) ctx.lineTo(x, y); else ctx.moveTo(x, y);
-    }
+    ctx.moveTo(x - sx * l, y);
+    ctx.lineTo(x, y);
+    ctx.lineTo(x, y - sy * l);
     ctx.stroke();
   }
   ctx.restore();

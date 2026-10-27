@@ -1,0 +1,14 @@
+[
+ {
+  "nome": "stanza_vuota_senza_ringhiera",
+  "modello": "fal-ai/nano-banana-pro/edit",
+  "input": {
+   "prompt": "Edit this photograph with one single change: remove the black iron rail that runs horizontally along the near long side of the bed, in front of the mattress, together with its short vertical bars. This bed has no rail on its long side: the side of the thin white mattress and the green wool blanket are fully visible, straight down to the low dark bed frame just above the floor. Keep everything else exactly identical, pixel for pixel: the same framing and perspective, the same walls, headboard, pillow, nightstand and lamp, window with the closed blinds, wardrobe, floor, light and colors.",
+   "image_urls": ["@file:stanza_vuota.jpg"],
+   "aspect_ratio": "16:9",
+   "resolution": "2K",
+   "output_format": "jpeg",
+   "num_images": 1
+  }
+ }
+]
