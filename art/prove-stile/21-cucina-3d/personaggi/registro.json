@@ -1,0 +1,215 @@
+{
+  "padre_ps1": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Re-create the person from this character reference sheet as one single full-body character model from a 1998 PlayStation horror game, shown as a clean in-engine render: a low-poly 3D model with visible flat polygon facets, simplified blocky hands and feet, and low-resolution hand-painted textures with chunky visible pixels, simple flat colors and painted shading, no photographic detail. Keep the person recognizable: a gaunt man in his fifties with messy short black hair, huge bulging eyes with dark circles, hollow cheeks, a long nose and crooked yellow teeth in a half-open mouth; a worn blue denim jacket open over a dirty grey-green t-shirt, dark blue jeans and old brown work boots. Standing in a neutral A-pose facing the camera, arms held slightly away from the body, legs slightly apart, the whole body from head to feet visible and centered, on a plain flat light grey background, flat even lighting, no cast shadows. No text, no border, only this one figure.",
+      "image_urls": [
+        "@file:../../../personaggi/padre.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "padre_ps1.png"
+    ],
+    "seed": null,
+    "secondi": 77,
+    "descrizione": null
+  },
+  "figlia_ps1": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Re-create the person from this character reference sheet as one single full-body character model from a 1998 PlayStation horror game, shown as a clean in-engine render: a low-poly 3D model with visible flat polygon facets, simplified blocky hands and feet, and low-resolution hand-painted textures with chunky visible pixels, simple flat colors and painted shading, no photographic detail. Keep the person recognizable: a thin, very pale young woman in her twenties with long straight black hair, huge bulging frightened eyes with dark circles and a small tight mouth; a purple hoodie, black jeans and purple canvas sneakers. Standing in a neutral A-pose facing the camera, arms held slightly away from the body, legs slightly apart, the whole body from head to feet visible and centered, on a plain flat light grey background, flat even lighting, no cast shadows. No text, no border, only this one figure.",
+      "image_urls": [
+        "@file:../../../personaggi/figlia.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "figlia_ps1.png"
+    ],
+    "seed": null,
+    "secondi": 78,
+    "descrizione": null
+  },
+  "padre_creta": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Re-create the person from this character reference sheet as one single full-body handmade plasticine puppet for a dark stop-motion film (claymation): everything sculpted from matte modelling clay, including the hair and the clothes, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly lumpy hand-made shapes and simplified grotesque features; the eyes are glossy glass beads set into the clay. Keep the person recognizable: a gaunt man in his fifties with messy short black hair, huge bulging eyes with dark circles, hollow cheeks, a long nose and crooked yellow teeth in a half-open mouth; a worn blue denim jacket open over a dirty grey-green t-shirt, dark blue jeans and old brown work boots. Standing in a neutral A-pose facing the camera, arms held slightly away from the body, legs slightly apart, the whole body from head to feet visible and centered, on a plain flat light grey background, soft even studio light, photographed like a real puppet. No text, no border, only this one figure.",
+      "image_urls": [
+        "@file:../../../personaggi/padre.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "padre_creta.png"
+    ],
+    "seed": null,
+    "secondi": 81,
+    "descrizione": null
+  },
+  "figlia_creta": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Re-create the person from this character reference sheet as one single full-body handmade plasticine puppet for a dark stop-motion film (claymation): everything sculpted from matte modelling clay, including the hair and the clothes, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly lumpy hand-made shapes and simplified grotesque features; the eyes are glossy glass beads set into the clay. Keep the person recognizable: a thin, very pale young woman in her twenties with long straight black hair, huge bulging frightened eyes with dark circles and a small tight mouth; a purple hoodie, black jeans and purple canvas sneakers. Standing in a neutral A-pose facing the camera, arms held slightly away from the body, legs slightly apart, the whole body from head to feet visible and centered, on a plain flat light grey background, soft even studio light, photographed like a real puppet. No text, no border, only this one figure.",
+      "image_urls": [
+        "@file:../../../personaggi/figlia.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "figlia_creta.png"
+    ],
+    "seed": null,
+    "secondi": 86,
+    "descrizione": null
+  },
+  "figlia_ps1_3d": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:figlia_ps1.png",
+      "should_texture": true,
+      "symmetry_mode": "auto",
+      "pose_mode": "a-pose",
+      "enable_rigging": true,
+      "rigging_height_meters": 1.62,
+      "enable_animation": true,
+      "animation_action_id": 0,
+      "model_type": "standard",
+      "enable_pbr": false,
+      "topology": "triangle",
+      "target_polycount": 3000,
+      "should_remesh": true
+    },
+    "file": [
+      "figlia_ps1_3d.glb",
+      "figlia_ps1_3d_anteprima.png",
+      "figlia_ps1_3d_scheletro.glb",
+      "figlia_ps1_3d_animato.glb"
+    ],
+    "seed": 767059748,
+    "secondi": 165,
+    "descrizione": null
+  },
+  "padre_ps1_3d": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:padre_ps1_b.png",
+      "should_texture": true,
+      "symmetry_mode": "auto",
+      "pose_mode": "a-pose",
+      "enable_rigging": true,
+      "rigging_height_meters": 1.75,
+      "enable_animation": true,
+      "animation_action_id": 0,
+      "model_type": "standard",
+      "enable_pbr": false,
+      "topology": "triangle",
+      "target_polycount": 3000,
+      "should_remesh": true
+    },
+    "file": [
+      "padre_ps1_3d.glb",
+      "padre_ps1_3d_anteprima.png",
+      "padre_ps1_3d_scheletro.glb",
+      "padre_ps1_3d_animato.glb"
+    ],
+    "seed": 1629420200,
+    "secondi": 133,
+    "descrizione": null
+  },
+  "padre_creta_3d": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:padre_creta.png",
+      "should_texture": true,
+      "symmetry_mode": "auto",
+      "pose_mode": "a-pose",
+      "enable_rigging": true,
+      "rigging_height_meters": 1.75,
+      "enable_animation": true,
+      "animation_action_id": 0,
+      "model_type": "standard",
+      "topology": "quad",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true
+    },
+    "file": [
+      "padre_creta_3d.glb",
+      "padre_creta_3d_anteprima.png",
+      "padre_creta_3d_scheletro.glb",
+      "padre_creta_3d_animato.glb"
+    ],
+    "seed": 637656684,
+    "secondi": 263,
+    "descrizione": null
+  },
+  "figlia_creta_3d": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:figlia_creta.png",
+      "should_texture": true,
+      "symmetry_mode": "auto",
+      "pose_mode": "a-pose",
+      "enable_rigging": true,
+      "rigging_height_meters": 1.62,
+      "enable_animation": true,
+      "animation_action_id": 0,
+      "model_type": "standard",
+      "topology": "quad",
+      "target_polycount": 30000,
+      "should_remesh": true,
+      "enable_pbr": true
+    },
+    "file": [
+      "figlia_creta_3d.glb",
+      "figlia_creta_3d_anteprima.png",
+      "figlia_creta_3d_scheletro.glb",
+      "figlia_creta_3d_animato.glb"
+    ],
+    "seed": 1960156325,
+    "secondi": 269,
+    "descrizione": null
+  },
+  "padre_ps1_b": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Re-create the man from this character reference sheet as one single full-body character model from a 1998 PlayStation adventure game, shown as a clean in-engine render: a low-poly 3D model with visible flat polygon facets, simplified blocky hands and feet, and low-resolution hand-painted textures with chunky visible pixels, simple flat colors and painted shading, no photographic detail. Keep him recognizable but clearly alive and human, a tired, worried working man, not a zombie and not a monster: a thin man in his fifties with messy short black hair, big bulging tired eyes, a long nose, a thin face with natural skin color, a slightly open mouth with crooked teeth; a worn blue denim jacket open over a grey-green t-shirt, dark blue jeans and brown work boots. Standing in a neutral A-pose facing the camera, arms held slightly away from the body, legs slightly apart, the whole body from head to feet visible and centered, on a plain flat light grey background, flat even lighting, no cast shadows. No text, no border, only this one figure.",
+      "image_urls": [
+        "@file:../../../personaggi/padre.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1536
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "padre_ps1_b.png"
+    ],
+    "seed": null,
+    "secondi": 71,
+    "descrizione": null
+  }
+}

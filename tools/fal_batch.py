@@ -80,6 +80,10 @@ def run(job, key, out, base):
     anteprima = res.get("rendered_image") or res.get("thumbnail")
     if glb and anteprima:
         named.append((f"{job['nome']}_anteprima", anteprima))
+    # con lo scheletro (Meshy, enable_rigging) anche il personaggio montato e, se chiesta, la sua animazione
+    for chiave, suffisso in (("rigged_character_glb", "_scheletro"), ("animation_glb", "_animato")):
+        if res.get(chiave):
+            named.append((f"{job['nome']}{suffisso}", {**res[chiave], "content_type": "model/glb"}))
     # i modelli dei suoni restituiscono un file audio
     if res.get("audio"):
         named.append((job["nome"], res["audio"]))
