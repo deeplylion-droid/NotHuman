@@ -109,10 +109,13 @@ const carica = (src) => new Promise((res, rej) => {
 });
 
 // le visite (27 ottobre, sera): si torna alle scene 2D; quelle in plastilina restano per riferimento con #creta
-// nell'indirizzo. Niente VHS da nessuna parte (restano la lampada, lo zoom, la notte verde e l'infrarosso); al posto
-// del catrame il tono del giorno, da scegliere: grigio coi rossi (#rosso, per ora) o blu col bianco (#blu)
+// nell'indirizzo. Niente VHS da nessuna parte (restano la lampada, lo zoom, la notte verde e l'infrarosso)
 const VISITE_3D = /creta/.test(location.hash);
-const TONO = /blu/.test(location.hash) ? 2 : /catrame/.test(location.hash) ? 0 : 1;
+// al posto del catrame un filtro colore per casa, alternati col numero della casa (vhs.js): 3 verde malato,
+// 4 ottanio e arancio, 5 blu freddo, 6 livido. Per confronto #catrame, #rosso (grigio coi rossi) e #blu (blu col
+// bianco) mettono lo stesso tono in tutte le case
+const TONO = /catrame/.test(location.hash) ? 0 : /rosso/.test(location.hash) ? 1 : /blu/.test(location.hash) ? 2 : null;
+const tonoCasa = (casa) => TONO ?? 3 + ((D1.CASE[casa]?.n ?? 1) - 1) % 4;
 
 // le scene 2D di prima servono solo se le visite in plastilina non partono (senza WebGL 2): allora si caricano dopo
 const conWebgl2 = (() => {
@@ -1330,6 +1333,7 @@ async function vaiLuogo(luogo) {
     if (vhs) {
       vhs.mode(L.notte ? "notte" : "giorno");
       vhs.setLuce(L.notte ? 0 : 1);
+      vhs.tono = tonoCasa(L.casa);
       vhs.setHeat(null);
       vhs.setDark(0);
       vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
@@ -2431,6 +2435,7 @@ function modoRipresa() {
   } else if (vhs) {
     vhs.mode(p.ir ? "ir" : notte ? "notte" : "giorno");
     vhs.setLuce(p.ir || notte ? 0 : 1);
+    if (p.nastro.casa) vhs.tono = tonoCasa(p.nastro.casa);
     vhs.setEsame(!p.ir && r.tipo === "primo" ? 1 : 0);
   }
   osd.modo.textContent = p.ir ? "IR" : notte ? "NOTTE" : "";
@@ -3032,7 +3037,6 @@ async function avvia(dati) {
     // niente VHS (27 ottobre): niente difetti del nastro; restano la lampada, lo zoom, la notte e l'infrarosso
     vhs.pulito = false;
     vhs.difetti = 0;
-    vhs.tono = TONO;
     vhs.start();
     // gli strappi del nastro si sentono: un crepitio, piu' forte quanto piu' e' forte lo strappo
     // solo gli strappi forti (i cambi di inquadratura, lo zoom, la contraddizione), non i piccoli disturbi

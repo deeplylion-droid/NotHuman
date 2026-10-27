@@ -85,6 +85,18 @@ const FRAG = `
     vec3 r = vec3(0.1 + l * 1.5, l * 0.13, l * 0.12);
     return mix(resto, r, rosso);
   }
+  // i toni a colori (27 ottobre, sera: "rimettere il colore, togliere il catrame, qualche altro filtro colore della
+  // stessa intensita'", e niente dettagli rossi): i colori restano, le ombre vanno verso un colore e le luci verso un
+  // altro, e come col catrame tutto si fa un po' piu' scuro e contrastato
+  vec3 tonoColore(vec3 c, vec3 ombre, vec3 luci) {
+    float l = dot(c, LUMA);
+    vec3 t = mix(ombre, luci, smoothstep(0.05, 0.7, l));
+    t /= max(dot(t, LUMA), 0.001);
+    vec3 g = c * t;
+    float lg = dot(g, LUMA);
+    g = mix(vec3(lg), g, 0.85);
+    return pow(max(g, vec3(0.0)), vec3(1.12)) * 0.9;
+  }
   vec3 bluBianco(vec3 c) {
     float l = dot(c, LUMA);
     vec3 b = mix(vec3(0.015, 0.03, 0.08), vec3(0.17, 0.32, 0.58), smoothstep(0.0, 0.62, l));
@@ -147,7 +159,12 @@ const FRAG = `
     ch /= 5.0;
     vec3 col = vec3(Y) + (ch - vec3(dot(ch, LUMA))) * (1.0 - u_blur * 0.5);
     if (u_catrame > 0.001) {
-      vec3 t = u_tono < 0.5 ? catrame(col) : u_tono < 1.5 ? grigioRosso(col) : bluBianco(col);
+      vec3 t = u_tono < 0.5 ? catrame(col) : u_tono < 1.5 ? grigioRosso(col) : u_tono < 2.5 ? bluBianco(col)
+        // 3: verde malato (ombre verde acqua, luci gialline); 4: ottanio e arancio; 5: blu freddo; 6: livido (viola)
+        : u_tono < 3.5 ? tonoColore(col, vec3(0.5, 0.86, 0.74), vec3(1.0, 1.0, 0.68))
+        : u_tono < 4.5 ? tonoColore(col, vec3(0.42, 0.76, 1.0), vec3(1.0, 0.82, 0.6))
+        : u_tono < 5.5 ? tonoColore(col, vec3(0.5, 0.66, 1.0), vec3(0.86, 0.95, 1.0))
+        : tonoColore(col, vec3(0.74, 0.55, 1.0), vec3(1.0, 0.86, 0.92));
       col = mix(col, t, u_catrame);
     }
 
@@ -250,7 +267,9 @@ export class Vhs {
     // l'immagine passa pulita, senza righe, rumore, strappi, colori sbavati, catrame, luce finta, rosso dell'esame e
     // vignetta; restano lo zoom, la messa a fuoco, il buio della sera, il verde della notte e la neve dei nastri vecchi
     this.pulito = false;
-    // il tono del giorno, nelle riprese con la luce della videocamera: 0 il catrame, 1 grigio coi rossi, 2 blu col bianco
+    // il tono del giorno, nelle riprese con la luce della videocamera: 0 il catrame, 1 grigio coi rossi, 2 blu col bianco;
+    // a colori: 3 verde malato, 4 ottanio e arancio, 5 blu freddo, 6 livido. Nel gioco i quattro a colori, uno per casa
+    // (gioco.js, tonoCasa)
     this.tono = 0;
     // i difetti del nastro (righe, rumore, strappi, colori sbavati, grana): dal 27 ottobre niente VHS, quindi 0; il
     // resto della videocamera (lampada, zoom, messa a fuoco, notte, infrarosso, il rosso dell'esame) resta
