@@ -1,0 +1,31 @@
+{
+  "moglie": {
+    "riferimento": "riferimento_moglie.jpg",
+    "scheda": "moglie",
+    "aspetto": "a hard-faced, heavy woman in her sixties with greying hair tied back carelessly, deep wrinkles, bulging tired eyes and a long crooked nose, in a shapeless beige knitted cardigan over a dark floral housedress",
+    "parti": {
+      "occhi": "Deep dark circles under tired, red-rimmed eyes, as after a sleepless night shift; the whites are clear: no fever, no sweat.",
+      "bocca": "Thin, tightly pressed lips and yellowed teeth; nothing unusual.",
+      "collo": {"inquadratura": "the side of her neck and the skin behind her ear, her greying hair pulled back",
+                "segni": "Two thin red lines pressed into the skin behind the ear and across the cheek, like the marks left by the elastic straps of a protective face mask worn for many hours; no swelling, no lumps."},
+      "mani": {"inquadratura": "both hands held out in front, backs up, from the wrists to the fingertips",
+               "segni": "Rough, chapped, reddened hands with cracked knuckles, as from strong disinfectant; on the back of the right hand a faded blue ink stamp: a small triangle with a number inside, like an entry stamp."}
+    }
+  },
+  "marito": {
+    "riferimento": "riferimento_marito.jpg",
+    "scheda": "marito",
+    "aspetto": "a wasted old man in his seventies with a shaved head, grey stubble, bulging eyes, a huge crooked nose and rotten teeth, in an old white vest, wrapped in a brown patterned wool blanket and an olive green blanket, the plastic tube of a nebulizer on his chest",
+    "parti": {
+      "occhi": "Watery, tired, red-rimmed old eyes; no fever, no sweat.",
+      "occhi_febbre": {"inquadratura": "the eyes and the bridge of the nose, from the eyebrows to the cheekbones",
+                       "segni": "His eyes are glassy and bloodshot with high fever, the rims red and swollen, beads of sweat on his forehead and temples."},
+      "bocca": "His mouth hangs open as he struggles for breath, a few rotten teeth; on the lower lip a little thick grey phlegm, no blood.",
+      "collo": "A thin, wrinkled old neck with grey stubble, the tendons and veins straining with the effort of breathing; no swelling, no lumps.",
+      "collo_febbre": {"inquadratura": "the side of the neck, from under the jaw to the collarbone",
+                       "segni": "A thin, wrinkled old neck with grey stubble; under the jaw a hard, swollen lump the size of a walnut, red and shiny: a plague bubo just beginning."},
+      "mani": {"inquadratura": "both hands resting on the blanket, from the wrists to the fingertips",
+               "segni": "Huge, bony hands with thick, flat fingertips like spatulas and bluish nails, from lack of air; old white scars from quarry work."}
+    }
+  }
+}

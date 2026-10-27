@@ -1,0 +1,18 @@
+{
+  "suocera": {
+    "riferimento": "riferimento_suocera.jpg",
+    "scheda": "suocera",
+    "aspetto": "a tiny, stooped old woman in her late seventies with a deeply wrinkled face, huge bulging eyes, a hooked nose and an almost toothless mouth, in widow's black from head to toe: black headscarf, black cardigan, black skirt",
+    "parti": {
+      "occhi": "Red, swollen eyelids from crying, but dry, clear eyes: no fever, no sweat.",
+      "occhi_febbre": {"inquadratura": "the eyes and the bridge of the nose, from the eyebrows to the cheekbones, the edge of the black headscarf",
+                       "segni": "Glassy, bloodshot eyes with fever, the eyelids red and swollen from crying, beads of sweat under the edge of the black headscarf."},
+      "bocca": "An almost toothless mouth with two crooked teeth and thin, pressed lips; nothing unusual.",
+      "collo": {"inquadratura": "the side of her wrinkled neck under the jaw, the black headscarf pulled aside",
+                "segni": "A very wrinkled old neck with a thin black ribbon around it; no swelling, no lumps."},
+      "collo_febbre": {"inquadratura": "the side of her wrinkled neck under the jaw, the black headscarf pulled aside",
+                       "segni": "A very wrinkled old neck with a thin black ribbon around it; under the jaw a hard swollen lump the size of a walnut, red and shiny: a plague bubo just beginning."},
+      "mani": "Gnarled, bony old hands with swollen knuckles; dark earth under the fingernails, as if she had been kneeling at a grave, and a drop of red candle wax on one finger."
+    }
+  }
+}

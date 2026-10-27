@@ -1,0 +1,154 @@
+{
+  "base": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor standing in a small, bare kitchen of a poor old house in a remote mountain village, present day, afternoon: plain painted walls with a few damp stains; on the left, next to the front door, a woman's dark red wool coat hangs on a wall hook; in the middle a small wooden table with a checked oilcloth and two chairs; against the back wall a low sideboard with a small framed wedding photograph, a black ribbon tied across one corner of the frame, and a red grave candle burning in front of it; on the right a closed wooden bedroom door with a big old iron key left in the keyhole; a window with closed plastic roller blinds. A ceiling lamp gives even light. One person: a tiny, stern old woman in her late seventies, in widow's black from head to toe (black dress, black cardigan, black headscarf, thick black stockings), stands just to the left of the closed bedroom door, facing the viewer, one bony hand gripping the back of a chair. She is guarding that door and hiding someone behind it, and her face shows it. No hands, arms or objects belonging to the viewer are visible in the frame. Realistic photograph, evenly exposed, everything clearly readable, no dramatic shadows. 16:9, no text, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "base.png"
+    ],
+    "seed": null,
+    "secondi": 71,
+    "descrizione": null
+  },
+  "fumetto": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the front door with the red coat on the hook, the table with the checked oilcloth and the chairs, the sideboard with the wedding photograph and the grave candle, the closed bedroom door with the key in the keyhole and the window with the closed blinds, and the old woman in black standing just to the left of the closed bedroom door with one hand on the back of a chair, in the same places and poses. The one people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "fumetto.png"
+    ],
+    "seed": null,
+    "secondi": 77,
+    "descrizione": null
+  },
+  "stanza_stile": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Remove the one people completely, with everything they hold. Reconstruct the empty room behind them naturally, in the same drawing style. Keep everything else exactly identical and in the same place: the front door with the red coat on the hook, the table with the checked oilcloth and the chairs, the sideboard with the wedding photograph and the grave candle, the closed bedroom door with the key in the keyhole and the window with the closed blinds, the same lighting and the same camera. Do not draw any face anywhere.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "ammorbiditi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render only the one people as realistic photographs: real skin with pores, real hair, real fabric and real leather, photographic lighting. Keep exactly their grotesque, deformed features from this image: the same bulging eyes, crooked noses, bad teeth, sunken cheeks, bony elongated fingers, and the same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do not make them look more normal. Everything else in the image stays exactly identical.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ammorbiditi.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "stanza_stile_pulita": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this comic drawing of an empty room. Keep exactly the same drawing style (bold black brush-ink outlines, flat muted colors with no gradients, light crosshatching only where there is shadow), the same composition and every object in exactly the same place and size. Clean only the walls and the ceiling: they become smooth, plain painted plaster in a warm off-white color, like a modest but cared-for home, with at most two or three faint damp stains. Remove all peeling and flaking paint, exposed patches, cracks, dirt streaks and texture marks that are not real objects. Do not add anything. No people, no faces, no text.",
+      "image_urls": [
+        "@file:stanza_stile.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile_pulita.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "stanza_vuota": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render this drawing of an empty room as a realistic photograph, like an ordinary amateur snapshot, evenly exposed. The walls and the ceiling are smooth, plain painted plaster in a warm off-white color, like a modest but cared-for home, with at most two or three faint damp stains: do not copy the drawing's cracks, peeling or flaking paint, stains or hatching. Keep everything else exactly identical and in exactly the same place and size: the front door with the red coat on the hook, the table with the checked oilcloth and the chairs, the sideboard with the wedding photograph and the grave candle, the closed bedroom door with the key in the keyhole and the window with the closed blinds, the lighting, the camera and the framing. Do not add any people, hands or objects, and no faces anywhere.",
+      "image_urls": [
+        "@file:stanza_stile_pulita.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_vuota.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../ammorbiditi.jpg",
+      "prompt": "person",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "persone.png",
+      "persone_maschera1.png",
+      "persone_maschera2.png",
+      "persone_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 11,
+    "descrizione": null
+  },
+  "stanza_stile_senza_sedia": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this comic drawing of an empty kitchen. Remove the wooden chair on the right side of the table, the one standing in front of the closed bedroom door: in its place there is only the bare speckled floor and the lower part of the door. Keep the other two chairs (the one in front of the table and the one behind it). Keep exactly the same drawing style, the same composition and every other object exactly in the same place and size. Do not add anything. No people, no faces, no text.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  }
+}

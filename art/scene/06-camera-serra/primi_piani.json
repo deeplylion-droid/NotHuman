@@ -1,0 +1,17 @@
+{
+  "nuora": {
+    "riferimento": "riferimento_nuora.jpg",
+    "scheda": "nuora",
+    "aspetto": "a gaunt young widow in her early thirties with long, loose black hair, sunken cheeks, huge bulging dark-ringed eyes and a long nose, in a black long-sleeved dress, a man's gold wedding ring hanging on a thin chain around her neck",
+    "parti": {
+      "occhi": "Eyes swollen and red-rimmed from crying, with dark circles; the whites are clear: no fever, no sweat.",
+      "bocca": "Pale, bitten lips; healthy teeth; nothing unusual.",
+      "collo": {"inquadratura": "her neck and the base of her throat above the collar of the black dress",
+                "segni": "On a thin gold chain around her neck hangs a man's plain gold wedding ring, too big for her; the skin of the neck is healthy: no swelling, no lumps."},
+      "ascelle": {"inquadratura": "her left armpit: she raises her arm, the black sleeve pulled down to the shoulder",
+                  "segni": "Pale, healthy skin with no swelling and no marks at all."},
+      "mani": {"inquadratura": "both hands held out in front, palms up, from the wrists to the fingertips",
+               "segni": "Red, raw, deeply chapped hands, the skin cracked and peeling on the fingers and the knuckles, as from scrubbing with bleach several times a day for weeks; otherwise healthy, the fingertips normal."}
+    }
+  }
+}
