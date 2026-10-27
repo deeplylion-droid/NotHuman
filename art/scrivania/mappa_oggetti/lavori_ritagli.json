@@ -1,0 +1,57 @@
+[
+ {
+  "nome": "tazzina_ritaglio",
+  "modello": "fal-ai/birefnet/v2",
+  "input": {
+   "image_url": "@file:tazzina.png",
+   "model": "General Use (Heavy)",
+   "operating_resolution": "2048x2048",
+   "output_format": "png",
+   "refine_foreground": true
+  }
+ },
+ {
+  "nome": "matita_ritaglio",
+  "modello": "fal-ai/birefnet/v2",
+  "input": {
+   "image_url": "@file:matita.png",
+   "model": "General Use (Heavy)",
+   "operating_resolution": "2048x2048",
+   "output_format": "png",
+   "refine_foreground": true
+  }
+ },
+ {
+  "nome": "gomma_ritaglio",
+  "modello": "fal-ai/birefnet/v2",
+  "input": {
+   "image_url": "@file:gomma.png",
+   "model": "General Use (Heavy)",
+   "operating_resolution": "2048x2048",
+   "output_format": "png",
+   "refine_foreground": true
+  }
+ },
+ {
+  "nome": "graffette_ritaglio",
+  "modello": "fal-ai/birefnet/v2",
+  "input": {
+   "image_url": "@file:graffette.png",
+   "model": "General Use (Heavy)",
+   "operating_resolution": "2048x2048",
+   "output_format": "png",
+   "refine_foreground": true
+  }
+ },
+ {
+  "nome": "fiammiferi_ritaglio",
+  "modello": "fal-ai/birefnet/v2",
+  "input": {
+   "image_url": "@file:fiammiferi.png",
+   "model": "General Use (Heavy)",
+   "operating_resolution": "2048x2048",
+   "output_format": "png",
+   "refine_foreground": true
+  }
+ }
+]

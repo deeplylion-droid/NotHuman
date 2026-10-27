@@ -235,9 +235,10 @@ def scrivania():
     # la mappa resta piu' grande dello schermo: nel gioco si ingrandisce. E' la pianta piatta e schematica del paese
     # (26 ottobre, GPT Image 2; le altre prove sono nella stessa cartella), usata com'e', senza mescolarla al disegno:
     # dove sono le 23 case e' scritto in TETTI in gioco/js/dati.js (lo calcola mappa_pianta/case.py). Le mappe di
-    # prima sono mappa_25_case.jpg e mappa_paese.jpg (50 case)
-    Image.open(base / "mappa_pianta/schematica.jpg").convert("RGB").resize((2560, 1440), Image.LANCZOS).save(
-        OUT / "mappa.jpg", quality=88)
+    # prima sono mappa_25_case.jpg e mappa_paese.jpg (50 case). Dal 27 ottobre, sera, la pianta e' piu' curata:
+    # colori, carta, aloni di caffe' e oggetti appoggiati sopra (tools/mappa.py)
+    import mappa
+    mappa.main(OUT / "mappa.jpg")
     print("scrivania e mappa ok")
 
 

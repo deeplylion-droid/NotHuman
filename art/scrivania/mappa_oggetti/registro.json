@@ -1,0 +1,177 @@
+{
+  "matita": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A single red wooden pencil, hexagonal, a bit worn and chewed at the end, sharpened to a point with the red lead visible, lying diagonally. Realistic studio photograph shot from directly above (strict top-down view, camera pointing straight down), the object isolated in the center of a pure flat white background, soft even light from the upper left, no cast shadow, no other objects, sharp focus, high detail.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "matita.png"
+    ],
+    "seed": null,
+    "secondi": 84,
+    "descrizione": null
+  },
+  "graffette": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Two shiny steel paper clips lying slightly overlapped. Realistic studio photograph shot from directly above (strict top-down view, camera pointing straight down), the object isolated in the center of a pure flat white background, soft even light from the upper left, no cast shadow, no other objects, sharp focus, high detail.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "graffette.png"
+    ],
+    "seed": null,
+    "secondi": 84,
+    "descrizione": null
+  },
+  "gomma": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A worn rectangular school eraser, half red and half blue, with dirty grey rubbed corners and a few eraser crumbs next to it. Realistic studio photograph shot from directly above (strict top-down view, camera pointing straight down), the object isolated in the center of a pure flat white background, soft even light from the upper left, no cast shadow, no other objects, sharp focus, high detail.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "gomma.png"
+    ],
+    "seed": null,
+    "secondi": 87,
+    "descrizione": null
+  },
+  "fiammiferi": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A small worn Italian cardboard box of kitchen matches with a faded red label printed in Italian with the single word 'FIAMMIFERI', half open, a few wooden matches inside, one burnt match lying beside it. Realistic studio photograph shot from directly above (strict top-down view, camera pointing straight down), the object isolated in the center of a pure flat white background, soft even light from the upper left, no cast shadow, no other objects, sharp focus, high detail.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "fiammiferi.png"
+    ],
+    "seed": null,
+    "secondi": 90,
+    "descrizione": null
+  },
+  "tazzina": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A small white porcelain Italian espresso cup on its white saucer, as served at a village bar: a little dark coffee left at the bottom of the cup with a thin brown crema ring, a small metal teaspoon resting on the saucer, a few brown drips on the saucer. Realistic studio photograph shot from directly above (strict top-down view, camera pointing straight down), the object isolated in the center of a pure flat white background, soft even light from the upper left, no cast shadow, no other objects, sharp focus, high detail.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "tazzina.png"
+    ],
+    "seed": null,
+    "secondi": 90,
+    "descrizione": null
+  },
+  "tazzina_ritaglio": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:tazzina.png",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    },
+    "file": [
+      "tazzina_ritaglio.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "gomma_ritaglio": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:gomma.png",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    },
+    "file": [
+      "gomma_ritaglio.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "graffette_ritaglio": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:graffette.png",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    },
+    "file": [
+      "graffette_ritaglio.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "fiammiferi_ritaglio": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:fiammiferi.png",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    },
+    "file": [
+      "fiammiferi_ritaglio.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  },
+  "matita_ritaglio": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:matita.png",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true
+    },
+    "file": [
+      "matita_ritaglio.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  }
+}

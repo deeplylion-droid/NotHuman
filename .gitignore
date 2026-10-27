@@ -10,3 +10,6 @@ eseguibile/dist/
 # Doppioni dei pupazzi di Meshy: nel gioco si usa solo *_3d_animato.glb (stessa mesh, con lo scheletro)
 art/plastilina/personaggi/*_3d.glb
 art/plastilina/personaggi/*_3d_scheletro.glb
+
+# La stanza ad alta qualita': i modelli e i materiali di Poly Haven si riscaricano con tools/stanza_hq.py
+art/stanza_hq/sorgenti/
