@@ -1,14 +1,14 @@
-// La prova 3D della cucina della casa 3 (27 ottobre, chiesta dall'utente: "fai una prova con gli stili 1 e 2"). La
-// stessa stanza, con le stesse misure, in due stili da confrontare:
-// 1 · il nastro del 1998: pochi poligoni, texture piccole e nette (senza filtro), 15 bit di colore col retino, i
-//     vertici agganciati alla griglia dello schermo che tremano, la nebbia scura, l'ombra a disco sotto i piedi;
-// 2 · la plastilina: stanza e pupazzi modellati, spigoli tondi e bozzi, impronte delle dita, luce morbida con le
-//     ombre, e il mondo che si muove a scatti (12 pose al secondo) e "bolle" a ogni posa, come uno stop-motion.
-// Niente VHS (deciso il 27 ottobre: questi stili non hanno niente da nascondere): la videocamera del medico c'e' ancora
-// (registra, ha la lampada, lo zoom e l'infrarosso), ma l'immagine e' pulita. La videocamera e' ferma sulla porta: la
-// testa segue un poco il puntatore e la lampada con lei; "Esamina il collo" stringe lo zoom sul bubbone del padre;
-// "Infrarosso" mostra il calore. I personaggi sono di Meshy (da immagine a 3D, con lo scheletro e l'animazione di attesa), fatti dai
-// disegni dei due stili in personaggi/; la stanza e' costruita qui, con le texture dipinte qui.
+// La prova 3D della cucina della casa 3, nello stile scelto il 27 ottobre: la plastilina. Stanza, mobili e pupazzi
+// modellati, con le impronte delle dita; la cucina e' buia, la illumina la lampada della videocamera del medico; il
+// mondo si muove a scatti (12 pose al secondo) e "bolle" a ogni posa, come uno stop-motion. Niente VHS: la videocamera
+// registra, ha la lampada, lo zoom e l'infrarosso, ma l'immagine e' pulita.
+// La videocamera e' ferma sulla porta: la testa segue un poco il puntatore e la lampada con lei; "Esamina il collo"
+// stringe lo zoom sul bubbone del padre, "Guarda la figlia" sulla sua faccia; "Infrarosso" mostra il calore.
+// Due giorni sugli stessi pupazzi: il secondo il padre e' piu' malato (la faccia cerea, le dita nere, il bubbone
+// aperto, il respiro a fatica e la tosse) e si regge al mobile; la figlia piange. Le facce di ricambio sono texture
+// ridipinte da tools/facce.mjs.
+// Pupazzi e mobili sono di Meshy (da immagine a 3D: i disegni sono in personaggi/ e mobili/); le texture di muri e
+// pavimenti sono generate (texture/, rese ripetibili da tools/texture_creta.py); il resto e' costruito qui.
 import * as THREE from "./lib/three.js";
 
 const $ = (s) => document.querySelector(s);
@@ -20,10 +20,51 @@ const VANO = { x0: -0.35, x1: 0.5, h: 2.08 };                  // la porta del c
 const CORR = { x0: -0.62, x1: 0.78, p: 3.2, h: 2.45 };          // il corridoio buio, dietro
 const OCCHIO = new THREE.Vector3(0.14, 1.66, 0.32);            // la maschera del medico, sulla porta
 const MIRA = new THREE.Vector3(-0.06, 1.2, -3.2);
-const FOV = 54, FOV_ESAME = { ps1: 17, creta: 9 };
-const PADRE = { x: -0.66, z: -1.4 }, FIGLIA = { x: 0.08, z: -4.82 };
-// il calore per l'infrarosso (0-1): il padre ha la febbre
-const CALORE = { padre: 0.86, figlia: 0.55, tv: 0.34, frigo: 0.2, neon: 0.62, lampadina: 0.7 };
+const FARO_MIRA = new THREE.Vector3(-0.5, 1.25, -2.3);          // dove punta la lampada della videocamera
+const FOV = 54;
+const ZOOM = { padre: 13, figlia: 9 };                          // quanto stringe lo zoom su ognuno (gradi)
+const PIANO_LAVORO = 0.9;
+
+// i mobili di Meshy alle misure della cucina: larghezza, altezza e profondita' del mobile, e di quanto e' girato (i
+// modelli guardano verso +z). La base col lavello e' piu' alta del piano di lavoro per il rubinetto (il piano e' all'81%)
+const MOBILI = [
+  { nome: "frigo", x: -L / 2 + 0.32, z: -0.52, dim: [0.64, 1.72, 0.62], gira: Math.PI / 2, calore: 0.2 },
+  { nome: "base", x: -L / 2 + 0.3, z: -2.0, dim: [2.1, PIANO_LAVORO / 0.81, 0.6], gira: Math.PI / 2 },
+  { nome: "pensili", x: -L / 2 + 0.18, y: 1.5, z: -2.0, dim: [2.1, 0.7, 0.36], gira: Math.PI / 2 },
+  { nome: "tavolo", x: 0.95, z: -2.35, dim: [1.3, 0.78, 1.0], gira: Math.PI / 2 },
+  { nome: "sedia", x: 0.95, z: -3.32, dim: [0.55, 0.82, 0.53], gira: 0.12 },
+  { nome: "sedia", x: 1.02, z: -1.38, dim: [0.55, 0.82, 0.53], gira: Math.PI + 0.3 },
+  { nome: "mobiletto_tv", x: 1.3, z: -P + 0.25, dim: [0.72, 1.0, 0.47], gira: 0, calore: 0.34 },
+  // il neon sul soffitto, a destra (il tubo verso il muro di destra)
+  { nome: "neon", x: 1.02, y: A - 0.172, z: -1.75, dim: [1.24, 0.172, 0.15], gira: Math.PI / 2, calore: 0.62 },
+];
+// le porte: dove sta il cardine, di quanto e' aperta, quanto e' larga (la porta del corridoio, aperta verso la cucina;
+// quella chiusa in fondo al corridoio)
+const PORTE = [
+  { cardine: [VANO.x0 + 0.01, -P + 0.03], apre: -1.3, larga: VANO.x1 - VANO.x0 - 0.02 },
+  { cardine: [(CORR.x0 + CORR.x1) / 2 - 0.29, -P - CORR.p + 0.06], apre: 0, larga: 0.78 },
+];
+// le superfici della stanza: la texture generata e quanti metri copre
+const SUPERFICI = { muro: 1.6, pavimento: 1.2, soffitto: 1.6, corridoio: 1.4, piastrelle: 1.2 };
+
+// i due giorni: dove stanno il padre e la figlia, quanto scottano all'infrarosso, cosa dice il padre (le frasi del
+// gioco, gioco/js/giorno2.js) e con che faccia
+const GIORNI = {
+  1: {
+    padre: { x: -0.66, z: -1.4, calore: 0.86 },
+    figlia: { x: 0.08, z: -4.82, calore: 0.55 },
+    arrivo: ["Dottore.", "Qui stiamo tutti bene. Faccia in fretta."],
+    esame: ["È una botta."],
+  },
+  2: {
+    // si regge al mobile con la mano destra, come nella scena del secondo giorno
+    padre: { x: -0.86, z: -1.55, calore: 0.95, faccia: "padre_creta_grave" },
+    // stanotte la madre e' morta: la figlia e' sulla porta del corridoio, piange e ha la febbre
+    figlia: { x: 0.08, z: -4.6, calore: 0.78, faccia: "figlia_creta_piange" },
+    arrivo: ["Ancora voi.", "Fate quello che dovete. Non ho più la forza di mandarvi via."],
+    esame: ["Lo so cos'è. Non serve che me lo dite."],
+  },
+};
 
 // ---------- numeri a caso, sempre gli stessi ----------
 function caso(seme) {
@@ -45,7 +86,7 @@ function rumore3(x, y, z) {
   return r * 2 - 1;
 }
 
-// ---------- le texture, dipinte qui: piccole e a pixel per il 1998, morbide e piu' grandi per la plastilina ----------
+// ---------- le texture dipinte qui (le piccole cose) ----------
 function tela(w, h) {
   const c = document.createElement("canvas");
   c.width = w;
@@ -53,24 +94,19 @@ function tela(w, h) {
   return [c, c.getContext("2d")];
 }
 
-// macchie: a pixel (r e' il lato) o morbide (r e' il raggio), ripetute ai bordi perche' la texture si ripeta senza tagli
-function macchie(g, w, h, n, colori, r, rnd, morbide = false, alfa = 1) {
+// macchie morbide, ripetute ai bordi perche' la texture si ripeta senza tagli
+function macchie(g, w, h, n, colori, r, rnd, alfa = 1) {
   for (let i = 0; i < n; i++) {
     const x = rnd() * w, y = rnd() * h, col = colori[Math.floor(rnd() * colori.length)];
     for (const [ox, oy] of [[0, 0], [-w, 0], [0, -h], [-w, -h]]) {
-      if (morbide) {
-        const s = r * (0.5 + rnd() * 0.8);
-        const gr = g.createRadialGradient(x + ox, y + oy, 0, x + ox, y + oy, s);
-        gr.addColorStop(0, col);
-        gr.addColorStop(1, col + "00");
-        g.globalAlpha = alfa;
-        g.fillStyle = gr;
-        g.fillRect(x + ox - s, y + oy - s, 2 * s, 2 * s);
-        g.globalAlpha = 1;
-      } else {
-        g.fillStyle = col;
-        g.fillRect(Math.floor(x + ox), Math.floor(y + oy), r, r);
-      }
+      const s = r * (0.5 + rnd() * 0.8);
+      const gr = g.createRadialGradient(x + ox, y + oy, 0, x + ox, y + oy, s);
+      gr.addColorStop(0, col);
+      gr.addColorStop(1, col + "00");
+      g.globalAlpha = alfa;
+      g.fillStyle = gr;
+      g.fillRect(x + ox - s, y + oy - s, 2 * s, 2 * s);
+      g.globalAlpha = 1;
     }
   }
 }
@@ -81,120 +117,9 @@ function fondo(g, w, h, col) {
 }
 
 const PITTURE = {
-  // il linoleum verde a puntini della cucina
-  pavimento(st) {
-    const n = st === "ps1" ? 64 : 256, rnd = caso(11);
-    const [c, g] = tela(n, n);
-    fondo(g, n, n, st === "ps1" ? "#6b7246" : "#4a5730");
-    if (st === "ps1") macchie(g, n, n, 430, ["#596035", "#7e8756", "#4b5130", "#8b9460", "#646b40"], 1, rnd);
-    else {
-      macchie(g, n, n, 60, ["#7a8352", "#5c6339"], 30, rnd, true, 0.7);
-      macchie(g, n, n, 700, ["#535a33", "#879060", "#4a5030", "#9aa46e"], 2.6, rnd, true);
-    }
-    return c;
-  },
-  // l'intonaco chiaro, con qualche macchia di umidita'
-  muro(st) {
-    const n = st === "ps1" ? 64 : 256, rnd = caso(23);
-    const [c, g] = tela(n, n);
-    if (st === "ps1") {
-      fondo(g, n, n, "#d3cab3");
-      macchie(g, n, n, 220, ["#ccc3ab", "#d9d0bb", "#c8bfa6"], 1, rnd);
-      macchie(g, n, n, 5, ["#bfb294"], 2, rnd);
-    } else {
-      fondo(g, n, n, "#9a8763");
-      macchie(g, n, n, 50, ["#8d7a56", "#a8946e", "#7f6c4a"], 46, rnd, true, 0.65);
-      macchie(g, n, n, 6, ["#5f5035"], 34, rnd, true, 0.45);
-    }
-    return c;
-  },
-  soffitto(st) {
-    const n = st === "ps1" ? 32 : 128, rnd = caso(5);
-    const [c, g] = tela(n, n);
-    fondo(g, n, n, st === "ps1" ? "#ddd5c3" : "#a39a87");
-    if (st === "ps1") macchie(g, n, n, 50, ["#d2c9b6", "#e3dccd"], 1, rnd);
-    else macchie(g, n, n, 20, ["#968d7a", "#b0a793"], 20, rnd, true, 0.6);
-    return c;
-  },
-  // l'anta di un mobile di legno chiaro, con la cornice e il pomello
-  anta(st) {
-    const w = st === "ps1" ? 32 : 128, h = st === "ps1" ? 48 : 192, rnd = caso(31), k = w / 32;
-    const [c, g] = tela(w, h);
-    fondo(g, w, h, st === "ps1" ? "#ccb68b" : "#c29a60");
-    if (st === "ps1") {
-      for (let i = 0; i < 14; i++) {
-        g.fillStyle = rnd() < 0.5 ? "#bea67b" : "#d8c49b";
-        g.fillRect(Math.floor(rnd() * w), 0, 1, h);
-      }
-      g.fillStyle = "#8f7a55";
-      g.fillRect(0, 0, w, 1); g.fillRect(0, h - 1, w, 1); g.fillRect(0, 0, 1, h); g.fillRect(w - 1, 0, 1, h);
-      g.fillStyle = "#a8926b";
-      g.fillRect(3, 3, w - 6, 1); g.fillRect(3, h - 4, w - 6, 1); g.fillRect(3, 3, 1, h - 6); g.fillRect(w - 4, 3, 1, h - 6);
-      g.fillStyle = "#4f4231";
-      g.fillRect(w - 7, Math.floor(h / 2) - 1, 2, 3);
-    } else {
-      macchie(g, w, h, 30, ["#b38b52", "#d0aa70"], 16 * k, rnd, true, 0.7);
-      g.strokeStyle = "#8a663a";
-      g.lineWidth = 3 * k;
-      g.beginPath(); g.roundRect(5 * k, 5 * k, w - 10 * k, h - 10 * k, 4 * k); g.stroke();
-      g.fillStyle = "#5c4c38";
-      g.beginPath(); g.arc(w - 6.5 * k, h / 2, 1.8 * k, 0, Math.PI * 2); g.fill();
-    }
-    return c;
-  },
-  // il piano di lavoro di laminato
-  ripiano(st) {
-    const n = st === "ps1" ? 32 : 128, rnd = caso(41);
-    const [c, g] = tela(n, n);
-    fondo(g, n, n, "#d8d2c1");
-    if (st === "ps1") macchie(g, n, n, 90, ["#ccc5b2", "#e0dbcc", "#bfb8a5"], 1, rnd);
-    else macchie(g, n, n, 400, ["#c8c1ad", "#e4dfd2"], 2, rnd, true);
-    return c;
-  },
-  // il frigorifero bianco, con la maniglia
-  frigo(st) {
-    const w = st === "ps1" ? 32 : 128, h = st === "ps1" ? 64 : 256, k = w / 32, rnd = caso(51);
-    const [c, g] = tela(w, h);
-    fondo(g, w, h, "#e6e1d5");
-    if (st === "creta") macchie(g, w, h, 20, ["#dcd6c8", "#efebe1"], 20 * k, rnd, true, 0.7);
-    g.fillStyle = "#bdb7aa";
-    g.fillRect(0, Math.round(22 * k), w, Math.max(1, Math.round(k)));
-    g.fillStyle = "#8a867e";
-    g.fillRect(Math.round(25 * k), Math.round(28 * k), Math.round(2 * k), Math.round(18 * k));
-    g.fillRect(Math.round(25 * k), Math.round(8 * k), Math.round(2 * k), Math.round(10 * k));
-    return c;
-  },
-  // la tovaglia cerata a rose, come nella cucina del prototipo
-  tovaglia(st) {
-    const n = st === "ps1" ? 64 : 256, k = n / 64, rnd = caso(61);
-    const [c, g] = tela(n, n);
-    fondo(g, n, n, "#efe1d7");
-    g.fillStyle = "#dcbcc4";
-    for (let i = 0; i < 4; i++) {
-      g.fillRect(i * 16 * k, 0, Math.max(1, k * 0.8), n);
-      g.fillRect(0, i * 16 * k, n, Math.max(1, k * 0.8));
-    }
-    for (const [x, y] of [[8, 8], [40, 10], [24, 40], [56, 42]]) {
-      const cx = x * k, cy = y * k;
-      g.fillStyle = "#5e8a46";
-      g.fillRect(cx - 6 * k, cy + 2 * k, 4 * k, 2 * k);
-      g.fillRect(cx + 3 * k, cy - 4 * k, 3 * k, 2 * k);
-      if (st === "ps1") {
-        g.fillStyle = "#b63a52"; g.fillRect(cx - 3, cy - 3, 6, 6);
-        g.fillStyle = "#d9677b"; g.fillRect(cx - 2, cy - 2, 3, 3);
-        g.fillStyle = "#7d2235"; g.fillRect(cx + 1, cy + 1, 2, 2);
-      } else {
-        for (const [r, col] of [[7.5, "#a8344b"], [5.5, "#c84c64"], [3.6, "#e07a8e"], [1.6, "#f2a8b4"]]) {
-          g.fillStyle = col;
-          g.beginPath(); g.arc(cx + rnd() * k, cy + rnd() * k, r * k, 0, Math.PI * 2); g.fill();
-        }
-      }
-    }
-    return c;
-  },
   // il piatto bianco col bordo blu (sul tondo del cilindro)
-  piatto(st) {
-    const n = st === "ps1" ? 32 : 128, k = n / 32;
+  piatto() {
+    const n = 256, k = n / 32;
     const [c, g] = tela(n, n);
     fondo(g, n, n, "#f2f1ec");
     g.strokeStyle = "#3b5ea6";
@@ -205,58 +130,23 @@ const PITTURE = {
     g.beginPath(); g.arc(n / 2, n / 2, 8.5 * k, 0, Math.PI * 2); g.stroke();
     return c;
   },
-  // lo schermo del televisore spento
-  schermo(st) {
-    const n = st === "ps1" ? 32 : 128, k = n / 32;
+  // il muro della stanza attorno agli stipiti: lo stesso intonaco, piu' chiaro dove c'e' la vernice
+  stipite() {
+    const n = 128, rnd = caso(3);
     const [c, g] = tela(n, n);
-    fondo(g, n, n, "#1e2622");
-    g.fillStyle = "#33433b";
-    g.fillRect(4 * k, 4 * k, 12 * k, 3 * k);
-    g.fillRect(4 * k, 7 * k, 4 * k, 6 * k);
-    return c;
-  },
-  // la porta del corridoio, aperta: pannelli e maniglia
-  porta(st) {
-    const w = st === "ps1" ? 32 : 128, h = st === "ps1" ? 64 : 256, k = w / 32, rnd = caso(71);
-    const [c, g] = tela(w, h);
-    fondo(g, w, h, "#e2d7bd");
-    if (st === "creta") macchie(g, w, h, 18, ["#d6caae", "#ece4d0"], 18 * k, rnd, true, 0.7);
-    g.strokeStyle = "#b9ad90";
-    g.lineWidth = Math.max(1, k);
-    g.strokeRect(5 * k + 0.5, 5 * k + 0.5, w - 10 * k, 24 * k);
-    g.strokeRect(5 * k + 0.5, 34 * k + 0.5, w - 10 * k, 25 * k);
-    g.fillStyle = "#8f8a80";
-    g.fillRect(w - 6 * k, 31 * k, 4 * k, Math.max(1, k * 1.5));
-    return c;
-  },
-  // il corridoio: muri piu' scuri e pavimento a piastrelle
-  corridoio(st) {
-    const n = st === "ps1" ? 32 : 128, rnd = caso(81);
-    const [c, g] = tela(n, n);
-    fondo(g, n, n, "#8d8470");
-    if (st === "ps1") macchie(g, n, n, 60, ["#837a66", "#978e7a"], 1, rnd);
-    else macchie(g, n, n, 20, ["#80776a", "#9a917c"], 18, rnd, true, 0.6);
-    return c;
-  },
-  piastrelle(st) {
-    const n = st === "ps1" ? 32 : 128, k = n / 32, rnd = caso(91);
-    const [c, g] = tela(n, n);
-    fondo(g, n, n, "#5a5244");
-    g.fillStyle = "#463f33";
-    g.fillRect(0, 0, n, Math.max(1, k)); g.fillRect(0, 0, Math.max(1, k), n);
-    g.fillRect(0, n / 2, n, Math.max(1, k)); g.fillRect(n / 2, 0, Math.max(1, k), n);
-    if (st === "creta") macchie(g, n, n, 14, ["#625a4b", "#504839"], 12 * k, rnd, true, 0.6);
+    fondo(g, n, n, "#d9cfb8");
+    macchie(g, n, n, 24, ["#cfc3a8", "#e4dbc6", "#bfb397"], 16, rnd, 0.6);
     return c;
   },
 };
 
-// le impronte delle dita sulla plastilina: una mappa delle altezze (anelli d'impronta, strisciate di pollice, bozzi
-// larghi) trasformata in mappa delle normali
+// le impronte delle dita sulla plastilina, per le cose fatte qui: una mappa delle altezze (anelli d'impronta,
+// strisciate di pollice, bozzi larghi) trasformata in mappa delle normali
 function impronte() {
   const n = 512, rnd = caso(7);
   const [c, g] = tela(n, n);
   fondo(g, n, n, "#808080");
-  macchie(g, n, n, 70, ["#a0a0a0", "#606060"], 55, rnd, true, 0.5);
+  macchie(g, n, n, 70, ["#a0a0a0", "#606060"], 55, rnd, 0.5);
   for (let i = 0; i < 40; i++) {
     const x = rnd() * n, y = rnd() * n, rx = 10 + rnd() * 16, ry = rx * (0.55 + rnd() * 0.3);
     g.save();
@@ -302,14 +192,12 @@ function impronte() {
   return t;
 }
 
-// ---------- i materiali ----------
-// il 1998: i vertici si agganciano alla griglia di uno schermo piccolo e tremano quando ci si muove
-const SNAP = { value: new THREE.Vector2(170, 96) };
-// la plastilina: il seme del "bollire", nuovo a ogni posa
-const BOLLE = { value: 0 };
+// ---------- i materiali: la plastilina ----------
+// il seme del "bollire", nuovo a ogni posa, e quanto bolle (meno nello zoom)
+const BOLLE = { value: 0 }, FORZA_BOLLE = { value: 1 };
 let IMPRONTE = null;
 const RUMORE_GLSL = `
-uniform float uBolle;
+uniform float uBolle, uForzaBolle;
 float hb(vec3 p) { return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }
 float nb(vec3 p) {
   vec3 i = floor(p), f = fract(p);
@@ -318,51 +206,53 @@ float nb(vec3 p) {
              mix(mix(hb(i + vec3(0.0, 0.0, 1.0)), hb(i + vec3(1.0, 0.0, 1.0)), f.x), mix(hb(i + vec3(0.0, 1.0, 1.0)), hb(i + vec3(1.0, 1.0, 1.0)), f.x), f.y), f.z);
 }`;
 
-function materiale(st, o = {}) {
-  if (st === "ps1") {
-    const m = new THREE.MeshLambertMaterial({ map: o.map || null, color: o.color ?? 0xffffff, emissive: o.emissive ?? 0x000000,
-      side: o.side ?? THREE.FrontSide, transparent: !!o.transparent, depthWrite: !o.transparent });
-    m.onBeforeCompile = (sh) => {
-      sh.uniforms.uSnap = SNAP;
-      sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nuniform vec2 uSnap;")
-        .replace("#include <project_vertex>",
-          "#include <project_vertex>\n  gl_Position.xy = floor(gl_Position.xy / gl_Position.w * uSnap + 0.5) / uSnap * gl_Position.w;");
-    };
-    return m;
-  }
+function materiale(o = {}) {
   const m = new THREE.MeshPhysicalMaterial({ map: o.map || null, color: o.color ?? 0xffffff, emissive: o.emissive ?? 0x000000,
     roughness: o.ruvido ?? 0.62, metalness: 0, sheen: 0.4, sheenRoughness: 0.8, sheenColor: new THREE.Color(0xfff2e0),
-    normalMap: o.normalMap === undefined ? IMPRONTE : o.normalMap, side: o.side ?? THREE.FrontSide, envMapIntensity: 0.15 });
+    normalMap: o.normalMap === undefined ? IMPRONTE : o.normalMap, side: o.side ?? THREE.FrontSide, envMapIntensity: 0.15,
+    vertexColors: !!o.vertexColors, dithering: true });
   m.normalScale.setScalar(o.impronte ?? 0.9);
   m.onBeforeCompile = (sh) => {
     sh.uniforms.uBolle = BOLLE;
+    sh.uniforms.uForzaBolle = FORZA_BOLLE;
+    // le bolle: ogni punto si sposta un poco nella direzione che dice il rumore nel punto dove sta, non lungo la
+    // normale. I vertici doppi delle cuciture (stesso punto, normali diverse) si muovono insieme e il modello non si
+    // apre: prima, nello zoom, si vedevano le fessure nere tra i pezzi
     sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\n" + RUMORE_GLSL)
       .replace("#include <project_vertex>", `#include <project_vertex>
-  vec3 bollePos = (modelMatrix * vec4(transformed, 1.0)).xyz;
-  mvPosition.xyz += normalize(transformedNormal) * (nb(bollePos * 11.0 + uBolle) - 0.5) * 0.0026;
+  vec3 bolleP = (modelMatrix * vec4(transformed, 1.0)).xyz * 11.0 + uBolle;
+  vec3 spinta = vec3(nb(bolleP), nb(bolleP + 17.3), nb(bolleP + 31.7)) - 0.5;
+  mvPosition.xyz += mat3(viewMatrix) * spinta * (0.003 * uForzaBolle);
   gl_Position = projectionMatrix * mvPosition;`);
   };
   return m;
 }
 
-function texture(st, nome, ripeti = [1, 1]) {
-  const t = new THREE.CanvasTexture(PITTURE[nome](st));
+function texture(nome, ripeti = [1, 1]) {
+  const t = new THREE.CanvasTexture(PITTURE[nome]());
   t.colorSpace = THREE.SRGBColorSpace;
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
   t.repeat.set(ripeti[0], ripeti[1]);
-  if (st === "ps1") {
-    t.magFilter = THREE.NearestFilter;
-    t.minFilter = THREE.NearestFilter;
-    t.generateMipmaps = false;
-  } else t.anisotropy = 4;
+  t.anisotropy = 8;
   return t;
 }
 
+// le superfici generate: il colore e le normali, ripetute ogni tot metri (le coordinate dei muri sono in metri)
+const caricatore = new THREE.TextureLoader();
+async function superficie(nome) {
+  const [map, normalMap] = await Promise.all([caricatore.loadAsync(`texture/${nome}.webp`), caricatore.loadAsync(`texture/${nome}_n.webp`)]);
+  map.colorSpace = THREE.SRGBColorSpace;
+  for (const t of [map, normalMap]) {
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.repeat.setScalar(1 / SUPERFICI[nome]);
+    t.anisotropy = 8;
+  }
+  return { map, normalMap };
+}
+
 // ---------- la geometria ----------
-// una scatola: semplice nel 1998; nella plastilina con gli spigoli tondi (la normale va dal centro dell'angolo) e
-// qualche bozzo, come modellata a mano
-function scatola(st, w, h, d, r = 0.025, bozzi = 0.0035, seme = 0) {
-  if (st === "ps1") return new THREE.BoxGeometry(w, h, d);
+// una scatola con gli spigoli tondi (la normale va dal centro dell'angolo) e qualche bozzo, come modellata a mano
+function scatola(w, h, d, r = 0.025, bozzi = 0.0035, seme = 0) {
   const seg = (s) => Math.max(3, Math.min(16, Math.round(s * 16)));
   const geo = new THREE.BoxGeometry(w, h, d, seg(w), seg(h), seg(d));
   const pos = geo.attributes.position, nor = geo.attributes.normal;
@@ -383,23 +273,22 @@ function scatola(st, w, h, d, r = 0.025, bozzi = 0.0035, seme = 0) {
   return geo;
 }
 
-// un piano (muro, pavimento): nel 1998 diviso in pezzi grandi, che tremano; nella plastilina un po' ondulato
-function piano(st, w, h, seme = 0) {
+// un piano (muro, pavimento) un po' ondulato, con le coordinate della texture in metri
+function piano(w, h, seme = 0) {
   w += 0.04;
   h += 0.04;
-  const sx = st === "ps1" ? Math.max(1, Math.round(w / 0.55)) : Math.max(4, Math.round(w * 10));
-  const sy = st === "ps1" ? Math.max(1, Math.round(h / 0.55)) : Math.max(4, Math.round(h * 10));
-  const geo = new THREE.PlaneGeometry(w, h, sx, sy);
-  if (st === "creta") {
-    const pos = geo.attributes.position;
-    for (let i = 0; i < pos.count; i++) pos.setZ(i, rumore3(pos.getX(i) * 1.7 + seme, pos.getY(i) * 1.7, seme) * 0.008);
-    geo.computeVertexNormals();
+  const geo = new THREE.PlaneGeometry(w, h, Math.max(4, Math.round(w * 10)), Math.max(4, Math.round(h * 10)));
+  const pos = geo.attributes.position, uv = geo.attributes.uv;
+  for (let i = 0; i < pos.count; i++) {
+    pos.setZ(i, rumore3(pos.getX(i) * 1.7 + seme, pos.getY(i) * 1.7, seme) * 0.008);
+    uv.setXY(i, uv.getX(i) * w, uv.getY(i) * h);
   }
+  geo.computeVertexNormals();
   return geo;
 }
 
 // un muro con il vano di una porta che arriva a terra: un poligono solo, senza fessure tra i pezzi (le coordinate
-// della texture sono in metri)
+// della texture sono gia' in metri)
 function muroVano(w, h, x0, x1, hv) {
   const f = new THREE.Shape();
   f.moveTo(-w / 2, 0);
@@ -409,193 +298,98 @@ function muroVano(w, h, x0, x1, hv) {
 }
 
 // ---------- la cucina ----------
-// Restituisce il gruppo con la stanza, le luci e i punti che servono (dove mettere i personaggi)
-function cucina(st) {
+// le luci, da aggiornare a ogni giro (il tubo e' il materiale del neon, che si accende e si spegne con la luce)
+let faro = null, neon = null, tubo = null;
+const SCARTO_FARO = new THREE.Vector3(0.05, 0.08, 0);
+
+// la stanza vuota (muri, pavimento, soffitto, corridoio, stipiti, la porta aperta, il neon) e le luci
+async function stanza() {
   const g = new THREE.Group();
   const mesh = (geo, mat, x, y, z, ry = 0, calore = 0.05) => {
     const m = new THREE.Mesh(geo, mat);
     m.position.set(x, y, z);
     m.rotation.y = ry;
     m.userData.calore = calore;
-    if (st === "creta") { m.castShadow = true; m.receiveShadow = true; }
+    m.castShadow = true;
+    m.receiveShadow = true;
     g.add(m);
     return m;
   };
-  const tx = (nome, r) => texture(st, nome, r);
-  const mat = (o) => materiale(st, o);
-  const ripetiMuro = (w, h) => mat({ map: tx("muro", [w / 1.5, h / 1.5]), impronte: 1.6 });
+  const S = Object.fromEntries(await Promise.all(Object.keys(SUPERFICI).map(async (n) => [n, await superficie(n)])));
+  const mat = (nome, impronte = 1) => materiale({ ...S[nome], impronte });
 
   // pavimento e soffitto
-  const pav = mesh(piano(st, L, P, 1), mat({ map: tx("pavimento", [L / 1.1, P / 1.1]) }), 0, 0, -P / 2);
+  const pav = mesh(piano(L, P, 1), mat("pavimento"), 0, 0, -P / 2);
   pav.rotation.x = -Math.PI / 2;
-  const sof = mesh(piano(st, L, P, 2), mat({ map: tx("soffitto", [L / 1.4, P / 1.4]) }), 0, A, -P / 2);
+  const sof = mesh(piano(L, P, 2), mat("soffitto", 0.8), 0, A, -P / 2);
   sof.rotation.x = Math.PI / 2;
   // i muri: sinistra, destra, il fondo col vano della porta, e quello della porta da cui si entra
-  mesh(piano(st, P, A, 3), ripetiMuro(P, A), -L / 2, A / 2, -P / 2, Math.PI / 2);
-  mesh(piano(st, P, A, 4), ripetiMuro(P, A), L / 2, A / 2, -P / 2, -Math.PI / 2);
-  const muroM = () => mat({ map: tx("muro", [1 / 1.5, 1 / 1.5]), impronte: 1.6 });
-  mesh(muroVano(L, A, VANO.x0, VANO.x1, VANO.h), muroM(), 0, 0, -P);
-  mesh(muroVano(L, A, -0.7, 0.42, 2.06), muroM(), 0, 0, 0, Math.PI);
+  const muro = mat("muro");
+  mesh(piano(P, A, 3), muro, -L / 2, A / 2, -P / 2, Math.PI / 2);
+  mesh(piano(P, A, 4), muro, L / 2, A / 2, -P / 2, -Math.PI / 2);
+  mesh(muroVano(L, A, VANO.x0, VANO.x1, VANO.h), muro, 0, 0, -P);
+  mesh(muroVano(L, A, -0.7, 0.42, 2.06), muro, 0, 0, 0, Math.PI);
   // gli stipiti delle due porte
-  const stipiteM = mat({ color: 0xece6d6 });
-  for (const [x, z] of [[VANO.x0 - 0.035, -P + 0.02], [VANO.x1 + 0.035, -P + 0.02]]) mesh(scatola(st, 0.07, VANO.h + 0.05, 0.06), stipiteM, x, (VANO.h + 0.05) / 2, z);
-  mesh(scatola(st, VANO.x1 - VANO.x0 + 0.14, 0.07, 0.06), stipiteM, (VANO.x0 + VANO.x1) / 2, VANO.h + 0.035, -P + 0.02);
-  for (const x of [-0.46, 0.74]) mesh(scatola(st, 0.08, 2.08, 0.07), stipiteM, x, 1.04, -0.03);
+  const stipiteM = materiale({ map: texture("stipite"), impronte: 0.7 });
+  for (const [x, z] of [[VANO.x0 - 0.035, -P + 0.02], [VANO.x1 + 0.035, -P + 0.02]]) mesh(scatola(0.07, VANO.h + 0.05, 0.06), stipiteM, x, (VANO.h + 0.05) / 2, z);
+  mesh(scatola(VANO.x1 - VANO.x0 + 0.14, 0.07, 0.06), stipiteM, (VANO.x0 + VANO.x1) / 2, VANO.h + 0.035, -P + 0.02);
+  for (const x of [-0.46, 0.74]) mesh(scatola(0.08, 2.08, 0.07), stipiteM, x, 1.04, -0.03);
 
   // il corridoio buio dietro la porta, con la porta chiusa in fondo
   const cw = CORR.x1 - CORR.x0, cx = (CORR.x0 + CORR.x1) / 2, cz = -P - CORR.p / 2;
-  const corrM = (w, h) => mat({ map: tx("corridoio", [w / 1.2, h / 1.2]) });
-  const cp = mesh(piano(st, cw, CORR.p, 11), mat({ map: tx("piastrelle", [cw / 0.6, CORR.p / 0.6]) }), cx, 0, cz);
+  const corrM = mat("corridoio");
+  const cp = mesh(piano(cw, CORR.p, 11), mat("piastrelle"), cx, 0, cz);
   cp.rotation.x = -Math.PI / 2;
-  const cs = mesh(piano(st, cw, CORR.p, 12), corrM(cw, CORR.p), cx, CORR.h, cz);
+  const cs = mesh(piano(cw, CORR.p, 12), corrM, cx, CORR.h, cz);
   cs.rotation.x = Math.PI / 2;
-  mesh(piano(st, CORR.p, CORR.h, 13), corrM(CORR.p, CORR.h), CORR.x0, CORR.h / 2, cz, Math.PI / 2);
-  mesh(piano(st, CORR.p, CORR.h, 14), corrM(CORR.p, CORR.h), CORR.x1, CORR.h / 2, cz, -Math.PI / 2);
-  mesh(piano(st, cw, CORR.h, 15), corrM(cw, CORR.h), cx, CORR.h / 2, -P - CORR.p);
-  mesh(scatola(st, 0.78, 2.0, 0.05), mat({ map: tx("porta") }), cx + 0.1, 1.0, -P - CORR.p + 0.04);
+  mesh(piano(CORR.p, CORR.h, 13), corrM, CORR.x0, CORR.h / 2, cz, Math.PI / 2);
+  mesh(piano(CORR.p, CORR.h, 14), corrM, CORR.x1, CORR.h / 2, cz, -Math.PI / 2);
+  mesh(piano(cw, CORR.h, 15), corrM, cx, CORR.h / 2, -P - CORR.p);
   // l'architrave tra cucina e corridoio, sopra il vano (lo spessore del muro)
-  mesh(scatola(st, VANO.x1 - VANO.x0, A - VANO.h, 0.2), ripetiMuro(1, 0.4), (VANO.x0 + VANO.x1) / 2, (A + VANO.h) / 2, -P - 0.1);
-  // la porta del corridoio, aperta verso la cucina (cardine a sinistra)
-  const anta = new THREE.Group();
-  anta.position.set(VANO.x0 + 0.01, 0, -P + 0.03);
-  anta.rotation.y = -1.3;
-  g.add(anta);
-  const portaM = mat({ map: tx("porta") });
-  const ap = new THREE.Mesh(scatola(st, VANO.x1 - VANO.x0 - 0.02, 2.04, 0.04), portaM);
-  ap.position.set((VANO.x1 - VANO.x0) / 2, 1.02, 0);
-  if (st === "creta") { ap.castShadow = true; ap.receiveShadow = true; }
-  ap.userData.calore = 0.05;
-  anta.add(ap);
-
-  // i mobili a sinistra: le basi col ripiano e il lavello, i pensili sopra
-  const anteM = mat({ map: tx("anta") }), fiancoM = mat({ color: 0xbca883 }), ripM = mat({ map: tx("ripiano", [2, 0.5]) });
-  const metallo = mat({ color: 0xa9aaa4, ruvido: 0.35 });
-  for (let i = 0; i < 4; i++) {
-    const z = -0.95 - i * 0.6 - 0.3;
-    // le facce della scatola: +x (l'anta), -x, +y, -y, +z, -z
-    mesh(scatola(st, 0.6, 0.86, 0.58, 0.02, 0.003, i), [anteM, fiancoM, fiancoM, fiancoM, fiancoM, fiancoM], -L / 2 + 0.3, 0.43, z);
-    mesh(scatola(st, 0.34, 0.7, 0.58, 0.02, 0.003, i + 9), [anteM, fiancoM, fiancoM, fiancoM, fiancoM, fiancoM], -L / 2 + 0.17, 1.85, z);
-  }
-  mesh(scatola(st, 0.64, 0.045, 2.42, 0.012, 0.002), ripM, -L / 2 + 0.32, 0.882, -0.95 - 1.2);
-  mesh(scatola(st, 0.4, 0.03, 0.46, 0.04, 0.001), mat({ color: 0x8e908b, ruvido: 0.3 }), -L / 2 + 0.33, 0.9, -2.2);
-  const rub = mesh(new THREE.CylinderGeometry(0.013, 0.013, 0.24, st === "ps1" ? 5 : 12), metallo, -L / 2 + 0.1, 1.02, -2.2);
-  const bocca = mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.16, st === "ps1" ? 5 : 12), metallo, -L / 2 + 0.17, 1.13, -2.2);
-  bocca.rotation.z = Math.PI / 2;
-  void rub;
-  // il frigorifero, vicino alla porta da cui si entra
-  mesh(scatola(st, 0.64, 1.74, 0.62, 0.05, 0.003, 3), [mat({ map: tx("frigo") }), fiancoM, mat({ color: 0xe6e1d5 }), fiancoM,
-    mat({ color: 0xdcd6c9 }), mat({ color: 0xdcd6c9 })], -L / 2 + 0.33, 0.87, -0.5, 0, CALORE.frigo);
-
-  // il tavolo con la tovaglia cerata, i quattro piatti, e le sedie di plastica verde
-  const tavolo = { x: 0.95, z: -2.35, w: 0.84, d: 1.36 };
-  const tovM = mat({ map: tx("tovaglia", [(tavolo.w + 0.06) / 0.62, (tavolo.d + 0.06) / 0.62]) });
-  mesh(scatola(st, tavolo.w + 0.06, 0.03, tavolo.d + 0.06, 0.012, 0.002), tovM, tavolo.x, 0.765, tavolo.z);
-  // la tovaglia che pende dai lati
-  const lembo = (l) => mat({ map: tx("tovaglia", [l / 0.62, 0.16 / 0.62]) });
-  const lunghi = lembo(tavolo.d + 0.06), corti = lembo(tavolo.w + 0.06);
-  for (const [dx, dz, w, d, m] of [[0, tavolo.d / 2 + 0.03, tavolo.w + 0.06, 0.012, corti], [0, -tavolo.d / 2 - 0.03, tavolo.w + 0.06, 0.012, corti],
-    [tavolo.w / 2 + 0.03, 0, 0.012, tavolo.d + 0.06, lunghi], [-tavolo.w / 2 - 0.03, 0, 0.012, tavolo.d + 0.06, lunghi]])
-    mesh(scatola(st, w, 0.16, d, 0.004, 0.002), m, tavolo.x + dx, 0.69, tavolo.z + dz);
-  const gambaM = mat({ color: 0x6d6a63, ruvido: 0.4 });
-  for (const [dx, dz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]])
-    mesh(scatola(st, 0.04, 0.74, 0.04, 0.01, 0.001), gambaM, tavolo.x + dx * (tavolo.w / 2 - 0.06), 0.37, tavolo.z + dz * (tavolo.d / 2 - 0.08));
-  const piattoM = mat({ map: tx("piatto") }), bordoM = mat({ color: 0xf2f1ec });
-  const posate = mat({ color: 0xb8b9b4, ruvido: 0.3 });
-  for (const [dx, dz] of [[-0.2, -0.36], [0.2, -0.36], [-0.2, 0.36], [0.2, 0.36]]) {
-    const pg = new THREE.CylinderGeometry(0.115, 0.085, 0.018, st === "ps1" ? 10 : 36);
-    mesh(pg, [bordoM, piattoM, bordoM], tavolo.x + dx, 0.79, tavolo.z + dz);
-    mesh(scatola(st, 0.014, 0.006, 0.17, 0.003, 0.0005), posate, tavolo.x + dx + (dx < 0 ? -0.15 : 0.15), 0.785, tavolo.z + dz);
-  }
-  const verdeM = mat({ color: 0x2f7d50, ruvido: 0.45 });
-  const sedia = (x, z, ry) => {
-    const s = new THREE.Group();
-    s.position.set(x, 0, z);
-    s.rotation.y = ry;
-    const pezzo = (geo, px, py, pz, rx = 0) => {
-      const m = new THREE.Mesh(geo, verdeM);
-      m.position.set(px, py, pz);
-      m.rotation.x = rx;
-      m.userData.calore = 0.05;
-      if (st === "creta") { m.castShadow = true; m.receiveShadow = true; }
-      s.add(m);
-    };
-    pezzo(scatola(st, 0.46, 0.04, 0.44, 0.015, 0.002), 0, 0.44, 0);
-    pezzo(scatola(st, 0.46, 0.42, 0.04, 0.02, 0.002), 0, 0.68, -0.21, -0.12);
-    for (const [lx, lz] of [[-0.2, -0.19], [0.2, -0.19], [-0.2, 0.19], [0.2, 0.19]]) pezzo(scatola(st, 0.045, 0.44, 0.045, 0.012, 0.001), lx, 0.22, lz);
-    for (const lx of [-0.24, 0.24]) pezzo(scatola(st, 0.03, 0.05, 0.4, 0.012, 0.001), lx, 0.6, 0);
-    g.add(s);
-  };
-  sedia(tavolo.x, tavolo.z - tavolo.d / 2 - 0.3, 0);
-  sedia(tavolo.x + 0.02, tavolo.z + tavolo.d / 2 + 0.36, Math.PI + 0.25);
-
-  // in fondo a destra il mobiletto col televisore vecchio
-  mesh(scatola(st, 0.56, 0.62, 0.44, 0.02, 0.003, 4), [fiancoM, fiancoM, fiancoM, fiancoM, anteM, fiancoM], 1.3, 0.31, -P + 0.25);
-  const tvM = mat({ color: 0xa3a39b, ruvido: 0.4 });
-  mesh(scatola(st, 0.5, 0.4, 0.42, 0.04, 0.002, 5), [tvM, tvM, tvM, tvM, mat({ map: tx("schermo"), ruvido: 0.2 }), tvM], 1.3, 0.82, -P + 0.25, 0, CALORE.tv);
+  mesh(scatola(VANO.x1 - VANO.x0, A - VANO.h, 0.2), muro, (VANO.x0 + VANO.x1) / 2, (A + VANO.h) / 2, -P - 0.1);
   // l'interruttore accanto alla porta
-  mesh(scatola(st, 0.08, 0.08, 0.02, 0.01, 0), mat({ color: 0xf0ede4 }), 0.66, 1.12, -P + 0.01);
+  mesh(scatola(0.08, 0.08, 0.02, 0.01, 0), materiale({ color: 0xf0ede4, impronte: 0.5 }), 0.66, 1.12, -P + 0.01);
 
-  // il neon sul soffitto, a destra
-  mesh(scatola(st, 0.12, 0.05, 1.24, 0.02, 0.001), mat({ color: 0xd9d6cf }), 1.02, A - 0.03, -1.75);
-  mesh(new THREE.CylinderGeometry(0.018, 0.018, 1.16, st === "ps1" ? 5 : 16), mat({ color: 0xffffff, emissive: 0xf4f6ee }),
-    1.02, A - 0.075, -1.75, 0, CALORE.neon).rotation.x = Math.PI / 2;
   // nel corridoio, una lampadina nuda
-  mesh(new THREE.SphereGeometry(0.04, st === "ps1" ? 6 : 16, st === "ps1" ? 4 : 12), mat({ color: 0xffffff, emissive: 0xffd9a0 }),
-    cx, CORR.h - 0.18, -P - 1.6, 0, CALORE.lampadina);
+  mesh(new THREE.SphereGeometry(0.04, 16, 12), materiale({ color: 0xffffff, emissive: 0xffd9a0, impronte: 0.2 }),
+    cx, CORR.h - 0.18, -P - 1.6, 0, 0.7);
 
-  // le luci
-  if (st === "ps1") {
-    g.add(new THREE.AmbientLight(0xfff1dc, 0.6));
-    const neon = new THREE.PointLight(0xf1f5ff, 4.2, 0, 1.4);
-    neon.position.set(1.0, A - 0.25, -1.8);
-    g.add(neon);
-    const faro = new THREE.SpotLight(0xffe2bd, 3, 0, 0.6, 1, 1.2);
-    faro.position.copy(OCCHIO).add(new THREE.Vector3(0.05, 0.08, 0));
-    faro.target.position.copy(FARO_MIRA.ps1);
-    faro.userData.forza = 3;
-    g.userData.faro = faro;
-    g.add(faro, faro.target);
-    const lamp = new THREE.PointLight(0xffcf8f, 1.6, 0, 1.6);
-    lamp.position.set(cx, CORR.h - 0.3, -P - 1.6);
-    g.add(lamp);
-  } else {
-    // buio: le tapparelle sono giu' e il neon e' quasi morto (ogni tanto sfarfalla); la luce vera e' la lampada della
-    // videocamera, dalla porta, che fa le ombre dietro le persone
-    g.add(new THREE.HemisphereLight(0xc9d4e0, 0x1a1712, 0.05));
-    const neon = new THREE.SpotLight(0xcfe8d8, 3, 0, 1.25, 0.9, 1.6);
-    neon.position.set(1.0, A - 0.12, -1.8);
-    neon.target.position.set(0.1, 0, -2.2);
-    neon.castShadow = true;
-    neon.shadow.mapSize.set(1024, 1024);
-    neon.shadow.bias = -0.0004;
-    neon.shadow.normalBias = 0.02;
-    neon.shadow.radius = 6;
-    neon.userData.forza = 3;
-    g.userData.neon = neon;
-    g.add(neon, neon.target);
-    const faro = new THREE.SpotLight(0xffe6c4, 9.5, 0, 0.49, 0.75, 1.3);
-    faro.position.copy(OCCHIO).add(new THREE.Vector3(0.05, 0.08, 0));
-    faro.target.position.copy(FARO_MIRA.creta);
-    faro.castShadow = true;
-    faro.shadow.mapSize.set(1024, 1024);
-    faro.shadow.bias = -0.0005;
-    faro.shadow.normalBias = 0.02;
-    faro.shadow.radius = 4;
-    faro.userData.forza = 9.5;
-    g.userData.faro = faro;
-    g.add(faro, faro.target);
-    // in fondo al corridoio una lampadina debole: la figlia quasi non si vede
-    const lamp = new THREE.PointLight(0xffb870, 0.7, 0, 1.8);
-    lamp.position.set(cx, CORR.h - 0.3, -P - 1.6);
-    lamp.castShadow = true;
-    lamp.shadow.mapSize.set(512, 512);
-    lamp.shadow.bias = -0.001;
-    g.add(lamp);
-  }
+  // le luci. Buio: le tapparelle sono giu' e il neon e' quasi morto (ogni tanto sfarfalla); la luce vera e' la lampada
+  // della videocamera, dalla porta, che fa le ombre dietro le persone. Le ombre hanno vicino e lontano stretti attorno
+  // alla stanza: con quelli di serie (fino a 500 metri) la profondita' e' grossolana e le ombre si staccano o sbavano
+  g.add(new THREE.HemisphereLight(0xc9d4e0, 0x1a1712, 0.05));
+  neon = new THREE.SpotLight(0xcfe8d8, 3, 0, 1.1, 0.9, 1.6);
+  neon.position.set(1.0, A - 0.12, -1.8);
+  neon.target.position.set(0.1, 0, -2.2);
+  ombre(neon, 2048, 0.1, 6, 3);
+  neon.userData.forza = 3;
+  g.add(neon, neon.target);
+  faro = new THREE.SpotLight(0xffe6c4, 9.5, 0, 0.49, 0.75, 1.3);
+  faro.position.copy(OCCHIO).add(SCARTO_FARO);
+  faro.target.position.copy(FARO_MIRA);
+  ombre(faro, 2048, 0.25, 10, 2);
+  faro.userData.forza = 9.5;
+  g.add(faro, faro.target);
+  // in fondo al corridoio la lampadina, che illumina in giu': la figlia quasi non si vede
+  const lamp = new THREE.SpotLight(0xffb870, 0.7, 0, 1.25, 0.8, 1.8);
+  lamp.position.set(cx, CORR.h - 0.22, -P - 1.6);
+  lamp.target.position.set(cx, 0, -P - 1.1);
+  ombre(lamp, 1024, 0.05, 5, 2);
+  g.add(lamp, lamp.target);
   return g;
 }
 
-// ---------- i personaggi ----------
+function ombre(luce, lato, vicino, lontano, morbide) {
+  luce.castShadow = true;
+  luce.shadow.mapSize.set(lato, lato);
+  luce.shadow.camera.near = vicino;
+  luce.shadow.camera.far = lontano;
+  luce.shadow.bias = -0.0002;
+  luce.shadow.normalBias = 0.006;
+  luce.shadow.radius = morbide;
+}
+
+// ---------- i modelli di Meshy ----------
 const DECODER = THREE.MeshoptDecoder.supported
   ? THREE.MeshoptDecoder.ready.then(() => THREE.MeshoptDecoder, () => THREE.MeshoptDecoderJS)
   : Promise.resolve(THREE.MeshoptDecoderJS);
@@ -603,107 +397,181 @@ const MODELLI = {};
 
 // i modelli sono glTF in un .json con la geometria compressa dentro in base64 (gli Artifact non servono i .glb): si
 // rimette insieme un GLB in memoria, come fa la stanza del gioco (gioco/js/stanza.js)
-async function modello(nome) {
-  if (MODELLI[nome]) return MODELLI[nome];
-  const risposta = await fetch(`modelli/${nome}.json`);
-  if (!risposta.ok) throw new Error(`${nome}: ${risposta.status}`);
-  const j = await risposta.json();
-  const uri = j.buffers[0].uri;
-  const bin = Uint8Array.from(atob(uri.slice(uri.indexOf(",") + 1)), (c) => c.charCodeAt(0));
-  delete j.buffers[0].uri;
-  const testo = new TextEncoder().encode(JSON.stringify(j));
-  const lj = (testo.length + 3) & ~3, lb = (bin.length + 3) & ~3;
-  const glb = new Uint8Array(28 + lj + lb);
-  const v = new DataView(glb.buffer);
-  v.setUint32(0, 0x46546c67, true);
-  v.setUint32(4, 2, true);
-  v.setUint32(8, glb.length, true);
-  v.setUint32(12, lj, true);
-  v.setUint32(16, 0x4e4f534a, true);
-  glb.set(testo, 20);
-  glb.fill(0x20, 20 + testo.length, 20 + lj);
-  v.setUint32(20 + lj, lb, true);
-  v.setUint32(24 + lj, 0x004e4942, true);
-  glb.set(bin, 28 + lj);
-  const loader = new THREE.GLTFLoader().setMeshoptDecoder(await DECODER);
-  MODELLI[nome] = await loader.parseAsync(glb.buffer, "modelli/");
+function modello(nome) {
+  MODELLI[nome] ??= (async () => {
+    const risposta = await fetch(`modelli/${nome}.json`);
+    if (!risposta.ok) throw new Error(`${nome}: ${risposta.status}`);
+    const j = await risposta.json();
+    // la texture di metallo e ruvidezza non serve (la plastilina e' tutta uguale): non si carica, risparmia memoria
+    for (const m of j.materials || []) delete m.pbrMetallicRoughness?.metallicRoughnessTexture;
+    const uri = j.buffers[0].uri;
+    const bin = Uint8Array.from(atob(uri.slice(uri.indexOf(",") + 1)), (c) => c.charCodeAt(0));
+    delete j.buffers[0].uri;
+    const testo = new TextEncoder().encode(JSON.stringify(j));
+    const lj = (testo.length + 3) & ~3, lb = (bin.length + 3) & ~3;
+    const glb = new Uint8Array(28 + lj + lb);
+    const v = new DataView(glb.buffer);
+    v.setUint32(0, 0x46546c67, true);
+    v.setUint32(4, 2, true);
+    v.setUint32(8, glb.length, true);
+    v.setUint32(12, lj, true);
+    v.setUint32(16, 0x4e4f534a, true);
+    glb.set(testo, 20);
+    glb.fill(0x20, 20 + testo.length, 20 + lj);
+    v.setUint32(20 + lj, lb, true);
+    v.setUint32(24 + lj, 0x004e4942, true);
+    glb.set(bin, 28 + lj);
+    const loader = new THREE.GLTFLoader().setMeshoptDecoder(await DECODER);
+    return loader.parseAsync(glb.buffer, "modelli/");
+  })();
   return MODELLI[nome];
 }
 
-// un personaggio nello stile: i materiali rifatti (texture piccola e netta, o plastilina) e la posa. L'animazione
-// d'attesa di Meshy non serve: si guarda attorno, e gia' il primo fotogramma ha il bacino girato e le gambe incrociate,
-// che torcono la giacca. Si parte dalla posa del modello (a braccia aperte) e vivo() abbassa le braccia, piega la
-// schiena e fa il resto (il respiro, il tremito della febbre, le occhiate), con lo sguardo sempre verso il medico
-async function personaggio(st, chi, x, z) {
-  const gltf = await modello(`${chi}_${st}`);
-  const radice = gltf.scene;
-  radice.position.set(x, 0, z);
-  // guarda verso la videocamera (i modelli guardano verso +z)
-  radice.rotation.y = Math.atan2(OCCHIO.x - x, OCCHIO.z - z);
-  radice.traverse((o) => {
-    if (!o.isMesh) return;
-    o.userData.calore = CALORE[chi];
-    o.userData.chi = chi;
-    o.frustumCulled = false;
-    const vecchio = o.userData.originale || o.material;
-    o.userData.originale = vecchio;
-    const map = vecchio.map;
-    if (st === "ps1") {
-      if (map) {
-        map.magFilter = THREE.NearestFilter;
-        map.minFilter = THREE.NearestFilter;
-        map.generateMipmaps = false;
-        map.needsUpdate = true;
-      }
-      o.material = materiale(st, { map });
-    } else {
-      o.material = materiale(st, { map, normalMap: vecchio.normalMap || IMPRONTE, impronte: vecchio.normalMap ? 1 : 0.3, ruvido: 0.58 });
-      o.castShadow = true;
-      o.receiveShadow = true;
-    }
+// i materiali di Meshy diventano plastilina: il colore e le normali del modello, la luce morbida della creta
+function aCreta(o, ruvido = 0.62) {
+  const vecchio = o.material;
+  o.material = materiale({ map: vecchio.map, normalMap: vecchio.normalMap || IMPRONTE, impronte: vecchio.normalMap ? 1 : 0.4,
+    ruvido, side: vecchio.side });
+  o.castShadow = true;
+  o.receiveShadow = true;
+  return vecchio;
+}
+
+// un mobile alle misure volute: appoggiato a terra (o all'altezza y), centrato in x e z, girato
+async function mobile(m) {
+  const o = (await modello(m.nome)).scene.clone(true);
+  const box = new THREE.Box3().setFromObject(o);
+  const size = box.getSize(new THREE.Vector3()), centro = box.getCenter(new THREE.Vector3());
+  const scala = new THREE.Group();
+  scala.scale.set(m.dim[0] / size.x, m.dim[1] / size.y, m.dim[2] / size.z);
+  scala.position.set(-centro.x * scala.scale.x, -box.min.y * scala.scale.y, -centro.z * scala.scale.z);
+  scala.add(o);
+  const pezzo = new THREE.Group();
+  pezzo.add(scala);
+  pezzo.position.set(m.x, m.y ?? 0, m.z);
+  pezzo.rotation.y = m.gira;
+  pezzo.traverse((x) => {
+    if (!x.isMesh) return;
+    aCreta(x);
+    x.userData.calore = m.calore ?? 0.05;
   });
-  // per ogni osso: la posa di partenza e com'e' girato il suo genitore, visto dal personaggio
-  radice.updateMatrixWorld(true);
-  const ossa = {};
-  radice.traverse((o) => { if (o.isBone) ossa[o.name] = o; });
-  if (!radice.userData.posa) {
-    radice.userData.posa = Object.fromEntries(Object.entries(ossa).map(([n, b]) => [n, b.quaternion.clone()]));
+  pezzo.name = m.nome;
+  return pezzo;
+}
+
+// una porta di Meshy: la maniglia (sul lato -x del modello) va dalla parte opposta al cardine
+async function porta(d) {
+  const o = await mobile({ nome: "porta", x: d.larga / 2, z: 0, dim: [d.larga, 2.04, 0.12], gira: Math.PI });
+  const anta = new THREE.Group();
+  anta.position.set(d.cardine[0], 0, d.cardine[1]);
+  anta.rotation.y = d.apre;
+  anta.add(o);
+  return anta;
+}
+
+// i quattro piatti sulla tovaglia (anche il secondo giorno: "nessuno ha mangiato"), dove li trova un raggio dall'alto
+function piatti(tavolo) {
+  const g = new THREE.Group();
+  const piattoM = materiale({ map: texture("piatto"), ruvido: 0.38, impronte: 0.25 }), bordoM = materiale({ color: 0xf2f1ec, ruvido: 0.38, impronte: 0.25 });
+  const posate = materiale({ color: 0xb8b9b4, ruvido: 0.3, impronte: 0.2 });
+  const giu = new THREE.Raycaster();
+  tavolo.updateMatrixWorld(true);
+  for (const [dx, dz] of [[-0.22, -0.36], [0.22, -0.36], [-0.22, 0.36], [0.22, 0.36]]) {
+    const x = tavolo.position.x + dx, z = tavolo.position.z + dz;
+    giu.set(new THREE.Vector3(x, 2, z), new THREE.Vector3(0, -1, 0));
+    const y = giu.intersectObject(tavolo, true)[0]?.point.y ?? 0.78;
+    for (const [geo, m, px, py] of [[new THREE.CylinderGeometry(0.115, 0.085, 0.018, 40), [bordoM, piattoM, bordoM], x, y + 0.009],
+      [scatola(0.014, 0.006, 0.17, 0.003, 0.0005), posate, x + (dx < 0 ? -0.15 : 0.15), y + 0.004]]) {
+      const p = new THREE.Mesh(geo, m);
+      p.position.set(px, py, z);
+      p.castShadow = p.receiveShadow = true;
+      p.userData.calore = 0.05;
+      g.add(p);
+    }
   }
-  for (const [n, q] of Object.entries(radice.userData.posa)) ossa[n].quaternion.copy(q);
+  return g;
+}
+
+// ---------- i pupazzi ----------
+// dove puntano braccio e avambraccio sinistro, giorno per giorno (il destro e' allo specchio): il padre le lascia
+// pendere, le mani un po' in avanti; la figlia tiene le mani davanti alla pancia, una nell'altra, e il secondo giorno
+// le stringe al petto
+const BRACCIA = {
+  padre: { 1: [[0.15, -1, 0.08], [0.06, -1, 0.32]], 2: [[0.12, -1, 0.06], [0.05, -1, 0.24]] },
+  figlia: { 1: [[0.1, -1, 0.1], [-0.55, -0.45, 0.75]], 2: [[0.16, -1, 0.22], [-0.62, -0.08, 0.78]] },
+};
+// il secondo giorno il padre si regge al mobile con la mano destra: dove sta il polso, sul piano di lavoro
+const APPOGGIO = new THREE.Vector3(-1.2, PIANO_LAVORO + 0.1, -1.5);
+
+// un pupazzo: i materiali di plastilina e, nella posa del modello (a braccia aperte), dove stanno le ossa e com'e'
+// girato il genitore di ognuna, visti dal pupazzo. L'animazione d'attesa di Meshy non serve (si guarda attorno e
+// torce la giacca): vivo() piega la schiena, abbassa le braccia e fa il resto
+async function personaggio(chi) {
+  const radice = (await modello(`${chi}_creta`)).scene;
+  const ossa = {}, pelle = [];
+  radice.traverse((o) => {
+    if (o.isBone) ossa[o.name] = o;
+    if (!o.isMesh) return;
+    const vecchio = aCreta(o, 0.58);
+    o.userData = { chi, calore: 0.5, mappa: vecchio.map };
+    o.frustumCulled = false;
+    pelle.push(o);
+  });
   radice.updateMatrixWorld(true);
-  const qr = radice.getWorldQuaternion(new THREE.Quaternion()).invert();
-  const guida = {};
+  const dove = {}, guida = {};
   for (const [nome, b] of Object.entries(ossa)) {
-    const qp = qr.clone().multiply(b.parent.getWorldQuaternion(new THREE.Quaternion()));
+    dove[nome] = b.getWorldPosition(new THREE.Vector3());
+    const qp = b.parent.getWorldQuaternion(new THREE.Quaternion());
     guida[nome] = { b, base: b.quaternion.clone(), qp, qpi: qp.clone().invert() };
   }
-  // la posa: le braccia e gli avambracci puntati dove servono. Nel modello le braccia sono aperte e un po' indietro:
-  // girarle di un angolo fisso le manda dietro la schiena, quindi si calcola la rotazione che le porta nella direzione voluta
-  const posa = {};
-  const punta = (osso, figlio, verso, prima) => {
-    const a = ossa[osso], b = ossa[figlio];
-    if (!a || !b) return;
-    const ora = b.getWorldPosition(new THREE.Vector3()).sub(a.getWorldPosition(new THREE.Vector3())).applyQuaternion(qr).normalize();
-    const voluto = verso.clone().normalize();
-    if (prima) voluto.applyQuaternion(prima.clone().invert());
-    posa[osso] = new THREE.Quaternion().setFromUnitVectors(ora, voluto);
-  };
-  const V = (x, y, z) => new THREE.Vector3(x, y, z);
-  for (const [lato, k] of [["Left", 1], ["Right", -1]]) {
-    const [braccio, avambraccio] = BRACCIA[chi];
-    punta(`${lato}Arm`, `${lato}ForeArm`, V(braccio[0] * k, braccio[1], braccio[2]));
-    punta(`${lato}ForeArm`, `${lato}Hand`, V(avambraccio[0] * k, avambraccio[1], avambraccio[2]), posa[`${lato}Arm`]);
-  }
-  return { radice, chi, guida, posa, collo: ossa.neck || ossa.Head, testa: ossa.Head };
+  return { radice, chi, ossa, dove, guida, pelle, posa: {}, collo: ossa.neck || ossa.Head, testa: ossa.Head };
 }
-// dove puntano braccio e avambraccio sinistro (il destro e' allo specchio): il padre le lascia pendere, le mani un po'
-// in avanti; la figlia tiene le mani davanti alla pancia, una nell'altra
-const BRACCIA = {
-  padre: [[0.15, -1, 0.08], [0.06, -1, 0.32]],
-  figlia: [[0.1, -1, 0.1], [-0.55, -0.45, 0.75]],
-};
 
-// girare un osso di qualche grado attorno agli assi del personaggio (x: annuire o piegarsi in avanti, y: voltarsi,
+// la rotazione che porta l'osso a puntare nella direzione voluta (vista dal pupazzo). Le braccia del modello sono aperte
+// e un po' indietro: girarle di un angolo fisso le manda dietro la schiena. "prima" e' quanto e' gia' girato il genitore
+function punta(p, osso, figlio, verso, prima) {
+  if (!p.dove[osso] || !p.dove[figlio]) return;
+  const ora = p.dove[figlio].clone().sub(p.dove[osso]).normalize();
+  const voluto = verso.clone().normalize();
+  if (prima) voluto.applyQuaternion(prima.clone().invert());
+  p.posa[osso] = new THREE.Quaternion().setFromUnitVectors(ora, voluto);
+}
+
+// il braccio che si appoggia: spalla, gomito e polso, col polso nel punto voluto e il gomito un po' indietro e in fuori
+function appoggia(p, lato, punto) {
+  const S = p.dove[`${lato}Arm`], E = p.dove[`${lato}ForeArm`], W = p.dove[`${lato}Hand`];
+  const a = E.distanceTo(S), b = W.distanceTo(E);
+  const verso = p.radice.worldToLocal(punto.clone()).sub(S);
+  const d = THREE.MathUtils.clamp(verso.length(), Math.abs(a - b) + 0.01, a + b - 0.005);
+  verso.normalize();
+  const cosA = (a * a + d * d - b * b) / (2 * a * d);
+  const polo = new THREE.Vector3(lato === "Left" ? 0.5 : -0.5, 0, -1);
+  polo.addScaledVector(verso, -polo.dot(verso)).normalize();
+  const gomito = S.clone().addScaledVector(verso, a * cosA).addScaledVector(polo, a * Math.sqrt(Math.max(0, 1 - cosA * cosA)));
+  const polso = S.clone().addScaledVector(verso, d);
+  punta(p, `${lato}Arm`, `${lato}ForeArm`, gomito.clone().sub(S));
+  punta(p, `${lato}ForeArm`, `${lato}Hand`, polso.sub(gomito), p.posa[`${lato}Arm`]);
+}
+
+// il pupazzo al suo posto nel giorno n, girato verso la videocamera, con le braccia in posa
+function mettiInPosa(p, n) {
+  const qui = GIORNI[n][p.chi];
+  p.radice.position.set(qui.x, 0, qui.z);
+  p.radice.rotation.y = Math.atan2(OCCHIO.x - qui.x, OCCHIO.z - qui.z);
+  p.radice.updateMatrixWorld(true);
+  p.posa = {};
+  const [braccio, avambraccio] = BRACCIA[p.chi][n];
+  for (const [lato, k] of [["Left", 1], ["Right", -1]]) {
+    if (p.chi === "padre" && n === 2 && lato === "Right") {
+      appoggia(p, lato, APPOGGIO);
+      continue;
+    }
+    punta(p, `${lato}Arm`, `${lato}ForeArm`, new THREE.Vector3(braccio[0] * k, braccio[1], braccio[2]));
+    punta(p, `${lato}ForeArm`, `${lato}Hand`, new THREE.Vector3(avambraccio[0] * k, avambraccio[1], avambraccio[2]), p.posa[`${lato}Arm`]);
+  }
+}
+
+// girare un osso di qualche grado attorno agli assi del pupazzo (x: annuire o piegarsi in avanti, y: voltarsi,
 // z: inclinarsi di lato), a partire dalla sua posa
 const GRADI = Math.PI / 180;
 const _q = new THREE.Quaternion(), _e = new THREE.Euler();
@@ -717,27 +585,48 @@ function gira(p, nome, rx, ry, rz) {
 const onda = (t, f, fase = 0) => Math.sin((t * f + fase) * Math.PI * 2);
 const vaga = (t, f, seme) => rumore3(t * f, seme, seme * 0.37);
 const liscio = (a, b, x) => { const k = THREE.MathUtils.clamp((x - a) / (b - a), 0, 1); return k * k * (3 - 2 * k); };
+// la tosse del padre, il secondo giorno: ogni 6 secondi e mezzo, tre colpi in un secondo
+function tosse(t) {
+  const s = (t + 2) % 6.5;
+  return s > 1 ? 0 : Math.pow(Math.abs(Math.sin(s * Math.PI * 3)), 0.6) * (1 - s * 0.45);
+}
+// i singhiozzi della figlia: due scosse ogni due secondi e poco piu', non sempre uguali
+function singhiozzo(t) {
+  const s = (t + 0.7) % 2.3;
+  return s > 0.55 ? 0 : Math.abs(Math.sin(s * Math.PI * 3.7)) * (1 - s) * (0.7 + 0.3 * vaga(t, 0.4, 41));
+}
 
-// la vita dei personaggi: il padre respira in fretta (ha la febbre) e gli tremano le mani; la figlia respira piano e
-// ogni tanto guarda il padre, di nascosto
-function vivo(p, t) {
-  if (p.chi === "padre") {
-    const r = onda(t, 0.48);
-    // curvo, la testa in avanti che guarda in su, le braccia lungo i fianchi
-    gira(p, "Hips", 0, vaga(t, 0.08, 17) * 1.5, 0);
-    gira(p, "Spine01", 4 - 1.8 * r, vaga(t, 0.15, 3) * 1.5, 0);
+// la vita dei pupazzi. Il primo giorno il padre respira in fretta (ha la febbre) e gli tremano le mani, la figlia
+// respira piano e ogni tanto guarda il padre, di nascosto. Il secondo il padre respira a fatica, piegato verso il
+// mobile, e tossisce; la figlia piange. Quando lo si esamina sta (quasi) fermo e piega la testa dall'altra parte, per
+// far vedere il bubbone
+function vivo(p, t, n, fermo) {
+  const calma = 1 - 0.7 * fermo, mostra = fermo * fermo * (3 - 2 * fermo);
+  if (p.chi === "padre" && n === 1) {
+    const r = onda(t, 0.48) * calma;
+    gira(p, "Hips", 0, vaga(t, 0.08, 17) * 1.5 * calma, 0);
+    gira(p, "Spine01", 4 - 1.8 * r, vaga(t, 0.15, 3) * 1.5 * calma, 0);
     gira(p, "Spine02", 5 - 1.3 * r, 0, 0);
     gira(p, "LeftShoulder", 0, 0, 1.4 * r);
     gira(p, "RightShoulder", 0, 0, -1.4 * r);
-    gira(p, "LeftArm", 0, 0, 0);
-    gira(p, "RightArm", 0, 0, 0);
-    gira(p, "LeftForeArm", 0, 0, 0);
-    gira(p, "RightForeArm", 0, 0, 0);
-    gira(p, "neck", 10 + vaga(t, 0.2, 7) * 3, vaga(t, 0.13, 9) * 4, 0);
-    gira(p, "Head", -8 + vaga(t, 0.25, 11) * 2, vaga(t, 0.17, 13) * 3, vaga(t, 0.1, 5) * 3);
+    for (const o of ["LeftArm", "RightArm", "LeftForeArm", "RightForeArm"]) gira(p, o, 0, 0, 0);
+    gira(p, "neck", 10 - 6 * mostra + vaga(t, 0.2, 7) * 3 * calma, vaga(t, 0.13, 9) * 4 * calma - 8 * mostra, 12 * mostra);
+    gira(p, "Head", -8 + vaga(t, 0.25, 11) * 2 * calma, vaga(t, 0.17, 13) * 3 * calma, vaga(t, 0.1, 5) * 3 * calma);
     gira(p, "LeftHand", vaga(t, 7, 1) * 3, 0, vaga(t, 6, 2) * 3);
     gira(p, "RightHand", vaga(t, 7, 3) * 3, 0, vaga(t, 6, 4) * 3);
-  } else {
+  } else if (p.chi === "padre") {
+    const r = onda(t, 0.72) * calma, c = tosse(t) * calma;
+    gira(p, "Hips", 0, vaga(t, 0.08, 17) * calma, 2);
+    gira(p, "Spine01", 7 - 3 * r + 9 * c, vaga(t, 0.15, 3) * 1.5 * calma, 3);
+    gira(p, "Spine02", 7 - 2.4 * r + 7 * c, 0, 2);
+    gira(p, "LeftShoulder", 0, 0, 2.6 * r + 3 * c);
+    gira(p, "RightShoulder", 0, 0, -2.6 * r - 3 * c);
+    for (const o of ["LeftArm", "RightArm", "LeftForeArm", "RightForeArm"]) gira(p, o, 0, 0, 0);
+    gira(p, "neck", 16 - 14 * mostra + vaga(t, 0.2, 7) * 3 * calma + 6 * c, vaga(t, 0.13, 9) * 3 * calma - 10 * mostra, 14 * mostra);
+    gira(p, "Head", -10 + vaga(t, 0.25, 11) * 2 * calma + 10 * c, vaga(t, 0.17, 13) * 3 * calma, -4 + vaga(t, 0.1, 5) * 3 * calma);
+    gira(p, "LeftHand", vaga(t, 8, 1) * 5, 0, vaga(t, 7, 2) * 5);
+    gira(p, "RightHand", 0, 0, 0);
+  } else if (n === 1) {
     const r = onda(t, 0.27);
     const occhiata = liscio(0.6, 0.85, onda(t, 1 / 7.5) * 0.5 + 0.5);
     // le spalle su, la testa bassa: guarda da sotto in su
@@ -745,80 +634,128 @@ function vivo(p, t) {
     gira(p, "Spine02", 2 - 0.8 * r, -5 * occhiata, 0);
     gira(p, "LeftShoulder", 0, 0, 3 + 0.9 * r);
     gira(p, "RightShoulder", 0, 0, -3 - 0.9 * r);
-    gira(p, "LeftArm", 0, 0, 0);
-    gira(p, "RightArm", 0, 0, 0);
-    gira(p, "LeftForeArm", 0, 0, 0);
-    gira(p, "RightForeArm", 0, 0, 0);
+    for (const o of ["LeftArm", "RightArm", "LeftForeArm", "RightForeArm"]) gira(p, o, 0, 0, 0);
     gira(p, "neck", 6 + vaga(t, 0.2, 21) * 2, -10 * occhiata + vaga(t, 0.15, 25) * 2, 0);
     gira(p, "Head", 4 + vaga(t, 0.3, 23) * 2, -12 * occhiata, 4 * occhiata);
+  } else {
+    // piange: la testa un poco bassa (la faccia si deve vedere), le spalle strette che sobbalzano
+    const r = onda(t, 0.4), s = singhiozzo(t) * calma;
+    gira(p, "Spine01", 3 - 1.2 * r + 3 * s, 0, 0);
+    gira(p, "Spine02", 4 - 1 * r + 3 * s, 0, 0);
+    gira(p, "LeftShoulder", 0, 0, 5 + 1.2 * r + 4 * s);
+    gira(p, "RightShoulder", 0, 0, -5 - 1.2 * r - 4 * s);
+    for (const o of ["LeftArm", "RightArm", "LeftForeArm", "RightForeArm"]) gira(p, o, 0, 0, 0);
+    gira(p, "neck", 7 + vaga(t, 0.2, 21) * 2 + 3 * s, vaga(t, 0.12, 25) * 3, 0);
+    gira(p, "Head", 3 + 2 * s, vaga(t, 0.15, 27) * 4, 5 + vaga(t, 0.2, 29) * 2);
   }
 }
 
 // il bubbone sul collo del padre, sotto la mascella sul suo lato sinistro (a destra per chi guarda), attaccato
-// all'osso del collo: si muove con lui
-function bubbone(st, p) {
-  const geo = st === "ps1" ? new THREE.IcosahedronGeometry(0.031, 0) : new THREE.SphereGeometry(0.031, 28, 20);
-  if (st === "creta") {
-    const pos = geo.attributes.position;
-    for (let i = 0; i < pos.count; i++) {
-      const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
-      const k = 1 + rumore3(x * 60, y * 60, z * 60) * 0.12;
-      pos.setXYZ(i, x * k, y * k, z * k);
-    }
-    geo.computeVertexNormals();
+// all'osso del collo: si muove con lui. E' una cupola di plastilina che esce dalla pelle: alla base il colore della
+// pelle, poi rosso infiammato, viola scuro in cima. Il secondo giorno e' piu' grosso e si e' aperto: in cima il buco
+// bagnato, nero, col bordo di pus giallo. Dalla porta la testa curva del padre copre la gola e il lato si vede di
+// taglio: sta in basso sul collo, tra il davanti e il fianco. Il punto della pelle lo trova un raggio che parte da
+// dentro il collo e va verso li' (da fuori troverebbe prima il bavero della giacca), nella posa del modello
+const PELLE = { 1: 0xcbb596, 2: 0xc4bea6 };
+// dove: il raggio va in avanti e un po' di lato (quanto di lato), un poco sopra l'osso del collo
+const BUBBONE = { lato: 1.1, su: 0.012 };
+function cupola(r, pelle, aperto, seme) {
+  const geo = new THREE.SphereGeometry(r, 48, 24, 0, Math.PI * 2, 0, Math.PI / 2 + 0.3);
+  const pos = geo.attributes.position, col = new Float32Array(pos.count * 3), c = new THREE.Color();
+  const base = new THREE.Color(pelle), rosso = new THREE.Color(0x8c3236), viola = new THREE.Color(0x4a1828);
+  const pus = new THREE.Color(0xa58d4a), buco = new THREE.Color(0x140605);
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i), y = pos.getY(i), z = pos.getZ(i);
+    const t = y / r;
+    let k = 1 + rumore3(x / r * 2 + seme, y / r * 2, z / r * 2) * 0.1;
+    // il buco: la cima sprofonda, il bordo si alza un poco
+    if (aperto) k *= 1 + 0.05 * liscio(0.7, 0.8, t) - 0.25 * liscio(0.82, 0.92, t);
+    pos.setXYZ(i, x * k, y * k, z * k);
+    c.copy(base).lerp(rosso, liscio(0.0, 0.45, t)).lerp(viola, liscio(0.45, 0.85, t));
+    if (aperto) c.lerp(pus, liscio(0.7, 0.78, t)).lerp(buco, liscio(0.82, 0.88, t));
+    col.set([c.r, c.g, c.b], i * 3);
   }
-  // gonfio, lucido, viola scuro e rosso, la pelle tesa
-  const m = new THREE.Mesh(geo, materiale(st, { color: st === "ps1" ? 0x7c2a42 : 0x6c2236, emissive: 0x140306, ruvido: 0.22, impronte: 0.1 }));
-  m.userData.calore = 0.95;
-  m.userData.chi = "padre";
-  if (st === "creta") m.castShadow = true;
-  // dove: sul lato sinistro del collo (a destra per chi guarda), sotto l'orecchio, dietro l'angolo della mascella: dalla
-  // porta la testa curva del padre copre la gola, il lato invece si vede. Il punto della pelle lo trova un raggio che
-  // arriva di lato
-  p.radice.updateMatrixWorld(true);
-  const testa = new THREE.Vector3();
-  p.testa.getWorldPosition(testa);
-  const avanti = new THREE.Vector3(Math.sin(p.radice.rotation.y), 0, Math.cos(p.radice.rotation.y));
-  const sinistra = new THREE.Vector3(avanti.z, 0, -avanti.x);
-  const mira = testa.clone().addScaledVector(avanti, 0.01);
-  mira.y -= 0.02;
-  const corpo = [];
-  p.radice.traverse((o) => { if (o.isMesh && o !== m) corpo.push(o); });
-  const colpo = new THREE.Raycaster(mira.clone().addScaledVector(sinistra, 0.35), sinistra.clone().negate(), 0, 0.35)
-    .intersectObjects(corpo, false)[0];
-  const qui = colpo ? colpo.point.addScaledVector(sinistra, -0.004) : mira.addScaledVector(sinistra, 0.05);
-  const scala = new THREE.Vector3();
-  p.collo.getWorldScale(scala);
-  p.collo.worldToLocal(qui);
-  m.position.copy(qui);
-  m.scale.set(1.1, 0.95, 0.85).divideScalar(scala.x);
-  p.collo.add(m);
+  geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
+  geo.computeVertexNormals();
+  const m = new THREE.Mesh(geo, materiale({ vertexColors: true, ruvido: aperto ? 0.34 : 0.46, impronte: 0.4 }));
+  m.castShadow = true;
   return m;
 }
 
+function bubboni(p) {
+  p.radice.updateMatrixWorld(true);
+  const avanti = new THREE.Vector3(0, 0, 1).applyQuaternion(p.radice.quaternion);
+  const sinistra = new THREE.Vector3(avanti.z, 0, -avanti.x);
+  const verso = sinistra.clone().multiplyScalar(BUBBONE.lato).add(avanti).normalize();
+  const dentro = p.collo.getWorldPosition(new THREE.Vector3());
+  dentro.y += BUBBONE.su;
+  const colpo = new THREE.Raycaster(dentro, verso, 0.005, 0.2).intersectObjects(p.pelle, false)[0];
+  const qui = colpo ? colpo.point : dentro.addScaledVector(verso, 0.05);
+  const scala = p.collo.getWorldScale(new THREE.Vector3()).x;
+  const fuori = (colpo ? colpo.face.normal.clone().transformDirection(colpo.object.matrixWorld).lerp(verso, 0.5).normalize() : verso)
+    .transformDirection(p.collo.matrixWorld.clone().invert());
+  p.collo.worldToLocal(qui);
+  const su = new THREE.Vector3(0, 1, 0);
+  const b = {};
+  for (const [n, r, aperto] of [["chiuso", 0.03, false], ["aperto", 0.04, true]]) {
+    const m = cupola(r, PELLE[aperto ? 2 : 1], aperto, aperto ? 7 : 3);
+    // la base affonda nel collo
+    m.position.copy(qui).addScaledVector(fuori, -0.35 * r / scala);
+    m.quaternion.setFromUnitVectors(su, fuori);
+    m.scale.set(1.15, aperto ? 0.8 : 0.72, 1).divideScalar(scala);
+    m.userData.chi = "padre";
+    m.userData.calore = aperto ? 1 : 0.95;
+    p.collo.add(m);
+    b[n] = m;
+  }
+  return b;
+}
 
-// l'ombra a disco sotto i piedi, del 1998
-function ombraDisco(x, z, r) {
-  const [c, g] = tela(32, 32);
-  const gr = g.createRadialGradient(16, 16, 2, 16, 16, 16);
-  gr.addColorStop(0, "rgba(0,0,0,0.75)");
-  gr.addColorStop(1, "rgba(0,0,0,0)");
-  g.fillStyle = gr;
-  g.fillRect(0, 0, 32, 32);
-  const t = new THREE.CanvasTexture(c);
-  t.magFilter = THREE.NearestFilter;
-  const m = new THREE.Mesh(new THREE.CircleGeometry(r, 10), new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false }));
-  m.rotation.x = -Math.PI / 2;
-  m.position.set(x, 0.004, z);
-  m.userData.calore = 0;
-  return m;
+// le dita nere del secondo giorno (la peste che va in cancrena): un colore per vertice, che moltiplica la texture.
+// Le mani sono i vertici che seguono gli ossi delle mani: grigie; verso la punta delle dita (la parte piu' lontana dal
+// polso) livide, poi nere
+function ditaNere(p) {
+  const grigio = new THREE.Color(0.58, 0.6, 0.64), livido = new THREE.Color(0.32, 0.2, 0.26), nero = new THREE.Color(0.035, 0.028, 0.03);
+  const c = new THREE.Color();
+  for (const o of p.pelle) {
+    if (!o.isSkinnedMesh || o.geometry.attributes.color) continue;
+    const g = o.geometry, pos = g.attributes.position, si = g.attributes.skinIndex, sw = g.attributes.skinWeight;
+    const ossa = o.skeleton.bones;
+    const colori = new Float32Array(pos.count * 3).fill(1);
+    for (const nome of ["LeftHand", "RightHand"]) {
+      const i = ossa.findIndex((b) => b.name === nome);
+      if (i < 0) continue;
+      const polso = new THREE.Vector3().setFromMatrixPosition(o.skeleton.boneInverses[i].clone().invert());
+      const mano = [];
+      const v = new THREE.Vector3();
+      for (let k = 0; k < pos.count; k++) {
+        let w = 0;
+        for (let j = 0; j < 4; j++) if (si.getComponent(k, j) === i) w += sw.getComponent(k, j);
+        if (w < 0.05) continue;
+        v.fromBufferAttribute(pos, k).applyMatrix4(o.bindMatrix);
+        mano.push([k, v.distanceTo(polso), w]);
+      }
+      const lungo = Math.max(...mano.map((m) => m[1]));
+      for (const [k, d, w] of mano) {
+        c.copy(grigio).lerp(livido, liscio(0.38, 0.55, d / lungo)).lerp(nero, liscio(0.55, 0.78, d / lungo));
+        colori[k * 3] = 1 + (c.r - 1) * w;
+        colori[k * 3 + 1] = 1 + (c.g - 1) * w;
+        colori[k * 3 + 2] = 1 + (c.b - 1) * w;
+      }
+    }
+    g.setAttribute("color", new THREE.BufferAttribute(colori, 3));
+  }
 }
 
 // ---------- il disegno ----------
-// niente VHS (deciso il 27 ottobre: con questi stili non c'e' niente da nascondere): Three.js disegna sullo schermo
-const renderer = new THREE.WebGLRenderer({ canvas: schermo, antialias: true, alpha: false });
+// niente VHS: Three.js disegna sullo schermo, a piena risoluzione (fino a due punti per pixel dello schermo)
+const renderer = new THREE.WebGLRenderer({ canvas: schermo, antialias: true, alpha: false, powerPreference: "high-performance" });
 renderer.setPixelRatio(1);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.8;
 const camera = new THREE.PerspectiveCamera(FOV, 16 / 9, 0.05, 40);
 const quadro = (frag, uniforms) => {
   const m = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms, fragmentShader: frag,
@@ -829,22 +766,6 @@ const quadro = (frag, uniforms) => {
   sc.add(m);
   return sc;
 };
-
-// il 1998: la scena in un quadro piccolo, poi il retino a 15 bit di colore; sullo schermo si ingrandisce a pixel
-const BASSA = { w: 384, h: 216 };
-const rtBassa = new THREE.WebGLRenderTarget(BASSA.w, BASSA.h, { type: THREE.HalfFloatType, minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter });
-const scenaRetino = quadro(`
-  uniform sampler2D tScena;
-  varying vec2 vUv;
-  const float B[16] = float[16](0.0, 8.0, 2.0, 10.0, 12.0, 4.0, 14.0, 6.0, 3.0, 11.0, 1.0, 9.0, 15.0, 7.0, 13.0, 5.0);
-  vec3 srgb(vec3 c) { return mix(c * 12.92, 1.055 * pow(c, vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c)); }
-  void main() {
-    vec3 c = srgb(clamp(texture2D(tScena, vUv).rgb, 0.0, 1.0));
-    ivec2 p = ivec2(mod(gl_FragCoord.xy, 4.0));
-    float d = B[p.x + p.y * 4] / 16.0 - 0.47;
-    c = floor(c * 31.0 + 0.5 + d) / 31.0;
-    gl_FragColor = vec4(c, 1.0);
-  }`, { tScena: { value: rtBassa.texture } });
 
 // l'infrarosso: la scena (per i contorni) e il calore di ogni cosa, poi i colori della videocamera termica: il freddo
 // scuro, il caldo rosso, il caldo forte quasi bianco
@@ -875,163 +796,166 @@ const scenaIr = quadro(`
     gl_FragColor = vec4(col, 1.0);
   }`, { tScena: { value: rtScena.texture }, tCalore: { value: rtCalore.texture }, passo: passoCalore });
 
-let stile = null, scena = null, persone = {}, bub = null;
-let ir = false;
+let scena = null, persone = {}, bub = null, giornoOra = 0, ir = false;
+const FACCE = {};
 
-function misura(st) {
-  let w, h;
-  if (st === "ps1") {
-    [w, h] = [BASSA.w, BASSA.h];
-    schermo.classList.remove("liscio");
-  } else {
-    w = Math.min(1600, Math.max(640, Math.round(palco.clientWidth * Math.min(2, window.devicePixelRatio || 1))));
-    h = Math.round(w * 9 / 16);
-    schermo.classList.add("liscio");
-  }
+function misura() {
+  const w = Math.min(2560, Math.max(640, Math.round(palco.clientWidth * Math.min(2, window.devicePixelRatio || 1))));
+  const h = Math.round(w * 9 / 16);
   renderer.setSize(w, h, false);
   rtScena.setSize(w, h);
   rtCalore.setSize(Math.max(64, Math.round(w / 3)), Math.max(36, Math.round(h / 3)));
   passoCalore.value.set(1 / rtCalore.width, 1 / rtCalore.height);
 }
-if (window.ResizeObserver) new ResizeObserver(() => { if (stile === "creta") misura(stile); }).observe(palco);
+if (window.ResizeObserver) new ResizeObserver(() => misura()).observe(palco);
 
-function libera(o) {
-  o.traverse((x) => {
-    if (x.userData.chi) return; // i personaggi restano in memoria, per tornare allo stile in fretta
-    x.geometry?.dispose();
-    for (const m of [].concat(x.material || [])) {
-      for (const k of ["map", "normalMap"]) if (m[k] && m[k] !== IMPRONTE) m[k].dispose();
-      m.dispose();
-    }
-  });
-}
-
-async function scegli(st) {
-  if (st === stile) return;
-  stile = st;
-  for (const b of document.querySelectorAll("[id^=stile-]")) b.setAttribute("aria-pressed", String(b.id === `stile-${st}`));
-  attesa.hidden = false;
-  esci(true);
-  if (bub) bub.parent?.remove(bub);
-  if (scena) libera(scena);
-  if (st === "creta" && !IMPRONTE) IMPRONTE = impronte();
+// la cucina, i mobili, i pupazzi e le facce di ricambio: tutto all'inizio, poi i giorni cambiano solo i pupazzi
+async function costruisci() {
+  IMPRONTE = impronte();
   const nuova = new THREE.Scene();
-  const stanza = cucina(st);
-  nuova.add(stanza);
-  faro = stanza.userData.faro;
-  neon = stanza.userData.neon || null;
-  const [padre, figlia] = await Promise.all([personaggio(st, "padre", PADRE.x, PADRE.z), personaggio(st, "figlia", FIGLIA.x, FIGLIA.z)]);
-  if (stile !== st) return;
-  nuova.add(padre.radice, figlia.radice);
-  bub = bubbone(st, padre);
-  if (st === "ps1") {
-    nuova.fog = new THREE.Fog(0x0d0a07, 4.2, 10.5);
-    nuova.add(ombraDisco(PADRE.x, PADRE.z, 0.32), ombraDisco(FIGLIA.x, FIGLIA.z, 0.28));
-    renderer.shadowMap.enabled = false;
-    renderer.toneMapping = THREE.NoToneMapping;
-  } else {
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFShadowMap;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.8;
-    nuova.fog = new THREE.Fog(0x060504, 4, 12);
-  }
-  nuova.environment = null;
+  const [vuota, mobili, porte, padre, figlia] = await Promise.all([stanza(), Promise.all(MOBILI.map(mobile)),
+    Promise.all(PORTE.map(porta)), personaggio("padre"), personaggio("figlia"),
+    ...Object.values(GIORNI).flatMap((g) => [g.padre.faccia, g.figlia.faccia]).filter(Boolean).map(async (f) => {
+      const t = await caricatore.loadAsync(`modelli/${f}.webp`);
+      t.flipY = false;
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.anisotropy = 8;
+      FACCE[f] = t;
+    })]);
+  nuova.add(vuota, ...mobili, ...porte, piatti(mobili.find((m) => m.name === "tavolo")), padre.radice, figlia.radice);
+  // il tubo del neon fa luce: il materiale del neon brilla dei suoi colori (il tubo, bianco, piu' di tutto)
+  tubo = [];
+  mobili.find((m) => m.name === "neon").traverse((o) => {
+    if (!o.isMesh) return;
+    Object.assign(o.material, { emissive: new THREE.Color(0xffffff), emissiveMap: o.material.map, emissiveIntensity: 0.4 });
+    tubo.push(o.material);
+  });
+  bub = bubboni(padre);
+  ditaNere(padre);
+  nuova.fog = new THREE.Fog(0x060504, 4, 12);
   nuova.background = new THREE.Color(0x000000);
   scena = nuova;
   persone = { padre, figlia };
-  misura(st);
-  attesa.hidden = true;
-  parla([["Dottore."], ["Qui stiamo tutti bene. Faccia in fretta."]]);
+  misura();
+}
+
+// il giorno n: dove stanno, che faccia hanno, le dita del padre e il bubbone, cosa dice il padre
+function giorno(n) {
+  if (!scena || n === giornoOra) return;
+  giornoOra = n;
+  for (const b of document.querySelectorAll("[id^=giorno-]")) b.setAttribute("aria-pressed", String(b.id === `giorno-${n}`));
+  esci(true);
+  for (const p of Object.values(persone)) {
+    const qui = GIORNI[n][p.chi];
+    mettiInPosa(p, n);
+    for (const o of p.pelle) {
+      o.material.map = qui.faccia ? FACCE[qui.faccia] : o.userData.mappa;
+      // le dita nere: il colore dei vertici solo il secondo giorno
+      o.material.vertexColors = p.chi === "padre" && n === 2;
+      o.material.needsUpdate = true;
+      o.userData.calore = qui.calore;
+    }
+  }
+  bub.chiuso.visible = n === 1;
+  bub.aperto.visible = n === 2;
+  parla(GIORNI[n].arrivo);
 }
 
 // ---------- la testa e lo zoom della videocamera ----------
 const SU = new THREE.Vector3(0, 1, 0);
 const testa = { x: 0, y: 0, tx: 0, ty: 0 };
-let zoom = 0, zoomVerso = 0;
+let zoom = 0, zoomVerso = 0, zoomSu = null;
 const dove = new THREE.Vector3(), base = new THREE.Vector3(), destra = new THREE.Vector3(), bersaglio = new THREE.Vector3();
-// dove punta la lampada della videocamera: nella plastilina sul padre, che e' quasi l'unica cosa illuminata
-const FARO_MIRA = { ps1: new THREE.Vector3(-0.3, 1.2, -3), creta: new THREE.Vector3(-0.5, 1.25, -2.3) };
-let faro = null, neon = null;
-const SCARTO_FARO = new THREE.Vector3(0.05, 0.08, 0), luce = new THREE.Vector3(), lato = new THREE.Vector3();
+const mirino = new THREE.Vector3(), luce = new THREE.Vector3(), lato = new THREE.Vector3();
+
+// il punto da guardare nello zoom: il bubbone del padre, la faccia della figlia
+function puntoZoom(chi, v) {
+  if (chi === "padre") return (bub.aperto.visible ? bub.aperto : bub.chiuso).getWorldPosition(v);
+  const p = persone.figlia;
+  p.testa.getWorldPosition(v);
+  v.y += 0.07;
+  return v.addScaledVector(new THREE.Vector3(Math.sin(p.radice.rotation.y), 0, Math.cos(p.radice.rotation.y)), 0.06);
+}
 
 function inquadra(dt, t) {
   testa.x += (testa.tx - testa.x) * Math.min(1, dt * 4);
   testa.y += (testa.ty - testa.y) * Math.min(1, dt * 4);
-  zoom += Math.sign(zoomVerso - zoom) * Math.min(Math.abs(zoomVerso - zoom), dt / 0.9);
+  zoom += Math.sign(zoomVerso - zoom) * Math.min(Math.abs(zoomVerso - zoom), dt / 1.1);
   const z = zoom * zoom * (3 - 2 * zoom);
+  if (!zoom && !zoomVerso) zoomSu = null;
   // la maschera non sta mai ferma: un respiro e un tremito leggero
-  const respiro = new THREE.Vector3(Math.sin(t * 0.7) * 0.004, Math.sin(t * 1.3) * 0.006, 0);
-  camera.position.copy(OCCHIO).add(respiro);
+  camera.position.set(OCCHIO.x + Math.sin(t * 0.7) * 0.004, OCCHIO.y + Math.sin(t * 1.3) * 0.006, OCCHIO.z);
   const volta = -testa.x * 0.2 * (1 - z), china = -testa.y * 0.11 * (1 - z);
   base.subVectors(MIRA, OCCHIO).normalize();
   base.applyAxisAngle(SU, volta);
   destra.crossVectors(base, SU).normalize();
   base.applyAxisAngle(destra, china);
   bersaglio.copy(camera.position).addScaledVector(base, 3);
-  if (bub && z > 0) {
-    bub.getWorldPosition(dove);
-    bersaglio.lerp(dove, z);
+  if (zoomSu) {
+    // il mirino insegue il punto con calma: il pupazzo si muove a scatti, la videocamera no
+    puntoZoom(zoomSu, dove);
+    mirino.lerp(dove, 1 - Math.exp(-dt * 3));
+    bersaglio.lerp(mirino, z);
   }
-  camera.fov = FOV + (FOV_ESAME[stile] - FOV) * z;
-  if (faro) {
-    faro.intensity = faro.userData.forza * (1 + (stile === "ps1" ? 3 : 0.6) * z);
-    // la lampada sta sulla maschera: si sposta e si gira con la testa (nell'esame va sul bubbone)
-    faro.position.copy(camera.position).add(SCARTO_FARO);
-    luce.subVectors(FARO_MIRA[stile], OCCHIO).applyAxisAngle(SU, volta);
-    lato.crossVectors(luce, SU).normalize();
-    luce.applyAxisAngle(lato, china).add(camera.position);
-    faro.target.position.lerpVectors(luce, bersaglio, z);
-  }
+  camera.fov = FOV + ((zoomSu ? ZOOM[zoomSu] : FOV) - FOV) * z;
+  FORZA_BOLLE.value = 1 - 0.5 * z;
+  faro.intensity = faro.userData.forza * (1 + 0.6 * z);
+  // la lampada sta sulla maschera: si sposta e si gira con la testa (nello zoom va dove si guarda)
+  faro.position.copy(camera.position).add(SCARTO_FARO);
+  luce.subVectors(FARO_MIRA, OCCHIO).applyAxisAngle(SU, volta);
+  lato.crossVectors(luce, SU).normalize();
+  luce.applyAxisAngle(lato, china).add(camera.position);
+  faro.target.position.lerpVectors(luce, bersaglio, z);
   camera.updateProjectionMatrix();
   camera.lookAt(bersaglio);
 }
 
 // ---------- le frasi accanto a chi parla ----------
 let turnoFrase = 0;
+const attendi = (ms) => new Promise((r) => setTimeout(r, ms));
 async function parla(righe) {
   const turno = ++turnoFrase;
-  for (const [testo] of righe) {
+  for (const testo of righe) {
     frase.style.opacity = "1";
     for (let i = 1; i <= testo.length; i++) {
       if (turno !== turnoFrase) return;
       frase.textContent = testo.slice(0, i);
-      await new Promise((r) => setTimeout(r, 38));
+      await attendi(38);
     }
-    await new Promise((r) => setTimeout(r, 1500));
+    await attendi(1600);
   }
   if (turno === turnoFrase) frase.style.opacity = "0";
 }
 
+// la frase accanto alla testa del padre, dentro lo schermo anche nello zoom
 const proietta = new THREE.Vector3();
 function mettiFrase() {
   const p = persone.padre;
-  if (!p?.testa || zoom > 0.05) { frase.style.visibility = "hidden"; return; }
-  frase.style.visibility = "visible";
   p.testa.getWorldPosition(proietta);
   proietta.y += 0.12;
   proietta.project(camera);
-  frase.style.left = `${(proietta.x * 0.5 + 0.5) * 100 + 6}%`;
-  frase.style.top = `${(-proietta.y * 0.5 + 0.5) * 100 - 4}%`;
+  const x = THREE.MathUtils.clamp((proietta.x * 0.5 + 0.5) * 100 + 6, 3, 66);
+  const y = THREE.MathUtils.clamp((-proietta.y * 0.5 + 0.5) * 100 - 4, 8, 80);
+  frase.style.left = `${x}%`;
+  frase.style.top = `${y}%`;
 }
 
 // ---------- il tempo: la plastilina a scatti ----------
-// nella plastilina il mondo cambia posa 12 volte al secondo, e a ogni posa la superficie "bolle" un poco
+// il mondo cambia posa 12 volte al secondo, e a ogni posa la superficie "bolle" un poco; il neon ogni tanto si spegne
 const POSE = 12;
 let tempo = 0, ultimaPosa = -1;
 function anima(dt) {
   tempo += dt;
-  let t = tempo;
-  if (stile === "creta") {
-    const n = Math.floor(tempo * POSE);
-    t = n / POSE;
-    if (n !== ultimaPosa) {
-      ultimaPosa = n;
-      BOLLE.value = Math.random() * 50;
-      if (neon) neon.intensity = neon.userData.forza * (Math.random() < 0.07 ? 0.1 + Math.random() * 0.3 : 1);
-    }
+  const n = Math.floor(tempo * POSE);
+  if (n !== ultimaPosa) {
+    ultimaPosa = n;
+    BOLLE.value = Math.random() * 50;
+    const k = Math.random() < 0.07 ? 0.1 + Math.random() * 0.3 : 1;
+    neon.intensity = neon.userData.forza * k;
+    for (const m of tubo) m.emissiveIntensity = 0.4 * k;
   }
-  for (const p of Object.values(persone)) vivo(p, t);
+  const t = n / POSE;
+  for (const p of Object.values(persone)) vivo(p, t, giornoOra, zoomSu === p.chi ? zoom : 0);
 }
 
 // ---------- l'infrarosso: la scena col calore di ogni cosa, in grigi ----------
@@ -1047,7 +971,7 @@ function disegnaCalore() {
     scambi.push([o, o.material]);
     o.material = grigio(o.userData.calore ?? 0.05);
   });
-  const fog = scena.fog, tm = renderer.toneMapping, ombre = renderer.shadowMap.enabled;
+  const fog = scena.fog, tm = renderer.toneMapping;
   scena.fog = null;
   renderer.toneMapping = THREE.NoToneMapping;
   renderer.shadowMap.enabled = false;
@@ -1056,33 +980,27 @@ function disegnaCalore() {
   for (const [o, m] of scambi) o.material = m;
   scena.fog = fog;
   renderer.toneMapping = tm;
-  renderer.shadowMap.enabled = ombre;
+  renderer.shadowMap.enabled = true;
 }
 
 function disegna() {
-  SNAP.value.set(BASSA.w * 0.44, BASSA.h * 0.44);
   if (ir) {
     renderer.setRenderTarget(rtScena);
     renderer.render(scena, camera);
     disegnaCalore();
     renderer.setRenderTarget(null);
     renderer.render(scenaIr, camera);
-  } else if (stile === "ps1") {
-    renderer.setRenderTarget(rtBassa);
-    renderer.render(scena, camera);
-    renderer.setRenderTarget(null);
-    renderer.render(scenaRetino, camera);
   } else {
     renderer.setRenderTarget(null);
     renderer.render(scena, camera);
   }
 }
 
-let prima = null;
+let prima = null, fermo = false;
 function giro(ora) {
   const dt = prima == null ? 0 : Math.min(0.1, (ora - prima) / 1000);
   prima = ora;
-  if (scena) {
+  if (scena && giornoOra && !fermo) {
     anima(dt);
     inquadra(dt, tempo);
     disegna();
@@ -1093,15 +1011,15 @@ function giro(ora) {
 
 // la messa a fuoco della videocamera che cerca il soggetto, quando lo zoom arriva
 async function aFuoco() {
-  const passi = [[7, 0], [0, 380], [2.5, 180], [0, 320]];
-  for (const [px, ms] of passi) {
+  for (const [px, ms] of [[6, 0], [0, 380], [2, 180], [0, 320]]) {
     schermo.style.transition = ms ? `filter ${ms}ms ease-in-out` : "none";
     schermo.style.filter = px ? `blur(${px}px)` : "none";
-    await new Promise((r) => setTimeout(r, ms || 30));
+    await attendi(ms || 30);
   }
 }
 
 // ---------- i comandi ----------
+const BOTTONI = { padre: [$("#esamina"), "Esamina il collo"], figlia: [$("#figlia"), "Guarda la figlia"] };
 let trascina = null;
 palco.addEventListener("pointermove", (e) => {
   const r = palco.getBoundingClientRect();
@@ -1114,56 +1032,91 @@ palco.addEventListener("pointermove", (e) => {
   }
 });
 palco.addEventListener("pointerdown", (e) => {
-  trascina = { x: e.clientX, y: e.clientY, tx: testa.tx, ty: testa.ty, t: performance.now() };
+  trascina = { x: e.clientX, y: e.clientY, tx: testa.tx, ty: testa.ty };
 });
 palco.addEventListener("pointerup", (e) => {
   const mosso = trascina && Math.hypot(e.clientX - trascina.x, e.clientY - trascina.y) > 8;
   trascina = null;
   if (mosso || !scena) return;
   if (zoomVerso) return esci();
-  // un clic sul padre: si esamina il collo
+  // un clic sul padre esamina il collo, uno sulla figlia la guarda
   const r = palco.getBoundingClientRect();
   const ray = new THREE.Raycaster();
   ray.setFromCamera(new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
-  const colpo = ray.intersectObjects(scena.children, true).find((h) => h.object.visible);
-  if (colpo?.object.userData.chi === "padre") esamina();
+  const chi = ray.intersectObjects(scena.children, true).find((h) => h.object.visible)?.object.userData.chi;
+  if (chi) esamina(chi);
 });
 
-async function esamina() {
+async function esamina(chi) {
   if (!scena || zoomVerso) return;
+  zoomSu = chi;
   zoomVerso = 1;
-  $("#esamina").textContent = "Torna";
-  parla([["È una botta."]]);
-  await new Promise((r) => setTimeout(r, 900));
-  if (!zoomVerso) return;
-  aFuoco();
+  puntoZoom(chi, mirino);
+  BOTTONI[chi][0].textContent = "Torna";
+  if (chi === "padre") parla(GIORNI[giornoOra].esame);
+  await attendi(1000);
+  if (zoomVerso) aFuoco();
 }
 
 function esci(subito = false) {
   zoomVerso = 0;
-  if (subito) zoom = 0;
-  $("#esamina").textContent = "Esamina il collo";
+  if (subito) {
+    zoom = 0;
+    zoomSu = null;
+  }
+  for (const [b, testo] of Object.values(BOTTONI)) b.textContent = testo;
 }
 
-$("#esamina").addEventListener("click", () => (zoomVerso ? esci() : esamina()));
-$("#ir").addEventListener("click", (e) => {
+for (const [chi, [b]] of Object.entries(BOTTONI)) b.addEventListener("click", () => (zoomVerso ? esci() : esamina(chi)));
+$("#ir").addEventListener("click", () => cambiaIr());
+function cambiaIr() {
   ir = !ir;
-  e.currentTarget.setAttribute("aria-pressed", String(ir));
+  $("#ir").setAttribute("aria-pressed", String(ir));
+}
+for (const n of [1, 2]) $(`#giorno-${n}`).addEventListener("click", () => giorno(n));
+// la tastiera (nel programma per Windows non ci sono i bottoni sotto): 1 e 2 i giorni, E il collo, F la figlia,
+// I l'infrarosso, Esc torna indietro, F11 lo schermo intero
+addEventListener("keydown", (e) => {
+  const k = e.key.toLowerCase();
+  if (k === "1" || k === "2") giorno(Number(k));
+  else if (k === "e" || k === "f") zoomVerso ? esci() : esamina(k === "e" ? "padre" : "figlia");
+  else if (k === "i") cambiaIr();
+  else if (k === "escape") esci();
+  else if (k === "f11") {
+    e.preventDefault();
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen?.().catch(() => {});
+  }
 });
-$("#stile-ps1").addEventListener("click", () => scegli("ps1"));
-$("#stile-creta").addEventListener("click", () => scegli("creta"));
 
-// per le prove (Playwright): lo stato e i comandi
-window.prova = { scegli, esamina, esci, get stile() { return stile; }, get pronta() { return !!scena && attesa.hidden; },
+// per le prove (Playwright): lo stato e i comandi. avanti() ferma il giro e fa passare il tempo senza disegnare, poi
+// disegna una volta sola (nel browser delle prove, senza scheda video, un'immagine costa secondi)
+window.prova = { giorno, esamina, esci, get oggi() { return giornoOra; }, get pronta() { return !!scena && attesa.hidden; },
+  avanti(secondi, vista) {
+    fermo = true;
+    for (let i = 0; i < secondi * 30; i++) { anima(1 / 30); inquadra(1 / 30, tempo); }
+    if (vista) {
+      camera.position.fromArray(vista[0]);
+      camera.fov = vista[2];
+      camera.updateProjectionMatrix();
+      camera.lookAt(new THREE.Vector3().fromArray(vista[1]));
+    }
+    const t = performance.now();
+    disegna();
+    mettiFrase();
+    return Math.round(performance.now() - t);
+  },
   posizioni() {
     const v = (o) => o.getWorldPosition(new THREE.Vector3()).toArray().map((x) => +x.toFixed(3));
     const p = persone.padre;
-    return { collo: v(p.collo), testa: v(p.testa), bubbone: v(bub), occhio: OCCHIO.toArray() };
+    return { collo: v(p.collo), testa: v(p.testa), mano: v(p.ossa.RightHand), bubbone: v(bub.aperto.visible ? bub.aperto : bub.chiuso), occhio: OCCHIO.toArray() };
   } };
 
-const iniziale = location.hash === "#plastilina" ? "creta" : "ps1";
 requestAnimationFrame(giro);
-scegli(iniziale).catch((err) => {
+costruisci().then(() => {
+  attesa.hidden = true;
+  giorno(location.hash === "#giorno2" ? 2 : 1);
+}).catch((err) => {
   attesa.textContent = "Il nastro non parte";
   console.error(err);
 });

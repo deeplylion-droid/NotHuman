@@ -2,3 +2,7 @@ __pycache__/
 *.pyc
 tools/tre/node_modules/
 tools/tre/package-lock.json
+eseguibile/node_modules/
+eseguibile/package-lock.json
+eseguibile/pagina/
+eseguibile/dist/

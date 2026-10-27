@@ -1,0 +1,114 @@
+[
+ {
+  "nome": "frigo",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:frigo_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "tavolo",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:tavolo_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "sedia",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:sedia_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "mobiletto_tv",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:mobiletto_tv_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "base",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:base_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "pensili",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:pensili_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "porta",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:porta_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ },
+ {
+  "nome": "neon",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:neon_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 8000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "auto"
+  }
+ }
+]

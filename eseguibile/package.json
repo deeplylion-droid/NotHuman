@@ -1,0 +1,17 @@
+{
+  "name": "nothuman",
+  "productName": "NotHuman",
+  "version": "0.1.0",
+  "description": "NotHuman come programma per Windows: per ora la prova della cucina in plastilina",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "prepara": "node prepara.mjs",
+    "prova": "node prepara.mjs && electron .",
+    "windows": "node prepara.mjs && electron-packager . NotHuman --platform=win32 --arch=x64 --out=dist --overwrite --asar --ignore=^/dist --ignore=^/prepara\\.mjs"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "electron": "44.7.0"
+  }
+}

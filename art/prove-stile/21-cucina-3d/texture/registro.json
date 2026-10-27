@@ -1,0 +1,92 @@
+{
+  "piastrelle": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Seamless tileable texture of an old corridor floor of square tiles: exactly 4 by 4 dark brown clay tiles filling the square, each tile slightly irregular and hand-cut with softly rounded edges, narrow grooves of darker clay between them, faint fingerprints and scuffs, seen from directly above, for a stop-motion puppet film set, everything made of matte modelling clay (plasticine). Flat straight-on view with even, soft, shadowless lighting, no perspective, the surface fills the entire square edge to edge, nothing else in the picture, no objects, no text.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "piastrelle.png"
+    ],
+    "seed": null,
+    "secondi": 105,
+    "descrizione": null
+  },
+  "pavimento": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Seamless tileable texture of an old speckled linoleum floor: a flattened dark olive-green plasticine sheet with many tiny pressed-in speckles of lighter green, beige and dark brown clay, faint thumb smears and scuffs, worn and dirty, seen from directly above, for a stop-motion puppet film set, everything made of matte modelling clay (plasticine). Flat straight-on view with even, soft, shadowless lighting, no perspective, the surface fills the entire square edge to edge, nothing else in the picture, no objects, no text.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "pavimento.png"
+    ],
+    "seed": null,
+    "secondi": 124,
+    "descrizione": null
+  },
+  "muro": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Seamless tileable texture of an old kitchen wall: smoothed dingy ochre-beige plasticine pressed flat by hand, with faint thumb smears, shallow fingerprint whorls, sculpting-tool scrapes and gentle unevenness, a few darker brownish damp stains, slightly dirty, for a stop-motion puppet film set, everything made of matte modelling clay (plasticine). Flat straight-on view with even, soft, shadowless lighting, no perspective, the surface fills the entire square edge to edge, nothing else in the picture, no objects, no text.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "muro.png"
+    ],
+    "seed": null,
+    "secondi": 131,
+    "descrizione": null
+  },
+  "soffitto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Seamless tileable texture of an old ceiling: smoothed pale grey-beige plasticine with a yellowed tint, very faint finger smudges and gentle unevenness, a couple of faint grey stains, for a stop-motion puppet film set, everything made of matte modelling clay (plasticine). Flat straight-on view with even, soft, shadowless lighting, no perspective, the surface fills the entire square edge to edge, nothing else in the picture, no objects, no text.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "soffitto.png"
+    ],
+    "seed": null,
+    "secondi": 135,
+    "descrizione": null
+  },
+  "corridoio": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Seamless tileable texture of a dark corridor wall: smoothed grey-brown plasticine pressed flat by hand, with faint thumb smears, fingerprint whorls and tool scrapes, dirty and a little stained, for a stop-motion puppet film set, everything made of matte modelling clay (plasticine). Flat straight-on view with even, soft, shadowless lighting, no perspective, the surface fills the entire square edge to edge, nothing else in the picture, no objects, no text.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "corridoio.png"
+    ],
+    "seed": null,
+    "secondi": 140,
+    "descrizione": null
+  }
+}

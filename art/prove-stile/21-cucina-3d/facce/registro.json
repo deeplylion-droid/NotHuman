@@ -1,0 +1,40 @@
+{
+  "figlia_piange_davanti": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make her cry: her eyes red and wet, with reddened, swollen rims, the inner ends of the eyebrows raised in grief, the corners of her mouth pulled down and the lips slightly apart and trembling, and a few glistening clear tears running from the inner corners of the eyes down both cheeks. Keep exactly the same puppet face with every feature in exactly the same position and size (the big round eyes stay open, the nose, the mouth, the face outline), the same hair, clothes, grey background and framing, and the same flat, unlit look with no added shading or shadows, only the small shine of the tears. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:figlia_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia_piange_davanti.png"
+    ],
+    "seed": null,
+    "secondi": 20,
+    "descrizione": ""
+  },
+  "padre_grave_davanti": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this flat, unlit front view of a plasticine puppet's face (a texture render with no lighting). Make him gravely ill with a high fever: glassy, bloodshot eyes with red rims, the skin turned a waxy grey-yellow, beads of sweat on the forehead and the temples, darker purple circles under the eyes, dry cracked lips with a few small dark red spots at one corner. Keep exactly the same puppet face with every feature in exactly the same position and size (eyes, eyebrows, nose, mouth, teeth, ears, face outline), the same hair, jacket, grey background and framing, and the same flat, unlit look with no added shading or shadows, only the small shine of the sweat. Matte modelling clay colors.",
+      "image_urls": [
+        "@file:padre_davanti.png"
+      ],
+      "aspect_ratio": "1:1",
+      "resolution": "1K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "padre_grave_davanti.png"
+    ],
+    "seed": null,
+    "secondi": 20,
+    "descrizione": ""
+  }
+}

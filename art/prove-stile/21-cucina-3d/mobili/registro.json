@@ -1,0 +1,306 @@
+{
+  "frigo_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An old small 1970s refrigerator, off-white and yellowed, with rounded corners, a small freezer door on top, a big lower door and a chrome handle, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "frigo_foto.png"
+    ],
+    "seed": null,
+    "secondi": 96,
+    "descrizione": null
+  },
+  "base_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A long, low run of 1970s kitchen base cabinets, about 2.4 metres long, 60 cm deep and 90 cm high, with four light-wood doors with dark brown frames and round knobs, a white laminate worktop and a small stainless steel sink with a tap set into it near one end, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "base_foto.png"
+    ],
+    "seed": null,
+    "secondi": 96,
+    "descrizione": null
+  },
+  "sedia_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A green plastic monobloc garden chair, scuffed, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "sedia_foto.png"
+    ],
+    "seed": null,
+    "secondi": 99,
+    "descrizione": null
+  },
+  "mobiletto_tv_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A low light-wood cabinet with two small doors with dark brown frames, with an old small grey CRT television set on top, switched off, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "mobiletto_tv_foto.png"
+    ],
+    "seed": null,
+    "secondi": 102,
+    "descrizione": null
+  },
+  "tavolo_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A small rectangular kitchen table about 85 by 135 cm with thin grey metal legs, covered by a cream oilcloth with a pattern of red roses and thin pink stripes that hangs a little over the edges, with nothing on top, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "tavolo_foto.png"
+    ],
+    "seed": null,
+    "secondi": 102,
+    "descrizione": null
+  },
+  "pensili_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "A long run of four 1970s wall-mounted kitchen cabinets side by side, about 2.4 metres long, 35 cm deep and 70 cm high, with light-wood doors with dark brown frames and round knobs, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "pensili_foto.png"
+    ],
+    "seed": null,
+    "secondi": 96,
+    "descrizione": null
+  },
+  "tavolo": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:tavolo_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "tavolo.glb",
+      "tavolo_anteprima.png"
+    ],
+    "seed": 1101754296,
+    "secondi": 182,
+    "descrizione": null
+  },
+  "mobiletto_tv": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:mobiletto_tv_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "mobiletto_tv.glb",
+      "mobiletto_tv_anteprima.png"
+    ],
+    "seed": 1346983938,
+    "secondi": 225,
+    "descrizione": null
+  },
+  "base": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:base_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "base.glb",
+      "base_anteprima.png"
+    ],
+    "seed": 1078120765,
+    "secondi": 246,
+    "descrizione": null
+  },
+  "sedia": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:sedia_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "sedia.glb",
+      "sedia_anteprima.png"
+    ],
+    "seed": 233716089,
+    "secondi": 295,
+    "descrizione": null
+  },
+  "frigo": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:frigo_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "frigo.glb",
+      "frigo_anteprima.png"
+    ],
+    "seed": 1275484571,
+    "secondi": 352,
+    "descrizione": null
+  },
+  "pensili": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:pensili_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "pensili.glb",
+      "pensili_anteprima.png"
+    ],
+    "seed": 1962894594,
+    "secondi": 200,
+    "descrizione": null
+  },
+  "neon_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An old ceiling fluorescent light fixture: a narrow white metal channel about 120 cm long with one bare fluorescent tube mounted underneath it, the metal a little yellowed and dusty with a few dead flies, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "neon_foto.png"
+    ],
+    "seed": null,
+    "secondi": 96,
+    "descrizione": null
+  },
+  "porta_foto": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "An old interior door leaf standing upright on its own, about 80 by 200 cm and 4 cm thick, painted off-white cream with the paint yellowed and chipped along the edges, two recessed rectangular panels (a shorter upper one and a taller lower one), a simple dull metal lever handle with a keyhole plate on the right, made as a handmade plasticine (modelling clay) miniature for a dark stop-motion film set: everything sculpted from matte modelling clay, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly irregular hand-made edges and simplified details, worn and a little dirty. Isolated on a plain light grey seamless background, seen in three-quarter view from slightly above, soft even studio light, no strong shadows, the whole object in view. No people, no text, nothing else in the picture.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "porta_foto.png"
+    ],
+    "seed": null,
+    "secondi": 99,
+    "descrizione": null
+  },
+  "neon": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:neon_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 8000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "neon.glb",
+      "neon_anteprima.png"
+    ],
+    "seed": 1465594693,
+    "secondi": 93,
+    "descrizione": null
+  },
+  "porta": {
+    "modello": "fal-ai/meshy/v7.1/image-to-3d",
+    "input": {
+      "image_url": "@file:porta_foto.png",
+      "model_type": "standard",
+      "topology": "triangle",
+      "target_polycount": 12000,
+      "should_remesh": true,
+      "should_texture": true,
+      "enable_pbr": true,
+      "symmetry_mode": "auto"
+    },
+    "file": [
+      "porta.glb",
+      "porta_anteprima.png"
+    ],
+    "seed": 221091958,
+    "secondi": 106,
+    "descrizione": null
+  }
+}

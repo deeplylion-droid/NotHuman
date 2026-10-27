@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Cucina in 3D</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +13,6 @@
     --testo: #e9e3d3;
     --spento: #9d9483;
     --giallo: #f2c94c;
-    --rosso: #c0392b;
     --gioco: "Silkscreen", "VT323", ui-monospace, monospace;
     --vcr: "VT323", "IBM Plex Mono", ui-monospace, monospace;
     --testo-font: "Archivo", "Helvetica Neue", Arial, sans-serif;
@@ -39,11 +39,8 @@
   }
   button:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #000; }
   button[aria-pressed="true"] { background: #3d3115; border-color: var(--giallo); color: var(--giallo); }
-  button:disabled { opacity: 0.45; cursor: default; }
   #palco { position: relative; width: 100%; aspect-ratio: 16 / 9; max-width: 100%; background: #000; overflow: hidden; container-type: inline-size; touch-action: none; }
   #palco canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  #schermo { image-rendering: pixelated; }
-  #schermo.liscio { image-rendering: auto; }
   #osd { position: absolute; left: 3cqw; top: 2.6cqw; font-family: var(--vcr); font-size: max(14px, 3cqw); color: #f0f0ec; text-shadow: 0.12cqw 0.12cqw 0 #000; pointer-events: none; display: flex; gap: 0.5em; align-items: center; }
   #osd i { width: 0.55em; height: 0.55em; border-radius: 50%; background: #e03b2c; display: inline-block; animation: rec 1.2s steps(2) infinite; }
   @keyframes rec { 50% { opacity: 0; } }
@@ -52,15 +49,27 @@
   .note { max-width: 70ch; color: var(--spento); font-size: 15px; line-height: 1.55; display: grid; gap: 6px; }
   .note p { margin: 0; }
   .note b { color: var(--testo); font-weight: 600; }
+  .tasti { display: none; }
   @media (max-width: 560px) { .barra { justify-content: flex-start; } }
+
+  /* nel programma per Windows (Electron): lo schermo intero, i bottoni sopra l'immagine, i tasti al posto delle note */
+  body.pc { padding: 0; height: 100vh; overflow: hidden; background: #000; }
+  body.pc main { max-width: none; height: 100vh; place-content: center; gap: 0; }
+  body.pc #palco { width: min(100vw, 177.78vh); }
+  body.pc .barra { position: fixed; z-index: 2; gap: 6px; }
+  body.pc .barra.su { top: 12px; right: 12px; }
+  body.pc .barra.giu { bottom: 12px; right: 12px; }
+  body.pc h1, body.pc .note { display: none; }
+  body.pc button { font-size: 11px; padding: 6px 9px; opacity: 0.8; }
+  body.pc .tasti { display: block; position: fixed; left: 12px; bottom: 14px; z-index: 2; margin: 0; font-family: var(--gioco); font-size: 11px; color: var(--spento); text-shadow: 1px 1px 0 #000; }
 </style>
 
 <main>
-  <div class="barra">
-    <h1>Cucina della casa 3 · prova 3D</h1>
-    <div class="gruppo" role="group" aria-label="Stile">
-      <button id="stile-ps1" aria-pressed="true">1 · Nastro del 1998</button>
-      <button id="stile-creta" aria-pressed="false">2 · Plastilina</button>
+  <div class="barra su">
+    <h1>Cucina della casa 3 · plastilina</h1>
+    <div class="gruppo" role="group" aria-label="Giorno">
+      <button id="giorno-1" aria-pressed="false">Giorno 1</button>
+      <button id="giorno-2" aria-pressed="false">Giorno 2</button>
     </div>
   </div>
   <div id="palco">
@@ -69,18 +78,23 @@
     <p class="frase" id="frase"></p>
     <div id="attesa">Riavvolgo il nastro…</div>
   </div>
-  <div class="barra">
+  <div class="barra giu">
     <div class="gruppo">
       <button id="esamina">Esamina il collo</button>
+      <button id="figlia">Guarda la figlia</button>
       <button id="ir" aria-pressed="false">Infrarosso</button>
     </div>
   </div>
+  <p class="tasti">1 · 2 il giorno — E il collo — F la figlia — I infrarosso — F11 schermo intero</p>
   <div class="note">
-    <p><b>Come si guarda:</b> il medico è fermo sulla porta della cucina; muovi il puntatore (o trascina col dito) e la testa si gira un poco, con la lampada della videocamera. Clicca il padre, o "Esamina il collo", e la videocamera stringe sul bubbone.</p>
-    <p><b>1 · Nastro del 1998:</b> pochi poligoni, texture piccole e nette, pochi colori col retino, i vertici che tremano, come un gioco della prima PlayStation ripreso su cassetta.</p>
-    <p><b>2 · Plastilina:</b> pupazzi e stanza modellati a mano, con le impronte; la cucina è buia, la illumina la lampada della videocamera e un neon che sfarfalla; si muovono a scatti, 12 pose al secondo, come in uno stop-motion.</p>
-    <p>Senza VHS: la videocamera del medico registra ancora, ha la lampada, lo zoom e l'infrarosso, ma l'immagine è pulita.</p>
+    <p><b>Come si guarda:</b> il medico è fermo sulla porta della cucina; muovi il puntatore (o trascina col dito) e la testa si gira un poco, con la lampada della videocamera. Clicca il padre o la figlia, e la videocamera stringe lo zoom.</p>
+    <p><b>La plastilina:</b> pupazzi, mobili, muri e pavimenti modellati a mano, con le impronte; la cucina è buia, la illumina la lampada della videocamera e un neon che sfarfalla; il mondo si muove a scatti, 12 pose al secondo, come in uno stop-motion.</p>
+    <p><b>Giorno 2:</b> gli stessi pupazzi. Il padre è più malato (la faccia cerea, le dita nere, il bubbone aperto, respira a fatica e tossisce) e si regge al mobile; la figlia piange: stanotte è morta la madre.</p>
   </div>
 </main>
+<script>
+  // nel programma per Windows la pagina e' tutto lo schermo
+  if (/Electron/.test(navigator.userAgent) || location.search.includes("pc")) document.body.classList.add("pc");
+</script>
 
 <script type="module" src="cucina3d.js"></script>
