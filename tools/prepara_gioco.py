@@ -131,7 +131,7 @@ GIORNO2 = {
                                                          G2S + "maschere_persone/bastone_maschera1.png"]),
         },
         # il ragazzo, portato giu' in cantina: un calore debole sotto il pavimento, vicino alla porta
-        "nascosti": [("ellisse", 0.83, 0.975, 0.07, 0.03, 0.45)],
+        "nascosti": [("ellisse", 0.83, 0.94, 0.09, 0.04, 0.6)],
         "lampade": [(0.385, 0.02, 0.03, 0.55)],
     },
 }

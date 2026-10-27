@@ -93,7 +93,7 @@ export function giorno2(ieri) {
       },
       zone: [copia(L1.soggiorno.zone[0]), copia(L1.soggiorno.zone[1])],
       // il ragazzo, portato giu' in cantina stanotte: sul nastro all'infrarosso, un calore sotto il pavimento
-      nascosti: [{ x: 0.83, y: 0.965, rx: 0.08, ry: 0.035, prova: "calore_cantina" }],
+      nascosti: [{ x: 0.83, y: 0.94, rx: 0.09, ry: 0.045, prova: "calore_cantina" }],
     },
   };
 
