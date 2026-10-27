@@ -85,7 +85,7 @@ const PITTURE = {
   pavimento(st) {
     const n = st === "ps1" ? 64 : 256, rnd = caso(11);
     const [c, g] = tela(n, n);
-    fondo(g, n, n, st === "ps1" ? "#6b7246" : "#5d6c3a");
+    fondo(g, n, n, st === "ps1" ? "#6b7246" : "#4a5730");
     if (st === "ps1") macchie(g, n, n, 430, ["#596035", "#7e8756", "#4b5130", "#8b9460", "#646b40"], 1, rnd);
     else {
       macchie(g, n, n, 60, ["#7a8352", "#5c6339"], 30, rnd, true, 0.7);
@@ -102,18 +102,18 @@ const PITTURE = {
       macchie(g, n, n, 220, ["#ccc3ab", "#d9d0bb", "#c8bfa6"], 1, rnd);
       macchie(g, n, n, 5, ["#bfb294"], 2, rnd);
     } else {
-      fondo(g, n, n, "#bfa77a");
-      macchie(g, n, n, 50, ["#b29a6c", "#ccb68b", "#a98f61"], 46, rnd, true, 0.65);
-      macchie(g, n, n, 5, ["#94794c"], 34, rnd, true, 0.4);
+      fondo(g, n, n, "#9a8763");
+      macchie(g, n, n, 50, ["#8d7a56", "#a8946e", "#7f6c4a"], 46, rnd, true, 0.65);
+      macchie(g, n, n, 6, ["#5f5035"], 34, rnd, true, 0.45);
     }
     return c;
   },
   soffitto(st) {
     const n = st === "ps1" ? 32 : 128, rnd = caso(5);
     const [c, g] = tela(n, n);
-    fondo(g, n, n, "#ddd5c3");
+    fondo(g, n, n, st === "ps1" ? "#ddd5c3" : "#a39a87");
     if (st === "ps1") macchie(g, n, n, 50, ["#d2c9b6", "#e3dccd"], 1, rnd);
-    else macchie(g, n, n, 20, ["#d0c7b2", "#e6e0d2"], 20, rnd, true, 0.6);
+    else macchie(g, n, n, 20, ["#968d7a", "#b0a793"], 20, rnd, true, 0.6);
     return c;
   },
   // l'anta di un mobile di legno chiaro, con la cornice e il pomello
@@ -551,7 +551,7 @@ function cucina(st) {
     g.add(neon);
     const faro = new THREE.SpotLight(0xffe2bd, 3, 0, 0.6, 1, 1.2);
     faro.position.copy(OCCHIO).add(new THREE.Vector3(0.05, 0.08, 0));
-    faro.target.position.set(-0.3, 1.2, -3);
+    faro.target.position.copy(FARO_MIRA.ps1);
     faro.userData.forza = 3;
     g.userData.faro = faro;
     g.add(faro, faro.target);
@@ -559,8 +559,10 @@ function cucina(st) {
     lamp.position.set(cx, CORR.h - 0.3, -P - 1.6);
     g.add(lamp);
   } else {
-    g.add(new THREE.HemisphereLight(0xffeccc, 0x2e3324, 0.2));
-    const neon = new THREE.SpotLight(0xf3f2ea, 12, 0, 1.25, 0.9, 1.4);
+    // buio: le tapparelle sono giu' e il neon e' quasi morto (ogni tanto sfarfalla); la luce vera e' la lampada della
+    // videocamera, dalla porta, che fa le ombre dietro le persone
+    g.add(new THREE.HemisphereLight(0xc9d4e0, 0x1a1712, 0.05));
+    const neon = new THREE.SpotLight(0xcfe8d8, 3, 0, 1.25, 0.9, 1.6);
     neon.position.set(1.0, A - 0.12, -1.8);
     neon.target.position.set(0.1, 0, -2.2);
     neon.castShadow = true;
@@ -568,15 +570,22 @@ function cucina(st) {
     neon.shadow.bias = -0.0004;
     neon.shadow.normalBias = 0.02;
     neon.shadow.radius = 6;
+    neon.userData.forza = 3;
+    g.userData.neon = neon;
     g.add(neon, neon.target);
-    // la lampada della videocamera, dalla porta: illumina le facce
-    const faro = new THREE.SpotLight(0xffe2bd, 2.6, 0, 0.55, 1, 1.2);
+    const faro = new THREE.SpotLight(0xffe6c4, 11, 0, 0.42, 0.75, 1.3);
     faro.position.copy(OCCHIO).add(new THREE.Vector3(0.05, 0.08, 0));
-    faro.target.position.set(-0.3, 1.2, -3);
-    faro.userData.forza = 2.6;
+    faro.target.position.copy(FARO_MIRA.creta);
+    faro.castShadow = true;
+    faro.shadow.mapSize.set(1024, 1024);
+    faro.shadow.bias = -0.0005;
+    faro.shadow.normalBias = 0.02;
+    faro.shadow.radius = 4;
+    faro.userData.forza = 11;
     g.userData.faro = faro;
     g.add(faro, faro.target);
-    const lamp = new THREE.PointLight(0xffcf8f, 1.8, 0, 1.6);
+    // in fondo al corridoio una lampadina debole: la figlia quasi non si vede
+    const lamp = new THREE.PointLight(0xffb870, 0.7, 0, 1.8);
     lamp.position.set(cx, CORR.h - 0.3, -P - 1.6);
     lamp.castShadow = true;
     lamp.shadow.mapSize.set(512, 512);
@@ -622,8 +631,9 @@ async function modello(nome) {
 }
 
 // un personaggio nello stile: i materiali rifatti (texture piccola e netta, o plastilina) e la posa. L'animazione
-// d'attesa di Meshy si guarda attorno (testa e busto girano di parecchio): se ne prende solo il primo fotogramma, e il
-// resto lo fa vivo() (il respiro, il tremito della febbre, le occhiate), con lo sguardo sempre verso il medico
+// d'attesa di Meshy non serve: si guarda attorno, e gia' il primo fotogramma ha il bacino girato e le gambe incrociate,
+// che torcono la giacca. Si parte dalla posa del modello (a braccia aperte) e vivo() abbassa le braccia, piega la
+// schiena e fa il resto (il respiro, il tremito della febbre, le occhiate), con lo sguardo sempre verso il medico
 async function personaggio(st, chi, x, z) {
   const gltf = await modello(`${chi}_${st}`);
   const radice = gltf.scene;
@@ -652,24 +662,46 @@ async function personaggio(st, chi, x, z) {
       o.receiveShadow = true;
     }
   });
-  // la posa del primo fotogramma
-  if (gltf.animations[0]) {
-    const mixer = new THREE.AnimationMixer(radice);
-    mixer.clipAction(gltf.animations[0]).play();
-    mixer.update(0);
-  }
   // per ogni osso: la posa di partenza e com'e' girato il suo genitore, visto dal personaggio
   radice.updateMatrixWorld(true);
   const ossa = {};
   radice.traverse((o) => { if (o.isBone) ossa[o.name] = o; });
+  if (!radice.userData.posa) {
+    radice.userData.posa = Object.fromEntries(Object.entries(ossa).map(([n, b]) => [n, b.quaternion.clone()]));
+  }
+  for (const [n, q] of Object.entries(radice.userData.posa)) ossa[n].quaternion.copy(q);
+  radice.updateMatrixWorld(true);
   const qr = radice.getWorldQuaternion(new THREE.Quaternion()).invert();
   const guida = {};
   for (const [nome, b] of Object.entries(ossa)) {
     const qp = qr.clone().multiply(b.parent.getWorldQuaternion(new THREE.Quaternion()));
     guida[nome] = { b, base: b.quaternion.clone(), qp, qpi: qp.clone().invert() };
   }
-  return { radice, chi, guida, collo: ossa.neck || ossa.Head, testa: ossa.Head };
+  // la posa: le braccia e gli avambracci puntati dove servono. Nel modello le braccia sono aperte e un po' indietro:
+  // girarle di un angolo fisso le manda dietro la schiena, quindi si calcola la rotazione che le porta nella direzione voluta
+  const posa = {};
+  const punta = (osso, figlio, verso, prima) => {
+    const a = ossa[osso], b = ossa[figlio];
+    if (!a || !b) return;
+    const ora = b.getWorldPosition(new THREE.Vector3()).sub(a.getWorldPosition(new THREE.Vector3())).applyQuaternion(qr).normalize();
+    const voluto = verso.clone().normalize();
+    if (prima) voluto.applyQuaternion(prima.clone().invert());
+    posa[osso] = new THREE.Quaternion().setFromUnitVectors(ora, voluto);
+  };
+  const V = (x, y, z) => new THREE.Vector3(x, y, z);
+  for (const [lato, k] of [["Left", 1], ["Right", -1]]) {
+    const [braccio, avambraccio] = BRACCIA[chi];
+    punta(`${lato}Arm`, `${lato}ForeArm`, V(braccio[0] * k, braccio[1], braccio[2]));
+    punta(`${lato}ForeArm`, `${lato}Hand`, V(avambraccio[0] * k, avambraccio[1], avambraccio[2]), posa[`${lato}Arm`]);
+  }
+  return { radice, chi, guida, posa, collo: ossa.neck || ossa.Head, testa: ossa.Head };
 }
+// dove puntano braccio e avambraccio sinistro (il destro e' allo specchio): il padre le lascia pendere, le mani un po'
+// in avanti; la figlia tiene le mani davanti alla pancia, una nell'altra
+const BRACCIA = {
+  padre: [[0.15, -1, 0.08], [0.06, -1, 0.32]],
+  figlia: [[0.1, -1, 0.1], [-0.55, -0.45, 0.75]],
+};
 
 // girare un osso di qualche grado attorno agli assi del personaggio (x: annuire o piegarsi in avanti, y: voltarsi,
 // z: inclinarsi di lato), a partire dalla sua posa
@@ -679,6 +711,7 @@ function gira(p, nome, rx, ry, rz) {
   const g = p.guida[nome];
   if (!g) return;
   _q.setFromEuler(_e.set(rx * GRADI, ry * GRADI, rz * GRADI, "YXZ"));
+  if (p.posa[nome]) _q.multiply(p.posa[nome]);
   g.b.quaternion.copy(g.qpi).multiply(_q).multiply(g.qp).multiply(g.base);
 }
 const onda = (t, f, fase = 0) => Math.sin((t * f + fase) * Math.PI * 2);
@@ -690,24 +723,34 @@ const liscio = (a, b, x) => { const k = THREE.MathUtils.clamp((x - a) / (b - a),
 function vivo(p, t) {
   if (p.chi === "padre") {
     const r = onda(t, 0.48);
+    // curvo, la testa in avanti che guarda in su, le braccia lungo i fianchi
     gira(p, "Hips", 0, vaga(t, 0.08, 17) * 1.5, 0);
-    gira(p, "Spine01", -1.8 * r + 1.5, vaga(t, 0.15, 3) * 1.5, 0);
-    gira(p, "Spine02", -1.3 * r, 0, 0);
+    gira(p, "Spine01", 4 - 1.8 * r, vaga(t, 0.15, 3) * 1.5, 0);
+    gira(p, "Spine02", 5 - 1.3 * r, 0, 0);
     gira(p, "LeftShoulder", 0, 0, 1.4 * r);
     gira(p, "RightShoulder", 0, 0, -1.4 * r);
-    gira(p, "neck", 3 + vaga(t, 0.2, 7) * 3, vaga(t, 0.13, 9) * 4, 0);
-    gira(p, "Head", vaga(t, 0.25, 11) * 2, vaga(t, 0.17, 13) * 3, vaga(t, 0.1, 5) * 3);
+    gira(p, "LeftArm", 0, 0, 0);
+    gira(p, "RightArm", 0, 0, 0);
+    gira(p, "LeftForeArm", 0, 0, 0);
+    gira(p, "RightForeArm", 0, 0, 0);
+    gira(p, "neck", 10 + vaga(t, 0.2, 7) * 3, vaga(t, 0.13, 9) * 4, 0);
+    gira(p, "Head", -8 + vaga(t, 0.25, 11) * 2, vaga(t, 0.17, 13) * 3, vaga(t, 0.1, 5) * 3);
     gira(p, "LeftHand", vaga(t, 7, 1) * 3, 0, vaga(t, 6, 2) * 3);
     gira(p, "RightHand", vaga(t, 7, 3) * 3, 0, vaga(t, 6, 4) * 3);
   } else {
     const r = onda(t, 0.27);
     const occhiata = liscio(0.6, 0.85, onda(t, 1 / 7.5) * 0.5 + 0.5);
-    gira(p, "Spine01", -1.0 * r, 0, 0);
-    gira(p, "Spine02", -0.8 * r, -5 * occhiata, 0);
-    gira(p, "LeftShoulder", 0, 0, 0.9 * r);
-    gira(p, "RightShoulder", 0, 0, -0.9 * r);
-    gira(p, "neck", 2 + vaga(t, 0.2, 21) * 2, -10 * occhiata + vaga(t, 0.15, 25) * 2, 0);
-    gira(p, "Head", 3 + vaga(t, 0.3, 23) * 2, -12 * occhiata, 4 * occhiata);
+    // le spalle su, la testa bassa: guarda da sotto in su
+    gira(p, "Spine01", 2 - 1.0 * r, 0, 0);
+    gira(p, "Spine02", 2 - 0.8 * r, -5 * occhiata, 0);
+    gira(p, "LeftShoulder", 0, 0, 3 + 0.9 * r);
+    gira(p, "RightShoulder", 0, 0, -3 - 0.9 * r);
+    gira(p, "LeftArm", 0, 0, 0);
+    gira(p, "RightArm", 0, 0, 0);
+    gira(p, "LeftForeArm", 0, 0, 0);
+    gira(p, "RightForeArm", 0, 0, 0);
+    gira(p, "neck", 6 + vaga(t, 0.2, 21) * 2, -10 * occhiata + vaga(t, 0.15, 25) * 2, 0);
+    gira(p, "Head", 4 + vaga(t, 0.3, 23) * 2, -12 * occhiata, 4 * occhiata);
   }
 }
 
@@ -807,7 +850,6 @@ scenaRetino.add(retino);
 
 let stile = null, scena = null, persone = {}, bub = null;
 let ir = false, conVhs = true;
-let ambiente = null;
 
 const vhs = new Vhs(schermo);
 vhs.setLuce(1);
@@ -856,6 +898,7 @@ async function scegli(st) {
   const stanza = cucina(st);
   nuova.add(stanza);
   faro = stanza.userData.faro;
+  neon = stanza.userData.neon || null;
   const [padre, figlia] = await Promise.all([personaggio(st, "padre", PADRE.x, PADRE.z), personaggio(st, "figlia", FIGLIA.x, FIGLIA.z)]);
   if (stile !== st) return;
   nuova.add(padre.radice, figlia.radice);
@@ -870,14 +913,15 @@ async function scegli(st) {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.85;
-    if (!ambiente) ambiente = new THREE.PMREMGenerator(renderer).fromScene(new THREE.RoomEnvironment(), 0.04).texture;
-    nuova.environment = ambiente;
+    renderer.toneMappingExposure = 0.8;
+    nuova.fog = new THREE.Fog(0x060504, 4, 12);
+    nuova.environment = null;
   }
   nuova.background = new THREE.Color(0x000000);
   scena = nuova;
   persone = { padre, figlia };
   misura(st);
+  if (!ir) vhs.setLuce(st === "creta" ? 0.55 : 1);
   attesa.hidden = true;
   vhs.burst(0.9);
   parla([["Dottore."], ["Qui stiamo tutti bene. Faccia in fretta."]]);
@@ -888,8 +932,9 @@ const SU = new THREE.Vector3(0, 1, 0);
 const testa = { x: 0, y: 0, tx: 0, ty: 0 };
 let zoom = 0, zoomVerso = 0;
 const dove = new THREE.Vector3(), base = new THREE.Vector3(), destra = new THREE.Vector3(), bersaglio = new THREE.Vector3();
-const FARO_MIRA = new THREE.Vector3(-0.3, 1.2, -3);
-let faro = null;
+// dove punta la lampada della videocamera: nella plastilina sul padre, che e' quasi l'unica cosa illuminata
+const FARO_MIRA = { ps1: new THREE.Vector3(-0.3, 1.2, -3), creta: new THREE.Vector3(-0.5, 1.25, -2.3) };
+let faro = null, neon = null;
 
 function inquadra(dt, t) {
   testa.x += (testa.tx - testa.x) * Math.min(1, dt * 4);
@@ -911,7 +956,7 @@ function inquadra(dt, t) {
   camera.fov = FOV + (FOV_ESAME[stile] - FOV) * z;
   if (faro) {
     faro.intensity = faro.userData.forza * (1 + (stile === "ps1" ? 3 : 0.6) * z);
-    faro.target.position.lerpVectors(FARO_MIRA, bersaglio, z);
+    faro.target.position.lerpVectors(FARO_MIRA[stile], bersaglio, z);
   }
   camera.updateProjectionMatrix();
   camera.lookAt(bersaglio);
@@ -958,6 +1003,7 @@ function anima(dt) {
     if (n !== ultimaPosa) {
       ultimaPosa = n;
       BOLLE.value = Math.random() * 50;
+      if (neon) neon.intensity = neon.userData.forza * (Math.random() < 0.07 ? 0.1 + Math.random() * 0.3 : 1);
     }
   }
   for (const p of Object.values(persone)) vivo(p, t);
@@ -1063,7 +1109,7 @@ $("#ir").addEventListener("click", (e) => {
   e.currentTarget.setAttribute("aria-pressed", String(ir));
   if (ir && !conVhs) $("#vhs").click();
   vhs.mode(ir ? "ir" : "giorno");
-  vhs.setLuce(ir ? 0 : 1);
+  vhs.setLuce(ir ? 0 : stile === "creta" ? 0.55 : 1);
   if (!ir) vhs.setHeat(null);
   if (zoomVerso) vhs.setEsame(ir ? 0 : 1);
 });
