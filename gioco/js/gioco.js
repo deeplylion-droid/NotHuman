@@ -2478,13 +2478,15 @@ async function iniziaGiorno2() {
   R.play = null;
   R.primo = null;
   R.scelta = null;
-  // le scene di oggi (con chi e' rimasto in casa) e i primi piani nuovi
+  // le scene di oggi (con chi e' rimasto in casa) e i primi piani nuovi; sul telefono ci vuole qualche secondo
+  parole.scrivi(null, "Riavvolgo i nastri…", { lato: "sotto" }, {}, { veloce: true });
   try {
     await caricaLuoghi(D.LUOGHI);
   } catch (err) {
     notifica("Le scene del secondo giorno non si caricano");
     console.error(err);
   }
+  parole.pulisci();
   precaricaPrimi();
   aggiornaNastro();
   if (stanza) vaiStanza("inizio");
