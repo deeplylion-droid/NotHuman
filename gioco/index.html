@@ -137,6 +137,12 @@
   #schermo.bloccato #cursore { display: none; }
   #schermo.bloccato[data-sopra="1"] #mirino { border-color: var(--giallo); width: 14px; height: 14px; margin: -7px 0 0 -7px; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1.2cqw rgba(242, 209, 107, 0.5); }
   #schermo.bloccato #etichetta { margin: 0; translate: -50% 0; }
+  /* il controller: la punta del bastone come il puntatore del gioco, ma sopra a tutto (anche ai fogli) */
+  #punta-leva { position: fixed; left: 0; top: 0; width: 22px; height: 22px; margin: -11px 0 0 -11px; border: 2px solid rgba(240, 240, 236, 0.9); border-radius: 50%; pointer-events: none; z-index: 1000; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6); }
+  #punta-leva::after { content: ""; position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px 0 0 -2px; background: var(--rec); border-radius: 50%; }
+  #punta-leva.sopra { border-color: var(--giallo); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 10px rgba(242, 209, 107, 0.5); }
+  #punta-leva[hidden], .con-leva #cursore { display: none; }
+  .con-leva, .con-leva * { cursor: none !important; }
   /* la stanza in 3D: si trascina per guardarsi attorno; sopra una cosa da usare il puntatore diventa giallo */
   #schermo[data-schermo="stanza"] { touch-action: none; }
   #schermo[data-sopra="1"] #cursore { border-color: var(--giallo); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 1.2cqw rgba(242, 209, 107, 0.5); }

@@ -7,6 +7,7 @@ import { ESPRESSIONI } from "./espressioni.js";
 import { Parole, Ruota, Striscia, Segni } from "./parole.js";
 import { icona, pittogramma } from "./icone.js";
 import { Suoni } from "./suoni.js";
+import { avviaController } from "./controller.js";
 
 const $ = (sel) => document.querySelector(sel);
 const el = (tag, cls, text) => {
@@ -80,6 +81,7 @@ const DISSOLVENZA = 260;
 let vhs = null;
 // la stanza del medico in 3D; se il browser non regge WebGL 2 si resta sulla scrivania in 2D
 let stanza = null;
+let controller = null;
 
 // ---------- immagini ----------
 
@@ -2484,6 +2486,16 @@ foglio.addEventListener("click", (e) => {
 });
 $("#foglio .chiudi").addEventListener("click", chiudiFoglio);
 
+// B del controller: come Esc (chiude il foglio, la raggiera, la frase scelta, il primo piano); seduti alla
+// scrivania ci si alza
+function indietro() {
+  if (!foglio.hidden) return chiudiFoglio();
+  if (ruota.aperta()) return ruota.chiudi();
+  if (R.scelta) return scegliFrase(null);
+  if (R.primo) return chiudiPrimo();
+  if (S.schermo === "scrivania" && stanza && !R.occupato) return vaiStanza("scrivania");
+}
+
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     if (!foglio.hidden) return chiudiFoglio();
@@ -2631,10 +2643,27 @@ async function avvia(dati) {
   else vaiStanza("inizio");
   precaricaPrimi();
   introduzione();
+  // il controller (per lo Steam Deck): nella stanza 3D si cammina e si guarda con le levette, altrove la levetta
+  // muove la punta del bastone
+  controller = avviaController({
+    schermo,
+    nellaStanza: () => S.schermo === "stanza" && !!stanza && !stanza.seduto && foglio.hidden,
+    stanza: () => stanza,
+    usa: () => { if (parole.occupata()) parole.salta(); else if (!R.occupato) stanza?.usaMirino(); },
+    indietro,
+    // il mirino al centro, come col mouse bloccato
+    mirino: (si) => {
+      if (!stanza) return;
+      stanza.conLeva = si;
+      schermo.classList.toggle("bloccato", si || document.pointerLockElement === schermo);
+      if (!si) stanza.evidenzia(null);
+      bloccoStanza(si);
+    },
+  });
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni };
+if (location.hash === "#prova") window.prova = { get S() { return S; }, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);

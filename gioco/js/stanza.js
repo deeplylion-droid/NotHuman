@@ -277,6 +277,9 @@ export class Stanza {
     this.onUsa = () => {};
     this.onScrivania = () => {};
     this.onPasso = () => {};
+    // il controller (gioco/js/controller.js): la levetta sinistra, e se c'e' il mirino al centro
+    this.levetta = new THREE.Vector2(0, 0);
+    this.conLeva = false;
     this.onSopra = () => {};
     this.onBlocco = () => {};
     this.puoi = () => true;
@@ -1160,9 +1163,10 @@ export class Stanza {
   aggiorna(dt) {
     const k = this.tasti;
     const puoi = this.puoi();
-    // WASD o le frecce: avanti, indietro e di lato (lo sguardo si gira col mouse)
-    const avanti = puoi ? (k.KeyW || k.ArrowUp ? 1 : 0) - (k.KeyS || k.ArrowDown ? 1 : 0) : 0;
-    const lato = puoi ? (k.KeyD || k.ArrowRight ? 1 : 0) - (k.KeyA || k.ArrowLeft ? 1 : 0) : 0;
+    // WASD o le frecce: avanti, indietro e di lato (lo sguardo si gira col mouse); o la levetta del controller
+    const lv = this.levetta;
+    const avanti = puoi ? clamp((k.KeyW || k.ArrowUp ? 1 : 0) - (k.KeyS || k.ArrowDown ? 1 : 0) - lv.y, -1, 1) : 0;
+    const lato = puoi ? clamp((k.KeyD || k.ArrowRight ? 1 : 0) - (k.KeyA || k.ArrowLeft ? 1 : 0) + lv.x, -1, 1) : 0;
     let cammina = false;
     // la velocita' cresce e cala in fretta ma non di colpo: il passo e' meno meccanico
     const voluta = new THREE.Vector2(0, 0);
@@ -1172,7 +1176,9 @@ export class Stanza {
       this.verso = null;
       const fx = -Math.sin(this.yaw), fz = -Math.cos(this.yaw);
       const rx = Math.cos(this.yaw), rz = -Math.sin(this.yaw);
-      voluta.set(fx * avanti + rx * lato, fz * avanti + rz * lato).normalize().multiplyScalar(PASSO);
+      // con la levetta poco piegata si va piano
+      voluta.set(fx * avanti + rx * lato, fz * avanti + rz * lato).normalize()
+        .multiplyScalar(PASSO * Math.min(1, Math.hypot(avanti, lato)));
     }
     this.vel.lerp(voluta, Math.min(1, dt * 10));
     if (this.vel.lengthSq() > 0.0004) {
@@ -1225,9 +1231,9 @@ export class Stanza {
     const dondola = cammina ? Math.sin(this.passi) * 0.014 : 0;
     this.camera.position.set(this.pos.x, OCCHI + dondola, this.pos.y);
     this.camera.rotation.set(this.pitch, this.yaw, 0);
-    // col mouse bloccato, si illumina quello che c'e' nel mirino
+    // col mouse bloccato (o col controller), si illumina quello che c'e' nel mirino
     this.mira = (this.mira || 0) + dt;
-    if (this.bloccato && this.mira > 0.08) {
+    if ((this.bloccato || this.conLeva) && this.mira > 0.08) {
       this.mira = 0;
       const c = this.colpisci(0.5, 0.5);
       this.evidenzia(c && c.oggetto && this.puoi() ? c.oggetto : null);
@@ -1280,6 +1286,23 @@ export class Stanza {
     for (const o of this.pezzi[id] || []) for (const m of [].concat(o.material)) if (!m.emissiveMap) m.emissive.setHex(0x221a08);
     this.schermo.dataset.sopra = id ? "1" : "";
     this.onSopra(!id ? null : id[0] === "@" ? this.nomiPezzi[id.slice(1)] || null : OGGETTI[id].nome);
+  }
+
+  // il controller: la levetta sinistra cammina (come WASD, ma piu' piano se e' poco piegata), la destra gira lo
+  // sguardo
+  leve(lx, ly, rx, ry, dt) {
+    this.levetta.set(lx, ly);
+    if (rx || ry) {
+      this.yaw -= rx * 2.6 * dt;
+      this.pitch = clamp(this.pitch - ry * 1.9 * dt, -1.2, 1.2);
+      this.verso = null;
+    }
+  }
+
+  // il controller: A usa quello che c'e' nel mirino (ci si va, se e' lontano)
+  usaMirino() {
+    const c = this.colpisci(0.5, 0.5);
+    if (c && c.oggetto && this.puoi()) this.usa(c);
   }
 
   usa(c) {
