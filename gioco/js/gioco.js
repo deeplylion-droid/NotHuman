@@ -108,6 +108,9 @@ const carica = (src) => new Promise((res, rej) => {
   i.src = src;
 });
 
+// la versione 2D di prima (le scene disegnate, il VHS, il filtro catrame), per confrontarla: #2d nell'indirizzo
+const VERSIONE_2D = /2d/.test(location.hash);
+
 // le scene 2D di prima servono solo se le visite in plastilina non partono (senza WebGL 2): allora si caricano dopo
 const conWebgl2 = (() => {
   try {
@@ -121,7 +124,7 @@ async function caricaTutto() {
   const lista = { scrivania: "img/scrivania.jpg", mappa: "img/mappa.jpg" };
   const voci = await Promise.all(Object.entries(lista).map(async ([k, src]) => [k, await carica(src)]));
   for (const [k, im] of voci) IMG[k] = im;
-  if (!vhs || !conWebgl2) await caricaLuoghi(D.LUOGHI);
+  if (!vhs || !conWebgl2 || VERSIONE_2D) await caricaLuoghi(D.LUOGHI);
 }
 
 // le scene di un giorno: l'immagine, le persone (un grigio per persona), il calore, le sagome, le espressioni. Il nome
@@ -3004,7 +3007,7 @@ async function caricaStanza() {
     s.onSopra = (nome) => mostraEtichetta(nome);
     s.onPasso = () => suoni.passo();
     s.onBlocco = (b) => bloccoStanza(b);
-    if (location.hash === "#prova") {
+    if (location.hash.startsWith("#prova")) {
       // le prove automatiche: niente mouse bloccato, e la risoluzione la scelgono loro
       s.senzaBlocco = true;
       s.adattiva = false;
@@ -3024,7 +3027,7 @@ async function avvia(dati) {
   try {
     vhs = new Vhs(canvas);
     // niente effetto VHS (27 ottobre): la videocamera passa l'immagine pulita
-    vhs.pulito = true;
+    vhs.pulito = !VERSIONE_2D;
     vhs.start();
     // gli strappi del nastro si sentono: un crepitio, piu' forte quanto piu' e' forte lo strappo
     // solo gli strappi forti (i cambi di inquadratura, lo zoom, la contraddizione), non i piccoli disturbi
@@ -3054,9 +3057,9 @@ async function avvia(dati) {
   // ripreso a meta' del secondo giorno (il codice ricaricato tiene lo stato): le tabelle e le scene di quel giorno
   if (S.giorno === 2) {
     D = { ...D1, ...giorno2(S.ieri) };
-    if (!vhs || !conWebgl2) await caricaLuoghi(D.LUOGHI).catch(() => {});
+    if (!vhs || !conWebgl2 || VERSIONE_2D) await caricaLuoghi(D.LUOGHI).catch(() => {});
   }
-  visitaPronta = caricaVisite();
+  visitaPronta = VERSIONE_2D ? null : caricaVisite();
   if (S.schermo === "visita" && S.casa && S.luogo) vaiLuogo(S.luogo);
   else if (S.schermo === "mappa") vaiMappa();
   else if (S.schermo === "scrivania") vaiScrivania();
@@ -3086,7 +3089,7 @@ async function avvia(dati) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash === "#prova") window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
+if (location.hash.startsWith("#prova")) window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);

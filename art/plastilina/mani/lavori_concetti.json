@@ -1,0 +1,54 @@
+[
+ {
+  "nome": "mano_rilassata_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "A single right hand of a handmade plasticine puppet for a dark stop-motion film, sculpted from matte modelling clay in a light greyish-white unpainted clay colour, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly lumpy hand-made shapes, simplified but with five clearly separate fingers and knuckles, slightly bony and work-worn, ending at the wrist with a short clean round stump (no arm, no sleeve). The hand is relaxed and hangs naturally: the fingers are together and gently curled, the thumb rests along the side of the index finger. Isolated on a plain light grey seamless background, seen in three-quarter view, soft even studio light, no strong shadows, the whole hand in view. No text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "mano_pugno_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "A single right hand of a handmade plasticine puppet for a dark stop-motion film, sculpted from matte modelling clay in a light greyish-white unpainted clay colour, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly lumpy hand-made shapes, simplified but with five clearly separate fingers and knuckles, slightly bony and work-worn, ending at the wrist with a short clean round stump (no arm, no sleeve). The hand is closed in a fist: the fingers curled tight into the palm, the thumb folded over the middle of the fingers. Isolated on a plain light grey seamless background, seen in three-quarter view, soft even studio light, no strong shadows, the whole hand in view. No text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "mano_presa_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "A single right hand of a handmade plasticine puppet for a dark stop-motion film, sculpted from matte modelling clay in a light greyish-white unpainted clay colour, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly lumpy hand-made shapes, simplified but with five clearly separate fingers and knuckles, slightly bony and work-worn, ending at the wrist with a short clean round stump (no arm, no sleeve). The hand is loosely closed as if gripping the handle of a walking stick, but it holds nothing: the curled fingers and the thumb leave an empty round hole through the fist. Isolated on a plain light grey seamless background, seen in three-quarter view, soft even studio light, no strong shadows, the whole hand in view. No text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ },
+ {
+  "nome": "mano_aperta_foto",
+  "modello": "openai/gpt-image-2",
+  "input": {
+   "prompt": "A single right hand of a handmade plasticine puppet for a dark stop-motion film, sculpted from matte modelling clay in a light greyish-white unpainted clay colour, with visible fingerprints, thumb smudges and sculpting-tool marks, slightly lumpy hand-made shapes, simplified but with five clearly separate fingers and knuckles, slightly bony and work-worn, ending at the wrist with a short clean round stump (no arm, no sleeve). The hand is open and flat with the palm facing up, the four fingers straight and together, the thumb slightly apart. Isolated on a plain light grey seamless background, seen in three-quarter view, soft even studio light, no strong shadows, the whole hand in view. No text, nothing else in the picture.",
+   "image_size": {
+    "width": 1024,
+    "height": 1024
+   },
+   "quality": "high",
+   "output_format": "png"
+  }
+ }
+]

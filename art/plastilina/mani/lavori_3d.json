@@ -1,0 +1,58 @@
+[
+ {
+  "nome": "mano_rilassata",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:mano_rilassata_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "off"
+  }
+ },
+ {
+  "nome": "mano_pugno",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:mano_pugno_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "off"
+  }
+ },
+ {
+  "nome": "mano_presa",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:mano_presa_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "off"
+  }
+ },
+ {
+  "nome": "mano_aperta",
+  "modello": "fal-ai/meshy/v7.1/image-to-3d",
+  "input": {
+   "image_url": "@file:mano_aperta_foto.png",
+   "model_type": "standard",
+   "topology": "triangle",
+   "target_polycount": 12000,
+   "should_remesh": true,
+   "should_texture": true,
+   "enable_pbr": true,
+   "symmetry_mode": "off"
+  }
+ }
+]

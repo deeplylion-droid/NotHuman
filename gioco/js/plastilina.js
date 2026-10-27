@@ -402,6 +402,77 @@ function cupola(r, pelle, aperto, seme) {
 
 // le mani: un colore per vertice che moltiplica la texture. "nere": grigie, livide verso la punta delle dita, poi nere
 // (la peste che va in cancrena); "fredde": le unghie bluastre (il freddo, la ragazza)
+// ---------- le mani di ricambio ----------
+// Lo scheletro di Meshy non ha le dita: le mani del modello restano aperte, a dita larghe, in ogni posa (sul bastone, a
+// pugno, giunte). Come negli stop-motion veri le mani si cambiano: quella del modello si chiude nel polso (l'osso
+// schiacciato) e al suo posto c'e' una mano di plastilina in una delle forme, della misura e del colore della pelle del
+// pupazzo, che segue l'osso del polso. I modelli sono mani destre (art/plastilina/mani): la sinistra e' la stessa allo
+// specchio. Per ogni forma, nel riferimento del modello e a occhio: da che parte sta il polso e dove guarda il dorso;
+// il resto (il punto del polso, la direzione delle dita, quella esatta del dorso, la lunghezza) lo misura misuraMano.
+export const MANI_RICAMBIO = {
+  rilassata: { polso: [0, 1, -0.3], dorso: [0, 0.3, 1] },
+  pugno: { polso: [0, -1, 0], dorso: [0, 0, -1] },
+  presa: { polso: [0.5, -1, 0], dorso: [0.3, 0, 1] },
+  aperta: { polso: [0.6, -1, 0], dorso: [0, 0, -1] },
+};
+export const MODELLI_MANI = {};
+let MANI_PRONTE = null;
+// le mani si caricano una volta per tutti i pupazzi (se non arrivano, restano le mani del modello)
+export function caricaMani() {
+  MANI_PRONTE ??= Promise.all(Object.keys(MANI_RICAMBIO).map(async (f) => {
+    try {
+      const gltf = await modello(`mano_${f}`);
+      MODELLI_MANI[f] = { scene: gltf.scene, misure: misuraMano(gltf.scene, MANI_RICAMBIO[f]) };
+    } catch (err) {
+      console.warn("Mano di ricambio non caricata:", f, err);
+    }
+  }));
+  return MANI_PRONTE;
+}
+
+// la direzione piu' sottile di una nuvola di punti, perpendicolare a "via" (il dorso di una mano), verso "verso"
+function piuSottile(punti, centro, via, verso) {
+  const u = new THREE.Vector3(1, 0, 0);
+  if (Math.abs(u.dot(via)) > 0.9) u.set(0, 1, 0);
+  u.addScaledVector(via, -u.dot(via)).normalize();
+  const v = new THREE.Vector3().crossVectors(via, u);
+  let meglio = null, minimo = Infinity;
+  const n = new THREE.Vector3(), d = new THREE.Vector3();
+  for (let a = 0; a < 180; a += 2) {
+    const r = (a * Math.PI) / 180;
+    n.copy(u).multiplyScalar(Math.cos(r)).addScaledVector(v, Math.sin(r));
+    let val = 0;
+    for (const p of punti) val += d.subVectors(p, centro).dot(n) ** 2;
+    if (val < minimo) { minimo = val; meglio = n.clone(); }
+  }
+  return meglio.dot(verso) < 0 ? meglio.negate() : meglio;
+}
+
+// una mano di ricambio misurata: il polso (i punti piu' in fondo dalla sua parte), le dita (dal polso verso il centro
+// della mano), il dorso (la direzione piu' sottile, dalla parte detta), la lunghezza dal polso alla punta
+function misuraMano(scena, { polso: versoPolso, dorso: versoDorso }) {
+  scena.updateMatrixWorld(true);
+  const punti = [];
+  scena.traverse((o) => {
+    if (!o.isMesh) return;
+    const p = o.geometry.attributes.position;
+    const passo = Math.max(1, Math.floor(p.count / 4000));
+    for (let k = 0; k < p.count; k += passo) punti.push(new THREE.Vector3().fromBufferAttribute(p, k).applyMatrix4(o.matrixWorld));
+  });
+  const vp = new THREE.Vector3(...versoPolso).normalize();
+  const proiezioni = punti.map((p) => p.dot(vp)).sort((a, b) => a - b);
+  const soglia = proiezioni[Math.floor(proiezioni.length * 0.96)];
+  const fondo = punti.filter((p) => p.dot(vp) >= soglia);
+  const polso = fondo.reduce((a, p) => a.add(p), new THREE.Vector3()).divideScalar(fondo.length);
+  const centro = punti.reduce((a, p) => a.add(p), new THREE.Vector3()).divideScalar(punti.length);
+  const dita = centro.clone().sub(polso).normalize();
+  const dorso = piuSottile(punti, centro, dita, new THREE.Vector3(...versoDorso).normalize());
+  const lungo = Math.max(...punti.map((p) => p.clone().sub(polso).dot(dita)));
+  return { polso, dita, dorso, lungo };
+}
+const UNO = new THREE.Vector3(1, 1, 1);
+const _m4 = new THREE.Matrix4(), _p3 = new THREE.Vector3(), _s3 = new THREE.Vector3();
+
 const MANI = {
   nere: [new THREE.Color(0.58, 0.6, 0.64), new THREE.Color(0.32, 0.2, 0.26), new THREE.Color(0.035, 0.028, 0.03), 0.38, 0.55, 0.78],
   fredde: [new THREE.Color(0.9, 0.92, 0.98), new THREE.Color(0.72, 0.78, 0.95), new THREE.Color(0.6, 0.68, 0.95), 0.5, 0.7, 0.95],
@@ -445,6 +516,145 @@ export class Pupazzo {
     this.attaccati = [];
     this.mani = null;
     this.alto = this.dove.head_end?.y ?? 1.7;
+    this.ricambio = { Left: null, Right: null };
+    this.manoModello = this.misuraMani();
+  }
+
+  // le mani del modello, nella sua posa: per ogni lato il polso, la direzione delle dita, quella del dorso, la lunghezza
+  // (dai vertici che seguono l'osso della mano), e la rotazione che porta una mano di ricambio (dita +y, dorso +z) al
+  // suo posto, vista dall'osso
+  misuraMani() {
+    const o = this.pelle.find((m) => m.isSkinnedMesh);
+    if (!o) return {};
+    const g = o.geometry, pos = g.attributes.position, si = g.attributes.skinIndex, sw = g.attributes.skinWeight;
+    const ossa = o.skeleton.bones, mani = {};
+    for (const lato of ["Left", "Right"]) {
+      const nome = `${lato}Hand`, i = ossa.findIndex((b) => b.name === nome);
+      if (i < 0 || !this.ossa[nome]) continue;
+      const polso = this.dove[nome].clone();
+      const punti = [];
+      for (let k = 0; k < pos.count; k++) {
+        let w = 0;
+        for (let j = 0; j < 4; j++) if (si.getComponent(k, j) === i) w += sw.getComponent(k, j);
+        // nella posa del modello il vertice sta dove lo mette la sua mesh (le ossa non spostano niente)
+        if (w >= 0.5) punti.push(new THREE.Vector3().fromBufferAttribute(pos, k).applyMatrix4(o.matrixWorld));
+      }
+      if (punti.length < 20) continue;
+      const centro = punti.reduce((a, p) => a.add(p), new THREE.Vector3()).divideScalar(punti.length);
+      const dita = centro.clone().sub(polso).normalize();
+      const lungo = Math.max(...punti.map((p) => p.clone().sub(polso).dot(dita)));
+      // il dorso: la direzione in cui la mano e' piu' sottile (la piu' piccola della covarianza), verso fuori e in su
+      const cov = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+      for (const p of punti) {
+        const d = [p.x - centro.x, p.y - centro.y, p.z - centro.z];
+        for (let a = 0; a < 3; a++) for (let b = 0; b < 3; b++) cov[a][b] += d[a] * d[b];
+      }
+      let dorso = null, minimo = Infinity;
+      // la direzione piu' sottile: si prova un po' di direzioni perpendicolari alle dita
+      const u = new THREE.Vector3(1, 0, 0);
+      if (Math.abs(u.dot(dita)) > 0.9) u.set(0, 1, 0);
+      u.addScaledVector(dita, -u.dot(dita)).normalize();
+      const v = new THREE.Vector3().crossVectors(dita, u);
+      for (let a = 0; a < 180; a += 3) {
+        const r = a * GRADI, n = u.clone().multiplyScalar(Math.cos(r)).addScaledVector(v, Math.sin(r));
+        const q = [n.x, n.y, n.z];
+        let val = 0;
+        for (let x = 0; x < 3; x++) for (let y = 0; y < 3; y++) val += q[x] * cov[x][y] * q[y];
+        if (val < minimo) { minimo = val; dorso = n; }
+      }
+      const fuori = new THREE.Vector3(lato === "Left" ? 1 : -1, 1, 0);
+      if (dorso.dot(fuori) < 0) dorso.negate();
+      // la mano di ricambio: il polso nell'origine, le dita su +y, il dorso su +z; vista dall'osso della mano
+      const x = new THREE.Vector3().crossVectors(dita, dorso);
+      const qMano = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(x, dita, dorso));
+      const qOsso = this.ossa[nome].getWorldQuaternion(new THREE.Quaternion());
+      mani[lato] = { polso, dita, dorso, lungo, ruota: qOsso.invert().multiply(qMano) };
+    }
+    return mani;
+  }
+
+  // le mani di ricambio della posa: forme = { Left, Right } (le forme di MANI_RICAMBIO); senza la forma o il modello,
+  // la mano del modello
+  maniDiRicambio(forme = {}) {
+    for (const lato of ["Left", "Right"]) {
+      const forma = forme[lato] ?? "rilassata";
+      const ora = this.ricambio[lato];
+      if (ora?.forma === forma) continue;
+      if (ora) this.radice.remove(ora.oggetto);
+      this.ricambio[lato] = null;
+      const osso = this.ossa[`${lato}Hand`];
+      if (!osso) continue;
+      if (!MODELLI_MANI[forma] || !this.manoModello[lato]) { osso.scale.setScalar(1); continue; }
+      osso.scale.setScalar(0.001);
+      const oggetto = this.manoDiRicambio(lato, forma);
+      this.radice.add(oggetto);
+      this.ricambio[lato] = { forma, oggetto };
+    }
+    this.seguiMani();
+  }
+
+  manoDiRicambio(lato, forma) {
+    const M = this.manoModello[lato];
+    const { scene: originale, misure } = MODELLI_MANI[forma];
+    const scena = originale.clone(true);
+    const { polso, dita, dorso, lungo } = misure;
+    // la mano di ricambio lunga come quella del modello (dal polso alla punta delle dita)
+    const scala = M.lungo / Math.max(lungo, 1e-4);
+    scena.updateMatrixWorld(true);
+    // dal modello al riferimento della mano (polso nell'origine, dita +y, dorso +z), allo specchio per la sinistra
+    const dentro = new THREE.Group();
+    dentro.position.copy(polso).negate();
+    dentro.add(scena);
+    const giro = new THREE.Group();
+    giro.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(new THREE.Vector3().crossVectors(dita, dorso), dita, dorso)).invert();
+    giro.add(dentro);
+    const specchio = new THREE.Group();
+    specchio.scale.set(lato === "Left" ? -scala : scala, scala, scala);
+    // il moncherino un po' dentro il polso, a coprire la mano schiacciata
+    specchio.position.y = -0.012;
+    specchio.add(giro);
+    const oggetto = new THREE.Group();
+    oggetto.matrixAutoUpdate = false;
+    oggetto.add(specchio);
+    const colore = this.coloreMani ?? this.pelleColore ?? 0xcbb596;
+    scena.traverse((o) => {
+      if (!o.isMesh) return;
+      aCreta(o, 0.6, colore);
+      o.userData = { chi: this.chi, calore: this.pelle[0]?.userData.calore ?? 0.5, manoDiRicambio: true };
+      if (this.mani && MANI[this.mani]) {
+        o.geometry = o.geometry.clone();
+        o.geometry.setAttribute("color", new THREE.BufferAttribute(this.coloriRicambio(o, polso, dita, lungo, MANI[this.mani]), 3));
+        o.material.vertexColors = true;
+      }
+      if (this.coloreMani != null) o.material.map = null;
+    });
+    return oggetto;
+  }
+
+  // le dita nere o fredde sulla mano di ricambio: piu' scure verso la punta delle dita
+  coloriRicambio(o, polso, dita, lungo, [mano, livido, punta, da, mezzo, a]) {
+    const p = o.geometry.attributes.position, colori = new Float32Array(p.count * 3), c = new THREE.Color();
+    for (let k = 0; k < p.count; k++) {
+      const d = _v.fromBufferAttribute(p, k).applyMatrix4(o.matrixWorld).sub(polso).dot(dita) / lungo;
+      c.copy(mano).lerp(livido, liscio(da, mezzo, d)).lerp(punta, liscio(mezzo, a, d));
+      colori.set([c.r, c.g, c.b], k * 3);
+    }
+    return colori;
+  }
+
+  // le mani di ricambio seguono l'osso del polso (senza la sua scala schiacciata)
+  seguiMani() {
+    if (!this.ricambio.Left && !this.ricambio.Right) return;
+    this.radice.updateMatrixWorld(true);
+    const inv = (this._inv ??= new THREE.Matrix4()).copy(this.radice.matrixWorld).invert();
+    for (const lato of ["Left", "Right"]) {
+      const r = this.ricambio[lato];
+      if (!r) continue;
+      _m4.multiplyMatrices(inv, this.ossa[`${lato}Hand`].matrixWorld).decompose(_p3, _q, _s3);
+      _q.multiply(this.manoModello[lato].ruota);
+      r.oggetto.matrix.compose(_p3, _q, UNO);
+      r.oggetto.matrixWorldNeedsUpdate = true;
+    }
   }
 
   // i punti della faccia e del collo, cercati sul modello coi raggi (nella posa del modello il pupazzo guarda +z), e
@@ -619,6 +829,9 @@ export class Pupazzo {
       if (mireE?.[nome] && mostra > 0) mira = (mira ? mira.clone() : new THREE.Quaternion()).slerp(mireE[nome], mostra);
       this.gira(nome, R[nome], mira);
     }
+    // le mani di ricambio: quelle della posa; nell'esame delle mani si cambiano con quelle aperte (a meta' movimento)
+    const forme = esame === "mani" && mostra > 0.5 ? { Left: "aperta", Right: "aperta" } : (P.mani ?? {});
+    this.maniDiRicambio(typeof forme === "string" ? { Left: forme, Right: forme } : forme);
   }
 
   // la faccia: la texture dei colori (null: quella del modello)
@@ -631,6 +844,7 @@ export class Pupazzo {
 
   calore(v) {
     for (const o of this.pelle) o.userData.calore = v;
+    for (const r of Object.values(this.ricambio)) r?.oggetto.traverse((o) => { if (o.isMesh) o.userData.calore = v; });
     for (const b of this.bubboni) b.traverse((o) => { o.userData.calore = Math.min(1, v + 0.08); });
   }
 
@@ -638,6 +852,8 @@ export class Pupazzo {
   coloraMani(tipo) {
     if (tipo === this.mani) return;
     this.mani = tipo;
+    // le mani di ricambio si rifanno coi colori nuovi alla prossima posa
+    for (const lato of ["Left", "Right"]) if (this.ricambio[lato]) this.ricambio[lato].forma = null;
     for (const o of this.pelle) {
       if (!o.isSkinnedMesh) continue;
       if (tipo) o.geometry.setAttribute("color", new THREE.BufferAttribute(this.coloriMani(o, MANI[tipo]), 3));
@@ -680,6 +896,11 @@ export class Pupazzo {
   // nella posa del modello: per il collo dall'osso del collo in avanti e di lato (da fuori troverebbe prima il bavero),
   // per l'ascella dal petto verso il braccio sinistro, sotto la spalla
   segni(lista = [], pelleColore = 0xcbb596) {
+    // il colore della pelle serve anche alle mani di ricambio
+    if (this.pelleColore !== pelleColore) {
+      this.pelleColore = pelleColore;
+      for (const lato of ["Left", "Right"]) if (this.ricambio[lato]) this.ricambio[lato].forma = null;
+    }
     for (const b of this.bubboni) b.parent?.remove(b);
     this.bubboni = [];
     if (!lista.length) return;
@@ -733,6 +954,8 @@ export class Pupazzo {
   // un oggetto attaccato a un osso (la medaglietta al collo, il bastone in mano, il rosario): posizione e rotazione
   // nel riferimento del pupazzo, nella posa del modello
   attacca(oggetto, nomeOsso, pos = [0, 0, 0], rot = [0, 0, 0]) {
+    // l'osso della mano e' schiacciato dalle mani di ricambio: le cose in mano seguono l'avambraccio
+    if (/Hand$/.test(nomeOsso) && this.ossa[nomeOsso.replace("Hand", "ForeArm")]) nomeOsso = nomeOsso.replace("Hand", "ForeArm");
     const osso = this.ossa[nomeOsso];
     if (!osso) return;
     oggetto.traverse((o) => { o.userData.chi = this.chi; });

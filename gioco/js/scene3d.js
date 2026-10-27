@@ -123,7 +123,7 @@ export const POSE = {
   // respira a fatica e tossisce
   appoggiato: { ossa: { Hips: [0, 0, 2], Spine01: [7, 0, 3], Spine02: [7, 0, 2], neck: [16, 0, 0], Head: [-10, 0, -4] },
     braccia: { Left: [[0.12, -1, 0.06], [0.05, -1, 0.24]], Right: { punto: [-1.2, 1.0, -1.5] } },
-    vita: { respiro: [0.72, 3], ondeggia: 1, testa: 3, tremito: 5, tosse: true }, mostraCollo: 22 },
+    vita: { respiro: [0.72, 3], ondeggia: 1, testa: 3, tremito: 5, tosse: true }, mostraCollo: 22, mani: { Right: "aperta" } },
   // la figlia che spia dalla porta del corridoio: le spalle su, le mani giunte davanti alla pancia, ogni tanto guarda il padre
   spia: { ossa: { Spine01: [2, 0, 0], Spine02: [2, 0, 0], LeftShoulder: [0, 0, 3], RightShoulder: [0, 0, -3], neck: [6, 0, 0], Head: [4, 0, 0] },
     braccia: [[0.1, -1, 0.1], [-0.55, -0.45, 0.75]],
@@ -131,7 +131,7 @@ export const POSE = {
   // la figlia il secondo giorno: stanotte e' morta la madre; le mani strette al petto, singhiozza
   affranta: { ossa: { Spine01: [3, 0, 0], Spine02: [4, 0, 0], LeftShoulder: [0, 0, 5], RightShoulder: [0, 0, -5], neck: [7, 0, 0], Head: [3, 0, 5] },
     braccia: [[0.16, -1, 0.22], [-0.62, -0.08, 0.78]],
-    vita: { respiro: [0.4, 1.2], testa: 2, singhiozzi: true } },
+    vita: { respiro: [0.4, 1.2], testa: 2, singhiozzi: true }, mani: "pugno" },
   // la madre seduta sul bordo del letto, le mani sulle ginocchia, la testa che pende; respira affannata
   seduta_letto: { seduta: 0.68,
     ossa: { LeftUpLeg: [-86, 0, -4], RightUpLeg: [-86, 0, 4], LeftLeg: [84, 0, 0], RightLeg: [84, 0, 0], Spine01: [9, 0, 0],
@@ -147,11 +147,11 @@ export const POSE = {
   // l'uomo in tuta: largo, i pugni lungo i fianchi, il mento in fuori
   uomo: { ossa: { Spine01: [-2, 0, 0], neck: [5, 0, 0], Head: [-6, 0, 0] },
     braccia: [[0.24, -1, 0.04], [0.12, -1, 0.12]],
-    vita: { respiro: [0.5, 1.6], ondeggia: 1, testa: 2, tremito: 1.5 } },
+    vita: { respiro: [0.5, 1.6], ondeggia: 1, testa: 2, tremito: 1.5 }, mani: "pugno" },
   // l'uomo grave: tiene il fazzoletto alla bocca con la destra e tossisce
   fazzoletto: { ossa: { Spine01: [6, 0, 0], Spine02: [4, 0, 0], neck: [8, 0, 0], Head: [-4, 0, 0] },
     braccia: { Left: [[0.24, -1, 0.04], [0.12, -1, 0.12]], Right: { verso: "bocca", avanti: 0.07 } },
-    vita: { respiro: [0.6, 2.4], ondeggia: 1, testa: 1.5, tosse: true },
+    vita: { respiro: [0.6, 2.4], ondeggia: 1, testa: 1.5, tosse: true }, mani: { Left: "pugno", Right: "presa" },
     // nell'esame della bocca abbassa il fazzoletto
     esami: { mani: { braccia: [[0.14, -0.62, 0.77], [0.08, -0.05, 1]] }, ascelle: { braccia: { Left: [[0.8, 0.55, 0.22], [0.35, 0.92, 0.15]] } },
       bocca: { braccia: { Right: [[-0.3, -0.95, 0.15], [-0.15, -0.6, 0.78]] } } } },
@@ -166,7 +166,7 @@ export const POSE = {
   // la nonna: curva, le due mani sul bastone davanti a se'
   bastone: { ossa: { Spine01: [12, 0, 0], Spine02: [10, 0, 0], neck: [-4, 0, 0], Head: [-12, 0, 0] },
     braccia: { Left: { davanti: [0.02, 0.88, 0.3] }, Right: { davanti: [-0.04, 0.88, 0.3] } },
-    vita: { respiro: [0.36, 1.2], testa: 2.5, tremito: 2.5 },
+    vita: { respiro: [0.36, 1.2], testa: 2.5, tremito: 2.5 }, mani: "presa",
     attrezzi: [{ cosa: "bastone", davanti: [-0.01, 0, 0.3], alto: 0.86 }] },
 };
 
@@ -245,27 +245,27 @@ Object.assign(POSE, {
     ossa: { LeftUpLeg: [-84, 0, -6], RightUpLeg: [-84, 0, 6], LeftLeg: [88, 0, 0], RightLeg: [88, 0, 0], Spine01: [10, 0, 0],
       Spine02: [8, 0, 0], neck: [-2, 0, 0], Head: [-8, 0, 0] },
     braccia: [[0.12, -0.8, 0.55], [-0.35, 0.75, 0.55]],
-    vita: { respiro: [0.36, 1.2], testa: 1.2 } },
+    vita: { respiro: [0.36, 1.2], testa: 1.2 }, mani: "aperta" },
   // seduto sulla brandina, tossisce nel pugno
   brandina_tosse: { seduta: 0.42,
     ossa: { LeftUpLeg: [-84, 0, -8], RightUpLeg: [-84, 0, 8], LeftLeg: [88, 0, 0], RightLeg: [88, 0, 0], Spine01: [12, 0, 0],
       Spine02: [8, 0, 0], neck: [10, 0, 0], Head: [-4, 0, 0] },
     braccia: { Left: [[0.12, -0.75, 0.62], [0.04, -0.55, 0.84]], Right: { verso: "bocca", avanti: 0.08 } },
-    vita: { respiro: [0.6, 2.4], tosse: true, testa: 1.5 } },
+    vita: { respiro: [0.6, 2.4], tosse: true, testa: 1.5 }, mani: { Right: "pugno" } },
   // in piedi sulla porta della stanzetta, fermo, le braccia lungo i fianchi, la testa in avanti: guarda
   sulla_porta: { ossa: { Spine01: [4, 0, 0], Spine02: [4, 0, 0], neck: [12, 0, 0], Head: [-6, 0, 0] },
     braccia: [[0.12, -1, 0.06], [0.06, -1, 0.14]], vita: { respiro: [0.2, 0.8], testa: 0.8 } },
   // sulla porta, col rosario
   sulla_porta_rosario: { ossa: { Spine01: [10, 0, 0], Spine02: [8, 0, 0], neck: [-2, 0, 0], Head: [-8, 0, 0] },
-    braccia: [[0.12, -0.8, 0.55], [-0.35, 0.75, 0.55]], vita: { respiro: [0.3, 1.0], testa: 1 } },
+    braccia: [[0.12, -0.8, 0.55], [-0.35, 0.75, 0.55]], vita: { respiro: [0.3, 1.0], testa: 1 }, mani: "presa" },
   // sulla porta che tossisce nella mano (il padre)
   sulla_porta_tosse: { ossa: { Spine01: [10, 0, 0], Spine02: [8, 0, 0], neck: [10, 0, 0], Head: [-4, 0, 0] },
     braccia: { Left: [[0.15, -1, 0.08], [0.06, -1, 0.32]], Right: { verso: "bocca", avanti: 0.08 } },
-    vita: { respiro: [0.7, 2.8], tosse: true, testa: 1.5 } },
+    vita: { respiro: [0.7, 2.8], tosse: true, testa: 1.5 }, mani: { Right: "pugno" } },
   // si regge allo stipite e barcolla (l'uomo)
   sulla_porta_regge: { ossa: { Hips: [0, 0, 3], Spine01: [10, 0, 4], Spine02: [8, 0, 3], neck: [12, 0, 0], Head: [-4, 0, -6] },
     braccia: { Left: [[0.15, -1, 0.08], [0.06, -1, 0.32]], Right: [[-0.9, 0.25, 0.3], [-0.6, 0.6, 0.5]] },
-    vita: { respiro: [0.7, 2.6], ondeggia: 5, tremito: 3, tosse: true } },
+    vita: { respiro: [0.7, 2.6], ondeggia: 5, tremito: 3, tosse: true }, mani: { Right: "aperta" } },
   // chino sul letto, la faccia sopra quella di chi dorme
   chino: { ossa: { Spine01: [24, 0, 0], Spine02: [22, 0, 0], neck: [14, 0, 0], Head: [6, 0, 0] },
     braccia: [[0.15, -0.9, 0.38], [0.05, -0.75, 0.66]], vita: { respiro: [0.25, 1.4], testa: 0.8 } },
@@ -275,26 +275,26 @@ Object.assign(POSE, {
   // ai piedi del letto benedice: la destra alzata, la sinistra col rosario al petto
   benedice: { ossa: { Spine01: [8, 0, 0], Spine02: [6, 0, 0], neck: [4, 0, 0], Head: [6, 0, 0] },
     braccia: { Left: [[0.12, -0.8, 0.55], [-0.4, 0.7, 0.55]], Right: [[-0.25, 0.25, 0.93], [-0.1, 0.55, 0.83]] },
-    vita: { respiro: [0.3, 1.0], testa: 1 } },
+    vita: { respiro: [0.3, 1.0], testa: 1 }, mani: { Left: "presa", Right: "aperta" } },
   // seduto sul letto del medico, ai suoi piedi: tossisce verso la videocamera
   seduto_letto_medico: { seduta: 0.58,
     ossa: { LeftUpLeg: [-80, 0, -8], RightUpLeg: [-80, 0, 8], LeftLeg: [86, 0, 0], RightLeg: [86, 0, 0], Spine01: [12, 0, 0],
       Spine02: [10, 0, 0], neck: [10, 0, 0], Head: [-6, 0, 0] },
     braccia: { Left: [[0.14, -0.75, 0.62], [0.04, -0.55, 0.84]], Right: { verso: "bocca", avanti: 0.1 } },
-    vita: { respiro: [0.6, 2.4], tosse: true, testa: 1.5 } },
+    vita: { respiro: [0.6, 2.4], tosse: true, testa: 1.5 }, mani: { Right: "pugno" } },
   // in piedi accanto al letto, allunga la mano verso chi dorme
   allunga: { ossa: { Spine01: [14, 0, 0], Spine02: [12, 0, 0], neck: [8, 0, 0], Head: [4, 0, 0] },
     braccia: { Left: [[0.15, -1, 0.08], [0.06, -1, 0.32]], Right: [[-0.15, -0.35, 0.92], [-0.05, -0.45, 0.89]] },
-    vita: { respiro: [0.8, 2.6], tremito: 6 } },
+    vita: { respiro: [0.8, 2.6], tremito: 6 }, mani: { Right: "aperta" } },
   // striscia sul pavimento, a pancia in giu', le braccia in avanti
   striscia: { sdraiato: 90, su: 0.13, ossa: { neck: [-25, 0, 0], Head: [-25, 0, 0], LeftUpLeg: [0, 0, -6], RightUpLeg: [0, 0, 6] },
-    braccia: [[0.35, 0.92, -0.15], [0.1, 0.99, -0.1]], vita: { respiro: [0.7, 2.2], tremito: 4 } },
+    braccia: [[0.35, 0.92, -0.15], [0.1, 0.99, -0.1]], vita: { respiro: [0.7, 2.2], tremito: 4 }, mani: "aperta" },
   // seduto sul letto accanto a chi dorme, una mano sul suo petto
   mano_sul_petto: { seduta: 0.58,
     ossa: { LeftUpLeg: [-80, 0, -8], RightUpLeg: [-80, 0, 8], LeftLeg: [86, 0, 0], RightLeg: [86, 0, 0], Spine01: [16, 0, 0],
       Spine02: [12, 0, 0], neck: [10, 0, 0], Head: [8, 0, 0] },
     braccia: { Left: [[0.14, -0.75, 0.62], [0.04, -0.55, 0.84]], Right: [[-0.6, -0.55, 0.58], [-0.75, -0.6, 0.27]] },
-    vita: { respiro: [0.15, 0.8] } },
+    vita: { respiro: [0.15, 0.8] }, mani: { Right: "aperta" } },
 });
 
 // dove sta l'ospite stanotte. "stanzetta": la sera, sulla brandina (x, z dei piedi per chi e' sdraiato, del bacino

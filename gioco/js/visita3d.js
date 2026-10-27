@@ -208,6 +208,8 @@ export class Visita3D {
     let fatti = 0;
     const totale = stanze.length + persone.length;
     const uno = () => avanzamento(++fatti / totale);
+    // le mani di ricambio servono a tutti i pupazzi: prima di loro
+    await C.caricaMani();
     await Promise.all([...stanze.map((s) => this.preparaStanza(s).then(uno)), ...persone.map((p) => this.pupazzo(p).then(uno))]);
   }
 
@@ -405,6 +407,7 @@ export class Visita3D {
   // nascosti: le prove dei calori nascosti del luogo (quelli da accendere all'infrarosso)
   async apri(luogo, { persone, come, giorno, volti = {}, notte = false, nascosti = [] }) {
     const nome = stanzaDi(luogo);
+    await C.caricaMani();
     const st = await this.preparaStanza(nome);
     if (this.stanza && this.stanza !== st) this.scena.remove(this.stanza.gruppo);
     this.stanza = st;
@@ -694,6 +697,8 @@ export class Visita3D {
         const pp = new C.Pupazzo("cosa", gltf);
         const nero = C.materiale({ color: 0x0b0a09, ruvido: 0.95, impronte: 1 });
         for (const o of pp.pelle) { o.material = nero; o.userData.calore = 0.05; }
+        // le mani di ricambio nere come il resto
+        pp.coloreMani = 0x0b0a09;
         pp.radice.scale.set(0.9, 1.22, 0.9);
         pp.attrezzi = [];
         return pp;

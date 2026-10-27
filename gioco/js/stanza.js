@@ -15,7 +15,8 @@ import * as C from "./plastilina.js";
 
 const IMG = "img/stanza/";
 const MOD = "modelli/";
-const CRETA = true;
+// la versione 2D di prima (#2d nell'indirizzo, per confrontarla): la stanza com'era, col filtro catrame
+const CRETA = !(typeof location !== "undefined" && /2d/.test(location.hash));
 // in plastilina le texture di creta si ripetono ogni tot metri (la carta da parati di prima ogni 55 centimetri)
 const METRI_MURO = CRETA ? 1.5 : 0.55;
 
@@ -49,7 +50,8 @@ const OGGETTI = {
   porta: { nome: "La porta", sosta: [-1.5, 2.3], guarda: [-1.5, 1.15, 3.0] },
   letto: { nome: "Il letto", sosta: [1.15, -1.5], guarda: [1.95, 0.55, -1.9] },
   armadio: { nome: "L'armadio", sosta: [-1.35, -1.8], guarda: [-2.2, 1.2, -1.8] },
-  cappotto: { nome: "Il cappotto", sosta: [1.9, 0.45], guarda: [2.5, 1.5, 0.45] },
+  cappotto: CRETA ? { nome: "Il cappotto", sosta: [1.9, 0.45], guarda: [2.5, 1.5, 0.45] }
+    : { nome: "Il cappotto", sosta: [-0.75, 2.35], guarda: [-0.55, 1.5, 3.0] },
   calendario: { nome: "Il calendario della ditta", sosta: [-1.55, 0.25], guarda: [-2.5, 1.62, 0.25] },
   santino: { nome: "Il santino", sosta: [1.1, -1.7], guarda: [2.5, 1.7, -2.3] },
   termosifone: { nome: "Il termosifone", sosta: [0.6, -2.15], guarda: [0.6, 0.35, -2.95] },
@@ -90,7 +92,8 @@ const MODELLI = [
   { nome: "sedia", x: 0.12, z: 2.32, alto: 0.88, rotY: Math.PI / 2 - 0.2, oggetto: "tavolo", creta: "sedia", giraCreta: Math.PI - 0.2 },
   { nome: "termosifone", x: 0.6, z: -2.93, alto: 0.62, rotY: -Math.PI / 2, oggetto: "termosifone", creta: "termosifone", giraCreta: 0 },
   // il cappotto e' appeso alla parete dell'ospite, tra il letto e la stanzetta (la maschera, dalla scrivania, lo riprende)
-  { nome: "cappotto", x: 2.43, y: 0.45, z: 0.45, alto: 1.42, rotY: Math.PI, fondo: 0.6, oggetto: "cappotto" },
+  CRETA ? { nome: "cappotto", x: 2.43, y: 0.45, z: 0.45, alto: 1.42, rotY: Math.PI, fondo: 0.6, oggetto: "cappotto" }
+    : { nome: "cappotto", x: -0.55, y: 0.45, z: 2.93, alto: 1.42, rotY: Math.PI / 2, fondo: 0.6, oggetto: "cappotto" },
   { nome: "borsa", x: -2.12, z: -2.72, alto: 0.3, rotY: -0.9, oggetto: "borsa" },
   // sulla scrivania gli oggetti di Meshy, messi come nella scrivania disegnata, col davanti verso chi siede; "pezzo"
   // e' cosa si usa da seduti (gli id della scrivania in gioco.js): i guanti vanno con la maschera, per uscire
