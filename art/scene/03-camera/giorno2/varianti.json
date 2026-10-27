@@ -1,18 +1,40 @@
 {
-  "maschere_da": [
-    "../maschere/persone_maschera1.png"
-  ],
-  "varianti": {
-    "persone": {
-      "da": "../finale.jpg",
-      "schede": [
-        "madre"
-      ],
-      "prompt": "The second image is the reference sheet of the woman. Edit the first image, one day later. The woman is now dead: she lies on her back in the same iron bed, her head on the white pillow, the white sheet and the green checked blanket pulled up to her chest; her eyes are closed, her mouth slightly open, her skin waxy and grey; her bony hands are folded on her chest around a wooden rosary, and the tips of her fingers are black. She no longer sits on the edge of the bed, and her feet are not visible. She is a realistic photograph with real skin, real hair and real fabric, exactly as she is in the first image, not a drawing, with the same grotesque but almost photographic features. The bed, the nightstand with the lamp, the window and the wardrobe stay exactly where they are, in the same style as in the first image.",
-      "ritagli": [
-        "person",
-        "bed"
-      ]
-    }
+ "maschere_da": [
+  "../maschere/persone_maschera1.png"
+ ],
+ "varianti": {
+  "persone": {
+   "da": "../finale.jpg",
+   "schede": [
+    "madre"
+   ],
+   "prompt": "The second image is the reference sheet of the woman. Edit the first image, one day later. The woman is now dead: she lies on her back in the same iron bed, her head on the white pillow, the white sheet and the green checked blanket pulled up to her chest; her eyes are closed, her mouth slightly open, her skin waxy and grey; her bony hands are folded on her chest around a wooden rosary, and the tips of her fingers are black. She no longer sits on the edge of the bed, and her feet are not visible. She is a realistic photograph with real skin, real hair and real fabric, exactly as she is in the first image, not a drawing, with the same grotesque but almost photographic features. The bed, the nightstand with the lamp, the window and the wardrobe stay exactly where they are, in the same style as in the first image.",
+   "ritagli": [
+    "person",
+    "bed"
+   ]
+  },
+  "mostro": {
+   "da": "../finale.jpg",
+   "schede": [
+    "madre"
+   ],
+   "prompt": "The second image is the reference sheet of the woman. Edit the first image, one night later. The plague did not kill the woman: in the night she changed into a monster. She no longer sits on the edge of the bed: she crouches high up on top of the iron headboard of the bed, right under the window, on all fours like an animal, bent forward, gripping the top rail with her hands and her bare feet. Her arms and legs are too long and bony; her fingers are long, thin and black like charcoal, with long black nails; her skin is ash grey with dark veins; her eyes are completely white, without pupils; her mouth is too wide and open in a silent snarl, with black gums and long yellow teeth; her long grey-brown greasy hair hangs around her face; her faded floral nightgown is torn and dirty. She is still clearly the same woman, with the same face. Below her the bed is empty and torn apart: the white sheet ripped and pulled off the mattress, the pillow on the floor, the green checked blanket fallen on the floor beside the bed. She stares straight at the viewer.",
+   "ritagli": [
+    "person",
+    "bed"
+   ]
+  },
+  "mostro_senza_sponda": {
+   "da": "mostro.jpg",
+   "schede": [
+    "madre"
+   ],
+   "prompt": "The second image is the reference sheet of the woman. Edit the first image with one single change: remove the black iron footboard at the foot of the bed, nearest to the viewer (its top rail, its vertical bars and its two corner posts). This bed has no footboard: the foot of the bare mattress and the torn white sheet hanging over it are fully visible, straight down to the low dark bed frame just above the floor. Everything else stays exactly identical: the monstrous woman crouching on the headboard under the window, with the same face, white eyes, open mouth and long black fingers, the headboard, the green blanket and the pillow on the floor, the nightstand and lamp, the window, the wardrobe.",
+   "ritagli": [
+    "person",
+    "bed"
+   ]
   }
+ }
 }

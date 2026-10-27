@@ -1,13 +1,31 @@
 {
-  "madre": {
-    "riferimento": "riferimento_madre.jpg",
-    "scheda": "madre",
-    "aspetto": "a gaunt woman in her fifties with long grey-brown hair, dead, lying in bed under a green checked blanket",
-    "parti": {
-      "occhi": "Her eyes are closed, the eyelids slightly sunken and bluish, the skin waxy, grey and still: she is dead.",
-      "bocca": "Her mouth is slightly open, the lips grey-blue and dry, with a thin line of dried dark blood at one corner: she is dead.",
-      "mani": {"inquadratura": "both hands folded on her chest over the green checked blanket, from the wrists to the fingertips",
-               "segni": "Bony, waxy hands folded around a wooden rosary; the tips of all the fingers are black, dry and shriveled: she is dead."}
-    }
+ "madre": {
+  "riferimento": "riferimento_madre.jpg",
+  "scheda": "madre",
+  "aspetto": "a gaunt woman in her fifties with long grey-brown hair, dead, lying in bed under a green checked blanket",
+  "parti": {
+   "occhi": "Her eyes are closed, the eyelids slightly sunken and bluish, the skin waxy, grey and still: she is dead.",
+   "bocca": "Her mouth is slightly open, the lips grey-blue and dry, with a thin line of dried dark blood at one corner: she is dead.",
+   "mani": {
+    "inquadratura": "both hands folded on her chest over the green checked blanket, from the wrists to the fingertips",
+    "segni": "Bony, waxy hands folded around a wooden rosary; the tips of all the fingers are black, dry and shriveled: she is dead."
+   }
   }
+ },
+ "mostro": {
+  "riferimento": "riferimento_mostro.jpg",
+  "scheda": "madre",
+  "aspetto": "a woman in her fifties changed by the plague into a monster: ash grey skin with dark veins, completely white eyes without pupils, a mouth too wide with black gums and long yellow teeth, long greasy grey-brown hair, a torn faded floral nightgown, long thin black fingers with black nails",
+  "parti": {
+   "occhi": "Her eyes are completely white and blind-looking, without pupils, wide open and staring straight at the viewer, the lids red and raw, the ash grey skin around them cracked with dark veins.",
+   "bocca": {
+    "inquadratura": "the mouth, wide open in a snarl, from the tip of the nose to the chin",
+    "segni": "The mouth is too wide, stretched open, with black gums, long yellow crooked teeth and black drool at the corners."
+   },
+   "mani": {
+    "inquadratura": "one hand gripping the black iron rail of the headboard, from the wrist to the fingertips",
+    "segni": "The fingers are too long and thin, black like charcoal from the knuckles to the tips, with long curved black nails scratching the paint off the iron rail."
+   }
+  }
+ }
 }

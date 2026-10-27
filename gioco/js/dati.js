@@ -223,8 +223,8 @@ export const DOMANDE = {
     { id: "corridoio", breve: "il corridoio?", testo: "Chi c'è nel corridoio?",
       dice: [["PADRE", "Nessuno. È saltata la luce.", { volto: "nervoso" }],
         ["PADRE", "*Di là* non ci andiamo.", { d: "luce", k: "zona:corridoio", volto: "nervoso" }]] },
-    { id: "nonno", breve: "tuo padre?", testo: "Com'è morto tuo padre?", se: { detta: "piatto_morto" },
-      dice: [["PADRE", "Era vecchio.", { volto: "nervoso" }], ["PADRE", "I vecchi muoiono, dottore. Anche senza di voi."]] },
+    { id: "nonno", breve: "tuo padre?", testo: "Dov'è tuo padre?", se: { detta: "piatto_morto" },
+      dice: [["PADRE", "Era vecchio.", { volto: "nervoso" }], ["PADRE", "Una notte si è alzato ed è uscito. Scalzo.", { volto: "nervoso" }]] },
   ],
   figlia: [
     { id: "bene", breve: "stai bene?", testo: "Stai bene?", dice: [["FIGLIA", "Sì."], ["FIGLIA", "[guarda il padre]"]] },
@@ -233,12 +233,12 @@ export const DOMANDE = {
     { id: "madre", breve: "tua madre?", testo: "Dov'è tua madre?",
       dice: [["FIGLIA", "In città. Dalla zia.", { d: "madre_citta" }],
         ["PADRE", "È partita prima che chiudessero la strada.", { volto: "nervoso" }]] },
-    { id: "nonno", breve: "il nonno?", testo: "Com'è morto il nonno?", se: { detta: "piatto_morto" },
-      dice: [["FIGLIA", "In tre giorni."], ["FIGLIA", "Aveva le dita nere.", { d: "dita_nere" }]] },
+    { id: "nonno", breve: "il nonno?", testo: "Dov'è il nonno?", se: { detta: "piatto_morto" },
+      dice: [["FIGLIA", "In tre giorni è cambiato. Poi non c'era più."], ["FIGLIA", "Aveva le dita nere.", { d: "dita_nere" }]] },
   ],
   madre: [
     { id: "febbre", breve: "da quanto?", testo: "Da quanto hai la febbre?",
-      dice: [["MADRE", "Tre giorni. Forse quattro."], ["MADRE", "Mio suocero è morto così.", { d: "suocero" }]] },
+      dice: [["MADRE", "Tre giorni. Forse quattro."], ["MADRE", "Mio suocero è finito così.", { d: "suocero" }]] },
     { id: "nasconde", breve: "perché ti nascondi?", testo: "Perché ti nascondi?",
       dice: [["MADRE", "Quelli che portate via non tornano.", { d: "non_tornano" }], ["MADRE", "Lo sanno tutti."]] },
     { id: "cibo", breve: "chi ti dà da mangiare?", testo: "Chi ti porta da mangiare?",
@@ -279,12 +279,12 @@ export const DICHIARAZIONI = {
   nessuna_febbre: { chi: "padre", testo: "«Nessuno ha la febbre.»" },
   botta: { chi: "padre", testo: "«Una botta. Al lavoro.»" },
   luce: { chi: "padre", testo: "«Di là non ci andiamo.»" },
-  piatto_morto: { chi: "padre", testo: "«Un piatto è per mio padre, morto.»" },
+  piatto_morto: { chi: "padre", testo: "«Un piatto è per mio padre. Se torna.»" },
   nessuno_figlia: { chi: "figlia", testo: "«Nel corridoio? Nessuno.»" },
   madre_citta: { chi: "figlia", testo: "«La mamma è in città.»" },
   mamma_di_la: { chi: "figlia", testo: "«La mamma è di là, con la febbre.»" },
   dita_nere: { chi: "figlia", testo: "«Il nonno aveva le dita nere.»" },
-  suocero: { chi: "madre", testo: "«Mio suocero è morto così.»" },
+  suocero: { chi: "madre", testo: "«Mio suocero è finito così.»" },
   non_tornano: { chi: "madre", testo: "«Quelli che portate via non tornano.»" },
   tre_in_casa: { chi: "uomo", testo: "«Siamo in tre.»" },
   sudo: { chi: "uomo", testo: "«Sudo per il termosifone.»" },
@@ -308,7 +308,7 @@ export const PROVE = {
     breve: "Il collo: non è una botta.", parte: ["padre", "collo"] },
   febbre_padre: { casa: "casa3", testo: "Il padre ha gli occhi lucidi e suda, ma dice che nessuno ha la febbre.",
     breve: "Il padre ha la febbre.", parte: ["padre", "occhi"] },
-  madre_nonno: { casa: "casa3", testo: "La madre ha le dita nere, come il nonno quando è morto.",
+  madre_nonno: { casa: "casa3", testo: "La madre ha le dita nere, come il nonno prima di sparire.",
     breve: "Dita nere, come il nonno.", parte: ["madre", "mani"] },
   calore_corridoio: { casa: "casa3", testo: "Dal nastro: calore in fondo al corridoio. C'è qualcuno.",
     breve: "Calore nel corridoio.", zona: ["cucina", "corridoio"], ir: true },
@@ -331,8 +331,8 @@ export const CONTESTAZIONI = [
   // casa 3
   { id: "quattro_piatti", coppie: [[["d:solo_due"], ["zona:tavola", "p:piatti"]], [["p:piatti"], ["persona:padre"]]],
     dice: [["TU", "Siete in due. E quattro piatti?"], ["PADRE", "[guarda la tavola]", { volto: "nervoso" }],
-      ["PADRE", "Uno è per mio padre. È *morto* la settimana scorsa.", { d: "piatto_morto", k: "zona:tavola", volto: "nervoso" }],
-      ["PADRE", "Da noi si apparecchia per i morti. Quaranta giorni.", { volto: "nervoso" }]] },
+      ["PADRE", "Uno è per mio padre. È *sparito* la settimana scorsa.", { d: "piatto_morto", k: "zona:tavola", volto: "nervoso" }],
+      ["PADRE", "Da noi si apparecchia per chi non torna. Quaranta giorni.", { volto: "nervoso" }]] },
   { id: "quarto_piatto", coppie: [[["d:piatto_morto"], ["zona:tavola", "p:piatti", "persona:padre"]]],
     dice: [["TU", "Tu, tua figlia, tuo padre. E il quarto piatto?"], ["PADRE", "...", { volto: "arrabbiato" }],
       ["PADRE", "Avete finito? Allora andate.", { volto: "arrabbiato" }]], poi: { fiducia: -5 } },
@@ -416,7 +416,7 @@ export const REAZIONI = {
 };
 
 // lo stato di famiglia: cosa risulta all'anagrafe del comune per ogni casa segnalata, nell'ordine del
-// certificato. Puo' essere vecchio o sbagliato (il nonno e' morto, il figlio risulta in citta'). "persona" lega
+// certificato. Puo' essere vecchio o sbagliato (il nonno e' sparito, il figlio risulta in citta'). "persona" lega
 // la riga a chi si incontra; chi non e' tra le PERSONE non si vede mai (il nonno, il ragazzo). "donna" per
 // scrivere "nata".
 export const COMUNE = "MALVENTO";
@@ -435,10 +435,12 @@ export const ANAGRAFE = {
   ] },
 };
 // la verita' su chi nel certificato non si incontra, per il confronto con le diagnosi alla fine
-export const ALTRI = { nonno: { stato: "morto" }, ragazzo: { stato: "grave" } };
+// il nonno non e' morto: la settimana scorsa e' diventato un mostro ed e' uscito di casa (dal 27 ottobre, sera)
+export const ALTRI = { nonno: { stato: "mostro" }, ragazzo: { stato: "grave" } };
 
 // le annotazioni: una frase o una prova del nastro lasciata sul nome giusto nello stato di famiglia diventa una
-// nota a penna. "barra" cancella una o piu' note di prima (o "anagrafe", la nota del comune); "morto" mette la croce.
+// nota a penna. "barra" cancella una o piu' note di prima (o "anagrafe", la nota del comune); "morto" segna chi e'
+// diventato un mostro (il segno al posto della foto, il nome barrato).
 export const ANNOTA = {
   // casa 3
   "d:tutti_bene": { padre: "«stiamo tutti bene»" },
@@ -452,12 +454,12 @@ export const ANNOTA = {
   "d:mamma_di_la": { madre: { testo: "nascosta di là, in camera: febbre da tre giorni", barra: "d:madre_citta" },
     figlia: "ha nascosto la madre" },
   "d:non_tornano": { madre: "ha paura: «quelli che portate via non tornano»" },
-  "p:madre_nonno": { madre: "dita nere, come il suocero morto" },
+  "p:madre_nonno": { madre: "dita nere, come il suocero prima che sparisse" },
   "p:calore_corridoio": { madre: "il nastro all'infrarosso: calore in fondo al corridoio" },
   "d:nessuno_figlia": { figlia: "«nel corridoio non c'è nessuno»" },
-  "d:piatto_morto": { nonno: { testo: "morto la settimana scorsa: il quarto piatto è per lui", morto: true } },
-  "d:dita_nere": { nonno: { testo: "morto in tre giorni, con le dita nere", morto: true } },
-  "d:suocero": { nonno: { testo: "«è morto così» (la nuora)", morto: true } },
+  "d:piatto_morto": { nonno: { testo: "sparito la settimana scorsa: il quarto piatto è per lui", morto: true } },
+  "d:dita_nere": { nonno: { testo: "cambiato in tre giorni, con le dita nere, poi sparito", morto: true } },
+  "d:suocero": { nonno: { testo: "«è finito così» (la nuora)", morto: true } },
   // casa 5
   "d:tre_in_casa": { uomo: "«siamo in tre»: ma risultano in quattro" },
   "d:sudo": { uomo: "«sudo per il termosifone»" },
@@ -610,7 +612,7 @@ for (const c of Object.values(CASE)) {
 // i luoghi: sulla mappa in 3D hanno la loro lettera gialla (A, B, C, come nel pannello: le case hanno i numeri)
 export const LUOGHI_MAPPA = [
   { id: "chiesa", nome: "La chiesa", segno: "A", x: MAPPA_3D.luoghi.chiesa[0], y: MAPPA_3D.luoghi.chiesa[1], nota: "Il campanile suona solo per i funerali." },
-  { id: "cimitero", nome: "Il cimitero", segno: "B", x: MAPPA_3D.luoghi.cimitero[0], y: MAPPA_3D.luoghi.cimitero[1], nota: "Tre tombe nuove questa settimana." },
+  { id: "cimitero", nome: "Il cimitero", segno: "B", x: MAPPA_3D.luoghi.cimitero[0], y: MAPPA_3D.luoghi.cimitero[1], nota: "Tre bare chiuse questa settimana. Nessuno le ha viste aprire." },
   { id: "ditta", nome: "Il recinto della Panacea", segno: "C", x: MAPPA_3D.luoghi.ditta[0], y: MAPPA_3D.luoghi.ditta[1],
     nota: "Il lazzaretto della ditta: tre prefabbricati bianchi, un'antenna, i fari accesi tutta la notte. Nessuno del paese ci è mai entrato." },
 ];
@@ -649,7 +651,7 @@ export const GIORNALE = {
   sommario: "La ditta Panacea ha mandato un medico per la peste. Il sindaco: «Aprite le porte e collaborate». Il coprifuoco resta alle 20.",
   articolo: "Il medico alloggia nella stanza sopra il bar. Gira con la maschera e il bastone, come nei quadri della chiesa. «Mi ha fatto paura», dice una vicina. «Ma se serve, serve.»",
   lettera: "«Mia nonna diceva che la peste arrivò in paese insieme a un medico. Chiudete le porte.» Lettera firmata.",
-  breve: "Tre funerali questa settimana. Il parroco: «Vecchiaia e freddo».",
+  breve: "Tre funerali a bara chiusa questa settimana. Il parroco: «Vecchiaia e freddo».",
   pubblicita: "PANACEA · Ci prendiamo cura di voi.",
   didascalia: "Il medico, ieri sera, nella via principale.",
 };

@@ -115,9 +115,14 @@ GIORNO2 = {
     },
     "camera2": {
         "sfondo": "art/scene/03-camera/stanza_vuota.jpg", "sfondo_stile": "art/scene/03-camera/stanza_stile_pulita.jpg",
-        # la madre morta a letto: col letto intero, perche' coperta e lenzuolo sono rifatti
-        "strati": {"madre": ("madre", 0.12, G2K + "persone.jpg",
-                             [G2K + "maschere_persone/persone_maschera1.png", G2K + "maschere_persone/letto_maschera1.png"])},
+        # la madre non e' morta: nella notte e' diventata un mostro (27 ottobre, sera: "le persone invece di morire
+        # diventano mostri"), rannicchiata sulla testiera, fredda all'infrarosso; col letto intero, perche' il letto e'
+        # sfatto e la coperta e' per terra
+        # si monta con scena_maschera1 (madre, letto, lenzuolo, coperta e cuscino per terra, coi buchi tra le sbarre
+        # chiusi); la sagoma della madre, per il puntatore e il calore, e' solo persone_maschera1
+        "strati": {"madre": ("madre", 0.12, G2K + "mostro_senza_sponda.jpg",
+                             [G2K + "maschere_mostro_senza_sponda/persone_maschera1.png"],
+                             [G2K + "maschere_mostro_senza_sponda/scena_maschera1.png"])},
         "nascosti": [], "lampade": [(0.305, 0.42, 0.018, 0.9)],
     },
     "soggiorno2": {
@@ -143,7 +148,7 @@ SCENE2 = {"cucina2": (["padre", "figlia"], G2C + "scena.jpg"), "soggiorno2": (["
 VOLTI2 = {
     "padre": (G2C + "persone.jpg", (0.27, 0.07, 0.42, 0.33)),
     "figlia": (G2C + "persone.jpg", (0.445, 0.225, 0.515, 0.345)),
-    "madre": (G2K + "persone.jpg", (0.45, 0.33, 0.58, 0.50)),
+    "madre": (G2K + "mostro_senza_sponda.jpg", (0.44, 0.02, 0.565, 0.26)),
     "uomo": (G2S + "persone.jpg", (0.56, 0.04, 0.70, 0.29)),
     "giovane": (G2S + "persone.jpg", (0.45, 0.16, 0.56, 0.36)),
     "giovane_febbre": (G2S + "persone_febbre.jpg", (0.45, 0.16, 0.56, 0.36)),
@@ -153,7 +158,7 @@ VOLTI2 = {
 PRIMI2 = {
     G2C + "primi-piani": ["padre", "figlia"],
     G2S + "primi-piani": ["uomo", "giovane", "nonna"],
-    G2K + "primi-piani": ["madre"],
+    G2K + "primi-piani": ["mostro"],
 }
 
 
@@ -324,7 +329,7 @@ def espressioni():
     (OUT / "volti" / "g2").mkdir(parents=True, exist_ok=True)
     for luogo_, persone in ESPRESSIONI2.items():
         maschere = {}
-        for persona_, _, _, p in GIORNO2[luogo_]["strati"].values():
+        for persona_, _, _, p, *_ in GIORNO2[luogo_]["strati"].values():
             maschere.setdefault(persona_, p)
         gruppi.append((luogo_, persone, ROOT / SCENE2[luogo_][1], maschere, ROOT / "art/espressioni/giorno2", OUT / "volti" / "g2",
                        VOLTI2))
@@ -392,16 +397,17 @@ def giorno2():
         # la stanza vuota al 20%, come nel montaggio delle scene
         stanza = carica(G["sfondo"], size) * 0.8 + carica(G["sfondo_stile"], size) * 0.2
         per_persona = {}
-        for s, (persona, caldo, src, paths) in G["strati"].items():
-            per_persona.setdefault(persona, []).append(s)
+        for s, strato in G["strati"].items():
+            per_persona.setdefault(strato[0], []).append(s)
         # ogni persona: assente o uno dei suoi strati
         scelte = [[None] + strati for strati in per_persona.values()]
         for combo in itertools.product(*scelte):
             strati = [s for s in combo if s]
             img = stanza.copy()
             for s in strati:
-                persona, caldo, src, paths = G["strati"][s]
-                m = Image.fromarray((mask(paths, size) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(3))
+                # un quinto elemento, se c'e', e' la maschera per montare la scena (piu' larga della sola persona)
+                persona, caldo, src, paths, *monta = G["strati"][s]
+                m = Image.fromarray((mask(monta[0] if monta else paths, size) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(3))
                 m = np.asarray(m.filter(ImageFilter.GaussianBlur(1.2))).astype(np.float32)[..., None] / 255
                 fig = np.asarray(Image.open(fonte(src)).convert("RGB").resize(size, Image.LANCZOS)).astype(np.float32) / 255
                 img = img * (1 - m) + fig * m

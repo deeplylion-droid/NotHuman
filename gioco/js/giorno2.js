@@ -1,6 +1,7 @@
 // Il secondo giorno (bozza del 27 ottobre, da approvare: docs/proposta_secondo_giorno.md). Le stesse case e le stesse
 // stanze del primo giorno, con le persone cambiate dalle scelte di ieri: chi e' andato al lazzaretto non c'e' piu',
-// chi e' rimasto in casa e' peggiorato, la madre e' morta nella notte, chi ha dormito dal medico ha la febbre (il
+// chi e' rimasto in casa e' peggiorato, la madre nella notte e' diventata un mostro (dal 27 ottobre, sera, nessuno
+// muore: all'ultimo stadio il male trasforma), chi ha dormito dal medico ha la febbre (il
 // medico e' il portatore, e non lo sa). giorno2(ieri) da' le tabelle del giorno, che in gioco.js prendono il posto
 // di quelle di dati.js. ieri = { via: [chi e' stato portato al lazzaretto], ospite: chi ha dormito dal medico,
 // contagiate: [case dove e' passato il contagio] }.
@@ -28,7 +29,8 @@ export function giorno2(ieri) {
     padre: { nome: "il padre", voce: "PADRE", casa: "casa3", luogo: "cucina2", stato: "grave", profilo: false, calore: 0.95, volto: "g2/padre" },
     figlia: { nome: "la figlia", voce: "FIGLIA", casa: "casa3", luogo: "cucina2", stato: figliaMalata ? "malato" : "sano", profilo: false,
       calore: figliaMalata ? 0.78 : 0.52, volto: figliaMalata ? "g2/figlia" : "figlia" },
-    madre: { nome: "la madre", voce: "MADRE", casa: "casa3", luogo: "camera2", stato: "morto", profilo: false, calore: 0.12, volto: "g2/madre" },
+    // la madre non e' morta: e' cambiata. Fredda all'infrarosso, come un morto, eppure si muove
+    madre: { nome: "la madre", voce: "MADRE", casa: "casa3", luogo: "camera2", stato: "mostro", profilo: false, calore: 0.12, volto: "g2/madre" },
     uomo: { nome: "l'uomo in tuta", voce: "UOMO", casa: "casa5", luogo: "soggiorno2", stato: "grave", profilo: false, calore: 0.95, volto: "g2/uomo" },
     giovane: { nome: "la ragazza", voce: "RAGAZZA", casa: "casa5", luogo: "soggiorno2", stato: giovaneMalata ? "malato" : "sano", profilo: false,
       calore: giovaneMalata ? 0.78 : 0.4, volto: giovaneMalata ? "g2/giovane_febbre" : "g2/giovane" },
@@ -62,16 +64,17 @@ export function giorno2(ieri) {
     },
     camera2: {
       casa: "casa3", notte: true, ritorno: "cucina2", conosci: ["madre"], morti: madre ? ["madre"] : [],
-      // in camera, oggi, non respira piu' nessuno: solo il fruscio del nastro
+      // in camera, oggi, solo il fruscio del nastro: la madre non respira, ma graffia il ferro della testiera
       ambiente: null,
       img: img("camera2", [madre && "madre"]),
       persone: madre ? ["madre"] : [],
-      frasi: { madre: [0.66, 0.2, "destra"] },
+      frasi: { madre: [0.62, 0.1, "destra"] },
+      // rannicchiata sulla testiera, sotto la finestra, a quattro zampe: le mani sul ferro
       parti: {
         madre: {
-          occhi: [[0.512, 0.4, 0.03, 0.017]], bocca: [[0.512, 0.428, 0.018, 0.012]],
-          collo: [[0.515, 0.462, 0.024, 0.014]], ascelle: [[0.46, 0.49, 0.018, 0.03], [0.635, 0.5, 0.018, 0.03]],
-          mani: [[0.56, 0.494, 0.05, 0.035]],
+          occhi: [[0.503, 0.128, 0.032, 0.016]], bocca: [[0.503, 0.176, 0.022, 0.016]],
+          collo: [[0.503, 0.222, 0.026, 0.016]], ascelle: [[0.437, 0.25, 0.018, 0.03], [0.572, 0.24, 0.018, 0.03]],
+          mani: [[0.418, 0.415, 0.03, 0.035], [0.6, 0.408, 0.03, 0.035]],
         },
       },
       zone: [{ ...copia(L1.camera.zone[0]),
@@ -103,7 +106,8 @@ export function giorno2(ieri) {
       ["PADRE", "Fate quello che dovete. Non ho più la forza di mandarvi via."]]
       : figlia ? [["FIGLIA", "Mio padre ce l'avete voi."], ["FIGLIA", "Cosa volete ancora?"]]
         : [[null, "[la porta di casa è socchiusa. Nessuno risponde]"], [null, "In cucina non c'è nessuno."]],
-    camera2: madre ? [[null, "[la madre è a letto, le mani giunte sul rosario]"], [null, "Non respira. È morta nella notte."]]
+    camera2: madre ? [[null, "[il letto è vuoto. Il lenzuolo strappato, la coperta per terra]"],
+      [null, "[sopra la testiera, sotto la finestra, qualcosa graffia il ferro]"], [null, "È la madre. Non è morta: è cambiata."]]
       : [[null, "[il letto è rifatto, il lenzuolo tirato]"], [null, "La madre è nel recinto della ditta, da ieri."]],
     soggiorno2: uomo ? righe([null, "[l'uomo tossisce nel fazzoletto. Sul bianco, macchie rosse]"], ["UOMO", "Ancora il becco."],
       nonna && ["NONNA", "Oggi tossiamo tutti, dottore. Si accomodi."])
@@ -163,11 +167,14 @@ export function giorno2(ieri) {
     mani: { ...copia(E1.figlia.mani), reperto: "unghie mangiate, mani che scottano", dice: [["FIGLIA", "Me le mangio. Lo sapete."]] },
   } : copia(E1.figlia);
   if (madre) ESAMI.madre = {
-    occhi: { reperto: "occhi chiusi: non respira, è morta", foto: "g2/madre_occhi", dice: [[null, "La pelle è fredda. È morta da ore."]] },
-    bocca: { reperto: "sangue secco all'angolo della bocca", segno: "tosse", foto: "g2/madre_bocca", dice: [[null, "Ha tossito sangue, prima di morire."]] },
-    collo: { reperto: "bubboni duri sul collo", segno: "bubbone", dice: [[null, "[il collo è freddo e duro]"]] },
-    ascelle: { reperto: "un bubbone sotto l'ascella", segno: "bubbone", dice: [[null, "[sotto il lenzuolo]"]] },
-    mani: { reperto: "le dita nere, tutte", segno: "dita", foto: "g2/madre_mani", dice: [[null, "Le dita nere stringono il rosario."]] },
+    occhi: { reperto: "occhi bianchi, senza pupille: non ti riconosce", foto: "g2/mostro_occhi",
+      dice: [[null, "[gli occhi bianchi ti seguono, senza battere le palpebre]"]] },
+    bocca: { reperto: "la bocca troppo larga, le gengive nere, la bava nera", segno: "tosse", foto: "g2/mostro_bocca",
+      dice: [[null, "[ringhia. Un filo di bava nera cola sulla testiera]"]] },
+    collo: { reperto: "la pelle grigia, le vene nere: i bubboni si sono aperti", segno: "bubbone", dice: [[null, "[non si lascia avvicinare]"]] },
+    ascelle: { reperto: "non si lascia toccare", rifiuta: [[null, "[ti soffia contro e si schiaccia contro la finestra]"]] },
+    mani: { reperto: "le dita lunghe e nere, le unghie come artigli", segno: "dita", foto: "g2/mostro_mani",
+      dice: [[null, "Le unghie nere graffiano il ferro della testiera."]] },
   };
   if (uomo) ESAMI.uomo = {
     occhi: { reperto: "occhi lucidi e cerchiati, febbre alta", segno: "febbre", foto: "g2/uomo_occhi", dice: [["UOMO", "Ho dormito poco."]] },
@@ -249,7 +256,7 @@ export function giorno2(ieri) {
     sto_bene: { chi: "figlia", testo: "«Sto bene.»" },
     svegliata_scottavo: { chi: "figlia", testo: "«Dopo la notte da voi, scottavo.»" },
     le_tenevo: { chi: "figlia", testo: "«Le tenevo la mano.»" },
-    bruciate: { chi: figlia ? "figlia" : "padre", testo: "«Voi i morti li bruciate.»" },
+    bruciate: { chi: figlia ? "figlia" : "padre", testo: "«Voi quelli come lei li portate nel recinto.»" },
     lingua: { chi: "uomo", testo: "«Mi sono morso la lingua.»" },
     partito: { chi: "uomo", testo: "«Mio figlio è partito stanotte.»" },
     chi_sfama: { chi: "uomo", testo: "«Chi li sfama, se mi portate via?»" },
@@ -265,8 +272,10 @@ export function giorno2(ieri) {
   };
 
   const PROVE = {
-    silenzio: { casa: "casa3", testo: "Dal fondo del corridoio, oggi, nessun respiro.", breve: "Nessun respiro di là.", zona: ["cucina2", "corridoio"] },
-    madre_morta: { casa: "casa3", testo: "La madre è morta nella notte, in casa. Non l'hanno detto.", breve: "La madre è morta.", parte: ["madre", "occhi"] },
+    silenzio: { casa: "casa3", testo: "Dal fondo del corridoio, oggi, nessun respiro: solo unghie sul ferro.", breve: "Unghie sul ferro, di là.",
+      zona: ["cucina2", "corridoio"] },
+    madre_morta: { casa: "casa3", testo: "La madre stanotte è diventata un mostro, in casa. Non l'hanno detto.", breve: "La madre è cambiata.",
+      parte: ["madre", "occhi"] },
     febbre_figlia: { casa: "casa3", testo: "La figlia ha la febbre: occhi lucidi, guance rosse.", breve: "La figlia ha la febbre.", parte: ["figlia", "occhi"] },
     sangue_uomo: { casa: "casa5", testo: "L'uomo tossisce sangue: viene dai polmoni, non dalla lingua.", breve: "Tosse col sangue.", parte: ["uomo", "bocca"] },
     ripostiglio_vuoto: { casa: "casa5", testo: "Il ripostiglio è vuoto: una brandina sfatta, un cuscino macchiato, una botola col lucchetto nuovo.",
@@ -280,16 +289,16 @@ export function giorno2(ieri) {
 
   // ---------- le contestazioni ----------
   const CONTESTAZIONI = [
-    // casa 3: la madre non dorme, e' morta
+    // casa 3: la madre non dorme, e' cambiata
     ...(madre ? [{ id: "morta",
       coppie: [[["d:dorme_padre", "d:dorme_figlia"], ["persona:madre", "parte:madre.occhi", "parte:madre.bocca", "parte:madre.collo",
         "parte:madre.ascelle", "parte:madre.mani", "p:silenzio"]],
         [["p:silenzio"], ["persona:padre", "persona:figlia"]]],
-      dice: righe(["TU", "Non dorme. È morta."],
+      dice: righe(["TU", "Non dorme. Guardatela."],
         figlia && ["FIGLIA", "[piange]", { volto: "piange" }],
-        figlia && ["FIGLIA", "Stanotte. Le tenevo la *mano*.", { d: "le_tenevo", k: "persona:madre", volto: "piange" }],
-        padre && ["PADRE", "Volevamo seppellirla noi. Al cimitero, con i suoi."],
-        [figlia ? "FIGLIA" : "PADRE", "Voi i morti li *bruciate*, nel recinto.", { d: "bruciate", ...(figlia ? { volto: "piange" } : {}) }]),
+        figlia && ["FIGLIA", "Stanotte si è alzata. Le tenevo la *mano*.", { d: "le_tenevo", k: "persona:madre", volto: "piange" }],
+        padre && ["PADRE", "È ancora lei. Ogni tanto mi guarda come prima."],
+        [figlia ? "FIGLIA" : "PADRE", "Voi quelli come lei li portate nel *recinto*.", { d: "bruciate", ...(figlia ? { volto: "piange" } : {}) }]),
       poi: { prova: "madre_morta", ...(figlia ? { volti: { figlia: "piange" } } : {}) } }] : []),
     ...(figliaMalata ? [{ id: "febbre_figlia", coppie: [[["d:sto_bene"], ["parte:figlia.occhi", "persona:figlia"]]], se: { esame: "figlia_occhi" },
       dice: righe(["TU", "Hai la febbre."], ["FIGLIA", "È il caldo della coperta."],
@@ -338,10 +347,11 @@ export function giorno2(ieri) {
     // casa 3
     "d:dorme_padre": { madre: "«dorme» (il marito)" },
     "d:dorme_figlia": { madre: "«dorme» (la figlia)" },
-    "p:silenzio": { madre: "dalla camera, nessun respiro" },
-    "p:madre_morta": { madre: { testo: "morta stanotte, in casa", barra: ["d:dorme_padre", "d:dorme_figlia"], morto: true } },
-    "d:le_tenevo": { madre: { testo: "morta stanotte: la figlia le teneva la mano", morto: true }, figlia: "è rimasta con la madre morta" },
-    "d:bruciate": { madre: "volevano seppellirla al cimitero: «voi li bruciate»" },
+    "p:silenzio": { madre: "dalla camera, nessun respiro: unghie sul ferro" },
+    "p:madre_morta": { madre: { testo: "cambiata stanotte, in casa: non è più lei", barra: ["d:dorme_padre", "d:dorme_figlia"], morto: true } },
+    "d:le_tenevo": { madre: { testo: "si è alzata stanotte, cambiata: la figlia le teneva la mano", morto: true },
+      figlia: "è rimasta con la madre cambiata" },
+    "d:bruciate": { madre: "la tenevano in casa: «voi li portate nel recinto»" },
     "d:sto_bene": { figlia: "«sto bene»" },
     "p:febbre_figlia": { figlia: { testo: "ha la febbre: occhi lucidi, guance rosse", barra: ["d:sto_bene", "d:figlia_bene"] } },
     "d:figlia_bene": { figlia: "«lei sta bene» (il padre)" },
@@ -374,7 +384,7 @@ export function giorno2(ieri) {
   const ALTRI = { ...copia(D1.ALTRI), ...Object.fromEntries([...via].map((id) => [id, { stato: "lazzaretto" }])) };
 
   const CACCIATA = {
-    casa3: righe(padre ? ["PADRE", "Andate via. Lasciateci morire in pace."] : figlia ? ["FIGLIA", "Andate via!"] : null,
+    casa3: righe(padre ? ["PADRE", "Andate via. Lasciateci in pace, con lei."] : figlia ? ["FIGLIA", "Andate via!"] : null,
       [null, "Ti chiudono la porta alle spalle."]),
     casa5: righe(uomo ? ["UOMO", "Fuori. Adesso.", { volto: "arrabbiato" }] : nonna ? ["NONNA", "Fuori, becco."] : giovane ? ["RAGAZZA", "Andate via!"] : null,
       [null, "Ti sbattono la porta alle spalle."]),
@@ -429,7 +439,7 @@ export function verita2(ieri) {
   const c = (id) => !via.has(id);
   const figliaMalata = c("figlia") && (c("padre") || c("madre") || ieri.ospite === "figlia");
   const t = [];
-  t.push(`Casa 3: ${c("madre") ? "la madre è morta nella notte, in casa: era grave da giorni" : "la madre era nel recinto della ditta"}. `
+  t.push(`Casa 3: ${c("madre") ? "la madre nella notte è diventata un mostro, in casa: era grave da giorni" : "la madre era nel recinto della ditta"}. `
     + `${c("padre") ? "Il padre era grave: bubbone aperto, dita che diventano nere" : "Il padre era nel recinto"}. `
     + (c("figlia") ? (figliaMalata ? `La figlia si è ammalata: ${ieri.ospite === "figlia" ? "aveva dormito da te" : "viveva coi malati"}.` : "La figlia era ancora sana.") : "La figlia era nel recinto."));
   t.push(`Casa 5: ${c("uomo") ? "l'uomo era grave, tossiva sangue" : "l'uomo era nel recinto"}. `
@@ -450,8 +460,8 @@ export function giornale3(n, oggi) {
     titolo = "Portata via la nonna del vicolo";
     sommario = "Ottantasei anni. La Panacea: «Rientrava nel profilo». La nipote l'ha seguita fino al recinto.";
   } else if (oggi.morti.madre) {
-    titolo = "Morta la moglie del meccanico";
-    sommario = "La famiglia l'aveva nascosta anche da morta. Il parroco chiede di seppellirla in paese.";
+    titolo = "Qualcosa sul tetto di Via della Chiesa";
+    sommario = "Stanotte i vicini hanno sentito graffiare le tegole. La moglie del meccanico non si vede da giorni.";
   } else if (n.ospite) {
     const nome = n.ospite.chi === "giovane" ? "la ragazza del vicolo" : n.ospite.chi === "nonna" ? "la nonna del vicolo" : "la figlia del meccanico";
     titolo = `Il medico ospita ${nome}`;

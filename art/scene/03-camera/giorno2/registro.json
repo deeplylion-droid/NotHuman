@@ -22,7 +22,7 @@
   "persone": {
     "modello": "fal-ai/sam-3/image",
     "input": {
-      "image_url": "@file:../persone.jpg",
+      "image_url": "@file:../mostro_senza_sponda.jpg",
       "prompt": "person",
       "apply_mask": false,
       "include_scores": true,
@@ -35,13 +35,13 @@
       "persone_maschera1.png"
     ],
     "seed": null,
-    "secondi": 5,
+    "secondi": 4,
     "descrizione": null
   },
   "letto": {
     "modello": "fal-ai/sam-3/image",
     "input": {
-      "image_url": "@file:../persone.jpg",
+      "image_url": "@file:../mostro_senza_sponda.jpg",
       "prompt": "bed",
       "apply_mask": false,
       "include_scores": true,
@@ -71,6 +71,46 @@
     },
     "file": [
       "persone_senza_ringhiera.jpg"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "mostro_grezza": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "The images after the first one are character reference sheets, one per person (each shows the same person five times: front, three-quarter view, profile, back and a close-up of the face). Use them only to keep each person's face and body identical; every person appears only once, in the first image's place. The second image is the reference sheet of the woman. Edit the first image, one night later. The plague did not kill the woman: in the night she changed into a monster. She no longer sits on the edge of the bed: she crouches high up on top of the iron headboard of the bed, right under the window, on all fours like an animal, bent forward, gripping the top rail with her hands and her bare feet. Her arms and legs are too long and bony; her fingers are long, thin and black like charcoal, with long black nails; her skin is ash grey with dark veins; her eyes are completely white, without pupils; her mouth is too wide and open in a silent snarl, with black gums and long yellow teeth; her long grey-brown greasy hair hangs around her face; her faded floral nightgown is torn and dirty. She is still clearly the same woman, with the same face. Below her the bed is empty and torn apart: the white sheet ripped and pulled off the mattress, the pillow on the floor, the green checked blanket fallen on the floor beside the bed. She stares straight at the viewer. Keep the room, the furniture, the camera, the framing and the light exactly identical, pixel for pixel. The people keep the same grotesque but almost photographic features: bulging eyes, crooked noses, bad teeth, sunken cheeks. Realistic photograph, no text, no border.",
+      "image_urls": [
+        "@file:../finale.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/madre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "mostro_grezza.png"
+    ],
+    "seed": null,
+    "secondi": 31,
+    "descrizione": ""
+  },
+  "mostro_senza_sponda_grezza": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "The images after the first one are character reference sheets, one per person (each shows the same person five times: front, three-quarter view, profile, back and a close-up of the face). Use them only to keep each person's face and body identical; every person appears only once, in the first image's place. The second image is the reference sheet of the woman. Edit the first image with one single change: remove the black iron footboard at the foot of the bed, nearest to the viewer (its top rail, its vertical bars and its two corner posts). This bed has no footboard: the foot of the bare mattress and the torn white sheet hanging over it are fully visible, straight down to the low dark bed frame just above the floor. Everything else stays exactly identical: the monstrous woman crouching on the headboard under the window, with the same face, white eyes, open mouth and long black fingers, the headboard, the green blanket and the pillow on the floor, the nightstand and lamp, the window, the wardrobe. Keep the room, the furniture, the camera, the framing and the light exactly identical, pixel for pixel. The people keep the same grotesque but almost photographic features: bulging eyes, crooked noses, bad teeth, sunken cheeks. Realistic photograph, no text, no border.",
+      "image_urls": [
+        "@file:mostro.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/madre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "mostro_senza_sponda_grezza.png"
     ],
     "seed": null,
     "secondi": 30,

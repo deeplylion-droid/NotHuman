@@ -178,7 +178,8 @@ export const POSTI = {
     figlia: [{ se: { giorno: 2 }, x: 0.08, z: -4.6, posa: "affranta" }, { x: 0.08, z: -4.82, posa: "spia" }],
   },
   camera: {
-    madre: [{ se: { stato: "morto" }, x: 0.95, z: -2.98, gira: Math.PI / 2, posa: "morta" }, { x: 0.15, z: -2.6, posa: "seduta_letto" }],
+    // dal 27 ottobre, sera, la madre del secondo giorno e' diventata un mostro: in plastilina resta la posa di prima
+    madre: [{ se: { stato: "mostro" }, x: 0.95, z: -2.98, gira: Math.PI / 2, posa: "morta" }, { x: 0.15, z: -2.6, posa: "seduta_letto" }],
   },
   soggiorno: {
     // il primo giorno l'uomo sta davanti alla porta chiusa; il secondo la porta e' aperta e lui si e' spostato
@@ -202,7 +203,9 @@ export const ASPETTO = {
   madre: { pelle: 0xc2b39a,
     grave: { mani: "nere", bubboni: [{ dove: "collo" }, { dove: "collo_destra", r: 0.026 }, { dove: "ascella", r: 0.045 }] },
     morto: { faccia: "morta", mani: "nere", bubboni: [{ dove: "collo", aperto: true }, { dove: "collo_destra", r: 0.026 }, { dove: "ascella", aperto: true }],
-      oggetti: ["rosario"] } },
+      oggetti: ["rosario"] },
+    // in plastilina il mostro non c'e': la madre del secondo giorno resta com'era da morta
+    get mostro() { return this.morto; } },
   uomo: { pelle: 0xc99a86,
     malato: {},
     grave: { faccia: "grave", oggetti: ["fazzoletto"] } },

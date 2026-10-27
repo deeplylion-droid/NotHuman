@@ -57,7 +57,7 @@ def immagini():
                 out[next((ROOT / "art/espressioni").glob(f"{persona}_{volto}.*"))] = persone
     # le espressioni del secondo giorno, con le maschere delle persone della loro variante
     for luogo, persone in prepara_gioco.ESPRESSIONI2.items():
-        maschere = [p for _, _, src, paths in prepara_gioco.GIORNO2[luogo]["strati"].values() if "/giorno2/" in src for p in paths]
+        maschere = [p for _, _, src, paths, *_ in prepara_gioco.GIORNO2[luogo]["strati"].values() if "/giorno2/" in src for p in paths]
         for persona, volti in persone.items():
             for volto in volti:
                 for f in (ROOT / "art/espressioni/giorno2").glob(f"{persona}_{volto}.*"):
@@ -65,7 +65,7 @@ def immagini():
                         out[f] = maschere
     # il secondo giorno: le varianti con le persone cambiate, con le maschere di chi se ne prende
     for G in prepara_gioco.GIORNO2.values():
-        for _, _, src, paths in G["strati"].values():
+        for _, _, src, paths, *_ in G["strati"].values():
             if "/giorno2/" in src:
                 lista = out.setdefault(ROOT / src, [])
                 lista += [p for p in paths if p not in lista]

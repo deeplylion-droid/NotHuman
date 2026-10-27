@@ -58,5 +58,65 @@
     "seed": null,
     "secondi": 31,
     "descrizione": ""
+  },
+  "mostro_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a woman in her fifties changed by the plague into a monster: ash grey skin with dark veins, completely white eyes without pupils, a mouth too wide with black gums and long yellow teeth, long greasy grey-brown hair, a torn faded floral nightgown, long thin black fingers with black nails), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Her eyes are completely white and blind-looking, without pupils, wide open and staring straight at the viewer, the lids red and raw, the ash grey skin around them cracked with dark veins. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_mostro.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/madre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "mostro_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 27,
+    "descrizione": ""
+  },
+  "mostro_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, wide open in a snarl, from the tip of the nose to the chin of the person in the reference image (a woman in her fifties changed by the plague into a monster: ash grey skin with dark veins, completely white eyes without pupils, a mouth too wide with black gums and long yellow teeth, long greasy grey-brown hair, a torn faded floral nightgown, long thin black fingers with black nails), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. The mouth is too wide, stretched open, with black gums, long yellow crooked teeth and black drool at the corners. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_mostro.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/madre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "mostro_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 27,
+    "descrizione": ""
+  },
+  "mostro_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of one hand gripping the black iron rail of the headboard, from the wrist to the fingertips of the person in the reference image (a woman in her fifties changed by the plague into a monster: ash grey skin with dark veins, completely white eyes without pupils, a mouth too wide with black gums and long yellow teeth, long greasy grey-brown hair, a torn faded floral nightgown, long thin black fingers with black nails), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. The fingers are too long and thin, black like charcoal from the knuckles to the tips, with long curved black nails scratching the paint off the iron rail. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_mostro.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/madre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "mostro_mani.png"
+    ],
+    "seed": null,
+    "secondi": 28,
+    "descrizione": ""
   }
 }

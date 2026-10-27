@@ -429,7 +429,7 @@ export class Visita3D {
       const posa = POSE[posto.posa];
       pp.metti(posto, posa, this.occhio);
       this.vesti(pp, posa, c);
-      pp.calore(c.stato === "morto" ? CALORE_MORTO : (c.calore ?? 0.5));
+      pp.calore(c.stato === "morto" || c.stato === "mostro" ? CALORE_MORTO : (c.calore ?? 0.5));
       pp.stato = c.stato;
       await this.volto(p, volti[p] ?? null);
       this.scena.add(pp.radice);

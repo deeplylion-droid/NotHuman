@@ -1554,8 +1554,8 @@ function apriDomande(persona, x, y) {
   etichetta.hidden = true;
   const lista = (D.DOMANDE[persona] || []).filter((q) => !S.fatte[`${persona}_${q.id}`] && condizione(q.se));
   const voci = lista.map((q) => ({ testo: q.breve, nuova: !!q.se, icona: icona("domanda"), azione: () => chiedi(persona, q, x, y) }));
-  // i morti non rispondono piu' (la madre, il secondo giorno)
-  if (!voci.length) voci.push({ testo: D.PERSONE[persona].stato === "morto" ? "non risponde più" : "nient'altro da chiedere", disattiva: true });
+  // chi e' diventato un mostro non risponde piu' (la madre, il secondo giorno)
+  if (!voci.length) voci.push({ testo: D.PERSONE[persona].stato === "mostro" ? "ringhia, non risponde più" : "nient'altro da chiedere", disattiva: true });
   ruota.apri(x, y, voci, maiuscolo(D.PERSONE[persona].voce), 0.8);
 }
 
@@ -1862,9 +1862,13 @@ function rigaStato(casa, r, firmata) {
     im.src = src;
     im.alt = P.nome;
     foto.append(el("span", "sf-graffetta"), im);
+    // chi e' diventato un mostro: il timbro rosso sopra la foto
+    if (S.morti[persona]) foto.append(el("span", "sf-timbro-mostro", "MOSTRO"));
   } else {
     foto.classList.add("vuota");
-    foto.textContent = S.morti[persona] ? "†" : "?";
+    // chi e' diventato un mostro: al posto della foto il timbro rosso
+    foto.textContent = S.morti[persona] ? "MOSTRO" : "?";
+    if (S.morti[persona]) foto.classList.add("mostro");
   }
   const dati = el("div", "sf-dati");
   const nome = el("b", S.morti[persona] ? "barrato" : "", r.nome);
@@ -2678,22 +2682,22 @@ function giornaleDomani() {
 
 // le diagnosi timbrate sugli stati di famiglia di un giorno, contro com'era davvero
 function confronto(diagnosi, morti, anagrafe, persone, altri) {
-  const stati = { sano: "sano", malato: "malato", grave: "grave", morto: "morto", lazzaretto: "nel recinto" };
+  const stati = { sano: "sano", malato: "malato", grave: "grave", mostro: "diventato un mostro", lazzaretto: "nel recinto" };
   const ul = el("ul");
   let giuste = 0, date = 0;
   for (const A of Object.values(anagrafe)) {
     for (const r of A.righe) {
       const vero = persone[r.persona]?.stato || altri[r.persona]?.stato;
       const mio = diagnosi[r.persona];
-      // chi era morto e lo hai segnato morto (la croce sullo stato di famiglia)
-      if (vero === "morto" && morti[r.persona] && persone[r.persona]) {
+      // chi era diventato un mostro e lo hai segnato (il timbro sullo stato di famiglia)
+      if (vero === "mostro" && morti[r.persona] && persone[r.persona]) {
         date++; giuste++;
-        ul.append(el("li", null, `✓ ${r.nome}: l'hai trovata morta.`));
+        ul.append(el("li", null, `✓ ${r.nome}: l'hai trovata cambiata, un mostro.`));
         continue;
       }
       if (!mio) continue;
       date++;
-      const giusta = mio === vero || (mio === "sospetto" && vero !== "sano" && vero !== "morto");
+      const giusta = mio === vero || (mio === "sospetto" && vero !== "sano" && vero !== "mostro");
       if (giusta) giuste++;
       ul.append(el("li", null, `${giusta ? "✓" : "✗"} ${r.nome}: hai timbrato ${D.TIMBRI.find((t) => t.id === mio).testo}, era ${stati[vero] || vero}.`));
     }
@@ -2703,6 +2707,7 @@ function confronto(diagnosi, morti, anagrafe, persone, altri) {
 
 const VERITA1 = [
   "Casa 3: il padre era malato (febbre, bubbone al collo). La madre era grave, nascosta in camera, con le dita nere. La figlia era sana.",
+  "Il nonno della casa 3 non era morto: una settimana fa si è alzato dal letto, cambiato, ed è uscito scalzo. È uno di quelli che la ditta cerca di notte.",
   "Casa 5: l'uomo aveva la febbre, il contagio era all'inizio. La ragazza era sana: pallida per il freddo e la fame, non per la peste. La nonna era sana. Dietro la porta c'era il figlio, grave.",
   "Il protocollo mentiva sul pallore, e la ditta paga di più per i giovani sani.",
   "La nonna e il nastro 7 dicono la stessa cosa: la peste arriva con il medico.",
