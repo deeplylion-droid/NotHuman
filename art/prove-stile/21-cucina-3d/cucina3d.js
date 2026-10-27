@@ -4,15 +4,15 @@
 //     vertici agganciati alla griglia dello schermo che tremano, la nebbia scura, l'ombra a disco sotto i piedi;
 // 2 · la plastilina: stanza e pupazzi modellati, spigoli tondi e bozzi, impronte delle dita, luce morbida con le
 //     ombre, e il mondo che si muove a scatti (12 pose al secondo) e "bolle" a ogni posa, come uno stop-motion.
-// Sopra c'e' il VHS del gioco (gioco/js/vhs.js) con la luce della videocamera. La videocamera e' ferma sulla porta:
-// la testa segue un poco il puntatore; "Esamina il collo" stringe lo zoom sul bubbone del padre; "Infrarosso" mostra
-// il calore. I personaggi sono di Meshy (da immagine a 3D, con lo scheletro e l'animazione di attesa), fatti dai
+// Niente VHS (deciso il 27 ottobre: questi stili non hanno niente da nascondere): la videocamera del medico c'e' ancora
+// (registra, ha la lampada, lo zoom e l'infrarosso), ma l'immagine e' pulita. La videocamera e' ferma sulla porta: la
+// testa segue un poco il puntatore e la lampada con lei; "Esamina il collo" stringe lo zoom sul bubbone del padre;
+// "Infrarosso" mostra il calore. I personaggi sono di Meshy (da immagine a 3D, con lo scheletro e l'animazione di attesa), fatti dai
 // disegni dei due stili in personaggi/; la stanza e' costruita qui, con le texture dipinte qui.
 import * as THREE from "./lib/three.js";
-import { Vhs } from "./js/vhs.js";
 
 const $ = (s) => document.querySelector(s);
-const palco = $("#palco"), schermo = $("#schermo"), crudo = $("#crudo"), frase = $("#frase"), attesa = $("#attesa");
+const palco = $("#palco"), schermo = $("#schermo"), frase = $("#frase"), attesa = $("#attesa");
 
 // ---------- le misure, in metri: x verso destra, y in alto, z verso chi guarda (la porta della cucina e' a z = 0) ----
 const L = 3.4, P = 4.4, A = 2.7;
@@ -767,8 +767,8 @@ function bubbone(st, p) {
     }
     geo.computeVertexNormals();
   }
-  // gonfio, lucido, viola acceso: deve vedersi anche col rosso scuro dell'esame
-  const m = new THREE.Mesh(geo, materiale(st, { color: st === "ps1" ? 0xb4487a : 0xa83f6e, emissive: 0x2c0a16, ruvido: 0.25, impronte: 0.15 }));
+  // gonfio, lucido, viola scuro e rosso, la pelle tesa
+  const m = new THREE.Mesh(geo, materiale(st, { color: st === "ps1" ? 0x7c2a42 : 0x6c2236, emissive: 0x140306, ruvido: 0.22, impronte: 0.1 }));
   m.userData.calore = 0.95;
   m.userData.chi = "padre";
   if (st === "creta") m.castShadow = true;
@@ -815,64 +815,85 @@ function ombraDisco(x, z, r) {
 }
 
 // ---------- il disegno ----------
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: false });
+// niente VHS (deciso il 27 ottobre: con questi stili non c'e' niente da nascondere): Three.js disegna sullo schermo
+const renderer = new THREE.WebGLRenderer({ canvas: schermo, antialias: true, alpha: false });
 renderer.setPixelRatio(1);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 const camera = new THREE.PerspectiveCamera(FOV, 16 / 9, 0.05, 40);
-const sorgente = crudo;
-const sctx = sorgente.getContext("2d");
-const [telaCalore, cctx] = tela(256, 144);
+const quadro = (frag, uniforms) => {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms, fragmentShader: frag,
+    vertexShader: "varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }",
+    depthTest: false, depthWrite: false }));
+  m.frustumCulled = false;
+  const sc = new THREE.Scene();
+  sc.add(m);
+  return sc;
+};
 
-// il 1998: la scena in un quadro piccolo, poi il retino a 15 bit di colore
+// il 1998: la scena in un quadro piccolo, poi il retino a 15 bit di colore; sullo schermo si ingrandisce a pixel
 const BASSA = { w: 384, h: 216 };
 const rtBassa = new THREE.WebGLRenderTarget(BASSA.w, BASSA.h, { type: THREE.HalfFloatType, minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter });
-const retino = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({
-  uniforms: { tScena: { value: rtBassa.texture } },
-  vertexShader: "varying vec2 vUv; void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }",
-  fragmentShader: `
-    uniform sampler2D tScena;
-    varying vec2 vUv;
-    const float B[16] = float[16](0.0, 8.0, 2.0, 10.0, 12.0, 4.0, 14.0, 6.0, 3.0, 11.0, 1.0, 9.0, 15.0, 7.0, 13.0, 5.0);
-    vec3 srgb(vec3 c) { return mix(c * 12.92, 1.055 * pow(c, vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c)); }
-    void main() {
-      vec3 c = srgb(clamp(texture2D(tScena, vUv).rgb, 0.0, 1.0));
-      ivec2 p = ivec2(mod(gl_FragCoord.xy, 4.0));
-      float d = B[p.x + p.y * 4] / 16.0 - 0.47;
-      c = floor(c * 31.0 + 0.5 + d) / 31.0;
-      gl_FragColor = vec4(c, 1.0);
-    }`,
-  depthTest: false,
-  depthWrite: false,
-}));
-retino.frustumCulled = false;
-const scenaRetino = new THREE.Scene();
-scenaRetino.add(retino);
+const scenaRetino = quadro(`
+  uniform sampler2D tScena;
+  varying vec2 vUv;
+  const float B[16] = float[16](0.0, 8.0, 2.0, 10.0, 12.0, 4.0, 14.0, 6.0, 3.0, 11.0, 1.0, 9.0, 15.0, 7.0, 13.0, 5.0);
+  vec3 srgb(vec3 c) { return mix(c * 12.92, 1.055 * pow(c, vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c)); }
+  void main() {
+    vec3 c = srgb(clamp(texture2D(tScena, vUv).rgb, 0.0, 1.0));
+    ivec2 p = ivec2(mod(gl_FragCoord.xy, 4.0));
+    float d = B[p.x + p.y * 4] / 16.0 - 0.47;
+    c = floor(c * 31.0 + 0.5 + d) / 31.0;
+    gl_FragColor = vec4(c, 1.0);
+  }`, { tScena: { value: rtBassa.texture } });
+
+// l'infrarosso: la scena (per i contorni) e il calore di ogni cosa, poi i colori della videocamera termica: il freddo
+// scuro, il caldo rosso, il caldo forte quasi bianco
+const rtScena = new THREE.WebGLRenderTarget(16, 9, { type: THREE.HalfFloatType });
+const rtCalore = new THREE.WebGLRenderTarget(16, 9, { type: THREE.HalfFloatType });
+const passoCalore = { value: new THREE.Vector2(1 / 16, 1 / 9) };
+const scenaIr = quadro(`
+  uniform sampler2D tScena, tCalore;
+  uniform vec2 passo;
+  varying vec2 vUv;
+  vec3 irMap(float l) {
+    float t = clamp(l, 0.0, 1.0) * 5.0;
+    vec3 c = mix(vec3(6.0, 2.0, 4.0), vec3(34.0, 10.0, 17.0), clamp(t, 0.0, 1.0));
+    c = mix(c, vec3(84.0, 30.0, 44.0), clamp(t - 1.0, 0.0, 1.0));
+    c = mix(c, vec3(150.0, 80.0, 94.0), clamp(t - 2.0, 0.0, 1.0));
+    c = mix(c, vec3(214.0, 162.0, 172.0), clamp(t - 3.0, 0.0, 1.0));
+    return mix(c, vec3(255.0, 236.0, 232.0), clamp(t - 4.0, 0.0, 1.0)) / 255.0;
+  }
+  void main() {
+    vec3 c = texture2D(tScena, vUv).rgb;
+    float y = sqrt(clamp(dot(c, vec3(0.2126, 0.7152, 0.0722)), 0.0, 1.0));
+    float h = 0.0;
+    for (int i = -2; i <= 2; i++) for (int j = -2; j <= 2; j++) h += texture2D(tCalore, vUv + vec2(float(i), float(j)) * passo).r;
+    h /= 25.0;
+    vec3 col = irMap(y * 0.3 + h * 0.86);
+    vec2 v = (vUv - 0.5) * vec2(1.0, 0.9);
+    col *= 1.0 - 0.35 * pow(clamp(length(v) * 1.41, 0.0, 1.0), 2.2);
+    gl_FragColor = vec4(col, 1.0);
+  }`, { tScena: { value: rtScena.texture }, tCalore: { value: rtCalore.texture }, passo: passoCalore });
 
 let stile = null, scena = null, persone = {}, bub = null;
-let ir = false, conVhs = true;
-
-const vhs = new Vhs(schermo);
-vhs.setLuce(1);
-// senza il filtro catrame: gli stili nuovi non hanno niente da nascondere
-vhs.catrame = 0;
+let ir = false;
 
 function misura(st) {
+  let w, h;
   if (st === "ps1") {
-    renderer.setSize(BASSA.w, BASSA.h, false);
-    sorgente.width = BASSA.w * 3;
-    sorgente.height = BASSA.h * 3;
-    sctx.imageSmoothingEnabled = false;
-    crudo.classList.remove("liscio");
+    [w, h] = [BASSA.w, BASSA.h];
+    schermo.classList.remove("liscio");
   } else {
-    const w = Math.min(1280, Math.max(640, Math.round(palco.clientWidth * Math.min(2, window.devicePixelRatio || 1))));
-    renderer.setSize(w, Math.round(w * 9 / 16), false);
-    sorgente.width = w;
-    sorgente.height = Math.round(w * 9 / 16);
-    sctx.imageSmoothingEnabled = true;
-    crudo.classList.add("liscio");
+    w = Math.min(1600, Math.max(640, Math.round(palco.clientWidth * Math.min(2, window.devicePixelRatio || 1))));
+    h = Math.round(w * 9 / 16);
+    schermo.classList.add("liscio");
   }
-  vhs.setSource(sorgente);
+  renderer.setSize(w, h, false);
+  rtScena.setSize(w, h);
+  rtCalore.setSize(Math.max(64, Math.round(w / 3)), Math.max(36, Math.round(h / 3)));
+  passoCalore.value.set(1 / rtCalore.width, 1 / rtCalore.height);
 }
+if (window.ResizeObserver) new ResizeObserver(() => { if (stile === "creta") misura(stile); }).observe(palco);
 
 function libera(o) {
   o.traverse((x) => {
@@ -908,22 +929,19 @@ async function scegli(st) {
     nuova.add(ombraDisco(PADRE.x, PADRE.z, 0.32), ombraDisco(FIGLIA.x, FIGLIA.z, 0.28));
     renderer.shadowMap.enabled = false;
     renderer.toneMapping = THREE.NoToneMapping;
-    nuova.environment = null;
   } else {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 0.8;
     nuova.fog = new THREE.Fog(0x060504, 4, 12);
-    nuova.environment = null;
   }
+  nuova.environment = null;
   nuova.background = new THREE.Color(0x000000);
   scena = nuova;
   persone = { padre, figlia };
   misura(st);
-  if (!ir) vhs.setLuce(st === "creta" ? 0.55 : 1);
   attesa.hidden = true;
-  vhs.burst(0.9);
   parla([["Dottore."], ["Qui stiamo tutti bene. Faccia in fretta."]]);
 }
 
@@ -1029,38 +1047,59 @@ function disegnaCalore() {
     scambi.push([o, o.material]);
     o.material = grigio(o.userData.calore ?? 0.05);
   });
-  const fog = scena.fog;
+  const fog = scena.fog, tm = renderer.toneMapping, ombre = renderer.shadowMap.enabled;
   scena.fog = null;
-  const tm = renderer.toneMapping;
   renderer.toneMapping = THREE.NoToneMapping;
-  const ombre = renderer.shadowMap.enabled;
   renderer.shadowMap.enabled = false;
-  renderer.setRenderTarget(null);
+  renderer.setRenderTarget(rtCalore);
   renderer.render(scena, camera);
-  cctx.drawImage(renderer.domElement, 0, 0, telaCalore.width, telaCalore.height);
   for (const [o, m] of scambi) o.material = m;
   scena.fog = fog;
   renderer.toneMapping = tm;
   renderer.shadowMap.enabled = ombre;
-  vhs.setHeat(telaCalore);
 }
 
-vhs.prima = (dt) => {
-  if (!scena) return;
-  anima(dt);
-  inquadra(dt, tempo);
+function disegna() {
   SNAP.value.set(BASSA.w * 0.44, BASSA.h * 0.44);
-  if (ir) disegnaCalore();
-  if (stile === "ps1") {
+  if (ir) {
+    renderer.setRenderTarget(rtScena);
+    renderer.render(scena, camera);
+    disegnaCalore();
+    renderer.setRenderTarget(null);
+    renderer.render(scenaIr, camera);
+  } else if (stile === "ps1") {
     renderer.setRenderTarget(rtBassa);
     renderer.render(scena, camera);
     renderer.setRenderTarget(null);
     renderer.render(scenaRetino, camera);
-  } else renderer.render(scena, camera);
-  sctx.drawImage(renderer.domElement, 0, 0, sorgente.width, sorgente.height);
-  vhs.refresh();
-  mettiFrase();
-};
+  } else {
+    renderer.setRenderTarget(null);
+    renderer.render(scena, camera);
+  }
+}
+
+let prima = null;
+function giro(ora) {
+  const dt = prima == null ? 0 : Math.min(0.1, (ora - prima) / 1000);
+  prima = ora;
+  if (scena) {
+    anima(dt);
+    inquadra(dt, tempo);
+    disegna();
+    mettiFrase();
+  }
+  requestAnimationFrame(giro);
+}
+
+// la messa a fuoco della videocamera che cerca il soggetto, quando lo zoom arriva
+async function aFuoco() {
+  const passi = [[7, 0], [0, 380], [2.5, 180], [0, 320]];
+  for (const [px, ms] of passi) {
+    schermo.style.transition = ms ? `filter ${ms}ms ease-in-out` : "none";
+    schermo.style.filter = px ? `blur(${px}px)` : "none";
+    await new Promise((r) => setTimeout(r, ms || 30));
+  }
+}
 
 // ---------- i comandi ----------
 let trascina = null;
@@ -1094,38 +1133,22 @@ async function esamina() {
   if (!scena || zoomVerso) return;
   zoomVerso = 1;
   $("#esamina").textContent = "Torna";
-  vhs.burst(0.25);
   parla([["È una botta."]]);
   await new Promise((r) => setTimeout(r, 900));
   if (!zoomVerso) return;
-  vhs.setEsame(ir ? 0 : 1);
-  vhs.hunt();
+  aFuoco();
 }
 
 function esci(subito = false) {
   zoomVerso = 0;
   if (subito) zoom = 0;
-  vhs.setEsame(0);
   $("#esamina").textContent = "Esamina il collo";
-  if (!subito) vhs.burst(0.25);
 }
 
 $("#esamina").addEventListener("click", () => (zoomVerso ? esci() : esamina()));
 $("#ir").addEventListener("click", (e) => {
   ir = !ir;
   e.currentTarget.setAttribute("aria-pressed", String(ir));
-  if (ir && !conVhs) $("#vhs").click();
-  vhs.mode(ir ? "ir" : "giorno");
-  vhs.setLuce(ir ? 0 : stile === "creta" ? 0.55 : 1);
-  if (!ir) vhs.setHeat(null);
-  if (zoomVerso) vhs.setEsame(ir ? 0 : 1);
-});
-$("#vhs").addEventListener("click", (e) => {
-  conVhs = !conVhs;
-  e.currentTarget.setAttribute("aria-pressed", String(conVhs));
-  schermo.hidden = !conVhs;
-  crudo.hidden = conVhs;
-  if (!conVhs && ir) $("#ir").click();
 });
 $("#stile-ps1").addEventListener("click", () => scegli("ps1"));
 $("#stile-creta").addEventListener("click", () => scegli("creta"));
@@ -1139,7 +1162,7 @@ window.prova = { scegli, esamina, esci, get stile() { return stile; }, get pront
   } };
 
 const iniziale = location.hash === "#plastilina" ? "creta" : "ps1";
-vhs.start();
+requestAnimationFrame(giro);
 scegli(iniziale).catch((err) => {
   attesa.textContent = "Il nastro non parte";
   console.error(err);
