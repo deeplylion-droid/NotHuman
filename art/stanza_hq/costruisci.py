@@ -939,7 +939,6 @@ def oggetti_meshy(su):
     # sul fianco destro davanti alla mappa, col becco verso destra e la lente verso chi siede
     for nome, f, sopra, lungo, rot, inclina in [
         ("fax", "fax.glb", (-0.46, -0.05), 0.32, 0.18, 0.0),
-        ("giornale", "giornale.glb", (-0.03, -0.27), 0.3, 0.04, 0.0),
         ("cassette", "cassette.glb", (0.4, 0.3), 0.19, -0.2, 0.0),
         ("cartella", "cartella.glb", (-0.57, 0.22), 0.3, 0.1, 0.0),
         ("soldi", "soldi.glb", (-0.33, 0.22), 0.2, -0.3, 0.0),
@@ -957,9 +956,161 @@ def oggetti_meshy(su):
     ob = importa("borsa", (-2.12, -2.72), rot=-0.9, percorso=os.path.join(VECCHIA, "borsa.glb"), coll="meshy")
     misura(ob, alto=0.3, centro=(-2.12, -2.72))
     normali_lisce(ob)
-    ob = importa("cappotto", (2.43, 0.45), rot=math.pi, percorso=os.path.join(VECCHIA, "cappotto.glb"), coll="meshy")
-    misura(ob, alto=1.42, centro=(2.4, 0.45), appoggia=0.45, fondo=0.6)
+    # il cappotto col cappello, appeso all'appendiabiti sulla parete est: nel modello l'asse dei ganci e' girata di
+    # una cinquantina di gradi, e nella stanza veniva di sbieco, staccata dal muro (28 ottobre: «l'appendiabiti e'
+    # storto rispetto al muro»); si gira dritta lungo il muro e si appoggia
+    ob = importa("cappotto", (2.3, 0.45), percorso=os.path.join(VECCHIA, "cappotto.glb"), coll="meshy")
+    dritto_lungo_il_muro(ob)
+    misura(ob, alto=1.42, centro=(2.3, 0.45), appoggia=0.45, fondo=0.6)
+    al_muro(ob, X1)
     normali_lisce(ob)
+    giornale(su)
+
+
+def fascia_dei_ganci(V, quota=0.12):
+    """i vertici in cima a un appendiabiti (l'asse e i ganci: il "quota" piu' alto) e la sua direzione nella pianta"""
+    import numpy as np
+    h0, h1 = V[:, 2].min(), V[:, 2].max()
+    cima = V[V[:, 2] > h1 - quota * (h1 - h0)]
+    c = cima[:, :2].mean(0)
+    w, vec = np.linalg.eigh(np.cov((cima[:, :2] - c).T))
+    return cima, c, vec[:, np.argmax(w)]
+
+
+def dritto_lungo_il_muro(ob):
+    """gira l'appendiabiti (con quello che ci pende) perche' l'asse dei ganci stia lungo il muro est, cioe' lungo la y
+    di Blender, e il davanti, da dove pende il cappotto, guardi la stanza (verso -x)"""
+    import numpy as np
+    me = ob.data
+    V = np.array([v.co[:] for v in me.vertices])
+    _, c, d = fascia_dei_ganci(V)
+    davanti = np.array([-d[1], d[0]])
+    h0, h1 = V[:, 2].min(), V[:, 2].max()
+    sotto = V[V[:, 2] < h0 + 0.5 * (h1 - h0)][:, :2].mean(0)
+    if np.dot(sotto - c, davanti) < 0:
+        davanti = -davanti
+    me.transform(Matrix.Rotation(math.pi - math.atan2(davanti[1], davanti[0]), 4, "Z"))
+    me.update()
+
+
+def al_muro(ob, muro, gioco=0.003, listello=0.035):
+    """spinge l'appendiabiti contro il muro est (x = muro in Three.js e in Blender): il dietro dell'asse a "gioco" dal
+    muro; quello che pende e finirebbe nel muro (o nel listello della boiserie, che sporge) resta schiacciato davanti"""
+    import numpy as np
+    me = ob.data
+    V = np.array([v.co[:] for v in me.vertices])
+    cima, _, _ = fascia_dei_ganci(V)
+    dx = (muro - gioco) - cima[:, 0].max()
+    h0, h1 = V[:, 2].min(), V[:, 2].max()
+    basso = h1 - 0.12 * (h1 - h0)
+    for v in me.vertices:
+        v.co.x += dx
+        if v.co.z < basso:
+            v.co.x = min(v.co.x, muro - listello)
+    me.update()
+
+
+def giornale(su):
+    """il giornale piegato in due sulla scrivania, al posto di quello di Meshy (28 ottobre: «il giornale e' low quality
+    come item poggiato sulla scrivania»): la meta' di sopra della prima pagina della Voce (texture/giornale.jpg, che il
+    gioco ridisegna col giornale del giorno: gioco/js/primapagina.js), la testata verso la finestra e la piega verso chi
+    siede; i fogli appena ondulati, piu' spessi alla piega; sui lati e dietro i bordi dei fogli"""
+    # 28,6 x 20 centimetri (come la pagina della tela: 2048 x 0,7), dietro la mappa senza toccarla
+    W, D, T, sotto = 0.286, 0.2, 0.0062, 0.0003
+    PIEGA, BORDI = 0.7, (0.965, 1.0)
+    cx, cz, giro = SCRIVANIA["x"] - 0.03, SCRIVANIA["z"] - 0.268, 0.04
+    cs, sn = math.cos(giro), math.sin(giro)
+
+    def P(x, y, z):
+        # dal giornale (x lungo la riga, z verso chi siede) alla stanza, girato di "giro"
+        return B(cx + x * cs + z * sn, y, cz - x * sn + z * cs)
+
+    def alto(x, z):
+        f = (z + D / 2) / D
+        return su + sotto + (T - sotto) * (0.5 + 0.5 * f ** 0.6) \
+            + 0.0007 * math.sin(x * 41 + 1.3) * math.sin(math.pi * f) + 0.0004 * math.sin(z * 57 + x * 23)
+
+    nx, nz, na = 30, 21, 8
+    vs, facce, uvs = [], [], []
+
+    def quad(a, b, c_, d_, ua, ub, uc, ud):
+        n = len(vs)
+        vs.extend([a, b, c_, d_])
+        facce.append([n, n + 1, n + 2, n + 3])
+        uvs.extend([ua, ub, uc, ud])
+
+    def uv(u, v):
+        return (u, 1.0 - v)
+
+    xs = [-W / 2 + W * i / nx for i in range(nx + 1)]
+    zs = [-D / 2 + D * j / nz for j in range(nz + 1)]
+    # il foglio di sopra (visto da sopra: in senso antiorario)
+    for j in range(nz):
+        for i in range(nx):
+            x0, x1, z0, z1 = xs[i], xs[i + 1], zs[j], zs[j + 1]
+            u0, u1 = i / nx, (i + 1) / nx
+            v0, v1 = j / nz * PIEGA, (j + 1) / nz * PIEGA
+            quad(P(x0, alto(x0, z1), z1), P(x1, alto(x1, z1), z1), P(x1, alto(x1, z0), z0), P(x0, alto(x0, z0), z0),
+                 uv(u0, v1), uv(u1, v1), uv(u1, v0), uv(u0, v0))
+    # la piega: mezzo giro dalla cima del foglio fino alla scrivania, verso chi siede
+    r = (T - sotto) / 2
+    yc = su + sotto + r
+
+    def arco(x, k):
+        a = math.pi / 2 - math.pi * k / na
+        y = yc + r * math.sin(a)
+        if k == 0:
+            y = alto(x, D / 2)
+        return P(x, y, D / 2 + r * math.cos(a))
+
+    for k in range(na):
+        for i in range(nx):
+            x0, x1 = xs[i], xs[i + 1]
+            u0, u1 = i / nx, (i + 1) / nx
+            v0, v1 = PIEGA + 0.006 * k, PIEGA + 0.006 * (k + 1)
+            quad(arco(x0, k), arco(x0, k + 1), arco(x1, k + 1), arco(x1, k), uv(u0, v0), uv(u0, v1), uv(u1, v1),
+                 uv(u1, v0))
+    # i bordi dei fogli: dietro (verso la finestra) e sui due lati, fino alla scrivania
+    b0, b1 = BORDI
+    for i in range(nx):
+        x0, x1 = xs[i], xs[i + 1]
+        z = -D / 2
+        quad(P(x1, alto(x1, z), z), P(x1, su + sotto, z), P(x0, su + sotto, z), P(x0, alto(x0, z), z),
+             uv(i / nx, b0), uv(i / nx, b1), uv((i + 1) / nx, b1), uv((i + 1) / nx, b0))
+    for lato in (-1, 1):
+        x = lato * W / 2
+        for j in range(nz):
+            za, zb = (zs[j + 1], zs[j]) if lato > 0 else (zs[j], zs[j + 1])
+            quad(P(x, alto(x, za), za), P(x, su + sotto, za), P(x, su + sotto, zb), P(x, alto(x, zb), zb),
+                 uv(j / nz, b0), uv(j / nz, b1), uv((j + 1) / nz, b1), uv((j + 1) / nz, b0))
+        # la testa della piega, su quel lato: un ventaglio
+        for k in range(na):
+            a, b = arco(x, k), arco(x, k + 1)
+            c_ = P(x, yc, D / 2)
+            n = len(vs)
+            vs.extend([c_, a, b] if lato > 0 else [c_, b, a])
+            facce.append([n, n + 1, n + 2])
+            uvs.extend([uv(0.5, b0 + 0.01)] * 3)
+    me = bpy.data.meshes.new("giornale")
+    me.from_pydata(vs, [], facce)
+    me.uv_layers.new(name="UVMap")
+    dati = me.uv_layers[0].data
+    for poly in me.polygons:
+        for li in poly.loop_indices:
+            dati[li].uv = uvs[me.loops[li].vertex_index]
+    # i vertici nello stesso punto (dove i pezzi si toccano) si uniscono; le coordinate della texture restano quelle di
+    # ogni faccia
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-6)
+    bm.normal_update()
+    bm.to_mesh(me)
+    bm.free()
+    for poly in me.polygons:
+        poly.use_smooth = True
+    ob = oggetto("giornale", me, "meshy")
+    me.materials.append(materiale("giornale", diff=os.path.join(TEX, "giornale.jpg"), ruvido=0.86))
+    return ob
 
 
 def normali_lisce(ob, giri=3):

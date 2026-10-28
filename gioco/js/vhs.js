@@ -321,6 +321,12 @@ export class Vhs {
     if (burst) this.burst();
   }
 
+  // un taglio: la notte, l'infrarosso, il buio e la lampada subito come voluti, senza dissolvenza (entrando in una
+  // stanza buia non si deve vedere prima la stanza di giorno)
+  salta() {
+    for (const g of ["green", "red", "dark", "luce"]) this.p[g] = this.goal[g];
+  }
+
   // lo strappo del nastro; onBurst(v) per farlo anche sentire (solo quando lo strappo cresce davvero)
   burst(v = 1) {
     if (this.pulito || !this.difetti) return;

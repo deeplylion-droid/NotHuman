@@ -2,7 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Caveat:wght@500;700&family=IBM+Plex+Mono:wght@400;600&family=Old+Standard+TT:wght@400;700&family=Silkscreen:wght@400;700&family=Special+Elite&family=VT323&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:wght@500;600;700&family=Caveat:wght@500;700&family=IBM+Plex+Mono:wght@400;600&family=Old+Standard+TT:wght@400;700&family=Silkscreen:wght@400;700&family=Special+Elite&family=VT323&display=swap">
 <style>
   /* Layout: lo schermo della videocamera in 16:9 al centro, l'interfaccia sovrapposta come l'OSD di una
      videocamera anni '90; i fogli di carta (fax, giornale, stato di famiglia) si aprono sopra tutto.
@@ -226,8 +226,14 @@
   @media (prefers-reduced-motion: reduce) { .fot.nuovo, .timbro-schermo { animation-duration: 0.01s; } .frase .cursore { animation: none; } }
 
   /* la scheda della casa sulla mappa: una scheda di cartoncino del medico, piena se la casa e' stata visitata */
-  /* la scheda della casa sulla mappa in 3D: un pannello scuro col bordo giallo, come il pannello MALVENTO_ */
-  #scheda-casa { position: absolute; z-index: 9; width: clamp(210px, 31cqw, 380px); max-height: calc(100% - 4cqw); overflow: auto; color-scheme: dark; background: rgba(11, 13, 12, 0.94); color: var(--testo); font-family: var(--mono); font-size: max(10.5px, 1.2cqw); line-height: 1.4; padding: 0.8em 0.9em; border: 2px solid var(--giallo); box-shadow: 0 0.8cqw 2cqw rgba(0, 0, 0, 0.6); }
+  /* la scheda della casa sulla mappa in 3D: un pannello scuro col bordo giallo, come il pannello MALVENTO_. Larga in
+     proporzione allo schermo come il testo (prima si fermava a 380 punti e sugli schermi grandi il testo non ci stava) */
+  #scheda-casa { position: absolute; z-index: 9; width: max(210px, 31cqw); max-width: calc(100% - 2cqw); max-height: calc(100% - 4cqw); overflow: hidden auto; overflow-wrap: anywhere; scrollbar-width: thin; scrollbar-color: var(--giallo) transparent; color-scheme: dark; background: rgba(11, 13, 12, 0.94); color: var(--testo); font-family: var(--mono); font-size: max(10.5px, 1.2cqw); line-height: 1.4; padding: 0.8em 0.9em; border: 2px solid var(--giallo); box-shadow: 0 0.8cqw 2cqw rgba(0, 0, 0, 0.6); }
+  /* le schede lunghe (le case visitate, con tante prove) si allargano e il testo si stringe, un passo alla volta,
+     finche' ci stanno: niente barre */
+  #scheda-casa[data-lunga="1"] { width: max(210px, 40cqw); font-size: max(10px, 1.08cqw); }
+  #scheda-casa[data-lunga="2"] { width: max(210px, 50cqw); font-size: max(9.5px, 1cqw); }
+  #scheda-casa[data-lunga="3"] { width: max(210px, 60cqw); font-size: max(9px, 0.92cqw); }
   #scheda-casa .sc-testa { font-family: var(--gioco); color: var(--giallo); font-weight: 400; }
   #scheda-casa .timbro.rosso { color: var(--rec); }
   #scheda-casa .timbro.blu { color: var(--verde); }

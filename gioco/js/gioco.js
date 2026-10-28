@@ -694,11 +694,13 @@ function vaiScrivania() {
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
     // la scrivania disegnata la sera si scurisce; quella in 3D ha gia' la luce della sera
     vhs.setDark(S.fase === "sera" && !stanza ? 1 : 0);
+    vhs.salta();
   }
   if (stanza) {
     // la scrivania in 3D: ci si siede nella stanza e si usano le cose sul piano (stanza.onScrivania)
     stanza.fase(S.fase === "sera" ? "sera" : "mattina");
     stanza.adatta(window.prova?.risoluzione || Math.min(canvas.width, tocco() ? 960 : 1600));
+    stanza.giornale(S.giornale || D.GIORNALE);
     stanza.siedi();
     suoni.suona("sedia");
     mostra(stanza.canvas, IMG.scrivania.src);
@@ -731,9 +733,11 @@ function vaiStanza(dove = "inizio") {
     vhs.setHeat(null);
     vhs.setDark(0);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+    vhs.salta();
   }
   stanza.fase(S.fase === "sera" ? "sera" : "mattina");
   stanza.adatta(window.prova?.risoluzione || Math.min(canvas.width, tocco() ? 960 : 1600));
+  stanza.giornale(S.giornale || D.GIORNALE);
   stanza.entra(dove);
   // si rientra dalla porta di casa (dalla mappa, o la sera al coprifuoco)
   if (dove === "porta") suoni.suona("porta", { volume: 0.7 });
@@ -918,7 +922,7 @@ function apriGiornale(domani) {
     blocco("colonna2", "gio-colonna", lettera, el("p", null, g.breve), el("p", "gio-pubblicita", g.pubblicita)),
   );
   stampa.append(carta, piano);
-  lente(stampa, carta, piano);
+  const rifaiLente = lente(stampa, carta, piano);
   // sugli schermi stretti la pagina e' troppo piccola: sotto c'e' lo stesso testo da leggere
   const leggibile = el("div", "gio-leggibile");
   leggibile.append(el("h2", null, g.titolo), el("p", "gio-l-sommario", g.sommario), el("p", null, g.articolo),
@@ -936,6 +940,7 @@ function apriGiornale(domani) {
     const k = M[2][2];
     const m = M.map((riga) => riga.map((v) => v / k));
     piano.style.transform = `matrix3d(${m[0][0]},${m[1][0]},0,${m[2][0]},${m[0][1]},${m[1][1]},0,${m[2][1]},0,0,1,0,${m[0][2]},${m[1][2]},0,${m[2][2]})`;
+    rifaiLente();
   };
   // il titolo si stringe finche' non entra nella fascia
   const titolo = piano.querySelector(".gio-titolo span");
@@ -954,7 +959,8 @@ function apriGiornale(domani) {
 
 // la lente: un doppione della pagina (carta e testo), ingrandito, dentro un cerchio che segue il puntatore. Col dito
 // sta un po' sopra il punto toccato (sotto, se in cima alla pagina non c'e' posto), se no il dito la copre. L'icona in
-// alto a sinistra la posa e la riprende
+// alto a sinistra la posa e la riprende. Restituisce la funzione da chiamare quando la pagina cambia (la prospettiva,
+// il titolo che si stringe, la finestra): il doppione si rifa' al movimento dopo
 function lente(stampa, carta, piano) {
   const vetro = el("div", "gio-lente");
   vetro.hidden = true;
@@ -979,6 +985,7 @@ function lente(stampa, carta, piano) {
   stampa.append(vetro, icona_);
   segna();
   let doppione = null;
+  let vecchio = true;
   const guarda = (e) => {
     const r = stampa.getBoundingClientRect();
     const x = e.clientX - r.left;
@@ -987,8 +994,11 @@ function lente(stampa, carta, piano) {
       vetro.hidden = true;
       return;
     }
-    if (vetro.hidden) {
-      // il doppione si rifa' a ogni comparsa, cosi' ha sempre la prospettiva e il titolo di adesso
+    if (vetro.hidden || vecchio) {
+      // il doppione si rifa' a ogni comparsa e dopo ogni cambio della pagina, cosi' ha sempre la prospettiva e il
+      // titolo di adesso (se il puntatore e' gia' sul giornale quando si apre, la prima copia arriva prima della
+      // prospettiva: sotto la lente c'era la pagina sbagliata)
+      vecchio = false;
       doppione = el("div", "gio-doppione");
       doppione.append(carta.cloneNode(true), piano.cloneNode(true));
       doppione.style.width = `${r.width}px`;
@@ -1006,6 +1016,7 @@ function lente(stampa, carta, piano) {
   stampa.addEventListener("pointerleave", () => { vetro.hidden = true; });
   stampa.addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") vetro.hidden = true; });
   stampa.addEventListener("pointercancel", () => { vetro.hidden = true; });
+  return () => { vecchio = true; };
 }
 
 function moltiplica(A, B) {
@@ -1040,6 +1051,7 @@ function vaiMappa() {
     vhs.setHeat(null);
     vhs.setDark(0);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+    vhs.salta();
   }
   R.casaSopra = null;
   R.casaScelta = null;
@@ -1268,6 +1280,12 @@ function mostraScheda(id, fissa) {
     card.append(azioni);
   }
   card.hidden = false;
+  // troppo lunga per lo schermo: si allarga un passo alla volta, invece di far comparire la barra
+  delete card.dataset.lunga;
+  for (const passo of ["1", "2", "3"]) {
+    if (card.scrollHeight <= card.clientHeight) break;
+    card.dataset.lunga = passo;
+  }
   posizionaScheda();
 }
 
@@ -1275,6 +1293,7 @@ function mostraLuogo(l) {
   R.casaScelta = null;
   disegnaMappa();
   const card = schedaCasa;
+  delete card.dataset.lunga;
   card.replaceChildren(el("div", "sc-testa", l.nome), el("p", "sc-nota", l.nota));
   const azioni = el("div", "sc-azioni");
   azioni.append(bottone("Chiudi", () => { card.hidden = true; }, "sc-chiudi"));
@@ -1339,6 +1358,7 @@ async function vaiLuogo(luogo) {
       vhs.setHeat(null);
       vhs.setDark(0);
       vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+      vhs.salta();
     }
     await apriVisita(luogo, Object.fromEntries(Object.entries(R.facce).map(([p, f]) => [p, f.a])));
     // la videocamera tiene la foto di chi c'e' (per il nastro delle frasi e lo stato di famiglia)
@@ -1351,6 +1371,7 @@ async function vaiLuogo(luogo) {
       vhs.setHeat(null);
       vhs.setDark(0);
       vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+      vhs.salta();
     }
     disegnaScena();
     mostra(R.scena, IMG[luogo].src);
@@ -2232,6 +2253,7 @@ async function controllaOspite() {
     vhs.setDark(0);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
     vhs.hunt();
+    vhs.salta();
   }
   mostra(im);
   // la videocamera si abitua al buio e stringe sulla brandina
@@ -2274,6 +2296,7 @@ async function controllaOspite3D(O) {
     vhs.setDark(0);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
     vhs.hunt();
+    vhs.salta();
   }
   stanza.inquadra([1.85, 1.5, 1.7], [4.0, 0.6, 1.75], 50);
   stanza.notte([1.9, 1.55, 1.6], [4.0, 0.5, 1.75], 2.2);
@@ -2308,6 +2331,7 @@ async function nastroNotte3D(O) {
     vhs.setHeat(null);
     vhs.setDark(0);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+    vhs.salta();
   }
   aiuto("Il nastro della notte: la maschera è rimasta accesa sulla scrivania.");
   suoni.suona("videoregistratore");
@@ -2370,6 +2394,7 @@ async function nastroNotte() {
     vhs.setHeat(null);
     vhs.setDark(0);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
+    vhs.salta();
   }
   aiuto("Il nastro della notte: la maschera è rimasta accesa sulla scrivania.");
   suoni.suona("videoregistratore");
@@ -2450,12 +2475,13 @@ function modoRipresa() {
   if (visita) {
     // l'infrarosso e la notte li fa il 3D
     visita.imposta(p.ir ? "ir" : notte ? "notte" : "giorno");
-    if (vhs) { vhs.mode("giorno", false); vhs.setLuce(0); vhs.setEsame(0); }
+    if (vhs) { vhs.mode("giorno", false); vhs.setLuce(0); vhs.setEsame(0); vhs.salta(); }
   } else if (vhs) {
     vhs.mode(p.ir ? "ir" : notte ? "notte" : "giorno");
     vhs.setLuce(p.ir || notte ? 0 : 1);
     if (p.nastro.casa) vhs.tono = tonoCasa(p.nastro.casa);
     vhs.setEsame(!p.ir && r.tipo === "primo" ? 1 : 0);
+    vhs.salta();
   }
   osd.modo.textContent = p.ir ? "IR" : notte ? "NOTTE" : "";
 }

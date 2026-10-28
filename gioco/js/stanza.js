@@ -17,6 +17,7 @@
 // foto della stanza stessa, e alla fine l'alone delle luci forti e il colore (caricaHQ). Con #2d la stanza di prima.
 import * as THREE from "../lib/three.js";
 import * as C from "./plastilina.js";
+import { caratteri, primaPagina } from "./primapagina.js";
 
 const IMG = "img/stanza/";
 const MOD = "modelli/";
@@ -635,6 +636,9 @@ export class Stanza {
     });
     // la mappa sulla scrivania: quella del gioco (nel modello ce n'e' una piccola, al suo posto)
     if (mappa) nodo("mappa")?.traverse((o) => { if (o.isMesh) for (const m of [].concat(o.material)) { m.map = mappa; m.needsUpdate = true; } });
+    // il giornale piegato sulla scrivania: la prima pagina la ridisegna giornale() col giornale del giorno
+    this.giornaleNodo = nodo("giornale") || null;
+    this.giornaleDi = null;
     // i modelli che servono ad altri (il letto per la coperta di chi dorme, la porta della stanzetta che gira)
     radice.updateMatrixWorld(true);
     const letto = new THREE.Group();
@@ -1387,6 +1391,31 @@ export class Stanza {
     this.camera.fov = fov;
     this.camera.updateProjectionMatrix();
     this.camera.lookAt(new THREE.Vector3(...a));
+  }
+
+  // il giornale piegato sulla scrivania (la stanza ad alta qualita'): la prima pagina del giornale "g" disegnata su una
+  // tela (primapagina.js) al posto di quella di Blender, cosi' sulla scrivania c'e' sempre il giornale di oggi
+  async giornale(g) {
+    if (!this.giornaleNodo || !g) return;
+    const chiave = `${g.data}|${g.titolo}`;
+    if (this.giornaleDi === chiave) return;
+    this.giornaleDi = chiave;
+    const foto = new Image();
+    foto.src = "img/foto_medico.jpg";
+    await Promise.all([caratteri(), foto.decode().catch(() => null)]);
+    if (this.giornaleDi !== chiave) return;
+    const tela = document.createElement("canvas");
+    primaPagina(tela, g, foto);
+    const t = new THREE.CanvasTexture(tela);
+    t.flipY = false;
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
+    // solo il giornale piegato di Blender (il materiale "giornale"): quello di Meshy di prima ha altre coordinate
+    this.giornaleNodo.traverse((o) => {
+      if (o.isMesh) for (const m of [].concat(o.material)) if (m.name.startsWith("giornale")) { m.map = t; m.needsUpdate = true; }
+    });
+    this.giornaleTex?.dispose();
+    this.giornaleTex = t;
   }
 
   // dove sta un oggetto (il centro dei suoi pezzi): per le prove
