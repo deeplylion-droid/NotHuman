@@ -2,30 +2,30 @@
   "moglie": {
     "riferimento": "riferimento_moglie.jpg",
     "scheda": "moglie",
-    "aspetto": "an uncanny woman in her sixties who looks healthy but wrong, like a familiar face that is different from how you remember it: a stocky, healthy body; smooth, waxy, too-even skin with only a few fine lines; a neat helmet of grey hair that looks like a wig; eyes far too big and round, set a little too far apart, always wide open and staring, the white showing all around the dark irises; a small, still mouth; in a shapeless beige knitted cardigan over a dark floral housedress",
+    "aspetto": "a grotesque but almost photographic woman in her fifties, short, broad and sturdy, healthy and solid: a big round head, a severe jet-black bob, a heavy frowning brow with thick dark eyebrows, small dark suspicious eyes, a big bulbous nose, a small downturned mouth and full cheeks; in a dark green knitted cardigan over a grey top and a dark skirt, thick tights and brown shoes",
     "parti": {
-      "occhi": "Her too-big, round eyes are wide open and staring, the white showing all around the dark irises; the whites are clear and healthy, only the rims a little red, as after a sleepless night shift: no fever, no sweat.",
-      "bocca": "Small, smooth lips parted just enough to show perfectly even white teeth, all of the same size, like dentures; healthy, nothing unusual.",
-      "collo": {"inquadratura": "the side of her neck and the skin behind her ear, her wig-like grey hair pulled back",
-                "segni": "Smooth, waxy skin; two thin red lines pressed into it behind the ear and across the cheek, like the marks left by the elastic straps of a protective face mask worn for many hours; no swelling, no lumps."},
+      "occhi": "Small, dark, suspicious eyes under a heavy frowning brow and thick dark eyebrows; the whites a little red at the rims, as after a sleepless night shift: no fever, no sweat.",
+      "bocca": "A small, tight, downturned mouth with healthy teeth; nothing unusual.",
+      "collo": {"inquadratura": "the side of her neck and the skin behind her ear, her black bob pulled back",
+              "segni": "Two thin red lines pressed into the skin behind the ear and across the cheek, like the marks left by the elastic straps of a protective face mask worn for many hours; no swelling, no lumps."},
       "mani": {"inquadratura": "both hands held out in front, backs up, from the wrists to the fingertips",
-               "segni": "Rough, chapped, reddened hands with cracked knuckles, as from strong disinfectant; on the back of the right hand a faded blue ink stamp: a small triangle with a number inside, like an entry stamp."}
+             "segni": "Rough, chapped, reddened hands with cracked knuckles, as from strong disinfectant; on the back of the right hand a faded blue ink stamp: a small triangle with a number inside, like an entry stamp."}
     }
   },
   "marito": {
     "riferimento": "riferimento_marito.jpg",
     "scheda": "marito",
-    "aspetto": "an uncanny old man in his seventies who looks healthy but wrong, like a familiar face that is different from how you remember it: a slim body; an oversized, perfectly round, smooth pink bald head; pale grey-blue eyes, wide open, that never blink; big ears set too low; a long nose and a very long upper lip; a wide fixed grin with far too many small, even teeth; a long thin neck; big hands with long fingers, broad flat fingertips and faintly bluish nails; in an old white vest, wrapped in an olive-green blanket and a brown patterned blanket, the plastic tube of a nebulizer on his chest",
+    "aspetto": "a grotesque but almost photographic big old man in his seventies, heavy and broad, sturdy rather than thin: a big bald head with a fringe of grey hair at the sides, large ears, heavy bushy brows over small tired eyes, a big bulbous nose, a thick white walrus moustache and a heavy jaw; in a white vest, wrapped in a green and brown patterned wool blanket, the plastic mask of a nebulizer on a green cord hanging on his chest",
     "parti": {
-      "occhi": "Pale grey-blue eyes, wide open and unblinking, staring straight ahead; the whites are clear and healthy: no fever, no sweat.",
+      "occhi": "Small, deep-set old eyes under heavy bushy brows; the whites are clear: no fever, no sweat.",
       "occhi_febbre": {"inquadratura": "the eyes and the bridge of the nose, from the eyebrows to the cheekbones",
-                       "segni": "His pale, unblinking eyes are glassy and bloodshot with high fever, the rims red, beads of sweat on his smooth pink forehead and temples."},
-      "bocca": "A wide, fixed grin with far too many small, even white teeth in two neat rows; the lips are faintly purplish, and on the lower lip a little thick grey phlegm, no blood.",
-      "collo": "A long, thin, smooth neck, the tendons standing out with each breath; no swelling, no lumps.",
+                     "segni": "His small eyes are glassy and bloodshot with high fever, the rims red, beads of sweat on his bald forehead and temples."},
+      "bocca": "Under the thick white walrus moustache, faintly purplish lips, the mouth half open as he breathes with effort; on the lower lip a little thick grey phlegm, no blood.",
+      "collo": "A thick, wrinkled old neck, the tendons straining with each breath; no swelling, no lumps.",
       "collo_febbre": {"inquadratura": "the side of the neck, from under the jaw to the collarbone",
-                       "segni": "A long, thin, smooth neck; under the jaw a hard, swollen lump the size of a walnut, red and shiny: a plague bubo just beginning."},
+                     "segni": "A thick, wrinkled old neck; under the jaw a hard, swollen lump the size of a walnut, red and shiny: a plague bubo just beginning."},
       "mani": {"inquadratura": "both hands resting on his knees, from the wrists to the fingertips",
-               "segni": "Big hands with long fingers; the fingertips are swollen, broad and rounded like spatulas, the nails curved over them, and the nail beds are clearly bluish-purple, as from years of too little air; old white scars from quarry work; otherwise healthy skin."}
+             "segni": "Big, heavy hands with thick fingers; the fingertips are swollen, broad and rounded like spatulas, the nails curved over them, and the nail beds are clearly bluish-purple, as from years of too little air; old white scars from quarry work."}
     }
   }
 }

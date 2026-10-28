@@ -14,27 +14,31 @@ La cartella contiene scena.json con i campi (in inglese, vanno nei prompt):
 - "mano" (facoltativo, false se manca): true per avere in scena la mano del medico col bastone;
 - "ritagli" (facoltativo): cosa ritagliare con SAM 3; di base persone e bastoni (quelli delle persone),
   piu' il guanto se c'e' la mano;
-- "stranezze" (facoltativo): cosa c'e' di sbagliato in ognuna delle persone (aspetto, stranezze, vestiti da
-  tenere): con questo campo le persone ammorbidite si rifanno strane, sane ma sbagliate (passaggio 3b);
+- "tratti" e "tratti_foto" (facoltativi): come deformare le persone nel fumetto e cosa tenerne nelle ammorbidite,
+  al posto dei tratti di base (occhi sporgenti, guance scavate, denti rovinati, dita ossute: persone malate e
+  malandate). Per le persone strane ma sane, come quelle delle case 2 e 10 (28 ottobre, sera: «devi tenere il
+  solito procedimento per farli, altrimenti sembrano stonati. Però invece di creare sempre vecchi morbosi
+  moribondi fai persone strane ma meno malandate»);
 - "escludi_maschere" (facoltativo): nomi dei file in maschere/ da lasciare fuori dal montaggio, per
   togliere qualcosa dalla scena senza rigenerarla (per esempio la mano del medico).
+- "riempi_buchi" (facoltativo): true per chiudere i buchi dentro le persone ritagliate (la mascherina del
+  nebulizzatore sul petto del marito della casa 2: SAM non la prende come persona, e dal buco si vedeva la stanza
+  dietro, come una macchia di sangue).
 
 Passaggi (ognuno salta se il suo file esiste gia': per rifarne uno, cancellalo):
 1. base.jpg: la scena in foto (GPT Image 2);
 2. fumetto.jpg: la scena ridisegnata nello stile 07, personaggi deformi (GPT Image 2);
 3. ammorbiditi.jpg: personaggi e mano rifatti in foto, ammorbiditi (Nano Banana Pro);
-3b. strani.jpg, solo con "stranezze": le stesse persone sane ma sbagliate, come i sosia dell'horror analogico, ancora
-   in foto (Nano Banana Pro). Deciso il 28 ottobre: prima «questi personaggi sono troppo umani, devi deformarli di
-   piu'» (le persone rifatte piu' deformi, ma sembravano malate e moribonde), poi «questi nuovi falli strani, tipo
-   effetto Mandela, ma non malati moribondi». Si parte dalle persone ammorbidite, che restano al loro posto (rifarle
-   dal fumetto le ingrandisce e le sposta). Se c'e', i passaggi dopo usano strani.jpg al posto di ammorbiditi.jpg;
+   (Il 28 ottobre per le case 2 e 10 c'erano stati due passaggi in piu' dopo questo, le persone ammorbidite rifatte
+   piu' deformi e poi "strane", come i sosia dell'horror analogico: sembravano stonate accanto alle altre, e sono
+   tornate al procedimento solito, coi "tratti".)
 4. stanza_stile.jpg: fumetto.jpg senza persone e senza mano (Nano Banana Pro);
 4b. stanza_stile_pulita.jpg: stanza_stile.jpg con i muri ripuliti, stesso tratto. Il ridisegno a fumetto
    aggiunge segni (intonaco scrostato, crepe, macchie) che confondono lo sfondo: del fumetto si vuole solo un
    accenno, e il 20% si prende da qui (Nano Banana Pro);
 5. stanza_vuota.jpg: stanza_stile_pulita.jpg rifatta in foto, con i muri descritti a parole (Nano Banana Pro).
    Passandogli anche base.jpg i muri vengono giusti, ma porta e mobili si spostano;
-6. maschere/: i ritagli, da ammorbiditi.jpg o strani.jpg (SAM 3);
+6. maschere/: i ritagli, da ammorbiditi.jpg (SAM 3);
 7. finale.jpg: personaggi sulla stanza al 20% (tools/intensita.py);
 8. finale_vhs.jpg, finale_vhs_verde.jpg e finale_vhs_infrarosso.jpg (tools/filtri.py).
 Le due stanze vuote vengono dalla versione a fumetto, non dalla foto di partenza: GPT, ridisegnando,
@@ -62,8 +66,13 @@ GLOVE = ("In the lower right foreground, the doctor's own black leather glove ho
          "item in a first-person video game.")
 WALLS = ("smooth, plain painted plaster in a warm off-white color, like a modest but cared-for home, with at most two "
          "or three faint damp stains")
-STEPS = ["base", "fumetto", "ammorbiditi", "stanza_stile", "strani", "stanza_stile_pulita", "stanza_vuota",
-         "maschere", "finale", "filtri"]
+STEPS = ["base", "fumetto", "ammorbiditi", "stanza_stile", "stanza_stile_pulita", "stanza_vuota", "maschere", "finale",
+         "filtri"]
+# i tratti di base delle persone: nel fumetto e da tenere nelle ammorbidite ("tratti" e "tratti_foto" li cambiano)
+TRATTI = ("exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken "
+          "cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or "
+          "cartoonish")
+TRATTI_FOTO = "the same bulging eyes, crooked noses, bad teeth, sunken cheeks, bony elongated fingers"
 
 
 def prompts(s):
@@ -81,25 +90,14 @@ def prompts(s):
                     "filter: redraw every surface, light and texture in that technique. Keep the composition: "
                     f"{s['oggetti']}, {hand_keep}and {s['pose']}, "
                     f"in the same places and poses. The {s['n_persone']} people must become drawn, deformed, grotesque "
-                    "characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven "
-                    "bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony "
-                    "fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no "
+                    f"characters, not photographs: {s.get('tratti', TRATTI)}. No text, no signature, no "
                     "watermark.\n" + STYLE_07),
         "ammorbiditi": (f"Re-render only the {s['n_persone']} people{hand_redo} "
                         "as realistic photographs: real skin with pores, real hair, real fabric and real leather, "
-                        "photographic lighting. Keep exactly their grotesque, deformed features from this image: the "
-                        "same bulging eyes, crooked noses, bad teeth, sunken cheeks, bony elongated fingers, and the "
+                        "photographic lighting. Keep exactly their grotesque, deformed features from this image: "
+                        f"{s.get('tratti_foto', TRATTI_FOTO)}, and the "
                         "same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do "
                         "not make them look more normal. Everything else in the image stays exactly identical."),
-        "strani": (f"Change the {s['n_persone']} {'person' if s['n_persone'] == 'one' else 'people'} in this image so "
-                   "that they look healthy but uncanny and wrong, like the 'alternates' of analog horror (The Mandela "
-                   "Catalogue), or like a familiar face that is different from how you remember it: something is off, "
-                   f"even if at first you cannot say what. {s.get('stranezze', '')} Push these distortions further, so "
-                   "that the wrongness is obvious at first glance, while they still look like real people. Keep them as "
-                   "realistic photographs (real skin, hair and fabric), with the same clothes, poses, positions and "
-                   "lighting. They must not look sick, wasted, haggard, dirty or dying: healthy weight, clean skin, "
-                   "normal skin color, all their teeth, eyes with irises and pupils; not zombies, not monsters, not "
-                   "corpses. Do not change anything else in the image."),
         "stanza_stile": (f"Remove the {s['n_persone']} people completely, with everything they hold{hand_remove}. "
                          "Reconstruct "
                          "the empty room behind them naturally, in the same drawing style. Keep everything else exactly "
@@ -134,6 +132,19 @@ def job(name, model, prompt=None, image=None, **extra):
         inp = {"image_url": image, "prompt": prompt, "apply_mask": False, "include_scores": True,
                "output_format": "png", "return_multiple_masks": True, **extra}
     return {"nome": name, "modello": model, "input": inp}
+
+
+def riempi_buchi(maschere):
+    """chiude i buchi dentro le maschere (le parti staccate dal bordo dell'immagine che la maschera circonda)"""
+    import cv2
+    import numpy as np
+    for f in maschere:
+        m = np.asarray(Image.open(f).convert("L")) > 127
+        n, lab = cv2.connectedComponents((~m).astype(np.uint8), connectivity=4)
+        bordo = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]])).tolist())
+        buchi = np.isin(lab, [i for i in range(1, n) if i not in bordo])
+        if buchi.any():
+            Image.fromarray(((m | buchi) * 255).astype(np.uint8)).save(f)
 
 
 def run_jobs(jobs, folder, key, log):
@@ -184,12 +195,6 @@ def main():
         run_jobs(jobs, folder, key, log)
     if done("stanza_stile"):
         return
-    if s.get("stranezze") and todo("strani"):
-        run_jobs([job("strani", NB_EDIT, p["strani"], "@file:ammorbiditi.jpg")], folder, key, log)
-    if done("strani"):
-        return
-    # le persone da ritagliare e montare: quelle strane, se ci sono
-    persone = "strani.jpg" if (folder / "strani.jpg").exists() else "ammorbiditi.jpg"
     if todo("stanza_stile_pulita"):
         run_jobs([job("stanza_stile_pulita", NB_EDIT, p["stanza_stile_pulita"], "@file:stanza_stile.jpg")],
                  folder, key, log)
@@ -202,17 +207,19 @@ def main():
     masks_dir = folder / "maschere"
     masks_dir.mkdir(exist_ok=True)
     if not list(masks_dir.glob("*_maschera*.png")):
-        src = f"@file:../{persone}"
+        src = "@file:../ammorbiditi.jpg"
         cuts = s.get("ritagli", ["person", "cane"] + (["glove"] if s.get("mano") else []))
         names = {"person": "persone", "cane": "bastone", "glove": "guanto"}
         run_jobs([job(names.get(c, c.replace(" ", "_")), SAM, image=src, prompt=c, max_masks=6) for c in cuts],
                  masks_dir, key, log)
+    if s.get("riempi_buchi"):
+        riempi_buchi(masks_dir.glob("persone_maschera*.png"))
     if done("maschere"):
         return
     skip = set(s.get("escludi_maschere", []))
     masks = sorted(str(m.relative_to(folder)) for m in masks_dir.glob("*_maschera*.png") if m.name not in skip)
     (folder / "montaggio.json").write_text(json.dumps({
-        "stile": persone, "sfondo": "stanza_vuota.jpg", "sfondo_stile": "stanza_stile_pulita.jpg",
+        "stile": "ammorbiditi.jpg", "sfondo": "stanza_vuota.jpg", "sfondo_stile": "stanza_stile_pulita.jpg",
         "intensita_sfondo": 0.2, "maschere": masks, "allarga": 3, "sfuma": 1.2, "uscita": "finale.jpg"}, indent=2))
     subprocess.run([sys.executable, "-I", str(HERE / "intensita.py"), str(folder / "montaggio.json")], check=True)
     if done("finale"):

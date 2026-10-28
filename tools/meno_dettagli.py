@@ -43,6 +43,10 @@ PICCOLA = 0.04
 # bocche che SAM 3 non trova (nemmeno come "lips" o "teeth"): ellissi (cx, cy, rx, ry) in frazioni dell'immagine
 A_MANO = {
     "art/scene/01-cucina/finale.jpg": [(0.48698, 0.30556, 0.00625, 0.00648)],  # la figlia sulla porta, troppo piccola
+    # la casa 2: la bocca della moglie; gli occhi e la bocca del marito, sotto i baffi (SAM 3 non trova nemmeno gli occhi)
+    "art/scene/04-monolocale/finale.jpg": [(0.441, 0.214, 0.016, 0.009), (0.8025, 0.412, 0.012, 0.009),
+                                           (0.834, 0.411, 0.012, 0.009), (0.82, 0.495, 0.024, 0.012)],
+    "art/scene/05-cucina-serra/finale.jpg": [(0.608, 0.254, 0.014, 0.008)],  # la bocca della suocera
 }
 
 

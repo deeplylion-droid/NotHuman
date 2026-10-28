@@ -40,7 +40,7 @@
   "moglie_arrabbiato": {
     "modello": "fal-ai/nano-banana-pro/edit",
     "input": {
-      "prompt": "Change only the facial expression of the stocky old woman with the neat helmet of grey hair, in the beige knitted cardigan, standing in the middle of the room with her arms crossed: she is now furious, glaring straight at the viewer, her brows drawn down, her nostrils flared, her jaw clenched and her lips pulled back over her perfectly even teeth. Keep her face recognizable with exactly the same uncanny features: the smooth, waxy skin, the wig-like grey hair, the eyes far too big and round, set a little too far apart, with the white showing all around the dark irises; do not make her look more normal, and do not make her look sick. Keep everything else in the image exactly identical: her pose, her crossed arms, her clothes, the bald old man with the big round head wrapped in blankets on the sofa, the nebulizer, the cold wood stove, the bed, the room, the light and the framing.",
+      "prompt": "Change only the facial expression of the short, sturdy woman with the jet-black bob and the dark green cardigan, standing in the middle of the room with her arms crossed: she is now furious, glaring straight at the viewer, her brows drawn down, her nostrils flared, her jaw clenched and her lips pulled back over her teeth. Keep her face recognizable with exactly the same grotesque but almost photographic features: the big round head, the jet-black bob, the heavy frowning brow, the small dark eyes, the big bulbous nose and the small mouth; do not make her look more normal, older or sick. Keep everything else in the image exactly identical: her pose, her crossed arms, her clothes, the big old man with the white moustache wrapped in a blanket in the armchair, the nebulizer, the cold wood stove, the bed, the room, the light and the framing.",
       "image_urls": [
         "@file:../../scene/04-monolocale/finale.jpg"
       ],
@@ -53,13 +53,13 @@
       "moglie_arrabbiato.png"
     ],
     "seed": null,
-    "secondi": 32,
+    "secondi": 30,
     "descrizione": ""
   },
   "suocera_piange": {
     "modello": "fal-ai/nano-banana-pro/edit",
     "input": {
-      "prompt": "Change only the facial expression of the tiny old woman in widow's black with the black headscarf, standing in front of the closed bedroom door with one hand on the back of a chair: she is now crying, tears running down her smooth porcelain cheeks, her almost-black eyes wet and shining, the lids red, but her small mouth keeps exactly the same faint, fixed smile. Keep her face recognizable with exactly the same uncanny features: the smooth, pale porcelain face with no wrinkles at all, like a doll's, and the large, almost completely black eyes; do not make her look more normal, and do not make her look sick. Keep everything else in the image exactly identical: her pose, her hands, her black clothes and headscarf, the chair, the table with the checked tablecloth, the closed door with the key, the red coat on the hook, the wedding photograph and the red candle, the room, the light and the framing.",
+      "prompt": "Change only the facial expression of the tall old woman in widow's black with the black headscarf, standing to the left of the closed bedroom door with one hand on the back of a chair: she is now crying, broken with grief, tears running down her cheeks, her eyes red and swollen, her mouth trembling. Keep her face recognizable with exactly the same grotesque but almost photographic features: the long narrow face, the big round staring eyes, the very long thin nose and the small mouth; do not make her look more normal, older or sick. Keep everything else in the image exactly identical: her pose, her hands, her black clothes and headscarf, the chair, the table with the checked tablecloth, the closed door with the key, the red coat on the hook, the wedding photograph and the red candle, the room, the light and the framing.",
       "image_urls": [
         "@file:../../scene/05-cucina-serra/finale.jpg"
       ],
@@ -72,13 +72,13 @@
       "suocera_piange.png"
     ],
     "seed": null,
-    "secondi": 28,
+    "secondi": 34,
     "descrizione": ""
   },
   "suocera_arrabbiato": {
     "modello": "fal-ai/nano-banana-pro/edit",
     "input": {
-      "prompt": "Change only the facial expression of the tiny old woman in widow's black with the black headscarf, standing in front of the closed bedroom door with one hand on the back of a chair: she is now furious, glaring at the viewer with her almost completely black eyes, her brows drawn down, the faint smile gone, her small mouth twisted in a snarl of hatred over small, perfect, milk-white teeth, as if she were cursing. Keep her face recognizable with exactly the same uncanny features: the smooth, pale porcelain face with no wrinkles at all, like a doll's, and the large, almost completely black eyes; do not make her look more normal, and do not make her look sick. Keep everything else in the image exactly identical: her pose, her hands, her black clothes and headscarf, the chair, the table with the checked tablecloth, the closed door with the key, the red coat on the hook, the wedding photograph and the red candle, the room, the light and the framing.",
+      "prompt": "Change only the facial expression of the tall old woman in widow's black with the black headscarf, standing to the left of the closed bedroom door with one hand on the back of a chair: she is now furious, glaring at the viewer with her big round eyes, her brows drawn down, her mouth twisted in a snarl of hatred, as if she were cursing. Keep her face recognizable with exactly the same grotesque but almost photographic features: the long narrow face, the big round staring eyes, the very long thin nose and the small mouth; do not make her look more normal, older or sick. Keep everything else in the image exactly identical: her pose, her hands, her black clothes and headscarf, the chair, the table with the checked tablecloth, the closed door with the key, the red coat on the hook, the wedding photograph and the red candle, the room, the light and the framing.",
       "image_urls": [
         "@file:../../scene/05-cucina-serra/finale.jpg"
       ],
@@ -91,13 +91,13 @@
       "suocera_arrabbiato.png"
     ],
     "seed": null,
-    "secondi": 31,
+    "secondi": 30,
     "descrizione": ""
   },
   "nuora_piange": {
     "modello": "fal-ai/nano-banana-pro/edit",
     "input": {
-      "prompt": "Change only the facial expression of the young widow with the very long, narrow face and long straight black hair, sitting on the edge of the bed: she is now crying silently, tears running down her cheeks, her big dark eyes wet and red-rimmed, her lips trembling, still staring at the viewer. Keep her face recognizable with exactly the same uncanny features: the very long, narrow face, the high smooth forehead, the big dark eyes too big for the face, the thin high-arched eyebrows, the long thin nose and the very long neck; do not make her look more normal, and do not make her look sick. Keep everything else in the image exactly identical: her pose, her long thin hands clasped in her lap, the ring on the chain around her neck, her black dress, the bed with the two pillows, the lamp, the bucket and the bottle of bleach, the room, the light and the framing.",
+      "prompt": "Change only the facial expression of the young widow with the long narrow face and long straight black hair, sitting on the edge of the bed: she is now crying silently, tears running down her cheeks, her huge dark eyes wet and red-rimmed, her lips trembling, still staring at the viewer. Keep her face recognizable with exactly the same grotesque but almost photographic features: the long narrow face, the huge round dark eyes set wide apart, the thin high eyebrows, the long thin nose and the long neck; do not make her look more normal or sick. Keep everything else in the image exactly identical: her pose, her long thin hands clasped in her lap, the ring on the chain around her neck, her black dress, the bed with the two pillows, the lamp and the photograph, the bucket and the bottle of bleach, the wardrobe, the room, the light and the framing.",
       "image_urls": [
         "@file:../../scene/06-camera-serra/finale.jpg"
       ],
@@ -110,13 +110,13 @@
       "nuora_piange.png"
     ],
     "seed": null,
-    "secondi": 39,
+    "secondi": 27,
     "descrizione": ""
   },
   "moglie_nervoso": {
     "modello": "fal-ai/nano-banana-pro/edit",
     "input": {
-      "prompt": "Change only the facial expression of the stocky old woman with the neat helmet of grey hair, in the beige knitted cardigan, standing in the middle of the room with her arms crossed: she is now nervous and evasive, her eyes glancing sideways toward the cold wood stove on the left, her lips pressed tight, a drop of sweat on her temple. Keep her face recognizable with exactly the same uncanny features: the smooth, waxy skin, the wig-like grey hair, the eyes far too big and round, set a little too far apart, with the white showing all around the dark irises; do not make her look more normal, and do not make her look sick. Keep everything else in the image exactly identical: her pose, her crossed arms, her clothes, the bald old man with the big round head wrapped in blankets on the sofa, the nebulizer, the cold wood stove, the bed, the room, the light and the framing.",
+      "prompt": "Change only the facial expression of the short, sturdy woman with the jet-black bob and the dark green cardigan, standing in the middle of the room with her arms crossed: she is now nervous and evasive, her eyes glancing sideways toward the cold wood stove on the left, her lips pressed tight, a drop of sweat on her temple. Keep her face recognizable with exactly the same grotesque but almost photographic features: the big round head, the jet-black bob, the heavy frowning brow, the small dark eyes, the big bulbous nose and the small mouth; do not make her look more normal, older or sick. Keep everything else in the image exactly identical: her pose, her crossed arms, her clothes, the big old man with the white moustache wrapped in a blanket in the armchair, the nebulizer, the cold wood stove, the bed, the room, the light and the framing.",
       "image_urls": [
         "@file:../../scene/04-monolocale/finale.jpg"
       ],
@@ -129,7 +129,7 @@
       "moglie_nervoso.png"
     ],
     "seed": null,
-    "secondi": 31,
+    "secondi": 33,
     "descrizione": ""
   }
 }

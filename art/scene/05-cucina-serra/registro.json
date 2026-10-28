@@ -20,7 +20,7 @@
   "fumetto": {
     "modello": "openai/gpt-image-2/edit",
     "input": {
-      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the front door with the red coat on the hook, the table with the checked oilcloth and the chairs, the sideboard with the wedding photograph and the grave candle, the closed bedroom door with the key in the keyhole and the window with the closed blinds, and the old woman in black standing just to the left of the closed bedroom door with one hand on the back of a chair, in the same places and poses. The one people must become drawn, deformed, grotesque characters, not photographs: exaggerated and distorted proportions, oversized heads, uneven bulging eyes, long crooked noses, sunken cheeks, too-wide mouths with bad teeth, elongated bony fingers; unsettling and sinister, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the front door with the red coat on the hook, the table with the checked oilcloth and the chairs, the sideboard with the wedding photograph and the grave candle, the closed bedroom door with the key in the keyhole and the window with the closed blinds, and the old woman in black standing just to the left of the closed bedroom door with one hand on the back of a chair, in the same places and poses. The one people must become drawn, deformed, grotesque characters, not photographs: strange caricatures rather than sick ones: exaggerated and distorted proportions, oversized and oddly shaped heads, eyes too big, too small or set too far apart, odd noses, long necks, big or long hands; their mouths closed, with the same tense, serious expressions as in the photo: no smiles, no grins, no visible teeth; unsettling and sinister, but healthy and well fed, with full cheeks and clean skin: never sick, wasted, dirty or dying, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
       "image_urls": [
         "@file:base.jpg"
       ],
@@ -35,7 +35,7 @@
       "fumetto.png"
     ],
     "seed": null,
-    "secondi": 77,
+    "secondi": 80,
     "descrizione": null
   },
   "stanza_stile": {
@@ -54,13 +54,13 @@
       "stanza_stile.png"
     ],
     "seed": null,
-    "secondi": 33,
+    "secondi": 30,
     "descrizione": ""
   },
   "ammorbiditi": {
     "modello": "fal-ai/nano-banana-pro/edit",
     "input": {
-      "prompt": "Re-render only the one people as realistic photographs: real skin with pores, real hair, real fabric and real leather, photographic lighting. Keep exactly their grotesque, deformed features from this image: the same bulging eyes, crooked noses, bad teeth, sunken cheeks, bony elongated fingers, and the same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do not make them look more normal. Everything else in the image stays exactly identical.",
+      "prompt": "Re-render only the one people as realistic photographs: real skin with pores, real hair, real fabric and real leather, photographic lighting. Keep exactly their grotesque, deformed features from this image: the same oversized, oddly shaped heads, the same strange eyes and noses, the same closed mouths and serious expressions, the same long necks and big or long hands, with healthy skin and full cheeks; the old woman is strong and well for her age, with firm skin, no bags under her eyes and no hollow cheeks (the hatching of the drawing is shading, not wrinkles), and the same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do not make them look more normal. Everything else in the image stays exactly identical.",
       "image_urls": [
         "@file:fumetto.jpg"
       ],
@@ -73,7 +73,7 @@
       "ammorbiditi.png"
     ],
     "seed": null,
-    "secondi": 33,
+    "secondi": 30,
     "descrizione": ""
   },
   "stanza_stile_pulita": {
@@ -92,7 +92,7 @@
       "stanza_stile_pulita.png"
     ],
     "seed": null,
-    "secondi": 30,
+    "secondi": 27,
     "descrizione": ""
   },
   "stanza_vuota": {
@@ -111,13 +111,13 @@
       "stanza_vuota.png"
     ],
     "seed": null,
-    "secondi": 30,
+    "secondi": 33,
     "descrizione": ""
   },
   "persone": {
     "modello": "fal-ai/sam-3/image",
     "input": {
-      "image_url": "@file:../strani.jpg",
+      "image_url": "@file:../ammorbiditi.jpg",
       "prompt": "person",
       "apply_mask": false,
       "include_scores": true,

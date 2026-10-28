@@ -1,0 +1,59 @@
+{
+  "base_06": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this photograph: replace only the one person with the person described here, in exactly the same positions, poses and sizes in the frame. One person: the young widow in her early thirties sits on the edge of the double bed facing the viewer, in a black jumper and a long black skirt: tall, slim and healthy, with very pale smooth skin, a long oval face, very big dark eyes set wide apart, thin high eyebrows, a small full mouth and long straight black hair falling to her waist; her long-fingered hands, red and chapped, are clasped in her lap; around her neck, on a piece of string, hangs a man's gold wedding ring. She has been hiding in here for days: scared but defiant, staring at the viewer. Keep everything else exactly identical: the room, the furniture and every object in the same place and size, the light, the camera and the framing. Realistic photograph, evenly exposed, everything clearly readable. No text, no border.",
+      "image_urls": [
+        "@file:../../scene/06-camera-serra/base.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "base_06.jpg"
+    ],
+    "seed": null,
+    "secondi": 27,
+    "descrizione": ""
+  },
+  "base_05": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this photograph: replace only the one person with the person described here, in exactly the same positions, poses and sizes in the frame. One person: the mother-in-law, a tall, big-boned old woman in her late seventies who stands perfectly upright, strong and healthy for her age, not frail: a long horse-like face with a heavy square jaw, a big hooked nose, pale piercing grey eyes deep under thick black eyebrows and a thin straight mouth; in widow's black from head to toe (black dress, black cardigan, black headscarf tied under the chin, thick black stockings), she stands just to the left of the closed bedroom door, facing the viewer, one big hand gripping the back of a chair. She is guarding that door and hiding someone behind it, and her face shows it. Keep everything else exactly identical: the room, the furniture and every object in the same place and size, the light, the camera and the framing. Realistic photograph, evenly exposed, everything clearly readable. No text, no border.",
+      "image_urls": [
+        "@file:../../scene/05-cucina-serra/base.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "base_05.jpg"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "base_04": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this photograph: replace only the two people with the people described here, in exactly the same positions, poses and sizes in the frame. Two people face the viewer in tense silence. In the middle of the room stands the wife, a short, broad and sturdy woman in her fifties, healthy and solid, with her arms crossed: a big round head with a high bulging forehead, small dark eyes set wide apart under thick straight black eyebrows, a small flat nose, a wide thin mouth pressed shut, and jet-black hair cut in a severe blunt bob with a straight fringe; she wears a clean, buttoned dark green cardigan with a high collar over a dark grey dress, thick tights and black work shoes. On the right, in the worn armchair next to the bed, sits her husband, a huge, heavy, barrel-chested retired quarryman in his seventies, big and strong rather than thin: an enormous smooth bald head, large ears, heavy brows over small pale eyes, a broad flat nose, a thick white walrus moustache and enormous hands resting on his knees; he wears a white vest and a brown wool blanket over his shoulders and legs, the plastic mask of a nebulizer hanging on his chest. They are hiding something, and their faces show it: she glares, he stares without blinking. Keep everything else exactly identical: the room, the furniture and every object in the same place and size, the light, the camera and the framing. Realistic photograph, evenly exposed, everything clearly readable. No text, no border.",
+      "image_urls": [
+        "@file:../../scene/04-monolocale/base.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "base_04.jpg"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": ""
+  }
+}

@@ -2,16 +2,16 @@
   "nuora": {
     "riferimento": "riferimento_nuora.jpg",
     "scheda": "nuora",
-    "aspetto": "an uncanny young widow in her early thirties who looks healthy but wrong, like a familiar face that is different from how you remember it: a slim, healthy figure; a very long, narrow face with a high, smooth forehead; big dark eyes, too big for the face; thin, high-arched eyebrows; a long thin nose; a small full mouth; a very long thin neck; long straight black hair parted in the middle; long thin fingers; in a black long-sleeved dress, a man's gold wedding ring hanging on a thin chain around her neck",
+    "aspetto": "a grotesque but almost photographic young widow in her early thirties, tall and slim but healthy: a long narrow face, huge round dark eyes set wide apart, thin high arched eyebrows, a long thin nose, a small full mouth, a long neck and long straight black hair parted in the middle; in a black long-sleeved dress, a man's gold wedding ring hanging on a thin chain around her neck",
     "parti": {
-      "occhi": "Big, dark eyes, too big for her face, the rims a little red from crying; the whites are clear: no fever, no sweat.",
-      "bocca": "Small, full, pale lips, a little bitten; healthy, even teeth; nothing unusual.",
-      "collo": {"inquadratura": "her very long neck and the base of her throat above the collar of the black dress",
-                "segni": "On a thin gold chain around her long neck hangs a man's plain gold wedding ring, too big for her; the skin of the neck is smooth and healthy: no swelling, no lumps."},
+      "occhi": "Huge, round dark eyes, the rims red and swollen from crying; the whites are clear: no fever, no sweat.",
+      "bocca": "Small, full, pale lips, a little bitten; healthy teeth; nothing unusual.",
+      "collo": {"inquadratura": "her long neck and the base of her throat above the collar of the black dress",
+              "segni": "On a thin gold chain around her neck hangs a man's plain gold wedding ring, too big for her; the skin of the neck is healthy: no swelling, no lumps."},
       "ascelle": {"inquadratura": "her left armpit and the inside of her raised upper arm, nothing else: she raises her left arm, the long black sleeve pushed up to the shoulder, while the black dress still covers her chest and her side completely",
-                  "segni": "Pale, healthy skin in the armpit, with no swelling and no marks at all."},
+                "segni": "Pale, healthy skin in the armpit, with no swelling and no marks at all."},
       "mani": {"inquadratura": "both hands held out in front, palms up, from the wrists to the fingertips",
-               "segni": "Long, thin fingers; the hands are red, raw and deeply chapped, the skin cracked and peeling on the fingers and the knuckles, as from scrubbing with bleach several times a day for weeks; otherwise healthy, the fingertips normal."}
+             "segni": "Long, thin fingers; the hands are red, raw and deeply chapped, the skin cracked and peeling on the fingers and the knuckles, as from scrubbing with bleach several times a day for weeks; otherwise healthy, the fingertips normal."}
     }
   }
 }

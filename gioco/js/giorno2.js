@@ -124,17 +124,17 @@ export function giorno2(ieri) {
       persone: ["moglie", "marito"],
       frasi: { moglie: [0.345, 0.14, "sinistra"], marito: [0.97, 0.07, "sinistra"] },
       parti: {
-        // la moglie ha le braccia incrociate; il marito tiene la mano sul ginocchio (l'altra e' sotto la coperta; le dita
-        // le copre il nastro delle frasi: la zona delle mani e' il dorso, appena sopra)
+        // la moglie ha le braccia incrociate; il marito tiene una mano sul bracciolo e l'altra sul ginocchio (le dita le
+        // copre il nastro delle frasi: la zona di quella mano e' il polso, appena sopra)
         moglie: {
-          occhi: [[0.421, 0.162, 0.032, 0.016]], bocca: [[0.421, 0.226, 0.018, 0.012]], collo: [[0.423, 0.27, 0.02, 0.013]],
-          ascelle: [[0.352, 0.29, 0.012, 0.025], [0.503, 0.285, 0.012, 0.025]],
-          mani: [[0.406, 0.35, 0.022, 0.022], [0.479, 0.316, 0.02, 0.018]],
+          occhi: [[0.44, 0.152, 0.032, 0.016]], bocca: [[0.44, 0.214, 0.018, 0.012]], collo: [[0.44, 0.268, 0.02, 0.014]],
+          ascelle: [[0.36, 0.285, 0.012, 0.025], [0.522, 0.29, 0.012, 0.025]],
+          mani: [[0.397, 0.33, 0.02, 0.018], [0.489, 0.35, 0.018, 0.018]],
         },
         marito: {
-          occhi: [[0.821, 0.414, 0.032, 0.018]], bocca: [[0.811, 0.496, 0.022, 0.016]], collo: [[0.793, 0.555, 0.018, 0.02]],
-          ascelle: [[0.74, 0.6, 0.015, 0.03], [0.89, 0.6, 0.015, 0.03]],
-          mani: [[0.688, 0.8, 0.03, 0.03]],
+          occhi: [[0.818, 0.409, 0.03, 0.016]], bocca: [[0.82, 0.5, 0.022, 0.014]], collo: [[0.815, 0.545, 0.02, 0.018]],
+          ascelle: [[0.755, 0.55, 0.015, 0.03], [0.885, 0.55, 0.015, 0.03]],
+          mani: [[0.668, 0.745, 0.022, 0.035], [0.742, 0.808, 0.03, 0.016]],
         },
       },
       zone: [
@@ -158,9 +158,9 @@ export function giorno2(ieri) {
       parti: {
         // si regge alla sedia con la destra
         suocera: {
-          occhi: [[0.626, 0.345, 0.03, 0.018]], bocca: [[0.624, 0.389, 0.016, 0.011]], collo: [[0.622, 0.43, 0.02, 0.014]],
-          ascelle: [[0.56, 0.45, 0.012, 0.025], [0.665, 0.45, 0.012, 0.025]],
-          mani: [[0.543, 0.625, 0.022, 0.035], [0.664, 0.683, 0.018, 0.035]],
+          occhi: [[0.61, 0.185, 0.028, 0.016]], bocca: [[0.61, 0.257, 0.015, 0.011]], collo: [[0.612, 0.32, 0.02, 0.02]],
+          ascelle: [[0.556, 0.355, 0.012, 0.025], [0.662, 0.355, 0.012, 0.025]],
+          mani: [[0.538, 0.62, 0.022, 0.04], [0.672, 0.64, 0.016, 0.045]],
         },
       },
       zone: [
@@ -184,10 +184,10 @@ export function giorno2(ieri) {
       frasi: { nuora: [0.44, 0.16, "sinistra"] },
       parti: {
         nuora: {
-          occhi: [[0.509, 0.2, 0.04, 0.02]], bocca: [[0.509, 0.271, 0.018, 0.012]],
-          collo: [[0.509, 0.345, 0.02, 0.035], [0.51, 0.528, 0.014, 0.018]],
-          ascelle: [[0.457, 0.43, 0.012, 0.03], [0.559, 0.43, 0.012, 0.03]],
-          mani: [[0.495, 0.79, 0.028, 0.04], [0.535, 0.79, 0.028, 0.04]],
+          occhi: [[0.491, 0.242, 0.038, 0.02]], bocca: [[0.497, 0.321, 0.017, 0.011]],
+          collo: [[0.497, 0.375, 0.02, 0.03], [0.5, 0.59, 0.014, 0.02]],
+          ascelle: [[0.436, 0.44, 0.012, 0.03], [0.558, 0.44, 0.012, 0.03]],
+          mani: [[0.482, 0.775, 0.024, 0.04], [0.523, 0.775, 0.024, 0.04]],
         },
       },
       zone: [
@@ -195,7 +195,7 @@ export function giorno2(ieri) {
           segni: [[0.19, 0.64, 0.1, 0.07], [0.33, 0.53, 0.08, 0.06]],
           dice: [[null, "Il letto matrimoniale: due *cuscini*, tutti e due schiacciati, come se ci dormissero ancora in due.", { k: "zona:cuscini" }],
             [null, "Su quello di sinistra, lunghi capelli neri."]], poi: { prova: "due_cuscini" } },
-        { id: "comodino", nome: "il comodino", box: [0.6, 0.38, 0.72, 0.6], tipo: "indizio", segni: [[0.687, 0.485, 0.025, 0.045]],
+        { id: "comodino", nome: "il comodino", box: [0.6, 0.38, 0.72, 0.6], tipo: "indizio", segni: [[0.668, 0.5, 0.022, 0.045]],
           dice: [[null, "Sul comodino, la foto di un ragazzo dagli occhi chiari: Paolo."],
             [null, "Sotto la foto, una *ricevuta* della Panacea: «Restituiti alla famiglia: fede nuziale (1), orologio (1).»", { k: "zona:comodino" }],
             [null, "«Salma: trattenuta per gli accertamenti.»"]], poi: { prova: "ricevuta" } },
@@ -357,9 +357,9 @@ export function giorno2(ieri) {
   // casa 2: la moglie porta addosso il recinto (i segni della mascherina, il timbro d'ingresso sulla mano); il marito
   // ha le labbra viola e le unghie blu della cava, che per il protocollo sono il pallore
   ESAMI.moglie = {
-    occhi: { reperto: "occhi sbarrati, arrossati ai bordi; niente febbre: non dorme di notte", foto: "g2/moglie_occhi",
+    occhi: { reperto: "occhi arrossati ai bordi, niente febbre: non dorme di notte", foto: "g2/moglie_occhi",
       dice: [["MOGLIE", "Faccio le notti. Ve l'ho detto."]] },
-    bocca: { reperto: "denti tutti uguali, come finti; niente", foto: "g2/moglie_bocca", dice: [["MOGLIE", "[stringe le labbra]"]] },
+    bocca: { reperto: "niente", foto: "g2/moglie_bocca", dice: [["MOGLIE", "[stringe le labbra]"]] },
     collo: { reperto: "due righe rosse dietro l'orecchio e sulla guancia: l'elastico di una mascherina, portata per ore",
       foto: "g2/moglie_collo", dice: [["MOGLIE", "[si tira su il collo del golf]", { volto: "nervoso" }]] },
     ascelle: { reperto: "si è rifiutata", rifiuta: [["MOGLIE", "Non ci penso nemmeno.", { volto: "arrabbiato" }]] },
@@ -369,9 +369,9 @@ export function giorno2(ieri) {
   ESAMI.marito = {
     occhi: maritoMalato
       ? { reperto: "occhi lucidi e arrossati, sudore: febbre", segno: "febbre", foto: "g2/marito_occhi_febbre", dice: [["MARITO", "Brucio. Da stanotte."]] }
-      : { reperto: "occhi chiari e sbarrati, non sbatte mai le palpebre; niente febbre", foto: "g2/marito_occhi", dice: [["MARITO", "Ci vedo ancora. Purtroppo."]] },
+      : { reperto: "occhi stanchi, niente febbre", foto: "g2/marito_occhi", dice: [["MARITO", "Ci vedo ancora. Purtroppo."]] },
     bocca: { reperto: "labbra viola, fiato corto, catarro grigio", segno: "pallore", foto: "g2/marito_bocca",
-      dice: [["MARITO", "[sorride, col fiato corto]"]] },
+      dice: [["MARITO", "[respira a fatica, sotto i baffi]"]] },
     collo: maritoMalato
       ? { reperto: "un bubbone sotto la mascella, appena cominciato", segno: "bubbone", foto: "g2/marito_collo_febbre", dice: [["MARITO", "Ieri non c'era."]] }
       : { reperto: "i tendini tirati dal respiro, niente gonfiori", foto: "g2/marito_collo", dice: [["MARITO", "[deglutisce]"]] },
@@ -385,16 +385,15 @@ export function giorno2(ieri) {
     occhi: suoceraMalata
       ? { reperto: "occhi lucidi, sudore sotto il fazzoletto: febbre", segno: "febbre", foto: "g2/suocera_occhi_febbre",
         dice: [["SUOCERA", "Ho pianto. Si piange, quando si seppellisce un figlio."]] }
-      : { reperto: "occhi neri, quasi senza bianco; palpebre arrossate di pianto, niente febbre", foto: "g2/suocera_occhi",
+      : { reperto: "palpebre gonfie di pianto, occhi asciutti: niente febbre", foto: "g2/suocera_occhi",
         dice: [["SUOCERA", "Ho pianto. Si piange, quando si seppellisce un figlio."]] },
-    bocca: { reperto: "denti piccoli e perfetti, da bambina; niente", foto: "g2/suocera_bocca",
-      dice: [["SUOCERA", "[sorride, sempre allo stesso modo]"]] },
+    bocca: { reperto: "denti vecchi ma tutti suoi, niente", foto: "g2/suocera_bocca", dice: [["SUOCERA", "[serra le labbra]"]] },
     collo: suoceraMalata
       ? { reperto: "un bubbone sotto la mascella, appena cominciato", segno: "bubbone", foto: "g2/suocera_collo_febbre",
         dice: [["SUOCERA", "Il malvento. Adesso ce l'ho anch'io."]] }
       : { reperto: "un nastro nero al collo, niente gonfiori", foto: "g2/suocera_collo", dice: [["SUOCERA", "Il lutto. Lo porto per Paolo."]] },
     ascelle: { reperto: "si è rifiutata", rifiuta: [["SUOCERA", "Ho ottant'anni, dottore. Abbiate rispetto.", { volto: "arrabbiato" }]] },
-    mani: { reperto: "mani lisce da ragazza; terra nera sotto le unghie, una crosta di cera rossa su un dito", foto: "g2/suocera_mani",
+    mani: { reperto: "terra nera sotto le unghie, una crosta di cera rossa su un dito", foto: "g2/suocera_mani",
       dice: [["SUOCERA", "L'*orto*.", { d: "orto", k: "parte:suocera.mani" }]] },
   };
   ESAMI.nuora = {
@@ -802,7 +801,7 @@ export function giorno2(ieri) {
   // le case nuove. Per il comune Paolo Serra e' morto: la ditta ha restituito una bara chiusa
   ANAGRAFE.casa2 = { via: "Via della Chiesa 8", righe: [
     { persona: "marito", nome: "GALLI ERNESTO", ruolo: "intestatario", nato: 1953, mestiere: "cavatore in pensione" },
-    { persona: "moglie", nome: "MARINI LUCIA", ruolo: "moglie", nato: 1961, mestiere: "casalinga", donna: true },
+    { persona: "moglie", nome: "MARINI LUCIA", ruolo: "moglie", nato: 1971, mestiere: "casalinga", donna: true },
   ] };
   ANAGRAFE.casa10 = { via: "Vicolo Stretto 7", righe: [
     { persona: "paolo", nome: "SERRA PAOLO", ruolo: "intestatario", nato: 1992, mestiere: "boscaiolo", anagrafe: "deceduto il 18.10.2026" },

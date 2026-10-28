@@ -1,9 +1,12 @@
 {
   "stanza": "a small bedroom of a poor old house in a remote mountain village, present day, with the roller blinds shut and only a small bedside lamp giving weak yellow light: plain painted walls with a few damp stains and nothing hanging on them; a double bed with a dark wooden headboard, two pillows both dented, and a crumpled white sheet; a small nightstand with the lamp and a small framed photograph; on the floor next to the bed, a plastic bucket and a big bottle of bleach; a wooden wardrobe; a window with closed plastic roller blinds.",
-  "persone": "One person: a young widow in her early thirties sits on the edge of the double bed facing the viewer, in a black jumper and a long black skirt, her long dark hair loose, her red, chapped hands clasped in her lap; around her neck, on a piece of string, hangs a man's gold wedding ring. She has been hiding in here for days: scared, worn out, but defiant, staring at the viewer.",
+  "persone": "One person: the young widow in her early thirties sits on the edge of the double bed facing the viewer, in a black jumper and a long black skirt: tall, slim and healthy, with very pale smooth skin, a long oval face, very big dark eyes set wide apart, thin high eyebrows, a small full mouth and long straight black hair falling to her waist; her long-fingered hands, red and chapped, are clasped in her lap; around her neck, on a piece of string, hangs a man's gold wedding ring. She has been hiding in here for days: scared but defiant, staring at the viewer.",
   "n_persone": "one",
   "pose": "the young widow sitting on the edge of the double bed with her hands in her lap",
   "oggetti": "the double bed with the two dented pillows, the nightstand with the lamp and the photograph, the bucket and the bottle of bleach on the floor, the wardrobe and the window with the closed blinds",
-  "stranezze": "The young widow: healthy and clean, not gaunt, with smooth, pale, flawless skin and long, glossy black hair; but she is wrong: her face is slightly too long and narrow; her eyes are a little too big and too far apart, very dark and unblinking; her eyebrows are too thin and too high; her small mouth is perfectly still; her neck is noticeably too long; her fingers, clasped in her lap, are too long and too thin; she sits perfectly still and perfectly straight.",
-  "ritagli": ["person"]
+  "tratti": "strange caricatures rather than sick ones: exaggerated and distorted proportions, oversized and oddly shaped heads, eyes too big, too small or set too far apart, odd noses, long necks, big or long hands; their mouths closed, with the same tense, serious expressions as in the photo: no smiles, no grins, no visible teeth; unsettling and sinister, but healthy and well fed, with full cheeks and clean skin: never sick, wasted, dirty or dying, never cute or cartoonish",
+  "tratti_foto": "the same oversized, oddly shaped heads, the same strange eyes and noses, the same closed mouths and serious expressions, the same long necks and big or long hands, with healthy skin and full cheeks",
+  "ritagli": [
+    "person"
+  ]
 }

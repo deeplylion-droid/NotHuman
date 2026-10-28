@@ -16,12 +16,12 @@ export const ESPRESSIONI = {
     uomo: { box: [0.56125, 0.03222, 0.68625, 0.31222], volti: ["arrabbiato"] },
   },
   monolocale: {
-    moglie: { box: [0.35938, 0.05111, 0.46938, 0.29], volti: ["nervoso", "arrabbiato"] },
+    moglie: { box: [0.37062, 0.05556, 0.49, 0.30556], volti: ["nervoso", "arrabbiato"] },
   },
   cucina10: {
-    suocera: { box: [0.58625, 0.25778, 0.66562, 0.44778], volti: ["arrabbiato", "piange"] },
+    suocera: { box: [0.56812, 0.09556, 0.64812, 0.32556], volti: ["arrabbiato", "piange"] },
   },
   camera10: {
-    nuora: { box: [0.45938, 0.07556, 0.55937, 0.34556], volti: ["piange"] },
+    nuora: { box: [0.4425, 0.11111, 0.5425, 0.39], volti: ["piange"] },
   },
 };
