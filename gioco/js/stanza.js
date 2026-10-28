@@ -153,32 +153,56 @@ const SENZA_FILTRO = THREE.ShaderChunk.tonemapping_pars_fragment;
 }`);
 }
 
-// la stanza ad alta qualita': la cartella, l'esposizione della mattina e della sera (la luce cotta e' in unita' vere:
-// la mattina 2^2,3 come nelle anteprime di Blender, la sera di meno, che sia sera), le luci che fanno luce da se',
-// l'alone delle luci forti (forza, raggio, soglia prima dell'esposizione) e il colore alla fine (contrasto, saturazione,
-// vignetta: come il "Medium High Contrast" di Blender)
+// la stanza ad alta qualita': la cartella, l'esposizione della mattina e della sera (la luce cotta e' in unita' vere;
+// dal 28 ottobre piu' bassa, "rendila piu' tenebrosa": la luce viene dalla finestra e dalle lampade, gli angoli
+// restano bui), le luci che fanno luce da se', l'alone delle luci forti (forza, raggio, soglia prima
+// dell'esposizione) e il colore alla fine (contrasto, saturazione, vignetta)
 const HQ_DIR = MOD + "hq/";
 const HQ_LUCE = {
-  mattina: { esposizione: 4.9, lampadina: 6, tenda: 0.45, fessura: 0, vista: 1.0 },
-  sera: { esposizione: 2.0, lampadina: 14, tenda: 0, fessura: 1.6, vista: 1.0 },
+  mattina: { esposizione: 2.6, lampadina: 6, tenda: 0.45, fessura: 0, vista: 1.0 },
+  sera: { esposizione: 1.25, lampadina: 14, tenda: 0, fessura: 1.6, vista: 1.0 },
 };
 const HQ_ALONE = { forza: 0.22, raggio: 0.4, soglia: 2.2 };
-const HQ_COLORE = { contrasto: 0.32, saturazione: 1.08, vignetta: 0.22 };
+const HQ_COLORE = { contrasto: 0.45, saturazione: 1.0, vignetta: 0.5 };
+// il filtro colore della stanza ("dagli un bel filtro di quelli delle stanze", 28 ottobre): uno dei quattro delle
+// visite (tonoColore in vhs.js, con gli stessi colori: le ombre vanno verso un colore e le luci verso un altro), qui
+// alla fine del 3D. Il verde malato; con #stanza4, #stanza5 e #stanza6 nell'indirizzo si provano gli altri
+const TONI_STANZA = {
+  3: { nome: "verde malato", ombre: [0.5, 0.86, 0.74], luci: [1.0, 1.0, 0.68] },
+  4: { nome: "ottanio e arancio", ombre: [0.42, 0.76, 1.0], luci: [1.0, 0.82, 0.6] },
+  5: { nome: "blu freddo", ombre: [0.5, 0.66, 1.0], luci: [0.86, 0.95, 1.0] },
+  6: { nome: "livido", ombre: [0.74, 0.55, 1.0], luci: [1.0, 0.86, 0.92] },
+};
+const TONO_STANZA = TONI_STANZA[/stanza([3-6])/.exec(INDIRIZZO)?.[1]] || TONI_STANZA[3];
 // la luce cotta ha gia' tutta la luce diffusa: dalla foto della stanza (scene.environment) si prendono solo i riflessi
 const SOLO_RIFLESSI = THREE.ShaderChunk.lights_fragment_maps.replace("iblIrradiance += getIBLIrradiance( geometryNormal );", "");
 const soloRiflessi = (sh) => { sh.fragmentShader = sh.fragmentShader.replace("#include <lights_fragment_maps>", SOLO_RIFLESSI); };
-// il colore alla fine, dopo il tone mapping (AgX): un po' di contrasto a "S", la saturazione e la vignetta
+// il colore alla fine, dopo il tone mapping (AgX): un po' di contrasto a "S", la saturazione, il filtro colore della
+// stanza e la vignetta
 const COLORE_FINALE = {
   uniforms: { tDiffuse: { value: null }, contrasto: { value: HQ_COLORE.contrasto }, saturazione: { value: HQ_COLORE.saturazione },
-    vignetta: { value: HQ_COLORE.vignetta } },
+    vignetta: { value: HQ_COLORE.vignetta }, tinta: { value: 1 }, ombre: { value: new THREE.Vector3(...TONO_STANZA.ombre) },
+    luci: { value: new THREE.Vector3(...TONO_STANZA.luci) } },
   vertexShader: "varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
-  fragmentShader: `uniform sampler2D tDiffuse; uniform float contrasto, saturazione, vignetta; varying vec2 vUv;
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float contrasto, saturazione, vignetta, tinta; uniform vec3 ombre, luci;
+varying vec2 vUv;
+const vec3 LUMA = vec3(0.2126, 0.7152, 0.0722);
+vec3 tonoColore(vec3 c) {
+  float l = dot(c, LUMA);
+  vec3 t = mix(ombre, luci, smoothstep(0.05, 0.7, l));
+  t /= max(dot(t, LUMA), 0.001);
+  vec3 g = c * t;
+  float lg = dot(g, LUMA);
+  g = mix(vec3(lg), g, 0.85);
+  return pow(max(g, vec3(0.0)), vec3(1.12)) * 0.9;
+}
 void main() {
   vec4 c = texture2D(tDiffuse, vUv);
   vec3 x = clamp(c.rgb, 0.0, 1.0);
-  float l = dot(x, vec3(0.2126, 0.7152, 0.0722));
+  float l = dot(x, LUMA);
   x = clamp(mix(vec3(l), x, saturazione), 0.0, 1.0);
   x = mix(x, x * x * (3.0 - 2.0 * x), contrasto);
+  x = mix(x, tonoColore(x), tinta);
   vec2 d = vUv - 0.5;
   x *= mix(1.0, smoothstep(0.85, 0.25, length(d * vec2(1.0, 0.75))), vignetta);
   gl_FragColor = vec4(x, c.a);
@@ -657,7 +681,8 @@ export class Stanza {
     this.alone = new THREE.UnrealBloomPass(new THREE.Vector2(w, h), HQ_ALONE.forza, HQ_ALONE.raggio, HQ_ALONE.soglia);
     c.addPass(this.alone);
     c.addPass(new THREE.OutputPass());
-    c.addPass(new THREE.ShaderPass(COLORE_FINALE));
+    this.colore = new THREE.ShaderPass(COLORE_FINALE);
+    c.addPass(this.colore);
     c.setSize(w, h);
     this.scena.background = new THREE.Color(0x000000);
     this.scena.add(radice);
