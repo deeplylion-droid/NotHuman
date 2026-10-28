@@ -1,0 +1,222 @@
+{
+  "ada_occhi_febbre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; a small dark mole just under her right eye; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Huge pale grey eyes set too far apart under a blunt platinum fringe, glassy and red-rimmed with fever, the pale cheeks flushed; a small dark mole just under her right eye. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_ada.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/ada.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ada_occhi_febbre.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "ada_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; a small dark mole just under her right eye; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A tiny closed mouth with pale pink lips in a pale porcelain face; healthy; nothing unusual. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_ada.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/ada.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ada_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "ada_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; a small dark mole just under her right eye; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Huge pale grey eyes set too far apart under a blunt platinum fringe, with nearly invisible white eyebrows and lashes; a small dark mole just under her right eye; the whites are clear and the pale skin is cool: no fever. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_ada.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/ada.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ada_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 37,
+    "descrizione": ""
+  },
+  "ada_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of her very long, thin neck above the round white collar of her blouse of the person in the reference image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; a small dark mole just under her right eye; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A very long, thin, pale neck, smooth and healthy: no swelling, no lumps. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_ada.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/ada.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ada_collo.png"
+    ],
+    "seed": null,
+    "secondi": 37,
+    "descrizione": ""
+  },
+  "ada_ascelle": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of her left armpit and the inside of her raised upper arm, nothing else: the sleeve of the mustard cardigan pushed up to the shoulder, while the white blouse and the cardigan still cover her chest and her side completely of the person in the reference image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; a small dark mole just under her right eye; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Pale, healthy skin in the armpit, with no swelling and no marks at all. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_ada.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/ada.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ada_ascelle.png"
+    ],
+    "seed": null,
+    "secondi": 40,
+    "descrizione": ""
+  },
+  "lia_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin under a thick layer of pale face powder, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; no mole; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Huge pale grey eyes set too far apart under a blunt platinum fringe, glassy and red-rimmed with fever; under a thick layer of white face powder the cheeks are flushed red, and at the temples the powder is cracked and streaked by sweat; no mole under the eyes. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_lia.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/lia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "lia_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "ada_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both hands held out in front, backs up, from the wrists to the fingertips of the person in the reference image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; a small dark mole just under her right eye; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Long, thin, pale fingers with short clean nails; the tip of the left index finger is covered with tiny needle pricks, as of someone who sews all day; otherwise healthy. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_ada.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/ada.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ada_mani.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "lia_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin under a thick layer of pale face powder, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; no mole; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A tiny mouth with pale, dry, cracked lips under the face powder; nothing else. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_lia.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/lia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "lia_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "lia_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of her very long, thin neck above the round white collar of her blouse of the person in the reference image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin under a thick layer of pale face powder, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; no mole; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A very long, thin, pale neck shining with sweat under the powder; no swelling, no lumps on the neck. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_lia.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/lia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "lia_collo.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "lia_ascelle": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of her left armpit and the inside of her raised upper arm, nothing else: the sleeve of the mustard cardigan pushed up to the shoulder, while the white blouse and the cardigan still cover her chest and her side completely of the person in the reference image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin under a thick layer of pale face powder, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; no mole; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. In the armpit a hard swollen lump the size of an egg, dark red and shiny: a plague bubo; the skin around it hot and wet. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_lia.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/lia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "lia_ascelle.png"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": ""
+  },
+  "lia_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both hands held out in front, backs up, from the wrists to the fingertips of the person in the reference image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin under a thick layer of pale face powder, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; no mole; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Long, thin, pale fingers, damp with sweat and slightly trembling; the tip of the right index finger is covered with tiny needle pricks, as of someone who sews all day. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_lia.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/lia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "lia_mani.png"
+    ],
+    "seed": null,
+    "secondi": 42,
+    "descrizione": ""
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "base": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor standing in the low cellar under a poor house in a remote mountain village, present day: rough stone walls, a low ceiling of old dark wooden beams with a thick beam across the middle, a beaten earth floor; on the left steep wooden steps come down from an open trapdoor in the ceiling; along the right wall wooden shelves with dusty glass jars; a few empty jute potato sacks and a plastic bucket on the floor; an old thin mattress on the floor with a stained grey blanket. A single bare bulb hangs from a beam. One figure, close to the viewer: from the thick beam just in front of the viewer, in the middle of the frame, hangs a young man of about twenty who has become a cocoon, as big as a man and filling half the height of the picture. His whole body, curled up with the knees pulled to the chest, is wrapped in a thick tangle of grey and black threads, like mould or old cobwebs, that grow out of his own skin and fasten him to the beam; only his face is free, at the viewer's eye level and turned towards the viewer: very pale, smooth and moist, the eyes open, dark and wet, the lips grey. Long threads hang down from the cocoon to the earth floor. He hangs perfectly still, as if asleep with his eyes open. Behind him the rest of the cellar is visible. No hands, arms or objects belonging to the viewer are visible in the frame. Realistic photograph, evenly exposed, everything clearly readable, no dramatic shadows. 16:9, no text, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "base.png"
+    ],
+    "seed": null,
+    "secondi": 77,
+    "descrizione": null
+  },
+  "fumetto": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the steep wooden steps under the open trapdoor, the shelves with the dusty jars, the potato sacks and the bucket, the thin mattress with the stained blanket, the thick beam across the middle and the bare bulb, and the young man turned into a big cocoon of threads, hanging close to the viewer from the thick beam in the middle of the frame, with only his pale face free at eye level, in the same places and poses. The one people must become drawn, deformed, grotesque characters, not photographs: a grotesque, unsettling figure: a man turned into a hanging cocoon of grey and black threads that grow out of his skin, only the pale, smooth, wet face visible, with open dark eyes; sinister and unsettling, never gory, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "fumetto.png"
+    ],
+    "seed": null,
+    "secondi": 77,
+    "descrizione": null
+  },
+  "stanza_stile": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Remove the one person completely, with everything they hold. Reconstruct the empty room behind them naturally, in the same drawing style. Keep everything else exactly identical and in the same place: the steep wooden steps under the open trapdoor, the shelves with the dusty jars, the potato sacks and the bucket, the thin mattress with the stained blanket, the thick beam across the middle and the bare bulb, the same lighting and the same camera. Do not draw any face anywhere.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "ammorbiditi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render only the one person as realistic photographs: real skin with pores, real hair, real fabric and real leather, photographic lighting. Keep exactly their grotesque, deformed features from this image: the same hanging cocoon of grey and black threads growing out of the skin and fastened to the beam, the same pale, smooth, wet face with open dark eyes, with real textures of threads and mould, and the same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do not make them look more normal. Everything else in the image stays exactly identical.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ammorbiditi.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "stanza_stile_pulita": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this comic drawing of an empty room. Keep exactly the same drawing style (bold black brush-ink outlines, flat muted colors with no gradients, light crosshatching only where there is shadow), the same composition and every object in exactly the same place and size. Clean only the walls and the ceiling: they become rough, uneven grey stone, dusty and a little damp, and a low ceiling of old dark wooden beams. Remove all peeling and flaking paint, exposed patches, cracks, dirt streaks and texture marks that are not real objects. Do not add anything. No people, no faces, no text.",
+      "image_urls": [
+        "@file:stanza_stile.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile_pulita.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "stanza_vuota": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render this drawing of an empty room as a realistic photograph, like an ordinary amateur snapshot, evenly exposed. The walls and the ceiling are rough, uneven grey stone, dusty and a little damp, and a low ceiling of old dark wooden beams: do not copy the drawing's cracks, peeling or flaking paint, stains or hatching. Keep everything else exactly identical and in exactly the same place and size: the steep wooden steps under the open trapdoor, the shelves with the dusty jars, the potato sacks and the bucket, the thin mattress with the stained blanket, the thick beam across the middle and the bare bulb, the lighting, the camera and the framing. Do not add any people, hands or objects, and no faces anywhere.",
+      "image_urls": [
+        "@file:stanza_stile_pulita.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_vuota.png"
+    ],
+    "seed": null,
+    "secondi": 39,
+    "descrizione": ""
+  },
+  "persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../ammorbiditi.jpg",
+      "prompt": "person",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "persone.png",
+      "persone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  }
+}

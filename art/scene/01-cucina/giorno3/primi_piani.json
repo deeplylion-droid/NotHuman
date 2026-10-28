@@ -1,0 +1,25 @@
+{
+ "padre": {
+  "riferimento": "riferimento_radicato.jpg",
+  "scheda": "padre",
+  "aspetto": "a grotesque man in his fifties who has changed into something like a dead tree, sitting at a kitchen table: grey-brown skin, dry and cracked all over into small plates like old bark, eyes covered by a milky white film, a half-open dry grey mouth, very long, thin, knotted fingers like dark roots pushed into the wooden table; in a stiff, dusty denim jacket over a grey t-shirt",
+  "parti": {
+   "occhi": "His eyes are covered by a milky white film, without pupils; the eyelids do not blink; the skin around them is grey-brown and cracked into small plates like bark.",
+   "bocca": "His mouth hangs half open, dry and grey, the lips cracked like dry clay; inside, the tongue is grey and stiff like a piece of wood.",
+   "collo": "His neck is grey-brown and cracked into small plates like the bark of an old tree; the plague buboes under the jaw have dried and hardened into dark knots, like knots in wood.",
+   "mani": {"inquadratura": "his hands on the flowered tablecloth of the kitchen table",
+            "segni": "His fingers have grown very long, thin and knotted like dark roots; they have pushed through the flowered tablecloth into the wood of the table, and thin cracks spread from them across the table; the nails are black."}
+  }
+ },
+ "figlia": {
+  "riferimento": "../riferimento_figlia.jpg",
+  "scheda": "figlia",
+  "aspetto": "a grotesque but almost photographic young woman in her early twenties, gaunt and sick, with long dark hair, in a purple hoodie with a grey wool blanket around her shoulders",
+  "parti": {
+   "occhi_grave": "Her eyes are sunken and glassy with very high fever, the whites red, deep dark circles under them; the skin around them is grey and shiny with sweat.",
+   "collo_grave": {"inquadratura": "the left side of her neck under the ear, the hood and the blanket pulled aside",
+                   "segni": "Under her left ear the swelling has grown into a large dark purple bubo the size of an egg, open in the middle with a small crusted sore; the skin around it is hot and shiny."},
+   "mani_grave": "Her thin hands tremble; the tips of two fingers of the right hand are turning black, as if burnt; the nails are bitten to the quick."
+  }
+ }
+}

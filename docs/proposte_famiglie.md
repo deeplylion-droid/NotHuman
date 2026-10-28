@@ -1,8 +1,10 @@
 # Famiglie nuove e terza notte: proposte
 
-Proposte di Claude del 27 ottobre. **Le famiglie B e C sono nel secondo giorno del prototipo dal 28 ottobre** (case 2 e 10, vedi `docs/riepilogo.md`, "Il secondo giorno (bozza)"); la A e la terza notte sono ancora da scegliere. Le famiglie vanno scritte bene, a mano: queste sono tre idee per la terza casa da visitare, tra quelle dove di notte passa il contagio dalle case 3 e 5, e ognuna porta avanti una delle quattro tracce della storia nascosta (`docs/riepilogo.md`, "Fine della partita e storia"). Niente bambini in scena (GPT Image 2 li rifiuta nelle scene horror).
+Proposte di Claude del 27 ottobre. **Le famiglie B e C sono nel secondo giorno del prototipo dal 28 ottobre** (case 2 e 10, vedi `docs/riepilogo.md`, "Il secondo giorno (bozza)"); **la A e la terza notte sono nel terzo giorno dal 28 ottobre, sera** (vedi `docs/proposta_terzo_giorno.md` e `docs/riepilogo.md`, "Il terzo giorno (bozza)"). Le famiglie vanno scritte bene, a mano: queste sono tre idee per la terza casa da visitare, tra quelle dove di notte passa il contagio dalle case 3 e 5, e ognuna porta avanti una delle quattro tracce della storia nascosta (`docs/riepilogo.md`, "Fine della partita e storia"). Niente bambini in scena (GPT Image 2 li rifiuta nelle scene horror).
 
 ## A · Casa 7, il sacrestano (il segreto del paese)
+
+**Fatta il 28 ottobre, sera, nel terzo giorno**, con qualche differenza: la moglie del sacrestano, Assunta, è cambiata e la tengono nella cripta (la santa di cera); il figlio Giona ha la febbre per un morso, non per la cripta; la porta della cantina sull'infrarosso è calda per le candele accese giù.
 
 - **Chi c'è**: il sacrestano, sui settant'anni, e il figlio, sui quaranta, che non parla e suona le campane. Abitano accanto alla chiesa.
 - **Il segreto**: hanno la chiave della cripta sotto la chiesa, dove sono sepolti i morti della peste di secoli fa. Il figlio ci è sceso, e da due giorni ha la febbre.

@@ -82,6 +82,8 @@ def prompts(s):
     hand_redo = " and the black leather gloved hand holding the cane" if mano else ""
     hand_remove = (", and also remove the black leather gloved hand and the wooden cane in the lower right "
                    "foreground") if mano else ""
+    # una persona sola (la cripta, la cantina): "the one person", non "the one people"
+    chi = f"{s['n_persone']} {'person' if s['n_persone'] == 'one' else 'people'}"
     return {
         "base": (f"First-person view of a plague doctor standing in {s['stanza']} {s['persone']} {viewer} Realistic "
                  "photograph, evenly exposed, everything clearly readable, no dramatic shadows. 16:9, no text, no "
@@ -89,16 +91,16 @@ def prompts(s):
         "fumetto": ("Completely re-render this image in the style described below, transforming it far beyond a "
                     "filter: redraw every surface, light and texture in that technique. Keep the composition: "
                     f"{s['oggetti']}, {hand_keep}and {s['pose']}, "
-                    f"in the same places and poses. The {s['n_persone']} people must become drawn, deformed, grotesque "
+                    f"in the same places and poses. The {chi} must become drawn, deformed, grotesque "
                     f"characters, not photographs: {s.get('tratti', TRATTI)}. No text, no signature, no "
                     "watermark.\n" + STYLE_07),
-        "ammorbiditi": (f"Re-render only the {s['n_persone']} people{hand_redo} "
+        "ammorbiditi": (f"Re-render only the {chi}{hand_redo} "
                         "as realistic photographs: real skin with pores, real hair, real fabric and real leather, "
                         "photographic lighting. Keep exactly their grotesque, deformed features from this image: "
                         f"{s.get('tratti_foto', TRATTI_FOTO)}, and the "
                         "same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do "
                         "not make them look more normal. Everything else in the image stays exactly identical."),
-        "stanza_stile": (f"Remove the {s['n_persone']} people completely, with everything they hold{hand_remove}. "
+        "stanza_stile": (f"Remove the {chi} completely, with everything they hold{hand_remove}. "
                          "Reconstruct "
                          "the empty room behind them naturally, in the same drawing style. Keep everything else exactly "
                          f"identical and in the same place: {s['oggetti']}, the same lighting and the same camera. Do "

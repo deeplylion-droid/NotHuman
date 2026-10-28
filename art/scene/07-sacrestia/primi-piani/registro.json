@@ -1,0 +1,202 @@
+{
+  "sacrestano_collo_febbre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of his soft, plump neck and the collar of his white shirt, unbuttoned, the cord pulled aside of the person in the reference image (a grotesque but almost photographic short, plump, soft old man in his seventies, healthy and well fed: a perfectly round pale face with pink cheeks, a tiny pursed mouth, enormous thick round black-rimmed glasses that magnify his pale eyes hugely, thick black dyed hair combed flat with brilliantine; in a black cardigan buttoned over a white shirt closed up to the neck, holding a big iron ring of old keys), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Under the jaw a hard, swollen lump the size of a walnut, red and shiny: a plague bubo just beginning; the skin wet with sweat. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_sacrestano.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/sacrestano.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "sacrestano_collo_febbre.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "sacrestano_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a grotesque but almost photographic short, plump, soft old man in his seventies, healthy and well fed: a perfectly round pale face with pink cheeks, a tiny pursed mouth, enormous thick round black-rimmed glasses that magnify his pale eyes hugely, thick black dyed hair combed flat with brilliantine; in a black cardigan buttoned over a white shirt closed up to the neck, holding a big iron ring of old keys), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. His pale eyes are hugely magnified behind the thick round lenses of his black-rimmed glasses, so big that they fill the lenses; the whites are clear: no fever, no sweat. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_sacrestano.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/sacrestano.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "sacrestano_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "sacrestano_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a grotesque but almost photographic short, plump, soft old man in his seventies, healthy and well fed: a perfectly round pale face with pink cheeks, a tiny pursed mouth, enormous thick round black-rimmed glasses that magnify his pale eyes hugely, thick black dyed hair combed flat with brilliantine; in a black cardigan buttoned over a white shirt closed up to the neck, holding a big iron ring of old keys), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A tiny pursed mouth with thin pale lips in a round, soft, pink face; healthy; nothing unusual. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_sacrestano.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/sacrestano.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "sacrestano_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "sacrestano_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of his soft, plump neck and the collar of his white shirt buttoned up to the throat of the person in the reference image (a grotesque but almost photographic short, plump, soft old man in his seventies, healthy and well fed: a perfectly round pale face with pink cheeks, a tiny pursed mouth, enormous thick round black-rimmed glasses that magnify his pale eyes hugely, thick black dyed hair combed flat with brilliantine; in a black cardigan buttoned over a white shirt closed up to the neck, holding a big iron ring of old keys), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A thin black cord around his neck disappears under the buttoned collar of the shirt; the skin is soft and pale: no swelling, no lumps. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_sacrestano.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/sacrestano.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "sacrestano_collo.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "sacrestano_occhi_febbre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a grotesque but almost photographic short, plump, soft old man in his seventies, healthy and well fed: a perfectly round pale face with pink cheeks, a tiny pursed mouth, enormous thick round black-rimmed glasses that magnify his pale eyes hugely, thick black dyed hair combed flat with brilliantine; in a black cardigan buttoned over a white shirt closed up to the neck, holding a big iron ring of old keys), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. His pale eyes, hugely magnified behind the thick round lenses, are glassy and red-rimmed with fever; beads of sweat on his forehead under the dyed black hair. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_sacrestano.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/sacrestano.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "sacrestano_occhi_febbre.png"
+    ],
+    "seed": null,
+    "secondi": 62,
+    "descrizione": ""
+  },
+  "giona_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a grotesque but almost photographic giant in his forties: an enormous heavy body with huge shoulders and enormous hands, but a strangely small shaved round head with small ears close to the skull, small gentle eyes, red flushed cheeks, a wide mouth slightly open; in a grey ribbed knitted sweater too small for him and brown corduroy trousers), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A wide mouth, slightly open; healthy teeth; the lips dry and cracked from fever; nothing else. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_giona.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/giona.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giona_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "giona_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a grotesque but almost photographic giant in his forties: an enormous heavy body with huge shoulders and enormous hands, but a strangely small shaved round head with small ears close to the skull, small gentle eyes, red flushed cheeks, a wide mouth slightly open; in a grey ribbed knitted sweater too small for him and brown corduroy trousers), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Small, gentle eyes in the small shaved head, glassy and red-rimmed with fever; the forehead shines with sweat and the cheeks are flushed red. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_giona.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/giona.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giona_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "sacrestano_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both his soft white hands held out in front, backs up, from the wrists to the fingertips of the person in the reference image (a grotesque but almost photographic short, plump, soft old man in his seventies, healthy and well fed: a perfectly round pale face with pink cheeks, a tiny pursed mouth, enormous thick round black-rimmed glasses that magnify his pale eyes hugely, thick black dyed hair combed flat with brilliantine; in a black cardigan buttoned over a white shirt closed up to the neck, holding a big iron ring of old keys), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Soft, white, plump hands with short clean nails and a little white candle wax under them; on the back of the right hand, three long parallel scratches, red and fresh, as if made by fingernails. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_sacrestano.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/sacrestano.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "sacrestano_mani.png"
+    ],
+    "seed": null,
+    "secondi": 39,
+    "descrizione": ""
+  },
+  "giona_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of his thick neck under the small shaved head, the collar of the grey sweater pulled down of the person in the reference image (a grotesque but almost photographic giant in his forties: an enormous heavy body with huge shoulders and enormous hands, but a strangely small shaved round head with small ears close to the skull, small gentle eyes, red flushed cheeks, a wide mouth slightly open; in a grey ribbed knitted sweater too small for him and brown corduroy trousers), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Under the jaw a hard swollen lump the size of a walnut, red and shiny: a plague bubo just beginning; the skin wet with sweat. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_giona.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/giona.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giona_collo.png"
+    ],
+    "seed": null,
+    "secondi": 39,
+    "descrizione": ""
+  },
+  "giona_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of his huge right forearm and hand, the sleeve of the grey sweater pushed up to the elbow, a dirty strip of cloth unwound from the forearm of the person in the reference image (a grotesque but almost photographic giant in his forties: an enormous heavy body with huge shoulders and enormous hands, but a strangely small shaved round head with small ears close to the skull, small gentle eyes, red flushed cheeks, a wide mouth slightly open; in a grey ribbed knitted sweater too small for him and brown corduroy trousers), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. On the inside of the forearm, a human bite: two curved rows of small tooth marks, swollen, red and crusted, a few days old; the hand is enormous, with thick calluses and red rope burns across the palm. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_giona.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/giona.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giona_mani.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  }
+}

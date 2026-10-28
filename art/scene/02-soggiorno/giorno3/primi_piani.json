@@ -1,0 +1,36 @@
+{
+ "uomo": {
+  "riferimento": "riferimento_allungato.jpg",
+  "scheda": "uomo",
+  "aspetto": "a grotesque man in his fifties who has changed into something much too tall and thin: a long, stretched, expressionless grey face, small black eyes, the mouth a long open black oval, a neck stretched long and thin, arms so long that the hands hang below the knees, long grey fingers; in a navy striped tracksuit split open at the seams",
+  "parti": {
+   "occhi": "Small, completely black eyes, without whites, sunk deep in a long, stretched, expressionless grey face; the skin around them pulled tight and thin.",
+   "bocca": "The mouth is a long open black oval, stretched far too long, without teeth, the lips thin and grey; hot breath fogs the air in front of it.",
+   "collo": "A neck stretched far too long and thin, grey, with the vertebrae showing under the skin like a string of knots; the zipper of the tracksuit split open around it.",
+   "mani": {
+    "inquadratura": "one of his hands hanging below his knee, against the split tracksuit trousers",
+    "segni": "A long grey hand with fingers far too long and thin, each with one joint too many; the nails broken and white with plaster dust, as if they had scratched the ceiling."
+   }
+  }
+ },
+ "giovane": {
+  "riferimento": "../riferimento_giovane.jpg",
+  "scheda": "giovane",
+  "aspetto": "a grotesque but almost photographic pale, very thin young woman of about twenty, with long dark hair, in a grey cardigan",
+  "parti": {
+   "occhi_grave": "Her eyes are sunken and glassy with very high fever, the whites red, deep dark circles under them; the skin grey and shiny with sweat, damp hair stuck to the forehead.",
+   "collo_grave": "Under the jaw, a large, hard, dark purple swelling the size of an egg, tight and shiny, with a darker spot in the middle: a plague bubo; the skin around it hot and shiny with sweat.",
+   "mani_grave": "Her thin hands tremble; the tips of two fingers are turning black, as if burnt."
+  }
+ },
+ "nonna": {
+  "riferimento": "../riferimento_nonna.jpg",
+  "scheda": "nonna",
+  "aspetto": "a grotesque but almost photographic very old woman with white hair and cloudy eyes, in a dark flowered dressing gown",
+  "parti": {
+   "occhi_grave": "Her old eyes, clouded by cataracts, are glassy with very high fever, the lids red and swollen; the wrinkled skin grey and shiny with sweat.",
+   "collo_grave": "Under the jaw, a large, hard, dark purple swelling the size of an egg, tight and shiny, with a darker spot in the middle: a plague bubo; the skin around it hot and shiny with sweat.",
+   "mani_grave": "Her old knotted hands tremble; the tips of three fingers are turning black, as if burnt."
+  }
+ }
+}

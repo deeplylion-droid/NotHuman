@@ -1,0 +1,13 @@
+{
+ "suocera": {
+  "riferimento": "../riferimento_suocera.jpg",
+  "scheda": "suocera",
+  "aspetto": "a grotesque but almost photographic tall old woman in her late seventies: a long narrow face, big round staring eyes, a very long thin nose, a small tight downturned mouth; in widow's black: black headscarf tied under the chin, black cardigan",
+  "parti": {
+   "occhi_grave": "Her big round staring eyes are sunken and glassy with very high fever, the whites red; sweat under the edge of the black headscarf; the skin grey.",
+   "collo_grave": {"inquadratura": "the side of her neck under the jaw, the black headscarf pulled aside",
+                   "segni": "A wrinkled old neck with a thin black ribbon around it; under the jaw a large dark purple bubo the size of an egg, open in the middle with a small crusted sore."},
+   "mani_grave": "Big, strong, bony old hands with dark earth under the nails; now the tips of three fingers are turning black, as if burnt, dry and hard."
+  }
+ }
+}

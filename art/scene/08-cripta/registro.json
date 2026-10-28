@@ -1,0 +1,136 @@
+{
+  "base": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor standing in the crypt under an old mountain village church, present day: a low vaulted ceiling of rough grey stone, rough stone walls with deep arched niches, a worn stone floor; in the two side niches old human skulls and long bones are stacked neatly, like in an ossuary; many white church candles stand on the floor and on the stone ledges, some burning, with long drips of wax; on the left wall, in a small niche of its own, an ancient plague doctor's mask of black cracked leather with a long beak, with a single round brass lens in place of the right eye, hangs from an iron nail above a small worn stone plaque. At the back, in the middle, a large arched niche. Low stone steps come down on the right. One figure: in the large arched niche at the back stands a woman in her sixties who has changed into something else, upright and still like the statue of a saint. Her skin has become pure white and smooth like candle wax, slightly translucent and glossy, with thick drips of wax running down from her chin, her elbows and her hands, as on a melted candle; her eyes are closed and sealed under a smooth layer of wax; her long grey hair hangs loose down to her waist; her hands are joined in prayer in front of her chest, and her fingers have fused together into one long, thin black point like a burnt candle wick; she wears a long pale blue nightgown, stiff and stained with wax. She stands perfectly straight, her sealed face turned towards the viewer as if she could see. No hands, arms or objects belonging to the viewer are visible in the frame. Realistic photograph, evenly exposed, everything clearly readable, no dramatic shadows. 16:9, no text, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "base.png"
+    ],
+    "seed": null,
+    "secondi": 80,
+    "descrizione": null
+  },
+  "fumetto": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the low vaulted stone ceiling, the side niches with the stacked skulls and bones, the candles on the floor and on the ledges, the ancient beaked mask with the brass lens hanging on the left wall above the stone plaque, the large niche at the back and the stone steps on the right, and the waxen woman standing upright in the large niche at the back, her hands joined in front of her chest, in the same places and poses. The one people must become drawn, deformed, grotesque characters, not photographs: a grotesque, unsettling figure, half woman and half melted candle: an elongated, too-thin face of smooth white wax with drips, the eyes sealed under the wax, the joined hands ending in one fused black point like a wick, the body stiff and too long; sinister and unsettling, never gory, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "fumetto.png"
+    ],
+    "seed": null,
+    "secondi": 77,
+    "descrizione": null
+  },
+  "stanza_stile": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Remove the one people completely, with everything they hold. Reconstruct the empty room behind them naturally, in the same drawing style. Keep everything else exactly identical and in the same place: the low vaulted stone ceiling, the side niches with the stacked skulls and bones, the candles on the floor and on the ledges, the ancient beaked mask with the brass lens hanging on the left wall above the stone plaque, the large niche at the back and the stone steps on the right, the same lighting and the same camera. Do not draw any face anywhere.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "ammorbiditi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render only the one person as realistic photographs: real skin with pores, real hair, real fabric and real leather, photographic lighting. Keep exactly their grotesque, deformed features from this image: the same smooth, glossy white waxen skin with thick drips, the same eyes sealed under the wax, the same joined hands fused into one black point like a burnt wick, the same stiff, too long body and the same pose, with real wax textures; she is one single figure, standing in the large niche at the back exactly where she is in this image, at the same size: do not add a second figure, a statue or a copy of her anywhere, and the same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do not make them look more normal. Everything else in the image stays exactly identical.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ammorbiditi.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "stanza_stile_pulita": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this comic drawing of an empty room. Keep exactly the same drawing style (bold black brush-ink outlines, flat muted colors with no gradients, light crosshatching only where there is shadow), the same composition and every object in exactly the same place and size. Clean only the walls and the ceiling: they become rough, old grey stone blocks and a low vaulted stone ceiling, dusty, with soot stains from candles above the niches. Remove all peeling and flaking paint, exposed patches, cracks, dirt streaks and texture marks that are not real objects. Do not add anything. No people, no faces, no text.",
+      "image_urls": [
+        "@file:stanza_stile.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile_pulita.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "stanza_vuota": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render this drawing of an empty room as a realistic photograph, like an ordinary amateur snapshot, evenly exposed. The walls and the ceiling are rough, old grey stone blocks and a low vaulted stone ceiling, dusty, with soot stains from candles above the niches: do not copy the drawing's cracks, peeling or flaking paint, stains or hatching. Keep everything else exactly identical and in exactly the same place and size: the low vaulted stone ceiling, the side niches with the stacked skulls and bones, the candles on the floor and on the ledges, the ancient beaked mask with the brass lens hanging on the left wall above the stone plaque, the large niche at the back and the stone steps on the right, the lighting, the camera and the framing. Do not add any people, hands or objects, and no faces anywhere.",
+      "image_urls": [
+        "@file:stanza_stile_pulita.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_vuota.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../ammorbiditi.jpg",
+      "prompt": "person",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "persone.png",
+      "persone_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "base": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor standing in a cramped dressmaker's workroom in a poor house of a remote mountain village, present day, afternoon: plain walls painted a pale green, with a few damp stains; in the middle a big wooden worktable covered with dark cloth, with an old black cast-iron sewing machine with faded gold lettering, a pair of big scissors and a red pincushion on it; on the left two identical tailor's dummies stand side by side, each wearing the same unfinished black men's funeral jacket with white basting threads; on the right a wooden chair with a tall pile of folded white bed sheets, the top one printed with a small blue triangle logo; rolls of fabric lean in the corner; at the back a small window with a lace curtain. A bare light bulb hanging from the ceiling gives even light. Two identical twin sisters in their mid thirties sit side by side behind the worktable, facing the viewer, in exactly the same pose, like mirror images, their hands folded on the table. They are perfectly identical: very pale porcelain skin, platinum blond, almost white hair cut in the same severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows and eyelashes, large pale grey eyes set a little too far apart, small upturned noses, small closed mouths and long thin necks; they wear the same mustard-yellow knitted cardigan buttoned up to the neck over a white blouse with a round collar. The only differences: the sister on the left has a small dark mole just under her left eye; the sister on the right has a thick layer of pale face powder on her cheeks, and under it her skin is flushed and her temples shine with sweat. They stare at the viewer together, without blinking. No hands, arms or objects belonging to the viewer are visible in the frame. Realistic photograph, evenly exposed, everything clearly readable, no dramatic shadows. 16:9, no text, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "base.png"
+    ],
+    "seed": null,
+    "secondi": 70,
+    "descrizione": null
+  },
+  "fumetto": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the worktable with the black sewing machine, the scissors and the pincushion, the two identical tailor's dummies with the black jackets, the chair with the pile of white sheets, the rolls of fabric, the small window with the lace curtain and the bare bulb, and the two identical sisters sitting side by side behind the worktable with their hands folded on it, in the same places and poses. The two people must become drawn, deformed, grotesque characters, not photographs: strange, doll-like caricatures rather than sick ones: two perfectly identical faces with heads a little too big and too round, eyes too big and set too far apart, tiny noses, tiny closed mouths, very long thin necks and long thin fingers; no smiles, no grins, no visible teeth, serious and unblinking; unsettling and sinister, but healthy and well fed, with full cheeks and clean skin: never sick, wasted, dirty or dying, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "fumetto.png"
+    ],
+    "seed": null,
+    "secondi": 74,
+    "descrizione": null
+  },
+  "stanza_stile": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Remove the two people completely, with everything they hold. Reconstruct the empty room behind them naturally, in the same drawing style. Keep everything else exactly identical and in the same place: the worktable with the black sewing machine, the scissors and the pincushion, the two identical tailor's dummies with the black jackets, the chair with the pile of white sheets, the rolls of fabric, the small window with the lace curtain and the bare bulb, the same lighting and the same camera. Do not draw any face anywhere.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile.png"
+    ],
+    "seed": null,
+    "secondi": 39,
+    "descrizione": ""
+  },
+  "ammorbiditi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render only the two people as realistic photographs: real skin with pores, real hair, real fabric and real leather, photographic lighting. Keep exactly their grotesque, deformed features from this image: the same two perfectly identical doll-like faces, the same heads a little too big and round, the same too big, too far apart pale eyes, the same tiny noses and closed mouths, the same long thin necks and fingers, with smooth healthy skin; the mole under the left eye of the sister on the left, and the powder over the flushed, sweaty skin of the sister on the right (the hatching of the drawing is shading, not wrinkles), and the same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do not make them look more normal. Everything else in the image stays exactly identical.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ammorbiditi.png"
+    ],
+    "seed": null,
+    "secondi": 44,
+    "descrizione": ""
+  },
+  "stanza_stile_pulita": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this comic drawing of an empty room. Keep exactly the same drawing style (bold black brush-ink outlines, flat muted colors with no gradients, light crosshatching only where there is shadow), the same composition and every object in exactly the same place and size. Clean only the walls and the ceiling: they become smooth plaster painted a pale, faded green, with a few faint damp stains, and a plain white ceiling. Remove all peeling and flaking paint, exposed patches, cracks, dirt streaks and texture marks that are not real objects. Do not add anything. No people, no faces, no text.",
+      "image_urls": [
+        "@file:stanza_stile.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile_pulita.png"
+    ],
+    "seed": null,
+    "secondi": 29,
+    "descrizione": ""
+  },
+  "stanza_vuota": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render this drawing of an empty room as a realistic photograph, like an ordinary amateur snapshot, evenly exposed. The walls and the ceiling are smooth plaster painted a pale, faded green, with a few faint damp stains, and a plain white ceiling: do not copy the drawing's cracks, peeling or flaking paint, stains or hatching. Keep everything else exactly identical and in exactly the same place and size: the worktable with the black sewing machine, the scissors and the pincushion, the two identical tailor's dummies with the black jackets, the chair with the pile of white sheets, the rolls of fabric, the small window with the lace curtain and the bare bulb, the lighting, the camera and the framing. Do not add any people, hands or objects, and no faces anywhere.",
+      "image_urls": [
+        "@file:stanza_stile_pulita.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_vuota.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../ammorbiditi.jpg",
+      "prompt": "person",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "persone.png",
+      "persone_maschera1.png",
+      "persone_maschera2.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  }
+}

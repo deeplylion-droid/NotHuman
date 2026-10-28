@@ -1,0 +1,43 @@
+{
+  "allungato_grezza": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "The images after the first one are character reference sheets, one per person (each shows the same person five times: front, three-quarter view, profile, back and a close-up of the face). Use them only to keep each person's face and body identical; every person appears only once, in the first image's place. The second image is the reference sheet of the man. Edit the first image, two nights later. The plague did not kill the stocky man in the navy tracksuit on the right: in the night he changed into something else. He no longer coughs into the handkerchief: he stands pressed into the back right corner of the room, between the window wall and the brown door, and he has become much too tall and thin: his body has stretched so much that the top of his bent head touches the ceiling and he has to stoop under it, his head tilted forward; his neck is long and thin; his arms are so long that his hands hang down below his knees, with long grey fingers; his navy tracksuit is split open at the seams along the arms and the legs, the trousers ending far above his bare, long grey feet. His face is stretched long and grey, expressionless, with small black eyes and the mouth a long open black oval. He is still clearly the same man, with the same face and the same striped tracksuit. He stands perfectly still and stares at the viewer. The very old woman with the walking stick and the young woman in the grey cardigan stay exactly identical, in the same places. Keep the room, the furniture, the camera, the framing and the light exactly identical, pixel for pixel. The people keep the same grotesque but almost photographic features: bulging eyes, crooked noses, bad teeth, sunken cheeks. Realistic photograph, no text, no border.",
+      "image_urls": [
+        "@file:../giorno2/persone.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/uomo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "allungato_grezza.png"
+    ],
+    "seed": null,
+    "secondi": 45,
+    "descrizione": ""
+  },
+  "persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../allungato.jpg",
+      "prompt": "person",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "persone.png",
+      "persone_maschera1.png",
+      "persone_maschera2.png",
+      "persone_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  }
+}

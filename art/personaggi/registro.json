@@ -158,5 +158,101 @@
     "seed": null,
     "secondi": 31,
     "descrizione": ""
+  },
+  "giona": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a grotesque but almost photographic giant in his forties: an enormous heavy body with huge shoulders and enormous hands, but a strangely small shaved round head with small ears close to the skull, small gentle eyes, red flushed cheeks, a wide mouth slightly open; in a grey ribbed knitted sweater too small for him and brown corduroy trousers). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same almost photographic face, however strange it is, the same eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giona.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "ada": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; a small dark mole just under her right eye; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same almost photographic face, however strange it is, the same eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ada.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "sacrestano": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a grotesque but almost photographic short, plump, soft old man in his seventies, healthy and well fed: a perfectly round pale face with pink cheeks, a tiny pursed mouth, enormous thick round black-rimmed glasses that magnify his pale eyes hugely, thick black dyed hair combed flat with brilliantine; in a black cardigan buttoned over a white shirt closed up to the neck, holding a big iron ring of old keys). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same almost photographic face, however strange it is, the same eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "sacrestano.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "lia": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin under a thick layer of pale face powder, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; no mole; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same almost photographic face, however strange it is, the same eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "lia.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "assunta": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a grotesque, unsettling woman in her sixties who has changed into something like a melted candle: pure white, smooth, glossy waxen skin with thick drips of wax, the eyes closed and sealed under the wax, long loose grey hair stiff with wax, hands joined in prayer in front of the chest with the fingers fused into one long thin black point like a burnt wick, a long pale nightgown stiff and white with wax). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same almost photographic face, however strange it is, the same eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "assunta.png"
+    ],
+    "seed": null,
+    "secondi": 29,
+    "descrizione": ""
+  },
+  "ragazzo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a young man of about twenty who has changed into a cocoon: his body curled up and wrapped in a thick tangle of grey and black threads, like mould or old cobwebs, that grow out of his own skin and hang him from a beam; only his face is free: pale, smooth and wet, with dark wet hair stuck to the forehead, open dark eyes and grey lips). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same almost photographic face, however strange it is, the same eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ragazzo.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
   }
 }

@@ -79,7 +79,23 @@ def immagini():
             if "/giorno2/" in src:
                 lista = out.setdefault(ROOT / src, [])
                 lista += [p for p in paths if p not in lista]
-    for cartella, persone in {**prepara_gioco.PRIMI, **prepara_gioco.PRIMI2}.items():
+    # il terzo giorno: le scene nuove (una per luogo), le varianti coi mostri nuovi, le espressioni delle case nuove
+    for luogo, L in prepara_gioco.LUOGHI3.items():
+        if L["persone"]:
+            out[ROOT / L["scena"]] = [p for _, _, paths in L["persone"] for p in paths]
+    for luogo, persone in prepara_gioco.ESPRESSIONI3.items():
+        maschere = [p for _, _, paths in prepara_gioco.LUOGHI3[luogo]["persone"] for p in paths]
+        for persona, volti in persone.items():
+            for volto in volti:
+                for f in (ROOT / "art/espressioni/giorno3").glob(f"{persona}_{volto}.*"):
+                    if f.suffix in (".png", ".jpg"):
+                        out[f] = maschere
+    for G in prepara_gioco.GIORNO3.values():
+        for _, _, src, paths, *_ in G["strati"].values():
+            if "/giorno3/" in src:
+                lista = out.setdefault(ROOT / src, [])
+                lista += [p for p in paths if p not in lista]
+    for cartella, persone in {**prepara_gioco.PRIMI, **prepara_gioco.PRIMI2, **prepara_gioco.PRIMI3}.items():
         for f in sorted((ROOT / cartella).glob("*.jpg")):
             if f.stem.split("_")[0] in persone:
                 out[f] = None

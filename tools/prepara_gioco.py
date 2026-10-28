@@ -20,6 +20,9 @@ dettagli fatta da tools/meno_dettagli.py (nella cartella meno_dettagli/ accanto)
 l'originale e lo si dice.
 Il secondo giorno: le scene a strati delle case di ieri (GIORNO2) e le case nuove (LUOGHI2), le cui immagini alla fine
 vanno nei pacchi (PACCHI, gioco/img/pacchi).
+Il terzo giorno (GIORNO3, LUOGHI3, in img/g3): le stesse case a strati, coi mostri nuovi e chi manca, e le case nuove
+7 e 4 e la cantina della casa 5; tutto nei pacchi. Il calore di queste scene lo fa il gioco dalle sagome (niente
+_calore.png).
 """
 import base64
 import itertools
@@ -89,6 +92,10 @@ TESTE = {
     "moglie": (0.43, 0.18, 0.06, 0.125),
     "suocera": (0.608, 0.21, 0.04, 0.115),
     "nuora": (0.492, 0.25, 0.05, 0.14),
+    "sacrestano": (0.29, 0.425, 0.06, 0.13),
+    "giona": (0.783, 0.375, 0.045, 0.1),
+    "ada": (0.388, 0.29, 0.1, 0.17),
+    "lia": (0.612, 0.29, 0.1, 0.17),
 }
 # per le foto sul nastro delle frasi: chi l'ha detta, con la faccia che aveva (ritaglio dalla scena)
 VOLTI_SCENA = {"figlia": (0.44, 0.215, 0.515, 0.36)}
@@ -219,6 +226,103 @@ PACCHI = {
 }
 
 
+# il terzo giorno (28 ottobre, sera: docs/proposta_terzo_giorno.md). Le case di prima a strati come il secondo giorno,
+# coi luoghi di ieri (cosi' restano le espressioni): nella cucina della casa 3 il padre radicato al suo posto a tavola
+# (con la tazza e le radici nel tavolo: si monta con scena_maschera1), nel soggiorno della casa 5 l'uomo allungato
+# nell'angolo; nelle case 2 e 10 le scene di ieri a strati, per quando manca qualcuno (al lazzaretto, o la nuora presa
+# dalla ditta). Il calore lo fa il gioco: "calore_vivo"
+G3C, G3S, G3K = "art/scene/01-cucina/giorno3/", "art/scene/02-soggiorno/giorno3/", "art/scene/03-camera/giorno3/"
+G3SA, G3CR, G3SR, G3CN = "art/scene/07-sacrestia/", "art/scene/08-cripta/", "art/scene/09-sartoria/", "art/scene/10-cantina/"
+GIORNO3 = {
+    "cucina2": {
+        **{k: GIORNO2["cucina2"][k] for k in ("sfondo", "sfondo_stile", "nascosti", "lampade")},
+        "strati": {
+            "padre": ("padre", 0.12, G3C + "radicato2.jpg", [G3C + "maschere_radicato2/persone_maschera3.png"],
+                      [G3C + "maschere_radicato2/scena_maschera1.png"]),
+            "figlia": GIORNO2["cucina2"]["strati"]["figlia"],
+            "figlia_sana": GIORNO2["cucina2"]["strati"]["figlia_sana"],
+        },
+    },
+    "soggiorno2": {
+        **{k: GIORNO2["soggiorno2"][k] for k in ("sfondo", "sfondo_stile", "lampade")},
+        # Davide in cantina: il bozzolo e' tiepido, sotto il pavimento
+        "nascosti": [("ellisse", 0.83, 0.94, 0.09, 0.04, 0.45)],
+        "strati": {
+            "uomo": ("uomo", 0.95, G3S + "allungato.jpg", [G3S + "maschere_allungato/persone_maschera3.png"]),
+            **{k: GIORNO2["soggiorno2"]["strati"][k] for k in ("giovane", "giovane_febbre", "nonna")},
+        },
+    },
+    "monolocale": {
+        "sfondo": G2M + "stanza_vuota.jpg", "sfondo_stile": G2M + "stanza_stile_pulita.jpg",
+        "strati": {"moglie": ("moglie", 0.5, G2M + "finale.jpg", [G2M + "maschere/persone_maschera1.png"]),
+                   "marito": ("marito", 0.5, G2M + "finale.jpg", [G2M + "maschere/persone_maschera2.png"])},
+        "nascosti": [], "lampade": [],
+    },
+    "cucina10": {
+        "sfondo": G2CS + "stanza_vuota.jpg", "sfondo_stile": G2CS + "stanza_stile_pulita.jpg",
+        "strati": {"suocera": ("suocera", 0.5, G2CS + "finale.jpg", [G2CS + "maschere/persone_maschera1.png"])},
+        "nascosti": [], "lampade": LUOGHI2["cucina10"]["lampade"],
+    },
+    "camera10": {
+        "sfondo": G2CA + "stanza_vuota.jpg", "sfondo_stile": G2CA + "stanza_stile_pulita.jpg",
+        "strati": {"nuora": ("nuora", 0.5, G2CA + "finale.jpg", [G2CA + "maschere/persone_maschera1.png"])},
+        "nascosti": [], "lampade": LUOGHI2["camera10"]["lampade"],
+    },
+}
+# le scene del terzo giorno senza combinazioni: la camera della casa 3 con la finestra rotta (la madre e' uscita di
+# li'), la cantina della casa 5 col bozzolo, e le case nuove: la 7 (la sacrestia e la cripta sotto la chiesa) e la 4
+# (la sartoria delle gemelle). L'ordine delle persone e' quello di gioco/js/giorno3.js
+LUOGHI3 = {
+    "camera2": {"scena": G3K + "finestra.jpg", "persone": [], "nascosti": [], "lampade": [(0.305, 0.42, 0.018, 0.9)]},
+    "cantina5": {"scena": G3CN + "finale.jpg", "persone": [("ragazzo", 0.55, [G3CN + "maschere/bozzolo_maschera1.png"])],
+                 "nascosti": [], "lampade": [(0.62, 0.31, 0.012, 0.8)]},
+    # la maschera 3 della sacrestia e' il santo del quadretto, non una persona
+    "sacrestia7": {"scena": G3SA + "finale.jpg", "persone": [("sacrestano", 0.5, [G3SA + "maschere/persone_maschera2.png"]),
+                                                             ("giona", 0.8, [G3SA + "maschere/persone_maschera1.png"])],
+                   "nascosti": [], "lampade": [(0.51, 0.06, 0.03, 0.7), (0.53, 0.72, 0.025, 0.6)]},
+    "cripta7": {"scena": G3CR + "finale.jpg", "persone": [("assunta", 0.1, [G3CR + "maschere/persone_maschera1.png"])],
+                "nascosti": [], "lampade": [(0.33, 0.78, 0.04, 0.6), (0.37, 0.57, 0.03, 0.55), (0.74, 0.79, 0.03, 0.6),
+                                             (0.8, 0.58, 0.03, 0.55), (0.2, 0.66, 0.02, 0.5)]},
+    "sartoria4": {"scena": G3SR + "finale.jpg", "persone": [("ada", 0.5, [G3SR + "maschere/persone_maschera2.png"]),
+                                                           ("lia", 0.85, [G3SR + "maschere/persone_maschera1.png"])],
+                  "nascosti": [], "lampade": [(0.49, 0.08, 0.015, 0.6)]},
+}
+ESPRESSIONI3 = {"sacrestia7": {"sacrestano": ["piange"], "giona": ["piange"]}, "sartoria4": {"ada": ["piange"], "lia": ["piange"]}}
+# le foto del terzo giorno (img/volti/g3), coi mostri nuovi e le persone delle case nuove
+VOLTI3 = {
+    "padre": (G3C + "radicato2.jpg", (0.705, 0.27, 0.8, 0.46)),
+    "uomo": (G3S + "allungato.jpg", (0.54, 0.0, 0.64, 0.18)),
+    "ragazzo": (G3CN + "finale.jpg", (0.455, 0.19, 0.545, 0.38)),
+    "sacrestano": (G3SA + "finale.jpg", (0.235, 0.3, 0.345, 0.55)),
+    "giona": (G3SA + "finale.jpg", (0.735, 0.27, 0.83, 0.48)),
+    "assunta": (G3CR + "finale.jpg", (0.53, 0.11, 0.62, 0.32)),
+    "ada": (G3SR + "finale.jpg", (0.3, 0.14, 0.475, 0.47)),
+    "lia": (G3SR + "finale.jpg", (0.525, 0.14, 0.7, 0.47)),
+}
+# i primi piani nuovi del terzo giorno (in img/pp/g3): i mostri, chi e' grave, le persone nuove
+PRIMI3 = {
+    G3C + "primi-piani": ["padre", "figlia"],
+    G3S + "primi-piani": ["uomo", "giovane", "nonna"],
+    G2M + "giorno3/primi-piani": ["marito", "moglie"],
+    G2CS + "giorno3/primi-piani": ["suocera"],
+    G3SA + "primi-piani": ["sacrestano", "giona"],
+    G3CR + "primi-piani": ["assunta"],
+    G3SR + "primi-piani": ["ada", "lia"],
+    G3CN + "primi-piani": ["ragazzo"],
+}
+# i pacchi del terzo giorno (il gioco li apre all'inizio del terzo giorno: il nome comincia con g3)
+PACCHI.update({
+    "g3_casa3": ["g3/cucina2*", "g3/camera2*", "pp/g3/padre_*", "pp/g3/figlia_*", "volti/g3/padre*"],
+    "g3_casa5": ["g3/soggiorno2*", "g3/cantina5*", "pp/g3/uomo_*", "pp/g3/giovane_*", "pp/g3/nonna_*", "pp/g3/ragazzo_*",
+                 "volti/g3/uomo*", "volti/g3/ragazzo*"],
+    "g3_case2e10": ["g3/monolocale*", "g3/cucina10*", "g3/camera10*", "pp/g3/marito_*", "pp/g3/moglie_*",
+                    "pp/g3/suocera_*", "ospite/notte_solo_4.jpg"],
+    "g3_casa7": ["g3/sacrestia7*", "g3/cripta7*", "pp/g3/sacrestano_*", "pp/g3/giona_*", "pp/g3/assunta_*",
+                 "espressioni/sacrestia7_*", "volti/g3/sacrestano*", "volti/g3/giona*", "volti/g3/assunta*"],
+    "g3_casa4": ["g3/sartoria4*", "pp/g3/ada_*", "pp/g3/lia_*", "espressioni/sartoria4_*", "volti/g3/ada*", "volti/g3/lia*"],
+})
+
+
 def fonte(f):
     """La versione con meno dettagli di un'immagine (tools/meno_dettagli.py), se c'e'; se no l'originale."""
     f = ROOT / f
@@ -260,6 +364,9 @@ def luogo(nome, L, scena=None):
         alpha = (np.clip(mask(paths, (800, 450)), 0, 1) * 255).astype(np.uint8)
         sagoma = np.dstack([np.full_like(alpha, 255)] * 3 + [alpha])
         Image.fromarray(sagoma, "RGBA").save(OUT / f"{nome}_{persona}.png")
+    if L.get("calore_vivo"):
+        print(nome, "ok")
+        return
     Image.fromarray(calore(L, scena)).save(OUT / f"{nome}_calore.png")
     # chi stanotte puo' essersi ammalato: lo stesso calore, con la febbre
     if L.get("febbre"):
@@ -402,6 +509,11 @@ def espressioni():
             maschere.setdefault(persona_, p)
         gruppi.append((luogo_, persone, ROOT / SCENE2[luogo_][1], maschere, ROOT / "art/espressioni/giorno2", OUT / "volti" / "g2",
                        VOLTI2))
+    (OUT / "volti" / "g3").mkdir(parents=True, exist_ok=True)
+    for luogo_, persone in ESPRESSIONI3.items():
+        L = LUOGHI3[luogo_]
+        gruppi.append((luogo_, persone, fonte(L["scena"]), {chi: p for chi, _, p in L["persone"]},
+                       ROOT / "art/espressioni/giorno3", OUT / "volti" / "g3", VOLTI3))
     for luogo_, persone, scena_src, maschere, cartella, volti_out, riquadri in gruppi:
         sorgente = Image.open(scena_src).convert("RGB")
         scena = np.asarray(sorgente.resize((W, H), Image.LANCZOS))
@@ -457,51 +569,76 @@ def carica(path, size, mode="RGB"):
     return np.asarray(Image.open(ROOT / path).convert(mode).resize(size, Image.LANCZOS)).astype(np.float32) / 255
 
 
+def strati(cartella, nome, G, calore_vivo=False, salva=None):
+    """Le scene a strati di un luogo (vedi GIORNO2), una per ogni combinazione di chi e' in casa:
+    img/<cartella>/<luogo>-<strati>.jpg. salva(strati, scena) per tenere anche una combinazione da qualche parte."""
+    size = (1920, 1080)
+    # la stanza vuota al 20%, come nel montaggio delle scene
+    stanza = carica(G["sfondo"], size) * 0.8 + carica(G["sfondo_stile"], size) * 0.2
+    per_persona = {}
+    for s, strato in G["strati"].items():
+        per_persona.setdefault(strato[0], []).append(s)
+    # ogni persona: assente o uno dei suoi strati
+    scelte = [[None] + lista for lista in per_persona.values()]
+    n = 0
+    for combo in itertools.product(*scelte):
+        presenti = [s for s in combo if s]
+        img = stanza.copy()
+        for s in presenti:
+            # un quinto elemento, se c'e', e' la maschera per montare la scena (piu' larga della sola persona)
+            persona, caldo, src, paths, *monta = G["strati"][s]
+            m = Image.fromarray((mask(monta[0] if monta else paths, size) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(3))
+            m = np.asarray(m.filter(ImageFilter.GaussianBlur(1.2))).astype(np.float32)[..., None] / 255
+            fig = np.asarray(Image.open(fonte(src)).convert("RGB").resize(size, Image.LANCZOS)).astype(np.float32) / 255
+            img = img * (1 - m) + fig * m
+        scena = Image.fromarray((np.clip(img, 0, 1) * 255 + 0.5).astype(np.uint8))
+        if salva:
+            salva(presenti, scena)
+        L = {"persone": [G["strati"][s][0:2] + (G["strati"][s][3],) for s in presenti],
+             "nascosti": G["nascosti"], "lampade": G["lampade"], "calore_vivo": calore_vivo}
+        luogo(f"{cartella}/{nome}-{'-'.join(presenti) or 'vuota'}", L, scena)
+        n += 1
+    return n
+
+
+def primi_e_volti(primi_, volti_, cartella):
+    """I primi piani nuovi di un giorno in img/pp/<cartella> e le foto con la faccia di quel giorno in img/volti/<cartella>."""
+    (OUT / "pp" / cartella).mkdir(parents=True, exist_ok=True)
+    for folder, persone in primi_.items():
+        for f in sorted((ROOT / folder).glob("*.jpg")):
+            if f.stem.split("_")[0] in persone:
+                Image.open(fonte(f)).convert("RGB").resize((W, H), Image.LANCZOS).save(OUT / "pp" / cartella / f.name, quality=84)
+    (OUT / "volti" / cartella).mkdir(parents=True, exist_ok=True)
+    for chi, (src, box) in volti_.items():
+        ritaglio_volto(Image.open(fonte(src)).convert("RGB"), box).save(OUT / "volti" / cartella / f"{chi}.jpg", quality=86)
+
+
 def giorno2():
     """Le scene del secondo giorno, una per ogni combinazione di chi e' in casa (vedi GIORNO2)."""
     (OUT / "g2").mkdir(parents=True, exist_ok=True)
-    size = (1920, 1080)
     n = 0
     for nome, G in GIORNO2.items():
-        # la stanza vuota al 20%, come nel montaggio delle scene
-        stanza = carica(G["sfondo"], size) * 0.8 + carica(G["sfondo_stile"], size) * 0.2
-        per_persona = {}
-        for s, strato in G["strati"].items():
-            per_persona.setdefault(strato[0], []).append(s)
-        # ogni persona: assente o uno dei suoi strati
-        scelte = [[None] + strati for strati in per_persona.values()]
-        for combo in itertools.product(*scelte):
-            strati = [s for s in combo if s]
-            img = stanza.copy()
-            for s in strati:
-                # un quinto elemento, se c'e', e' la maschera per montare la scena (piu' larga della sola persona)
-                persona, caldo, src, paths, *monta = G["strati"][s]
-                m = Image.fromarray((mask(monta[0] if monta else paths, size) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(3))
-                m = np.asarray(m.filter(ImageFilter.GaussianBlur(1.2))).astype(np.float32)[..., None] / 255
-                fig = np.asarray(Image.open(fonte(src)).convert("RGB").resize(size, Image.LANCZOS)).astype(np.float32) / 255
-                img = img * (1 - m) + fig * m
-            scena = Image.fromarray((np.clip(img, 0, 1) * 255 + 0.5).astype(np.uint8))
-            if nome in SCENE2 and strati == SCENE2[nome][0]:
+        def salva(presenti, scena, nome=nome):
+            if nome in SCENE2 and presenti == SCENE2[nome][0]:
                 scena.save(ROOT / SCENE2[nome][1], quality=93)
-            L = {"persone": [G["strati"][s][0:2] + (G["strati"][s][3],) for s in strati],
-                 "nascosti": G["nascosti"], "lampade": G["lampade"]}
-            luogo(f"g2/{nome}-{'-'.join(strati) or 'vuota'}", L, scena)
-            n += 1
+        n += strati("g2", nome, G, salva=salva)
     # le case nuove, una scena per luogo
     for nome, L in LUOGHI2.items():
         luogo(f"g2/{nome}", L)
         n += 1
-    # i primi piani nuovi
-    (OUT / "pp" / "g2").mkdir(parents=True, exist_ok=True)
-    for folder, persone in PRIMI2.items():
-        for f in sorted((ROOT / folder).glob("*.jpg")):
-            if f.stem.split("_")[0] in persone:
-                Image.open(fonte(f)).convert("RGB").resize((W, H), Image.LANCZOS).save(OUT / "pp" / "g2" / f.name, quality=84)
-    # le foto per lo stato di famiglia e la scheda della casa, con la faccia di oggi
-    (OUT / "volti" / "g2").mkdir(parents=True, exist_ok=True)
-    for chi, (src, box) in VOLTI2.items():
-        ritaglio_volto(Image.open(fonte(src)).convert("RGB"), box).save(OUT / "volti" / "g2" / f"{chi}.jpg", quality=86)
+    primi_e_volti(PRIMI2, VOLTI2, "g2")
     print("secondo giorno:", n, "scene")
+
+
+def giorno3():
+    """Le scene del terzo giorno (GIORNO3 a strati, LUOGHI3 una per luogo), i primi piani e le foto nuove."""
+    (OUT / "g3").mkdir(parents=True, exist_ok=True)
+    n = sum(strati("g3", nome, G, calore_vivo=True) for nome, G in GIORNO3.items())
+    for nome, L in LUOGHI3.items():
+        luogo(f"g3/{nome}", {**L, "calore_vivo": True})
+        n += 1
+    primi_e_volti(PRIMI3, VOLTI3, "g3")
+    print("terzo giorno:", n, "scene")
 
 
 def pacchi():
@@ -521,8 +658,9 @@ def pacchi():
             p.unlink()
         indice.update({k: nome for k in pacco})
         print(f"pacco {nome}: {len(pacco)} immagini ({len(nuovi)} nuove), {f.stat().st_size / 1e6:.1f} MB")
-    righe = ["// generato da tools/prepara_gioco.py: le immagini delle case nuove del secondo giorno stanno in pacchi,",
-             "// img/pacchi/<pacco>.json (l'artifact tiene al massimo 511 file). Per ogni immagine, il suo pacco",
+    righe = ["// generato da tools/prepara_gioco.py: le immagini delle case nuove del secondo giorno e quelle del terzo",
+             "// (g3_*) stanno in pacchi, img/pacchi/<pacco>.json (l'artifact tiene al massimo 511 file). Per ogni",
+             "// immagine, il suo pacco",
              "export const PACCHI = {"]
     righe += [f"  {json.dumps(k)}: {json.dumps(v)}," for k, v in sorted(indice.items())]
     righe.append("};")
@@ -539,6 +677,7 @@ def main():
     giornale()
     espressioni()
     giorno2()
+    giorno3()
     pacchi()
 
 

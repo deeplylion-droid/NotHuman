@@ -1,0 +1,142 @@
+{
+  "padre_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a grotesque man in his fifties who has changed into something like a dead tree, sitting at a kitchen table: grey-brown skin, dry and cracked all over into small plates like old bark, eyes covered by a milky white film, a half-open dry grey mouth, very long, thin, knotted fingers like dark roots pushed into the wooden table; in a stiff, dusty denim jacket over a grey t-shirt), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. His mouth hangs half open, dry and grey, the lips cracked like dry clay; inside, the tongue is grey and stiff like a piece of wood. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_radicato.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/padre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "padre_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": ""
+  },
+  "padre_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of the neck, from under the jaw to the collarbone of the person in the reference image (a grotesque man in his fifties who has changed into something like a dead tree, sitting at a kitchen table: grey-brown skin, dry and cracked all over into small plates like old bark, eyes covered by a milky white film, a half-open dry grey mouth, very long, thin, knotted fingers like dark roots pushed into the wooden table; in a stiff, dusty denim jacket over a grey t-shirt), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. His neck is grey-brown and cracked into small plates like the bark of an old tree; the plague buboes under the jaw have dried and hardened into dark knots, like knots in wood. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_radicato.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/padre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "padre_collo.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "padre_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a grotesque man in his fifties who has changed into something like a dead tree, sitting at a kitchen table: grey-brown skin, dry and cracked all over into small plates like old bark, eyes covered by a milky white film, a half-open dry grey mouth, very long, thin, knotted fingers like dark roots pushed into the wooden table; in a stiff, dusty denim jacket over a grey t-shirt), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. His eyes are covered by a milky white film, without pupils; the eyelids do not blink; the skin around them is grey-brown and cracked into small plates like bark. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_radicato.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/padre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "padre_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "figlia_occhi_grave": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a grotesque but almost photographic young woman in her early twenties, gaunt and sick, with long dark hair, in a purple hoodie with a grey wool blanket around her shoulders), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Her eyes are sunken and glassy with very high fever, the whites red, deep dark circles under them; the skin around them is grey and shiny with sweat. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:../riferimento_figlia.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/figlia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia_occhi_grave.png"
+    ],
+    "seed": null,
+    "secondi": 37,
+    "descrizione": ""
+  },
+  "padre_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of his hands on the flowered tablecloth of the kitchen table of the person in the reference image (a grotesque man in his fifties who has changed into something like a dead tree, sitting at a kitchen table: grey-brown skin, dry and cracked all over into small plates like old bark, eyes covered by a milky white film, a half-open dry grey mouth, very long, thin, knotted fingers like dark roots pushed into the wooden table; in a stiff, dusty denim jacket over a grey t-shirt), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. His fingers have grown very long, thin and knotted like dark roots; they have pushed through the flowered tablecloth into the wood of the table, and thin cracks spread from them across the table; the nails are black. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_radicato.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/padre.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "padre_mani.png"
+    ],
+    "seed": null,
+    "secondi": 40,
+    "descrizione": ""
+  },
+  "figlia_mani_grave": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both hands held out in front, palms down, from the wrists to the fingertips of the person in the reference image (a grotesque but almost photographic young woman in her early twenties, gaunt and sick, with long dark hair, in a purple hoodie with a grey wool blanket around her shoulders), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Her thin hands tremble; the tips of two fingers of the right hand are turning black, as if burnt; the nails are bitten to the quick. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:../riferimento_figlia.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/figlia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia_mani_grave.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "figlia_collo_grave": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the left side of her neck under the ear, the hood and the blanket pulled aside of the person in the reference image (a grotesque but almost photographic young woman in her early twenties, gaunt and sick, with long dark hair, in a purple hoodie with a grey wool blanket around her shoulders), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Under her left ear the swelling has grown into a large dark purple bubo the size of an egg, open in the middle with a small crusted sore; the skin around it is hot and shiny. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:../riferimento_figlia.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/figlia.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "figlia_collo_grave.png"
+    ],
+    "seed": null,
+    "secondi": 39,
+    "descrizione": ""
+  }
+}

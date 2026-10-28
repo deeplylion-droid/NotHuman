@@ -341,7 +341,9 @@
   .fx-segno b { font-family: var(--gioco); font-size: 0.8rem; letter-spacing: 0.05em; }
   .fx-segno span { font-size: 0.78rem; line-height: 1.25; opacity: 0.8; }
   .fx-riga { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 1.4rem; margin-top: 0.4rem; padding-top: 0.2rem; border-top: 2px dashed rgba(42, 42, 40, 0.45); }
-  .fx-fila { display: flex; gap: 1.2rem; }
+  .fx-fila { display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; }
+  /* il terzo giorno le case da visitare sono sei: su due file da tre */
+  .fx-fila:has(> :nth-child(5)) { display: grid; grid-template-columns: repeat(3, max-content); gap: 0.5rem 0.75rem; }
   .fx-segno.piccolo .fx-pitto { width: 2.8rem; height: 2.8rem; }
   .fx-motto { margin: 1rem 0 0; text-align: center; font-size: 0.78rem; font-style: italic; opacity: 0.75; }
   @media (max-width: 560px) { .fx-segni, .fx-segni:has(> :nth-child(5)) { grid-template-columns: repeat(2, minmax(0, 1fr)); } .fx-riga { grid-template-columns: minmax(0, 1fr); } }

@@ -1,0 +1,16 @@
+{
+  "maschere_da": [
+    "../giorno2/maschere_persone/persone_maschera1.png",
+    "../giorno2/maschere_persone/persone_maschera2.png",
+    "../giorno2/maschere_persone/persone_maschera3.png",
+    "../giorno2/maschere_persone/bastone_maschera1.png"
+  ],
+  "varianti": {
+    "allungato": {
+      "da": "../giorno2/persone.jpg",
+      "schede": ["uomo"],
+      "prompt": "The second image is the reference sheet of the man. Edit the first image, two nights later. The plague did not kill the stocky man in the navy tracksuit on the right: in the night he changed into something else. He no longer coughs into the handkerchief: he stands pressed into the back right corner of the room, between the window wall and the brown door, and he has become much too tall and thin: his body has stretched so much that the top of his bent head touches the ceiling and he has to stoop under it, his head tilted forward; his neck is long and thin; his arms are so long that his hands hang down below his knees, with long grey fingers; his navy tracksuit is split open at the seams along the arms and the legs, the trousers ending far above his bare, long grey feet. His face is stretched long and grey, expressionless, with small black eyes and the mouth a long open black oval. He is still clearly the same man, with the same face and the same striped tracksuit. He stands perfectly still and stares at the viewer. The very old woman with the walking stick and the young woman in the grey cardigan stay exactly identical, in the same places.",
+      "ritagli": ["person"]
+    }
+  }
+}

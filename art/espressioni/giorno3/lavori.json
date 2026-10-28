@@ -1,0 +1,58 @@
+[
+ {
+  "nome": "sacrestano_piange",
+  "modello": "fal-ai/nano-banana-pro/edit",
+  "input": {
+   "prompt": "Change only the facial expression of the short, plump old man with the enormous round glasses and the dyed black hair, standing on the left with the ring of keys: he is now crying, tears running down his round pink cheeks from under the thick lenses, his eyes red, his tiny mouth trembling and pulled down. Keep the face recognizable with the same strange, almost photographic features, and keep everything else in the image exactly identical: the pose, the hands, the clothes, the other person, the room, the light and the framing.",
+   "image_urls": [
+    "@file:../../scene/07-sacrestia/finale.jpg"
+   ],
+   "aspect_ratio": "16:9",
+   "resolution": "2K",
+   "output_format": "png",
+   "num_images": 1
+  }
+ },
+ {
+  "nome": "giona_piange",
+  "modello": "fal-ai/nano-banana-pro/edit",
+  "input": {
+   "prompt": "Change only the facial expression of the giant with the small shaved head, sitting on the stool on the right: he is now crying silently like a child, tears running down his flushed cheeks, his eyebrows raised and drawn together, his wide mouth open in a silent sob. Keep the face recognizable with the same strange, almost photographic features, and keep everything else in the image exactly identical: the pose, the hands, the clothes, the other person, the room, the light and the framing.",
+   "image_urls": [
+    "@file:../../scene/07-sacrestia/finale.jpg"
+   ],
+   "aspect_ratio": "16:9",
+   "resolution": "2K",
+   "output_format": "png",
+   "num_images": 1
+  }
+ },
+ {
+  "nome": "ada_piange",
+  "modello": "fal-ai/nano-banana-pro/edit",
+  "input": {
+   "prompt": "Change only the facial expression of the twin sister on the left, the one with the small dark mole under her eye: she is now crying, tears running down her pale porcelain cheeks, her huge pale eyes red and wet, her tiny mouth trembling. The twin on the right keeps exactly her face and expression. Keep the face recognizable with the same strange, almost photographic features, and keep everything else in the image exactly identical: the pose, the hands, the clothes, the other person, the room, the light and the framing.",
+   "image_urls": [
+    "@file:../../scene/09-sartoria/finale.jpg"
+   ],
+   "aspect_ratio": "16:9",
+   "resolution": "2K",
+   "output_format": "png",
+   "num_images": 1
+  }
+ },
+ {
+  "nome": "lia_piange",
+  "modello": "fal-ai/nano-banana-pro/edit",
+  "input": {
+   "prompt": "Change only the facial expression of the twin sister on the right, the one with flushed feverish cheeks under the powder: she is now crying, tears running through the face powder on her flushed cheeks, her huge pale eyes red and wet, her tiny mouth trembling. The twin on the left keeps exactly her face and expression. Keep the face recognizable with the same strange, almost photographic features, and keep everything else in the image exactly identical: the pose, the hands, the clothes, the other person, the room, the light and the framing.",
+   "image_urls": [
+    "@file:../../scene/09-sartoria/finale.jpg"
+   ],
+   "aspect_ratio": "16:9",
+   "resolution": "2K",
+   "output_format": "png",
+   "num_images": 1
+  }
+ }
+]

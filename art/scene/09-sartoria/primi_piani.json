@@ -1,0 +1,45 @@
+{
+ "ada": {
+  "riferimento": "riferimento_ada.jpg",
+  "scheda": "ada",
+  "aspetto": "a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; a small dark mole just under her right eye; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar",
+  "parti": {
+   "occhi": "Huge pale grey eyes set too far apart under a blunt platinum fringe, with nearly invisible white eyebrows and lashes; a small dark mole just under her right eye; the whites are clear and the pale skin is cool: no fever.",
+   "occhi_febbre": "Huge pale grey eyes set too far apart under a blunt platinum fringe, glassy and red-rimmed with fever, the pale cheeks flushed; a small dark mole just under her right eye.",
+   "bocca": "A tiny closed mouth with pale pink lips in a pale porcelain face; healthy; nothing unusual.",
+   "collo": {
+    "inquadratura": "her very long, thin neck above the round white collar of her blouse",
+    "segni": "A very long, thin, pale neck, smooth and healthy: no swelling, no lumps."
+   },
+   "ascelle": {
+    "inquadratura": "her left armpit and the inside of her raised upper arm, nothing else: the sleeve of the mustard cardigan pushed up to the shoulder, while the white blouse and the cardigan still cover her chest and her side completely",
+    "segni": "Pale, healthy skin in the armpit, with no swelling and no marks at all."
+   },
+   "mani": {
+    "inquadratura": "both hands held out in front, backs up, from the wrists to the fingertips",
+    "segni": "Long, thin, pale fingers with short clean nails; the tip of the left index finger is covered with tiny needle pricks, as of someone who sews all day; otherwise healthy."
+   }
+  }
+ },
+ "lia": {
+  "riferimento": "riferimento_lia.jpg",
+  "scheda": "lia",
+  "aspetto": "a grotesque but almost photographic woman in her mid thirties, one of two identical twins, doll-like: a head a little too big, very pale porcelain skin under a thick layer of pale face powder, platinum blond hair in a severe chin-length bob with a blunt straight fringe, nearly invisible white eyebrows, huge pale grey eyes set too far apart, a tiny nose, a tiny closed mouth, a very long thin neck; no mole; in a mustard-yellow knitted cardigan buttoned up over a white blouse with a round collar",
+  "parti": {
+   "occhi": "Huge pale grey eyes set too far apart under a blunt platinum fringe, glassy and red-rimmed with fever; under a thick layer of white face powder the cheeks are flushed red, and at the temples the powder is cracked and streaked by sweat; no mole under the eyes.",
+   "bocca": "A tiny mouth with pale, dry, cracked lips under the face powder; nothing else.",
+   "collo": {
+    "inquadratura": "her very long, thin neck above the round white collar of her blouse",
+    "segni": "A very long, thin, pale neck shining with sweat under the powder; no swelling, no lumps on the neck."
+   },
+   "ascelle": {
+    "inquadratura": "her left armpit and the inside of her raised upper arm, nothing else: the sleeve of the mustard cardigan pushed up to the shoulder, while the white blouse and the cardigan still cover her chest and her side completely",
+    "segni": "In the armpit a hard swollen lump the size of an egg, dark red and shiny: a plague bubo; the skin around it hot and wet."
+   },
+   "mani": {
+    "inquadratura": "both hands held out in front, backs up, from the wrists to the fingertips",
+    "segni": "Long, thin, pale fingers, damp with sweat and slightly trembling; the tip of the right index finger is covered with tiny needle pricks, as of someone who sews all day."
+   }
+  }
+ }
+}

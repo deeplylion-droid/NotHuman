@@ -1,0 +1,15 @@
+{
+  "stanza": "the low cellar under a poor house in a remote mountain village, present day: rough stone walls, a low ceiling of old dark wooden beams with a thick beam across the middle, a beaten earth floor; on the left steep wooden steps come down from an open trapdoor in the ceiling; along the right wall wooden shelves with dusty glass jars; a few empty jute potato sacks and a plastic bucket on the floor; an old thin mattress on the floor with a stained grey blanket. A single bare bulb hangs from a beam.",
+  "persone": "One figure, close to the viewer: from the thick beam just in front of the viewer, in the middle of the frame, hangs a young man of about twenty who has become a cocoon, as big as a man and filling half the height of the picture. His whole body, curled up with the knees pulled to the chest, is wrapped in a thick tangle of grey and black threads, like mould or old cobwebs, that grow out of his own skin and fasten him to the beam; only his face is free, at the viewer's eye level and turned towards the viewer: very pale, smooth and moist, the eyes open, dark and wet, the lips grey. Long threads hang down from the cocoon to the earth floor. He hangs perfectly still, as if asleep with his eyes open. Behind him the rest of the cellar is visible.",
+  "n_persone": "one",
+  "pose": "the young man turned into a big cocoon of threads, hanging close to the viewer from the thick beam in the middle of the frame, with only his pale face free at eye level",
+  "oggetti": "the steep wooden steps under the open trapdoor, the shelves with the dusty jars, the potato sacks and the bucket, the thin mattress with the stained blanket, the thick beam across the middle and the bare bulb",
+  "muri": "rough, uneven grey stone, dusty and a little damp, and a low ceiling of old dark wooden beams",
+  "tratti": "a grotesque, unsettling figure: a man turned into a hanging cocoon of grey and black threads that grow out of his skin, only the pale, smooth, wet face visible, with open dark eyes; sinister and unsettling, never gory, never cute or cartoonish",
+  "tratti_foto": "the same hanging cocoon of grey and black threads growing out of the skin and fastened to the beam, the same pale, smooth, wet face with open dark eyes, with real textures of threads and mould",
+  "ritagli": [
+    "person",
+    "cocoon"
+  ],
+  "riempi_buchi": true
+}

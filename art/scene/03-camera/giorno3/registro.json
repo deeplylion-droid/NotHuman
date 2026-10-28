@@ -1,0 +1,40 @@
+{
+  "finestra_grezza": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit the first image, one night later. The monstrous woman crouching on the headboard is gone: remove her completely and rebuild the wall, the window and the headboard behind her. She escaped through the window: the window above the bed is wide open, its glass panes shattered outwards, with sharp shards left in the frame and a few on the windowsill; the blue roller shutter is torn and bent outwards, hanging crooked; outside it is dark. On the white windowsill and on the wall under it there are long black scratches, as from claws. The bed stays torn apart and empty, with the green blanket and the pillow on the floor, exactly as before. Keep the room, the furniture, the camera, the framing and the light exactly identical, pixel for pixel. Realistic photograph, no text, no border. Keep the room, the furniture, the camera, the framing and the light exactly identical, pixel for pixel. The people keep the same grotesque but almost photographic features: bulging eyes, crooked noses, bad teeth, sunken cheeks. Realistic photograph, no text, no border.",
+      "image_urls": [
+        "@file:../giorno2/mostro_senza_sponda.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "finestra_grezza.png"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": ""
+  },
+  "window": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../finestra.jpg",
+      "prompt": "window",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "window.png",
+      "window_maschera1.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
+  }
+}

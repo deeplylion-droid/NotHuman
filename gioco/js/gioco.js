@@ -4,6 +4,7 @@
 import { Vhs } from "./vhs.js";
 import * as D1 from "./dati.js";
 import { giorno2, verita2, giornale3 } from "./giorno2.js";
+import { giorno3, verita3, giornale4 } from "./giorno3.js";
 import { ESPRESSIONI } from "./espressioni.js";
 import { PACCHI } from "./pacchi.js";
 import { Parole, Ruota, Striscia, Segni } from "./parole.js";
@@ -50,8 +51,8 @@ const suoni = new Suoni();
 const ruota = new Ruota($("#ruota"));
 const striscia = new Striscia(nastroFrasi, $("#nastro-scorri"), segni);
 
-// i contenuti del giorno: quelli di dati.js, e dal secondo giorno quelli di giorno2.js al posto delle tabelle che
-// cambiano (persone, scene, domande, esami, frasi, fax...)
+// i contenuti del giorno: quelli di dati.js, e dal secondo giorno quelli di giorno2.js (dal terzo di giorno3.js) al
+// posto delle tabelle che cambiano (persone, scene, domande, esami, frasi, fax...)
 let D = { ...D1 };
 
 const W = 1600, H = 900;
@@ -104,14 +105,16 @@ const FOTO = {};
 
 // le immagini delle case nuove del secondo giorno stanno in pacchi (img/pacchi/<pacco>.json, percorso -> data URL;
 // quale immagine sta in quale pacco lo dice pacchi.js), perche' l'artifact tiene al massimo 511 file. Un pacco si
-// apre la prima volta che serve una sua immagine; il secondo giorno si aprono tutti prima di cominciare, cosi' anche
-// le foto messe direttamente nelle pagine (lo stato di famiglia, il nastro delle frasi) le trovano gia' pronte
+// apre la prima volta che serve una sua immagine; all'inizio di un giorno si aprono tutti quelli del giorno, cosi'
+// anche le foto messe direttamente nelle pagine (lo stato di famiglia, il nastro delle frasi) le trovano gia'
+// pronte. Quelli del terzo giorno si chiamano g3_*
 const DAI_PACCHI = {};
 const APERTI = {};
 const apriPacco = (nome) => (APERTI[nome] ||= fetch(`img/pacchi/${nome}.json`)
   .then((r) => { if (!r.ok) throw new Error(`img/pacchi/${nome}.json`); return r.json(); })
   .then((o) => { Object.assign(DAI_PACCHI, o); }));
-const apriPacchi = () => Promise.all([...new Set(Object.values(PACCHI))].map(apriPacco));
+const apriPacchi = () => Promise.all([...new Set(Object.values(PACCHI))]
+  .filter((nome) => S.giorno >= 3 || !nome.startsWith("g3_")).map(apriPacco));
 // l'indirizzo di un'immagine: il data URL, se sta in un pacco gia' aperto
 const url = (src) => DAI_PACCHI[src] || src;
 
@@ -158,8 +161,9 @@ async function caricaLuoghi(luoghi) {
     const f = L.img || luogo;
     lista[luogo] = `img/${f}.jpg`;
     lista[`${luogo}_persone`] = `img/${f}_persone.png`;
-    // "calore": un'altra mappa del calore (le case nuove, quando stanotte qualcuno si e' ammalato)
-    lista[`${luogo}_calore`] = `img/${L.calore || `${f}_calore`}.png`;
+    // "calore": un'altra mappa del calore (le case nuove, quando stanotte qualcuno si e' ammalato); "vivo": la fa il
+    // gioco (caloreVivo)
+    if (L.calore !== "vivo") lista[`${luogo}_calore`] = `img/${L.calore || `${f}_calore`}.png`;
     for (const p of L.persone) lista[`${luogo}_${p}`] = `img/${f}_${p}.png`;
     for (const [persona, E] of Object.entries(ESPRESSIONI[luogo] || {}))
       for (const volto of E.volti) lista[`esp_${luogo}_${persona}_${volto}`] = `img/espressioni/${luogo}_${persona}_${volto}.png`;
@@ -167,14 +171,74 @@ async function caricaLuoghi(luoghi) {
   const voci = await Promise.all(Object.entries(lista).map(async ([k, src]) => [k, await carica(src)]));
   for (const [k, im] of voci) IMG[k] = im;
   // mappe dei personaggi: un grigio per persona (40, 80, 120...) da leggere sotto il puntatore
-  for (const luogo of Object.keys(luoghi)) {
+  for (const [luogo, L] of Object.entries(luoghi)) {
     const im = IMG[`${luogo}_persone`];
     const c = document.createElement("canvas");
     c.width = im.naturalWidth; c.height = im.naturalHeight;
     const ctx = c.getContext("2d", { willReadFrequently: true });
     ctx.drawImage(im, 0, 0);
     ID[luogo] = { w: c.width, h: c.height, data: ctx.getImageData(0, 0, c.width, c.height).data };
+    if (L.calore === "vivo") IMG[`${luogo}_calore`] = caloreVivo(luogo, L);
   }
+}
+
+// la mappa del calore per l'infrarosso dei nastri, fatta qui (le scene del terzo giorno): le sagome di chi c'e', col
+// calore di oggi (piu' caldo dove si vede la pelle, come in tools/prepara_gioco.py), e le macchie del luogo, sfumate:
+// lampade, candele, chi sta dietro una porta o sotto il pavimento ([x, y, r, calore] o [x, y, rx, ry, calore])
+function caloreVivo(luogo, L) {
+  const w = 800, h = 450;
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  const ctx = c.getContext("2d", { willReadFrequently: true });
+  ctx.drawImage(IMG[luogo], 0, 0, w, h);
+  const scena = ctx.getImageData(0, 0, w, h).data;
+  const caldo = new Float32Array(w * h);
+  for (const p of L.persone) {
+    ctx.clearRect(0, 0, w, h);
+    ctx.drawImage(IMG[`${luogo}_${p}`], 0, 0, w, h);
+    const m = ctx.getImageData(0, 0, w, h).data;
+    const k = D.PERSONE[p]?.calore ?? 0.5;
+    for (let i = 0; i < w * h; i++) {
+      const a = m[i * 4 + 3] / 255;
+      if (!a) continue;
+      const r = scena[i * 4] / 255, g = scena[i * 4 + 1] / 255, b = scena[i * 4 + 2] / 255;
+      const pelle = clamp((r - b - 0.06) / 0.12, 0, 1) * clamp((r - g + 0.02) / 0.08, 0, 1);
+      caldo[i] = Math.max(caldo[i], a * k * (0.55 + 0.45 * pelle));
+    }
+  }
+  const dati = ctx.createImageData(w, h);
+  for (let i = 0; i < w * h; i++) {
+    const v = caldo[i] * 255;
+    dati.data[i * 4] = dati.data[i * 4 + 1] = dati.data[i * 4 + 2] = v;
+    dati.data[i * 4 + 3] = 255;
+  }
+  ctx.putImageData(dati, 0, 0);
+  const persone = document.createElement("canvas");
+  persone.width = w; persone.height = h;
+  persone.getContext("2d").drawImage(c, 0, 0);
+  const macchie = document.createElement("canvas");
+  macchie.width = w; macchie.height = h;
+  const mctx = macchie.getContext("2d");
+  mctx.fillStyle = "#000";
+  mctx.fillRect(0, 0, w, h);
+  for (const m of L.macchie || []) {
+    const [x, y, rx, ry, v] = m.length === 4 ? [m[0], m[1], m[2], m[2] * 16 / 9, m[3]] : m;
+    const g = Math.round(v * 255);
+    mctx.fillStyle = `rgb(${g}, ${g}, ${g})`;
+    mctx.beginPath();
+    mctx.ellipse(x * w, y * h, rx * w, ry * h, 0, 0, Math.PI * 2);
+    mctx.fill();
+  }
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, w, h);
+  ctx.filter = "blur(3px)";
+  ctx.drawImage(persone, 0, 0);
+  ctx.globalCompositeOperation = "lighten";
+  ctx.filter = `blur(${w * 0.012}px)`;
+  ctx.drawImage(macchie, 0, 0);
+  ctx.filter = "none";
+  ctx.globalCompositeOperation = "source-over";
+  return c;
 }
 
 // le immagini che servono solo a volte (l'ospite della notte): caricate la prima volta che servono
@@ -250,7 +314,8 @@ function disegnaVolti(ctx, luogo, facce) {
 function cambiaVolto(persona, volto) {
   clearTimeout(R.ritorni[persona]);
   const E = ESPRESSIONI[S.luogo]?.[persona];
-  if (!D.LUOGHI[S.luogo].persone.includes(persona)) return;
+  // chi e' cambiato non ha piu' espressioni (le teste di ieri, nello stesso luogo, sono di un'altra faccia)
+  if (!D.LUOGHI[S.luogo].persone.includes(persona) || D.PERSONE[persona]?.stato === "mostro") return;
   // in plastilina ogni pupazzo ha le sue facce di ricambio (visita3d.js: se manca, resta la sua)
   if (!visita && !E) return;
   if (!visita && volto && !E.volti.includes(volto)) volto = null;
@@ -522,7 +587,8 @@ async function dici(righe, salva = true, blocca = true) {
     if (salva) registra(chi, testo, extra);
     const finita = await parole.scrivi(chi, testo, ancora(chi), chiaviDi(extra));
     if (!finita || R.turno !== turno) break;
-    if (extra.d) mettiSulNastro(`d:${extra.d}`, persona && R.facce[persona]?.a);
+    // (una frase di ieri ripetuta oggi non torna sul nastro: vale solo quella del giorno)
+    if (extra.d && D.DICHIARAZIONI[extra.d]) mettiSulNastro(`d:${extra.d}`, persona && R.facce[persona]?.a);
   }
   if (R.turno === turno) parole.attenua();
   if (R.blocco === turno) {
@@ -648,7 +714,7 @@ function nuovaRipresa(r) {
 
 function applica(poi) {
   if (!poi) return;
-  if (poi.prova && !S.prove.includes(poi.prova)) {
+  if (poi.prova && D.PROVE[poi.prova] && !S.prove.includes(poi.prova)) {
     if (visita) fotoProva(poi.prova);
     S.prove.push(poi.prova);
     mettiSulNastro(`p:${poi.prova}`);
@@ -670,7 +736,21 @@ function condizione(se) {
   if (se.esame) return !!S.esami[se.esame];
   if (se.prova) return S.prove.includes(se.prova);
   if (se.detta) return !!S.dette[se.detta];
+  if (se.contestata) return !!S.contestate[se.contestata];
   return true;
+}
+
+// l'esame di una parte adesso: con "se", finche' la condizione non c'e' vale "prima" (Lia, il terzo giorno, si lascia
+// guardare collo e ascelle solo dopo che le gemelle sono state smentite)
+function esame(persona, parte) {
+  const e = D.ESAMI[persona]?.[parte];
+  return e?.se && !condizione(e.se) ? e.prima : e;
+}
+
+// l'esame com'era quando l'hai fatto (S.esami "prima": si e' rifiutata, prima della condizione)
+function esameFatto(persona, parte) {
+  const e = D.ESAMI[persona]?.[parte];
+  return S.esami[`${persona}_${parte}`] === "prima" ? e.prima : e;
 }
 
 // ---------- la scrivania ----------
@@ -891,7 +971,7 @@ const ZOOM_LENTE = 2.4;
 let lenteInMano = !matchMedia("(pointer: coarse)").matches;
 
 function apriGiornale(domani) {
-  const g = domani ? (S.giorno === 1 ? giornaleDomani() : giornale3(S.notte, S)) : S.giornale || D.GIORNALE;
+  const g = domani ? [giornaleDomani, giornale3, giornale4][S.giorno - 1](S.notte, S) : S.giornale || D.GIORNALE;
   if (domani) S.giornaleDomani = g;
   suoni.suona("giornale");
   const stampa = el("div", "gio-stampa");
@@ -928,8 +1008,9 @@ function apriGiornale(domani) {
   leggibile.append(el("h2", null, g.titolo), el("p", "gio-l-sommario", g.sommario), el("p", null, g.articolo),
     el("p", null, `LETTERE · ${g.lettera}`), el("p", null, g.breve));
   const corpo = [stampa, leggibile];
-  // dopo la prima notte comincia il secondo giorno; dopo la seconda, la verita'
-  if (domani) corpo.push(azioni([S.giorno === 1 ? ["Il secondo giorno", iniziaGiorno2] : ["Com'era davvero", verita]]));
+  // dopo la prima notte comincia il secondo giorno, dopo la seconda il terzo; dopo la terza, la verita'
+  if (domani) corpo.push(azioni([[["Il secondo giorno", iniziaGiorno2], ["Il terzo giorno", iniziaGiorno3]][S.giorno - 1]
+    || ["Com'era davvero", verita]]));
   apriFoglio("giornale", corpo);
   const proietta = () => {
     const r = stampa.getBoundingClientRect();
@@ -1235,8 +1316,8 @@ function mostraScheda(id, fissa) {
       const nome = el("b", null, `${persona.nome[0].toUpperCase()}${persona.nome.slice(1)} `);
       if (S.diagnosi[pid]) nome.append(timbro(D.TIMBRI.find((t) => t.id === S.diagnosi[pid]).testo, S.diagnosi[pid] === "sano" ? "blu" : "rosso"));
       testo.append(nome);
-      const visti = Object.keys(D.ESAMI[pid]).filter((parte) => S.esami[`${pid}_${parte}`]);
-      const reperti = visti.map((parte) => `${parte}: ${D.ESAMI[pid][parte].reperto}`);
+      const visti = Object.keys(D.ESAMI[pid] || {}).filter((parte) => S.esami[`${pid}_${parte}`]);
+      const reperti = visti.map((parte) => `${parte}: ${esameFatto(pid, parte).reperto}`);
       testo.append(el("span", null, reperti.length ? reperti.join(" · ") : "non esaminato"));
       testo.append(el("em", dec.via.includes(pid) ? "via" : dec.ospite === pid ? "ospite" : "",
         dec.via.includes(pid) ? "al lazzaretto" : dec.ospite === pid ? "ospite stanotte" : "resta in casa"));
@@ -1385,9 +1466,11 @@ async function vaiLuogo(luogo) {
   nuovaRipresa({ tipo: "scena", luogo });
   if (!S.visti[luogo]) {
     S.visti[luogo] = true;
-    // chi si conosce entrando (la madre nascosta in camera) e chi si trova morto
+    // chi si conosce entrando (la madre nascosta in camera), chi si trova cambiato e le porte gia' aperte (la camera
+    // della nuora, il terzo giorno, se la suocera non c'e' piu' a tenerla chiusa)
     for (const p of L.conosci || []) S.conosciute[p] = true;
     for (const p of L.morti || []) S.morti[p] = true;
+    for (const z of L.aperte || []) S.sbloccate[z] = true;
     await dici(D.ARRIVO[luogo]);
   }
 }
@@ -1420,7 +1503,9 @@ async function aspettaVisite() {
 }
 
 function hudVisita() {
-  tasti(...(D.LUOGHI[S.luogo].ritorno ? [tasto("Torna in cucina", () => tornaCucina(), "indietro")] : []),
+  const L = D.LUOGHI[S.luogo];
+  // "ritornoNome": da sotto si torna di sopra (la cantina della casa 5, la cripta della casa 7)
+  tasti(...(L.ritorno ? [tasto(L.ritornoNome || "Torna in cucina", () => tornaCucina(), "indietro")] : []),
     tasto("Stato di famiglia", () => apriStato(S.casa), "foglio"),
     tasto("Concludi la visita", () => apriStato(S.casa, { firma: true }), "firma", true));
 }
@@ -1505,10 +1590,11 @@ async function guardaZona(zona) {
 
 async function esamina(persona, parte) {
   ruota.chiudi();
-  const e = D.ESAMI[persona][parte];
+  const e = esame(persona, parte);
   avanza(D.MINUTI.esame);
   if (e.rifiuta) {
-    S.esami[`${persona}_${parte}`] = true;
+    // un rifiuto che puo' cambiare (Lia) resta "prima": dopo, l'esame si puo' rifare
+    S.esami[`${persona}_${parte}`] = e === D.ESAMI[persona][parte] ? true : "prima";
     await dici(e.rifiuta);
     return dopoAzione();
   }
@@ -1598,8 +1684,10 @@ function apriDomande(persona, x, y) {
   etichetta.hidden = true;
   const lista = (D.DOMANDE[persona] || []).filter((q) => !S.fatte[`${persona}_${q.id}`] && condizione(q.se));
   const voci = lista.map((q) => ({ testo: q.breve, nuova: !!q.se, icona: icona("domanda"), azione: () => chiedi(persona, q, x, y) }));
-  // chi e' diventato un mostro non risponde piu' (la madre, il secondo giorno)
-  if (!voci.length) voci.push({ testo: D.PERSONE[persona].stato === "mostro" ? "ringhia, non risponde più" : "nient'altro da chiedere", disattiva: true });
+  // chi e' diventato un mostro non risponde piu' (la madre, il secondo giorno); "muto": cosa fa invece (il terzo
+  // giorno ognuno cambia a modo suo: il padre scricchiola, la moglie del sacrestano canta a bocca chiusa)
+  const P = D.PERSONE[persona];
+  if (!voci.length) voci.push({ testo: P.muto || (P.stato === "mostro" ? "ringhia, non risponde più" : "nient'altro da chiedere"), disattiva: true });
   ruota.apri(x, y, voci, maiuscolo(D.PERSONE[persona].voce), 0.8);
 }
 
@@ -1869,7 +1957,7 @@ function sagoma(persona) {
   if (!esaminabile) return svg;
   const punti = { occhi: [[40, 14]], bocca: [[40, 22]], collo: [[40, 31]], ascelle: [[24, 44], [56, 44]], mani: [[8, 85], [72, 85]] };
   for (const [parte, xy] of Object.entries(punti)) {
-    const e = D.ESAMI[persona][parte];
+    const e = esameFatto(persona, parte);
     const fatto = S.esami[`${persona}_${parte}`];
     const cls = !fatto ? "non" : e.rifiuta ? "rifiuto" : e.segno === "dita" ? "dita" : e.segno ? "segno" : "niente";
     for (const [cx, cy] of xy) {
@@ -1919,6 +2007,8 @@ function rigaStato(casa, r, firmata) {
   const info = el("small", null, `${r.ruolo} · nat${r.donna ? "a" : "o"} nel ${r.nato}${r.mestiere ? ` · ${r.mestiere}` : ""}`.toUpperCase());
   dati.append(nome, info);
   if (r.anagrafe) dati.append(el("small", `sf-anagrafe${S.barrati[persona] ? " barrato" : ""}`, r.anagrafe.toUpperCase()));
+  // i segni particolari del comune: le gemelle si distinguono solo dal neo
+  if (r.segni) dati.append(el("small", "sf-segni", `SEGNI PARTICOLARI: ${r.segni.toUpperCase()}`));
   // il secondo giorno: chi ieri e' andato al lazzaretto ha il timbro della ditta
   if (r.ditta) dati.append(el("small", "sf-ditta-nota", r.ditta));
   const note = el("ul", "sf-note");
@@ -2673,7 +2763,7 @@ async function dormi() {
   osdSpento();
   vaiMappa();
   hud.replaceChildren();
-  const corpo = [el("h2", null, S.giorno === 1 ? "La prima notte" : "La seconda notte")];
+  const corpo = [el("h2", null, ["La prima notte", "La seconda notte", "La terza notte"][S.giorno - 1])];
   corpo.push(el("h3", null, "Al lazzaretto"));
   const portati = n.portati.map((id) => D.PERSONE[id].nome).join(", ");
   corpo.push(el("p", null, portati ? `${portati[0].toUpperCase()}${portati.slice(1)}.` : "Nessuno."));
@@ -2742,7 +2832,7 @@ function confronto(diagnosi, morti, anagrafe, persone, altri) {
       // chi era diventato un mostro e lo hai segnato (il timbro sullo stato di famiglia)
       if (vero === "mostro" && morti[r.persona] && persone[r.persona]) {
         date++; giuste++;
-        ul.append(el("li", null, `✓ ${r.nome}: l'hai trovata cambiata, un mostro.`));
+        ul.append(el("li", null, `✓ ${r.nome}: l'hai ${r.donna ? "trovata cambiata" : "trovato cambiato"}, un mostro.`));
         continue;
       }
       if (!mio) continue;
@@ -2763,6 +2853,8 @@ const VERITA1 = [
   "La nonna e il nastro 7 dicono la stessa cosa: la peste arriva con il medico.",
 ];
 
+const GIORNI = ["Il primo giorno", "Il secondo giorno", "Il terzo giorno"];
+
 function verita() {
   const corpo = [el("h2", null, "Com'era davvero")];
   // i giorni: quelli passati (archiviati) e oggi
@@ -2770,11 +2862,11 @@ function verita() {
     anagrafe: D.ANAGRAFE, persone: D.PERSONE, altri: D.ALTRI }];
   let tutte = 0, tutteDate = 0;
   for (const g of giorni) {
-    if (giorni.length > 1) corpo.push(el("h3", null, g.giorno === 1 ? "Il primo giorno" : "Il secondo giorno"));
+    if (giorni.length > 1) corpo.push(el("h3", null, GIORNI[g.giorno - 1]));
     const ul = el("ul");
-    for (const t of g.giorno === 1 ? VERITA1 : verita2(g.ieri)) ul.append(el("li", null, t));
+    for (const t of [() => VERITA1, verita2, verita3][g.giorno - 1](g.ieri)) ul.append(el("li", null, t));
     corpo.push(ul);
-    if (g.saltato) corpo.push(el("p", "nota", "Il primo giorno l'hai saltato (#giorno2): come se nessuno fosse andato al lazzaretto, e senza ospiti."));
+    if (g.saltato) corpo.push(el("p", "nota", `${GIORNI[g.giorno - 1]} l'hai saltato: come se nessuno fosse andato al lazzaretto, e senza ospiti.`));
     const { giuste, date, ul: dg } = confronto(g.diagnosi, g.morti, g.anagrafe, g.persone, g.altri);
     tutte += giuste;
     tutteDate += date;
@@ -2783,36 +2875,47 @@ function verita() {
     else corpo.push(el("p", "vuoto", "Non hai timbrato nessuno stato di famiglia."));
   }
   if (giorni.length > 1) corpo.push(el("p", "nota", `In tutto: ${tutte} giuste su ${tutteDate}.`));
-  corpo.push(el("p", "nota", S.giorno === 1 ? "Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove."
-    : "Fine della bozza: due giornate. Nel gioco, domani torneresti alla casa 5, dove il ragazzo è giù in cantina, e alla casa 10, dove la ditta cerca chi non si ammala."));
+  corpo.push(el("p", "nota", [
+    "Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove.",
+    "Fine della bozza: due giornate. Nel gioco, domani torneresti alla casa 5, dove il ragazzo è giù in cantina, e alla casa 10, dove la ditta cerca chi non si ammala.",
+    "Fine della bozza: tre giornate. Nel gioco, domani la ditta verrebbe a prendere le cinque giacche nere delle gemelle, e sotto la chiesa quelli che cambiano aspetterebbero che le campane si fermino.",
+  ][S.giorno - 1]));
   corpo.push(azioni([["Ricomincia dal primo giorno", ricomincia]]));
   apriFoglio("verita", corpo);
 }
 
-// il secondo giorno (bozza): le tabelle di giorno2.js, calcolate dalle scelte di ieri, prendono il posto di quelle di
-// dati.js; dello stato restano i soldi, la fiducia, la notte (il contagio sulla mappa) e il giornale di stamattina
-async function iniziaGiorno2() {
-  const ieri = { via: Object.values(S.decisioni).flatMap((d) => d.via), ospite: S.ospite, contagiate: S.notte?.contagiate || [] };
+// un giorno nuovo (bozza): le tabelle del giorno (giorno2.js, giorno3.js), calcolate dalle scelte dei giorni prima,
+// prendono il posto di quelle di dati.js; dello stato restano i soldi, la fiducia, la notte (il contagio sulla mappa),
+// il giornale di stamattina e chi e' diventato un mostro. Il giorno di oggi va tra i giorni passati, per la verita'
+function nuovoGiorno(n, tabelle, ieri) {
   const giorni = [...S.giorni, { giorno: S.giorno, diagnosi: S.diagnosi, morti: S.morti, ieri: S.ieri, saltato: S.saltato,
     anagrafe: D.ANAGRAFE, persone: D.PERSONE, altri: D.ALTRI }];
-  // i morti restano morti (il nonno, scoperto ieri)
   const resta = { soldi: S.soldi, fiducia: S.fiducia, notte: S.notte, giornale: S.giornaleDomani, morti: { ...S.morti } };
-  D = { ...D1, ...giorno2(ieri) };
-  S = Object.assign(nuovoStato(), resta, { giorno: 2, giorni, ieri });
+  D = { ...D1, ...tabelle };
+  S = Object.assign(nuovoStato(), resta, { giorno: n, giorni, ieri });
+}
+
+// il giorno nuovo comincia: le scene di oggi (con chi e' rimasto in casa) e i primi piani nuovi; sul telefono ci
+// vuole qualche secondo
+async function apriGiorno() {
   foglio.dataset.bloccato = "0";
   foglio.hidden = true;
   R.play = null;
   R.primo = null;
   R.scelta = null;
-  // le scene di oggi (con chi e' rimasto in casa) e i primi piani nuovi; sul telefono ci vuole qualche secondo
   parole.scrivi(null, "Riavvolgo i nastri…", { lato: "sotto" }, {}, { veloce: true });
   try {
     await apriPacchi();
     if (visitaPronta && !visita) await visitaPronta;
+    // le visite in plastilina (#creta) arrivano al secondo giorno: dal terzo si torna alle scene 2D
+    if (visita && S.giorno >= 3) {
+      visita = null;
+      visitaPronta = null;
+    }
     if (visita) await visita.prepara(D.LUOGHI);
     else await caricaLuoghi(D.LUOGHI);
   } catch (err) {
-    notifica("Le scene del secondo giorno non si caricano");
+    notifica(`Le scene del ${["", "", "secondo", "terzo"][S.giorno]} giorno non si caricano`);
     console.error(err);
   }
   parole.pulisci();
@@ -2823,8 +2926,25 @@ async function iniziaGiorno2() {
   introduzione();
 }
 
-// il secondo giorno come se il primo fosse finito senza nessuno al lazzaretto e senza ospiti (con #giorno2)
-function saltaAlGiorno2() {
+// il secondo giorno: chi e' andato al lazzaretto, chi ha dormito dal medico, dove e' passato il contagio
+async function iniziaGiorno2() {
+  const ieri = { via: Object.values(S.decisioni).flatMap((d) => d.via), ospite: S.ospite, contagiate: S.notte?.contagiate || [] };
+  nuovoGiorno(2, giorno2(ieri), ieri);
+  await apriGiorno();
+}
+
+// il terzo giorno: lo stesso per il secondo, e in piu' quello che hai scritto ieri sugli stati di famiglia (le note a
+// penna non barrate, "persona:id"), perche' la ditta lo legge
+async function iniziaGiorno3() {
+  const scritto = Object.entries(S.note).flatMap(([persona, l]) => l.filter((n) => !n.barrata).map((n) => `${persona}:${n.id}`));
+  const ieri = { ...S.ieri, via2: Object.values(S.decisioni).flatMap((d) => d.via), ospite2: S.ospite,
+    contagiate2: S.notte?.contagiate || [], scritto };
+  nuovoGiorno(3, giorno3(ieri), ieri);
+  await apriGiorno();
+}
+
+// la giornata di oggi chiusa senza nessuno al lazzaretto e senza ospiti, per saltarla (#giorno2, #giorno3)
+function saltaGiorno() {
   S.saltato = true;
   for (const n of D.FAX.case) {
     S.visitate[`casa${n}`] = true;
@@ -2833,8 +2953,24 @@ function saltaAlGiorno2() {
   S.notte = calcolaNotte();
   S.soldi += S.notte.incasso - S.notte.spese;
   S.fiducia = S.notte.fiducia;
+}
+
+// il secondo giorno come se il primo fosse finito senza nessuno al lazzaretto e senza ospiti (con #giorno2)
+function saltaAlGiorno2() {
+  saltaGiorno();
   S.giornaleDomani = giornaleDomani();
   return iniziaGiorno2();
+}
+
+// il terzo giorno come se i primi due fossero finiti cosi' (con #giorno3)
+function saltaAlGiorno3() {
+  saltaGiorno();
+  S.giornaleDomani = giornaleDomani();
+  const ieri = { via: [], ospite: null, contagiate: S.notte.contagiate };
+  nuovoGiorno(2, giorno2(ieri), ieri);
+  saltaGiorno();
+  S.giornaleDomani = giornale3(S.notte, S);
+  return iniziaGiorno3();
 }
 
 function ricomincia() {
@@ -3110,21 +3246,23 @@ async function avvia(dati) {
   await caricaStanza();
   parole.pulisci();
   if (dati && dati.S) S = Object.assign(nuovoStato(), dati.S);
-  // ripreso a meta' del secondo giorno (il codice ricaricato tiene lo stato): le tabelle e le scene di quel giorno
-  if (S.giorno === 2) {
-    D = { ...D1, ...giorno2(S.ieri) };
+  // ripreso a meta' del secondo o del terzo giorno (il codice ricaricato tiene lo stato): le tabelle e le scene di
+  // quel giorno
+  if (S.giorno >= 2) {
+    D = { ...D1, ...(S.giorno === 3 ? giorno3 : giorno2)(S.ieri) };
     await apriPacchi().catch(() => {});
-    if (!vhs || !conWebgl2 || !VISITE_3D) await caricaLuoghi(D.LUOGHI).catch(() => {});
+    if (!vhs || !conWebgl2 || !VISITE_3D || S.giorno >= 3) await caricaLuoghi(D.LUOGHI).catch(() => {});
   }
-  visitaPronta = VISITE_3D ? caricaVisite() : null;
+  visitaPronta = VISITE_3D && S.giorno < 3 ? caricaVisite() : null;
   if (S.schermo === "visita" && S.casa && S.luogo) vaiLuogo(S.luogo);
   else if (S.schermo === "mappa") vaiMappa();
   else if (S.schermo === "scrivania") vaiScrivania();
   else vaiStanza("inizio");
   precaricaPrimi();
-  // per giudicare la bozza del secondo giorno senza rigiocare il primo: #giorno2 nell'indirizzo
+  // per giudicare la bozza del secondo giorno senza rigiocare il primo: #giorno2 nell'indirizzo; del terzo, #giorno3
   // (non quando il codice si ricarica a meta' partita: lo stato e' gia' quello)
   if (location.hash === "#giorno2" && !(dati && dati.S)) saltaAlGiorno2();
+  else if (location.hash === "#giorno3" && !(dati && dati.S)) saltaAlGiorno3();
   else introduzione();
   // il controller (per lo Steam Deck): nella stanza 3D si cammina e si guarda con le levette, altrove la levetta
   // muove la punta del bastone
@@ -3146,7 +3284,7 @@ async function avvia(dati) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash.startsWith("#prova")) window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
+if (location.hash.startsWith("#prova")) window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, iniziaGiorno3, saltaAlGiorno3, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);

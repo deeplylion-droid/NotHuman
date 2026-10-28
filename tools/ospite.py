@@ -79,7 +79,8 @@ DORME = ("Keep the sleeping person in the iron bed exactly as in the first image
 
 
 def prompt_immagine(im, base, chi):
-    dorme = f" {DORME}" if im.get("sopra") else ""
+    # "letto_vuoto": la notte in cui la cosa nera porta via il medico, avvolto nella coperta (il letto resta vuoto)
+    dorme = f" {DORME}" if im.get("sopra") and not im.get("letto_vuoto") else ""
     if not chi:
         return (f"Edit this image: {im['azione']}{dorme} Keep everything else exactly as it is, in the same drawing "
                 f"style, with the same camera, framing and lighting, and every object in the same place: "

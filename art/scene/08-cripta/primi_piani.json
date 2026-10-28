@@ -1,0 +1,16 @@
+{
+ "assunta": {
+  "riferimento": "riferimento_assunta.jpg",
+  "scheda": "assunta",
+  "aspetto": "a grotesque, unsettling woman in her sixties who has changed into something like a melted candle: pure white, smooth, glossy waxen skin with thick drips of wax, the eyes closed and sealed under the wax, long loose grey hair stiff with wax, hands joined in prayer in front of the chest with the fingers fused into one long thin black point like a burnt wick, a long pale nightgown stiff and white with wax",
+  "parti": {
+   "occhi": "Her eyes are closed and sealed under a smooth layer of white wax, like the face of a candle; drops of wax hang from the lashes; the waxen face is glossy and slightly translucent, and under it thin dark veins show like wicks.",
+   "bocca": "Her lips are closed and covered by a thin glossy film of white wax that runs down the chin in drips; the mouth cannot open.",
+   "collo": "Her neck is pure white wax, smooth and glossy, with thick drips running down into the stiff collar of the nightgown; under the translucent wax, thin dark veins like burnt wicks; no buboes: they have melted into the wax.",
+   "mani": {
+    "inquadratura": "her hands joined in prayer in front of her chest",
+    "segni": "The hands are pure white wax, joined palm to palm; the fingers have fused together into one long, thin, black point, burnt and glossy like a candle wick; drips of wax run down the wrists."
+   }
+  }
+ }
+}

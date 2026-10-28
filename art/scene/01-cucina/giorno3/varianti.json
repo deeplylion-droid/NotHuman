@@ -1,0 +1,50 @@
+{
+  "maschere_da": [
+    "../giorno2/maschere_persone/persone_maschera1.png",
+    "../giorno2/maschere_persone/persone_maschera2.png"
+  ],
+  "varianti": {
+    "radicato": {
+      "da": "../giorno2/persone.jpg",
+      "schede": [
+        "padre"
+      ],
+      "prompt": "The second image is the reference sheet of the man. Edit the first image, two nights later. The plague did not kill the gaunt man in the denim jacket: in the night he changed into something else. He no longer stands in the left foreground by the kitchen counter: rebuild the counter and the cupboard doors there, empty. Now he sits at the far end of the kitchen table on the right, on the green plastic chair, facing the viewer, perfectly still, his forearms resting on the flowered tablecloth. His skin has become grey and dry, cracked all over in small plates like old bark or dry clay; his eyes are covered by a milky white film; his mouth hangs half open, dry and grey; his fingers have grown very long and thin, dark brown and knotted like roots, and they have pushed through the tablecloth into the wood of the table, spreading in thin cracks across it. In front of him on the table stands a white cup of coffee, untouched. He is still clearly the same man, with the same face and the same denim jacket, now stiff and dusty. The young woman with the blanket in the doorway at the back stays exactly identical, in the same place.",
+      "ritagli": [
+        "person",
+        "cup"
+      ]
+    },
+    "radicato_foto": {
+      "da": "radicato.jpg",
+      "maschere_da": [
+        "maschere_radicato/persone_maschera1.png",
+        "maschere_radicato/persone_maschera2.png"
+      ],
+      "schede": [
+        "padre"
+      ],
+      "prompt": "The second image is the reference sheet of the man. Re-render only the monstrous man sitting at the table as a realistic photograph, like the young woman in the doorway: real skin, real hair, real denim, photographic lighting, no drawn lines and no hatching on him. Keep exactly his monstrous features and his pose: his skin grey-brown, dry and cracked all over into small plates like the bark of an old tree, his eyes covered by a milky white film, his mouth half open, dry and grey, his very long, thin, knotted fingers like dark roots that push through the flowered tablecloth into the wood of the table, with thin cracks spreading from them across the table. The white cup of coffee stays in front of him. He is still clearly the same man, with the same face and the same denim jacket. Everything else in the image, including the room, its drawing style and the young woman in the doorway, stays exactly identical.",
+      "ritagli": [
+        "person",
+        "cup"
+      ]
+    },
+    "radicato2": {
+      "da": "../finale.jpg",
+      "maschere_da": [
+        "../../../prove-stile/11-personaggi-50/maschere/ammorbiditi_persone_maschera1.png",
+        "../../../prove-stile/11-personaggi-50/maschere/ammorbiditi_persone_maschera2.png",
+        "../../../prove-stile/11-personaggi-50/maschere/ammorbiditi_bastone_maschera1.png"
+      ],
+      "schede": [
+        "padre"
+      ],
+      "prompt": "The second image is the reference sheet of the man. Edit the first image, three days later. The plague did not kill the gaunt man in the denim jacket: in the night he changed into something else. He no longer stands in the left foreground by the kitchen counter: rebuild the counter and the cupboard doors there, empty. Now he sits at the far end of the kitchen table on the right, on the green plastic chair, facing the viewer, perfectly still, his forearms resting on the flowered tablecloth. His skin has become grey-brown, dry and cracked all over into small plates like the bark of an old tree; his eyes are covered by a milky white film; his mouth hangs half open, dry and grey; his fingers have grown very long, thin and knotted like dark roots, and they have pushed through the tablecloth into the wood of the table, with thin cracks spreading from them across the table. In front of him on the table stands a white cup of coffee, untouched. He is still clearly the same man, with the same face and the same denim jacket, now stiff and dusty. He is a realistic photograph with real skin, real hair and real fabric, exactly like the people in the first image, not a drawing. The young woman in the doorway at the back, the gloved hand with the cane in the lower right corner and the whole room stay exactly identical.",
+      "ritagli": [
+        "person",
+        "cup"
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "maschere_da": [
+    "../giorno2/maschere_mostro_senza_sponda/persone_maschera1.png"
+  ],
+  "varianti": {
+    "finestra": {
+      "da": "../giorno2/mostro_senza_sponda.jpg",
+      "prompt": "Edit the first image, one night later. The monstrous woman crouching on the headboard is gone: remove her completely and rebuild the wall, the window and the headboard behind her. She escaped through the window: the window above the bed is wide open, its glass panes shattered outwards, with sharp shards left in the frame and a few on the windowsill; the blue roller shutter is torn and bent outwards, hanging crooked; outside it is dark. On the white windowsill and on the wall under it there are long black scratches, as from claws. The bed stays torn apart and empty, with the green blanket and the pillow on the floor, exactly as before. Keep the room, the furniture, the camera, the framing and the light exactly identical, pixel for pixel. Realistic photograph, no text, no border.",
+      "ritagli": ["window"]
+    }
+  }
+}

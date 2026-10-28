@@ -1,0 +1,19 @@
+{
+ "ragazzo": {
+  "riferimento": "riferimento_ragazzo.jpg",
+  "scheda": "ragazzo",
+  "aspetto": "a young man of about twenty who has changed into a cocoon: his body curled up and wrapped in a thick tangle of grey and black threads, like mould or old cobwebs, that grow out of his own skin and hang him from a beam; only his face is free: pale, smooth and wet, with dark wet hair stuck to the forehead, open dark eyes and grey lips",
+  "parti": {
+   "occhi": "His eyes are open, very dark and wet, and they do not blink; thin grey threads grow from the corners of the eyes and the eyelids into the cocoon around the face.",
+   "bocca": "Grey lips, slightly parted; a few thin grey threads come out of the corners of the mouth; he breathes very slowly, and the threads tremble with each breath.",
+   "collo": {
+    "inquadratura": "where his neck should be, under the jaw, at the edge of the cocoon",
+    "segni": "The pale skin under the jaw turns into a tangle of grey and black threads, like mould, that grow out of it and wrap around him; the threads are wet and warm, and something pulses slowly under them."
+   },
+   "mani": {
+    "inquadratura": "one of his hands pushing out of the cocoon of threads",
+    "segni": "A pale, thin hand half swallowed by the cocoon: the fingers are long and white, and grey threads grow out of the fingertips and from under the nails like roots of mould, fastening the hand to the rest of the cocoon."
+   }
+  }
+ }
+}

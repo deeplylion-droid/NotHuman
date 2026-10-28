@@ -1,0 +1,41 @@
+{
+ "sacrestano": {
+  "riferimento": "riferimento_sacrestano.jpg",
+  "scheda": "sacrestano",
+  "aspetto": "a grotesque but almost photographic short, plump, soft old man in his seventies, healthy and well fed: a perfectly round pale face with pink cheeks, a tiny pursed mouth, enormous thick round black-rimmed glasses that magnify his pale eyes hugely, thick black dyed hair combed flat with brilliantine; in a black cardigan buttoned over a white shirt closed up to the neck, holding a big iron ring of old keys",
+  "parti": {
+   "occhi": "His pale eyes are hugely magnified behind the thick round lenses of his black-rimmed glasses, so big that they fill the lenses; the whites are clear: no fever, no sweat.",
+   "occhi_febbre": "His pale eyes, hugely magnified behind the thick round lenses, are glassy and red-rimmed with fever; beads of sweat on his forehead under the dyed black hair.",
+   "bocca": "A tiny pursed mouth with thin pale lips in a round, soft, pink face; healthy; nothing unusual.",
+   "collo": {
+    "inquadratura": "his soft, plump neck and the collar of his white shirt buttoned up to the throat",
+    "segni": "A thin black cord around his neck disappears under the buttoned collar of the shirt; the skin is soft and pale: no swelling, no lumps."
+   },
+   "collo_febbre": {
+    "inquadratura": "his soft, plump neck and the collar of his white shirt, unbuttoned, the cord pulled aside",
+    "segni": "Under the jaw a hard, swollen lump the size of a walnut, red and shiny: a plague bubo just beginning; the skin wet with sweat."
+   },
+   "mani": {
+    "inquadratura": "both his soft white hands held out in front, backs up, from the wrists to the fingertips",
+    "segni": "Soft, white, plump hands with short clean nails and a little white candle wax under them; on the back of the right hand, three long parallel scratches, red and fresh, as if made by fingernails."
+   }
+  }
+ },
+ "giona": {
+  "riferimento": "riferimento_giona.jpg",
+  "scheda": "giona",
+  "aspetto": "a grotesque but almost photographic giant in his forties: an enormous heavy body with huge shoulders and enormous hands, but a strangely small shaved round head with small ears close to the skull, small gentle eyes, red flushed cheeks, a wide mouth slightly open; in a grey ribbed knitted sweater too small for him and brown corduroy trousers",
+  "parti": {
+   "occhi": "Small, gentle eyes in the small shaved head, glassy and red-rimmed with fever; the forehead shines with sweat and the cheeks are flushed red.",
+   "bocca": "A wide mouth, slightly open; healthy teeth; the lips dry and cracked from fever; nothing else.",
+   "collo": {
+    "inquadratura": "the side of his thick neck under the small shaved head, the collar of the grey sweater pulled down",
+    "segni": "Under the jaw a hard swollen lump the size of a walnut, red and shiny: a plague bubo just beginning; the skin wet with sweat."
+   },
+   "mani": {
+    "inquadratura": "his huge right forearm and hand, the sleeve of the grey sweater pushed up to the elbow, a dirty strip of cloth unwound from the forearm",
+    "segni": "On the inside of the forearm, a human bite: two curved rows of small tooth marks, swollen, red and crusted, a few days old; the hand is enormous, with thick calluses and red rope burns across the palm."
+   }
+  }
+ }
+}

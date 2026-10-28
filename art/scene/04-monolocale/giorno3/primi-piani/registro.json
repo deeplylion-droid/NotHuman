@@ -1,0 +1,82 @@
+{
+  "marito_occhi_grave": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a grotesque but almost photographic big old man in his seventies, heavy and broad: a big bald head with a fringe of grey hair at the sides, large ears, heavy bushy brows over small tired eyes, a big bulbous nose, a thick white walrus moustache and a heavy jaw; in a white vest, wrapped in a green and brown patterned wool blanket), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. His small eyes are sunken and glassy with very high fever, the whites red; sweat runs from his bald head; the skin around the eyes grey. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:../riferimento_marito.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/marito.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "marito_occhi_grave.png"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": ""
+  },
+  "marito_mani_grave": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both hands resting on his knees, from the wrists to the fingertips of the person in the reference image (a grotesque but almost photographic big old man in his seventies, heavy and broad: a big bald head with a fringe of grey hair at the sides, large ears, heavy bushy brows over small tired eyes, a big bulbous nose, a thick white walrus moustache and a heavy jaw; in a white vest, wrapped in a green and brown patterned wool blanket), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Big, heavy hands with broad spatula fingertips and bluish nail beds; now the tips of three fingers are turning black, as if burnt, dry and hard. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:../riferimento_marito.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/marito.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "marito_mani_grave.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "marito_collo_grave": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of the neck, from under the jaw to the collarbone of the person in the reference image (a grotesque but almost photographic big old man in his seventies, heavy and broad: a big bald head with a fringe of grey hair at the sides, large ears, heavy bushy brows over small tired eyes, a big bulbous nose, a thick white walrus moustache and a heavy jaw; in a white vest, wrapped in a green and brown patterned wool blanket), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Under the jaw, a large, hard, dark purple swelling the size of an egg, tight and shiny, with a darker spot in the middle: a plague bubo; the wrinkled skin around it hot and shiny with sweat. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:../riferimento_marito.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/marito.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "marito_collo_grave.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "moglie_occhi_febbre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a grotesque but almost photographic woman in her fifties, short, broad and sturdy: a big round head, a severe jet-black bob, a heavy frowning brow with thick dark eyebrows, small dark suspicious eyes, a big bulbous nose, a small downturned mouth; in a dark green knitted cardigan), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Small, dark, suspicious eyes under the heavy frowning brow, now glassy and red-rimmed with fever; beads of sweat on the forehead under the black fringe; the cheeks flushed. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:../riferimento_moglie.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/moglie.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "moglie_occhi_febbre.png"
+    ],
+    "seed": null,
+    "secondi": 58,
+    "descrizione": ""
+  }
+}

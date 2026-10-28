@@ -1,0 +1,82 @@
+{
+  "ragazzo_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of one of his hands pushing out of the cocoon of threads of the person in the reference image (a young man of about twenty who has changed into a cocoon: his body curled up and wrapped in a thick tangle of grey and black threads, like mould or old cobwebs, that grow out of his own skin and hang him from a beam; only his face is free: pale, smooth and wet, with dark wet hair stuck to the forehead, open dark eyes and grey lips), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A pale, thin hand half swallowed by the cocoon: the fingers are long and white, and grey threads grow out of the fingertips and from under the nails like roots of mould, fastening the hand to the rest of the cocoon. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_ragazzo.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/ragazzo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ragazzo_mani.png"
+    ],
+    "seed": null,
+    "secondi": 37,
+    "descrizione": ""
+  },
+  "ragazzo_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of where his neck should be, under the jaw, at the edge of the cocoon of the person in the reference image (a young man of about twenty who has changed into a cocoon: his body curled up and wrapped in a thick tangle of grey and black threads, like mould or old cobwebs, that grow out of his own skin and hang him from a beam; only his face is free: pale, smooth and wet, with dark wet hair stuck to the forehead, open dark eyes and grey lips), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. The pale skin under the jaw turns into a tangle of grey and black threads, like mould, that grow out of it and wrap around him; the threads are wet and warm, and something pulses slowly under them. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_ragazzo.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/ragazzo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ragazzo_collo.png"
+    ],
+    "seed": null,
+    "secondi": 61,
+    "descrizione": ""
+  },
+  "ragazzo_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a young man of about twenty who has changed into a cocoon: his body curled up and wrapped in a thick tangle of grey and black threads, like mould or old cobwebs, that grow out of his own skin and hang him from a beam; only his face is free: pale, smooth and wet, with dark wet hair stuck to the forehead, open dark eyes and grey lips), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Grey lips, slightly parted; a few thin grey threads come out of the corners of the mouth; he breathes very slowly, and the threads tremble with each breath. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_ragazzo.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/ragazzo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ragazzo_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 62,
+    "descrizione": ""
+  },
+  "ragazzo_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a young man of about twenty who has changed into a cocoon: his body curled up and wrapped in a thick tangle of grey and black threads, like mould or old cobwebs, that grow out of his own skin and hang him from a beam; only his face is free: pale, smooth and wet, with dark wet hair stuck to the forehead, open dark eyes and grey lips), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. His eyes are open, very dark and wet, and they do not blink; thin grey threads grow from the corners of the eyes and the eyelids into the cocoon around the face. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_ragazzo.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/ragazzo.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ragazzo_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 67,
+    "descrizione": ""
+  }
+}

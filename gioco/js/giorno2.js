@@ -17,6 +17,9 @@ import * as D1 from "./dati.js";
 const copia = (o) => JSON.parse(JSON.stringify(o));
 // le battute di chi c'e': si scartano quelle con la voce di chi oggi non c'e' (null)
 const righe = (...r) => r.filter(Boolean);
+// le note a penna sulla nuora che dicono alla ditta che non si ammala (la ditta legge gli stati di famiglia: il terzo
+// giorno, in giorno3.js, il furgone se l'e' presa)
+export const IMMUNE = ["p:immune", "d:non_si_ammala", "d:niente_nuora"];
 
 export function giorno2(ieri) {
   const via = new Set(ieri.via || []);
@@ -915,7 +918,12 @@ export function giornale3(n, oggi) {
   const presi = n.portati;
   let titolo = "Il medico torna nelle stesse case";
   let sommario = "Secondo giro alla casa 3 e alla casa 5. In paese ci si chiede cosa cerchi.";
-  if (presi.includes("nonna")) {
+  // quello che hai scritto sulla nuora: stanotte la ditta l'ha letto (se non l'hai portata via tu, o a dormire da te)
+  const scritta = (oggi.note?.nuora || []).some((x) => !x.barrata && IMMUNE.includes(x.id));
+  if (scritta && !presi.includes("nuora") && n.ospite?.chi !== "nuora") {
+    titolo = "Il furgone bianco in Vicolo Stretto";
+    sommario = "Alle tre di notte la Panacea si è fermata dalla vedova Serra. «Prelievo programmato», dice la ditta. La suocera urlava dalla finestra.";
+  } else if (presi.includes("nonna")) {
     titolo = "Portata via la nonna del vicolo";
     sommario = "Ottantasei anni. La Panacea: «Rientrava nel profilo». La nipote l'ha seguita fino al recinto.";
   } else if (presi.includes("nuora")) {

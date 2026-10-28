@@ -582,5 +582,21 @@
     "seed": null,
     "secondi": 33,
     "descrizione": ""
+  },
+  "notte_solo_4": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this image: The iron bed is empty, the covers torn off it. A tall, thin, dark shape with no face and no features, like the shadow of a person with very long arms, stands at the open door of the small room at the back, holding in its long arms a body wrapped completely in the bedspread like a bundle, the head and the feet hidden inside the cloth; it is carrying it into the darkness of the small room. Keep everything else exactly as it is, in the same drawing style, with the same camera, framing and lighting, and every object in the same place: the iron bed with the nightstand and the holy picture on the left, the ajar door of the spare room at the back, the table with the checked tablecloth and the chairs, the coat rack with the coat and hat, the rug, the television and the VHS tapes on the desk in the foreground, the wooden chair. No faces visible, no hands or objects belonging to the viewer, no text.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "notte_solo_4.png"
+    ],
+    "seed": null,
+    "secondi": 40,
+    "descrizione": ""
   }
 }

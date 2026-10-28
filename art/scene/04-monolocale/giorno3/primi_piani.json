@@ -1,0 +1,26 @@
+{
+ "marito": {
+  "riferimento": "../riferimento_marito.jpg",
+  "scheda": "marito",
+  "aspetto": "a grotesque but almost photographic big old man in his seventies, heavy and broad: a big bald head with a fringe of grey hair at the sides, large ears, heavy bushy brows over small tired eyes, a big bulbous nose, a thick white walrus moustache and a heavy jaw; in a white vest, wrapped in a green and brown patterned wool blanket",
+  "parti": {
+   "occhi_grave": "His small eyes are sunken and glassy with very high fever, the whites red; sweat runs from his bald head; the skin around the eyes grey.",
+   "collo_grave": {
+    "inquadratura": "the side of the neck, from under the jaw to the collarbone",
+    "segni": "Under the jaw, a large, hard, dark purple swelling the size of an egg, tight and shiny, with a darker spot in the middle: a plague bubo; the wrinkled skin around it hot and shiny with sweat."
+   },
+   "mani_grave": {
+    "inquadratura": "both hands resting on his knees, from the wrists to the fingertips",
+    "segni": "Big, heavy hands with broad spatula fingertips and bluish nail beds; now the tips of three fingers are turning black, as if burnt, dry and hard."
+   }
+  }
+ },
+ "moglie": {
+  "riferimento": "../riferimento_moglie.jpg",
+  "scheda": "moglie",
+  "aspetto": "a grotesque but almost photographic woman in her fifties, short, broad and sturdy: a big round head, a severe jet-black bob, a heavy frowning brow with thick dark eyebrows, small dark suspicious eyes, a big bulbous nose, a small downturned mouth; in a dark green knitted cardigan",
+  "parti": {
+   "occhi_febbre": "Small, dark, suspicious eyes under the heavy frowning brow, now glassy and red-rimmed with fever; beads of sweat on the forehead under the black fringe; the cheeks flushed."
+  }
+ }
+}

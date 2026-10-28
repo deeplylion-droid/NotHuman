@@ -1,0 +1,138 @@
+{
+  "base": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "First-person view of a plague doctor standing in the small front room of the sacristan's old stone house, built against the bell tower of a mountain village church, present day, late afternoon: dark wooden wainscoting up to the waist and plain whitewashed walls above, a low ceiling crossed by one dark wooden beam; on the left a tall, very dark wooden wardrobe for church vestments; on the back wall a wooden board with a row of hooks holding old iron keys of different sizes, and a small framed holy picture of a saint; in the right corner two thick bell ropes hang straight down from a square hole in the ceiling to the floor, each with a red and white striped woollen grip; at the back right a low, heavy wooden door with a big black iron bolt, leading down to the cellar; in the middle a small square table with a white cloth, on it a soup plate covered with an upside-down saucer, a spoon beside it, and a brass tray with a cluster of half-burnt white church candles. A single ceiling lamp gives even, slightly yellow light. Two people face the viewer in an uneasy silence. Standing beside the table is the sacristan, a short, plump, soft man in his seventies, healthy and well fed: a perfectly round, pale face with pink cheeks, a tiny pursed mouth, enormous thick round glasses that magnify his pale eyes so much that they seem to fill the lenses, and thick hair dyed an impossible glossy jet black, combed flat and straight back with brilliantine; he wears a black cardigan buttoned over a white shirt closed up to the neck, black trousers and black slippers, and he holds a big iron ring of keys against his chest with both soft white hands. On the right, on a low wooden stool under the bell ropes, sits his son, a giant in his forties, so tall that even sitting his head is almost level with his father's: enormous shoulders, long arms, huge hands resting on his knees, but a strangely small, shaved round head with small ears close to the skull, and a gentle, vacant face with a wide mouth slightly open; he wears a grey knitted sweater too small for him, with the sleeves pulled down over his wrists, and brown corduroy trousers; his face is flushed and his forehead shines with sweat. They are hiding something: the father looks at the viewer through his huge lenses with his tiny mouth pressed shut, the son stares at the floor. No hands, arms or objects belonging to the viewer are visible in the frame. Realistic photograph, evenly exposed, everything clearly readable, no dramatic shadows. 16:9, no text, no border.",
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "base.png"
+    ],
+    "seed": null,
+    "secondi": 71,
+    "descrizione": null
+  },
+  "fumetto": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Completely re-render this image in the style described below, transforming it far beyond a filter: redraw every surface, light and texture in that technique. Keep the composition: the dark wardrobe, the board of old keys and the holy picture, the two bell ropes with their striped grips, the low cellar door with the iron bolt, and the small table with the covered soup plate and the candles, and the short plump man standing beside the table holding the ring of keys against his chest, and the giant sitting on the low stool under the bell ropes, in the same places and poses. The two people must become drawn, deformed, grotesque characters, not photographs: strange caricatures rather than sick ones: exaggerated and distorted proportions, the father's head perfectly round and his eyes hugely magnified by the thick lenses, the giant's head far too small for his enormous body and his hands enormous; their mouths closed, with the same tense, serious expressions as in the photo: no smiles, no grins, no visible teeth; unsettling and sinister, but well fed, with full cheeks and clean skin: never wasted, dirty or dying, never cute or cartoonish. No text, no signature, no watermark.\nSTYLE: a 1970s European underground comic panel: bold black brush-ink outlines, expressive scratchy crosshatching, flat muted colors with no gradients (mustard, olive green, brick red, dirty beige), halftone dots in the shadows.",
+      "image_urls": [
+        "@file:base.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": "high",
+      "output_format": "png"
+    },
+    "file": [
+      "fumetto.png"
+    ],
+    "seed": null,
+    "secondi": 74,
+    "descrizione": null
+  },
+  "stanza_stile": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Remove the two people completely, with everything they hold. Reconstruct the empty room behind them naturally, in the same drawing style. Keep everything else exactly identical and in the same place: the dark wardrobe, the board of old keys and the holy picture, the two bell ropes with their striped grips, the low cellar door with the iron bolt, and the small table with the covered soup plate and the candles, the same lighting and the same camera. Do not draw any face anywhere.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile.png"
+    ],
+    "seed": null,
+    "secondi": 35,
+    "descrizione": ""
+  },
+  "ammorbiditi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render only the two people as realistic photographs: real skin with pores, real hair, real fabric and real leather, photographic lighting. Keep exactly their grotesque, deformed features from this image: the same perfectly round head, the same hugely magnified eyes behind the thick lenses and the same glossy dyed black hair of the father, the same tiny head on the enormous body and the same huge hands of the son, the same closed mouths and serious expressions, with healthy skin and full cheeks; the father is in his seventies, the son in his forties, flushed with fever (the hatching of the drawing is shading, not wrinkles), and the same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do not make them look more normal. Everything else in the image stays exactly identical.",
+      "image_urls": [
+        "@file:fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "ammorbiditi.png"
+    ],
+    "seed": null,
+    "secondi": 46,
+    "descrizione": ""
+  },
+  "stanza_stile_pulita": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Edit this comic drawing of an empty room. Keep exactly the same drawing style (bold black brush-ink outlines, flat muted colors with no gradients, light crosshatching only where there is shadow), the same composition and every object in exactly the same place and size. Clean only the walls and the ceiling: they become plain whitewashed plaster above dark wooden wainscoting, a few faint damp stains, and a low ceiling with one dark wooden beam. Remove all peeling and flaking paint, exposed patches, cracks, dirt streaks and texture marks that are not real objects. Do not add anything. No people, no faces, no text.",
+      "image_urls": [
+        "@file:stanza_stile.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_stile_pulita.png"
+    ],
+    "seed": null,
+    "secondi": 36,
+    "descrizione": ""
+  },
+  "stanza_vuota": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render this drawing of an empty room as a realistic photograph, like an ordinary amateur snapshot, evenly exposed. The walls and the ceiling are plain whitewashed plaster above dark wooden wainscoting, a few faint damp stains, and a low ceiling with one dark wooden beam: do not copy the drawing's cracks, peeling or flaking paint, stains or hatching. Keep everything else exactly identical and in exactly the same place and size: the dark wardrobe, the board of old keys and the holy picture, the two bell ropes with their striped grips, the low cellar door with the iron bolt, and the small table with the covered soup plate and the candles, the lighting, the camera and the framing. Do not add any people, hands or objects, and no faces anywhere.",
+      "image_urls": [
+        "@file:stanza_stile_pulita.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "stanza_vuota.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "persone": {
+    "modello": "fal-ai/sam-3/image",
+    "input": {
+      "image_url": "@file:../ammorbiditi.jpg",
+      "prompt": "person",
+      "apply_mask": false,
+      "include_scores": true,
+      "output_format": "png",
+      "return_multiple_masks": true,
+      "max_masks": 6
+    },
+    "file": [
+      "persone.png",
+      "persone_maschera1.png",
+      "persone_maschera2.png",
+      "persone_maschera3.png"
+    ],
+    "seed": null,
+    "secondi": 6,
+    "descrizione": null
+  }
+}

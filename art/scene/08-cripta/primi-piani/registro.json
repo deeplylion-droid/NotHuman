@@ -1,0 +1,82 @@
+{
+  "assunta_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a grotesque, unsettling woman in her sixties who has changed into something like a melted candle: pure white, smooth, glossy waxen skin with thick drips of wax, the eyes closed and sealed under the wax, long loose grey hair stiff with wax, hands joined in prayer in front of the chest with the fingers fused into one long thin black point like a burnt wick, a long pale nightgown stiff and white with wax), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Her eyes are closed and sealed under a smooth layer of white wax, like the face of a candle; drops of wax hang from the lashes; the waxen face is glossy and slightly translucent, and under it thin dark veins show like wicks. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_assunta.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/assunta.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "assunta_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": ""
+  },
+  "assunta_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of the neck, from under the jaw to the collarbone of the person in the reference image (a grotesque, unsettling woman in her sixties who has changed into something like a melted candle: pure white, smooth, glossy waxen skin with thick drips of wax, the eyes closed and sealed under the wax, long loose grey hair stiff with wax, hands joined in prayer in front of the chest with the fingers fused into one long thin black point like a burnt wick, a long pale nightgown stiff and white with wax), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Her neck is pure white wax, smooth and glossy, with thick drips running down into the stiff collar of the nightgown; under the translucent wax, thin dark veins like burnt wicks; no buboes: they have melted into the wax. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_assunta.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/assunta.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "assunta_collo.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
+  },
+  "assunta_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a grotesque, unsettling woman in her sixties who has changed into something like a melted candle: pure white, smooth, glossy waxen skin with thick drips of wax, the eyes closed and sealed under the wax, long loose grey hair stiff with wax, hands joined in prayer in front of the chest with the fingers fused into one long thin black point like a burnt wick, a long pale nightgown stiff and white with wax), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Her lips are closed and covered by a thin glossy film of white wax that runs down the chin in drips; the mouth cannot open. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_assunta.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/assunta.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "assunta_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 39,
+    "descrizione": ""
+  },
+  "assunta_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of her hands joined in prayer in front of her chest of the person in the reference image (a grotesque, unsettling woman in her sixties who has changed into something like a melted candle: pure white, smooth, glossy waxen skin with thick drips of wax, the eyes closed and sealed under the wax, long loose grey hair stiff with wax, hands joined in prayer in front of the chest with the fingers fused into one long thin black point like a burnt wick, a long pale nightgown stiff and white with wax), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. The hands are pure white wax, joined palm to palm; the fingers have fused together into one long, thin, black point, burnt and glossy like a candle wick; drips of wax run down the wrists. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_assunta.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/assunta.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "assunta_mani.png"
+    ],
+    "seed": null,
+    "secondi": 62,
+    "descrizione": ""
+  }
+}
