@@ -847,23 +847,23 @@ export function giorno2(ieri) {
     controllo: [[null, "Il buio della stanzetta. La brandina è vuota."], [null, "Sulla coperta piegata c'è un incavo, come se qualcuno ci fosse stato seduto."]],
     nastro: ["[la stanza al buio. Il medico dorme]", "[qualcosa è chino sul letto, come ieri notte]", "[adesso è seduto sul letto. Ti tiene una mano sul petto]"],
     immagini: ["notte_dorme", "notte_solo_2", "notte_solo_3"],
-    mattina: "Hai dormito solo. Sul nastro la cosa nera è seduta sul tuo letto, con una mano sul tuo petto. È la seconda notte: in paese dicono che alla terza ti porta via.",
+    mattina: "Sul nastro la cosa nera è seduta sul tuo letto, con una mano sul tuo petto. Alla terza notte, dicono, ti porta via.",
   };
-  for (const p of ["figlia", "giovane", "nonna"]) OSPITE[p].mattina += " Aveva la fronte calda.";
+  for (const p of ["figlia", "giovane", "nonna"]) OSPITE[p].mattina += " All'alba aveva la fronte calda.";
   // le case nuove: la moglie esce alle undici per il recinto; la nuora e' l'unica che non si ammala
   OSPITE.moglie = {
     arriva: "La moglie di Galli è venuta con te. «Tanto alle undici attacco», ha detto. Aspetta nella stanzetta, vestita.",
     controllo: [["MOGLIE", "Chiudete pure. Non dormo, tanto."], [null, "È seduta sulla brandina, vestita e con le scarpe. Guarda l'orologio."]],
     nastro: ["[la stanza al buio. Il medico dorme]", "[la moglie di Galli è sulla porta della stanzetta, vestita. Ti guarda dormire]",
       "[alla scrivania legge il tuo fax, alla luce del televisore. Poi lo rimette a posto]"],
-    mattina: "La moglie di Galli è uscita alle undici, col coprifuoco, verso il recinto. Sul nastro, prima di andare, legge il tuo fax e lo rimette a posto. Uscendo ti ha chiesto un'aspirina: aveva la fronte calda.",
+    mattina: "La moglie di Galli. Alle undici è uscita verso il recinto; prima, sul nastro, legge il tuo fax. Aveva la fronte calda.",
   };
   OSPITE.nuora = {
     arriva: "La nuora è venuta con te, di nascosto dalla suocera. Ha portato la sua candeggina. Dorme nella stanzetta.",
     controllo: [["NUORA", "Lasciate uno spiraglio. Al buio sento ancora il suo respiro."], [null, "È seduta sulla brandina e si rigira la fede di Paolo tra le dita."]],
     nastro: ["[la stanza al buio. Il medico dorme]", "[la nuora è sulla porta della stanzetta, con la candeggina e uno straccio]",
       "[in ginocchio, lava il pavimento attorno al tuo letto]"],
-    mattina: "All'alba la nuora è tornata a casa, prima che la suocera si svegliasse. Sul nastro lava con la candeggina il pavimento attorno al tuo letto, per un'ora. Le hai sentito la fronte: non scotta. È l'unica.",
+    mattina: "La nuora. Sul nastro lava con la candeggina il pavimento attorno al tuo letto. La fronte non scotta: è l'unica.",
   };
 
   return {

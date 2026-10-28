@@ -91,7 +91,7 @@ export function giorno3(ieri) {
     sacrestano: { nome: "il sacrestano", voce: "SACRESTANO", casa: "casa7", luogo: "sacrestia7", stato: sacrestano3, profilo: sacrestano3 === "sano",
       calore: CALDO[sacrestano3], volto: "g3/sacrestano", ospite: "all'alba deve suonare" },
     giona: { nome: "Giona", voce: "GIONA", casa: "casa7", luogo: "sacrestia7", stato: "malato", profilo: false, calore: 0.82,
-      volto: "g3/giona" },
+      volto: "g3/giona", ospite: "dorme sotto le campane" },
     assunta: { nome: "la moglie del sacrestano", voce: "ASSUNTA", casa: "casa7", luogo: "cripta7", stato: "mostro", profilo: false,
       calore: 0.1, volto: "g3/assunta", muto: "canta a bocca chiusa, non risponde" },
     // casa 4: le gemelle. Lia ha la febbre (sotto la cipria) e un bubbone sotto l'ascella
@@ -1026,11 +1026,11 @@ export function giorno3(ieri) {
   // la moglie senza permesso non va piu' al recinto; la nuora senza la suocera non ha da chi nascondersi
   if (dittaSa) Object.assign(OSPITE.moglie, {
     arriva: "La moglie di Galli è venuta con te. «Tanto al recinto non mi fanno più entrare», ha detto. Aspetta nella stanzetta, vestita.",
-    mattina: "La moglie di Galli non ha dormito. Sul nastro, alle tre, legge il tuo fax alla luce del televisore e lo rimette a posto. All'alba è tornata dal marito: aveva la fronte calda.",
+    mattina: "La moglie di Galli. Non ha dormito: sul nastro, alle tre, legge il tuo fax. Aveva la fronte calda.",
   });
   if (!suocera) Object.assign(OSPITE.nuora, {
     arriva: "La nuora è venuta con te. A casa non l'aspetta più nessuno. Ha portato la sua candeggina. Dorme nella stanzetta.",
-    mattina: "All'alba la nuora è tornata nella casa vuota. Sul nastro lava con la candeggina il pavimento attorno al tuo letto, per un'ora. Le hai sentito la fronte: non scotta. È l'unica.",
+    mattina: "La nuora, che a casa non ha più nessuno. Sul nastro lava il pavimento attorno al tuo letto. La fronte non scotta: è l'unica.",
   });
   if (soli === 0) OSPITE.solo = copia(D1.OSPITE.solo);
   else if (soli === 2) OSPITE.solo = {
@@ -1039,7 +1039,7 @@ export function giorno3(ieri) {
     nastro: ["[la stanza al buio. Il medico dorme]", "[la cosa nera è seduta sul letto, come ieri notte]",
       "[adesso il letto è vuoto. La cosa nera ti porta nella stanzetta, avvolto nella coperta]"],
     immagini: ["notte_dorme", "notte_solo_3", "notte_solo_4"],
-    mattina: "Ti sei svegliato sulla brandina della stanzetta, avvolto nella coperta, con la maschera accanto. Non ricordi di esserti alzato. Sul nastro la cosa nera ti porta di là, in braccio, come un bambino. È la terza notte: il malvento ti ha preso, e ti ha lasciato andare.",
+    mattina: "Ti sei svegliato nella stanzetta, sulla brandina. Sul nastro la cosa nera ti porta di là, in braccio, come un bambino. Il malvento ti ha preso, e ti ha lasciato andare.",
   };
 
   // quello che arriva dai giorni prima (le zone e gli esami copiati) non mette sul nastro frasi e prove che oggi

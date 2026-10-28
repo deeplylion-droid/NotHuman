@@ -142,12 +142,16 @@ GIORNO2 = {
         "sfondo": "art/scene/02-soggiorno/stanza_vuota.jpg", "sfondo_stile": "art/scene/02-soggiorno/stanza_stile_pulita.jpg",
         "strati": {
             "uomo": ("uomo", 0.95, G2S + "persone.jpg", [G2S + "maschere_persone/persone_maschera1.png"]),
-            "giovane": ("giovane", 0.4, G2S + "persone.jpg", [G2S + "maschere_persone/persone_maschera2.png"]),
-            "giovane_febbre": ("giovane", 0.78, G2S + "persone_febbre.jpg",
-                               [G2S + "maschere_persone_febbre/persone_maschera2.png"]),
+            # la ragazza intera (28 ottobre): nella variante l'uomo davanti le copriva il braccio e il fianco destro, e
+            # senza di lui restava tagliata; giovane_intera e' la variante senza l'uomo, con lei completa
+            "giovane": ("giovane", 0.4, G2S + "giovane_intera.jpg", [G2S + "maschere_giovane_intera/persone_maschera1.png"]),
+            "giovane_febbre": ("giovane", 0.78, G2S + "giovane_intera_febbre.jpg",
+                               [G2S + "maschere_giovane_intera_febbre/persone_maschera1.png"]),
             "nonna": ("nonna", 0.5, G2S + "persone.jpg", [G2S + "maschere_persone/persone_maschera3.png",
                                                          G2S + "maschere_persone/bastone_maschera1.png"]),
         },
+        # l'uomo sta davanti alla ragazza: si monta per ultimo e la copre
+        "davanti": ["uomo"],
         # il ragazzo, portato giu' in cantina: un calore debole sotto il pavimento, vicino alla porta
         "nascosti": [("ellisse", 0.83, 0.94, 0.09, 0.04, 0.6)],
         "lampade": [(0.385, 0.02, 0.03, 0.55)],
@@ -196,8 +200,8 @@ VOLTI2 = {
     "figlia": (G2C + "persone.jpg", (0.445, 0.225, 0.515, 0.345)),
     "madre": (G2K + "mostro_senza_sponda.jpg", (0.44, 0.02, 0.565, 0.26)),
     "uomo": (G2S + "persone.jpg", (0.56, 0.04, 0.70, 0.29)),
-    "giovane": (G2S + "persone.jpg", (0.45, 0.16, 0.56, 0.36)),
-    "giovane_febbre": (G2S + "persone_febbre.jpg", (0.45, 0.16, 0.56, 0.36)),
+    "giovane": (G2S + "giovane_intera.jpg", (0.45, 0.16, 0.56, 0.36)),
+    "giovane_febbre": (G2S + "giovane_intera_febbre.jpg", (0.45, 0.16, 0.56, 0.36)),
     "nonna": (G2S + "persone.jpg", (0.33, 0.20, 0.45, 0.40)),
     "moglie": (G2M + "finale.jpg", (0.355, 0.03, 0.505, 0.34)),
     "marito": (G2M + "finale.jpg", (0.75, 0.29, 0.909, 0.62)),
@@ -245,6 +249,7 @@ GIORNO3 = {
     },
     "soggiorno2": {
         **{k: GIORNO2["soggiorno2"][k] for k in ("sfondo", "sfondo_stile", "lampade")},
+        "davanti": ["uomo"],
         # Davide in cantina: il bozzolo e' tiepido, sotto il pavimento
         "nascosti": [("ellisse", 0.83, 0.94, 0.09, 0.04, 0.45)],
         "strati": {
@@ -334,6 +339,9 @@ def fonte(f):
 
 
 def mask(paths, size):
+    # una maschera gia' calcolata (strati(): la persona come si vede, senza la parte coperta da chi sta davanti)
+    if isinstance(paths, np.ndarray):
+        return cv2.resize(paths, size, interpolation=cv2.INTER_AREA)
     m = np.zeros((size[1], size[0]), np.float32)
     for p in paths:
         a = np.asarray(Image.open(ROOT / p).convert("L").resize(size, Image.BILINEAR)).astype(np.float32) / 255
@@ -580,21 +588,29 @@ def strati(cartella, nome, G, calore_vivo=False, salva=None):
         per_persona.setdefault(strato[0], []).append(s)
     # ogni persona: assente o uno dei suoi strati
     scelte = [[None] + lista for lista in per_persona.values()]
+    # "davanti": chi sta davanti agli altri si monta per ultimo e li copre (l'uomo della casa 5 davanti alla ragazza)
+    davanti = G.get("davanti", [])
     n = 0
     for combo in itertools.product(*scelte):
         presenti = [s for s in combo if s]
         img = stanza.copy()
-        for s in presenti:
+        visibili = {}
+        for s in sorted(presenti, key=lambda s: G["strati"][s][0] in davanti):
             # un quinto elemento, se c'e', e' la maschera per montare la scena (piu' larga della sola persona)
             persona, caldo, src, paths, *monta = G["strati"][s]
             m = Image.fromarray((mask(monta[0] if monta else paths, size) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(3))
             m = np.asarray(m.filter(ImageFilter.GaussianBlur(1.2))).astype(np.float32)[..., None] / 255
             fig = np.asarray(Image.open(fonte(src)).convert("RGB").resize(size, Image.LANCZOS)).astype(np.float32) / 255
             img = img * (1 - m) + fig * m
+            # la persona come si vede: chi sta davanti copre la parte degli altri (per gli altri resta la maschera)
+            if persona in davanti:
+                for altro in visibili:
+                    visibili[altro] = mask(visibili[altro], size) * (1 - m[..., 0])
+            visibili[s] = paths
         scena = Image.fromarray((np.clip(img, 0, 1) * 255 + 0.5).astype(np.uint8))
         if salva:
             salva(presenti, scena)
-        L = {"persone": [G["strati"][s][0:2] + (G["strati"][s][3],) for s in presenti],
+        L = {"persone": [G["strati"][s][0:2] + (visibili[s],) for s in presenti],
              "nascosti": G["nascosti"], "lampade": G["lampade"], "calore_vivo": calore_vivo}
         luogo(f"{cartella}/{nome}-{'-'.join(presenti) or 'vuota'}", L, scena)
         n += 1

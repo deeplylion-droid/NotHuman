@@ -922,10 +922,13 @@ def mobili():
     importa("cardboard_box_01", (-2.2, -1.35), rot=0.2, appoggia=sa)
     # per terra: gli stivali di gomma vicino alla porta
     importa("rubber_boots", (-0.75, 2.78), rot=math.pi + 0.1)
-    # il portalampada col filo e la lampadina nuda, al centro
+    # il portalampada col filo e la lampadina nuda, al centro (appoggiato con la punta della catenella; la porcellana
+    # va da ALTA - 0.51 a ALTA - 0.455, col foro della lampadina sotto). Il modello della lampadina sta in piedi (il
+    # vetro in alto): appesa va capovolta, con l'attacco avvitato nel foro (28 ottobre: "la lampadina e' al
+    # contrario"; prima pendeva sotto il portalampada, col filo che passava dentro e spuntava sotto)
     importa("pull_chain_light_socket", (0.0, 0.3), appoggia=ALTA - 0.62)
-    importa("lightbulb_01", (0.0, 0.3), rot=0.0, appoggia=ALTA - 0.74)
-    scatola("filo", (0.0, ALTA - 0.3, 0.3), (0.008, 0.6, 0.008), MAT["plastica_nera"])
+    importa("lightbulb_01", (0.0, 0.3), rot=0.0, inclina=math.pi, appoggia=ALTA - 0.59)
+    scatola("filo", (0.0, ALTA - 0.23, 0.3), (0.008, 0.46, 0.008), MAT["plastica_nera"])
     scatola("rosone", (0.0, ALTA - 0.012, 0.3), (0.09, 0.024, 0.09), MAT["ceramica"], smusso=0.01)
     # l'orologio sopra la porta, la cornice col manifesto della ditta accanto
     importa("wall_clock", (PORTA["x"], Z1 - 0.03), rot=math.pi, appoggia=2.32)
@@ -1254,13 +1257,13 @@ def luci(fase):
         l.shadow_soft_size = 0.03
         l.color = (1.0, 0.72, 0.42)
         o = bpy.data.objects.new("lampadina", l)
-        o.location = B(0.0, ALTA - 0.78, 0.3)
+        o.location = B(0.0, ALTA - 0.63, 0.3)
         collezione("luci").objects.link(o)
     else:
         bg.inputs["Color"].default_value = (0.012, 0.018, 0.04, 1)
         bg.inputs["Strength"].default_value = 1.0
         # la lampadina nuda e la lampada della scrivania: calde
-        for nome, pos, energia, raggio, colore in [("lampadina", (0.0, ALTA - 0.78, 0.3), 70, 0.03, (1.0, 0.72, 0.42)),
+        for nome, pos, energia, raggio, colore in [("lampadina", (0.0, ALTA - 0.63, 0.3), 70, 0.03, (1.0, 0.72, 0.42)),
                                                    ("lampada", (SCRIVANIA["x"] - 0.55, 1.12, SCRIVANIA["z"] - 0.1), 18, 0.02,
                                                     (1.0, 0.68, 0.38))]:
             l = bpy.data.lights.new(nome, "POINT")

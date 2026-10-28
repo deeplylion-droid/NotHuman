@@ -280,13 +280,40 @@ function disegnaScena() {
   ctx.drawImage(IMG[S.luogo], 0, 0, W, H);
   disegnaVolti(ctx, S.luogo, R.facce);
   if (R.hover && R.hover.persona && !R.primo) {
-    ctx.globalCompositeOperation = "lighter";
-    ctx.globalAlpha = R.hover.parte ? 0.07 : 0.14;
+    // chi e' sotto il puntatore: un velo di luce che schiarisce gli scuri ma non i chiari ("screen"), e l'alone
+    // attorno alla sagoma. Prima era luce aggiunta su tutta la persona ("lighter"), e la videocamera la bruciava
+    // ancora (la lampada e l'alone delle luci forti, in vhs.js): sulle gemelle si accendevano chiazze
+    ctx.globalCompositeOperation = "screen";
+    ctx.globalAlpha = R.hover.parte ? 0.06 : 0.12;
     ctx.drawImage(IMG[`${S.luogo}_${R.hover.persona}`], 0, 0, W, H);
+    ctx.globalCompositeOperation = "lighter";
+    ctx.globalAlpha = R.hover.parte ? 0.35 : 0.7;
+    ctx.drawImage(alone(S.luogo, R.hover.persona), 0, 0, W, H);
     ctx.globalCompositeOperation = "source-over";
     ctx.globalAlpha = 1;
   }
   if (vhs && vhs.source === R.scena) vhs.refresh();
+}
+
+// l'alone di una persona: la luce che esce dal bordo della sua sagoma, solo fuori (dentro resta com'e')
+const ALONI = {};
+function alone(luogo, persona) {
+  const k = `${luogo}_${persona}`;
+  const s = IMG[k];
+  if (ALONI[k]?.sagoma === s) return ALONI[k].canvas;
+  const c = document.createElement("canvas");
+  c.width = s.naturalWidth;
+  c.height = s.naturalHeight;
+  const ctx = c.getContext("2d");
+  ctx.shadowColor = "rgba(255, 234, 184, 1)";
+  ctx.shadowBlur = Math.round(c.width / 90);
+  ctx.drawImage(s, 0, 0);
+  ctx.drawImage(s, 0, 0);
+  ctx.shadowColor = "transparent";
+  ctx.globalCompositeOperation = "destination-out";
+  ctx.drawImage(s, 0, 0);
+  ALONI[k] = { sagoma: s, canvas: c };
+  return c;
 }
 
 // ---------- le facce: le espressioni sono teste ritagliate da incollare sopra la scena ----------
@@ -474,6 +501,7 @@ function pulisci() {
   mostraIndicatori(null);
   if (stanza) stanza.esci();
   if (vhs) { vhs.prima = null; vhs.setEsame(0); }
+  schermo.classList.remove("contagio");
   schermo.dataset.schermo = S.schermo;
 }
 
@@ -856,13 +884,13 @@ async function usaStanza(id) {
   if (id === "scrivania") return vaiScrivania();
   if (id === "videoregistratore") { R.ritorno = "stanza"; return apriNastri(); }
   if (id === "porta") {
-    if (S.fase === "sera") return dici([[null, "È il coprifuoco. Fino a domattina non si esce."]], false);
+    if (S.fase === "sera") return dici([[null, "È il coprifuoco. Fino a domattina non si esce."]], false, false);
     suoni.suona("porta", { volume: 0.7 });
     return vaiMappa();
   }
   if (id === "letto") {
     if (S.fase === "sera") return dormi();
-    return dici([[null, "Non è ancora ora di dormire. La ditta paga a paziente."]], false);
+    return dici([[null, "Non è ancora ora di dormire. La ditta paga a paziente."]], false, false);
   }
   if (id === "ospite" && S.fase === "sera") return controllaOspite();
   const T = D.STANZA[id];
@@ -873,7 +901,7 @@ async function usaStanza(id) {
     stanza.socchiudi(true);
     suoni.suona("porta", { volume: 0.6 });
   }
-  await dici(righe.map((r) => [null, r]), false);
+  await dici(righe.map((r) => [null, r]), false, false);
   if (id === "ospite") stanza.socchiudi(false);
 }
 
@@ -903,12 +931,12 @@ async function azioneScrivania(id) {
   if (id === "soldi") return apriSoldi();
   if (id === "nastri") { R.ritorno = "scrivania"; return apriNastri(); }
   if (id === "mappa" || id === "maschera") {
-    if (S.fase === "sera") return dici([[null, "È il coprifuoco. Fino a domattina non si esce."]], false);
+    if (S.fase === "sera") return dici([[null, "È il coprifuoco. Fino a domattina non si esce."]], false, false);
     return vaiMappa();
   }
   if (id === "lampada") {
     if (S.fase === "sera") return dormi();
-    return dici([[null, "La lampada. Si spegne quando è ora di dormire."]], false);
+    return dici([[null, "La lampada. Si spegne quando è ora di dormire."]], false, false);
   }
 }
 
@@ -965,10 +993,6 @@ function apriFax() {
 
 // il giornale: la carta e' disegnata, il testo e' stampato sopra con la stessa prospettiva della pagina
 const U = 400, V0 = -0.72;
-// la lente d'ingrandimento per i testi piccoli: quanto ingrandisce, e se e' in mano (resta com'era tra un giornale
-// e l'altro). Col dito parte posata: in mano, trascinare il dito muove la lente invece di far scorrere il foglio
-const ZOOM_LENTE = 2.4;
-let lenteInMano = !matchMedia("(pointer: coarse)").matches;
 
 function apriGiornale(domani) {
   const g = domani ? [giornaleDomani, giornale3, giornale4][S.giorno - 1](S.notte, S) : S.giornale || D.GIORNALE;
@@ -1002,7 +1026,6 @@ function apriGiornale(domani) {
     blocco("colonna2", "gio-colonna", lettera, el("p", null, g.breve), el("p", "gio-pubblicita", g.pubblicita)),
   );
   stampa.append(carta, piano);
-  const rifaiLente = lente(stampa, carta, piano);
   // sugli schermi stretti la pagina e' troppo piccola: sotto c'e' lo stesso testo da leggere
   const leggibile = el("div", "gio-leggibile");
   leggibile.append(el("h2", null, g.titolo), el("p", "gio-l-sommario", g.sommario), el("p", null, g.articolo),
@@ -1021,7 +1044,6 @@ function apriGiornale(domani) {
     const k = M[2][2];
     const m = M.map((riga) => riga.map((v) => v / k));
     piano.style.transform = `matrix3d(${m[0][0]},${m[1][0]},0,${m[2][0]},${m[0][1]},${m[1][1]},0,${m[2][1]},0,0,1,0,${m[0][2]},${m[1][2]},0,${m[2][2]})`;
-    rifaiLente();
   };
   // il titolo si stringe finche' non entra nella fascia
   const titolo = piano.querySelector(".gio-titolo span");
@@ -1036,68 +1058,6 @@ function apriGiornale(domani) {
   requestAnimationFrame(() => { adatta(); proietta(); });
   if (document.fonts) document.fonts.ready.then(() => { adatta(); proietta(); });
   if (window.ResizeObserver) new ResizeObserver(proietta).observe(stampa);
-}
-
-// la lente: un doppione della pagina (carta e testo), ingrandito, dentro un cerchio che segue il puntatore. Col dito
-// sta un po' sopra il punto toccato (sotto, se in cima alla pagina non c'e' posto), se no il dito la copre. L'icona in
-// alto a sinistra la posa e la riprende. Restituisce la funzione da chiamare quando la pagina cambia (la prospettiva,
-// il titolo che si stringe, la finestra): il doppione si rifa' al movimento dopo
-function lente(stampa, carta, piano) {
-  const vetro = el("div", "gio-lente");
-  vetro.hidden = true;
-  const icona_ = el("button", "gio-prendi-lente");
-  icona_.type = "button";
-  icona_.insertAdjacentHTML("beforeend", icona("lente"));
-  const nome = el("span", "gio-prendi-nome");
-  icona_.append(nome);
-  const segna = () => {
-    const testo = lenteInMano ? "Posa la lente" : "Prendi la lente";
-    icona_.setAttribute("aria-label", testo);
-    icona_.setAttribute("aria-pressed", String(lenteInMano));
-    nome.textContent = testo;
-    stampa.classList.toggle("con-lente", lenteInMano);
-    if (!lenteInMano) vetro.hidden = true;
-  };
-  icona_.addEventListener("click", (e) => {
-    e.stopPropagation();
-    lenteInMano = !lenteInMano;
-    segna();
-  });
-  stampa.append(vetro, icona_);
-  segna();
-  let doppione = null;
-  let vecchio = true;
-  const guarda = (e) => {
-    const r = stampa.getBoundingClientRect();
-    const x = e.clientX - r.left;
-    const y = e.clientY - r.top;
-    if (!lenteInMano || e.target.closest(".gio-prendi-lente") || x < 0 || y < 0 || x > r.width || y > r.height) {
-      vetro.hidden = true;
-      return;
-    }
-    if (vetro.hidden || vecchio) {
-      // il doppione si rifa' a ogni comparsa e dopo ogni cambio della pagina, cosi' ha sempre la prospettiva e il
-      // titolo di adesso (se il puntatore e' gia' sul giornale quando si apre, la prima copia arriva prima della
-      // prospettiva: sotto la lente c'era la pagina sbagliata)
-      vecchio = false;
-      doppione = el("div", "gio-doppione");
-      doppione.append(carta.cloneNode(true), piano.cloneNode(true));
-      doppione.style.width = `${r.width}px`;
-      doppione.style.height = `${r.height}px`;
-      vetro.replaceChildren(doppione);
-      vetro.hidden = false;
-    }
-    const R = vetro.offsetWidth / 2;
-    const su = e.pointerType === "touch" ? (y > R * 1.6 ? R * 1.15 : -R * 1.15) : 0;
-    vetro.style.transform = `translate(${x - R}px, ${y - R - su}px)`;
-    doppione.style.transform = `translate(${R - x * ZOOM_LENTE}px, ${R - y * ZOOM_LENTE}px) scale(${ZOOM_LENTE})`;
-  };
-  stampa.addEventListener("pointermove", guarda);
-  stampa.addEventListener("pointerdown", guarda);
-  stampa.addEventListener("pointerleave", () => { vetro.hidden = true; });
-  stampa.addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") vetro.hidden = true; });
-  stampa.addEventListener("pointercancel", () => { vetro.hidden = true; });
-  return () => { vecchio = true; };
 }
 
 function moltiplica(A, B) {
@@ -1230,6 +1190,7 @@ function disegnaMappa() {
   ctx.globalCompositeOperation = "source-over";
   ctx.globalAlpha = 1;
   ctx.drawImage(IMG.mappa, 0, 0, w, h);
+  if (R.contagio?.diffusione) frecceContagio(ctx, w, h);
   for (const id of new Set([R.casaScelta, R.casaSopra])) {
     if (!id) continue;
     const c = D.CASE[id];
@@ -2040,9 +2001,11 @@ function rigaStato(casa, r, firmata) {
         if (S.lazzaretto[persona] && S.ospite === persona) S.ospite = null;
         ridisegnaStato(casa);
       }),
-      // "ospite" della persona: perche' non puo' venire (il marito della casa 2 non si regge in piedi)
-      sceltaStato("ospite", "Ospite stanotte", ospite ? "dorme da te" : P.ospite || (!sano ? "solo chi è sano"
-        : preso ? `c'è già ${D.PERSONE[S.ospite].nome}` : "dorme da te"), ospite, !!firmata || !sano || !!preso || !!P.ospite, () => {
+      // "ospite" della persona: perche' non puo' venire (il marito della casa 2 non si regge in piedi); chi non ha la
+      // sua notte in D.OSPITE (un mostro timbrato sano per sbaglio) non viene
+      sceltaStato("ospite", "Ospite stanotte", ospite ? "dorme da te" : P.ospite || (!D.OSPITE[persona] ? "non può venire"
+        : !sano ? "solo chi è sano" : preso ? `c'è già ${D.PERSONE[S.ospite].nome}` : "dorme da te"), ospite,
+      !!firmata || !sano || !!preso || !!P.ospite || !D.OSPITE[persona], () => {
         S.ospite = S.ospite === persona ? null : persona;
         if (S.ospite === persona) S.lazzaretto[persona] = false;
         ridisegnaStato(casa);
@@ -2703,8 +2666,11 @@ async function riproduciVecchio() {
 // ---------- la notte ----------
 
 function calcolaNotte() {
-  const righe = [];
   const contagiate = [];
+  // casa per casa com'e' andata ("passa": il contagio va ai vicini, "fermo": la croce lo tiene dentro, "pulita": niente
+  // malati) e da dove a dove e' passato il contagio, per le frecce sulla mappa
+  const case_ = [];
+  const diffusione = [];
   let incasso = 0;
   let fiducia = S.fiducia;
   const portati = [];
@@ -2720,23 +2686,30 @@ function calcolaNotte() {
       portati.push(id);
     }
     const malati = membri.filter(([id, p]) => p.stato !== "sano" && !via.includes(id)).length + (D.NASCOSTI[casa] || []).length;
-    const sani = membri.filter(([id, p]) => p.stato === "sano" && !via.includes(id)).map(([, p]) => p.nome);
-    const vicini = c.vicini.map((v) => D.CASE[v].n).join(" e ");
+    const sani = membri.some(([id, p]) => p.stato === "sano" && !via.includes(id));
+    let esito = "pulita", perche = "nessun malato in casa";
     if (!dec) {
-      righe.push(`Casa ${c.n}: nessuna visita. Il contagio passa alle case ${vicini}.`);
-      contagiate.push(...c.vicini);
+      esito = "passa";
+      perche = "nessuna visita";
     } else if (dec.provvedimento === "chiudi") {
-      if (malati) righe.push(`Casa ${c.n}: chiusa con la croce. Il contagio non esce, ma dentro ci sono ancora malati${sani.length ? `: domani rischiano anche ${sani.join(", ")}` : ""}.`);
-      else { righe.push(`Casa ${c.n}: chiusa con la croce, ma dentro non c'erano più malati.`); fiducia -= 10; }
+      if (malati) {
+        esito = "fermo";
+        perche = sani ? "la croce lo tiene dentro, coi sani" : "la croce lo tiene dentro";
+      } else {
+        fiducia -= 10;
+        perche = "la croce, ma non c'erano malati";
+      }
     } else if (malati) {
-      righe.push(`Casa ${c.n}: dentro restano malati. Il contagio passa alle case ${vicini}.${dec.provvedimento === "domani" ? " Domani ci torni." : ""}`);
-      contagiate.push(...c.vicini);
-    } else righe.push(`Casa ${c.n}: nessun malato rimasto in casa.`);
-    // chi ti ha cacciato lo racconta in giro
-    if (S.cacciato[casa]) {
-      righe.push(`Casa ${c.n}: ti hanno cacciato. In paese se ne parla.`);
-      fiducia -= 10;
+      esito = "passa";
+      perche = "malati rimasti in casa";
     }
+    if (esito === "passa") {
+      contagiate.push(...c.vicini);
+      diffusione.push({ da: casa, a: [...c.vicini] });
+    }
+    // chi ti ha cacciato lo racconta in giro
+    if (S.cacciato[casa]) fiducia -= 10;
+    case_.push({ casa, n: c.n, esito, perche, a: esito === "passa" ? [...c.vicini] : [], cacciato: !!S.cacciato[casa] });
   }
   // l'ospite: averne preso uno sano si sa in giro, e piace; uno malato in casa del medico no
   let ospite = null;
@@ -2744,10 +2717,9 @@ function calcolaNotte() {
     const malato = D.PERSONE[S.ospite].stato !== "sano";
     ospite = { chi: S.ospite, malato };
     fiducia += malato ? -5 : 5;
-    if (malato) righe.push(`Hai dormito con ${D.PERSONE[S.ospite].nome} malato in casa: il contagio è entrato nella tua stanza.`);
   }
   const spese = D.SOLDI.stanza + D.SOLDI.cena + D.SOLDI.cassetta * S.nastri.length;
-  return { righe, contagiate: [...new Set(contagiate)], incasso, spese, fiducia, portati, ospite };
+  return { contagiate: [...new Set(contagiate)], case: case_, diffusione, incasso, spese, fiducia, portati, ospite };
 }
 
 async function dormi() {
@@ -2761,23 +2733,161 @@ async function dormi() {
   S.schermo = "notte";
   pulisci();
   osdSpento();
+  // la mattina, sulla mappa: il contagio della notte, con le frecce rosse dalle case ai vicini (28 ottobre: "la cosa
+  // importante e' sapere come si e' diffuso il contagio"), e accanto un resoconto corto
+  R.contagio = { diffusione: n.diffusione, t0: performance.now() };
   vaiMappa();
   hud.replaceChildren();
-  const corpo = [el("h2", null, ["La prima notte", "La seconda notte", "La terza notte"][S.giorno - 1])];
-  corpo.push(el("h3", null, "Al lazzaretto"));
-  const portati = n.portati.map((id) => D.PERSONE[id].nome).join(", ");
-  corpo.push(el("p", null, portati ? `${portati[0].toUpperCase()}${portati.slice(1)}.` : "Nessuno."));
-  corpo.push(el("h3", null, n.ospite ? "L'ospite" : "Da solo"));
-  corpo.push(el("p", null, D.OSPITE[n.ospite ? n.ospite.chi : "solo"].mattina));
-  corpo.push(el("h3", null, "Il contagio"));
-  const ul = el("ul");
-  for (const r of n.righe) ul.append(el("li", null, r));
-  corpo.push(ul);
-  corpo.push(el("h3", null, "I conti"));
-  corpo.push(el("p", null, `Compenso della ditta: ${n.incasso} €. Spese: ${n.spese} € (stanza, cena, ${S.nastri.length} cassette). Restano ${S.soldi} €.`));
-  corpo.push(azioni([["Il giornale del mattino", () => apriGiornale(true)]]));
+  aiuto(null);
+  mostraIndicatori(null);
+  schermo.classList.add("contagio");
   foglio.dataset.bloccato = "1";
-  apriFoglio("notte", corpo);
+  apriFoglio("notte", resoconto(n));
+  inquadraContagio(n);
+  animaContagio();
+}
+
+// la videocamera stringe sulle case da cui e' passato il contagio e su quelle prese, nella parte di mappa che il
+// foglio del resoconto lascia libera (a destra; sul telefono in piedi il foglio sta sotto e copre tutta la larghezza)
+function inquadraContagio(n) {
+  const coinvolte = n.diffusione.flatMap(({ da, a }) => [da, ...a]).map((id) => D.CASE[id]);
+  if (!vhs || !coinvolte.length) return;
+  const s = schermo.getBoundingClientRect();
+  const c = foglio.querySelector(".carta").getBoundingClientRect();
+  const coperta = c.width < s.width * 0.6 ? clamp((c.right - s.left) / s.width, 0, 0.5) : 0;
+  const xs = coinvolte.map((k) => k.ex), ys = coinvolte.map((k) => k.ey);
+  // un po' di margine attorno alle case, di piu' sopra per le puntine
+  const x0 = Math.min(...xs) - 0.05, x1 = Math.max(...xs) + 0.05;
+  const y0 = Math.min(...ys) - 0.1, y1 = Math.max(...ys) + 0.05;
+  const z = clamp(Math.min((0.96 - coperta) / (x1 - x0), 0.9 / (y1 - y0)), 1, 1.8);
+  // il centro delle case va al centro della parte libera
+  vhs.tween({ zoom: z, cx: clamp((x0 + x1) / 2 - coperta / 2 / z, 0.5 / z, 1 - 0.5 / z),
+    cy: clamp((y0 + y1) / 2, 0.5 / z, 1 - 0.5 / z) }, 1400);
+}
+
+// il resoconto della notte: il contagio prima di tutto, casa per casa; poi una riga per chi e' andato al
+// lazzaretto, una per l'ospite e una per i soldi
+function resoconto(n) {
+  const casella = (num, cls = "") => el("span", `nt-casa ${cls}`, String(num));
+  const contagio = el("ul", "nt-contagio");
+  // prima le case da cui il contagio e' passato, poi quelle chiuse con la croce, poi le pulite
+  const ordine = { passa: 0, fermo: 1, pulita: 2 };
+  for (const c of [...n.case].sort((a, b) => ordine[a.esito] - ordine[b.esito])) {
+    const li = el("li", `nt-${c.esito}`);
+    li.append(casella(c.n, c.esito === "passa" ? "fonte" : ""));
+    if (c.esito === "passa") {
+      li.append(el("span", "nt-freccia", "→"));
+      for (const v of c.a) li.append(casella(D.CASE[v].n, "presa"));
+    } else li.append(el("span", "nt-segno", c.esito === "fermo" ? "✝" : "·"));
+    li.append(el("small", null, c.perche + (c.cacciato ? " · ti hanno cacciato" : "")));
+    contagio.append(li);
+  }
+  // l'ospite malato porta il contagio nella stanza del medico
+  if (n.ospite?.malato) {
+    const li = el("li", "nt-passa");
+    li.append(casella("✚", "fonte"), el("span", "nt-freccia", "→"), el("span", "nt-casa presa nt-tua", "la tua stanza"),
+      el("small", null, `${D.PERSONE[n.ospite.chi].nome}, ${donna(n.ospite.chi) ? "malata" : "malato"}, ha dormito da te`));
+    contagio.append(li);
+  }
+  const nuove = n.contagiate.length;
+  const riga = (titolo, testo) => {
+    const p = el("p", "nt-riga");
+    p.append(el("b", null, titolo), document.createTextNode(testo));
+    return p;
+  };
+  const portati = n.portati.map((id) => D.PERSONE[id].nome).join(", ");
+  const O = D.OSPITE[n.ospite ? n.ospite.chi : "solo"];
+  return [
+    el("h2", null, ["La prima notte", "La seconda notte", "La terza notte"][S.giorno - 1]),
+    el("h3", "nt-titolo", nuove ? `Il contagio: ${nuove === 1 ? "una casa nuova" : `${nuove} case nuove`}` : "Il contagio non è passato"),
+    contagio,
+    riga("Al lazzaretto ", portati ? `${portati}.` : "nessuno."),
+    riga(n.ospite ? "Ospite " : "Da solo ", O.mattina),
+    riga("Soldi ", `+${n.incasso} € dalla ditta, −${n.spese} € di spese: restano ${S.soldi} €.`),
+    azioni([["Il giornale del mattino", () => { R.contagio = null; apriGiornale(true); }]]),
+  ];
+}
+
+// chi e' donna, dallo stato di famiglia (per accordare "malato" e "malata")
+function donna(persona) {
+  return Object.values(D.ANAGRAFE).some((A) => A.righe.some((r) => r.persona === persona && r.donna));
+}
+
+// mentre le frecce crescono e la videocamera stringe, la mappa si ridisegna e le puntine la seguono; poi tutto resta
+// fermo (ogni immagine nuova della mappa torna intera alla videocamera, e costa), e pulsano solo le puntine (CSS)
+function animaContagio() {
+  const fine = R.contagio.t0 + Math.max(1500, FRECCIA.via + R.contagio.diffusione.length * FRECCIA.dopo + FRECCIA.cresce);
+  const giro = (t) => {
+    if (!R.contagio || S.schermo !== "mappa") return;
+    posizionaSpilli();
+    disegnaMappa();
+    if (t < fine + 100) requestAnimationFrame(giro);
+  };
+  requestAnimationFrame(giro);
+}
+
+// i tempi delle frecce, in millisecondi: quando parte la prima, ogni quanto la casa dopo, quanto ci mette a crescere
+const FRECCIA = { via: 300, dopo: 300, cresce: 800 };
+
+// il contagio della notte sulla mappa: da ogni casa da cui e' passato una freccia rossa cresce fino a ogni vicina (una
+// casa dopo l'altra; le frecce di una casa insieme), poi resta; attorno alla casa presa, quando arriva, un cerchio rosso
+function frecceContagio(ctx, w, h) {
+  const ora = performance.now() - R.contagio.t0;
+  const s = w / 1600;
+  ctx.save();
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  R.contagio.diffusione.forEach(({ da, a }, i) => {
+    const p = clamp((ora - FRECCIA.via - i * FRECCIA.dopo) / FRECCIA.cresce, 0, 1);
+    if (!p) return;
+    const c0 = D.CASE[da];
+    for (const v of a) {
+      const c1 = D.CASE[v];
+      const x0 = c0.ex * w, y0 = c0.ey * h, x1 = c1.ex * w, y1 = c1.ey * h;
+      const d = Math.hypot(x1 - x0, y1 - y0) || 1;
+      const ux = (x1 - x0) / d, uy = (y1 - y0) / d;
+      // si parte e si arriva un po' fuori dalla casa, con una curva leggera
+      const ax = x0 + ux * 14 * s, ay = y0 + uy * 14 * s, bx = x1 - ux * 22 * s, by = y1 - uy * 22 * s;
+      const mx = (ax + bx) / 2 - uy * d * 0.18, my = (ay + by) / 2 + ux * d * 0.18;
+      const punto = (u) => [(1 - u) ** 2 * ax + 2 * (1 - u) * u * mx + u * u * bx, (1 - u) ** 2 * ay + 2 * (1 - u) * u * my + u * u * by];
+      const traccia = () => {
+        ctx.beginPath();
+        ctx.moveTo(ax, ay);
+        for (let k = 1; k <= 24; k++) ctx.lineTo(...punto(p * k / 24));
+      };
+      // sotto un'ombra scura, perche' il rosso si legga sulla mappa
+      ctx.strokeStyle = "rgba(20, 4, 4, 0.6)";
+      ctx.lineWidth = 11 * s;
+      traccia();
+      ctx.stroke();
+      ctx.strokeStyle = "#ff4a36";
+      ctx.lineWidth = 5.5 * s;
+      traccia();
+      ctx.stroke();
+      // la punta, nella direzione della curva
+      const [hx, hy] = punto(p);
+      const tx = 2 * (1 - p) * (mx - ax) + 2 * p * (bx - mx), ty = 2 * (1 - p) * (my - ay) + 2 * p * (by - my);
+      const tl = Math.hypot(tx, ty) || 1;
+      const px = tx / tl, py = ty / tl, l = 21 * s, k = 11 * s;
+      ctx.beginPath();
+      ctx.moveTo(hx + px * l * 0.6, hy + py * l * 0.6);
+      ctx.lineTo(hx - px * l * 0.6 - py * k, hy - py * l * 0.6 + px * k);
+      ctx.lineTo(hx - px * l * 0.6 + py * k, hy - py * l * 0.6 - px * k);
+      ctx.closePath();
+      ctx.lineWidth = 4 * s;
+      ctx.strokeStyle = "rgba(20, 4, 4, 0.6)";
+      ctx.stroke();
+      ctx.fillStyle = "#ff4a36";
+      ctx.fill();
+      if (p < 1) continue;
+      ctx.strokeStyle = "rgba(255, 74, 54, 0.85)";
+      ctx.lineWidth = 4 * s;
+      ctx.beginPath();
+      ctx.ellipse(c1.ex * w, c1.ey * h, c1.rx * w * 1.2, c1.ry * h * 1.2, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  });
+  ctx.restore();
 }
 
 function giornaleDomani() {
@@ -2900,6 +3010,7 @@ function nuovoGiorno(n, tabelle, ieri) {
 async function apriGiorno() {
   foglio.dataset.bloccato = "0";
   foglio.hidden = true;
+  R.contagio = null;
   R.play = null;
   R.primo = null;
   R.scelta = null;
@@ -2978,6 +3089,7 @@ function ricomincia() {
   S = nuovoStato();
   foglio.dataset.bloccato = "0";
   foglio.hidden = true;
+  R.contagio = null;
   R.play = null;
   aggiornaNastro();
   if (stanza) vaiStanza("inizio");
@@ -3203,7 +3315,9 @@ async function caricaStanza() {
       s.senzaBlocco = true;
       s.adattiva = false;
     }
-    s.puoi = () => (S.schermo === "stanza" || S.schermo === "scrivania") && !R.occupato && foglio.hidden && !parole.occupata();
+    // nella stanza le frasi non fermano le mani: un clic su una cosa la usa anche se c'e' ancora una frase a schermo
+    // (prima il primo clic serviva solo a farla andare avanti, e la cosa non si usava)
+    s.puoi = () => (S.schermo === "stanza" || S.schermo === "scrivania") && !R.occupato && foglio.hidden;
     stanza = s;
   } catch (err) {
     console.warn("Stanza 3D non disponibile:", err);
@@ -3270,7 +3384,7 @@ async function avvia(dati) {
     schermo,
     nellaStanza: () => S.schermo === "stanza" && !!stanza && !stanza.seduto && foglio.hidden,
     stanza: () => stanza,
-    usa: () => { if (parole.occupata()) parole.salta(); else if (!R.occupato) stanza?.usaMirino(); },
+    usa: () => { if (parole.occupata()) parole.salta(); if (!R.occupato) stanza?.usaMirino(); },
     indietro,
     // il mirino al centro, come col mouse bloccato
     mirino: (si) => {

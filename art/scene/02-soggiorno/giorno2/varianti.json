@@ -36,6 +36,36 @@
       "ritagli": [
         "person"
       ]
+    },
+    "giovane_intera": {
+      "da": "persone.jpg",
+      "maschere_da": [
+        "maschere_persone/persone_maschera1.png",
+        "maschere_persone/persone_maschera2.png",
+        "maschere_persone/persone_maschera3.png"
+      ],
+      "schede": [
+        "giovane"
+      ],
+      "prompt": "The second image is the reference sheet of the young woman. Edit the first image: remove completely the stocky man in the navy tracksuit on the right, together with his handkerchief. Where he stood, show the empty room behind him: the cream wall, the brown wooden door and the wooden floor, continuing exactly as they are around him. Complete the pale young woman with long dark hair in the middle, who was partly hidden behind him: her right shoulder, her right arm crossed over her chest and the whole right side of her long grey-green coat down to the hem, as on the reference sheet. She keeps exactly the same face, hair, expression, pose, place and size. The very old woman on the left stays exactly identical, pixel for pixel.",
+      "ritagli": [
+        "person"
+      ]
+    },
+    "giovane_intera_febbre": {
+      "da": "persone_febbre.jpg",
+      "maschere_da": [
+        "maschere_persone_febbre/persone_maschera1.png",
+        "maschere_persone_febbre/persone_maschera2.png",
+        "maschere_persone_febbre/persone_maschera3.png"
+      ],
+      "schede": [
+        "giovane"
+      ],
+      "prompt": "The second image is the reference sheet of the young woman. Edit the first image: remove completely the stocky man in the navy tracksuit on the right, together with his handkerchief. Where he stood, show the empty room behind him: the cream wall, the brown wooden door and the wooden floor, continuing exactly as they are around him. Complete the pale young woman with long dark hair in the middle, who was partly hidden behind him: her right shoulder, her right arm crossed over her chest and the whole right side of her long grey-green coat down to the hem, as on the reference sheet. She keeps exactly the same face, hair, expression, pose, place and size, with the same fever: flushed red cheeks, glassy shining eyes, sweat on her forehead. The very old woman on the left stays exactly identical, pixel for pixel.",
+      "ritagli": [
+        "person"
+      ]
     }
   }
 }

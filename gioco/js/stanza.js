@@ -589,6 +589,15 @@ export class Stanza {
           transparent: true, opacity: 0.08, depthWrite: false });
         return;
       }
+      // il vetro della lampadina: nel modello e' un vetro che rifrange, e qui veniva nero, una palla scura che copriva
+      // il filamento acceso (28 ottobre). Un vetro smerigliato che fa luce, come una lampadina accesa: la sua luce
+      // segue quella della lampadina (faseHQ), meno forte di quella del filamento
+      if (o.material?.name === "lightbulb_01_glass") {
+        o.material = new THREE.MeshStandardMaterial({ name: "lightbulb_01_vetro", color: 0x000000, emissive: 0xffd49a,
+          roughness: 0.5, transparent: true, opacity: 0.9 });
+        o.material.userData.vetro = true;
+        return;
+      }
       // i colori dei vertici non servono (tolti gia' nell'esportazione; se ne arrivano, tingerebbero il materiale)
       if (o.geometry.attributes.color) {
         o.geometry.deleteAttribute("color");
@@ -734,7 +743,7 @@ export class Stanza {
       m.emissiveIntensity = L.vista;
       m.needsUpdate = true;
     }
-    for (const m of hq.lampadina) m.emissiveIntensity = L.lampadina;
+    for (const m of hq.lampadina) m.emissiveIntensity = L.lampadina * (m.userData.vetro ? 0.3 : 1);
     for (const m of hq.scale) m.emissiveIntensity = L.fessura ? 1 : 0;
     for (const m of hq.tende) {
       m.emissive.setHex(0xffe8c4);
@@ -1806,13 +1815,16 @@ export class Stanza {
         if (!this.percorso.length) this.arriva();
       }
     } else if (!avanti && !lato && this.verso) {
-      // arrivato: si gira verso l'oggetto, poi lo usa
+      // arrivato: si gira verso l'oggetto, poi lo usa. Se intanto chi gioca muove lo sguardo (il mouse, la levetta),
+      // non si gira piu' ma la cosa si usa subito: prima il gesto si annullava, e bisognava cliccare di nuovo
       const v = this.verso;
       v.t += dt;
-      const f = Math.min(1, dt * 7);
-      this.yaw += angolo(v.yaw - this.yaw) * f;
-      this.pitch += (v.pitch - this.pitch) * f;
-      if (v.t > 0.4) {
+      if (!v.fermo) {
+        const f = Math.min(1, dt * 7);
+        this.yaw += angolo(v.yaw - this.yaw) * f;
+        this.pitch += (v.pitch - this.pitch) * f;
+      }
+      if (v.t > 0.4 || v.fermo) {
         this.verso = null;
         this.onUsa(v.id);
       }
@@ -1890,7 +1902,7 @@ export class Stanza {
     if (rx || ry) {
       this.yaw -= rx * 2.6 * dt;
       this.pitch = clamp(this.pitch - ry * 1.9 * dt, -1.2, 1.2);
-      this.verso = null;
+      if (this.verso) this.verso.fermo = true;
     }
   }
 
@@ -1987,7 +1999,7 @@ export class Stanza {
       if (this.bloccato) {
         this.yaw -= e.movementX * MOUSE;
         this.pitch = clamp(this.pitch - e.movementY * MOUSE, -1.2, 1.2);
-        this.verso = null;
+        if (this.verso) this.verso.fermo = true;
         return;
       }
       const g = this.giu;
@@ -2000,7 +2012,7 @@ export class Stanza {
           const k = 1.6 / largo;
           this.yaw -= dx * k;
           this.pitch = clamp(this.pitch - dy * k, -1.1, 0.9);
-          this.verso = null;
+          if (this.verso) this.verso.fermo = true;
           g.x = e.clientX;
           g.y = e.clientY;
         }

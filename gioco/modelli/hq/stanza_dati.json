@@ -115,7 +115,7 @@
  ],
  "lampadina": [
   0.0,
-  2.2199999999999998,
+  2.37,
   0.3
  ],
  "cerniera": [
@@ -126,21 +126,21 @@
  "luce": {
   "mattina": {
    "file": "luce_mattina.webp",
-   "scala": 4.23828
+   "scala": 4.23047
   },
   "sera": {
    "file": "luce_sera.webp",
-   "scala": 1.93066
+   "scala": 2.05859
   }
  },
  "piccoli": {
   "mattina": {
    "file": "luce_piccoli_mattina.webp",
-   "scala": 2.85742
+   "scala": 6.43359
   },
   "sera": {
    "file": "luce_piccoli_sera.webp",
-   "scala": 8.21875
+   "scala": 14.31775
   }
  },
  "vista": {

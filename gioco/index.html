@@ -127,6 +127,10 @@
   .pin.visitata { --testa: var(--verde); --cifra: var(--notte); --bordo: var(--verde); }
   .pin.croce { --testa: var(--testo); --cifra: var(--notte); --bordo: var(--testo); }
   .pin.contagiata { --testa: var(--rec); --cifra: #fff; --bordo: var(--rec); box-shadow: 0 0 0 0.45cqw rgba(224, 64, 47, 0.4), 0 0 0.5cqw rgba(0, 0, 0, 0.7); }
+  /* la mattina, col resoconto della notte, le case prese stanotte pulsano */
+  #schermo.contagio .pin.contagiata { animation: presa 0.9s ease-in-out infinite alternate; }
+  @keyframes presa { to { box-shadow: 0 0 0 0.9cqw rgba(224, 64, 47, 0.55), 0 0 1.4cqw rgba(255, 74, 54, 0.85); } }
+  @media (prefers-reduced-motion: reduce) { #schermo.contagio .pin.contagiata { animation: none; } }
   .pin.luogo { --testa: var(--giallo); --cifra: var(--notte); --bordo: var(--giallo); font-size: max(10px, 1.1cqw); }
   .pin:hover, .pin:focus-visible { outline: 2px solid var(--giallo); outline-offset: 2px; }
 
@@ -373,19 +377,6 @@
   .gio-leggibile h2 { font-size: 1.5rem; line-height: 1.1; }
   .gio-l-sommario { font-style: italic; }
   @media (max-width: 700px), (max-height: 500px) { .gio-leggibile { display: block; } }
-  /* la lente d'ingrandimento: un doppione della pagina, piu' grande, dentro un cerchio col bordo scuro e un riflesso */
-  .gio-lente { position: absolute; left: 0; top: 0; z-index: 3; width: clamp(140px, 30%, 360px); aspect-ratio: 1; border-radius: 50%; overflow: hidden; pointer-events: none; background: var(--carta-giornale); border: 5px solid #2b241c; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.5), 0 10px 24px rgba(0, 0, 0, 0.55); }
-  .gio-lente::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; background: radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 40%), radial-gradient(circle, rgba(0, 0, 0, 0) 62%, rgba(0, 0, 0, 0.28) 100%); }
-  .gio-doppione { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
-  .gio-doppione .gio-carta { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .gio-stampa.con-lente { cursor: none; touch-action: none; }
-  .gio-prendi-lente { position: absolute; left: 1rem; top: 1rem; z-index: 4; display: grid; place-items: center; width: 2.8rem; height: 2.8rem; padding: 0; color: #f0e9d8; background: rgba(0, 0, 0, 0.62); border: 2px solid rgba(240, 233, 216, 0.6); box-shadow: 0 3px 0 #000; cursor: pointer; }
-  .gio-prendi-lente .pix { width: 58%; height: 58%; }
-  .gio-prendi-lente[aria-pressed="true"] { color: var(--giallo); border-color: var(--giallo); }
-  .gio-prendi-lente:hover, .gio-prendi-lente:focus-visible { border-color: var(--giallo); outline: none; }
-  .gio-prendi-nome { position: absolute; left: calc(100% + 0.7em); top: 50%; transform: translateY(-50%); font-family: var(--gioco); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; color: #f0e9d8; text-shadow: 0 0 2px #000, 1px 1px 0 #000; opacity: 0; transition: opacity 0.15s; pointer-events: none; }
-  .gio-prendi-lente:hover .gio-prendi-nome, .gio-prendi-lente:focus-visible .gio-prendi-nome { opacity: 1; }
-  @media (pointer: coarse) { .gio-prendi-nome { opacity: 1; } }
 
   /* lo stato di famiglia: il certificato del comune sul tavolo, con i timbri e le frasi del nastro. E' disegnato a
      misura fissa (1580 punti, o 1100 col tavolo sotto la carta) e si rimpicciolisce con zoom per stare nello schermo */
@@ -499,6 +490,40 @@
   #foglio[data-tipo="soldi"] .carta, #foglio[data-tipo="nastri"] .carta, #foglio[data-tipo="notte"] .carta, #foglio[data-tipo="verita"] .carta { background: #121514; color: var(--testo); font-family: var(--mono); border: 1px solid var(--linea); }
   #foglio[data-tipo="notte"] h2, #foglio[data-tipo="verita"] h2, #foglio[data-tipo="nastri"] h2, #foglio[data-tipo="soldi"] h2 { font-family: var(--vcr); font-size: 2rem; font-weight: 400; color: var(--giallo); }
   #foglio[data-tipo="nastri"] .azioni { margin-top: 0.5rem; }
+
+  /* il tasto per andare avanti resta sempre in vista, anche quando il foglio scorre (28 ottobre: "il tasto
+     continua e' troppo in basso e sullo schermo non si vede") */
+  #foglio[data-tipo="notte"] .azioni, #foglio[data-tipo="verita"] .azioni, #foglio[data-tipo="giornale"] .azioni { position: sticky; bottom: 0; z-index: 1; }
+  #foglio[data-tipo="notte"] .azioni, #foglio[data-tipo="verita"] .azioni { background: linear-gradient(rgba(18, 21, 20, 0), #121514 0.8rem); }
+  #foglio[data-tipo="verita"] .azioni { margin: 1.1rem -2.2rem -1.8rem; padding: 1rem 2.2rem 1.4rem; }
+  /* il giornale del mattino: la pagina si stringe quanto basta perche' sotto ci stia il tasto */
+  #foglio[data-tipo="giornale"] .carta:has(.azioni) { width: min(100%, calc((100dvh - 32px - 4.2rem) * 1920 / 1072)); }
+  #foglio[data-tipo="giornale"] .azioni { margin: 0; padding: 0.6rem 0; }
+
+  /* il resoconto della notte: la mattina, sulla mappa. A sinistra un foglio corto, a destra le frecce rosse del
+     contagio sulle case (28 ottobre: "la cosa importante e' sapere come si e' diffuso il contagio") */
+  #foglio[data-tipo="notte"] { background: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2) 38%, rgba(0, 0, 0, 0) 55%); place-items: center start; }
+  #foglio[data-tipo="notte"] .carta { width: min(25rem, max(17rem, 31vw)); background: rgba(18, 21, 20, 0.94); }
+  #foglio[data-tipo="notte"] #foglio-corpo { padding: 1.3rem 1.4rem 0; }
+  #foglio[data-tipo="notte"] #foglio-corpo h2 { margin: 0; font-size: 1.7rem; }
+  #foglio-corpo .nt-titolo { margin: 0.2rem 0 0.75rem; font-family: var(--gioco); font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: #ff7b6b; }
+  #foglio-corpo .nt-contagio { list-style: none; padding: 0; margin: 0; gap: 0.5rem; }
+  #foglio-corpo .nt-contagio li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.35rem; line-height: 1.25; }
+  .nt-casa { display: inline-grid; place-items: center; min-width: 1.9rem; height: 1.7rem; padding: 0 0.3rem; box-sizing: border-box; border: 2px solid var(--verde); border-radius: 3px; background: var(--notte); color: var(--verde); font-family: var(--gioco); font-size: 0.78rem; }
+  .nt-casa.fonte { border-color: var(--rec); background: rgba(224, 64, 47, 0.28); color: #ffd9d4; }
+  .nt-casa.presa { border-color: var(--rec); background: var(--rec); color: #fff; box-shadow: 0 0 0 3px rgba(224, 64, 47, 0.35); }
+  .nt-casa.nt-tua { font-size: 0.66rem; }
+  .nt-freccia { color: #ff4a36; font-size: 1.15rem; font-weight: 700; }
+  .nt-segno { min-width: 1rem; text-align: center; color: var(--spento); }
+  .nt-contagio small { flex: 1 1 9rem; min-width: 0; color: var(--spento); font-size: 0.75rem; }
+  .nt-contagio li.nt-fermo .nt-casa { border-color: var(--testo); color: var(--testo); }
+  .nt-contagio li.nt-pulita { opacity: 0.6; }
+  #foglio-corpo .nt-riga { margin: 0.35rem 0 0; font-size: 0.82rem; line-height: 1.4; color: var(--spento); }
+  #foglio-corpo .nt-contagio + .nt-riga { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--linea); }
+  .nt-riga b { margin-right: 0.35rem; font-family: var(--gioco); font-size: 0.66rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--testo); }
+  #foglio[data-tipo="notte"] .azioni { margin: 0.9rem -1.4rem 0; padding: 0.8rem 1.4rem 1.2rem; }
+  /* sul telefono in piedi il foglio va in basso, la mappa resta sopra */
+  @media (max-width: 560px) { #foglio[data-tipo="notte"] { place-items: end center; background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 60%); } #foglio[data-tipo="notte"] .carta { width: 100%; max-height: 60dvh; } }
 
   button:focus-visible { outline: 2px solid var(--giallo); outline-offset: 2px; }
 </style>

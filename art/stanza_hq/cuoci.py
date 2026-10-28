@@ -691,7 +691,7 @@ def esporta():
         "display": faccia_di(bpy.data.objects["videoregistratore"], "display_spento"),
         "sveglia": faccia_di(bpy.data.objects["radiosveglia"], "sveglia_display"),
         "lampada": [C.SCRIVANIA["x"] - 0.55, 1.12, C.SCRIVANIA["z"] - 0.1],
-        "lampadina": [0.0, C.ALTA - 0.78, 0.3],
+        "lampadina": [0.0, C.ALTA - 0.63, 0.3],
         "cerniera": tre(cerniera),
     }
     with open(os.path.join(USCITA, "punti.json"), "w") as f:

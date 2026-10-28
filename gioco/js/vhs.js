@@ -175,9 +175,18 @@ const FRAG = `
       vec2 dl = (uv - vec2(0.5, 0.57)) / vec2(0.52, 0.62);
       float lampada = 0.28 + 1.05 * exp(-dot(dl, dl) * 1.35);
       vec3 lit = pow(max(col, vec3(0.0)), vec3(1.18)) * lampada * 0.95;
-      vec3 g = (src(q + vec2(0.012, 0.0) / u_zoom) + src(q - vec2(0.012, 0.0) / u_zoom)
-        + src(q + vec2(0.0, 0.021) / u_zoom) + src(q - vec2(0.0, 0.021) / u_zoom)) * 0.25;
-      // l'alone delle luci forti, senza colore (se no col tono del giorno si vedrebbe il colore di prima)
+      // l'alone delle luci forti: la luce attorno, sfocata su due anelli di sei campioni. Fino al 28 ottobre erano
+      // quattro copie spostate di un centesimo e mezzo: davanti a una finestra chiara (le gemelle della casa 4) le
+      // copie della finestra disegnavano sulla persona una sagoma fantasma coi bordi netti, e passandoci sopra col
+      // mouse si accendeva ("si brucia la faccia mostrando zone strane")
+      vec3 g = vec3(0.0);
+      for (int i = 0; i < 6; i++) {
+        float t = float(i) * 1.0472;
+        g += src(q + vec2(cos(t), sin(t) * 1.778) * 0.0065 / u_zoom);
+        g += src(q + vec2(cos(t + 0.5236), sin(t + 0.5236) * 1.778) * 0.013 / u_zoom);
+      }
+      g /= 12.0;
+      // l'alone, senza colore (se no col tono del giorno si vedrebbe il colore di prima)
       vec3 alone = vec3(clamp((dot(g, LUMA) * lampada - 0.72) / 0.28, 0.0, 1.0));
       lit = 1.0 - (1.0 - clamp(lit, 0.0, 1.0)) * (1.0 - alone * 0.45);
       lit = max(lit - 0.035, vec3(0.0)) / 0.965;

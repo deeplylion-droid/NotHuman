@@ -134,6 +134,10 @@ def luce_webp(npy, uscita):
     im = np.maximum(np.load(npy).astype(np.float32), 0.0)
     m = im.max(axis=2)
     valide = m[m > 1e-6]
+    # la lampadina capovolta (28 ottobre) ha il vetro a pochi centimetri dalla sua luce: lo prende centinaia di volte
+    # piu' forte del resto, ed e' quasi l'1% delle cose piccole. Nel gioco e' accesa comunque: quelle macchie si
+    # tolgono prima di cercare la scala, se no tutto il resto finirebbe in pochi passi scuri
+    valide = valide[valide < 8 * np.percentile(valide, 99)]
     scala = float(np.percentile(valide, 99.7))
     Image.fromarray((srgb(im / scala) * 255 + 0.5).astype(np.uint8)).save(uscita, "WEBP", quality=92, method=6)
     return round(scala, 5)

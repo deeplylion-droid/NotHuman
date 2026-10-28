@@ -43,7 +43,7 @@
   "persone": {
     "modello": "fal-ai/sam-3/image",
     "input": {
-      "image_url": "@file:../persone_febbre.jpg",
+      "image_url": "@file:../giovane_intera_febbre.jpg",
       "prompt": "person",
       "apply_mask": false,
       "include_scores": true,
@@ -54,11 +54,10 @@
     "file": [
       "persone.png",
       "persone_maschera1.png",
-      "persone_maschera2.png",
-      "persone_maschera3.png"
+      "persone_maschera2.png"
     ],
     "seed": null,
-    "secondi": 5,
+    "secondi": 6,
     "descrizione": null
   },
   "persone_febbre_grezza": {
@@ -79,6 +78,46 @@
     ],
     "seed": null,
     "secondi": 30,
+    "descrizione": ""
+  },
+  "giovane_intera_grezza": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "The images after the first one are character reference sheets, one per person (each shows the same person five times: front, three-quarter view, profile, back and a close-up of the face). Use them only to keep each person's face and body identical; every person appears only once, in the first image's place. The second image is the reference sheet of the young woman. Edit the first image: remove completely the stocky man in the navy tracksuit on the right, together with his handkerchief. Where he stood, show the empty room behind him: the cream wall, the brown wooden door and the wooden floor, continuing exactly as they are around him. Complete the pale young woman with long dark hair in the middle, who was partly hidden behind him: her right shoulder, her right arm crossed over her chest and the whole right side of her long grey-green coat down to the hem, as on the reference sheet. She keeps exactly the same face, hair, expression, pose, place and size. The very old woman on the left stays exactly identical, pixel for pixel. Keep the room, the furniture, the camera, the framing and the light exactly identical, pixel for pixel. The people keep the same grotesque but almost photographic features: bulging eyes, crooked noses, bad teeth, sunken cheeks. Realistic photograph, no text, no border.",
+      "image_urls": [
+        "@file:persone.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/giovane.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giovane_intera_grezza.png"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": ""
+  },
+  "giovane_intera_febbre_grezza": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "The images after the first one are character reference sheets, one per person (each shows the same person five times: front, three-quarter view, profile, back and a close-up of the face). Use them only to keep each person's face and body identical; every person appears only once, in the first image's place. The second image is the reference sheet of the young woman. Edit the first image: remove completely the stocky man in the navy tracksuit on the right, together with his handkerchief. Where he stood, show the empty room behind him: the cream wall, the brown wooden door and the wooden floor, continuing exactly as they are around him. Complete the pale young woman with long dark hair in the middle, who was partly hidden behind him: her right shoulder, her right arm crossed over her chest and the whole right side of her long grey-green coat down to the hem, as on the reference sheet. She keeps exactly the same face, hair, expression, pose, place and size, with the same fever: flushed red cheeks, glassy shining eyes, sweat on her forehead. The very old woman on the left stays exactly identical, pixel for pixel. Keep the room, the furniture, the camera, the framing and the light exactly identical, pixel for pixel. The people keep the same grotesque but almost photographic features: bulging eyes, crooked noses, bad teeth, sunken cheeks. Realistic photograph, no text, no border.",
+      "image_urls": [
+        "@file:persone_febbre.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/giovane.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "giovane_intera_febbre_grezza.png"
+    ],
+    "seed": null,
+    "secondi": 37,
     "descrizione": ""
   }
 }
