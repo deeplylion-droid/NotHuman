@@ -1,6 +1,6 @@
 // I suoni del gioco: sotto a tutto il fruscio del nastro (la videocamera registra sempre), poi l'ambiente del posto
 // (il vento fuori dalla stanza del medico, il frigorifero della cucina, l'orologio del soggiorno, il respiro della
-// madre in camera) e i colpi delle azioni (il fax, i timbri, la firma, le porte, lo zoom, i passi sulle assi).
+// madre in camera, il nebulizzatore della casa 2) e i colpi delle azioni (il fax, i timbri, la firma, le porte, lo zoom, i passi sulle assi).
 // Con Web Audio: parte al primo tocco o clic (prima i browser non lasciano suonare), ogni file si carica la prima
 // volta che serve, gli ambienti sfumano uno nell'altro, i colpi cambiano un poco ogni volta. L'icona
 // dell'altoparlante toglie e rimette l'audio, e il browser se lo ricorda. I file si preparano con
@@ -13,7 +13,7 @@ const DIR = "suoni/";
 // il volume di ogni suono: i file arrivano tutti alla stessa intensita' percepita (tools/prepara_suoni.py), qui gli
 // ambienti stanno sotto i colpi e il fruscio del nastro si sente appena
 const VOLUMI = {
-  nastro: 0.08, vento: 0.18, notte: 0.6, cucina: 0.14, soggiorno: 0.24, camera: 0.22,
+  nastro: 0.08, vento: 0.18, notte: 0.6, cucina: 0.14, soggiorno: 0.24, camera: 0.22, nebulizzatore: 0.16,
   passo1: 0.32, passo2: 0.32, passo3: 0.32, fax: 0.8, carta: 0.57, giornale: 0.8, timbro: 0.6, firma: 0.35, porta: 0.45,
   zoom: 0.32, rec: 0.3, videoregistratore: 0.7, sedia: 0.8, contraddizione: 0.63, malvento: 0.85, monete: 0.84,
   disturbo: 0.3, interruttore: 0.4,

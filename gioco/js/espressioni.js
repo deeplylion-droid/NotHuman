@@ -15,4 +15,13 @@ export const ESPRESSIONI = {
   soggiorno2: {
     uomo: { box: [0.56125, 0.03222, 0.68625, 0.31222], volti: ["arrabbiato"] },
   },
+  monolocale: {
+    moglie: { box: [0.3625, 0.03556, 0.47125, 0.28556], volti: ["nervoso", "arrabbiato"] },
+  },
+  cucina10: {
+    suocera: { box: [0.58438, 0.24333, 0.66562, 0.42778], volti: ["arrabbiato", "piange"] },
+  },
+  camera10: {
+    nuora: { box: [0.4625, 0.17222, 0.5625, 0.40889], volti: ["piange"] },
+  },
 };

@@ -66,6 +66,17 @@
     }
   },
   {
+    "nome": "nebulizzatore",
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "The steady mechanical buzz of an old electric nebulizer compressor running in a small bare room, with the soft bubbling hiss of the medicine mist and, now and then, a slow wheezing breath through the mask. No voices, no music.",
+      "duration_seconds": 20,
+      "loop": true,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    }
+  },
+  {
     "nome": "passo1",
     "modello": "fal-ai/elevenlabs/sound-effects/v2",
     "input": {

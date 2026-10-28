@@ -65,7 +65,9 @@ def main():
                 continue
             if isinstance(desc, str):
                 desc = {"segni": desc}
-            prompt = PROMPT.format(frame=desc.get("inquadratura", PARTS[part]), look=p["aspetto"], signs=desc["segni"])
+            # una variante della parte (per esempio "occhi_febbre") ha l'inquadratura della parte, se non ne dice una
+            frame = desc.get("inquadratura") or PARTS[part.split("_")[0]]
+            prompt = PROMPT.format(frame=frame, look=p["aspetto"], signs=desc["segni"])
             immagini = [f"@file:{p['riferimento']}"]
             # con la scheda del personaggio (art/personaggi) la faccia resta quella anche cambiando stato
             if p.get("scheda"):

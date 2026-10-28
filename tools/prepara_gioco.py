@@ -18,7 +18,10 @@ gioco/js/espressioni.js. Serve OpenCV per riallineare (pip install opencv-python
 Di ogni immagine con personaggi (scene, espressioni, primi piani, scheda della figlia) si usa la versione con meno
 dettagli fatta da tools/meno_dettagli.py (nella cartella meno_dettagli/ accanto), se c'e'; se manca si usa
 l'originale e lo si dice.
+Il secondo giorno: le scene a strati delle case di ieri (GIORNO2) e le case nuove (LUOGHI2), le cui immagini alla fine
+vanno nei pacchi (PACCHI, gioco/img/pacchi).
 """
+import base64
 import itertools
 import json
 import pathlib
@@ -83,6 +86,9 @@ TESTE = {
     "figlia": (0.477, 0.29, 0.034, 0.068),
     "uomo": (0.62, 0.172, 0.066, 0.14),
     "giovane": (0.499, 0.262, 0.042, 0.1),
+    "moglie": (0.418, 0.16, 0.056, 0.125),
+    "suocera": (0.626, 0.335, 0.042, 0.092),
+    "nuora": (0.512, 0.29, 0.05, 0.118),
 }
 # per le foto sul nastro delle frasi: chi l'ha detta, con la faccia che aveva (ritaglio dalla scena)
 VOLTI_SCENA = {"figlia": (0.44, 0.215, 0.515, 0.36)}
@@ -140,9 +146,42 @@ GIORNO2 = {
         "lampade": [(0.385, 0.02, 0.03, 0.55)],
     },
 }
+# le case nuove del secondo giorno (la 2 e la 10, dove la prima notte puo' passare il contagio dalle case 3 e 5):
+# mai viste il primo giorno, quindi una scena sola, come i luoghi del primo giorno (img/g2/<luogo>.jpg). Chi
+# stanotte si e' ammalato (se il contagio e' passato) cambia solo il calore: img/g2/<luogo>_calore_febbre.png, coi
+# calori di "febbre". La casa 10 ha due stanze: la cucina e, dietro la porta chiusa a chiave, la camera della nuora
+G2M, G2CS, G2CA = "art/scene/04-monolocale/", "art/scene/05-cucina-serra/", "art/scene/06-camera-serra/"
+LUOGHI2 = {
+    "monolocale": {
+        "scena": G2M + "finale.jpg",
+        "persone": [("moglie", 0.5, [G2M + "maschere/persone_maschera1.png"]),
+                    ("marito", 0.5, [G2M + "maschere/persone_maschera2.png"])],
+        "febbre": {"marito": 0.85},
+        "nascosti": [], "lampade": [],
+    },
+    "cucina10": {
+        "scena": G2CS + "finale.jpg",
+        # le maschere 2 e 3 sono le due facce della foto delle nozze, non persone
+        "persone": [("suocera", 0.5, [G2CS + "maschere/persone_maschera1.png"])],
+        "febbre": {"suocera": 0.8},
+        # la nuora seduta sul letto, dietro la porta chiusa a chiave: il calore passa attenuato dal legno
+        "nascosti": [("ellisse", 0.735, 0.6, 0.03, 0.13, 0.5), ("ellisse", 0.735, 0.43, 0.016, 0.035, 0.56)],
+        # il lumino davanti alla foto e la lampadina
+        "lampade": [(0.419, 0.53, 0.008, 0.85), (0.441, 0.01, 0.025, 0.6)],
+    },
+    "camera10": {
+        "scena": G2CA + "finale.jpg",
+        # la maschera 2 e' la foto del marito sul comodino
+        "persone": [("nuora", 0.5, [G2CA + "maschere/persone_maschera1.png"])],
+        "nascosti": [], "lampade": [(0.638, 0.42, 0.018, 0.8)],
+    },
+}
 # le espressioni del secondo giorno, solo dove la persona ha una versione sola (art/espressioni/giorno2/
-# <persona>_<volto>.*, fatte dalla variante delle persone): si allineano alla scena con tutti in casa (SCENE2)
-ESPRESSIONI2 = {"cucina2": {"figlia": ["piange"]}, "soggiorno2": {"uomo": ["arrabbiato"]}}
+# <persona>_<volto>.*, fatte dalla variante delle persone): si allineano alla scena con tutti in casa (SCENE2), o a
+# quella della casa nuova (LUOGHI2)
+ESPRESSIONI2 = {"cucina2": {"figlia": ["piange"]}, "soggiorno2": {"uomo": ["arrabbiato"]},
+                "monolocale": {"moglie": ["nervoso", "arrabbiato"]}, "cucina10": {"suocera": ["arrabbiato", "piange"]},
+                "camera10": {"nuora": ["piange"]}}
 SCENE2 = {"cucina2": (["padre", "figlia"], G2C + "scena.jpg"), "soggiorno2": (["uomo", "giovane", "nonna"], G2S + "scena.jpg")}
 # le foto del secondo giorno (in img/volti/g2), con la faccia di oggi
 VOLTI2 = {
@@ -153,12 +192,30 @@ VOLTI2 = {
     "giovane": (G2S + "persone.jpg", (0.45, 0.16, 0.56, 0.36)),
     "giovane_febbre": (G2S + "persone_febbre.jpg", (0.45, 0.16, 0.56, 0.36)),
     "nonna": (G2S + "persone.jpg", (0.33, 0.20, 0.45, 0.40)),
+    "moglie": (G2M + "finale.jpg", (0.355, 0.05, 0.475, 0.31)),
+    "marito": (G2M + "finale.jpg", (0.77, 0.3, 0.895, 0.56)),
+    "suocera": (G2CS + "finale.jpg", (0.583, 0.25, 0.67, 0.45)),
+    "nuora": (G2CA + "finale.jpg", (0.452, 0.13, 0.572, 0.44)),
 }
 # i primi piani nuovi del secondo giorno (in img/pp/g2); quelli che non cambiano restano del primo
 PRIMI2 = {
     G2C + "primi-piani": ["padre", "figlia"],
     G2S + "primi-piani": ["uomo", "giovane", "nonna"],
     G2K + "primi-piani": ["mostro"],
+    G2M + "primi-piani": ["moglie", "marito"],
+    G2CS + "primi-piani": ["suocera"],
+    G2CA + "primi-piani": ["nuora"],
+}
+# le immagini delle case nuove (quasi sessanta file) stanno in pacchi, gioco/img/pacchi/<pacco>.json (percorso ->
+# data URL): l'artifact tiene al massimo 511 file. I file si mettono nel pacco e si tolgono da gioco/img; quelli che
+# mancano restano come erano nel pacco (le immagini dell'ospite le scrive tools/ospite.py). Il gioco apre i pacchi
+# all'inizio del secondo giorno; quale immagine sta in quale pacco lo dice gioco/js/pacchi.js
+PACCHI = {
+    "casa2": ["g2/monolocale*", "pp/g2/moglie_*", "pp/g2/marito_*", "espressioni/monolocale_*", "volti/g2/moglie*",
+              "volti/g2/marito*", "ospite/ospite_moglie.jpg", "ospite/notte_moglie_*"],
+    "casa10": ["g2/cucina10*", "g2/camera10*", "pp/g2/suocera_*", "pp/g2/nuora_*", "espressioni/cucina10_*",
+               "espressioni/camera10_*", "volti/g2/suocera*", "volti/g2/nuora*", "ospite/ospite_nuora.jpg",
+               "ospite/notte_nuora_*"],
 }
 
 
@@ -199,27 +256,33 @@ def luogo(nome, L, scena=None):
         ids[mask(paths, (idw, idh)) > 0.5] = i * 40
     Image.fromarray(ids).save(OUT / f"{nome}_persone.png")
     # sagome per evidenziare e mappa di calore
+    for persona, _, paths in L["persone"]:
+        alpha = (np.clip(mask(paths, (800, 450)), 0, 1) * 255).astype(np.uint8)
+        sagoma = np.dstack([np.full_like(alpha, 255)] * 3 + [alpha])
+        Image.fromarray(sagoma, "RGBA").save(OUT / f"{nome}_{persona}.png")
+    Image.fromarray(calore(L, scena)).save(OUT / f"{nome}_calore.png")
+    # chi stanotte puo' essersi ammalato: lo stesso calore, con la febbre
+    if L.get("febbre"):
+        con = [(p, L["febbre"].get(p, caldo), paths) for p, caldo, paths in L["persone"]]
+        Image.fromarray(calore({**L, "persone": con}, scena)).save(OUT / f"{nome}_calore_febbre.png")
+    print(nome, "ok")
+
+
+def calore(L, scena):
+    """La mappa di calore per l'infrarosso: le persone (piu' calde dove si vede la pelle), i nascosti, le lampade."""
     hw, hh = 800, 450
     rgb = np.asarray(scena.resize((hw, hh), Image.BILINEAR)).astype(np.float32) / 255
     r, g, b = rgb[..., 0], rgb[..., 1], rgb[..., 2]
     pelle = np.clip((r - b - 0.06) / 0.12, 0, 1) * np.clip((r - g + 0.02) / 0.08, 0, 1)
-    calore = np.zeros((hh, hw), np.float32)
+    c = np.zeros((hh, hw), np.float32)
     for persona, caldo, paths in L["persone"]:
-        m = mask(paths, (hw, hh))
-        alpha = (np.clip(m, 0, 1) * 255).astype(np.uint8)
-        sagoma = np.dstack([np.full_like(alpha, 255)] * 3 + [alpha])
-        Image.fromarray(sagoma, "RGBA").save(OUT / f"{nome}_{persona}.png")
-        corpo = m * caldo * (0.55 + 0.45 * pelle)
-        calore = np.maximum(calore, corpo)
-    calore = np.asarray(Image.fromarray((calore * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(3))
-                        ).astype(np.float32) / 255
+        c = np.maximum(c, mask(paths, (hw, hh)) * caldo * (0.55 + 0.45 * pelle))
+    c = np.asarray(Image.fromarray((c * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(3))).astype(np.float32) / 255
     if L["nascosti"]:
-        calore = np.maximum(calore, heat_blobs(L["nascosti"], (hw, hh)))
+        c = np.maximum(c, heat_blobs(L["nascosti"], (hw, hh)))
     if L["lampade"]:
-        calore = np.maximum(calore, heat_blobs([("ellisse", x, y, rr, rr * 16 / 9, v) for x, y, rr, v in L["lampade"]],
-                                               (hw, hh)))
-    Image.fromarray((np.clip(calore, 0, 1) * 255).astype(np.uint8)).save(OUT / f"{nome}_calore.png")
-    print(nome, "ok")
+        c = np.maximum(c, heat_blobs([("ellisse", x, y, rr, rr * 16 / 9, v) for x, y, rr, v in L["lampade"]], (hw, hh)))
+    return (np.clip(c, 0, 1) * 255).astype(np.uint8)
 
 
 # quanto disegno sulla scrivania: la foto mescolata alla versione disegnata
@@ -328,6 +391,12 @@ def espressioni():
               for luogo_, persone in ESPRESSIONI.items()]
     (OUT / "volti" / "g2").mkdir(parents=True, exist_ok=True)
     for luogo_, persone in ESPRESSIONI2.items():
+        if luogo_ in LUOGHI2:
+            # le case nuove: la scena e' una sola
+            L = LUOGHI2[luogo_]
+            gruppi.append((luogo_, persone, fonte(L["scena"]), {chi: p for chi, _, p in L["persone"]},
+                           ROOT / "art/espressioni/giorno2", OUT / "volti" / "g2", VOLTI2))
+            continue
         maschere = {}
         for persona_, _, _, p, *_ in GIORNO2[luogo_]["strati"].values():
             maschere.setdefault(persona_, p)
@@ -418,6 +487,10 @@ def giorno2():
                  "nascosti": G["nascosti"], "lampade": G["lampade"]}
             luogo(f"g2/{nome}-{'-'.join(strati) or 'vuota'}", L, scena)
             n += 1
+    # le case nuove, una scena per luogo
+    for nome, L in LUOGHI2.items():
+        luogo(f"g2/{nome}", L)
+        n += 1
     # i primi piani nuovi
     (OUT / "pp" / "g2").mkdir(parents=True, exist_ok=True)
     for folder, persone in PRIMI2.items():
@@ -431,6 +504,31 @@ def giorno2():
     print("secondo giorno:", n, "scene")
 
 
+def pacchi():
+    """Le immagini delle case nuove in pacchi (vedi PACCHI), e l'indice per il gioco in gioco/js/pacchi.js."""
+    (OUT / "pacchi").mkdir(parents=True, exist_ok=True)
+    indice = {}
+    tipi = {".jpg": "image/jpeg", ".png": "image/png"}
+    for nome, schemi in PACCHI.items():
+        f = OUT / "pacchi" / f"{nome}.json"
+        pacco = json.loads(f.read_text()) if f.exists() else {}
+        nuovi = sorted({p for s in schemi for p in OUT.glob(s) if p.suffix in tipi})
+        for p in nuovi:
+            pacco[f"img/{p.relative_to(OUT).as_posix()}"] = (
+                f"data:{tipi[p.suffix]};base64,{base64.b64encode(p.read_bytes()).decode()}")
+        f.write_text(json.dumps(pacco, separators=(",", ":"), sort_keys=True))
+        for p in nuovi:
+            p.unlink()
+        indice.update({k: nome for k in pacco})
+        print(f"pacco {nome}: {len(pacco)} immagini ({len(nuovi)} nuove), {f.stat().st_size / 1e6:.1f} MB")
+    righe = ["// generato da tools/prepara_gioco.py: le immagini delle case nuove del secondo giorno stanno in pacchi,",
+             "// img/pacchi/<pacco>.json (l'artifact tiene al massimo 511 file). Per ogni immagine, il suo pacco",
+             "export const PACCHI = {"]
+    righe += [f"  {json.dumps(k)}: {json.dumps(v)}," for k, v in sorted(indice.items())]
+    righe.append("};")
+    (ROOT / "gioco/js/pacchi.js").write_text("\n".join(righe) + "\n")
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     for nome, L in LUOGHI.items():
@@ -441,6 +539,7 @@ def main():
     giornale()
     espressioni()
     giorno2()
+    pacchi()
 
 
 if __name__ == "__main__":

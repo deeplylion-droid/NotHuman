@@ -1,0 +1,122 @@
+{
+  "suocera_occhi_febbre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones, the edge of the black headscarf of the person in the reference image (a tiny, stooped old woman in her late seventies with a deeply wrinkled face, huge bulging eyes, a hooked nose and an almost toothless mouth, in widow's black from head to toe: black headscarf, black cardigan, black skirt), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Glassy, bloodshot eyes with fever, the eyelids red and swollen from crying, beads of sweat under the edge of the black headscarf. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_suocera.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/suocera.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "suocera_occhi_febbre.png"
+    ],
+    "seed": null,
+    "secondi": 27,
+    "descrizione": ""
+  },
+  "suocera_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of her wrinkled neck under the jaw, the black headscarf pulled aside of the person in the reference image (a tiny, stooped old woman in her late seventies with a deeply wrinkled face, huge bulging eyes, a hooked nose and an almost toothless mouth, in widow's black from head to toe: black headscarf, black cardigan, black skirt), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A very wrinkled old neck with a thin black ribbon around it; no swelling, no lumps. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_suocera.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/suocera.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "suocera_collo.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "suocera_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a tiny, stooped old woman in her late seventies with a deeply wrinkled face, huge bulging eyes, a hooked nose and an almost toothless mouth, in widow's black from head to toe: black headscarf, black cardigan, black skirt), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. An almost toothless mouth with two crooked teeth and thin, pressed lips; nothing unusual. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_suocera.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/suocera.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "suocera_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": ""
+  },
+  "suocera_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a tiny, stooped old woman in her late seventies with a deeply wrinkled face, huge bulging eyes, a hooked nose and an almost toothless mouth, in widow's black from head to toe: black headscarf, black cardigan, black skirt), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Red, swollen eyelids from crying, but dry, clear eyes: no fever, no sweat. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_suocera.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/suocera.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "suocera_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": ""
+  },
+  "suocera_collo_febbre": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the side of her wrinkled neck under the jaw, the black headscarf pulled aside of the person in the reference image (a tiny, stooped old woman in her late seventies with a deeply wrinkled face, huge bulging eyes, a hooked nose and an almost toothless mouth, in widow's black from head to toe: black headscarf, black cardigan, black skirt), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. A very wrinkled old neck with a thin black ribbon around it; under the jaw a hard swollen lump the size of a walnut, red and shiny: a plague bubo just beginning. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_suocera.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/suocera.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "suocera_collo_febbre.png"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": ""
+  },
+  "suocera_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both hands held out in front, palms down, from the wrists to the fingertips of the person in the reference image (a tiny, stooped old woman in her late seventies with a deeply wrinkled face, huge bulging eyes, a hooked nose and an almost toothless mouth, in widow's black from head to toe: black headscarf, black cardigan, black skirt), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Gnarled, bony old hands with swollen knuckles; dark earth under the fingernails, as if she had been kneeling at a grave, and a drop of red candle wax on one finger. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_suocera.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/suocera.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "suocera_mani.png"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": ""
+  }
+}

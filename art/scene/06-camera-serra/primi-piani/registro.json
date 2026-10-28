@@ -1,0 +1,102 @@
+{
+  "nuora_bocca": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the mouth, slightly open, from the tip of the nose to the chin of the person in the reference image (a gaunt young widow in her early thirties with long, loose black hair, sunken cheeks, huge bulging dark-ringed eyes and a long nose, in a black long-sleeved dress, a man's gold wedding ring hanging on a thin chain around her neck), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Pale, bitten lips; healthy teeth; nothing unusual. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_nuora.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/nuora.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nuora_bocca.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "nuora_mani": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of both hands held out in front, palms up, from the wrists to the fingertips of the person in the reference image (a gaunt young widow in her early thirties with long, loose black hair, sunken cheeks, huge bulging dark-ringed eyes and a long nose, in a black long-sleeved dress, a man's gold wedding ring hanging on a thin chain around her neck), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Red, raw, deeply chapped hands, the skin cracked and peeling on the fingers and the knuckles, as from scrubbing with bleach several times a day for weeks; otherwise healthy, the fingertips normal. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_nuora.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/nuora.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nuora_mani.png"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "nuora_ascelle": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of her left armpit: she raises her arm, the black sleeve pulled down to the shoulder of the person in the reference image (a gaunt young widow in her early thirties with long, loose black hair, sunken cheeks, huge bulging dark-ringed eyes and a long nose, in a black long-sleeved dress, a man's gold wedding ring hanging on a thin chain around her neck), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Pale, healthy skin with no swelling and no marks at all. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_nuora.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/nuora.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nuora_ascelle.png"
+    ],
+    "seed": null,
+    "secondi": 31,
+    "descrizione": ""
+  },
+  "nuora_collo": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of her neck and the base of her throat above the collar of the black dress of the person in the reference image (a gaunt young widow in her early thirties with long, loose black hair, sunken cheeks, huge bulging dark-ringed eyes and a long nose, in a black long-sleeved dress, a man's gold wedding ring hanging on a thin chain around her neck), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. On a thin gold chain around her neck hangs a man's plain gold wedding ring, too big for her; the skin of the neck is healthy: no swelling, no lumps. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_nuora.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/nuora.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nuora_collo.png"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": ""
+  },
+  "nuora_occhi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Extreme close-up of the eyes and the bridge of the nose, from the eyebrows to the cheekbones of the person in the reference image (a gaunt young widow in her early thirties with long, loose black hair, sunken cheeks, huge bulging dark-ringed eyes and a long nose, in a black long-sleeved dress, a man's gold wedding ring hanging on a thin chain around her neck), filling the whole 16:9 frame, as if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. Eyes swollen and red-rimmed from crying, with dark circles; the whites are clear: no fever, no sweat. Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves or objects belonging to the viewer, no text, no border. The second image is a character reference sheet: the same person seen five times, from the front, in three-quarter view, in profile, from the back and in a close-up of the face. Use it only to keep the person identical; the person appears only once.",
+      "image_urls": [
+        "@file:riferimento_nuora.jpg",
+        "@file:/home/user/NotHuman/art/personaggi/nuora.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nuora_occhi.png"
+    ],
+    "seed": null,
+    "secondi": 38,
+    "descrizione": ""
+  }
+}

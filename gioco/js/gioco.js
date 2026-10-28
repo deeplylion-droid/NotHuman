@@ -5,6 +5,7 @@ import { Vhs } from "./vhs.js";
 import * as D1 from "./dati.js";
 import { giorno2, verita2, giornale3 } from "./giorno2.js";
 import { ESPRESSIONI } from "./espressioni.js";
+import { PACCHI } from "./pacchi.js";
 import { Parole, Ruota, Striscia, Segni } from "./parole.js";
 import { icona, pittogramma } from "./icone.js";
 import { Suoni } from "./suoni.js";
@@ -101,12 +102,28 @@ const FOTO = {};
 
 // ---------- immagini ----------
 
-const carica = (src) => new Promise((res, rej) => {
-  const i = new Image();
-  i.onload = () => res(i);
-  i.onerror = () => rej(new Error(src));
-  i.src = src;
-});
+// le immagini delle case nuove del secondo giorno stanno in pacchi (img/pacchi/<pacco>.json, percorso -> data URL;
+// quale immagine sta in quale pacco lo dice pacchi.js), perche' l'artifact tiene al massimo 511 file. Un pacco si
+// apre la prima volta che serve una sua immagine; il secondo giorno si aprono tutti prima di cominciare, cosi' anche
+// le foto messe direttamente nelle pagine (lo stato di famiglia, il nastro delle frasi) le trovano gia' pronte
+const DAI_PACCHI = {};
+const APERTI = {};
+const apriPacco = (nome) => (APERTI[nome] ||= fetch(`img/pacchi/${nome}.json`)
+  .then((r) => { if (!r.ok) throw new Error(`img/pacchi/${nome}.json`); return r.json(); })
+  .then((o) => { Object.assign(DAI_PACCHI, o); }));
+const apriPacchi = () => Promise.all([...new Set(Object.values(PACCHI))].map(apriPacco));
+// l'indirizzo di un'immagine: il data URL, se sta in un pacco gia' aperto
+const url = (src) => DAI_PACCHI[src] || src;
+
+const carica = async (src) => {
+  if (PACCHI[src]) await apriPacco(PACCHI[src]);
+  return new Promise((res, rej) => {
+    const i = new Image();
+    i.onload = () => res(i);
+    i.onerror = () => rej(new Error(src));
+    i.src = url(src);
+  });
+};
 
 // le visite (27 ottobre, sera): si torna alle scene 2D; quelle in plastilina restano per riferimento con #creta
 // nell'indirizzo. Niente VHS da nessuna parte (restano la lampada, lo zoom, la notte verde e l'infrarosso)
@@ -141,7 +158,8 @@ async function caricaLuoghi(luoghi) {
     const f = L.img || luogo;
     lista[luogo] = `img/${f}.jpg`;
     lista[`${luogo}_persone`] = `img/${f}_persone.png`;
-    lista[`${luogo}_calore`] = `img/${f}_calore.png`;
+    // "calore": un'altra mappa del calore (le case nuove, quando stanotte qualcuno si e' ammalato)
+    lista[`${luogo}_calore`] = `img/${L.calore || `${f}_calore`}.png`;
     for (const p of L.persone) lista[`${luogo}_${p}`] = `img/${f}_${p}.png`;
     for (const [persona, E] of Object.entries(ESPRESSIONI[luogo] || {}))
       for (const volto of E.volti) lista[`esp_${luogo}_${persona}_${volto}`] = `img/espressioni/${luogo}_${persona}_${volto}.png`;
@@ -529,6 +547,11 @@ function casaDi(id) {
   return id.startsWith("d:") ? D.PERSONE[D.DICHIARAZIONI[k].chi].casa : D.PROVE[k].casa;
 }
 
+// una frase vale nella sua casa; una prova con "anche" pure nelle altre (la cartella della ditta, il secondo giorno)
+function valeIn(id, casa) {
+  return casaDi(id) === casa || (id.startsWith("p:") && !!D.PROVE[id.slice(2)].anche?.includes(casa));
+}
+
 function mettiSulNastro(id, volto) {
   if (S.frasi.some((f) => f.id === id)) return;
   if (id.startsWith("d:")) S.dette[id.slice(2)] = true;
@@ -542,7 +565,7 @@ function ritaglioZona(luogo, zid) {
   const [x0, y0, x1, y1] = z.box;
   const h = clamp((y1 - y0) * 1.15, 0.22, 0.6);
   const w = h * (6 / 7) * (9 / 16);
-  return { src: `img/${D.LUOGHI[luogo]?.img || luogo}.jpg`, w, h, x: clamp((x0 + x1) / 2 - w / 2, 0, 1 - w), y: clamp((y0 + y1) / 2 - h / 2, 0, 1 - h) };
+  return { src: url(`img/${D.LUOGHI[luogo]?.img || luogo}.jpg`), w, h, x: clamp((x0 + x1) / 2 - w / 2, 0, 1 - w), y: clamp((y0 + y1) / 2 - h / 2, 0, 1 - h) };
 }
 
 // la foto di una persona (per lo stato di famiglia, la scheda della casa, il nastro delle frasi): quella del primo
@@ -589,7 +612,7 @@ function fotogramma(v) {
   if (v.id.startsWith("d:")) {
     const d = D.DICHIARAZIONI[k];
     const volto = v.volto && ESPRESSIONI[D.PERSONE[d.chi]?.luogo]?.[d.chi]?.volti.includes(v.volto) ? `_${v.volto}` : "";
-    const src = visita ? ritratto(d.chi, v.volto) : `img/volti/${fotoVolto(d.chi)}${volto}.jpg`;
+    const src = visita ? ritratto(d.chi, v.volto) : url(`img/volti/${fotoVolto(d.chi)}${volto}.jpg`);
     return { id: v.id, tipo: "detta", foto: src ? { src } : null, testo: d.testo,
       meta: D.PERSONE[d.chi]?.voce || "", icona: icona("fumetto") };
   }
@@ -601,15 +624,15 @@ function fotogramma(v) {
       icona: icona(P.ir ? "fiamma" : "lente") };
   }
   if (P.zona) foto = ritaglioZona(...P.zona);
-  else if (P.parte) foto = { src: `img/pp/${fotoPrimo(...P.parte)}.jpg`, w: (6 / 7) * (9 / 16), h: 1, x: 0.5 - (6 / 7) * (9 / 32), y: 0 };
-  else if (P.da) foto = { src: `img/volti/${fotoVolto(P.da)}.jpg` };
+  else if (P.parte) foto = { src: url(`img/pp/${fotoPrimo(...P.parte)}.jpg`), w: (6 / 7) * (9 / 16), h: 1, x: 0.5 - (6 / 7) * (9 / 32), y: 0 };
+  else if (P.da) foto = { src: url(`img/volti/${fotoVolto(P.da)}.jpg`) };
   if (foto && P.ir) foto.filtro = "ir";
   return { id: v.id, tipo: "prova", foto, testo: P.breve, meta: P.ir ? "NASTRO IR" : "INDIZIO", icona: icona(P.ir ? "fiamma" : "lente") };
 }
 
 function aggiornaNastro() {
   if (S.schermo !== "visita") return;
-  const lista = S.frasi.filter((f) => casaDi(f.id) === S.casa).map(fotogramma);
+  const lista = S.frasi.filter((f) => valeIn(f.id, S.casa)).map(fotogramma);
   striscia.mostra(lista, "Il nastro delle frasi: quello che conta finisce qui. Trascinalo su chi o cosa lo smentisce.");
   for (const d of nastroFrasi.querySelectorAll(".fot")) d.classList.toggle("scelta", !!R.scelta && d.dataset.id === R.scelta.id);
 }
@@ -1190,7 +1213,7 @@ function mostraScheda(id, fissa) {
     const dec = S.decisioni[id] || { via: [], provvedimento: "nessuno" };
     for (const [pid, persona] of personeDellaCasa(id)) {
       const riga = el("div", "sc-persona");
-      const src = visita ? ritratto(pid) : `img/volti/${fotoVolto(pid)}.jpg`;
+      const src = visita ? ritratto(pid) : url(`img/volti/${fotoVolto(pid)}.jpg`);
       const foto = el(src ? "img" : "span", src ? "sc-foto" : "sc-foto ignota", src ? null : "?");
       if (src) {
         foto.src = src;
@@ -1856,7 +1879,7 @@ function rigaStato(casa, r, firmata) {
   const foto = el("div", "sf-foto");
   const v = S.volti[persona];
   const src = !vista(persona) ? null : visita ? ritratto(persona, v) || ritratto(persona)
-    : `img/volti/${fotoVolto(persona)}${v && ESPRESSIONI[P.luogo]?.[persona]?.volti.includes(v) ? `_${v}` : ""}.jpg`;
+    : url(`img/volti/${fotoVolto(persona)}${v && ESPRESSIONI[P.luogo]?.[persona]?.volti.includes(v) ? `_${v}` : ""}.jpg`);
   if (src) {
     const im = el("img");
     im.src = src;
@@ -1906,8 +1929,9 @@ function rigaStato(casa, r, firmata) {
         if (S.lazzaretto[persona] && S.ospite === persona) S.ospite = null;
         ridisegnaStato(casa);
       }),
-      sceltaStato("ospite", "Ospite stanotte", ospite ? "dorme da te" : !sano ? "solo chi è sano"
-        : preso ? `c'è già ${D.PERSONE[S.ospite].nome}` : "dorme da te", ospite, !!firmata || !sano || !!preso, () => {
+      // "ospite" della persona: perche' non puo' venire (il marito della casa 2 non si regge in piedi)
+      sceltaStato("ospite", "Ospite stanotte", ospite ? "dorme da te" : P.ospite || (!sano ? "solo chi è sano"
+        : preso ? `c'è già ${D.PERSONE[S.ospite].nome}` : "dorme da te"), ospite, !!firmata || !sano || !!preso || !!P.ospite, () => {
         S.ospite = S.ospite === persona ? null : persona;
         if (S.ospite === persona) S.lazzaretto[persona] = false;
         ridisegnaStato(casa);
@@ -2017,7 +2041,7 @@ function apriStato(casa, opzioni = {}) {
   }
   lato.append(rastrelliera, el("h3", null, "Dal nastro delle frasi"));
   const frasi = el("div", "sf-frasi");
-  const mie = S.frasi.filter((f) => casaDi(f.id) === casa);
+  const mie = S.frasi.filter((f) => valeIn(f.id, casa));
   if (!mie.length) frasi.append(el("p", "sf-spiega", "Ancora niente: le frasi arrivano dalle visite."));
   for (const v of mie) {
     const f = fotogramma(v);
@@ -2734,7 +2758,7 @@ function verita() {
   }
   if (giorni.length > 1) corpo.push(el("p", "nota", `In tutto: ${tutte} giuste su ${tutteDate}.`));
   corpo.push(el("p", "nota", S.giorno === 1 ? "Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove."
-    : "Fine della bozza: due giornate. Nel gioco, domani torneresti alla casa 5: il ragazzo è giù in cantina."));
+    : "Fine della bozza: due giornate. Nel gioco, domani torneresti alla casa 5, dove il ragazzo è giù in cantina, e alla casa 10, dove la ditta cerca chi non si ammala."));
   corpo.push(azioni([["Ricomincia dal primo giorno", ricomincia]]));
   apriFoglio("verita", corpo);
 }
@@ -2757,6 +2781,7 @@ async function iniziaGiorno2() {
   // le scene di oggi (con chi e' rimasto in casa) e i primi piani nuovi; sul telefono ci vuole qualche secondo
   parole.scrivi(null, "Riavvolgo i nastri…", { lato: "sotto" }, {}, { veloce: true });
   try {
+    await apriPacchi();
     if (visitaPronta && !visita) await visitaPronta;
     if (visita) await visita.prepara(D.LUOGHI);
     else await caricaLuoghi(D.LUOGHI);
@@ -3062,6 +3087,7 @@ async function avvia(dati) {
   // ripreso a meta' del secondo giorno (il codice ricaricato tiene lo stato): le tabelle e le scene di quel giorno
   if (S.giorno === 2) {
     D = { ...D1, ...giorno2(S.ieri) };
+    await apriPacchi().catch(() => {});
     if (!vhs || !conWebgl2 || !VISITE_3D) await caricaLuoghi(D.LUOGHI).catch(() => {});
   }
   visitaPronta = VISITE_3D ? caricaVisite() : null;

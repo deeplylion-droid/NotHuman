@@ -97,15 +97,51 @@
   },
   "suocera": {
     "modello": "fal-ai/nano-banana-pro/edit",
-    "errore": "<urlopen error [Errno 104] Connection reset by peer>"
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a tiny, stooped old woman in her late seventies with a deeply wrinkled face, huge bulging eyes, a hooked nose and an almost toothless mouth, in widow's black from head to toe: black headscarf, black cardigan, black skirt). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same grotesque but almost photographic face, bulging eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "suocera.png"
+    ],
+    "seed": null,
+    "secondi": 27,
+    "descrizione": ""
   },
   "moglie": {
     "modello": "fal-ai/nano-banana-pro/edit",
-    "errore": "<urlopen error [Errno 104] Connection reset by peer>"
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a hard-faced, heavy woman in her sixties with greying hair tied back carelessly, deep wrinkles, bulging tired eyes and a long crooked nose, in a shapeless beige knitted cardigan over a dark floral housedress). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same grotesque but almost photographic face, bulging eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "moglie.png"
+    ],
+    "seed": null,
+    "secondi": 31,
+    "descrizione": ""
   },
   "nuora": {
     "modello": "fal-ai/nano-banana-pro/edit",
-    "errore": "<urlopen error [Errno 104] Connection reset by peer>"
+    "input": {
+      "prompt": "Create a character reference sheet of the person in the image (a gaunt young widow in her early thirties with long, loose black hair, sunken cheeks, huge bulging dark-ringed eyes and a long nose, in a black long-sleeved dress, a man's gold wedding ring hanging on a thin chain around her neck). On one wide sheet with a plain, even, light grey studio background, show the same person five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body from the back; 5) a large close-up of the head and shoulders from the front. It must be exactly the same person in every view: the same grotesque but almost photographic face, bulging eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.",
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "nuora.png"
+    ],
+    "seed": null,
+    "secondi": 33,
+    "descrizione": ""
   },
   "marito": {
     "modello": "fal-ai/nano-banana-pro/edit",

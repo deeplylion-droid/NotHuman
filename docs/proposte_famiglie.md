@@ -1,6 +1,6 @@
 # Famiglie nuove e terza notte: proposte
 
-Proposte di Claude del 27 ottobre, da scegliere (niente è ancora fatto). Le famiglie vanno scritte bene, a mano: queste sono tre idee per la terza casa da visitare, tra quelle dove di notte passa il contagio dalle case 3 e 5, e ognuna porta avanti una delle quattro tracce della storia nascosta (`docs/riepilogo.md`, "Fine della partita e storia"). Niente bambini in scena (GPT Image 2 li rifiuta nelle scene horror).
+Proposte di Claude del 27 ottobre. **Le famiglie B e C sono nel secondo giorno del prototipo dal 28 ottobre** (case 2 e 10, vedi `docs/riepilogo.md`, "Il secondo giorno (bozza)"); la A e la terza notte sono ancora da scegliere. Le famiglie vanno scritte bene, a mano: queste sono tre idee per la terza casa da visitare, tra quelle dove di notte passa il contagio dalle case 3 e 5, e ognuna porta avanti una delle quattro tracce della storia nascosta (`docs/riepilogo.md`, "Fine della partita e storia"). Niente bambini in scena (GPT Image 2 li rifiuta nelle scene horror).
 
 ## A · Casa 7, il sacrestano (il segreto del paese)
 
@@ -13,6 +13,8 @@ Proposte di Claude del 27 ottobre, da scegliere (niente è ancora fatto). Le fam
 
 ## B · Casa 2, l'infermiera del recinto (la ditta e le cavie)
 
+**Fatta il 28 ottobre**, con qualche differenza: la casa è una stanza sola, e la cartella è sotto il materasso del letto di lei; il marito ha i polmoni della cava (le labbra viola del protocollo) e si ammala solo se di notte il contagio è passato dalla casa 3; nella cartella ci sono anche il nonno della casa 3 (PROVA 1) e il marito della vedova della casa 10 (PROVA 2); il paese del 1998 si chiama Pietrascura.
+
 - **Chi c'è**: una donna sui cinquant'anni, che lavora di notte nel recinto della Panacea come inserviente, e il marito invalido, a letto.
 - **Il segreto**: sa cosa succede ai portati via (non tornano: li tengono per le prove, e chi muore lo bruciano). Ha portato a casa una cartella della ditta, con le foto dei pazienti e i numeri.
 - **Le bugie**: «Lavoro alla mensa»; «Mio marito ha l'asma».
@@ -21,6 +23,8 @@ Proposte di Claude del 27 ottobre, da scegliere (niente è ancora fatto). Le fam
 - **Cosa porta alla storia**: la prima prova scritta che la ditta usa i malati come cavie, e la cartella di un "medico 6" di un altro paese, con le date dei nastri vecchi.
 
 ## C · Casa 10, la donna che non si ammala (l'immune nascosto)
+
+**Fatta il 28 ottobre**: la nuora è chiusa a chiave in camera; il marito, Paolo, non è morto ma cambiato, e la ditta lo tiene (la ricevuta «salma trattenuta», la bara piena di sassi che la suocera ha aperto con le mani). Il fax del giorno dopo che chiede «sani, esposti al contagio» resta da fare, col terzo giorno.
 
 - **Chi c'è**: una donna sui trent'anni, vedova da una settimana (il marito è una delle tre tombe nuove), e la suocera.
 - **Il segreto**: ha curato il marito fino alla fine, ha dormito con lui, e non si è ammalata. La suocera lo sa e la tiene chiusa in casa: «Se la ditta lo scopre, se la prende».
