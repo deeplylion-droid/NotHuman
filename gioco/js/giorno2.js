@@ -124,17 +124,17 @@ export function giorno2(ieri) {
       persone: ["moglie", "marito"],
       frasi: { moglie: [0.345, 0.14, "sinistra"], marito: [0.97, 0.07, "sinistra"] },
       parti: {
-        // la moglie ha le braccia incrociate; il marito tiene le mani sulle ginocchia (le dita le copre il nastro delle
-        // frasi: la zona delle mani e' il dorso, appena sopra)
+        // la moglie ha le braccia incrociate; il marito tiene la mano sul ginocchio (l'altra e' sotto la coperta; le dita
+        // le copre il nastro delle frasi: la zona delle mani e' il dorso, appena sopra)
         moglie: {
-          occhi: [[0.427, 0.171, 0.03, 0.016]], bocca: [[0.428, 0.25, 0.018, 0.012]], collo: [[0.43, 0.29, 0.02, 0.014]],
-          ascelle: [[0.34, 0.32, 0.012, 0.025], [0.49, 0.32, 0.012, 0.025]],
-          mani: [[0.37, 0.375, 0.025, 0.03], [0.485, 0.305, 0.02, 0.02]],
+          occhi: [[0.421, 0.162, 0.032, 0.016]], bocca: [[0.421, 0.226, 0.018, 0.012]], collo: [[0.423, 0.27, 0.02, 0.013]],
+          ascelle: [[0.352, 0.29, 0.012, 0.025], [0.503, 0.285, 0.012, 0.025]],
+          mani: [[0.406, 0.35, 0.022, 0.022], [0.479, 0.316, 0.02, 0.018]],
         },
         marito: {
-          occhi: [[0.796, 0.356, 0.032, 0.018]], bocca: [[0.79, 0.45, 0.022, 0.014]], collo: [[0.81, 0.51, 0.022, 0.02]],
-          ascelle: [[0.735, 0.62, 0.015, 0.03], [0.895, 0.62, 0.015, 0.03]],
-          mani: [[0.68, 0.81, 0.03, 0.035], [0.755, 0.8, 0.03, 0.035]],
+          occhi: [[0.821, 0.414, 0.032, 0.018]], bocca: [[0.811, 0.496, 0.022, 0.016]], collo: [[0.793, 0.555, 0.018, 0.02]],
+          ascelle: [[0.74, 0.6, 0.015, 0.03], [0.89, 0.6, 0.015, 0.03]],
+          mani: [[0.688, 0.8, 0.03, 0.03]],
         },
       },
       zone: [
@@ -158,9 +158,9 @@ export function giorno2(ieri) {
       parti: {
         // si regge alla sedia con la destra
         suocera: {
-          occhi: [[0.664, 0.33, 0.04, 0.022]], bocca: [[0.648, 0.425, 0.022, 0.016]], collo: [[0.635, 0.505, 0.022, 0.016]],
-          ascelle: [[0.553, 0.53, 0.012, 0.025], [0.672, 0.55, 0.012, 0.025]],
-          mani: [[0.545, 0.64, 0.022, 0.035], [0.662, 0.69, 0.018, 0.035]],
+          occhi: [[0.626, 0.345, 0.03, 0.018]], bocca: [[0.624, 0.389, 0.016, 0.011]], collo: [[0.622, 0.43, 0.02, 0.014]],
+          ascelle: [[0.56, 0.45, 0.012, 0.025], [0.665, 0.45, 0.012, 0.025]],
+          mani: [[0.543, 0.625, 0.022, 0.035], [0.664, 0.683, 0.018, 0.035]],
         },
       },
       zone: [
@@ -184,9 +184,10 @@ export function giorno2(ieri) {
       frasi: { nuora: [0.44, 0.16, "sinistra"] },
       parti: {
         nuora: {
-          occhi: [[0.512, 0.23, 0.04, 0.022]], bocca: [[0.512, 0.36, 0.02, 0.014]], collo: [[0.512, 0.44, 0.022, 0.025]],
-          ascelle: [[0.42, 0.53, 0.012, 0.03], [0.59, 0.53, 0.012, 0.03]],
-          mani: [[0.49, 0.785, 0.03, 0.04], [0.555, 0.785, 0.03, 0.04]],
+          occhi: [[0.509, 0.2, 0.04, 0.02]], bocca: [[0.509, 0.271, 0.018, 0.012]],
+          collo: [[0.509, 0.345, 0.02, 0.035], [0.51, 0.528, 0.014, 0.018]],
+          ascelle: [[0.457, 0.43, 0.012, 0.03], [0.559, 0.43, 0.012, 0.03]],
+          mani: [[0.495, 0.79, 0.028, 0.04], [0.535, 0.79, 0.028, 0.04]],
         },
       },
       zone: [
@@ -356,9 +357,9 @@ export function giorno2(ieri) {
   // casa 2: la moglie porta addosso il recinto (i segni della mascherina, il timbro d'ingresso sulla mano); il marito
   // ha le labbra viola e le unghie blu della cava, che per il protocollo sono il pallore
   ESAMI.moglie = {
-    occhi: { reperto: "occhiaie, occhi arrossati, niente febbre: non dorme di notte", foto: "g2/moglie_occhi",
+    occhi: { reperto: "occhi sbarrati, arrossati ai bordi; niente febbre: non dorme di notte", foto: "g2/moglie_occhi",
       dice: [["MOGLIE", "Faccio le notti. Ve l'ho detto."]] },
-    bocca: { reperto: "niente", foto: "g2/moglie_bocca", dice: [["MOGLIE", "[stringe le labbra]"]] },
+    bocca: { reperto: "denti tutti uguali, come finti; niente", foto: "g2/moglie_bocca", dice: [["MOGLIE", "[stringe le labbra]"]] },
     collo: { reperto: "due righe rosse dietro l'orecchio e sulla guancia: l'elastico di una mascherina, portata per ore",
       foto: "g2/moglie_collo", dice: [["MOGLIE", "[si tira su il collo del golf]", { volto: "nervoso" }]] },
     ascelle: { reperto: "si è rifiutata", rifiuta: [["MOGLIE", "Non ci penso nemmeno.", { volto: "arrabbiato" }]] },
@@ -367,10 +368,10 @@ export function giorno2(ieri) {
   };
   ESAMI.marito = {
     occhi: maritoMalato
-      ? { reperto: "occhi lucidi e cerchiati, sudore: febbre", segno: "febbre", foto: "g2/marito_occhi_febbre", dice: [["MARITO", "Brucio. Da stanotte."]] }
-      : { reperto: "occhi stanchi e acquosi, niente febbre", foto: "g2/marito_occhi", dice: [["MARITO", "Ci vedo ancora. Purtroppo."]] },
+      ? { reperto: "occhi lucidi e arrossati, sudore: febbre", segno: "febbre", foto: "g2/marito_occhi_febbre", dice: [["MARITO", "Brucio. Da stanotte."]] }
+      : { reperto: "occhi chiari e sbarrati, non sbatte mai le palpebre; niente febbre", foto: "g2/marito_occhi", dice: [["MARITO", "Ci vedo ancora. Purtroppo."]] },
     bocca: { reperto: "labbra viola, fiato corto, catarro grigio", segno: "pallore", foto: "g2/marito_bocca",
-      dice: [["MARITO", "[respira a fatica, con la bocca aperta]"]] },
+      dice: [["MARITO", "[sorride, col fiato corto]"]] },
     collo: maritoMalato
       ? { reperto: "un bubbone sotto la mascella, appena cominciato", segno: "bubbone", foto: "g2/marito_collo_febbre", dice: [["MARITO", "Ieri non c'era."]] }
       : { reperto: "i tendini tirati dal respiro, niente gonfiori", foto: "g2/marito_collo", dice: [["MARITO", "[deglutisce]"]] },
@@ -384,19 +385,20 @@ export function giorno2(ieri) {
     occhi: suoceraMalata
       ? { reperto: "occhi lucidi, sudore sotto il fazzoletto: febbre", segno: "febbre", foto: "g2/suocera_occhi_febbre",
         dice: [["SUOCERA", "Ho pianto. Si piange, quando si seppellisce un figlio."]] }
-      : { reperto: "palpebre gonfie di pianto, occhi asciutti: niente febbre", foto: "g2/suocera_occhi",
+      : { reperto: "occhi neri, quasi senza bianco; palpebre arrossate di pianto, niente febbre", foto: "g2/suocera_occhi",
         dice: [["SUOCERA", "Ho pianto. Si piange, quando si seppellisce un figlio."]] },
-    bocca: { reperto: "due denti, niente", foto: "g2/suocera_bocca", dice: [["SUOCERA", "[serra le gengive]"]] },
+    bocca: { reperto: "denti piccoli e perfetti, da bambina; niente", foto: "g2/suocera_bocca",
+      dice: [["SUOCERA", "[sorride, sempre allo stesso modo]"]] },
     collo: suoceraMalata
       ? { reperto: "un bubbone sotto la mascella, appena cominciato", segno: "bubbone", foto: "g2/suocera_collo_febbre",
         dice: [["SUOCERA", "Il malvento. Adesso ce l'ho anch'io."]] }
       : { reperto: "un nastro nero al collo, niente gonfiori", foto: "g2/suocera_collo", dice: [["SUOCERA", "Il lutto. Lo porto per Paolo."]] },
     ascelle: { reperto: "si è rifiutata", rifiuta: [["SUOCERA", "Ho ottant'anni, dottore. Abbiate rispetto.", { volto: "arrabbiato" }]] },
-    mani: { reperto: "terra nera sotto le unghie, una goccia di cera rossa su un dito", foto: "g2/suocera_mani",
+    mani: { reperto: "mani lisce da ragazza; terra nera sotto le unghie, una crosta di cera rossa su un dito", foto: "g2/suocera_mani",
       dice: [["SUOCERA", "L'*orto*.", { d: "orto", k: "parte:suocera.mani" }]] },
   };
   ESAMI.nuora = {
-    occhi: { reperto: "occhiaie, palpebre gonfie di pianto, niente febbre", foto: "g2/nuora_occhi", dice: [["NUORA", "Non dormo. Da una settimana."]] },
+    occhi: { reperto: "occhi grandi e scuri, bordi arrossati di pianto; niente febbre", foto: "g2/nuora_occhi", dice: [["NUORA", "Non dormo. Da una settimana."]] },
     bocca: { reperto: "labbra morse, niente", foto: "g2/nuora_bocca", dice: [["NUORA", "[si morde il labbro]"]] },
     collo: { reperto: "al collo, su una catenina, la fede di un uomo; niente gonfiori", foto: "g2/nuora_collo",
       dice: [["NUORA", "La *fede* di Paolo. Me l'hanno data loro, in una busta.", { d: "fede_busta", k: "parte:nuora.collo" }]] },

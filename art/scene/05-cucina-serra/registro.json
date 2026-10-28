@@ -117,7 +117,7 @@
   "persone": {
     "modello": "fal-ai/sam-3/image",
     "input": {
-      "image_url": "@file:../ammorbiditi.jpg",
+      "image_url": "@file:../strani.jpg",
       "prompt": "person",
       "apply_mask": false,
       "include_scores": true,
@@ -151,10 +151,10 @@
     "secondi": 30,
     "descrizione": ""
   },
-  "deformi": {
+  "strani": {
     "modello": "fal-ai/nano-banana-pro/edit",
     "input": {
-      "prompt": "Make the old woman in black in this image far more grotesque and deformed, like a nightmare caricature that is still a realistic photograph. She stays tiny and stooped, in widow's black from head to toe, and she keeps her black headscarf tied tightly around her head and under her chin, covering her hair. Her head is too big for her shrunken body; her face is like a wrinkled, sunken walnut; her eyes are enormous, round and bulging, with tiny black pupils, set too far apart; a long hooked nose curves down toward a jutting, pointed chin; her collapsed, almost toothless mouth shows two crooked teeth; the bony hand on the back of the chair has long, gnarled, crooked fingers and thick yellow nails. Keep the same pose, position and lighting, and keep her photographic: real skin, real fabric. She is still a living person, with normal skin color and eyes with irises and pupils: not a zombie, not a monster, not a corpse. Do not change anything else in the image.",
+      "prompt": "Change the one person in this image so that they look healthy but uncanny and wrong, like the 'alternates' of analog horror (The Mandela Catalogue), or like a familiar face that is different from how you remember it: something is off, even if at first you cannot say what. The old woman in black: small and upright, not frail, in widow's black from head to toe, with her black headscarf tied under her chin; her skin is smooth, pale and unnaturally unlined for her age, like porcelain; but her face is wrong: her eyes are large and almost entirely dark, set a little too far apart and fixed on the viewer without blinking; her mouth is small and curved in a faint, polite, unchanging smile; her face is slightly too round and too symmetrical, like a doll's; her hand on the back of the chair has fingers slightly too long. Push these distortions further, so that the wrongness is obvious at first glance, while they still look like real people. Keep them as realistic photographs (real skin, hair and fabric), with the same clothes, poses, positions and lighting. They must not look sick, wasted, haggard, dirty or dying: healthy weight, clean skin, normal skin color, all their teeth, eyes with irises and pupils; not zombies, not monsters, not corpses. Do not change anything else in the image.",
       "image_urls": [
         "@file:ammorbiditi.jpg"
       ],
@@ -164,11 +164,11 @@
       "num_images": 1
     },
     "file": [
-      "05_D.jpg"
+      "05_forte.png"
     ],
     "seed": null,
-    "secondi": 42,
+    "secondi": 35,
     "descrizione": "",
-    "prova": "art/prove-stile/22-piu-deformi/05_D.jpg"
+    "prova": "art/prove-stile/23-strani/05_forte.jpg"
   }
 }

@@ -43,8 +43,8 @@ PARTS = {
     "mani": "both hands held out in front, palms down, from the wrists to the fingertips",
 }
 PROMPT = ("Extreme close-up of {frame} of the person in the reference image ({look}), filling the whole 16:9 frame, as "
-          "if a camcorder zoomed in on them from about one meter away. Same person: the same grotesque but almost "
-          "photographic features, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. "
+          "if a camcorder zoomed in on them from about one meter away. Same person: exactly the same almost "
+          "photographic features, however strange they are, the same skin, hair and clothes, in the same warm, dim indoor light of a poor home. "
           "{signs} Realistic photograph, sharp focus on the subject, natural colors. No other people, no hands, gloves "
           "or objects belonging to the viewer, no text, no border.")
 

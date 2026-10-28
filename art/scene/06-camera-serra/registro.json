@@ -117,7 +117,7 @@
   "persone": {
     "modello": "fal-ai/sam-3/image",
     "input": {
-      "image_url": "@file:../ammorbiditi.jpg",
+      "image_url": "@file:../strani.jpg",
       "prompt": "person",
       "apply_mask": false,
       "include_scores": true,
@@ -134,10 +134,10 @@
     "secondi": 5,
     "descrizione": null
   },
-  "deformi": {
+  "strani": {
     "modello": "fal-ai/nano-banana-pro/edit",
     "input": {
-      "prompt": "Make the one person in this image far more grotesque and deformed, like nightmare caricatures that are still realistic photographs. The young widow: a gaunt, elongated figure with a long, narrow skull and face, as if stretched downwards; huge, bulging, dark-ringed eyes with tiny pupils, set slightly unevenly; a long, thin, sharp nose; hollow, sucked-in cheeks and a long jaw with a small, tight mouth showing a few long teeth; a very long, thin neck; long, lank black hair; long, spidery, bony fingers with raw red knuckles, clasped in her lap. Keep the same clothes, poses, positions and lighting, and keep them photographic: real skin, hair and fabric. They are still living people, with normal skin color and eyes with irises and pupils: not zombies, not monsters, not corpses. Do not change anything else in the image.",
+      "prompt": "Change the one person in this image so that they look healthy but uncanny and wrong, like the 'alternates' of analog horror (The Mandela Catalogue), or like a familiar face that is different from how you remember it: something is off, even if at first you cannot say what. The young widow: healthy and clean, not gaunt, with smooth, pale, flawless skin and long, glossy black hair; but she is wrong: her face is slightly too long and narrow; her eyes are a little too big and too far apart, very dark and unblinking; her eyebrows are too thin and too high; her small mouth is perfectly still; her neck is noticeably too long; her fingers, clasped in her lap, are too long and too thin; she sits perfectly still and perfectly straight. Push these distortions further, so that the wrongness is obvious at first glance, while they still look like real people. Keep them as realistic photographs (real skin, hair and fabric), with the same clothes, poses, positions and lighting. They must not look sick, wasted, haggard, dirty or dying: healthy weight, clean skin, normal skin color, all their teeth, eyes with irises and pupils; not zombies, not monsters, not corpses. Do not change anything else in the image.",
       "image_urls": [
         "@file:ammorbiditi.jpg"
       ],
@@ -147,11 +147,11 @@
       "num_images": 1
     },
     "file": [
-      "06_C.jpg"
+      "06_forte.png"
     ],
     "seed": null,
-    "secondi": 30,
+    "secondi": 32,
     "descrizione": "",
-    "prova": "art/prove-stile/22-piu-deformi/06_C.jpg"
+    "prova": "art/prove-stile/23-strani/06_forte.jpg"
   }
 }

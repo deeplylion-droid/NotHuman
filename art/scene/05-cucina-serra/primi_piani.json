@@ -2,17 +2,17 @@
   "suocera": {
     "riferimento": "riferimento_suocera.jpg",
     "scheda": "suocera",
-    "aspetto": "a grotesque, deformed tiny old woman in her late seventies: a shrunken, stooped body with a head far too big for it, a face like a wrinkled sunken walnut, enormous round bulging eyes with tiny black pupils set too far apart, a long hooked nose curving down to a pointed chin, a collapsed mouth with a single yellow tooth, long gnarled fingers with thick yellow nails; in widow's black from head to toe: black headscarf tied under the chin, black cardigan, black skirt",
+    "aspetto": "an uncanny tiny old woman in her late seventies who looks healthy but wrong, like a familiar face that is different from how you remember it: a small, stooped body; a smooth, pale, porcelain face with no wrinkles at all, like a doll's, far too young for her body; large eyes that are almost completely black, with almost no white; a small nose; a faint, fixed, closed-mouth smile that never changes; long, thin, smooth fingers; in widow's black from head to toe: black headscarf tied under the chin, black cardigan, black skirt and apron",
     "parti": {
-      "occhi": "Red, swollen eyelids from crying, but dry, clear eyes: no fever, no sweat.",
+      "occhi": "Large, almost completely black eyes, wet and shining, with almost no white; the lids a little reddened from crying; healthy: no fever, no sweat.",
       "occhi_febbre": {"inquadratura": "the eyes and the bridge of the nose, from the eyebrows to the cheekbones, the edge of the black headscarf",
-                       "segni": "Glassy, bloodshot eyes with fever, the eyelids red and swollen from crying, beads of sweat under the edge of the black headscarf."},
-      "bocca": "An almost toothless mouth with two crooked teeth and thin, pressed lips; nothing unusual.",
-      "collo": {"inquadratura": "the side of her wrinkled neck under the jaw, the black headscarf pulled aside",
-                "segni": "A very wrinkled old neck with a thin black ribbon around it; no swelling, no lumps."},
-      "collo_febbre": {"inquadratura": "the side of her wrinkled neck under the jaw, the black headscarf pulled aside",
-                       "segni": "A very wrinkled old neck with a thin black ribbon around it; under the jaw a hard swollen lump the size of a walnut, red and shiny: a plague bubo just beginning."},
-      "mani": "Gnarled, bony old hands with swollen knuckles; dark earth under the fingernails, as if she had been kneeling at a grave, and a drop of red candle wax on one finger."
+                       "segni": "Her almost-black eyes are glassy with fever, the lids red and swollen, beads of sweat on her smooth porcelain forehead under the edge of the black headscarf."},
+      "bocca": "Her lips, still in the same faint smile, part to show a full set of small, perfect, milk-white teeth, like a little girl's; healthy, nothing unusual.",
+      "collo": {"inquadratura": "the side of her neck under the jaw, the black headscarf pulled aside",
+                "segni": "Smooth, pale skin with no wrinkles, far too young for her age, a thin black ribbon around the neck; no swelling, no lumps."},
+      "collo_febbre": {"inquadratura": "the side of her neck under the jaw, the black headscarf pulled aside",
+                       "segni": "Smooth, pale skin with no wrinkles and a thin black ribbon around the neck; under the jaw a hard swollen lump the size of a walnut, red and shiny: a plague bubo just beginning."},
+      "mani": "Long, thin, pale fingers, unnaturally smooth for her age, like a young woman's; dark earth under the fingernails, as if she had been kneeling at a grave; on the back of one finger a small, round, flat crust of dried red candle wax, dull and opaque like a crayon, dry and hard: no liquid, no shine, no wound, no blood."
     }
   }
 }

@@ -5,7 +5,8 @@ Uso: python3 tools/schede.py [persona ...]      (senza nomi: tutte quelle che ma
 
 Per ogni persona dei primi piani (art/scene/*/primi_piani.json: il riferimento e l'aspetto) Nano Banana Pro fa
 art/personaggi/<persona>.jpg: la stessa persona cinque volte su fondo grigio chiaro (davanti, di tre quarti, di
-profilo, di spalle e il primo piano della testa), grottesca ma quasi fotografica come nel gioco. I riferimenti di
+profilo, di spalle e il primo piano della testa), quasi fotografica come nel gioco (grottesca, o strana come i
+quattro delle case 2 e 10). I riferimenti di
 prima erano ritagli delle scene (col fondo e pezzi di altre persone) o una foto sola. D'ora in poi, per cambiare lo
 stato o l'inquadratura di una persona, si passa la sua scheda come seconda immagine, con COME_RIFERIMENTO nel prompt.
 Ogni scheda salta se il file c'e' gia': per rifarla, cancellala. Il registro e' in art/personaggi/registro.json.
@@ -40,9 +41,9 @@ def prompt(aspetto, con):
             "five times, side by side and evenly spaced, all at the same scale: 1) full body from the front, standing "
             "upright with relaxed arms; 2) full body in three-quarter view; 3) full body in side profile; 4) full body "
             "from the back; 5) a large close-up of the head and shoulders from the front. "
-            f"{con + ' ' if con else ''}It must be exactly the same person in every view: the same grotesque but "
-            "almost photographic face, bulging eyes, nose, mouth, teeth, hair, skin and body shape, and exactly the "
-            "same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural "
+            f"{con + ' ' if con else ''}It must be exactly the same person in every view: the same almost "
+            "photographic face, however strange it is, the same eyes, nose, mouth, teeth, hair, skin and body shape, "
+            "and exactly the same clothes, shoes and colors as in the image. Realistic photograph, soft even studio light, natural "
             "colors, sharp focus. No other people, no furniture, no text, no labels, no numbers, no border.")
 
 

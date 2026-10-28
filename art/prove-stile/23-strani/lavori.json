@@ -1,0 +1,86 @@
+[
+  {
+    "nome": "04_lieve",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change the two people in this image so that they look healthy but uncanny and wrong, like the 'alternates' of analog horror (The Mandela Catalogue), or like a familiar face that is different from how you remember it: something is off, even if at first you cannot say what. The woman standing in the middle: healthy, clean and well fed, with smooth, even, slightly waxy skin and only a few soft wrinkles for her sixty years; but her face is wrong: her eyes are a little too big and set a little too far apart, perfectly round, with very dark irises and a fixed, unblinking stare; her nose is small and too straight; her mouth is slightly too wide, pressed in a thin straight line; her face is a little too long and too symmetrical; her grey hair is neat and stiff, almost like a wig. The man in the armchair: healthy-looking for his seventy years, not thin, with clean, smooth, pinkish skin and a clean-shaven, round, bald head; but he is wrong: his head is slightly too big and too round; his pale eyes are a little too far apart and do not seem to blink; his ears sit a little too low; his upper lip is unnaturally long; his slightly open mouth shows too many small, even, white teeth; his hands are a little too large, with fingers slightly too long. The plastic tube of the nebulizer still hangs on his chest. Keep them as realistic photographs (real skin, hair and fabric), with the same clothes, poses, positions and lighting. They must not look sick, wasted, haggard, dirty or dying: healthy weight, clean skin, normal skin color, all their teeth, eyes with irises and pupils; not zombies, not monsters, not corpses. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:../../scene/04-monolocale/ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "04_forte",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change the two people in this image so that they look healthy but uncanny and wrong, like the 'alternates' of analog horror (The Mandela Catalogue), or like a familiar face that is different from how you remember it: something is off, even if at first you cannot say what. The woman standing in the middle: healthy, clean and well fed, with smooth, even, slightly waxy skin and only a few soft wrinkles for her sixty years; but her face is wrong: her eyes are a little too big and set a little too far apart, perfectly round, with very dark irises and a fixed, unblinking stare; her nose is small and too straight; her mouth is slightly too wide, pressed in a thin straight line; her face is a little too long and too symmetrical; her grey hair is neat and stiff, almost like a wig. The man in the armchair: healthy-looking for his seventy years, not thin, with clean, smooth, pinkish skin and a clean-shaven, round, bald head; but he is wrong: his head is slightly too big and too round; his pale eyes are a little too far apart and do not seem to blink; his ears sit a little too low; his upper lip is unnaturally long; his slightly open mouth shows too many small, even, white teeth; his hands are a little too large, with fingers slightly too long. The plastic tube of the nebulizer still hangs on his chest. Push these distortions further, so that the wrongness is obvious at first glance, while they still look like real people. Keep them as realistic photographs (real skin, hair and fabric), with the same clothes, poses, positions and lighting. They must not look sick, wasted, haggard, dirty or dying: healthy weight, clean skin, normal skin color, all their teeth, eyes with irises and pupils; not zombies, not monsters, not corpses. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:../../scene/04-monolocale/ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "05_lieve",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change the one person in this image so that they look healthy but uncanny and wrong, like the 'alternates' of analog horror (The Mandela Catalogue), or like a familiar face that is different from how you remember it: something is off, even if at first you cannot say what. The old woman in black: small and upright, not frail, in widow's black from head to toe, with her black headscarf tied under her chin; her skin is smooth, pale and unnaturally unlined for her age, like porcelain; but her face is wrong: her eyes are large and almost entirely dark, set a little too far apart and fixed on the viewer without blinking; her mouth is small and curved in a faint, polite, unchanging smile; her face is slightly too round and too symmetrical, like a doll's; her hand on the back of the chair has fingers slightly too long. Keep them as realistic photographs (real skin, hair and fabric), with the same clothes, poses, positions and lighting. They must not look sick, wasted, haggard, dirty or dying: healthy weight, clean skin, normal skin color, all their teeth, eyes with irises and pupils; not zombies, not monsters, not corpses. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:../../scene/05-cucina-serra/ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "05_forte",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change the one person in this image so that they look healthy but uncanny and wrong, like the 'alternates' of analog horror (The Mandela Catalogue), or like a familiar face that is different from how you remember it: something is off, even if at first you cannot say what. The old woman in black: small and upright, not frail, in widow's black from head to toe, with her black headscarf tied under her chin; her skin is smooth, pale and unnaturally unlined for her age, like porcelain; but her face is wrong: her eyes are large and almost entirely dark, set a little too far apart and fixed on the viewer without blinking; her mouth is small and curved in a faint, polite, unchanging smile; her face is slightly too round and too symmetrical, like a doll's; her hand on the back of the chair has fingers slightly too long. Push these distortions further, so that the wrongness is obvious at first glance, while they still look like real people. Keep them as realistic photographs (real skin, hair and fabric), with the same clothes, poses, positions and lighting. They must not look sick, wasted, haggard, dirty or dying: healthy weight, clean skin, normal skin color, all their teeth, eyes with irises and pupils; not zombies, not monsters, not corpses. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:../../scene/05-cucina-serra/ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "06_lieve",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change the one person in this image so that they look healthy but uncanny and wrong, like the 'alternates' of analog horror (The Mandela Catalogue), or like a familiar face that is different from how you remember it: something is off, even if at first you cannot say what. The young widow: healthy and clean, not gaunt, with smooth, pale, flawless skin and long, glossy black hair; but she is wrong: her face is slightly too long and narrow; her eyes are a little too big and too far apart, very dark and unblinking; her eyebrows are too thin and too high; her small mouth is perfectly still; her neck is noticeably too long; her fingers, clasped in her lap, are too long and too thin; she sits perfectly still and perfectly straight. Keep them as realistic photographs (real skin, hair and fabric), with the same clothes, poses, positions and lighting. They must not look sick, wasted, haggard, dirty or dying: healthy weight, clean skin, normal skin color, all their teeth, eyes with irises and pupils; not zombies, not monsters, not corpses. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:../../scene/06-camera-serra/ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  },
+  {
+    "nome": "06_forte",
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Change the one person in this image so that they look healthy but uncanny and wrong, like the 'alternates' of analog horror (The Mandela Catalogue), or like a familiar face that is different from how you remember it: something is off, even if at first you cannot say what. The young widow: healthy and clean, not gaunt, with smooth, pale, flawless skin and long, glossy black hair; but she is wrong: her face is slightly too long and narrow; her eyes are a little too big and too far apart, very dark and unblinking; her eyebrows are too thin and too high; her small mouth is perfectly still; her neck is noticeably too long; her fingers, clasped in her lap, are too long and too thin; she sits perfectly still and perfectly straight. Push these distortions further, so that the wrongness is obvious at first glance, while they still look like real people. Keep them as realistic photographs (real skin, hair and fabric), with the same clothes, poses, positions and lighting. They must not look sick, wasted, haggard, dirty or dying: healthy weight, clean skin, normal skin color, all their teeth, eyes with irises and pupils; not zombies, not monsters, not corpses. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:../../scene/06-camera-serra/ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    }
+  }
+]

@@ -87,8 +87,8 @@ def prompt_immagine(im, base, chi):
     rif, aspetto = chi
     altri = "Apart from him, only this one person" if im.get("sopra") else "Only this one person"
     return (f"Edit the first image: add the person from the second image ({aspetto}) into this room. {im['azione']} "
-            "It must be the same person as in the second image: exactly the same grotesque but almost photographic "
-            "face, bulging eyes, hair, body and clothes. Keep the room exactly as it is in the first image, in the "
+            "It must be the same person as in the second image: exactly the same almost photographic face, however "
+            "strange it is, the same eyes, hair, body and clothes. Keep the room exactly as it is in the first image, in the "
             "same drawing style, with the same camera, framing and light, and every object in the same place: "
             f"{base['oggetti']}.{dorme} The person is a realistic photograph, lit by the same light as the room, with "
             f"real skin, hair and fabric. {altri}; no other people, no hands or objects belonging to the viewer, no "
