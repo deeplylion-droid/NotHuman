@@ -490,8 +490,8 @@ export const TIMBRI = [
 // sempre); scrivania, videoregistratore, porta e letto li gestisce gioco.js
 export const STANZA = {
   finestra: {
-    mattina: ["Il paese dall'alto: i tetti di pietra, il campanile, il fumo delle stufe."],
-    sera: ["Tapparelle abbassate. Tra le fessure passa la luce dei fari della ditta."],
+    mattina: ["La strada: le case di legno scrostate, i fili della luce, il campanile bianco della chiesa."],
+    sera: ["Le tende tirate giù a metà. Ogni tanto ci passa sopra la luce dei fari della ditta."],
   },
   armadio: { sempre: ["Due camicie, un maglione, e una bottiglia lasciata da chi stava qui prima."] },
   cappotto: { sempre: ["Il cappotto incerato e il cappello. La ditta li vuole addosso a ogni visita."] },
@@ -503,8 +503,8 @@ export const STANZA = {
     mattina: ["La radiosveglia. Il coprifuoco è alle otto."],
     sera: ["La radiosveglia. Domani a mezzogiorno arriva il fax nuovo."],
   },
-  tavolo: { sempre: ["Il tavolino con la tovaglia cerata. Due sedie: una in più, per chi non viene mai."] },
-  credenza: { sempre: ["Il fornellino a gas e una pentola ammaccata. Dentro: pasta, due scatolette, il caffè."] },
+  tavolo: { sempre: ["Il tavolino di legno, coi cerchi delle tazze. Due sedie: una in più, per chi non viene mai."] },
+  credenza: { sempre: ["Il bollitore e la cassetta della ditta. Dentro: fagioli in scatola, crackers, il caffè solubile."] },
   lavandino: {
     mattina: ["L'acqua esce gialla, poi diventa fredda."],
     sera: ["Lo specchio è macchiato. Di notte è meglio non guardarci dentro."],

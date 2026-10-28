@@ -9,14 +9,22 @@
 // Texture e modelli si preparano con tools/prepara_stanza.py: i mobili sono di Meshy, gli oggetti piccoli di Tripo.
 // Dal 27 ottobre la stanza e' in plastilina come le visite (CRETA): muri, pavimento e soffitto di creta, i mobili in
 // plastilina dove ci sono gia' (gioco/modelli/creta), gli altri con la creta sopra (le texture di prima ammorbidite,
-// come lisciate col dito, e le impronte), il mondo che "bolle" a scatti; niente filtro catrame.
+// come lisciate col dito, e le impronte), il mondo che "bolle" a scatti; niente filtro catrame. La sera stessa la
+// plastilina e' scartata (resta con #creta): la stanza si rifa' ad alta qualita' (HQ), "tipo Poppy Playtime", e poi
+// "piu' americana". La si costruisce e la si illumina in Blender (art/stanza_hq: modelli e materiali di Poly Haven,
+// la luce cotta della mattina e della sera) e qui arriva gia' fatta (gioco/modelli/hq, tools/stanza_hq.py gioco):
+// niente luci da calcolare, la luce e' nelle "lightmap" (le seconde coordinate di ogni oggetto), i riflessi da una
+// foto della stanza stessa, e alla fine l'alone delle luci forti e il colore (caricaHQ). Con #2d la stanza di prima.
 import * as THREE from "../lib/three.js";
 import * as C from "./plastilina.js";
 
 const IMG = "img/stanza/";
 const MOD = "modelli/";
-// la versione 2D di prima (#2d nell'indirizzo, per confrontarla): la stanza com'era, col filtro catrame
-const CRETA = !(typeof location !== "undefined" && /2d/.test(location.hash));
+// la stanza in plastilina con #creta (come le visite); la versione 2D di prima con #2d (la stanza com'era, col filtro
+// catrame); altrimenti quella ad alta qualita' (se non si carica, quella di prima)
+const INDIRIZZO = typeof location !== "undefined" ? location.hash : "";
+const CRETA = /creta/.test(INDIRIZZO);
+const HQ = !CRETA && !/2d/.test(INDIRIZZO);
 // in plastilina le texture di creta si ripetono ogni tot metri (la carta da parati di prima ogni 55 centimetri)
 const METRI_MURO = CRETA ? 1.5 : 0.55;
 
@@ -50,7 +58,7 @@ const OGGETTI = {
   porta: { nome: "La porta", sosta: [-1.5, 2.3], guarda: [-1.5, 1.15, 3.0] },
   letto: { nome: "Il letto", sosta: [1.15, -1.5], guarda: [1.95, 0.55, -1.9] },
   armadio: { nome: "L'armadio", sosta: [-1.35, -1.8], guarda: [-2.2, 1.2, -1.8] },
-  cappotto: CRETA ? { nome: "Il cappotto", sosta: [1.9, 0.45], guarda: [2.5, 1.5, 0.45] }
+  cappotto: CRETA || HQ ? { nome: "Il cappotto", sosta: [1.9, 0.45], guarda: [2.5, 1.5, 0.45] }
     : { nome: "Il cappotto", sosta: [-0.75, 2.35], guarda: [-0.55, 1.5, 3.0] },
   calendario: { nome: "Il calendario della ditta", sosta: [-1.55, 0.25], guarda: [-2.5, 1.62, 0.25] },
   santino: { nome: "Il santino", sosta: [1.1, -1.7], guarda: [2.5, 1.7, -2.3] },
@@ -144,6 +152,38 @@ const SENZA_FILTRO = THREE.ShaderChunk.tonemapping_pars_fragment;
 	return pow( max( color, 0.0 ), vec3( ${f(PLUMBEO.curva)} ) );
 }`);
 }
+
+// la stanza ad alta qualita': la cartella, l'esposizione della mattina e della sera (la luce cotta e' in unita' vere:
+// la mattina 2^2,3 come nelle anteprime di Blender, la sera di meno, che sia sera), le luci che fanno luce da se',
+// l'alone delle luci forti (forza, raggio, soglia prima dell'esposizione) e il colore alla fine (contrasto, saturazione,
+// vignetta: come il "Medium High Contrast" di Blender)
+const HQ_DIR = MOD + "hq/";
+const HQ_LUCE = {
+  mattina: { esposizione: 4.9, lampadina: 6, tenda: 0.45, fessura: 0, vista: 1.0 },
+  sera: { esposizione: 2.0, lampadina: 14, tenda: 0, fessura: 1.6, vista: 1.0 },
+};
+const HQ_ALONE = { forza: 0.22, raggio: 0.4, soglia: 2.2 };
+const HQ_COLORE = { contrasto: 0.32, saturazione: 1.08, vignetta: 0.22 };
+// la luce cotta ha gia' tutta la luce diffusa: dalla foto della stanza (scene.environment) si prendono solo i riflessi
+const SOLO_RIFLESSI = THREE.ShaderChunk.lights_fragment_maps.replace("iblIrradiance += getIBLIrradiance( geometryNormal );", "");
+const soloRiflessi = (sh) => { sh.fragmentShader = sh.fragmentShader.replace("#include <lights_fragment_maps>", SOLO_RIFLESSI); };
+// il colore alla fine, dopo il tone mapping (AgX): un po' di contrasto a "S", la saturazione e la vignetta
+const COLORE_FINALE = {
+  uniforms: { tDiffuse: { value: null }, contrasto: { value: HQ_COLORE.contrasto }, saturazione: { value: HQ_COLORE.saturazione },
+    vignetta: { value: HQ_COLORE.vignetta } },
+  vertexShader: "varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float contrasto, saturazione, vignetta; varying vec2 vUv;
+void main() {
+  vec4 c = texture2D(tDiffuse, vUv);
+  vec3 x = clamp(c.rgb, 0.0, 1.0);
+  float l = dot(x, vec3(0.2126, 0.7152, 0.0722));
+  x = clamp(mix(vec3(l), x, saturazione), 0.0, 1.0);
+  x = mix(x, x * x * (3.0 - 2.0 * x), contrasto);
+  vec2 d = vUv - 0.5;
+  x *= mix(1.0, smoothstep(0.85, 0.25, length(d * vec2(1.0, 0.75))), vignetta);
+  gl_FragColor = vec4(x, c.a);
+}`,
+};
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const angolo = (a) => Math.atan2(Math.sin(a), Math.cos(a));
@@ -337,7 +377,10 @@ export class Stanza {
     this.larghezza = larghezza;
     const w = Math.round(clamp(larghezza * this.scala, 480, 1600) / 16) * 16;
     const h = Math.round(w * 9 / 16);
-    if (this.canvas.width !== w || this.canvas.height !== h) this.renderer.setSize(w, h, false);
+    if (this.canvas.width !== w || this.canvas.height !== h) {
+      this.renderer.setSize(w, h, false);
+      this.composer?.setSize(w, h);
+    }
   }
 
   // se per un paio di secondi i fotogrammi sono lenti (un telefono debole) il 3D si disegna piu' piccolo, se
@@ -359,6 +402,16 @@ export class Stanza {
   // carica texture e modelli e costruisce la stanza; "avanzamento(f)" dice a che punto e' (0-1): le texture sono il
   // primo decimo, il resto sono i modelli, che sono una ventina e pesano parecchio (ognuno conta per la sua parte)
   async carica(avanzamento = () => {}) {
+    if (HQ) {
+      try {
+        await this.caricaHQ(avanzamento);
+        return;
+      } catch (err) {
+        console.warn("La stanza ad alta qualità non si carica, resta quella di prima:", err);
+        Object.assign(this, { hq: null, composer: null, cardine: null, pezzi: {}, ingombri: [], modelli: {} });
+        OGGETTI.cappotto = { nome: "Il cappotto", sosta: [-0.75, 2.35], guarda: [-0.55, 1.5, 3.0] };
+      }
+    }
     const sorgente = (m) => (CRETA && m.creta ? `creta/${m.creta}` : m.nome);
     const nomiModelli = [...new Set(MODELLI.map(sorgente))];
     const parti = new Map(nomiModelli.map((n) => [n, 0]));
@@ -423,6 +476,238 @@ export class Stanza {
     this.ombreSulPavimento();
     this.luci();
     this.fase("mattina");
+  }
+
+  // ---------- la stanza ad alta qualita' ----------
+
+  // la stanza di Blender: il modello (cosa e' cosa e' negli userData di ogni oggetto, come li mette registra), la luce
+  // cotta della mattina e della sera, la vista dalla finestra, i punti (la pianta dei mobili, i display, il piano
+  // della scrivania). Si mette nella scena solo alla fine: se qualcosa non arriva, carica() fa la stanza di prima
+  async caricaHQ(avanzamento) {
+    const risposta = await fetch(HQ_DIR + "stanza_dati.json");
+    if (!risposta.ok) throw new Error(`stanza_dati.json: ${risposta.status}`);
+    const dati = await risposta.json();
+    const fasi = Object.keys(dati.luce || {});
+    if (!fasi.length) throw new Error("manca la luce cotta");
+    const tl = new THREE.TextureLoader();
+    // le coordinate dei modelli glTF hanno l'origine in alto: le immagini non si capovolgono (come le loro texture)
+    const texture = async (url) => {
+      const t = await tl.loadAsync(url);
+      t.flipY = false;
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.anisotropy = 4;
+      return t;
+    };
+    let modello = 0, pacco = 0, altre = 0;
+    const dici = () => avanzamento(0.62 * modello + 0.33 * pacco + 0.05 * altre);
+    // le texture del modello arrivano in un file solo (gli Artifact hanno un limite al numero dei file): ognuna
+    // diventa un indirizzo blob:, che il caricatore usa al posto del suo nome
+    const blob = {};
+    const manager = new THREE.LoadingManager();
+    manager.setURLModifier((url) => blob[url.split("/").pop()] || url);
+    const gltf = new THREE.GLTFLoader(manager).setMeshoptDecoder(await DECODER);
+    const texModello = scarica(HQ_DIR + "stanza_texture.json", (f) => { pacco = f; dici(); }).then((testo) => {
+      for (const [n, b64] of Object.entries(JSON.parse(testo))) {
+        const bin = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+        blob[n] = URL.createObjectURL(new Blob([bin], { type: "image/webp" }));
+      }
+      pacco = 1;
+      dici();
+    });
+    const [radice, luci, viste, mappa] = await Promise.all([
+      // il modello si legge dopo le sue texture (le cerca subito)
+      texModello.then(() => caricaModello(gltf, "hq/stanza", (f) => { modello = f; dici(); })),
+      Promise.all(fasi.map(async (f) => [f, { tex: await texture(HQ_DIR + dati.luce[f].file), scala: dati.luce[f].scala }])),
+      Promise.all(Object.entries(dati.vista || {}).map(async ([f, n]) => [f, await texture(HQ_DIR + n)])),
+      texture(IMG + "mappa.jpg").catch(() => null),
+    ]);
+    modello = altre = 1;
+    dici();
+    for (const u of Object.values(blob)) URL.revokeObjectURL(u);
+    const hq = { dati, luci: Object.fromEntries(luci), viste: Object.fromEntries(viste), materiali: [], ambiente: {} };
+    // la luce cotta sulle seconde coordinate, senza mipmap: le isole sono vicinissime, e rimpicciolita la luce di un
+    // oggetto finirebbe su quello accanto
+    for (const l of Object.values(hq.luci)) {
+      l.tex.channel = 1;
+      l.tex.generateMipmaps = false;
+      l.tex.minFilter = THREE.LinearFilter;
+    }
+    const nodo = (n) => radice.getObjectByName(n);
+    // i materiali: la luce cotta su tutto quello che ha le seconde coordinate (niente occlusione: e' gia' nella luce,
+    // e dalla foto della stanza solo i riflessi); la vista e il vetro si rifanno qui
+    radice.traverse((o) => {
+      if (!o.isMesh) return;
+      if (o.name.startsWith("vista")) {
+        o.material = new THREE.MeshStandardMaterial({ name: "vista", color: 0x000000, emissive: 0xffffff, roughness: 1,
+          emissiveMap: hq.viste.mattina || null });
+        return;
+      }
+      if (o.name.startsWith("vetro")) {
+        o.material = new THREE.MeshPhysicalMaterial({ name: "vetro", color: 0xffffff, roughness: 0.03, metalness: 0,
+          transparent: true, opacity: 0.08, depthWrite: false });
+        return;
+      }
+      // i colori dei vertici non servono (tolti gia' nell'esportazione; se ne arrivano, tingerebbero il materiale)
+      if (o.geometry.attributes.color) {
+        o.geometry.deleteAttribute("color");
+        for (const m of [].concat(o.material)) m.vertexColors = false;
+      }
+      if (!o.geometry.attributes.uv1) return;
+      for (const m of [].concat(o.material)) {
+        m.aoMap = null;
+        m.onBeforeCompile = soloRiflessi;
+        m.customProgramCacheKey = () => "hq";
+        m.lightMap = hq.luci.mattina?.tex || luci[0][1].tex;
+        m.lightMapIntensity = Math.PI * (hq.luci.mattina?.scala || luci[0][1].scala);
+        m.envMapIntensity = 1;
+        m.needsUpdate = true;
+      }
+    });
+    // le tende hanno una texture bianca per la loro luce: cosi' evidenzia() non la spegne (illumina solo i materiali
+    // senza)
+    const bianco = new THREE.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1);
+    bianco.needsUpdate = true;
+    radice.traverse((o) => { if (o.isMesh) for (const m of [].concat(o.material)) if (m.name === "tenda") m.emissiveMap = bianco; });
+    // cosa e' cosa: gli oggetti che si usano e i pezzi della scrivania (registra copia i materiali, per illuminarli)
+    this.pezzi = {};
+    for (const n of [...radice.children]) {
+      if (n.userData.oggetto) this.registra(n.userData.oggetto, n);
+      if (n.userData.pezzo) this.segna(n.userData.pezzo, n);
+    }
+    // le cose che fanno luce da se', coi materiali gia' copiati: la vista dalla finestra, le tende che la mattina il
+    // sole attraversa, la lampadina nuda e quella della lampada (piu' forti la sera), la luce delle scale sotto la porta
+    hq.vista = [];
+    hq.tende = [];
+    hq.lampadina = [];
+    hq.scale = [];
+    radice.traverse((o) => {
+      if (!o.isMesh) return;
+      for (const m of [].concat(o.material)) {
+        if (m.name === "vista") hq.vista.push(m);
+        if (m.name === "tenda") hq.tende.push(m);
+        if (m.name === "luce_scale") hq.scale.push(m);
+        if (m.name.startsWith("lightbulb_01") && (m.emissiveMap || m.emissive?.getHex())) hq.lampadina.push(m);
+        if (m.name === "desk_lamp_arm_01_light") hq.lampadina.push(m);
+      }
+    });
+    // la mappa sulla scrivania: quella del gioco (nel modello ce n'e' una piccola, al suo posto)
+    if (mappa) nodo("mappa")?.traverse((o) => { if (o.isMesh) for (const m of [].concat(o.material)) { m.map = mappa; m.needsUpdate = true; } });
+    // i modelli che servono ad altri (il letto per la coperta di chi dorme, la porta della stanzetta che gira)
+    radice.updateMatrixWorld(true);
+    const letto = new THREE.Group();
+    radice.add(letto);
+    for (const n of ["old_bed_frame", "materasso", "cuscino", "lenzuolo", "coperta"]) { const o = nodo(n); if (o) letto.attach(o); }
+    this.modelli = { letto, brandina: nodo("brandina"), comodino: nodo("painted_wooden_nightstand"),
+      videoregistratore: nodo("videoregistratore"), lampada: nodo("desk_lamp_arm_01") };
+    // la porta della stanzetta gira sul cardine (a sud): un gruppo li', con dentro la porta (la compressione della
+    // geometria sposta l'origine dei modelli, il cardine e' nei punti)
+    const porta = nodo("porta_ospite");
+    this.cardine = null;
+    if (porta && dati.cerniera) {
+      this.cardine = new THREE.Group();
+      this.cardine.position.set(...dati.cerniera);
+      radice.add(this.cardine);
+      this.cardine.updateMatrixWorld(true);
+      this.cardine.attach(porta);
+    }
+    this.aperturaOspite = 0;
+    this.ingombri = (dati.ingombri || []).map((r) => r.slice());
+    this.su = dati.su || 0.77;
+    // i display: le 12:00 del videoregistratore e l'ora della radiosveglia, disegnati qui, appena davanti a quelli
+    // del modello; si accendono da soli, anche al buio
+    const display = (punto, largo, alto, tex, spessore) => {
+      const m = new THREE.MeshStandardMaterial({ color: 0x000000, emissive: 0xffffff, emissiveMap: tex, roughness: 0.35 });
+      const d = new THREE.Mesh(new THREE.PlaneGeometry(largo, alto), m);
+      const g = punto.giro;
+      d.position.set(punto.pos[0] + Math.sin(g) * (spessore / 2 + 0.0012), punto.pos[1], punto.pos[2] + Math.cos(g) * (spessore / 2 + 0.0012));
+      d.rotation.y = g;
+      radice.add(d);
+      return d;
+    };
+    hq.display = [];
+    this.display = this.disegnaDisplay();
+    if (dati.display) {
+      const d = display(dati.display, 0.088, 0.021, this.display, 0.004);
+      this.registra("videoregistratore", d);
+      this.segna("nastri", d);
+      hq.display.push(d.material);
+    }
+    this.sveglia = this.disegnaSveglia();
+    if (dati.sveglia) {
+      const d = display(dati.sveglia, 0.098, 0.033, this.sveglia, 0.003);
+      this.registra("orologio", d);
+      hq.display.push(d.material);
+    }
+    // la luce delle scale che passa sotto la porta, la sera
+    this.matFessura = new THREE.MeshBasicMaterial({ color: 0xffb066 });
+    const fessura = new THREE.Mesh(new THREE.PlaneGeometry(PORTA.largo - 0.08, 0.009), this.matFessura);
+    fessura.rotation.y = Math.PI;
+    fessura.position.set(PORTA.x, 0.0045, Z1 + 0.016);
+    radice.add(fessura);
+    // tutti i materiali con la luce cotta (anche le copie di registra): fase() cambia la luce a tutti
+    radice.traverse((o) => { if (o.isMesh) for (const m of [].concat(o.material)) if (m.lightMap && !hq.materiali.includes(m)) hq.materiali.push(m); });
+    // il disegno: AgX come le anteprime di Blender, poi l'alone delle luci forti e il colore
+    const r = this.renderer;
+    r.toneMapping = THREE.AgXToneMapping;
+    r.shadowMap.enabled = false;
+    const w = this.canvas.width, h = this.canvas.height;
+    const tocco = typeof matchMedia !== "undefined" && matchMedia("(pointer: coarse)").matches;
+    const c = new THREE.EffectComposer(r, new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType, samples: tocco ? 0 : 4 }));
+    c.addPass(new THREE.RenderPass(this.scena, this.camera));
+    this.alone = new THREE.UnrealBloomPass(new THREE.Vector2(w, h), HQ_ALONE.forza, HQ_ALONE.raggio, HQ_ALONE.soglia);
+    c.addPass(this.alone);
+    c.addPass(new THREE.OutputPass());
+    c.addPass(new THREE.ShaderPass(COLORE_FINALE));
+    c.setSize(w, h);
+    this.scena.background = new THREE.Color(0x000000);
+    this.scena.add(radice);
+    this.hq = hq;
+    this.composer = c;
+    this.fase("mattina");
+  }
+
+  // la luce della mattina o della sera nella stanza HQ: la luce cotta, la vista, la lampadina, la tenda, la luce sotto
+  // la porta, l'esposizione; e i riflessi, da una foto della stanza con quella luce (una volta per luce)
+  faseHQ(f) {
+    const hq = this.hq;
+    this.faseOra = f;
+    const L = HQ_LUCE[f] || HQ_LUCE.mattina;
+    // se manca la luce cotta della sera, quella della mattina piu' scura
+    const luce = hq.luci[f] || hq.luci.mattina || Object.values(hq.luci)[0];
+    const piu = hq.luci[f] ? 1 : 0.25;
+    for (const m of hq.materiali) {
+      m.lightMap = luce.tex;
+      m.lightMapIntensity = Math.PI * luce.scala * piu;
+    }
+    for (const m of hq.vista) {
+      m.emissiveMap = hq.viste[f] || hq.viste.mattina || null;
+      m.emissiveIntensity = L.vista;
+      m.needsUpdate = true;
+    }
+    for (const m of hq.lampadina) m.emissiveIntensity = L.lampadina;
+    for (const m of hq.scale) m.emissiveIntensity = L.fessura ? 1 : 0;
+    for (const m of hq.tende) {
+      m.emissive.setHex(0xffe8c4);
+      m.emissiveIntensity = L.tenda;
+    }
+    // i display non devono bruciare con l'esposizione
+    for (const m of hq.display) m.emissiveIntensity = 1.7 / L.esposizione;
+    this.matFessura.color.setHex(0xffb066).multiplyScalar(L.fessura);
+    this.renderer.toneMappingExposure = L.esposizione;
+    if (!hq.ambiente[f]) {
+      // la foto della stanza dal centro, all'altezza degli occhi: i riflessi del pavimento, del ferro, dei vetri
+      const rt = new THREE.WebGLCubeRenderTarget(256, { type: THREE.HalfFloatType });
+      const cam = new THREE.CubeCamera(0.05, 30, rt);
+      cam.position.set(0.2, 1.5, -0.6);
+      this.scena.environment = null;
+      cam.update(this.renderer, this.scena);
+      const pmrem = new THREE.PMREMGenerator(this.renderer);
+      hq.ambiente[f] = pmrem.fromCubemap(rt.texture).texture;
+      pmrem.dispose();
+      rt.dispose();
+    }
+    this.scena.environment = hq.ambiente[f];
+    this.scena.environmentIntensity = 1;
   }
 
   // ---------- la stanza ----------
@@ -1021,6 +1306,15 @@ export class Stanza {
     this.ir.position.set(...da);
     this.ir.target.position.set(...a);
     this.ir.target.updateMatrixWorld();
+    if (this.hq) {
+      // al buio: niente luce cotta, niente riflessi, solo la lampada infrarossa
+      for (const m of this.hq.materiali) m.lightMapIntensity = 0;
+      for (const m of this.hq.vista) m.emissiveIntensity = 0.02;
+      this.matFessura.color.setHex(0x000000);
+      this.scena.environment = null;
+      this.renderer.toneMappingExposure = 1;
+      return;
+    }
     const L = this.L;
     L.lamp.intensity = 0;
     L.lamp.castShadow = false;
@@ -1173,6 +1467,7 @@ export class Stanza {
 
   // la mattina la tapparella e' alzata e dai vetri entra il giorno; la sera e' abbassata e resta la lampada
   fase(f) {
+    if (this.hq) return this.faseHQ(f);
     this.faseOra = f;
     const l = LUCI[f] || LUCI.mattina;
     this.L.lamp.castShadow = true;
@@ -1381,7 +1676,8 @@ export class Stanza {
       this.cardine.rotation.y += (this.aperturaOspite - this.cardine.rotation.y) * Math.min(1, dt * 2.2);
       this.renderer.shadowMap.needsUpdate = true;
     }
-    this.renderer.render(this.scena, this.camera);
+    if (this.composer) this.composer.render(dt);
+    else this.renderer.render(this.scena, this.camera);
   }
 
   aggiorna(dt) {

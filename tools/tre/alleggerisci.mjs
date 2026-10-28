@@ -1,6 +1,9 @@
 // Alleggerisce un modello per la stanza 3D del gioco (lo usa tools/prepara_stanza.py).
 //
-// Uso: node alleggerisci.mjs <sorgente.glb> <cartella di uscita> <nome> <lato delle texture>
+// Uso: node alleggerisci.mjs <sorgente.glb> <cartella di uscita> <nome> <lato delle texture> [bit]
+//
+// Con [bit] (la stanza ad alta qualita', tools/stanza_hq.py): le coordinate delle texture si tengono con quei bit (di
+// base 12) e restano anche quelle che nessun materiale usa (le seconde, della luce cotta, che usa il gioco).
 //
 // - Riduce le texture a <lato> punti, in WebP.
 // - Quantizza e comprime la geometria (EXT_meshopt_compression, che Three.js legge con MeshoptDecoder): pesa meta'
@@ -17,7 +20,7 @@ import { dedup, prune, weld, textureCompress, meshopt } from "@gltf-transform/fu
 import { MeshoptEncoder, MeshoptDecoder } from "meshoptimizer";
 import sharp from "sharp";
 
-const [sorgente, uscita, nome, lato] = process.argv.slice(2);
+const [sorgente, uscita, nome, lato, bit] = process.argv.slice(2);
 await Promise.all([MeshoptEncoder.ready, MeshoptDecoder.ready]);
 const io = new NodeIO()
   .registerExtensions(ALL_EXTENSIONS)
@@ -27,9 +30,9 @@ const doc = await io.read(sorgente);
 await doc.transform(
   dedup(),
   weld(),
-  prune(),
+  prune(bit ? { keepAttributes: true } : {}),
   textureCompress({ encoder: sharp, targetFormat: "webp", resize: [Number(lato), Number(lato)] }),
-  meshopt({ encoder: MeshoptEncoder, level: "high" }),
+  meshopt({ encoder: MeshoptEncoder, level: "high", ...(bit ? { quantizeTexcoord: Number(bit) } : {}) }),
 );
 
 // il glTF separato: la geometria in base64 dentro il .json, le texture accanto col nome del modello

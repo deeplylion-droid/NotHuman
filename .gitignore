@@ -13,3 +13,6 @@ art/plastilina/personaggi/*_3d_scheletro.glb
 
 # La stanza ad alta qualita': i modelli e i materiali di Poly Haven si riscaricano con tools/stanza_hq.py
 art/stanza_hq/sorgenti/
+# la luce cotta grezza (EXR, decine di MB) e l'esportazione intermedia: nel gioco vanno i WebP di gioco/modelli/hq
+art/stanza_hq/luce/
+art/stanza_hq/uscita/
