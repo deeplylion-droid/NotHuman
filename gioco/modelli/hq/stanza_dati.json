@@ -67,10 +67,10 @@
    -2.825
   ],
   [
-   2.219,
-   0.086,
-   2.581,
-   0.814
+   2.299,
+   -0.0,
+   2.477,
+   0.9
   ],
   [
    -2.29,
@@ -126,21 +126,21 @@
  "luce": {
   "mattina": {
    "file": "luce_mattina.webp",
-   "scala": 4.23047
+   "scala": 4.23828
   },
   "sera": {
    "file": "luce_sera.webp",
-   "scala": 1.92773
+   "scala": 1.93066
   }
  },
  "piccoli": {
   "mattina": {
    "file": "luce_piccoli_mattina.webp",
-   "scala": 2.90625
+   "scala": 2.85742
   },
   "sera": {
    "file": "luce_piccoli_sera.webp",
-   "scala": 7.88842
+   "scala": 8.21875
   }
  },
  "vista": {
