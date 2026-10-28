@@ -14,6 +14,8 @@ La cartella contiene scena.json con i campi (in inglese, vanno nei prompt):
 - "mano" (facoltativo, false se manca): true per avere in scena la mano del medico col bastone;
 - "ritagli" (facoltativo): cosa ritagliare con SAM 3; di base persone e bastoni (quelli delle persone),
   piu' il guanto se c'e' la mano;
+- "deformita" (facoltativo): come devono essere deformate le persone, una per una (aspetto, deformita', vestiti da
+  tenere): con questo campo le persone ammorbidite si rifanno piu' deformi (passaggio 3b);
 - "escludi_maschere" (facoltativo): nomi dei file in maschere/ da lasciare fuori dal montaggio, per
   togliere qualcosa dalla scena senza rigenerarla (per esempio la mano del medico).
 
@@ -21,13 +23,18 @@ Passaggi (ognuno salta se il suo file esiste gia': per rifarne uno, cancellalo):
 1. base.jpg: la scena in foto (GPT Image 2);
 2. fumetto.jpg: la scena ridisegnata nello stile 07, personaggi deformi (GPT Image 2);
 3. ammorbiditi.jpg: personaggi e mano rifatti in foto, ammorbiditi (Nano Banana Pro);
+3b. deformi.jpg, solo con "deformita": le stesse persone molto piu' deformi, ancora in foto (Nano Banana Pro). Deciso
+   il 28 ottobre («questi personaggi sono troppo umani, devi deformarli di piu'»): ammorbidendo, le deformita' del
+   fumetto si perdevano quasi tutte. Rifarle dal fumetto con un prompt piu' forte non va: le persone si ingrandiscono
+   e si spostano; si parte dalle persone ammorbidite, che restano al loro posto. Se c'e', i passaggi dopo usano
+   deformi.jpg al posto di ammorbiditi.jpg;
 4. stanza_stile.jpg: fumetto.jpg senza persone e senza mano (Nano Banana Pro);
 4b. stanza_stile_pulita.jpg: stanza_stile.jpg con i muri ripuliti, stesso tratto. Il ridisegno a fumetto
    aggiunge segni (intonaco scrostato, crepe, macchie) che confondono lo sfondo: del fumetto si vuole solo un
    accenno, e il 20% si prende da qui (Nano Banana Pro);
 5. stanza_vuota.jpg: stanza_stile_pulita.jpg rifatta in foto, con i muri descritti a parole (Nano Banana Pro).
    Passandogli anche base.jpg i muri vengono giusti, ma porta e mobili si spostano;
-6. maschere/: i ritagli, da ammorbiditi.jpg (SAM 3);
+6. maschere/: i ritagli, da ammorbiditi.jpg o deformi.jpg (SAM 3);
 7. finale.jpg: personaggi sulla stanza al 20% (tools/intensita.py);
 8. finale_vhs.jpg, finale_vhs_verde.jpg e finale_vhs_infrarosso.jpg (tools/filtri.py).
 Le due stanze vuote vengono dalla versione a fumetto, non dalla foto di partenza: GPT, ridisegnando,
@@ -55,8 +62,8 @@ GLOVE = ("In the lower right foreground, the doctor's own black leather glove ho
          "item in a first-person video game.")
 WALLS = ("smooth, plain painted plaster in a warm off-white color, like a modest but cared-for home, with at most two "
          "or three faint damp stains")
-STEPS = ["base", "fumetto", "ammorbiditi", "stanza_stile", "stanza_stile_pulita", "stanza_vuota", "maschere",
-         "finale", "filtri"]
+STEPS = ["base", "fumetto", "ammorbiditi", "stanza_stile", "deformi", "stanza_stile_pulita", "stanza_vuota",
+         "maschere", "finale", "filtri"]
 
 
 def prompts(s):
@@ -84,6 +91,12 @@ def prompts(s):
                         "same bulging eyes, crooked noses, bad teeth, sunken cheeks, bony elongated fingers, and the "
                         "same proportions, silhouettes, poses, expressions, clothes and positions, pixel for pixel. Do "
                         "not make them look more normal. Everything else in the image stays exactly identical."),
+        "deformi": (f"Make the {s['n_persone']} {'person' if s['n_persone'] == 'one' else 'people'} in this image far "
+                    "more grotesque and deformed, like nightmare caricatures that are still realistic photographs. "
+                    f"{s.get('deformita', '')} Keep the same clothes, poses, positions and lighting, and keep them "
+                    "photographic: real skin, hair and fabric. They are still living people, with normal skin color "
+                    "and eyes with irises and pupils: not zombies, not monsters, not corpses. Do not change anything "
+                    "else in the image."),
         "stanza_stile": (f"Remove the {s['n_persone']} people completely, with everything they hold{hand_remove}. "
                          "Reconstruct "
                          "the empty room behind them naturally, in the same drawing style. Keep everything else exactly "
@@ -168,6 +181,12 @@ def main():
         run_jobs(jobs, folder, key, log)
     if done("stanza_stile"):
         return
+    if s.get("deformita") and todo("deformi"):
+        run_jobs([job("deformi", NB_EDIT, p["deformi"], "@file:ammorbiditi.jpg")], folder, key, log)
+    if done("deformi"):
+        return
+    # le persone da ritagliare e montare: quelle piu' deformi, se ci sono
+    persone = "deformi.jpg" if (folder / "deformi.jpg").exists() else "ammorbiditi.jpg"
     if todo("stanza_stile_pulita"):
         run_jobs([job("stanza_stile_pulita", NB_EDIT, p["stanza_stile_pulita"], "@file:stanza_stile.jpg")],
                  folder, key, log)
@@ -180,7 +199,7 @@ def main():
     masks_dir = folder / "maschere"
     masks_dir.mkdir(exist_ok=True)
     if not list(masks_dir.glob("*_maschera*.png")):
-        src = "@file:../ammorbiditi.jpg"
+        src = f"@file:../{persone}"
         cuts = s.get("ritagli", ["person", "cane"] + (["glove"] if s.get("mano") else []))
         names = {"person": "persone", "cane": "bastone", "glove": "guanto"}
         run_jobs([job(names.get(c, c.replace(" ", "_")), SAM, image=src, prompt=c, max_masks=6) for c in cuts],
@@ -190,7 +209,7 @@ def main():
     skip = set(s.get("escludi_maschere", []))
     masks = sorted(str(m.relative_to(folder)) for m in masks_dir.glob("*_maschera*.png") if m.name not in skip)
     (folder / "montaggio.json").write_text(json.dumps({
-        "stile": "ammorbiditi.jpg", "sfondo": "stanza_vuota.jpg", "sfondo_stile": "stanza_stile_pulita.jpg",
+        "stile": persone, "sfondo": "stanza_vuota.jpg", "sfondo_stile": "stanza_stile_pulita.jpg",
         "intensita_sfondo": 0.2, "maschere": masks, "allarga": 3, "sfuma": 1.2, "uscita": "finale.jpg"}, indent=2))
     subprocess.run([sys.executable, "-I", str(HERE / "intensita.py"), str(folder / "montaggio.json")], check=True)
     if done("finale"):

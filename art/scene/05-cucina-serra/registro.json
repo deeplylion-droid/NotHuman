@@ -132,7 +132,7 @@
       "persone_maschera3.png"
     ],
     "seed": null,
-    "secondi": 11,
+    "secondi": 5,
     "descrizione": null
   },
   "stanza_stile_senza_sedia": {
@@ -150,5 +150,25 @@
     "seed": null,
     "secondi": 30,
     "descrizione": ""
+  },
+  "deformi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Make the old woman in black in this image far more grotesque and deformed, like a nightmare caricature that is still a realistic photograph. She stays tiny and stooped, in widow's black from head to toe, and she keeps her black headscarf tied tightly around her head and under her chin, covering her hair. Her head is too big for her shrunken body; her face is like a wrinkled, sunken walnut; her eyes are enormous, round and bulging, with tiny black pupils, set too far apart; a long hooked nose curves down toward a jutting, pointed chin; her collapsed, almost toothless mouth shows two crooked teeth; the bony hand on the back of the chair has long, gnarled, crooked fingers and thick yellow nails. Keep the same pose, position and lighting, and keep her photographic: real skin, real fabric. She is still a living person, with normal skin color and eyes with irises and pupils: not a zombie, not a monster, not a corpse. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "05_D.jpg"
+    ],
+    "seed": null,
+    "secondi": 42,
+    "descrizione": "",
+    "prova": "art/prove-stile/22-piu-deformi/05_D.jpg"
   }
 }

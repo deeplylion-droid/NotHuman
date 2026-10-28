@@ -122,18 +122,19 @@ export function giorno2(ieri) {
       casa: "casa2", notte: false, ambiente: "nebulizzatore",
       img: "g2/monolocale", calore: maritoMalato ? "g2/monolocale_calore_febbre" : null,
       persone: ["moglie", "marito"],
-      frasi: { moglie: [0.35, 0.14, "sinistra"], marito: [0.97, 0.07, "sinistra"] },
+      frasi: { moglie: [0.345, 0.14, "sinistra"], marito: [0.97, 0.07, "sinistra"] },
       parti: {
-        // la moglie ha le braccia incrociate; il marito tiene le mani sulla coperta (le dita le copre il nastro delle
+        // la moglie ha le braccia incrociate; il marito tiene le mani sulle ginocchia (le dita le copre il nastro delle
         // frasi: la zona delle mani e' il dorso, appena sopra)
         moglie: {
-          occhi: [[0.42, 0.168, 0.025, 0.015]], bocca: [[0.423, 0.228, 0.016, 0.012]], collo: [[0.428, 0.278, 0.018, 0.014]],
-          ascelle: [[0.352, 0.325, 0.012, 0.025], [0.502, 0.325, 0.012, 0.025]],
-          mani: [[0.398, 0.345, 0.022, 0.025], [0.475, 0.315, 0.018, 0.018]],
+          occhi: [[0.427, 0.171, 0.03, 0.016]], bocca: [[0.428, 0.25, 0.018, 0.012]], collo: [[0.43, 0.29, 0.02, 0.014]],
+          ascelle: [[0.34, 0.32, 0.012, 0.025], [0.49, 0.32, 0.012, 0.025]],
+          mani: [[0.37, 0.375, 0.025, 0.03], [0.485, 0.305, 0.02, 0.02]],
         },
         marito: {
-          occhi: [[0.82, 0.415, 0.028, 0.016]], bocca: [[0.818, 0.475, 0.02, 0.014]], collo: [[0.81, 0.53, 0.018, 0.018]],
-          ascelle: [[0.745, 0.6, 0.015, 0.03], [0.895, 0.6, 0.015, 0.03]], mani: [[0.685, 0.8, 0.03, 0.04]],
+          occhi: [[0.796, 0.356, 0.032, 0.018]], bocca: [[0.79, 0.45, 0.022, 0.014]], collo: [[0.81, 0.51, 0.022, 0.02]],
+          ascelle: [[0.735, 0.62, 0.015, 0.03], [0.895, 0.62, 0.015, 0.03]],
+          mani: [[0.68, 0.81, 0.03, 0.035], [0.755, 0.8, 0.03, 0.035]],
         },
       },
       zone: [
@@ -153,13 +154,13 @@ export function giorno2(ieri) {
       casa: "casa10", notte: false, ambiente: "cucina",
       img: "g2/cucina10", calore: suoceraMalata ? "g2/cucina10_calore_febbre" : null,
       persone: ["suocera"],
-      frasi: { suocera: [0.585, 0.16, "sinistra"] },
+      frasi: { suocera: [0.57, 0.14, "sinistra"] },
       parti: {
         // si regge alla sedia con la destra
         suocera: {
-          occhi: [[0.627, 0.335, 0.025, 0.016]], bocca: [[0.625, 0.38, 0.016, 0.012]], collo: [[0.622, 0.418, 0.018, 0.014]],
-          ascelle: [[0.57, 0.48, 0.012, 0.025], [0.665, 0.48, 0.012, 0.025]],
-          mani: [[0.537, 0.62, 0.022, 0.035], [0.664, 0.685, 0.018, 0.032]],
+          occhi: [[0.664, 0.33, 0.04, 0.022]], bocca: [[0.648, 0.425, 0.022, 0.016]], collo: [[0.635, 0.505, 0.022, 0.016]],
+          ascelle: [[0.553, 0.53, 0.012, 0.025], [0.672, 0.55, 0.012, 0.025]],
+          mani: [[0.545, 0.64, 0.022, 0.035], [0.662, 0.69, 0.018, 0.035]],
         },
       },
       zone: [
@@ -180,11 +181,12 @@ export function giorno2(ieri) {
       ambiente: null,
       img: "g2/camera10",
       persone: ["nuora"],
-      frasi: { nuora: [0.455, 0.08, "sinistra"] },
+      frasi: { nuora: [0.44, 0.16, "sinistra"] },
       parti: {
         nuora: {
-          occhi: [[0.513, 0.302, 0.03, 0.017]], bocca: [[0.514, 0.385, 0.018, 0.013]], collo: [[0.513, 0.445, 0.022, 0.018]],
-          ascelle: [[0.428, 0.49, 0.012, 0.03], [0.6, 0.49, 0.012, 0.03]], mani: [[0.522, 0.79, 0.035, 0.05]],
+          occhi: [[0.512, 0.23, 0.04, 0.022]], bocca: [[0.512, 0.36, 0.02, 0.014]], collo: [[0.512, 0.44, 0.022, 0.025]],
+          ascelle: [[0.42, 0.53, 0.012, 0.03], [0.59, 0.53, 0.012, 0.03]],
+          mani: [[0.49, 0.785, 0.03, 0.04], [0.555, 0.785, 0.03, 0.04]],
         },
       },
       zone: [

@@ -86,9 +86,9 @@ TESTE = {
     "figlia": (0.477, 0.29, 0.034, 0.068),
     "uomo": (0.62, 0.172, 0.066, 0.14),
     "giovane": (0.499, 0.262, 0.042, 0.1),
-    "moglie": (0.418, 0.16, 0.056, 0.125),
-    "suocera": (0.626, 0.335, 0.042, 0.092),
-    "nuora": (0.512, 0.29, 0.05, 0.118),
+    "moglie": (0.417, 0.165, 0.06, 0.13),
+    "suocera": (0.65, 0.35, 0.065, 0.16),
+    "nuora": (0.512, 0.23, 0.055, 0.19),
 }
 # per le foto sul nastro delle frasi: chi l'ha detta, con la faccia che aveva (ritaglio dalla scena)
 VOLTI_SCENA = {"figlia": (0.44, 0.215, 0.515, 0.36)}
@@ -192,10 +192,10 @@ VOLTI2 = {
     "giovane": (G2S + "persone.jpg", (0.45, 0.16, 0.56, 0.36)),
     "giovane_febbre": (G2S + "persone_febbre.jpg", (0.45, 0.16, 0.56, 0.36)),
     "nonna": (G2S + "persone.jpg", (0.33, 0.20, 0.45, 0.40)),
-    "moglie": (G2M + "finale.jpg", (0.355, 0.05, 0.475, 0.31)),
-    "marito": (G2M + "finale.jpg", (0.77, 0.3, 0.895, 0.56)),
-    "suocera": (G2CS + "finale.jpg", (0.583, 0.25, 0.67, 0.45)),
-    "nuora": (G2CA + "finale.jpg", (0.452, 0.13, 0.572, 0.44)),
+    "moglie": (G2M + "finale.jpg", (0.35, 0.03, 0.485, 0.31)),
+    "marito": (G2M + "finale.jpg", (0.755, 0.2, 0.9, 0.5)),
+    "suocera": (G2CS + "finale.jpg", (0.575, 0.16, 0.72, 0.52)),
+    "nuora": (G2CA + "finale.jpg", (0.44, 0.03, 0.585, 0.43)),
 }
 # i primi piani nuovi del secondo giorno (in img/pp/g2); quelli che non cambiano restano del primo
 PRIMI2 = {

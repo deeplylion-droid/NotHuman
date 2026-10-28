@@ -2,7 +2,7 @@
   "moglie": {
     "riferimento": "riferimento_moglie.jpg",
     "scheda": "moglie",
-    "aspetto": "a hard-faced, heavy woman in her sixties with greying hair tied back carelessly, deep wrinkles, bulging tired eyes and a long crooked nose, in a shapeless beige knitted cardigan over a dark floral housedress",
+    "aspetto": "a grotesque, deformed woman in her sixties: a squat, heavy body under a head too big for it, wild thin greying hair, a lumpy face with deep sagging folds, huge round bulging eyes of different sizes with tiny pupils and dark bags, a long crooked drooping nose, a thin too-wide mouth with a few long yellow teeth, long knotted bony fingers; in a shapeless beige knitted cardigan over a dark floral housedress",
     "parti": {
       "occhi": "Deep dark circles under tired, red-rimmed eyes, as after a sleepless night shift; the whites are clear: no fever, no sweat.",
       "bocca": "Thin, tightly pressed lips and yellowed teeth; nothing unusual.",
@@ -15,7 +15,7 @@
   "marito": {
     "riferimento": "riferimento_marito.jpg",
     "scheda": "marito",
-    "aspetto": "a wasted old man in his seventies with a shaved head, grey stubble, bulging eyes, a huge crooked nose and rotten teeth, in an old white vest, wrapped in a brown patterned wool blanket and an olive green blanket, the plastic tube of a nebulizer on his chest",
+    "aspetto": "a grotesque, deformed old man in his seventies: a wasted, bony body with a huge, bald, lumpy skull, enormous bulging yellowish eyes, a monstrously long hooked nose, hollow cheeks and temples, a slack sunken mouth with a few rotten brown teeth, a long stringy neck, enormous knobbly hands with long spatulate fingers and bluish nails; in an old white vest under a green fleece blanket, the plastic tube of a nebulizer on his chest",
     "parti": {
       "occhi": "Watery, tired, red-rimmed old eyes; no fever, no sweat.",
       "occhi_febbre": {"inquadratura": "the eyes and the bridge of the nose, from the eyebrows to the cheekbones",
@@ -24,7 +24,7 @@
       "collo": "A thin, wrinkled old neck with grey stubble, the tendons and veins straining with the effort of breathing; no swelling, no lumps.",
       "collo_febbre": {"inquadratura": "the side of the neck, from under the jaw to the collarbone",
                        "segni": "A thin, wrinkled old neck with grey stubble; under the jaw a hard, swollen lump the size of a walnut, red and shiny: a plague bubo just beginning."},
-      "mani": {"inquadratura": "both hands resting on the blanket, from the wrists to the fingertips",
+      "mani": {"inquadratura": "both hands resting on his knees, from the wrists to the fingertips",
                "segni": "Huge, bony hands with thick, flat fingertips like spatulas and bluish nails, from lack of air; old white scars from quarry work."}
     }
   }

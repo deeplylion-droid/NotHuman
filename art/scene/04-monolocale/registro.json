@@ -131,7 +131,27 @@
       "persone_maschera2.png"
     ],
     "seed": null,
-    "secondi": 11,
+    "secondi": 5,
     "descrizione": null
+  },
+  "deformi": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Make the two people in this image far more grotesque and deformed, like nightmare caricatures that are still realistic photographs. The woman standing in the middle: a squat, heavy body under a head that is far too big for it; a long, lumpy face with deep sagging folds and jowls hanging below the jaw; huge, round, bulging eyes of different sizes, the left one higher than the right, with tiny pupils, red rims and heavy dark bags; a long, crooked nose drooping over a thin, too-wide mouth pulled down at the corners, with a few long yellow teeth; thin, wild, greying hair; short arms crossed over the chest, with long, knotted, bony fingers. The man in the armchair: a wasted, bony body with a huge, bald, lumpy skull, too big for his narrow shoulders; enormous bulging eyes with yellowish whites and tiny pupils; a monstrously long, hooked nose that reaches past his upper lip; deeply hollow cheeks and temples, the skin stretched over the bones; a slack, sunken mouth with a few brown, rotten teeth; a long, stringy neck with the tendons standing out; enormous knobbly hands with long, spatulate fingers and bluish nails. Keep the same clothes, poses, positions and lighting, and keep them photographic: real skin, hair and fabric. They are still living people, with normal skin color and eyes with irises and pupils: not zombies, not monsters, not corpses. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "04_C.jpg"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": "",
+    "prova": "art/prove-stile/22-piu-deformi/04_C.jpg"
   }
 }

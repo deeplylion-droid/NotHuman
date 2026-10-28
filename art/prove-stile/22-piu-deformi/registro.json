@@ -1,0 +1,135 @@
+{
+  "04_A": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render only the two people of this comic panel as realistic photographs: real skin with pores and wrinkles, real hair, real fabric, photographic lighting, as if real people had these bodies. They are grotesque, deformed people, as distorted as in the drawing and even more. The woman standing in the middle: a squat, heavy body under a head that is far too big for it; a long, lumpy face with deep sagging folds and jowls hanging below the jaw; huge, round, bulging eyes of different sizes, the left one higher than the right, with tiny pupils, red rims and heavy dark bags; a long, crooked nose drooping over a thin, too-wide mouth pulled down at the corners, with a few long yellow teeth; thin, wild, greying hair; short arms crossed over the chest, with long, knotted, bony fingers. The man in the armchair: a wasted, bony body with a huge, bald, lumpy skull, too big for his narrow shoulders; enormous bulging eyes with yellowish whites and tiny pupils; a monstrously long, hooked nose that reaches past his upper lip; deeply hollow cheeks and temples, the skin stretched over the bones; a slack, sunken mouth with a few brown, rotten teeth; a long, stringy neck with the tendons standing out; enormous knobbly hands with long, spatulate fingers and bluish nails. Keep all the distortions of the drawing: do not make them look more normal, do not beautify them and do not correct their proportions. Keep the same silhouettes, poses, clothes and positions. They are still living people, with normal skin color and eyes with irises and pupils: not zombies, not monsters, not corpses. Everything else in the image stays exactly identical, still drawn.",
+      "image_urls": [
+        "@file:../../scene/04-monolocale/fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "04_A.jpg"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "06_A": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render only the one person of this comic panel as realistic photographs: real skin with pores and wrinkles, real hair, real fabric, photographic lighting, as if real people had these bodies. They are grotesque, deformed people, as distorted as in the drawing and even more. The young widow: a gaunt, elongated figure with a long, narrow skull and face, as if stretched downwards; huge, bulging, dark-ringed eyes with tiny pupils, set slightly unevenly; a long, thin, sharp nose; hollow, sucked-in cheeks and a long jaw with a small, tight mouth showing a few long teeth; a very long, thin neck; long, lank black hair; long, spidery, bony fingers with raw red knuckles, clasped in her lap. Keep all the distortions of the drawing: do not make them look more normal, do not beautify them and do not correct their proportions. Keep the same silhouettes, poses, clothes and positions. They are still living people, with normal skin color and eyes with irises and pupils: not zombies, not monsters, not corpses. Everything else in the image stays exactly identical, still drawn.",
+      "image_urls": [
+        "@file:../../scene/06-camera-serra/fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "06_A.jpg"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "05_C": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Make the one person in this image far more grotesque and deformed, like nightmare caricatures that are still realistic photographs. The old woman in black: tiny and stooped, with a head far too big for her shrunken body; a face like a wrinkled, sunken walnut; enormous, round, bulging eyes with tiny black pupils, set too far apart; a long hooked nose curving down toward a jutting, pointed chin; a collapsed, almost toothless mouth with two crooked teeth; the bony hand on the chair with long, gnarled, crooked fingers and thick yellow nails. Keep the same clothes, poses, positions and lighting, and keep them photographic: real skin, hair and fabric. They are still living people, with normal skin color and eyes with irises and pupils: not zombies, not monsters, not corpses. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:../../scene/05-cucina-serra/ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "05_C.jpg"
+    ],
+    "seed": null,
+    "secondi": 32,
+    "descrizione": ""
+  },
+  "04_C": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Make the two people in this image far more grotesque and deformed, like nightmare caricatures that are still realistic photographs. The woman standing in the middle: a squat, heavy body under a head that is far too big for it; a long, lumpy face with deep sagging folds and jowls hanging below the jaw; huge, round, bulging eyes of different sizes, the left one higher than the right, with tiny pupils, red rims and heavy dark bags; a long, crooked nose drooping over a thin, too-wide mouth pulled down at the corners, with a few long yellow teeth; thin, wild, greying hair; short arms crossed over the chest, with long, knotted, bony fingers. The man in the armchair: a wasted, bony body with a huge, bald, lumpy skull, too big for his narrow shoulders; enormous bulging eyes with yellowish whites and tiny pupils; a monstrously long, hooked nose that reaches past his upper lip; deeply hollow cheeks and temples, the skin stretched over the bones; a slack, sunken mouth with a few brown, rotten teeth; a long, stringy neck with the tendons standing out; enormous knobbly hands with long, spatulate fingers and bluish nails. Keep the same clothes, poses, positions and lighting, and keep them photographic: real skin, hair and fabric. They are still living people, with normal skin color and eyes with irises and pupils: not zombies, not monsters, not corpses. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:../../scene/04-monolocale/ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "04_C.jpg"
+    ],
+    "seed": null,
+    "secondi": 34,
+    "descrizione": ""
+  },
+  "05_A": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Re-render only the one person of this comic panel as realistic photographs: real skin with pores and wrinkles, real hair, real fabric, photographic lighting, as if real people had these bodies. They are grotesque, deformed people, as distorted as in the drawing and even more. The old woman in black: tiny and stooped, with a head far too big for her shrunken body; a face like a wrinkled, sunken walnut; enormous, round, bulging eyes with tiny black pupils, set too far apart; a long hooked nose curving down toward a jutting, pointed chin; a collapsed, almost toothless mouth with two crooked teeth; the bony hand on the chair with long, gnarled, crooked fingers and thick yellow nails. Keep all the distortions of the drawing: do not make them look more normal, do not beautify them and do not correct their proportions. Keep the same silhouettes, poses, clothes and positions. They are still living people, with normal skin color and eyes with irises and pupils: not zombies, not monsters, not corpses. Everything else in the image stays exactly identical, still drawn.",
+      "image_urls": [
+        "@file:../../scene/05-cucina-serra/fumetto.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "05_A.jpg"
+    ],
+    "seed": null,
+    "secondi": 38,
+    "descrizione": ""
+  },
+  "06_C": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Make the one person in this image far more grotesque and deformed, like nightmare caricatures that are still realistic photographs. The young widow: a gaunt, elongated figure with a long, narrow skull and face, as if stretched downwards; huge, bulging, dark-ringed eyes with tiny pupils, set slightly unevenly; a long, thin, sharp nose; hollow, sucked-in cheeks and a long jaw with a small, tight mouth showing a few long teeth; a very long, thin neck; long, lank black hair; long, spidery, bony fingers with raw red knuckles, clasped in her lap. Keep the same clothes, poses, positions and lighting, and keep them photographic: real skin, hair and fabric. They are still living people, with normal skin color and eyes with irises and pupils: not zombies, not monsters, not corpses. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:../../scene/06-camera-serra/ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "06_C.jpg"
+    ],
+    "seed": null,
+    "secondi": 30,
+    "descrizione": ""
+  },
+  "05_D": {
+    "modello": "fal-ai/nano-banana-pro/edit",
+    "input": {
+      "prompt": "Make the old woman in black in this image far more grotesque and deformed, like a nightmare caricature that is still a realistic photograph. She stays tiny and stooped, in widow's black from head to toe, and she keeps her black headscarf tied tightly around her head and under her chin, covering her hair. Her head is too big for her shrunken body; her face is like a wrinkled, sunken walnut; her eyes are enormous, round and bulging, with tiny black pupils, set too far apart; a long hooked nose curves down toward a jutting, pointed chin; her collapsed, almost toothless mouth shows two crooked teeth; the bony hand on the back of the chair has long, gnarled, crooked fingers and thick yellow nails. Keep the same pose, position and lighting, and keep her photographic: real skin, real fabric. She is still a living person, with normal skin color and eyes with irises and pupils: not a zombie, not a monster, not a corpse. Do not change anything else in the image.",
+      "image_urls": [
+        "@file:../../scene/05-cucina-serra/ammorbiditi.jpg"
+      ],
+      "aspect_ratio": "16:9",
+      "resolution": "2K",
+      "output_format": "png",
+      "num_images": 1
+    },
+    "file": [
+      "05_D.jpg"
+    ],
+    "seed": null,
+    "secondi": 42,
+    "descrizione": ""
+  }
+}
