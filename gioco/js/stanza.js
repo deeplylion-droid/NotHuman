@@ -538,25 +538,42 @@ export class Stanza {
       pacco = 1;
       dici();
     });
-    const [radice, luci, viste, mappa] = await Promise.all([
+    const luce = (elenco) => Promise.all(Object.entries(elenco || {}).map(async ([f, l]) => [f, { tex: await texture(HQ_DIR + l.file), scala: l.scala }]));
+    const [radice, luci, piccoli, viste, mappa] = await Promise.all([
       // il modello si legge dopo le sue texture (le cerca subito)
       texModello.then(() => caricaModello(gltf, "hq/stanza", (f) => { modello = f; dici(); })),
-      Promise.all(fasi.map(async (f) => [f, { tex: await texture(HQ_DIR + dati.luce[f].file), scala: dati.luce[f].scala }])),
+      luce(dati.luce),
+      luce(dati.piccoli),
       Promise.all(Object.entries(dati.vista || {}).map(async ([f, n]) => [f, await texture(HQ_DIR + n)])),
       texture(IMG + "mappa.jpg").catch(() => null),
     ]);
     modello = altre = 1;
     dici();
     for (const u of Object.values(blob)) URL.revokeObjectURL(u);
-    const hq = { dati, luci: Object.fromEntries(luci), viste: Object.fromEntries(viste), materiali: [], ambiente: {} };
+    const hq = { dati, luci: Object.fromEntries(luci), piccoli: Object.fromEntries(piccoli), viste: Object.fromEntries(viste),
+      materiali: [], ambiente: {} };
     // la luce cotta sulle seconde coordinate, senza mipmap: le isole sono vicinissime, e rimpicciolita la luce di un
     // oggetto finirebbe su quello accanto
-    for (const l of Object.values(hq.luci)) {
+    for (const l of [...Object.values(hq.luci), ...Object.values(hq.piccoli)]) {
       l.tex.channel = 1;
       l.tex.generateMipmaps = false;
       l.tex.minFilter = THREE.LinearFilter;
     }
     const nodo = (n) => radice.getObjectByName(n);
+    // le cose piccole (sulla scrivania, la lampada, la televisione...) hanno la loro luce cotta, in un'altra immagine
+    // piu' fitta ("atlante" negli userData, del modello o del gruppo dei suoi pezzi): i loro materiali si copiano, se
+    // li usa anche altro, e si segnano
+    const atlante = (o) => { for (let x = o; x && x !== radice; x = x.parent) if (x.userData.atlante) return x.userData.atlante; return null; };
+    const copie = new Map();
+    const perPiccoli = (m) => {
+      if (!copie.has(m)) {
+        const c = m.clone();
+        c.userData.piccoli = true;
+        copie.set(m, c);
+      }
+      return copie.get(m);
+    };
+    const prima = (l) => l.mattina || Object.values(l)[0];
     // i materiali: la luce cotta su tutto quello che ha le seconde coordinate (niente occlusione: e' gia' nella luce,
     // e dalla foto della stanza solo i riflessi); la vista e il vetro si rifanno qui
     radice.traverse((o) => {
@@ -577,12 +594,14 @@ export class Stanza {
         for (const m of [].concat(o.material)) m.vertexColors = false;
       }
       if (!o.geometry.attributes.uv1) return;
+      if (piccoli.length && atlante(o) === "piccoli") o.material = Array.isArray(o.material) ? o.material.map(perPiccoli) : perPiccoli(o.material);
       for (const m of [].concat(o.material)) {
+        const l = prima(m.userData.piccoli ? hq.piccoli : hq.luci);
         m.aoMap = null;
         m.onBeforeCompile = soloRiflessi;
         m.customProgramCacheKey = () => "hq";
-        m.lightMap = hq.luci.mattina?.tex || luci[0][1].tex;
-        m.lightMapIntensity = Math.PI * (hq.luci.mattina?.scala || luci[0][1].scala);
+        m.lightMap = l.tex;
+        m.lightMapIntensity = Math.PI * l.scala;
         m.envMapIntensity = 1;
         m.needsUpdate = true;
       }
@@ -697,10 +716,12 @@ export class Stanza {
     const hq = this.hq;
     this.faseOra = f;
     const L = HQ_LUCE[f] || HQ_LUCE.mattina;
-    // se manca la luce cotta della sera, quella della mattina piu' scura
-    const luce = hq.luci[f] || hq.luci.mattina || Object.values(hq.luci)[0];
-    const piu = hq.luci[f] ? 1 : 0.25;
+    // se manca la luce cotta della sera, quella della mattina piu' scura; le cose piccole hanno la loro
+    const scegli = (l) => ({ luce: l[f] || l.mattina || Object.values(l)[0], piu: l[f] ? 1 : 0.25 });
+    const stanza = scegli(hq.luci);
+    const piccole = Object.keys(hq.piccoli).length ? scegli(hq.piccoli) : stanza;
     for (const m of hq.materiali) {
+      const { luce, piu } = m.userData.piccoli ? piccole : stanza;
       m.lightMap = luce.tex;
       m.lightMapIntensity = Math.PI * luce.scala * piu;
     }

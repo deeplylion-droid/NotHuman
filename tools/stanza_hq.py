@@ -158,7 +158,7 @@ def gioco():
     cotta = HQ / "sorgenti" / "stanza_cotta.blend"
     subprocess.run([BLENDER, "-b", str(cotta), "--python", str(HQ / "cuoci.py"), "--", "esporta"], check=True)
     GIOCO.mkdir(parents=True, exist_ok=True)
-    # il modello: geometria compressa (le coordinate della luce con 14 bit: e' un'immagine sola per tutta la stanza)
+    # il modello: geometria compressa (le coordinate della luce con 14 bit: un ottavo di punto nell'immagine da 2048)
     subprocess.run(["node", str(RADICE / "tools" / "tre" / "alleggerisci.mjs"), str(HQ / "uscita" / "stanza.glb"),
                     str(GIOCO), "stanza", "1024", "14"], check=True)
     # le texture del modello in un file solo (stanza_texture.json, nome -> WebP in base64): una versione di un Artifact
@@ -170,16 +170,18 @@ def gioco():
         f.unlink()
     (GIOCO / "stanza_texture.json").write_text(json.dumps(pacco, separators=(",", ":")))
     dati = json.loads((HQ / "uscita" / "punti.json").read_text())
-    dati["luce"] = {}
+    # la luce cotta: quella della stanza e quella delle cose piccole (in un'immagine a parte, piu' fitta)
+    dati["luce"], dati["piccoli"] = {}, {}
     for fase in ("mattina", "sera"):
-        npy = HQ / "uscita" / f"luce_{fase}.npy"
-        if npy.exists():
-            dati["luce"][fase] = {"file": f"luce_{fase}.webp", "scala": luce_webp(npy, GIOCO / f"luce_{fase}.webp")}
+        for chiave, nome in (("luce", fase), ("piccoli", f"piccoli_{fase}")):
+            npy = HQ / "uscita" / f"luce_{nome}.npy"
+            if npy.exists():
+                dati[chiave][fase] = {"file": f"luce_{nome}.webp", "scala": luce_webp(npy, GIOCO / f"luce_{nome}.webp")}
     viste(GIOCO)
     dati["vista"] = {"mattina": "vista_mattina.webp", "sera": "vista_sera.webp"}
     (GIOCO / "stanza_dati.json").write_text(json.dumps(dati, indent=1))
     peso = sum(f.stat().st_size for f in GIOCO.iterdir())
-    print(f"nel gioco: {GIOCO} ({peso / 1e6:.1f} MB)", dati["luce"])
+    print(f"nel gioco: {GIOCO} ({peso / 1e6:.1f} MB)", dati["luce"], dati["piccoli"])
 
 
 def main():

@@ -26,5 +26,8 @@ const locale = await Promise.all([...foglio.matchAll(/url\((https:\/\/fonts\.gst
 }));
 fs.writeFileSync(path.join(PAGINA, "caratteri.css"), locale.reduce((css, [u, nome]) => css.replaceAll(u, nome), foglio));
 html = html.replace(/<link rel="preconnect"[^>]*>\n/g, "").replace(/<link rel="stylesheet" href="https:\/\/fonts\.googleapis\.com[^>]*>/, '<link rel="stylesheet" href="caratteri.css">');
+// l'inizio che agli Artifact aggiunge il visualizzatore: la pagina standard, in utf-8 (senza, il "▸" del suggerimento
+// diventava "â–¸"), senza margine attorno
+html = '<!doctype html>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<style>body { margin: 0; }</style>\n' + html;
 fs.writeFileSync(path.join(PAGINA, "index.html"), html);
 console.log(`pagina/ pronta: ${fs.readdirSync(path.join(PAGINA, "modelli", "creta")).length} file di modelli in plastilina, ${locale.length} caratteri`);

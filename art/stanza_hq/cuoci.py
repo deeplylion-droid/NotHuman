@@ -5,14 +5,16 @@ ha le ombre morbide, la luce che rimbalza e il colore che si spande come nel ren
 
 Passi:
 1. le seconde coordinate ("luce"): ogni oggetto fermo ha le sue isole, tutte nella stessa immagine, grandi in
-   proporzione alla superficie (la stessa definizione dappertutto, circa un punto per centimetro a 2048);
+   proporzione alla superficie (la stessa definizione dappertutto, circa un punto per centimetro a 2048); le cose
+   piccole che si guardano da vicino (PICCOLI) in un'immagine a parte, piu' fitta;
 2. la cottura (DIFFUSE, diretta + rimbalzi, senza il colore), per la mattina e per la sera, e la pulizia del rumore
    (il denoiser di Blender);
 3. l'esportazione: la stanza in glTF con le due coordinate, le texture ridotte a misura, e un elenco di cosa e'
    cosa (stanza_hq.json) per stanza.js.
 
 Uso: blender -b --python art/stanza_hq/cuoci.py -- [lato] [campioni] [mattina] [sera]
-         la cottura (di base 2048 e 128, tutte e due le luci): luce/<fase>.exr e sorgenti/stanza_cotta.blend
+         la cottura (di base 2048 e 128, tutte e due le luci): luce/<fase>.exr, luce/piccoli_<fase>.exr (lato a
+         meta') e sorgenti/stanza_cotta.blend
      blender -b art/stanza_hq/sorgenti/stanza_cotta.blend --python art/stanza_hq/cuoci.py -- esporta
          la stanza cotta in uscita/stanza.glb e uscita/punti.json (tools/stanza_hq.py gioco fa il resto)
 """
@@ -21,7 +23,9 @@ import math
 import os
 import sys
 
+import bmesh
 import bpy
+import numpy as np
 from mathutils import Matrix, Vector
 
 QUI = os.path.dirname(os.path.abspath(__file__))
@@ -35,6 +39,17 @@ USCITA = os.path.join(QUI, "uscita")
 # sono disegnati dal codice)
 SENZA_LUCE = ("vista", "vetro", "sveglia_display", "vcr_display", "scale_luce")
 
+# le cose piccole che si guardano da vicino (sulla scrivania, la lampada, la televisione col videoregistratore, la
+# radiosveglia, le cose sulla credenza, la borsa): la loro luce in un'immagine a parte, quasi tre volte piu' fitta
+# (circa 260 punti per metro a 1024, la stanza 92 a 2048; nel gioco la seconda luce cotta, "atlante" negli extras)
+PICCOLI = ("fax", "giornale", "cartella", "soldi", "guanti", "maschera", "cassette", "mappa", "desk_lamp_arm_01",
+           "television_02", "videoregistratore", "radiosveglia", "vintage_flashlight", "wall_clock", "lightbulb_01",
+           "pull_chain_light_socket", "vintage_electric_kettle", "jug_01", "borsa")
+
+
+def piccolo(o):
+    return o.name.startswith(PICCOLI)
+
 
 def da_cuocere():
     out = []
@@ -47,8 +62,8 @@ def da_cuocere():
     return out
 
 
-def coordinate_luce(oggetti):
-    """le seconde coordinate: isole dalla proiezione "smart" di tutti gli oggetti insieme, in un'immagine sola"""
+def coordinate_luce(oggetti, margine=0.001):
+    """le seconde coordinate, in due immagini: la stanza e le cose piccole"""
     for o in oggetti:
         if o.data.users > 1:
             o.data = o.data.copy()
@@ -59,25 +74,288 @@ def coordinate_luce(oggetti):
             me.uv_layers.new(name="luce")
         me.uv_layers[0].active_render = True
         me.uv_layers.active = me.uv_layers["luce"]
+    # isole di almeno 3 punti di lato: circa 3 centimetri nella stanza, 1 nelle cose piccole
+    proietta([o for o in oggetti if not piccolo(o)], margine, 0.03)
+    proietta([o for o in oggetti if piccolo(o)], margine * 2, 0.01)
+
+
+def proietta(oggetti, margine, minimo):
+    """le isole di un'immagine: fatte crescere (isole()) sulle copie saldate degli oggetti (saldata()), in metri,
+    poi impacchettate tutte insieme a rettangoli, che non si sovrappongono, con un margine di un paio di punti
+    (FRACTION e' la parte dell'immagine): la stessa definizione dappertutto.
+    Prima c'era la proiezione "smart" di Blender sugli originali: i modelli di Meshy e molti di Poly Haven sono
+    staccati a ogni cucitura delle loro texture, quelli di Meshy anche accartocciati, e venivano migliaia di isole
+    piu' piccole di un punto (il fax ne aveva 8385, il giornale 14521, il letto 10877; sulle copie saldate ancora
+    2579 il fax; ora 192, di 15 punti in mediana): la luce di ognuna finiva su quelle accanto. Con tante isole minuscole anche il margine
+    non ci stava (con 0,001 il pavimento era grande il 2% dell'immagine)"""
+    copie = [saldata(o) for o in oggetti]
+    quante = sum(isole(c, minimo) for c, _ in copie)
     bpy.ops.object.select_all(action="DESELECT")
-    for o in oggetti:
-        o.select_set(True)
-    bpy.context.view_layer.objects.active = oggetti[0]
+    for c, _ in copie:
+        c.select_set(True)
+    bpy.context.view_layer.objects.active = copie[0][0]
     bpy.ops.object.mode_set(mode="EDIT")
     # la selezione delle coordinate segue quella delle facce (tutte)
     bpy.context.scene.tool_settings.use_uv_select_sync = True
     bpy.ops.mesh.select_all(action="SELECT")
-    # la proiezione "smart" di Blender, con tutti gli oggetti insieme, fa le isole alla stessa definizione; poi si
-    # impacchettano a rettangoli, che non si sovrappongono, con un filo di margine: circa 100 punti per metro a 2048
-    # (prove del 27 ottobre). Le isole della sola proiezione a volte si sovrapponevano (il calendario, il santino e
-    # la mappa restavano stesi su tutta l'immagine, sotto le altre); margini piu' grandi, con migliaia di isole
-    # piccole, schiacciano tutto (con 0,001 il pavimento era grande il 2% dell'immagine), e cosi' ridimensionarle
-    # (average_islands_scale) e l'impacchettamento con le forme vere
-    bpy.ops.uv.smart_project(angle_limit=math.radians(60), island_margin=0.0, area_weight=0.0, correct_aspect=True,
-                             scale_to_bounds=False)
     bpy.ops.uv.pack_islands(udim_source="CLOSEST_UDIM", rotate=True, rotate_method="AXIS_ALIGNED", scale=True,
-                            merge_overlap=False, margin_method="FRACTION", margin=0.0002, shape_method="AABB")
+                            merge_overlap=False, margin_method="FRACTION", margin=margine, shape_method="AABB")
     bpy.ops.object.mode_set(mode="OBJECT")
+    print(f"  {len(oggetti)} oggetti, {quante} isole", flush=True)
+    for o, (c, tiene) in zip(oggetti, copie):
+        riporta(c, tiene, o)
+        me = c.data
+        bpy.data.objects.remove(c)
+        bpy.data.meshes.remove(me)
+
+
+def saldata(o):
+    """una copia dell'oggetto coi vertici nello stesso punto uniti (le facce restano quelle, con le loro coordinate
+    delle texture); e, per ogni vertice dell'originale, quello della copia che lo tiene (col suo numero di prima)"""
+    c = o.copy()
+    c.data = o.data.copy()
+    bpy.context.scene.collection.objects.link(c)
+    # dove guarda ogni faccia per chi la disegna: la media delle normali dei suoi angoli (non quella del triangolo: i
+    # modelli di Meshy sono accartocciati, e le loro normali le rifa' lisce costruisci.normali_lisce), nel mondo;
+    # presa prima di saldare
+    me = o.data
+    nl, nf = len(me.loops), len(me.polygons)
+    cn = np.empty(nl * 3, np.float64)
+    me.corner_normals.foreach_get("vector", cn)
+    quanti = np.empty(nf, np.int64)
+    me.polygons.foreach_get("loop_total", quanti)
+    lf = np.repeat(np.arange(nf), quanti)
+    g = np.stack([np.bincount(lf, cn[k::3], minlength=nf) for k in range(3)], axis=1)
+    g = g @ np.linalg.inv(np.array(o.matrix_world, np.float64)[:3, :3])
+    g /= np.maximum(np.linalg.norm(g, axis=1), 1e-20)[:, None]
+    c.data.attributes.new("guarda", "FLOAT_VECTOR", "FACE").data.foreach_set("vector", g.astype(np.float32).ravel())
+    bm = bmesh.new()
+    bm.from_mesh(c.data)
+    # il numero di prima, prima di cercare i doppi (un livello nuovo invalida i vertici gia' presi)
+    numero = bm.verts.layers.int.new("primo")
+    bm.verts.ensure_lookup_table()
+    for v in bm.verts:
+        v[numero] = v.index
+    doppi = bmesh.ops.find_doubles(bm, verts=bm.verts, dist=1e-5)["targetmap"]
+    tiene = np.arange(len(bm.verts))
+    for v, t in doppi.items():
+        tiene[v.index] = t.index
+    bmesh.ops.weld_verts(bm, targetmap=doppi)
+    bm.to_mesh(c.data)
+    bm.free()
+    return c, tiene
+
+
+def isole(c, minimo, soglia=55, piega=80):
+    """le isole di una copia saldata, fatte crescere a mano: dalla faccia piu' grande ancora libera si aggiungono le
+    vicine (che toccano uno spigolo) finche' guardano dalla sua parte, entro "soglia" gradi (dove guardano: le
+    normali lisce, "guarda" di saldata()), la faccia vera non piega oltre "piega" gradi e, nel piano dell'isola, non
+    finisce sopra quello che l'isola copre gia' (una griglia di quadretti grandi mezzo lato tipico). I fogli della
+    cartella, dei giornali e dei soldi sono uno sopra l'altro, uniti dai bordi sottili: con le sole normali un'isola
+    passava da un foglio a quello sotto, e nella proiezione si sovrapponevano (la cartella al 70%: la luce di un
+    foglio finiva su quello sopra, a macchie scure). Ogni isola si proietta in piano lungo la direzione della sua
+    prima faccia, in metri, nelle coordinate della luce della copia.
+    Le facce rimaste fuori per poco (le pieghe dei triangoli accartocciati, che nella proiezione si girano sopra le
+    vicine) e le isole piu' piccole di "minimo" metri di lato si uniscono a una vicina grande, anche sovrapposte: e'
+    lo stesso punto, con la stessa luce (Cycles cuoce con le normali lisce). Le isole che non hanno vicine (i
+    pezzetti staccati: viti, borchie; le strisce attorno ai tubi e ai fili) si allungano fino a "minimo": la cottura
+    scrive i punti dell'immagine il cui centro cade dentro un'isola, e in quelle piu' piccole di un punto finiva la
+    luce delle vicine. Restituisce quante sono"""
+    me = c.data
+    nv, nl, nf = len(me.vertices), len(me.loops), len(me.polygons)
+    if not nf:
+        return 0
+    co = np.empty(nv * 3, np.float64)
+    me.vertices.foreach_get("co", co)
+    m = np.array(c.matrix_world, np.float64)
+    p = co.reshape(-1, 3) @ m[:3, :3].T + m[:3, 3]
+    lv, le = np.empty(nl, np.int64), np.empty(nl, np.int64)
+    me.loops.foreach_get("vertex_index", lv)
+    me.loops.foreach_get("edge_index", le)
+    inizio, quanti = np.empty(nf, np.int64), np.empty(nf, np.int64)
+    me.polygons.foreach_get("loop_start", inizio)
+    me.polygons.foreach_get("loop_total", quanti)
+    assert inizio[0] == 0 and (np.diff(inizio) == quanti[:-1]).all(), "angoli delle facce non in fila"
+    lf = np.repeat(np.arange(nf), quanti)
+    dopo = np.arange(nl) + 1
+    dopo[inizio + quanti - 1] = inizio
+
+    def unita(x):
+        return x / np.maximum(np.linalg.norm(x, axis=1), 1e-20)[:, None]
+
+    # l'area con il suo verso (Newell, anche per le facce non piane), dove e' girata e dove guarda la faccia
+    a = np.stack([np.bincount(lf, x, minlength=nf) for x in np.cross(p[lv], p[lv[dopo]]).T], axis=1) / 2
+    area = np.linalg.norm(a, axis=1)
+    n = unita(a)
+    s = np.empty(nf * 3, np.float32)
+    me.attributes["guarda"].data.foreach_get("vector", s)
+    s = s.reshape(-1, 3).astype(np.float64)
+    # le facce vicine: quelle che hanno uno spigolo in comune (in fila, se lo hanno in tre o piu')
+    ordine = np.argsort(le, kind="stable")
+    es, fs = le[ordine], lf[ordine]
+    stesso = np.flatnonzero(es[1:] == es[:-1])
+    vicini = [[] for _ in range(nf)]
+    for x, y in zip(fs[stesso].tolist(), fs[stesso + 1].tolist()):
+        if x != y:
+            vicini[x].append(y)
+            vicini[y].append(x)
+    # la griglia: quadretti grandi mezzo lato tipico; i vertici di ogni faccia
+    cella = max(float(np.median(np.linalg.norm(p[lv] - p[lv[dopo]], axis=1))) / 2, 2e-4)
+    P = (p / cella).tolist()
+    vf = np.split(lv, inizio[1:])
+
+    def piano(d):
+        u = np.cross(d, (0.0, 0.0, 1.0) if abs(d[2]) < 0.9 else (1.0, 0.0, 0.0))
+        u /= np.linalg.norm(u)
+        return u.tolist(), np.cross(d, u).tolist()
+
+    def copre(f, u, v):
+        """i quadretti (col centro dentro) che la faccia copre nel piano u, v"""
+        q = [(P[i][0] * u[0] + P[i][1] * u[1] + P[i][2] * u[2] - 0.5, P[i][0] * v[0] + P[i][1] * v[1] + P[i][2] * v[2] - 0.5)
+             for i in vf[f].tolist()]
+        out = []
+        ax, ay = q[0]
+        for t in range(1, len(q) - 1):
+            (bx, by), (cx, cy) = q[t], q[t + 1]
+            den = (bx - ax) * (cy - ay) - (cx - ax) * (by - ay)
+            if abs(den) < 1e-12:
+                continue
+            for gx in range(math.ceil(min(ax, bx, cx)), math.floor(max(ax, bx, cx)) + 1):
+                for gy in range(math.ceil(min(ay, by, cy)), math.floor(max(ay, by, cy)) + 1):
+                    w1 = ((bx - gx) * (cy - gy) - (cx - gx) * (by - gy)) / den
+                    w2 = ((cx - gx) * (ay - gy) - (ax - gx) * (cy - gy)) / den
+                    if w1 > 1e-7 and w2 > 1e-7 and 1 - w1 - w2 > 1e-7:
+                        out.append((gx, gy))
+        return out
+
+    sl, nl_, ar = s.tolist(), n.tolist(), area.tolist()
+    cs, cp = math.cos(math.radians(soglia)), math.cos(math.radians(piega))
+    isola = [-1] * nf
+    prime, piani = [], []
+    for f in np.argsort(-area, kind="stable").tolist():
+        if isola[f] >= 0:
+            continue
+        k = len(prime)
+        dx, dy, dz = sl[f]
+        prime.append((dx, dy, dz))
+        u, v = piano(np.array(sl[f]))
+        piani.append((u, v))
+        isola[f] = k
+        coperti = set(copre(f, u, v))
+        coda = [f]
+        while coda:
+            g = coda.pop()
+            for h in vicini[g]:
+                if isola[h] >= 0:
+                    continue
+                sh, nh = sl[h], nl_[h]
+                if sh[0] * dx + sh[1] * dy + sh[2] * dz < cs or \
+                        (ar[h] > 1e-14 and nh[0] * dx + nh[1] * dy + nh[2] * dz < cp):
+                    continue
+                qh = copre(h, u, v)
+                sopra = sum(1 for x in qh if x in coperti)
+                if sopra > 1 and sopra > 0.3 * len(qh):
+                    continue
+                isola[h] = k
+                coperti.update(qh)
+                coda.append(h)
+    k = len(prime)
+    # le isole piccole (meno di un quadrato di "minimo" di lato) faccia per faccia nella vicina grande che guarda
+    # piu' dalla loro parte; piu' volte, perche' alcune toccano solo altre piccole
+    for _ in range(8):
+        grandezza = np.bincount(isola, area, minlength=k)
+        piccole = grandezza < minimo * minimo
+        cambi = 0
+        for f in np.flatnonzero(piccole[isola]).tolist():
+            meglio, quanto = -1, -3.0
+            sf = sl[f]
+            for h in vicini[f]:
+                j = isola[h]
+                if not piccole[j]:
+                    pj = prime[j]
+                    q = sf[0] * pj[0] + sf[1] * pj[1] + sf[2] * pj[2]
+                    if q > quanto:
+                        meglio, quanto = j, q
+            if meglio >= 0:
+                isola[f] = meglio
+                cambi += 1
+        if not cambi:
+            break
+    isola = np.array(isola)
+    # la proiezione in piano, in metri, sui due assi di ogni isola
+    u = np.array([x for x, _ in piani])
+    v = np.array([y for _, y in piani])
+    il = isola[lf]
+    uv = np.stack([np.einsum("ij,ij->i", p[lv], u[il]), np.einsum("ij,ij->i", p[lv], v[il])], axis=1)
+    # ogni isola girata sui suoi assi (quelli della sua forma) e, dove e' piu' stretta di "minimo", allungata
+    quante = np.maximum(np.bincount(il, minlength=k), 1)
+    media = np.stack([np.bincount(il, uv[:, j], minlength=k) for j in range(2)], axis=1) / quante[:, None]
+    du = uv - media[il]
+    sxx, syy = np.bincount(il, du[:, 0] ** 2, minlength=k), np.bincount(il, du[:, 1] ** 2, minlength=k)
+    sxy = np.bincount(il, du[:, 0] * du[:, 1], minlength=k)
+    ang = 0.5 * np.arctan2(2 * sxy, sxx - syy)
+    co_, si_ = np.cos(ang)[il], np.sin(ang)[il]
+    uv = np.stack([co_ * du[:, 0] + si_ * du[:, 1], co_ * du[:, 1] - si_ * du[:, 0]], axis=1)
+    lo, hi = np.zeros((k, 2)), np.zeros((k, 2))
+    usate = np.unique(il)
+    lo[usate], hi[usate] = np.inf, -np.inf
+    np.minimum.at(lo, il, uv)
+    np.maximum.at(hi, il, uv)
+    lati = hi - lo
+    per = np.where(lati < minimo, minimo / np.maximum(lati, minimo * 1e-3), 1.0)
+    centro = (lo + hi) / 2
+    uv = centro[il] + (uv - centro[il]) * per[il]
+    me.uv_layers["luce"].data.foreach_set("uv", uv.astype(np.float32).ravel())
+    return len(usate)
+
+
+def riporta(c, tiene, o):
+    """le coordinate della luce dalla copia saldata all'originale: ogni faccia dell'originale ritrova la sua nella
+    copia dai vertici che la tengono, nello stesso giro (le due facce di un foglio hanno gli stessi vertici al
+    contrario), e ogni angolo prende le coordinate del suo vertice. Una faccia con due vertici nello stesso punto,
+    saldata, perde un angolo (ritrova la sua senza il vertice ripetuto); quelle che non si ritrovano (degeneri)
+    finiscono in un punto solo delle coordinate, che la cottura non scrive"""
+    def giro(ids):
+        k = ids.index(min(ids))
+        return tuple(ids[k:] + ids[:k])
+
+    def angoli(me):
+        n = len(me.polygons)
+        inizio, quanti = np.empty(n, np.int64), np.empty(n, np.int64)
+        me.polygons.foreach_get("loop_start", inizio)
+        me.polygons.foreach_get("loop_total", quanti)
+        vert = np.empty(len(me.loops), np.int64)
+        me.loops.foreach_get("vertex_index", vert)
+        return inizio, quanti, vert
+
+    mc, mo = c.data, o.data
+    primo = np.empty(len(mc.vertices), np.int64)
+    mc.attributes["primo"].data.foreach_get("value", primo)
+    uv = np.empty(len(mc.loops) * 2, np.float32)
+    mc.uv_layers["luce"].data.foreach_get("uv", uv)
+    uv = uv.reshape(-1, 2)
+    facce, vertici = {}, {}
+    inizio, quanti, vert = angoli(mc)
+    for s, n in zip(inizio.tolist(), quanti.tolist()):
+        ids = primo[vert[s:s + n]].tolist()
+        d = dict(zip(ids, uv[s:s + n]))
+        facce.setdefault(giro(ids), d)
+        vertici.update(d)
+    inizio, quanti, vert = angoli(mo)
+    nuove = np.zeros((len(mo.loops), 2), np.float32)
+    perse = 0
+    for s, n in zip(inizio.tolist(), quanti.tolist()):
+        ids = tiene[vert[s:s + n]].tolist()
+        d = facce.get(giro([x for j, x in enumerate(ids) if x != ids[j - 1]] or ids[:1]))
+        if d is None:
+            punto = next((vertici[i] for i in ids if i in vertici), (0.0, 0.0))
+            d = {i: punto for i in ids}
+            perse += 1
+        for k, i in enumerate(ids):
+            nuove[s + k] = d.get(i, (0.0, 0.0))
+    mo.uv_layers["luce"].data.foreach_set("uv", nuove.ravel())
+    if perse:
+        print(f"  {o.name}: {perse} facce degeneri (area zero), in un punto solo", flush=True)
 
 
 def immagine_luce(nome, lato):
@@ -125,6 +403,8 @@ def unico(oggetti):
     tutto = bpy.context.view_layer.objects.active
     tutto.name = "tutto_da_cuocere"
     tutto.data.uv_layers.active = tutto.data.uv_layers["luce"]
+    # l'ombra cotta un po' piu' in la' dalla superficie, se un pezzo la vuole (i modelli di Meshy, normali_lisce)
+    tutto.shadow_terminator_geometry_offset = max(o.shadow_terminator_geometry_offset for o in oggetti)
     return tutto
 
 
@@ -142,24 +422,28 @@ def cuoci(fase, lato, campioni):
     sc.render.bake.margin = 6
     sc.render.bake.margin_type = "EXTEND"
     oggetti = da_cuocere()
-    im = immagine_luce(f"luce_{fase}", lato)
-    bersaglio(oggetti, im)
-    tutto = unico(oggetti)
-    bpy.ops.object.select_all(action="DESELECT")
-    tutto.select_set(True)
-    bpy.context.view_layer.objects.active = tutto
-    bpy.ops.object.bake(type="DIFFUSE", pass_filter={"DIRECT", "INDIRECT"}, margin=6, use_clear=True)
-    bpy.data.objects.remove(tutto)
-    for o in oggetti:
-        o.hide_render = False
-    os.makedirs(LUCE, exist_ok=True)
-    grezza = os.path.join(LUCE, f"{fase}_grezza.exr")
-    im.filepath_raw = grezza
-    im.file_format = "OPEN_EXR"
-    im.save()
-    pulita = os.path.join(LUCE, f"{fase}.exr")
-    pulisci(im, pulita)
-    print("cotta", fase, flush=True)
+    # prima la stanza, poi le cose piccole nella loro immagine: in ogni cottura gli oggetti dell'altra restano nella
+    # scena (fanno ombra e luce come prima), e i materiali che usano tutte e due scrivono ogni volta nell'immagine giusta
+    # (le cose piccole con il doppio dei campioni: sono poche, e si guardano da vicino)
+    for gruppo, nome, l, n in (([o for o in oggetti if not piccolo(o)], fase, lato, campioni),
+                               ([o for o in oggetti if piccolo(o)], f"piccoli_{fase}", lato // 2, campioni * 2)):
+        sc.cycles.samples = n
+        im = immagine_luce(f"luce_{nome}", l)
+        bersaglio(gruppo, im)
+        tutto = unico(gruppo)
+        bpy.ops.object.select_all(action="DESELECT")
+        tutto.select_set(True)
+        bpy.context.view_layer.objects.active = tutto
+        bpy.ops.object.bake(type="DIFFUSE", pass_filter={"DIRECT", "INDIRECT"}, margin=6, use_clear=True)
+        bpy.data.objects.remove(tutto)
+        for o in gruppo:
+            o.hide_render = False
+        os.makedirs(LUCE, exist_ok=True)
+        im.filepath_raw = os.path.join(LUCE, f"{nome}_grezza.exr")
+        im.file_format = "OPEN_EXR"
+        im.save()
+        pulisci(im, os.path.join(LUCE, f"{nome}.exr"))
+        print("cotta", nome, flush=True)
 
 
 def pulisci(im, uscita):
@@ -286,16 +570,15 @@ def faccia_di(ob, materiale):
 def luce_in_numeri():
     """la luce cotta (gli EXR puliti) in numeri, uscita/luce_<fase>.npy, per tools/stanza_hq.py che la porta in WebP
     (l'OpenCV di sistema non legge gli EXR); la prima riga e' quella in cima, come nelle immagini"""
-    import numpy as np
-    for fase in ("mattina", "sera"):
-        f = os.path.join(LUCE, f"{fase}.exr")
+    for nome in ("mattina", "sera", "piccoli_mattina", "piccoli_sera"):
+        f = os.path.join(LUCE, f"{nome}.exr")
         if not os.path.exists(f):
             continue
         im = bpy.data.images.load(f)
         w, h = im.size
         a = np.empty(w * h * 4, np.float32)
         im.pixels.foreach_get(a)
-        np.save(os.path.join(USCITA, f"luce_{fase}.npy"), a.reshape(h, w, 4)[::-1, :, :3].astype(np.float16))
+        np.save(os.path.join(USCITA, f"luce_{nome}.npy"), a.reshape(h, w, 4)[::-1, :, :3].astype(np.float16))
         bpy.data.images.remove(im)
 
 
@@ -315,6 +598,11 @@ def esporta():
             del o["oggetto"]
         if o["pezzo"] is None:
             del o["pezzo"]
+        # la luce cotta delle cose piccole e' nella seconda immagine
+        if piccolo(o) and "luce" in uvs:
+            o["atlante"] = "piccoli"
+        elif "atlante" in o:
+            del o["atlante"]
     # niente colori dei vertici: alcuni modelli di Poly Haven li hanno (il letto, la torcia) e nel gioco tingevano i
     # materiali (il letto veniva verde). Nei materiali il nodo del colore dei vertici si salta (il colore della texture
     # va diritto), poi gli attributi si tolgono uno alla volta prendendo sempre il primo: togliendoli da un elenco

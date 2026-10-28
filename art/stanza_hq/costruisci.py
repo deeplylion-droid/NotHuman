@@ -949,14 +949,70 @@ def oggetti_meshy(su):
         ob = importa(nome, (SCRIVANIA["x"] + sopra[0], SCRIVANIA["z"] + sopra[1]), rot=rot, appoggia=su,
                      percorso=os.path.join(S3, f), coll="meshy", inclina=inclina)
         misura(ob, lungo=lungo, centro=(SCRIVANIA["x"] + sopra[0], SCRIVANIA["z"] + sopra[1]), appoggia=su)
+        normali_lisce(ob)
     mappa = scatola("mappa", (SCRIVANIA["x"], su + 0.0015, SCRIVANIA["z"] - 0.03), (0.5, 0.003, 0.28),
                     materiale("mappa", diff=os.path.join(RADICE, "gioco", "img", "stanza", "mappa.jpg"), ruvido=0.8),
                     coll="meshy")
     intera(mappa, "y")
     ob = importa("borsa", (-2.12, -2.72), rot=-0.9, percorso=os.path.join(VECCHIA, "borsa.glb"), coll="meshy")
     misura(ob, alto=0.3, centro=(-2.12, -2.72))
+    normali_lisce(ob)
     ob = importa("cappotto", (2.43, 0.45), rot=math.pi, percorso=os.path.join(VECCHIA, "cappotto.glb"), coll="meshy")
     misura(ob, alto=1.42, centro=(2.4, 0.45), appoggia=0.45, fondo=0.6)
+    normali_lisce(ob)
+
+
+def normali_lisce(ob, giri=3):
+    """le normali lisce per un modello di Meshy. Le sue facce sono accartocciate (sul fax meta' dei triangoli piega
+    di 19 gradi o piu' dalla superficie, nel giornale uno su otto e' girato al contrario) e le normali del modello le
+    seguono: tra due facce vicine 10 gradi in mediana, una su dieci oltre i 77. Cycles cuoce la luce con quelle
+    normali, e il fax veniva a triangoli chiari e scuri.
+    Qui si mediano: i vertici nello stesso punto uniti (il modello e' staccato a ogni cucitura delle texture), la
+    normale di ogni vertice dalle facce attorno, quella delle facce dai loro vertici, per "giri" giri; poi diventano
+    le normali personalizzate del modello (la forma e le coordinate delle texture restano quelle). E Cycles fa
+    partire i raggi verso le luci un po' piu' in la' dalla superficie vera (geometry offset, contro il "terminatore"
+    delle ombre: con le normali lisce, le pieghe girate dall'altra parte si farebbero ombra da sole)"""
+    import numpy as np
+    me = ob.data
+    nv, nl, nf = len(me.vertices), len(me.loops), len(me.polygons)
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bm.verts.ensure_lookup_table()
+    tiene = np.arange(nv)
+    for v, t in bmesh.ops.find_doubles(bm, verts=bm.verts, dist=1e-5)["targetmap"].items():
+        tiene[v.index] = t.index
+    bm.free()
+    co = np.empty(nv * 3, np.float64)
+    me.vertices.foreach_get("co", co)
+    co = co.reshape(-1, 3)
+    lv = np.empty(nl, np.int64)
+    me.loops.foreach_get("vertex_index", lv)
+    inizio, quanti = np.empty(nf, np.int64), np.empty(nf, np.int64)
+    me.polygons.foreach_get("loop_start", inizio)
+    me.polygons.foreach_get("loop_total", quanti)
+    lf = np.repeat(np.arange(nf), quanti)
+    dopo = np.arange(nl) + 1
+    dopo[inizio + quanti - 1] = inizio
+    lw = tiene[lv]
+
+    def somma(dove, x, n):
+        return np.stack([np.bincount(dove, x[:, k], minlength=n) for k in range(3)], axis=1)
+
+    def unita(x):
+        return x / np.maximum(np.linalg.norm(x, axis=1), 1e-20)[:, None]
+
+    # le facce col loro verso, grandi quanto sono (Newell)
+    f = somma(lf, np.cross(co[lv], co[lv[dopo]]), nf) / 2
+    area = np.linalg.norm(f, axis=1)[:, None]
+    for _ in range(giri):
+        vn = unita(somma(lw, f[lf], nv))
+        f = unita(somma(lf, vn[lw], nf)) * area
+    vn = unita(somma(lw, f[lf], nv))
+    me.shade_smooth()
+    if "sharp_edge" in me.attributes:
+        me.attributes.remove(me.attributes["sharp_edge"])
+    me.normals_split_custom_set(vn[lw].tolist())
+    ob.shadow_terminator_geometry_offset = 1.0
 
 
 def misura(ob, lungo=None, alto=None, centro=None, appoggia=0.0, fondo=1.0):
