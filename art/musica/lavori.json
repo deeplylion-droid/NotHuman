@@ -355,5 +355,45 @@
       "prompt": "Uneasy nocturnal ambient, a heartbeat-like sub pulse, slowly detuning string clusters, a distant church bell warped and slowed down, glassy harmonics, a faint melody played on a broken out-of-tune piano behind a wall, surreal, menacing, lo-fi haze, very slow, no drums, no vocals",
       "seconds_total": 120
     }
+  },
+  {
+    "nome": "visita_k",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Strange and unsettling slow ambient for questioning a sick family in a poor house, D minor, half-time feel around 52 BPM, a detuned electric piano with heavy tape wow and flutter that slowly warps out of pitch, a sparse sad clean guitar melody with long reverb, reversed notes, a faint dissonant high whine, creaking floorboards, a low drone that slowly bends, melancholic, dreamlike and wrong, lo-fi haze, no drums, no vocals",
+      "seconds_total": 120
+    }
+  },
+  {
+    "nome": "visita_l",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Unsettling, surreal slow ambient underscore, a warped music box melody slowed down and bending in pitch, eerie detuned piano clusters, glassy harmonics, a heartbeat-like sub pulse, distant warped radio static, melancholic and dreamy but deeply uneasy, D minor, around 50 BPM, lo-fi tape haze, indie horror game soundtrack, no drums, no vocals",
+      "seconds_total": 120
+    }
+  },
+  {
+    "nome": "visita_m",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Dark, strange dreamlike ambient for interviewing a stranger who is not quite human, slow, D minor, detuned Rhodes chords with tape wobble, a lonely clean guitar playing a few sad notes that bend slightly out of tune, microtonal synth swells, soft metallic scrapes, a breathing-like low texture, long silences, melancholic, unsettling, lo-fi haze, no drums, no vocals",
+      "seconds_total": 120
+    }
+  },
+  {
+    "nome": "titolo_d",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Title theme for a melancholic indie game about a plague doctor in a foggy mountain village, slow and tender, D minor with moments of warm F major, 60 BPM, a lone cello playing a mournful but warm old-world melody, soft felt piano chords, gentle washed-out analog pads with light tape wobble, a distant church bell, bittersweet, nostalgic, dreamy, like a sad fairy tale, not scary, lo-fi haze, no drums, no vocals",
+      "seconds_total": 120
+    }
+  },
+  {
+    "nome": "titolo_e",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Opening theme, slow solemn ballad for cello and felt piano in D minor, 62 BPM, warm and wistful like an old folk lullaby from a forgotten village, soft string pad, a distant church bell, gentle tape warmth, melancholic and dreamy rather than frightening, hopeful in the last part, no drums, no vocals",
+      "seconds_total": 120
+    }
   }
 ]
