@@ -188,6 +188,7 @@ Dopo «provata, va bene, prosegui pure», il traguardo scelto è la demo pronta 
   - la plastilina resta fuori (si apre solo con `#creta`, che nel programma non c'è): il gioco dentro pesa 95 MB invece di 128;
   - lo zip è di 235 MB, quasi tutto Electron;
   - provato su Linux con lo stesso Electron (`tools/prove/prova_electron.js`): il titolo, le impostazioni, lo schermo intero, la memoria tra due aperture (salvataggi e impostazioni restano), «Esci» che chiude.
+  - Rifatto la sera del 29 ottobre con la stanza nuova (verde malato, la nebbia fuori dalla finestra, la sera R'lyeh livida) e con la musica (il titolo con «Premi un tasto», la stanza, le visite): il gioco dentro pesa 101 MB, lo zip 241 MB. La prova controlla anche che i quattro brani si leggano e si decodifichino dal pacchetto (col protocollo `gioco://` il registro delle risorse del browser resta vuoto, quindi si leggono davvero).
   - Ancora da fare per Steam: Steamworks, un'icona, la firma del programma (senza, Windows lo segnala la prima volta: «Ulteriori informazioni», poi «Esegui comunque»).
 
 ### La visita

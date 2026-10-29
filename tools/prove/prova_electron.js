@@ -23,7 +23,18 @@ const apri = () => electron.launch({
   await win.waitForTimeout(1500);
   // il primo tasto fa partire il tema e mostra i comandi
   await win.keyboard.press('Shift');
-  await win.waitForTimeout(800);
+  await win.waitForTimeout(2500);
+  // la musica nel pacchetto: col protocollo gioco:// il registro delle risorse resta vuoto, quindi il brano si legge e si
+  // decodifica qui, come fa il gioco
+  const tema = await win.evaluate(async () => {
+    const ctx = new AudioContext();
+    const brani = {};
+    for (const n of ['titolo', 'stanza_giorno', 'stanza_sera', 'visita']) {
+      try { brani[n] = Math.round((await ctx.decodeAudioData(await (await fetch(`suoni/musica/${n}.mp3`)).arrayBuffer())).duration); } catch (e) { brani[n] = String(e); }
+    }
+    return { menu: !document.querySelector('.ti-menu').hidden, audio: ctx.state, brani };
+  });
+  verifica(tema.menu && tema.audio === 'running' && Object.values(tema.brani).every((d) => d > 60), `la musica nel pacchetto: ${JSON.stringify(tema)}`);
   const info = await win.evaluate(() => ({ ua: navigator.userAgent.match(/Electron\/[\d.]+/)?.[0], voci: [...document.querySelectorAll('.ti-menu button')].map((b) => b.textContent), webgl2: !!document.createElement('canvas').getContext('webgl2'), schermo: document.querySelector('#schermo').dataset.schermo, caratteri: document.fonts.check('12px Silkscreen') }));
   console.log(JSON.stringify(info));
   verifica(info.voci.includes('Impostazioni') && info.voci.at(-1) === 'Esci', `titolo: ${info.voci.join(' | ')}`);
