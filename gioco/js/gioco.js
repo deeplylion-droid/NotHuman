@@ -883,7 +883,14 @@ function bloccoStanza(bloccato) {
 
 async function usaStanza(id) {
   if (R.occupato || !foglio.hidden) return;
-  if (id === "scrivania") return vaiScrivania();
+  if (id === "scrivania") {
+    vaiScrivania();
+    // all'inizio del gioco, la prima volta, la scrivania apre subito il fax (29 ottobre), appena ci si e' seduti
+    if (S.giorno === 1 && !S.faxStampato) {
+      setTimeout(() => { if (S.schermo === "scrivania" && foglio.hidden && !R.occupato && !S.faxStampato) apriFax(); }, 800);
+    }
+    return;
+  }
   if (id === "videoregistratore") { R.ritorno = "stanza"; return apriNastri(); }
   if (id === "porta") {
     if (S.fase === "sera") return dici([[null, "È il coprifuoco. Fino a domattina non si esce."]], false, false);
