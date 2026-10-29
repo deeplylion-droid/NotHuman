@@ -785,9 +785,11 @@ function esameFatto(persona, parte) {
 
 // ---------- la scrivania ----------
 
-// il suono della stanza del medico: sotto il fruscio del nastro, di giorno il vento fuori, la sera la notte
+// il suono della stanza del medico: sotto il fruscio del nastro, di giorno il vento fuori, la sera la notte; e la
+// musica della stanza, di giorno e di sera (anche sulla mappa, che si guarda da casa). Nel finale niente musica
 function ambienteStanza() {
   suoni.ambiente("nastro", S.fase === "sera" ? "notte" : "vento");
+  suoni.musica(R.finale ? null : S.fase === "sera" ? "stanza_sera" : "stanza_giorno");
 }
 
 function vaiScrivania() {
@@ -1411,8 +1413,10 @@ async function vaiLuogo(luogo) {
   const L = D.LUOGHI[luogo];
   pulisci();
   R.primo = null;
-  // il suono del posto: di base quello col suo nome; "ambiente" per un altro (null: solo il nastro)
+  // il suono del posto: di base quello col suo nome; "ambiente" per un altro (null: solo il nastro); e la musica
+  // delle visite
   suoni.ambiente(...["nastro", L.ambiente === undefined ? luogo : L.ambiente].filter(Boolean));
+  suoni.musica("visita");
   facceDellaStanza();
   if (visita) {
     // la stanza 3D: il buio e l'infrarosso li fa il 3D, la videocamera passa l'immagine pulita
@@ -2411,6 +2415,7 @@ async function nastroNotte3D(O) {
   aiuto("Il nastro della notte: la maschera è rimasta accesa sulla scrivania.");
   suoni.suona("videoregistratore");
   suoni.ambiente("nastro", "notte");
+  suoni.musica(null);
   mostra(stanza.canvas, IMG.scrivania.src);
   vhs.prima = (dt) => { stanza.passo(dt); vhs.refresh(); };
   // la maschera in fondo alla scrivania, accanto al videoregistratore: larga come le videocamere di sorveglianza, prende
@@ -2474,6 +2479,7 @@ async function nastroNotte() {
   aiuto("Il nastro della notte: la maschera è rimasta accesa sulla scrivania.");
   suoni.suona("videoregistratore");
   suoni.ambiente("nastro", "notte");
+  suoni.musica(null);
   for (let i = 0; i < quadri.length; i++) {
     mostra(imgs[i]);
     if (vhs) vhs.burst(0.45);
@@ -3711,6 +3717,7 @@ function leggiImpostazioni() {
   const tacca = (v, a, b, base) => (Number.isInteger(v) && v >= a && v <= b ? v : base);
   return {
     volume: tacca(d.volume, 0, 10, 10),
+    musica: tacca(d.musica, 0, 10, 8),
     sguardo: tacca(d.sguardo, 1, SGUARDO.length, 5),
     qualita: Object.keys(QUALITA).includes(d.qualita) ? d.qualita : tocco() ? "bassa" : "alta",
   };
@@ -3729,6 +3736,7 @@ function larghezza3d() {
 
 function applicaImpostazioni() {
   suoni.volume((imp.volume / 10) ** 2);
+  suoni.volumeMusica((imp.musica / 10) ** 2);
   if (!stanza) return;
   stanza.sguardo = SGUARDO[imp.sguardo - 1];
   stanza.qualita(QUALITA[imp.qualita].nebbia);
@@ -3747,6 +3755,7 @@ function apriImpostazioni(dalTitolo = false) {
       // un colpo, per sentire quanto e' forte
       suoni.suona("interruttore", { varia: 0 });
     }, (v) => `${v * 10}`),
+    ...rigaTacche("Musica", 0, 10, () => imp.musica, (v) => { imp.musica = v; }, (v) => `${v * 10}`),
     ...rigaTacche("Sensibilità", 1, SGUARDO.length, () => imp.sguardo, (v) => { imp.sguardo = v; },
       (v) => `×${String(SGUARDO[v - 1]).replace(".", ",")}`),
   );

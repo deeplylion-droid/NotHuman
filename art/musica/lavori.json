@@ -1,0 +1,62 @@
+[
+  {
+    "nome": "stanza_giorno_a",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "prompt": "Instrumental score for a slow-paced horror mystery game. The plague doctor's rented room on a grey, foggy morning in a poor mountain village. A slightly detuned upright piano plays a sparse, hesitant melody in a minor key, with long pauses between phrases, over a warm analog synth pad and a subtle tape warble like a worn 1990s cassette. Melancholic, lonely, uneasy but calm. Very slow, about 60 BPM. No drums, no vocals.",
+      "music_length_ms": 120000,
+      "force_instrumental": true,
+      "output_format": "mp3_44100_128"
+    }
+  },
+  {
+    "nome": "stanza_giorno_b",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "prompt": "Instrumental score for a horror mystery game, a foggy morning in an old American house in a dying village. A small music box and a celesta play a fragile, slightly out-of-tune lullaby, answered by a low solo cello and a distant felt piano; now and then the music box slows down as if its spring were running out. Dreamlike, sad and subtly menacing. Slow, about 66 BPM. No drums, no vocals.",
+      "music_length_ms": 120000,
+      "force_instrumental": true,
+      "output_format": "mp3_44100_128"
+    }
+  },
+  {
+    "nome": "stanza_sera_a",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "prompt": "Dark ambient instrumental for a Lovecraftian horror game at night. Deep cello and double bass drones, a distant church organ chord that slowly swells and fades away, a low choir-like synth pad and a faint slow heartbeat pulse in the sub bass. Oppressive and hypnotic, like something vast breathing beneath the floorboards. Very slow, about 50 BPM. No melodic hooks, no drum kit, no vocals.",
+      "music_length_ms": 120000,
+      "force_instrumental": true,
+      "output_format": "mp3_44100_128"
+    }
+  },
+  {
+    "nome": "stanza_sera_b",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "prompt": "Dark ambient instrumental for a horror game, night in a small mountain village. Far-away church bells toll slowly and irregularly, detuned low piano notes, reversed tape textures and a rumbling sub drone; now and then a high glassy harmonic rises and fades. Lonely, eerie and cold. Very slow. No drums, no vocals.",
+      "music_length_ms": 120000,
+      "force_instrumental": true,
+      "output_format": "mp3_44100_128"
+    }
+  },
+  {
+    "nome": "visita_a",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "prompt": "Tense investigative underscore for a horror detective game: a doctor examines a sick family in their poor home while time runs out before the curfew. A low pizzicato and col legno string ostinato, ticking clock-like percussion, muted metallic hits, sparse dissonant piano stabs and a slowly building synth drone. Suspicious, nervous and restrained. Steady 80 BPM. No vocals.",
+      "music_length_ms": 120000,
+      "force_instrumental": true,
+      "output_format": "mp3_44100_128"
+    }
+  },
+  {
+    "nome": "visita_b",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "prompt": "Uneasy minimal underscore for a 1990s retro-futuristic horror game: the plague doctor's camcorder records a home visit. Cold analog synthesizer pulses, a slow minor arpeggio, a hum like an old CRT television, subtle tape glitches and a low bass drone. Clinical, detached and suspicious, like a corporate medical protocol. About 75 BPM. No vocals.",
+      "music_length_ms": 120000,
+      "force_instrumental": true,
+      "output_format": "mp3_44100_128"
+    }
+  }
+]

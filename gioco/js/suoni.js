@@ -28,6 +28,15 @@ const GRAVE = { ambienti: 0.9, colpi: 0.93 };
 const CUPO = 1900;
 const SFUMA = 1.2; // secondi per far entrare e uscire un ambiente
 const CHIAVE = "malvento-muto";
+// la musica (29 ottobre, sera: «su I'm Not a Human uno dei punti forti è la musica. Iniziamo a creare una colonna
+// sonora anche noi? Diverse canzoni tra stanza del medico e visite?»): un brano alla volta (suoni/musica, preparati da
+// tools/prepara_suoni.py), che sfuma nell'altro quando si cambia posto; ogni brano gira in anello: prima della fine
+// riparte da capo sfumando dentro se stesso. Non passa dal filtro della maschera (e' la musica del gioco, non un suono
+// della stanza) e ha il suo volume, nelle impostazioni
+const MUSICA = "musica/";
+const MUSICA_BASE = 0.55; // sotto gli ambienti e i colpi
+const MUSICA_SFUMA = 3; // secondi tra un brano e l'altro
+const MUSICA_ANELLO = 8; // secondi in cui il brano sfuma dentro se stesso
 
 // dove comincia e finisce davvero il suono (l'mp3 puo' avere un po' di silenzio ai lati: nell'anello farebbe un buco)
 function bordi(buf) {
@@ -46,6 +55,9 @@ export class Suoni {
     this.voluti = []; // gli ambienti di adesso, anche prima che l'audio possa partire
     try { this.muto = localStorage.getItem(CHIAVE) === "1"; } catch { this.muto = false; }
     this.livello = 1; // il volume delle impostazioni (0-1), sotto l'altoparlante che toglie l'audio
+    this.livelloMusica = 1; // il volume della musica (0-1), sotto il volume di tutto
+    this.musicaVoluta = null; // il brano di adesso, anche prima che l'audio possa partire
+    this.brano = null;
     const sblocca = () => this.avvia();
     for (const ev of ["pointerdown", "keydown", "touchend"]) window.addEventListener(ev, sblocca, true);
   }
@@ -77,7 +89,74 @@ export class Suoni {
     bassi.frequency.value = 180;
     bassi.gain.value = 3;
     this.uscita.connect(filtro).connect(bassi).connect(limite).connect(this.ctx.destination);
+    // la musica entra direttamente nel limitatore, senza il filtro della maschera
+    this.musicaUscita = this.ctx.createGain();
+    this.musicaUscita.gain.value = this.guadagnoMusica();
+    this.musicaUscita.connect(limite);
     this.ambiente(...this.voluti);
+    this.musica(this.musicaVoluta);
+  }
+
+  guadagnoMusica() {
+    return this.muto ? 0 : this.livello * this.livelloMusica * MUSICA_BASE;
+  }
+
+  // il brano di adesso ("stanza_giorno", "stanza_sera", "visita"; null: niente musica)
+  musica(nome) {
+    this.musicaVoluta = nome || null;
+    const ctx = this.ctx;
+    if (!ctx || this.brano?.nome === this.musicaVoluta || (!this.brano && !nome)) return;
+    // esce quello di prima
+    if (this.brano) {
+      const b = this.brano, t = ctx.currentTime;
+      b.finito = true;
+      clearTimeout(b.giro);
+      b.gain.gain.cancelScheduledValues(t);
+      b.gain.gain.setValueAtTime(b.gain.gain.value, t);
+      b.gain.gain.linearRampToValueAtTime(0, t + MUSICA_SFUMA);
+      for (const src of b.sorgenti) src.stop(t + MUSICA_SFUMA + 0.05);
+      this.brano = null;
+      // un brano decodificato pesa una quarantina di MB: quello che esce si dimentica (se torna, si rilegge)
+      setTimeout(() => { if (this.brano?.nome !== b.nome) delete this.buffer[MUSICA + b.nome]; }, (MUSICA_SFUMA + 1) * 1000);
+    }
+    if (!nome) return;
+    const b = { nome, gain: ctx.createGain(), sorgenti: [], giro: 0, finito: false };
+    b.gain.gain.value = 0;
+    b.gain.connect(this.musicaUscita);
+    this.brano = b;
+    this.carica(MUSICA + nome).then((buf) => {
+      if (b.finito) return;
+      const t = ctx.currentTime;
+      b.gain.gain.setValueAtTime(0, t);
+      b.gain.gain.linearRampToValueAtTime(1, t + MUSICA_SFUMA);
+      this.giro(b, buf, t, true);
+    }).catch(() => {});
+  }
+
+  // un giro del brano: comincia (sfumando, se non e' il primo) e, quando sta per finire, fa partire il giro dopo, che
+  // entra mentre questo esce (i brani finiscono gia' sfumando: cosi' l'anello non si sente)
+  giro(b, buf, quando, primo) {
+    const ctx = this.ctx;
+    const anello = Math.min(MUSICA_ANELLO, buf.duration / 4);
+    const fine = quando + buf.duration;
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    const g = ctx.createGain();
+    src.connect(g).connect(b.gain);
+    if (!primo) {
+      g.gain.setValueAtTime(0, quando);
+      g.gain.linearRampToValueAtTime(1, quando + anello);
+    }
+    g.gain.setValueAtTime(1, fine - anello);
+    g.gain.linearRampToValueAtTime(0, fine);
+    src.start(quando);
+    src.stop(fine + 0.05);
+    b.sorgenti.push(src);
+    src.onended = () => { b.sorgenti = b.sorgenti.filter((x) => x !== src); };
+    // il giro dopo si prepara un secondo prima (l'orologio dell'audio lo fa partire al momento giusto)
+    const prossimo = fine - anello;
+    b.giro = setTimeout(() => { if (!b.finito) this.giro(b, buf, Math.max(prossimo, ctx.currentTime), false); },
+      Math.max(0, (prossimo - ctx.currentTime - 1) * 1000));
   }
 
   carica(nome) {
@@ -164,7 +243,14 @@ export class Suoni {
     this.alza();
   }
 
+  // il volume della musica (0-1)
+  volumeMusica(v) {
+    this.livelloMusica = v;
+    this.alza();
+  }
+
   alza() {
     if (this.uscita) this.uscita.gain.setTargetAtTime(this.muto ? 0 : this.livello, this.ctx.currentTime, 0.08);
+    if (this.musicaUscita) this.musicaUscita.gain.setTargetAtTime(this.guadagnoMusica(), this.ctx.currentTime, 0.08);
   }
 }

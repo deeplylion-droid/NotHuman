@@ -11,10 +11,17 @@ centesimo al secondo): i lavori sono in art/suoni/lavori.json, si lanciano con
 - tutto e' mono, alla stessa intensita' percepita (gli ambienti a -24 LUFS, i colpi a -20, senza superare il picco di
   -1 dB; i volumi li sceglie il gioco), in mp3 da 64 kbps (gli ambienti) o 96 kbps (i colpi) in gioco/suoni.
 Le parole "quiet" e "barely audible" nei prompt fanno suoni quasi muti: meglio chiedere il suono ben udibile.
+
+La musica (29 ottobre, sera) si genera con ElevenLabs Music su fal (fal-ai/elevenlabs/music, 0,60 dollari al minuto):
+i lavori sono in art/musica/lavori.json ("python3 tools/fal_batch.py art/musica/lavori.json art/musica"); qui i
+brani scelti (MUSICA) vanno in gioco/suoni/musica col nome che usa il gioco, stereo, alla stessa intensita' percepita
+(-18 LUFS), in mp3 da 96 kbps. Solo la musica: python3 tools/prepara_suoni.py musica
 """
 import json
 import pathlib
+import re
 import subprocess
+import sys
 
 import numpy as np
 
@@ -24,6 +31,9 @@ OUT = ROOT / "gioco/suoni"
 SR = 44100
 # quanto dura al massimo un colpo, in secondi dall'inizio
 TAGLIA = {"passo1": 0.5, "passo2": 0.5, "passo3": 0.5}
+# la musica: il nome nel gioco -> il brano scelto in art/musica (le proposte del 29 ottobre: giorno a e b, sera a e b,
+# visita a e b; nel gioco per primi il pianoforte, le campane e il ticchettio)
+MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_b", "visita": "visita_a"}
 
 
 def leggi(f):
@@ -101,5 +111,24 @@ def main():
               f"{(OUT / f'{nome}.mp3').stat().st_size // 1024} KB")
 
 
+def musica():
+    out = OUT / "musica"
+    out.mkdir(parents=True, exist_ok=True)
+    for nome, fonte in MUSICA.items():
+        f = ROOT / "art/musica" / f"{fonte}.mp3"
+        # l'intensita' di adesso, per portarla a -18 LUFS con un guadagno fisso (i brani escono tutti piu' forti: si
+        # abbassano soltanto, quindi niente picchi)
+        r = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", "-i", str(f), "-af", "ebur128", "-f", "null", "-"],
+                           capture_output=True, text=True)
+        prima = float(re.findall(r"I:\s+(-?[\d.]+) LUFS", r.stderr)[-1])
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(f), "-af", f"volume={-18 - prima:.2f}dB", "-ac", "2",
+                        "-ar", str(SR), "-c:a", "libmp3lame", "-b:a", "96k", str(out / f"{nome}.mp3")], check=True)
+        print(f"{nome:14s} <- {fonte:16s} {prima:6.1f} LUFS -> -18, {(out / f'{nome}.mp3').stat().st_size // 1024} KB")
+
+
 if __name__ == "__main__":
-    main()
+    if sys.argv[1:] == ["musica"]:
+        musica()
+    else:
+        main()
+        musica()

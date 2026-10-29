@@ -22,7 +22,7 @@ const { chromium } = require('playwright');
   await pronto();
   const base = await page.evaluate(() => ({ imp: window.prova.impostazioni(), passi: window.prova.stanza().passoNebbia.material.defines.PASSI, sguardo: window.prova.stanza().sguardo, w: window.prova.stanza().canvas.width }));
   console.log('base', JSON.stringify(base));
-  verifica(base.imp.volume === 10 && base.imp.sguardo === 5 && base.imp.qualita === 'alta' && base.passi === 20 && base.sguardo === 1, 'impostazioni di base come prima');
+  verifica(base.imp.volume === 10 && base.imp.musica === 8 && base.imp.sguardo === 5 && base.imp.qualita === 'alta' && base.passi === 20 && base.sguardo === 1, 'impostazioni di base come prima (la musica a 80)');
   // il titolo
   await page.evaluate(() => { window.prova.parole().pulisci?.(); window.prova.titolo(); });
   await page.waitForTimeout(800);
@@ -42,8 +42,13 @@ const { chromium } = require('playwright');
   await page.keyboard.press('ArrowRight');
   verifica((await page.evaluate(() => window.prova.impostazioni().volume)) === 6, 'freccia a destra: volume 60');
   verifica((await page.evaluate(() => window.prova.suoni().livello)) === 0.36, 'il suono va a 0,36');
+  // la musica: un clic sulla terza tacca
+  b = await page.locator('.im-barra[aria-label="Musica"]').boundingBox();
+  await page.mouse.click(b.x + b.width * 0.25, b.y + b.height / 2);
+  const mus = await page.evaluate(() => [window.prova.impostazioni().musica, window.prova.suoni().livelloMusica]);
+  verifica(mus[0] === 3 && Math.abs(mus[1] - 0.09) < 1e-9, `musica alla terza tacca: ${mus}`);
   // la sensibilita': trascinata fino in fondo
-  b = await barre.nth(1).boundingBox();
+  b = await page.locator('.im-barra[aria-label="Sensibilità"]').boundingBox();
   await page.mouse.move(b.x + 5, b.y + b.height / 2);
   await page.mouse.down();
   await page.mouse.move(b.x + b.width * 0.6, b.y + b.height / 2, { steps: 5 });
@@ -52,7 +57,7 @@ const { chromium } = require('playwright');
   const sg = await page.evaluate(() => [window.prova.impostazioni().sguardo, window.prova.stanza().sguardo]);
   verifica(sg[0] === 10 && sg[1] === 2.5, `trascinata fino in fondo: sensibilita' ${sg}`);
   // meno, col bottone
-  await page.locator('.im-passo').nth(2).click();
+  await page.locator('.im-passo[aria-label="Sensibilità: meno"]').click();
   verifica((await page.evaluate(() => window.prova.impostazioni().sguardo)) === 9, 'il meno della sensibilita\': 9');
   // la qualita' media
   await page.locator('.im-scelta', { hasText: 'Media' }).click();
@@ -121,7 +126,7 @@ const { chromium } = require('playwright');
   await pronto();
   const dopo = await page.evaluate(() => ({ imp: window.prova.impostazioni(), passi: window.prova.stanza().passoNebbia.material.defines.PASSI, sguardo: window.prova.stanza().sguardo, livello: window.prova.suoni().livello }));
   console.log('dopo', JSON.stringify(dopo));
-  verifica(dopo.imp.volume === 8 && dopo.imp.sguardo === 9 && dopo.imp.qualita === 'media' && dopo.passi === 14 && dopo.sguardo === 2.1 && Math.abs(dopo.livello - 0.64) < 1e-9, 'ricordate dopo il ricaricamento');
+  verifica(dopo.imp.volume === 8 && dopo.imp.musica === 3 && dopo.imp.sguardo === 9 && dopo.imp.qualita === 'media' && dopo.passi === 14 && dopo.sguardo === 2.1 && Math.abs(dopo.livello - 0.64) < 1e-9, 'ricordate dopo il ricaricamento');
   // la stanza in media: al massimo 1280 punti
   await page.evaluate(() => { window.prova.risoluzione = 0; window.prova.vaiStanza('inizio'); });
   await page.waitForTimeout(500);
