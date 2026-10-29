@@ -40,8 +40,11 @@ TAGLIA = {"passo1": 0.5, "passo2": 0.5, "passo3": 0.5}
 # sensazione dimezzata, note lunghe e silenzio, il nastro che oscilla, note un po' calanti. Scelta dall'utente: la j
 # («mettimi l'ultima, la j»)
 # il tema del titolo (Stable Audio 2.5, «fammi un tema per il titolo con Stable Audio»): titolo a (carillon), b
-# (chitarra), c (violoncello); nel gioco la a
-MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_a", "visita": "visita_j", "titolo": "titolo_a"}
+# (chitarra), c (violoncello), d ed e (la c meno horror); poi la scelta: «mettimi visita M nel titolo, ma falla partire
+# da circa 33 secondi». Un brano puo' essere (nome, secondi da cui comincia): il pezzo prima si toglie, e l'anello
+# del gioco riparte da li'
+MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_a", "visita": "visita_j",
+          "titolo": ("visita_m", 33)}
 
 
 def leggi(f):
@@ -123,15 +126,18 @@ def musica():
     out = OUT / "musica"
     out.mkdir(parents=True, exist_ok=True)
     for nome, fonte in MUSICA.items():
+        fonte, inizio = fonte if isinstance(fonte, tuple) else (fonte, 0)
         f = ROOT / "art/musica" / f"{fonte}.mp3"
-        # l'intensita' di adesso, per portarla a -18 LUFS con un guadagno fisso (i brani escono tutti piu' forti: si
-        # abbassano soltanto, quindi niente picchi)
-        r = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", "-i", str(f), "-af", "ebur128", "-f", "null", "-"],
+        taglio = ["-ss", str(inizio)] if inizio else []
+        # l'intensita' di adesso (del pezzo che resta), per portarla a -18 LUFS con un guadagno fisso (i brani escono
+        # tutti piu' forti: si abbassano soltanto, quindi niente picchi)
+        r = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", *taglio, "-i", str(f), "-af", "ebur128", "-f", "null", "-"],
                            capture_output=True, text=True)
         prima = float(re.findall(r"I:\s+(-?[\d.]+) LUFS", r.stderr)[-1])
-        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(f), "-af", f"volume={-18 - prima:.2f}dB", "-ac", "2",
+        subprocess.run(["ffmpeg", "-v", "error", "-y", *taglio, "-i", str(f), "-af", f"volume={-18 - prima:.2f}dB", "-ac", "2",
                         "-ar", str(SR), "-c:a", "libmp3lame", "-b:a", "96k", str(out / f"{nome}.mp3")], check=True)
-        print(f"{nome:14s} <- {fonte:16s} {prima:6.1f} LUFS -> -18, {(out / f'{nome}.mp3').stat().st_size // 1024} KB")
+        da = f" da {inizio} s" if inizio else ""
+        print(f"{nome:14s} <- {fonte + da:16s} {prima:6.1f} LUFS -> -18, {(out / f'{nome}.mp3').stat().st_size // 1024} KB")
 
 
 if __name__ == "__main__":
