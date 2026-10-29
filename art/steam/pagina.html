@@ -1,0 +1,248 @@
+<title>Malvento per Steam</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+  /* Layout: una pagina sola, scura come il gioco; in cima l'hero della libreria col logo sopra (come in Steam), poi le
+     capsule in una griglia con le misure, gli screenshot, e i testi da incollare in Steamworks con un tasto per copiarli. */
+  :root {
+    --notte: #0d100e;          /* il fondo */
+    --pannello: #161b17;       /* le schede */
+    --linea: #2c352d;          /* i bordi */
+    --osso: #e7e1d3;           /* il testo, come le lettere del logo */
+    --spento: #9aa394;         /* il testo secondario */
+    --malato: #a9c27a;         /* il verde malato del gioco, per i richiami */
+    --timbro: #c8483a;         /* il rosso dei timbri, per le etichette */
+    --serif: "Old Standard TT", Georgia, "Times New Roman", serif;
+    --corpo: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    color-scheme: dark;
+  }
+  body { background: var(--notte); color: var(--osso); font-family: var(--corpo); font-size: 16px; line-height: 1.55; }
+  .giro { max-width: 72rem; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 4rem; }
+  a { color: var(--malato); }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 700; text-wrap: balance; margin: 0; }
+  h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+  h3 { font-size: 1.15rem; }
+  .etichetta { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--timbro); }
+  .nota { color: var(--spento); max-width: 65ch; }
+
+  /* l'hero della libreria col logo sopra */
+  .hero { position: relative; margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))); aspect-ratio: 3840 / 1240; max-width: none; background: #000 center / cover no-repeat; border-bottom: 1px solid var(--linea); }
+  .hero img { position: absolute; left: 4%; bottom: 8%; width: min(42%, 34rem); filter: drop-shadow(0 0.4rem 1.2rem rgba(0, 0, 0, 0.8)); }
+  .testa { display: grid; gap: 0.6rem; padding-block: 2rem 1rem; }
+  .testa p { margin: 0; }
+
+  section { display: grid; gap: 1.2rem; padding-block: 2.4rem 0; border-top: 1px solid var(--linea); margin-top: 2.4rem; }
+  .griglia { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); gap: 1.4rem; align-items: start; }
+  figure { margin: 0; display: grid; gap: 0.5rem; min-width: 0; }
+  figure img { display: block; width: 100%; height: auto; border: 1px solid var(--linea); background: #000; }
+  figure.trasparente img { background: repeating-conic-gradient(#202620 0% 25%, #151a16 0% 50%) 50% / 24px 24px; }
+  figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.2rem 1rem; font-size: 0.9rem; }
+  figcaption b { font-weight: 600; }
+  .misura { font-family: var(--mono); font-size: 0.78rem; color: var(--malato); font-variant-numeric: tabular-nums; }
+  .piccole { grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); }
+  .screenshot { grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr)); }
+
+  /* i testi da copiare */
+  .lingue { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .lingue button, .copia { font: 600 0.8rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--osso); background: var(--pannello); border: 1px solid var(--linea); padding: 0.45rem 0.8rem; cursor: pointer; }
+  .lingue button[aria-pressed="true"] { background: var(--malato); color: var(--notte); border-color: var(--malato); }
+  .lingue button:focus-visible, .copia:focus-visible { outline: 2px solid var(--malato); outline-offset: 2px; }
+  .copia:hover { border-color: var(--malato); }
+  .blocco { display: grid; gap: 0.7rem; background: var(--pannello); border: 1px solid var(--linea); padding: 1.1rem 1.2rem; min-width: 0; }
+  .blocco .riga { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .testo { white-space: pre-wrap; margin: 0; max-width: 72ch; font-size: 0.98rem; }
+  .testo strong { color: var(--osso); }
+  .conta { font-family: var(--mono); font-size: 0.75rem; color: var(--spento); }
+  .tag { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+  .tag li { font: 500 0.85rem var(--corpo); padding: 0.2rem 0.6rem; border: 1px solid var(--linea); background: var(--notte); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+  th, td { text-align: left; vertical-align: top; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--linea); }
+  th { font: 600 0.72rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--spento); }
+  .tavola { overflow-x: auto; }
+  .ok { color: var(--malato); }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="giro">
+  <div class="hero" style="background-image: url('uscita/library_hero_3840x1240.png')" role="img" aria-label="L'hero della libreria di Steam col logo di Malvento sopra">
+    <img src="uscita/library_logo_1280.png" alt="">
+  </div>
+
+  <header class="testa">
+    <span class="etichetta">Il materiale per la pagina Steam · demo</span>
+    <h1 style="font-size: clamp(2rem, 5vw, 3.2rem)">Malvento</h1>
+    <p class="nota">Le immagini sono nelle misure di Steamworks e i testi sono pronti da incollare, in inglese e in italiano. Sopra, l'hero della libreria con il logo: in Steam il logo si sposta dove vuoi.</p>
+  </header>
+
+  <section aria-labelledby="t-capsule">
+    <h2 id="t-capsule">Le capsule</h2>
+    <p class="nota">Sulle capsule solo il logo e l'illustrazione, come chiede Steam: niente frasi, premi o voti. La piccola deve leggersi nelle liste, per questo è quasi solo logo.</p>
+    <div class="griglia">
+      <figure><img src="uscita/header_capsule_920x430.png" alt="Header capsule: il medico davanti a una porta, il logo sulla via" width="920" height="430" loading="lazy"><figcaption><b>Header capsule</b><span class="misura">920 × 430</span></figcaption></figure>
+      <figure><img src="uscita/main_capsule_1232x706.png" alt="Main capsule" width="1232" height="706" loading="lazy"><figcaption><b>Main capsule</b><span class="misura">1232 × 706</span></figcaption></figure>
+      <figure><img src="uscita/small_capsule_462x174.png" alt="Small capsule: il logo" width="462" height="174" loading="lazy"><figcaption><b>Small capsule</b><span class="misura">462 × 174</span></figcaption></figure>
+      <figure><img src="uscita/library_header_920x430.png" alt="Library header" width="920" height="430" loading="lazy"><figcaption><b>Library header</b><span class="misura">920 × 430</span></figcaption></figure>
+    </div>
+    <div class="griglia piccole">
+      <figure><img src="uscita/vertical_capsule_748x896.png" alt="Vertical capsule: il medico nel vicolo, il logo in alto" width="748" height="896" loading="lazy"><figcaption><b>Vertical capsule</b><span class="misura">748 × 896</span></figcaption></figure>
+      <figure><img src="uscita/library_capsule_600x900.png" alt="Library capsule" width="600" height="900" loading="lazy"><figcaption><b>Library capsule</b><span class="misura">600 × 900</span></figcaption></figure>
+      <figure class="trasparente"><img src="uscita/library_logo_1280.png" alt="Library logo trasparente" width="1280" height="586" loading="lazy"><figcaption><b>Library logo</b><span class="misura">1280 × 586 · PNG trasparente</span></figcaption></figure>
+      <figure><img src="uscita/page_background_1438x810.png" alt="Page background, scuro e tenue" width="1438" height="810" loading="lazy"><figcaption><b>Page background</b><span class="misura">1438 × 810 · facoltativo</span></figcaption></figure>
+      <figure><img src="uscita/icona_256.png" alt="L'icona: la maschera del logo" width="256" height="256" loading="lazy"><figcaption><b>Icona</b><span class="misura">184 · 256 · 512 · .ico</span></figcaption></figure>
+    </div>
+    <p class="nota">L'hero della libreria (3840 × 1240, PNG) è l'immagine in cima a questa pagina, senza logo.</p>
+  </section>
+
+  <section aria-labelledby="t-screenshot" id="screenshot">
+    <h2 id="t-screenshot">Gli screenshot</h2>
+    <p class="nota" id="screenshot-nota">A 1920 × 1080, presi dal gioco in inglese.</p>
+    <div class="griglia screenshot" id="screenshot-griglia"></div>
+  </section>
+
+  <section aria-labelledby="t-testi">
+    <h2 id="t-testi">I testi</h2>
+    <div class="lingue" role="group" aria-label="Lingua dei testi">
+      <button type="button" id="l-en" data-lingua="en" aria-pressed="true">English</button>
+      <button type="button" id="l-it" data-lingua="it" aria-pressed="false">Italiano</button>
+    </div>
+    <div class="blocco">
+      <div class="riga"><h3>Descrizione breve</h3><span class="conta" id="conta-breve"></span><button type="button" class="copia" data-copia="breve">Copia</button></div>
+      <p class="testo" id="breve"></p>
+    </div>
+    <div class="blocco">
+      <div class="riga"><h3>About This Game</h3><button type="button" class="copia" data-copia="lunga">Copia</button></div>
+      <p class="testo" id="lunga"></p>
+    </div>
+    <div class="blocco">
+      <div class="riga"><h3>Tag</h3><button type="button" class="copia" data-copia="tag">Copia</button></div>
+      <ul class="tag" id="tag-lista"></ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-ai">
+    <h2 id="t-ai">I contenuti fatti con l'AI</h2>
+    <p class="nota">Steamworks lo chiede nel questionario dei contenuti («AI Generated Content»). Si scrive in inglese.</p>
+    <div class="blocco">
+      <div class="riga"><h3>Pre-generated content</h3><button type="button" class="copia" data-copia="ai1">Copia</button></div>
+      <p class="testo" id="ai1">The 2D scenes, the characters, their expressions and close-ups, and the newspaper photos were generated with AI image models (OpenAI GPT Image 2 and Google Nano Banana Pro, through fal.ai) from the developer's descriptions and reference sheets, then edited, combined and color-graded by the developer. Some 3D furniture and props were generated with Meshy and then edited; the rest of the doctor's room uses CC0 models and materials from Poly Haven. The music was generated with ElevenLabs Music and Stable Audio, the sound effects with ElevenLabs Sound Effects. The game's texts were written with the help of an AI assistant, under the developer's direction, and edited. The logo and store art were generated with AI image models and edited by the developer.</p>
+    </div>
+    <div class="blocco">
+      <div class="riga"><h3>Live-generated content</h3><button type="button" class="copia" data-copia="ai2">Copia</button></div>
+      <p class="testo" id="ai2">None: the game does not generate anything with AI while it runs.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-req">
+    <h2 id="t-req">Lingue, contenuti, requisiti</h2>
+    <div class="tavola">
+      <table>
+        <thead><tr><th scope="col">Voce</th><th scope="col">Cosa scrivere</th></tr></thead>
+        <tbody>
+          <tr><td>Lingue</td><td>Italiano e inglese: interfaccia e sottotitoli. Niente doppiaggio: i dialoghi sono scritti.</td></tr>
+          <tr><td>Violenza e sangue</td><td>Sì, non realistici e non frequenti: malati, sangue tossito, trasformazioni in mostri.</td></tr>
+          <tr><td>Contenuti per adulti</td><td>Sì: malattia, morte, orrore del corpo, temi disturbanti. Età consigliata 16+.</td></tr>
+          <tr><td>Nudità e sesso</td><td>No.</td></tr>
+          <tr><td>Requisiti minimi</td><td>Windows 10 a 64 bit, processore dual core da 2 GHz, 4 GB di RAM, scheda video DirectX 11 / WebGL 2 (Intel HD 620 o meglio), 1 GB di spazio.</td></tr>
+          <tr><td>Consigliati</td><td>Windows 10/11 a 64 bit, 8 GB di RAM, GeForce GTX 1050 o Radeon RX 560 o meglio.</td></tr>
+          <tr><td>Comandi</td><td>Mouse e tastiera, oppure il controller.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">I file sono nel repository, in <code>art/steam/uscita</code>; si rifanno con <code>python3 tools/steam.py</code>. Le misure vengono dalla <a href="https://partner.steamgames.com/doc/store/assets" target="_blank" rel="noopener">pagina Graphical Assets di Steamworks</a>.</p>
+  </section>
+</div>
+
+<script>
+  const TESTI = {
+    en: {
+      breve: "The plague is back, and you are the doctor the Company sent. Visit the poor houses of Malvento, examine the sick through the camera in your mask, catch the families who hide their own, and decide who goes to the lazaretto. Nobody dies here. They change.",
+      lunga: `Malvento, today. Twenty-three poor houses at the end of a mountain road. Wood stoves, cold radiators, holy cards on the walls. The plague has come back, and Panacea, the pharmaceutical company in charge, has sent a doctor: you.
+
+Every morning the fax brings the protocol: the houses to visit, the signs to look for, how much the Company pays for each patient you hand over. Then you put on the beak mask, with a 1990s camcorder where one eye should be, and you knock.
+
+• Examine. Point your cane at eyes, neck, armpits and hands. Fever, buboes, black fingers. But the protocol can be wrong, and sometimes on purpose.
+• Question and contradict. What people say ends up on the statement tape. Drag it onto whatever proves it false: a fourth plate on the table, a heat behind a locked door, a scar on a neck.
+• Watch the tapes. At night you review what you recorded, in infrared. The living are warm. Not everything in these houses is warm.
+• Sign the family register. Stamp your diagnosis, write down what you learned, send the sick to the lazaretto. The Company reads every word you write.
+• Take someone home. Each night one healthy person can sleep in your spare room. In the morning, there's a tape of the night.
+• Nobody dies. They change. Day after day the disease moves forward, and those who reach the end become something else, each in their own way.
+
+Four hidden threads run through the village: what the Company is really doing in its compound, the one who never gets sick, what Malvento buried in 1630, and who you really are.
+
+The demo: three days, six houses, fifteen endings, some of them hard to find.`,
+      tag: ["Horror", "Psychological Horror", "Investigation", "Mystery", "Story Rich", "Choices Matter", "Multiple Endings", "Atmospheric", "Dark", "Lovecraftian", "Detective", "Point & Click", "First-Person", "Retro", "Narrative", "Singleplayer", "Indie", "Medical Sim", "Cosmic Horror", "Simulation"],
+    },
+    it: {
+      breve: "La peste è tornata, e tu sei il medico mandato dalla ditta. Visita le case povere di Malvento, esamina i malati con la videocamera nella maschera, scopri le famiglie che nascondono i loro e decidi chi va al lazzaretto. Qui nessuno muore. Cambia.",
+      lunga: `Malvento, oggi. Ventitré case povere in fondo a una strada di montagna. Stufe a legna, termosifoni spenti, santini alle pareti. La peste è tornata, e la Panacea, la ditta farmaceutica che se ne occupa, ha mandato un medico: te.
+
+Ogni mattina il fax porta il protocollo: le case da visitare, i segni da cercare, quanto paga la ditta per ogni paziente che le consegni. Poi indossi la maschera a becco, con una videocamera anni '90 al posto di un occhio, e bussi.
+
+• Esamina. Punta il bastone su occhi, collo, ascelle e mani. Febbre, bubboni, dita nere. Ma il protocollo può sbagliare, e a volte apposta.
+• Domanda e contesta. Quello che dice la gente finisce sul nastro delle frasi. Trascinalo su quello che lo smentisce: un quarto piatto in tavola, un calore dietro una porta chiusa, una cicatrice sul collo.
+• Riguarda i nastri. La sera rivedi quello che hai ripreso, all'infrarosso. I vivi sono caldi. Non tutto, in queste case, è caldo.
+• Firma lo stato di famiglia. Timbra la diagnosi, scrivi quello che hai scoperto, manda i malati al lazzaretto. La ditta legge ogni parola che scrivi.
+• Porta qualcuno a casa. Ogni notte una persona sana può dormire nella tua stanzetta. La mattina c'è il nastro della notte.
+• Nessuno muore. Cambia. Giorno dopo giorno la malattia va avanti, e chi arriva in fondo diventa un'altra cosa, ognuno a modo suo.
+
+Nel paese corrono quattro tracce nascoste: cosa fa davvero la ditta nel suo recinto, chi non si ammala mai, cosa ha sepolto Malvento nel 1630, e chi sei tu.
+
+La demo: tre giorni, sei case, quindici finali, alcuni difficili da trovare.`,
+      tag: ["Horror", "Psychological Horror", "Investigation", "Mystery", "Story Rich", "Choices Matter", "Multiple Endings", "Atmospheric", "Dark", "Lovecraftian", "Detective", "Point & Click", "First-Person", "Retro", "Narrative", "Singleplayer", "Indie", "Medical Sim", "Cosmic Horror", "Simulation"],
+    },
+  };
+  // gli screenshot pubblicati con la pagina (in inglese)
+  const FOTO = [
+    ["en_01_titolo.png", "Il titolo"], ["en_02_stanza.png", "La stanza del medico"], ["en_03_domande.png", "Le domande a raggiera"],
+    ["en_04_risposta.png", "Le frasi addosso a chi parla"], ["en_05_contraddizione.png", "La frase smentita"], ["en_06_esame.png", "L'esame"],
+    ["en_07_stato_di_famiglia.png", "Lo stato di famiglia"], ["en_08_infrarosso.png", "Il nastro all'infrarosso"], ["en_09_notte.png", "La notte sulla mappa"],
+    ["en_10_giornale.png", "Il giornale"], ["en_11_cripta.png", "La cripta"],
+  ];
+  let lingua = "en";
+  const $ = (id) => document.getElementById(id);
+  function mostra() {
+    const t = TESTI[lingua];
+    $("breve").textContent = t.breve;
+    $("conta-breve").textContent = `${t.breve.length} su 300 caratteri`;
+    $("lunga").textContent = t.lunga;
+    $("tag-lista").replaceChildren(...t.tag.map((x) => Object.assign(document.createElement("li"), { textContent: x })));
+    for (const b of document.querySelectorAll(".lingue button")) b.setAttribute("aria-pressed", b.dataset.lingua === lingua ? "true" : "false");
+  }
+  for (const b of document.querySelectorAll(".lingue button")) b.addEventListener("click", () => { lingua = b.dataset.lingua; mostra(); });
+  const contenuto = { breve: () => TESTI[lingua].breve, lunga: () => TESTI[lingua].lunga, tag: () => TESTI[lingua].tag.join(", "), ai1: () => $("ai1").textContent, ai2: () => $("ai2").textContent };
+  for (const b of document.querySelectorAll(".copia")) {
+    b.addEventListener("click", () => {
+      const testo = contenuto[b.dataset.copia]();
+      const fatto = () => { b.textContent = "Copiato"; setTimeout(() => { b.textContent = "Copia"; }, 1600); };
+      const seleziona = () => {
+        const id = b.dataset.copia === "tag" ? "tag-lista" : b.dataset.copia;
+        const r = document.createRange();
+        r.selectNodeContents($(id));
+        const s = getSelection();
+        s.removeAllRanges();
+        s.addRange(r);
+        b.textContent = "Selezionato: Ctrl+C";
+        setTimeout(() => { b.textContent = "Copia"; }, 2400);
+      };
+      try { navigator.clipboard.writeText(testo).then(fatto, seleziona); } catch { seleziona(); }
+    });
+  }
+  const griglia = $("screenshot-griglia");
+  for (const [f, nome] of FOTO) {
+    const fig = document.createElement("figure");
+    const img = new Image(1920, 1080);
+    img.loading = "lazy";
+    img.alt = nome;
+    img.src = `screenshot/${f}`;
+    img.onerror = () => fig.remove();
+    const cap = document.createElement("figcaption");
+    cap.innerHTML = `<b></b><span class="misura">1920 × 1080</span>`;
+    cap.querySelector("b").textContent = nome;
+    fig.append(img, cap);
+    griglia.append(fig);
+  }
+  mostra();
+</script>
