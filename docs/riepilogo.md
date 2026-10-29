@@ -491,6 +491,10 @@ Chiesto dall'utente: «Ti vorrei chiedere anche di applicare uno shader alla sta
   2. **L'abisso**: la stanza come sott'acqua (Dagon, Innsmouth). La nebbia blu fitta si mangia gli angoli, le caustiche dell'acqua ballano su soffitto, muri e pavimento, la neve del mare sale piano e lo schermo ondeggia appena.
   3. **Il colore venuto dallo spazio**: nell'aria galleggiano banchi di un colore che fa luce da sé, magenta, viola e ciano, che si accendono e si spengono piano; l'aria cambia colore, la polvere luccica e i colori si separano ai bordi dello schermo.
   4. **R'lyeh**: la nebbia scura e fitta inghiotte i muri lontani, dal pavimento sale una luce viola che respira, lo schermo si piega piano come se la stanza non avesse gli angoli giusti, e dai bordi entrano sette tentacoli neri, curvi, che si assottigliano verso la punta, ondeggiano e avanzano e si ritirano.
+- **R'lyeh al 50%** (29 ottobre, sera: «mi fai vedere R'lyeh senza tentacoli e attenuata del 50%?»), solo in foto.
+  - È la proposta senza tentacoli, con metà nebbia (densità 0,15 e strato 0,3), metà luce dal pavimento (0,35), metà filtro viola (0,45) e metà schermo che si piega (0,003).
+  - Le foto sono in `art/stanza_hq/nebbie`: `rlyeh50.jpg`, e i confronti con la proposta intera e con la stanza di adesso (`rlyeh50_confronto_sera.jpg`, `rlyeh50_confronto_mattina.jpg`).
+  - Nel gioco non è cambiato niente: la sera resta R'lyeh tenue, che ha la stessa nebbia ma più strato basso, più luce dal pavimento e più filtro. Da decidere.
 - Le foto a confronto (mattina e sera, verso la finestra e verso la porta) sono in `art/stanza_hq/nebbie` e sono state mandate all'utente; si rifanno con `tools/prove/prova_nebbie.js`. Dopo le prime foto la nebbia viola era un velo uniforme e rosato: ora è più fitta in basso, coi raggi che si vedono di più guardando verso la finestra, l'alone della lampadina la sera e il filtro freddo; i banchi del colore fanno luce da sé anche dove la nebbia è rada; i tentacoli, che all'inizio erano righe dritte come in un fumetto, sono diventati braccia curve (poi tolti: la sera R'lyeh è senza).
 
 ### Scartato
