@@ -1,0 +1,46 @@
+{
+  "illustrazione_larga": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Key art for the Steam store page of a narrative horror video game, no text, no letters, no logo anywhere. The first reference image is the approved design sheet of the plague doctor's mask and cane: an old dark leather beak mask with a brass goggle and a grey 1990s camcorder lens in place of the other eye, with a small red recording light, and a black cane whose tip is a metal sensor probe; the doctor must wear exactly this mask. The doctor wears a long dark waxed coat and a wide-brimmed hat; his face is never visible, only the mask. The setting is Malvento, a poor, remote mountain village of today: peeling wooden and plaster houses, crooked power lines, a white bell tower, plastic chairs, a rusty car. Dusk turning to night, a cold sickly green light and a low livid violet fog, a single warm window, the floodlights of a fenced corporate compound glowing far away in the valley. Painterly but realistic, cinematic, high contrast, deep shadows, subtle film grain, like premium horror key art. Wide composition: the doctor stands at the right third of the image, in three-quarter view, in front of the half-open door of a poor house, the camcorder light glowing red; the left half of the image is a dark, quiet, foggy village street with empty space for a logo.",
+      "image_urls": [
+        "@file:../medico/maschera.jpg"
+      ],
+      "image_size": {
+        "width": 2560,
+        "height": 1440
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "illustrazione_larga.png"
+    ],
+    "seed": null,
+    "secondi": 90,
+    "descrizione": null
+  },
+  "illustrazione_alta": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Key art for the Steam store page of a narrative horror video game, no text, no letters, no logo anywhere. The first reference image is the approved design sheet of the plague doctor's mask and cane: an old dark leather beak mask with a brass goggle and a grey 1990s camcorder lens in place of the other eye, with a small red recording light, and a black cane whose tip is a metal sensor probe; the doctor must wear exactly this mask. The doctor wears a long dark waxed coat and a wide-brimmed hat; his face is never visible, only the mask. The setting is Malvento, a poor, remote mountain village of today: peeling wooden and plaster houses, crooked power lines, a white bell tower, plastic chairs, a rusty car. Dusk turning to night, a cold sickly green light and a low livid violet fog, a single warm window, the floodlights of a fenced corporate compound glowing far away in the valley. Painterly but realistic, cinematic, high contrast, deep shadows, subtle film grain, like premium horror key art. Vertical composition: the doctor stands in the lower middle of the image, seen from slightly below, in the middle of a narrow foggy alley between poor houses, the bell tower behind him; the upper third of the image is dark sky and fog with empty space for a logo.",
+      "image_urls": [
+        "@file:../medico/maschera.jpg"
+      ],
+      "image_size": {
+        "width": 1536,
+        "height": 2048
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "illustrazione_alta.png"
+    ],
+    "seed": null,
+    "secondi": 100,
+    "descrizione": null
+  }
+}

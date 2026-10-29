@@ -108,7 +108,7 @@ const { chromium } = require('playwright');
     await page.waitForTimeout(700);
   };
   const concludi = async (prima) => {
-    await premi('Concludi'); await page.waitForTimeout(800);
+    await premi('Concludi la visita'); await page.waitForTimeout(800);
     if (prima) await prima();
     await page.locator('.sf-bottone-firma').click(); await page.waitForTimeout(1800);
     await page.evaluate(() => { const f = document.querySelector('#foglio'); f.dataset.bloccato = '0'; f.hidden = true; });
@@ -131,7 +131,7 @@ const { chromium } = require('playwright');
     }
     await page.waitForTimeout(2500); await shot(`notte${n}`);
     log.push(`notte ${n}: ` + await page.evaluate(() => document.querySelector('#foglio-corpo').innerText.replace(/\s+/g, ' ').slice(0, 400)));
-    await page.locator('#foglio button', { hasText: L('giornale') }).click(); await page.waitForTimeout(2000); await shot(`giornale${n + 1}`);
+    await page.locator('#foglio button', { hasText: L('Il giornale del mattino') }).click(); await page.waitForTimeout(2000); await shot(`giornale${n + 1}`);
     log.push(`giornale ${n + 1}: ` + await page.evaluate(() => document.querySelector('.gio-titolo')?.textContent));
     await page.locator('#foglio button', { hasText: L(dopo) }).click(); await page.waitForTimeout(1500);
   };
@@ -163,11 +163,11 @@ const { chromium } = require('playwright');
   await step('sera1', async () => {
     await page.evaluate(() => window.prova.sera()); await page.waitForTimeout(1500); await skip();
     await page.evaluate(() => window.prova.apriNastri()); await page.waitForTimeout(800);
-    await page.locator('#foglio button', { hasText: L('NASTRO 7') }).click(); await page.waitForTimeout(1000);
+    await page.locator('#foglio button', { hasText: L('NASTRO 7 · NON CANCELLARE') }).click(); await page.waitForTimeout(1000);
     for (let i = 0; i < 60 && await page.evaluate(() => window.prova.S.schermo === 'nastro'); i++) { await page.keyboard.press(' '); await page.waitForTimeout(300); }
     log.push('nastro 7: ' + await page.evaluate(() => JSON.stringify(window.prova.S.tracce)));
   });
-  await step('notte1', async () => { await notte(1, 'secondo giorno'); await aspetta('stanza'); await page.waitForTimeout(1200); await skip(); });
+  await step('notte1', async () => { await notte(1, 'Il secondo giorno'); await aspetta('stanza'); await page.waitForTimeout(1200); await skip(); });
   await step('salvato2', async () => { log.push('salvataggio: ' + await page.evaluate(() => window.prova.leggiSalvataggio()?.S.giorno)); });
 
   // ---------- il secondo giorno ----------
@@ -196,7 +196,7 @@ const { chromium } = require('playwright');
   });
   await step('notte2', async () => {
     await page.evaluate(() => window.prova.sera()); await page.waitForTimeout(1500); await skip();
-    await notte(2, 'terzo giorno'); await aspetta('stanza'); await page.waitForTimeout(1200); await skip();
+    await notte(2, 'Il terzo giorno'); await aspetta('stanza'); await page.waitForTimeout(1200); await skip();
   });
   await step('salvato3', async () => { log.push('salvataggio: ' + await page.evaluate(() => window.prova.leggiSalvataggio()?.S.giorno)); });
 
@@ -218,7 +218,7 @@ const { chromium } = require('playwright');
   });
   await step('notte3', async () => {
     await page.evaluate(() => window.prova.sera()); await page.waitForTimeout(1500); await skip();
-    await notte(3, 'quarta mattina'); await page.waitForTimeout(2500);
+    await notte(3, 'La quarta mattina'); await page.waitForTimeout(2500);
   });
   await step('finale', async () => {
     log.push('finale: ' + await page.evaluate(() => { const f = window.prova.R().finale; return JSON.stringify({ id: f.id, tracce: f.tracce, prese: f.prese.length, consegnati: f.consegnati.map((p) => p.id), cambiati: f.cambiati }); }));
