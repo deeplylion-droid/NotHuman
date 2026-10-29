@@ -525,5 +525,70 @@
     "seed": 2113624192,
     "secondi": 14,
     "descrizione": null
+  },
+  "visita_r": {
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Slow sad string quartet underscore in D minor, 58 BPM, long mournful phrases that never resolve, eerie harmonics and sul ponticello textures, a low cello drone, melancholic, intimate and quietly menacing, dreamy, no drums, no vocals",
+      "seconds_total": 120
+    },
+    "file": [
+      "visita_r.wav"
+    ],
+    "seed": 229952706,
+    "secondi": 13,
+    "descrizione": null
+  },
+  "visita_o": {
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Slow folk horror ambient for a poor mountain village, D minor, an out-of-tune fingerpicked acoustic guitar, a wheezing harmonium, a hurdy-gurdy drone, a detuned violin playing a sad old melody, rain on the window, rustic, melancholic and eerie, no drums, no vocals",
+      "seconds_total": 120
+    },
+    "file": [
+      "visita_o.wav"
+    ],
+    "seed": 141235363,
+    "secondi": 19,
+    "descrizione": null
+  },
+  "visita_p": {
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Slow sad waltz in 3/4, D minor, a tired out-of-tune accordion and a toy piano, a bowed saw singing a wobbly melody, warped tape, melancholic, dreamy and uneasy, like an old dance in a forgotten village heard from far away, no drums, no vocals",
+      "seconds_total": 120
+    },
+    "file": [
+      "visita_p.wav"
+    ],
+    "seed": 1764699988,
+    "secondi": 20,
+    "descrizione": null
+  },
+  "visita_q": {
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Minimal unsettling underscore, prepared piano with muted thumping notes and buzzing strings, a slow ticking clock, glass harmonica tones, soft sub pulse, long silences, melancholic and dreamy, strange and intimate, D minor, slow, no drums, no vocals",
+      "seconds_total": 120
+    },
+    "file": [
+      "visita_q.wav"
+    ],
+    "seed": 274177780,
+    "secondi": 28,
+    "descrizione": null
+  },
+  "visita_n": {
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Slow dreamy dark jazz noir underscore in D minor, 60 BPM, mellow electric piano chords drenched in reverb, soft vibraphone, a slow walking upright bass, very light brushed snare, smoky and melancholic, uneasy and mysterious, a small-town secret, warm tape saturation, no vocals",
+      "seconds_total": 120
+    },
+    "file": [
+      "visita_n.wav"
+    ],
+    "seed": 1611744610,
+    "secondi": 29,
+    "descrizione": null
   }
 }
