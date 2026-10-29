@@ -1,0 +1,112 @@
+{
+  "logo_d_anni90": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Video game logo for a narrative horror game about a plague doctor in a poor, remote village of today. The wordmark must read exactly MALVENTO, in capital letters, spelled M-A-L-V-E-N-T-O, perfectly legible, with no other words or letters anywhere. The first reference image is the approved design sheet of the doctor's mask: an old dark leather beak mask with a brass goggle and a grey 1990s camcorder lens in place of the other eye, with a small red recording light; when the mask appears, it must be this mask. Centered composition with generous empty margins, on a plain, pure black background (#000000) with nothing else behind the logo, crisp clean edges, high-end key art quality like the logo of a modern indie horror game on Steam. A 1990s horror movie title wordmark: bold, slightly condensed capitals with a scratched dark metal and plastic sheen like the case of an old camcorder, a thin sickly green outline, and a small red recording dot with the camcorder eye of the mask above the letter O. Retro-futuristic, corporate and cold.",
+      "image_urls": [
+        "@file:../medico/maschera.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1088
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "logo_d_anni90.png"
+    ],
+    "seed": null,
+    "secondi": 58,
+    "descrizione": null
+  },
+  "logo_a_becco": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Video game logo for a narrative horror game about a plague doctor in a poor, remote village of today. The wordmark must read exactly MALVENTO, in capital letters, spelled M-A-L-V-E-N-T-O, perfectly legible, with no other words or letters anywhere. The first reference image is the approved design sheet of the doctor's mask: an old dark leather beak mask with a brass goggle and a grey 1990s camcorder lens in place of the other eye, with a small red recording light; when the mask appears, it must be this mask. Centered composition with generous empty margins, on a plain, pure black background (#000000) with nothing else behind the logo, crisp clean edges, high-end key art quality like the logo of a modern indie horror game on Steam. The letter V of MALVENTO is the silhouette of the beak mask seen from the front, the long beak pointing down to form the V, with the camcorder eye and its tiny red light. The other letters are a tall, condensed, weathered serif carved like old stone, bone white with hairline cracks, and a faint sickly green glow behind them.",
+      "image_urls": [
+        "@file:../medico/maschera.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1088
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "logo_a_becco.png"
+    ],
+    "seed": null,
+    "secondi": 58,
+    "descrizione": null
+  },
+  "logo_b_timbro": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Video game logo for a narrative horror game about a plague doctor in a poor, remote village of today. The wordmark must read exactly MALVENTO, in capital letters, spelled M-A-L-V-E-N-T-O, perfectly legible, with no other words or letters anywhere. The first reference image is the approved design sheet of the doctor's mask: an old dark leather beak mask with a brass goggle and a grey 1990s camcorder lens in place of the other eye, with a small red recording light; when the mask appears, it must be this mask. Centered composition with generous empty margins, on a plain, pure black background (#000000) with nothing else behind the logo, crisp clean edges, high-end key art quality like the logo of a modern indie horror game on Steam. The wordmark is a heavy slab-serif rubber stamp, like the stamp of a corporate health office on a family register: uneven sickly green-black ink, bleeding edges, worn patches where the stamp did not touch the paper, slightly rotated. A small plague doctor beak mask in profile is part of the stamp, at the left of the word, in the same ink.",
+      "image_urls": [
+        "@file:../medico/maschera.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1088
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "logo_b_timbro.png"
+    ],
+    "seed": null,
+    "secondi": 58,
+    "descrizione": null
+  },
+  "logo_e_1630": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Video game logo for a narrative horror game about a plague doctor in a poor, remote village of today. The wordmark must read exactly MALVENTO, in capital letters, spelled M-A-L-V-E-N-T-O, perfectly legible, with no other words or letters anywhere. The first reference image is the approved design sheet of the doctor's mask: an old dark leather beak mask with a brass goggle and a grey 1990s camcorder lens in place of the other eye, with a small red recording light; when the mask appears, it must be this mask. Centered composition with generous empty margins, on a plain, pure black background (#000000) with nothing else behind the logo, crisp clean edges, high-end key art quality like the logo of a modern indie horror game on Steam. An old engraving from 1630, like a woodcut print of a plague doctor: the beak mask, drawn in fine black engraved lines with crosshatching, sits above the wordmark; the wordmark is in a classical engraved roman capital, black ink with a faint dried-blood red shadow. Ink only, no paper texture behind it.",
+      "image_urls": [
+        "@file:../medico/maschera.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1088
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "logo_e_1630.png"
+    ],
+    "seed": null,
+    "secondi": 58,
+    "descrizione": null
+  },
+  "logo_c_vento": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Video game logo for a narrative horror game about a plague doctor in a poor, remote village of today. The wordmark must read exactly MALVENTO, in capital letters, spelled M-A-L-V-E-N-T-O, perfectly legible, with no other words or letters anywhere. The first reference image is the approved design sheet of the doctor's mask: an old dark leather beak mask with a brass goggle and a grey 1990s camcorder lens in place of the other eye, with a small red recording light; when the mask appears, it must be this mask. Centered composition with generous empty margins, on a plain, pure black background (#000000) with nothing else behind the logo, crisp clean edges, high-end key art quality like the logo of a modern indie horror game on Steam. An elegant, thin, high-contrast serif wordmark in pale grey-white, with wisps of fog and wind flowing through and around the letters from left to right, as if breathed out by the beak mask, which is shown small in profile at the left. The fog is a livid violet and sickly green, subtle and lovecraftian, never covering the letters.",
+      "image_urls": [
+        "@file:../medico/maschera.jpg"
+      ],
+      "image_size": {
+        "width": 1920,
+        "height": 1088
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "logo_c_vento.png"
+    ],
+    "seed": null,
+    "secondi": 66,
+    "descrizione": null
+  }
+}

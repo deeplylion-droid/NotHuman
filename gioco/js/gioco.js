@@ -714,7 +714,7 @@ function fotogramma(v) {
     const volto = v.volto && ESPRESSIONI[D.PERSONE[d.chi]?.luogo]?.[d.chi]?.volti.includes(v.volto) ? `_${v.volto}` : "";
     const src = visita ? ritratto(d.chi, v.volto) : url(`img/volti/${fotoVolto(d.chi)}${volto}.jpg`);
     return { id: v.id, tipo: "detta", foto: src ? { src } : null, testo: d.testo,
-      meta: D.PERSONE[d.chi]?.voce || "", icona: icona("fumetto") };
+      meta: D.PERSONE[d.chi]?.voce ? T(D.PERSONE[d.chi].voce) : "", icona: icona("fumetto") };
   }
   const P = D.PROVE[k];
   let foto = null;
@@ -1679,7 +1679,7 @@ function apriDomande(persona, x, y) {
   // giorno ognuno cambia a modo suo: il padre scricchiola, la moglie del sacrestano canta a bocca chiusa)
   const P = D.PERSONE[persona];
   if (!voci.length) voci.push({ testo: P.muto || (P.stato === "mostro" ? T("ringhia, non risponde più") : T("nient'altro da chiedere")), disattiva: true });
-  ruota.apri(x, y, voci, maiuscolo(D.PERSONE[persona].voce), 0.8);
+  ruota.apri(x, y, voci, maiuscolo(T(D.PERSONE[persona].voce)), 0.8);
 }
 
 async function chiedi(persona, q, x, y) {
@@ -3511,7 +3511,8 @@ function titolo() {
   if (ELECTRON) menu.append(voce(T("Esci"), () => window.close()));
   foglio.dataset.bloccato = "1";
   const visti = finaliTrovati().size;
-  apriFoglio("titolo", [el("h1", "ti-nome", T("Il medico della peste")), el("p", "ti-sotto", T("Malvento · tre giorni · demo")), menu,
+  // il nome del gioco (29 ottobre: «va bene malvento») resta uguale in tutte le lingue
+  apriFoglio("titolo", [el("h1", "ti-nome", "Malvento"), el("p", "ti-sotto", T("Il medico della peste · tre giorni · demo")), menu,
     ...(visti ? [el("p", "ti-finali", T`Finali trovati: ${visti} su ${Object.keys(FINALI).length}`)] : []),
     el("p", "ti-nota", T`Il mouse gira lo sguardo, clic o E per usare, Esc libera il puntatore. Col controller: levette e A.${ELECTRON ? T(" F11 o Alt+Invio: schermo intero.") : ""}`)]);
   // il tema del titolo (29 ottobre, sera). Il browser lascia suonare solo dopo un tasto o un clic: finche' l'audio non

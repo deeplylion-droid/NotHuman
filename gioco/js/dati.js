@@ -30,7 +30,8 @@ export const VOCI = Object.fromEntries(Object.entries(PERSONE).map(([id, p]) => 
 // chi non si puo' vedere oggi: il ragazzo chiuso dietro la porta della casa 5
 export const NASCOSTI = { casa5: [{ nome: T("il ragazzo dietro la porta"), stato: "grave" }] };
 
-export const PARTI = { occhi: "occhi", bocca: "bocca", collo: "collo", ascelle: "ascelle", mani: "mani" };
+// i nomi delle parti si leggono (la sagoma dello stato di famiglia, le didascalie): le chiavi sono i nomi nel codice
+export const PARTI = { occhi: T("occhi"), bocca: T("bocca"), collo: T("collo"), ascelle: T("ascelle"), mani: T("mani") };
 
 // le scene: immagine, mappa dei personaggi (un grigio per persona), maschere per evidenziarli, mappa di
 // calore per l'infrarosso, zone delle parti del corpo [cx, cy, rx, ry] e zone della stanza [x0, y0, x1, y1].

@@ -1,4 +1,4 @@
-// NotHuman come programma per Windows (27 ottobre: "il gioco uscira' su Steam, provalo come eseguibile"). Electron e'
+// Malvento come programma per Windows (27 ottobre: "il gioco uscira' su Steam, provalo come eseguibile"). Electron e'
 // Chromium con la scheda video del computer: la stessa pagina del browser, a tutto schermo, senza il visualizzatore
 // degli Artifact attorno. Apre il gioco (pagina/, la prepara prepara.mjs).
 // I file si servono dal protocollo gioco:// (con file:// il browser non lascia caricare i moduli e i modelli).
@@ -25,7 +25,7 @@ app.whenReady().then(() => {
     width: 1600,
     height: 900,
     backgroundColor: "#000000",
-    title: "NotHuman",
+    title: "Malvento",
     autoHideMenuBar: true,
     webPreferences: { backgroundThrottling: false },
   });
@@ -36,7 +36,7 @@ app.whenReady().then(() => {
   finestra.webContents.on("before-input-event", (e, tasto) => {
     if (tasto.type === "keyDown" && tasto.key === "F12") finestra.webContents.toggleDevTools();
   });
-  finestra.loadURL("gioco://nothuman/index.html");
+  finestra.loadURL("gioco://malvento/index.html");
 });
 
 app.on("window-all-closed", () => app.quit());

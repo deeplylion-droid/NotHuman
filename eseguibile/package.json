@@ -1,14 +1,14 @@
 {
-  "name": "nothuman",
-  "productName": "NotHuman",
+  "name": "malvento",
+  "productName": "Malvento",
   "version": "0.1.0",
-  "description": "NotHuman come programma per Windows",
+  "description": "Malvento come programma per Windows",
   "private": true,
   "main": "main.js",
   "scripts": {
     "prepara": "node prepara.mjs",
     "prova": "node prepara.mjs && electron .",
-    "windows": "node prepara.mjs && electron-packager . NotHuman --platform=win32 --arch=x64 --out=dist --overwrite --asar --ignore=^/dist --ignore=^/prepara\\.mjs"
+    "windows": "node prepara.mjs && electron-packager . Malvento --platform=win32 --arch=x64 --out=dist --overwrite --asar --ignore=^/dist --ignore=^/prepara\\.mjs"
   },
   "devDependencies": {
     "@electron/packager": "20.3.0",
