@@ -3659,8 +3659,32 @@ async function avvia(dati) {
   });
 }
 
+// per le prove automatiche: dove cliccare, nella scena di adesso, una zona o una parte del corpo (il centro), e una
+// persona fuori dalle parti del corpo (per aprirle le domande): il punto piu' vicino al centro della sua sagoma
+function dove(cosa, parte) {
+  const L = D.LUOGHI[S.luogo];
+  if (parte) return L.parti?.[cosa]?.[parte]?.[0]?.slice(0, 2) || null;
+  const z = L.zone.find((q) => q.id === cosa);
+  return z ? [(z.box[0] + z.box[2]) / 2, (z.box[1] + z.box[3]) / 2] : null;
+}
+
+function dovePersona(persona) {
+  const m = ID[S.luogo];
+  const i = D.LUOGHI[S.luogo].persone.indexOf(persona) + 1;
+  if (!m || !i) return null;
+  const punti = [];
+  for (let y = 2; y < m.h; y += 4) for (let x = 2; x < m.w; x += 4) {
+    if (Math.round(m.data[(y * m.w + x) * 4] / 40) !== i) continue;
+    const c = colpisci((x + 0.5) / m.w, (y + 0.5) / m.h);
+    if (c?.persona === persona && !c.parte) punti.push([(x + 0.5) / m.w, (y + 0.5) / m.h]);
+  }
+  if (!punti.length) return null;
+  const cx = punti.reduce((t, q) => t + q[0], 0) / punti.length, cy = punti.reduce((t, q) => t + q[1], 0) / punti.length;
+  return punti.reduce((a, q) => (Math.hypot(q[0] - cx, q[1] - cy) < Math.hypot(a[0] - cx, a[1] - cy) ? q : a));
+}
+
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash.startsWith("#prova")) window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, iniziaGiorno3, saltaAlGiorno3, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, quartaMattina, calcolaFinale, apriFinale, titolo, riprendi, leggiSalvataggio, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
+if (location.hash.startsWith("#prova")) window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, iniziaGiorno3, saltaAlGiorno3, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, quartaMattina, calcolaFinale, apriFinale, titolo, riprendi, leggiSalvataggio, dove, dovePersona, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);
