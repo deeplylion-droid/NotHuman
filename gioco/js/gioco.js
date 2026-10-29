@@ -863,7 +863,7 @@ function vaiStanza(dove = "inizio") {
 function aiutoStanza() {
   const come = tocco() ? "Trascina per guardarti attorno, tocca dove andare o cosa usare."
     : stanza.senzaBlocco ? "Trascina per guardarti attorno, clicca dove andare o cosa usare. Si cammina con WASD."
-      : "Clicca per guardarti attorno col mouse. WASD per camminare, clic o E per usare. Esc libera il mouse.";
+      : "Clicca per guardarti attorno col mouse. WASD per camminare, clic o E per usare. Esc libera il mouse. N le prove della nebbia, M mattina o sera.";
   aiuto(S.fase === "sera" ? `Sera: i nastri sono nel videoregistratore, poi a letto. ${come}` : come);
 }
 
@@ -3758,6 +3758,13 @@ function apriImpostazioni(dalTitolo = false) {
       applicaImpostazioni();
     }));
   }
+  // le prove della stanza (29 ottobre, sera; in attesa della scelta): la nebbia e la luce, come i tasti N e M
+  if (stanza?.proveNebbia.length) {
+    righe.append(...rigaScelte("Prove: nebbia", stanza.proveNebbia.map((p, i) => [String(i), p.corto]),
+      () => String(stanza.prova || 0), (k) => stanza.provaNebbia(Number(k))));
+    righe.append(...rigaScelte("Prove: luce", [["mattina", "Mattina"], ["sera", "Sera"]],
+      () => (stanza.faseOra === "sera" ? "sera" : "mattina"), (k) => stanza.fase(k)));
+  }
   if (document.fullscreenEnabled) {
     righe.append(...rigaScelte("Schermo", [["intero", "Intero"], ["finestra", "Finestra"]],
       () => (document.fullscreenElement ? "intero" : "finestra"), (k) => schermoIntero(k === "intero")));
@@ -3918,6 +3925,8 @@ async function caricaStanza() {
     s.onSopra = (nome) => mostraEtichetta(nome);
     s.onPasso = () => suoni.passo();
     s.onBlocco = (b) => bloccoStanza(b);
+    // le prove della nebbia (tasto N) e la luce (M): il nome sullo schermo
+    s.onNebbia = (nome) => notifica(nome);
     if (location.hash.startsWith("#prova")) {
       // le prove automatiche: niente mouse bloccato, e la risoluzione la scelgono loro
       s.senzaBlocco = true;

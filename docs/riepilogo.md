@@ -496,6 +496,20 @@ Chiesto dall'utente: «Ti vorrei chiedere anche di applicare uno shader alla sta
   - Le foto sono in `art/stanza_hq/nebbie`: `rlyeh50.jpg`, e i confronti con la proposta intera e con la stanza di adesso (`rlyeh50_confronto_sera.jpg`, `rlyeh50_confronto_mattina.jpg`).
   - Nel gioco non è cambiato niente: la sera resta R'lyeh tenue, che ha la stessa nebbia ma più strato basso, più luce dal pavimento e più filtro. Da decidere.
   - Poi, «me la fai color livido dei filtri di prima?»: la stessa nebbia al 50% col filtro livido del 28 ottobre (ombre al viola, luci al rosa: `TONI_STANZA` 6), pieno come allora, al posto del viola e blu. Le foto: `rlyeh50_livido.jpg`, e i confronti con la R'lyeh al 50% viola e blu e col livido da solo, senza nebbia (`rlyeh50_livido_confronto_sera.jpg`, `rlyeh50_livido_confronto_mattina.jpg`). Anche questa solo in foto.
+  - Ma l'utente intendeva un'altra cosa: «la stanza resta verde malato, ma il filtro invece che viola diventa del colore di livido (rossiccio?)». Quindi la stanza ha il suo filtro verde malato di prima, pieno, e la nebbia di R'lyeh al 50% è livida: l'aria, la luce che sale dal pavimento, l'alone delle lampade e i raggi sono rossicci e violacei.
+    - Il verde malato abbassa il rosso nelle ombre e porta le luci al giallo, quindi la nebbia parte molto più rossa e magenta di quanto si vede: con la prima tinta, più tenue, sembrava beige.
+    - Il colore della luce dal pavimento ora si può cambiare (`abissoColore`; di serie resta viola).
+- **Le prove nel gioco** (la stessa sera, «prova a farmi una versione dove vedo anche queste in gioco»): nella stanza il tasto **N** passa dall'una all'altra, col nome sullo schermo, e il tasto **M** cambia la luce tra mattina e sera.
+  - La luce cambia solo nella stanza: la giornata resta quella; uscendo e rientrando torna la luce giusta.
+  - Le stesse scelte sono nelle Impostazioni, alle righe «Prove: nebbia» e «Prove: luce», per il dito e il controller.
+  - Le prove sono quattro (`PROVE_NEBBIA` in `stanza.js`):
+    - quella di serie: la nebbia viola, e la sera R'lyeh tenue;
+    - R'lyeh al 50% (`rlyeh50`);
+    - il verde malato con R'lyeh livida (`livida`);
+    - il verde malato senza nebbia.
+  - La prova scelta vale per la stanza di tutti i giorni, non per la quarta mattina, e non si ricorda ricaricando la pagina.
+  - Le foto delle quattro, mattina e sera, sono in `art/stanza_hq/nebbie/prove_in_gioco.jpg`.
+  - Quando l'utente sceglie, le prove si tolgono.
 - Le foto a confronto (mattina e sera, verso la finestra e verso la porta) sono in `art/stanza_hq/nebbie` e sono state mandate all'utente; si rifanno con `tools/prove/prova_nebbie.js`. Dopo le prime foto la nebbia viola era un velo uniforme e rosato: ora è più fitta in basso, coi raggi che si vedono di più guardando verso la finestra, l'alone della lampadina la sera e il filtro freddo; i banchi del colore fanno luce da sé anche dove la nebbia è rada; i tentacoli, che all'inizio erano righe dritte come in un fumetto, sono diventati braccia curve (poi tolti: la sera R'lyeh è senza).
 
 ### Scartato

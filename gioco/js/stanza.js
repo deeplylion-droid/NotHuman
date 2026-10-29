@@ -253,7 +253,25 @@ const NEBBIE = {
   colore: { nome: "Il colore venuto dallo spazio", densita: 0.06, strato: 0.5, altezza: 1.8, ciuffi: 0.9, scala: 0.9,
     vento: [0.03, 0.05, 0.02], aria: [0.03, 0.02, 0.05], raggi: [0.3, 0.16, 0.42], caldo: [0.8, 0.45, 1.0], particelle: 0.6,
     bagliore: 0.4, ombre: [0.62, 0.48, 1.0], luci: [0.78, 0.95, 1.0], tinta: 0.5, aberrazione: 0.008, deforma: 0.0015 },
+  // le prove della sera del 29 ottobre: R'lyeh senza tentacoli al 50% della proposta («attenuata del 50%»), e la stessa
+  // nebbia livida, rossiccia, con la stanza che resta verde malato («la stanza resta verde malato, ma il filtro invece
+  // che viola diventa del colore di livido»)
+  rlyeh50: { nome: "R'lyeh al 50%", densita: 0.15, strato: 0.3, altezza: 2.5, ciuffi: 0.8, scala: 1.0, vento: [0.02, 0.0, 0.04],
+    aria: [0.008, 0.005, 0.02], raggi: [0.13, 0.11, 0.26], caldo: [0.6, 0.3, 0.8], abisso: 0.35,
+    ombre: [0.6, 0.45, 1.0], luci: [0.75, 0.8, 1.0], tinta: 0.45, deforma: 0.003 },
+  livida: { nome: "Verde malato, R'lyeh livida", densita: 0.15, strato: 0.3, altezza: 2.5, ciuffi: 0.8, scala: 1.0,
+    vento: [0.02, 0.0, 0.04], aria: [0.03, 0.004, 0.012], raggi: [0.36, 0.06, 0.13], caldo: [1.0, 0.15, 0.3], abisso: 0.35,
+    abissoColore: [0.16, 0.012, 0.05], ombre: TONI_STANZA[3].ombre, luci: TONI_STANZA[3].luci, tinta: 1, deforma: 0.003 },
 };
+// le prove da vedere nel gioco («prova a farmi una versione dove vedo anche queste in gioco»): nella stanza il tasto N
+// passa dall'una all'altra (col nome sullo schermo) e M cambia la luce, mattina o sera. La prima e' quella di serie;
+// "nebbia" e' la nebbia della prova, di giorno e di sera (null: la stanza verde malato di prima, senza nebbia)
+const PROVE_NEBBIA = [
+  { nome: "Di serie: la nebbia viola, la sera R'lyeh tenue", corto: "Di serie" },
+  { nome: "R'lyeh al 50%, senza tentacoli", corto: "R'lyeh 50%", nebbia: "rlyeh50" },
+  { nome: "Verde malato, R'lyeh livida", corto: "Livida", nebbia: "livida" },
+  { nome: "Verde malato, senza nebbia", corto: "Senza nebbia", nebbia: null },
+];
 const NEBBIA_INIZIO = /senzanebbia/.test(INDIRIZZO) ? null : /colore/.test(INDIRIZZO) ? "colore" : "viola";
 
 // il rumore per la nebbia: 256 x 256 valori a caso, e nel verde gli stessi spostati di (37, 17), per avere il rumore
@@ -283,6 +301,7 @@ const NEBBIA_FRAG = `uniform sampler2D tDiffuse, tDepth, tRumore;
 uniform mat4 proiezioneInv, mondoCamera;
 uniform vec3 occhio, vento, aria, raggi, caldo;
 uniform float tempo, densita, strato, altezza, ciuffi, scala, sole, lampadina, lampada, particelle, bagliore, abisso;
+uniform vec3 abissoColore;
 varying vec2 vUv;
 const vec3 SOLE = vec3(0.472, -0.377, 0.797);
 const vec3 LAMPADINA = vec3(0.0, 2.37, 0.3);
@@ -347,8 +366,8 @@ void main() {
     vec3 a = p - LAMPADINA;
     vec3 b = p - LAMPADA;
     luce += caldo * (lampadina / (dot(a, a) + 0.08) + lampada / (dot(b, b) + 0.05));
-    // la sera (R'lyeh) dal pavimento sale una luce viola che respira
-    if (abisso > 0.0) luce += vec3(0.05, 0.012, 0.11) * abisso * (0.6 + 0.4 * sin(tempo * 0.9 + n * 6.0)) * exp(-max(p.y, 0.0) * 5.0);
+    // la sera (R'lyeh) dal pavimento sale una luce viola che respira (livida nella prova "livida")
+    if (abisso > 0.0) luce += abissoColore * abisso * (0.6 + 0.4 * sin(tempo * 0.9 + n * 6.0)) * exp(-max(p.y, 0.0) * 5.0);
     // la polvere: puntini che salgono piano, visibili nella luce
     float g = rumore(p * 22.0 + vec3(0.0, -tempo * 0.25, tempo * 0.05));
     luce += particelle * smoothstep(0.86, 0.97, g) * (0.15 + raggio * 3.0 + lampadina * 0.02 / (dot(a, a) + 0.3)) * raggi;
@@ -358,6 +377,9 @@ void main() {
   }
   gl_FragColor = vec4(col * T + S, 1.0);
 }`;
+
+// il colore della luce che sale dal pavimento la sera (R'lyeh), se la nebbia non ne dice un altro
+const ABISSO = [0.05, 0.012, 0.11];
 
 class PassoNebbia extends THREE.ShaderPass {
   constructor(camera, rumore, passi) {
@@ -369,7 +391,7 @@ class PassoNebbia extends THREE.ShaderPass {
         aria: { value: new THREE.Vector3() }, raggi: { value: new THREE.Vector3() }, caldo: { value: new THREE.Vector3() },
         densita: { value: 0 }, strato: { value: 0 }, altezza: { value: 1 }, ciuffi: { value: 0 }, scala: { value: 1 },
         sole: { value: 0 }, lampadina: { value: 0 }, lampada: { value: 0 }, particelle: { value: 0 }, bagliore: { value: 0 },
-        abisso: { value: 0 } },
+        abisso: { value: 0 }, abissoColore: { value: new THREE.Vector3(...ABISSO) } },
       vertexShader: COLORE_FINALE.vertexShader,
       fragmentShader: NEBBIA_FRAG,
     }));
@@ -566,6 +588,7 @@ export class Stanza {
     this.conLeva = false;
     this.onSopra = () => {};
     this.onBlocco = () => {};
+    this.onNebbia = () => {}; // il nome della prova della nebbia (tasto N) o della luce (M), da scrivere sullo schermo
     this.puoi = () => true;
     this.ascolta();
   }
@@ -924,13 +947,27 @@ export class Stanza {
     this.applicaNebbia();
   }
 
+  // la prova della nebbia (PROVE_NEBBIA), dal tasto N o dalle impostazioni; restituisce quella scelta
+  provaNebbia(i) {
+    this.prova = (i + PROVE_NEBBIA.length) % PROVE_NEBBIA.length;
+    this.applicaNebbia();
+    return PROVE_NEBBIA[this.prova];
+  }
+
+  get proveNebbia() {
+    return this.passoNebbia ? PROVE_NEBBIA : [];
+  }
+
   // la nebbia che si vede adesso, con le luci della fase: la mattina il sole a raggi, la sera la lampada della
   // scrivania e l'alone della lampadina, l'aria piu' scura e la nebbia piu' fitta; alla fine il colore, lo schermo che
   // respira e i colori separati ai bordi
   applicaNebbia() {
     if (!this.passoNebbia) return;
     const sera = this.faseOra === "sera";
-    const nome = this.nebbiaNome === "viola" && sera ? "sera" : this.nebbiaNome;
+    let nome = this.nebbiaNome === "viola" && sera ? "sera" : this.nebbiaNome;
+    // le prove (tasto N): al posto della stanza di sempre, non della quarta mattina
+    const prova = PROVE_NEBBIA[this.prova || 0];
+    if (this.nebbiaNome === "viola" && "nebbia" in prova) nome = prova.nebbia;
     const N = NEBBIE[nome];
     const p = this.passoNebbia, u = p.uniforms, k = this.colore.uniforms;
     p.enabled = !!N;
@@ -947,6 +984,7 @@ export class Stanza {
     }
     for (const c of ["altezza", "ciuffi", "scala"]) u[c].value = N[c];
     for (const c of ["particelle", "bagliore", "abisso"]) u[c].value = N[c] || 0;
+    u.abissoColore.value.set(...(N.abissoColore || ABISSO));
     u.vento.value.set(...N.vento);
     u.raggi.value.set(...N.raggi);
     u.caldo.value.set(...N.caldo);
@@ -2291,6 +2329,14 @@ export class Stanza {
       if (tasti.includes(e.code)) {
         this.tasti[e.code] = true;
         e.preventDefault();
+      } else if (e.code === "KeyN" && this.passoNebbia) {
+        // le prove della nebbia, una dopo l'altra (PROVE_NEBBIA)
+        this.onNebbia(this.provaNebbia((this.prova || 0) + 1).nome);
+      } else if (e.code === "KeyM" && this.hq) {
+        // la luce della mattina o della sera, per vedere le prove tutte e due le volte (solo la stanza: la giornata
+        // resta quella che e'; uscendo e rientrando torna la luce giusta)
+        this.fase(this.faseOra === "sera" ? "mattina" : "sera");
+        this.onNebbia(this.faseOra === "sera" ? "La luce della sera" : "La luce della mattina");
       } else if ((e.code === "KeyE" || e.code === "Enter") && this.puoi() && !e.target.closest?.("button")) {
         // usa quello che c'e' al centro dello sguardo, se e' a portata
         const c = this.colpisci(0.5, 0.5);
