@@ -537,6 +537,20 @@
   .fn-scelta:hover, .fn-scelta:focus-visible { border-color: var(--giallo); background: rgba(242, 209, 107, 0.12); outline: none; }
   #foglio-corpo .fn-numeri { list-style: none; padding: 0.7rem 0 0; margin: 0.9rem 0 0; border-top: 1px solid var(--linea); gap: 0.2rem; font-size: 0.82rem; color: var(--spento); }
   .fn-numeri b { margin-right: 0.35rem; font-family: var(--gioco); font-size: 0.66rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--testo); }
+  /* le scelte di chi ha capito: possono essere cinque, quindi scorrono col foglio invece di restare in fondo */
+  #foglio[data-tipo="finale"] .azioni.fn-scelte { position: static; background: none; margin-top: 0.4rem; padding-top: 0.2rem; }
+  .fn-scelta.fn-rara { border-color: rgba(242, 209, 107, 0.6); }
+  .fn-scelta.fn-rara b { color: var(--giallo); }
+  #foglio-corpo .fn-conta { margin: 0 0 0.3rem; font-family: var(--gioco); font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--giallo); }
+  #foglio-corpo .fn-finali { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 12.5rem), 1fr)); gap: 0.45rem 1rem; }
+  .fn-finali li { display: grid; gap: 0.1rem; align-content: start; }
+  .fn-finali b { font-family: var(--gioco); font-size: 0.74rem; font-weight: 400; letter-spacing: 0.05em; }
+  .fn-finali .visto b { color: var(--testo); }
+  .fn-finali .ora b { color: var(--giallo); }
+  .fn-finali .ora b::after { content: " \25C2"; }
+  .fn-finali .nascosto b { color: var(--spento); }
+  .fn-finali small { font-size: 0.76rem; line-height: 1.35; color: var(--spento); }
+  #foglio-corpo .ti-finali { margin: 0.3rem 0 0; font-family: var(--gioco); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--giallo); }
   #foglio-corpo .fn-tracce { list-style: none; padding: 0; gap: 0.45rem; }
   .fn-tracce li { display: grid; gap: 0.1rem; }
   .fn-tracce b { font-family: var(--gioco); font-size: 0.78rem; font-weight: 400; letter-spacing: 0.05em; }

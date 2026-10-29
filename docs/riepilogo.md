@@ -143,20 +143,29 @@ Come è fatto:
   - quante case ha preso il contagio in tre notti;
   - quante persone hai consegnato alla ditta;
   - la fiducia del paese.
-- **I finali**, in quest'ordine:
+- **I finali sono 15** (29 ottobre, poco dopo: «fai tanti finali diversi, alcuni difficili, anche nella demo. Almeno 6 nella demo»; erano 7, ora sono 15 e cinque sono difficili; la tabella con le condizioni è in `docs/proposta_finale.md`). Vale il primo che va bene:
   - **chi ha capito che il medico è la peste** (la maschera del 1630 nella cripta, più la leggenda della nonna, il nastro 7, un ospite che scottava o «Medico 6») si siede alla scrivania davanti alla sua maschera e sceglie:
     - scrivere alla ditta: **«Medico 6»**, PRESO ATTO, PROSEGUA, Valcupa;
-    - scendere nella cripta: **«Le campane»**, ma se Giona è nel recinto le campane tacciono;
+    - scendere nella cripta: **«Le campane»**, oppure **«Le campane mute»** se Giona è nel recinto;
     - andarsene senza maschera: **«Senza maschera»**;
-  - **«Quelli che cambiano»**, se il contagio ha preso 6 case o più (sono 8 al massimo);
-  - **«Premio di produzione»**, con 4 consegnati o più: il trasferimento a Valcupa;
-  - **«La croce sulla porta»**, con la fiducia sotto 30;
+    - solo con tutte e quattro le tracce, portare tutto alla Voce: **«La prima pagina»** (difficile), con l'edizione straordinaria «Il medico è la peste»; il recinto apre i cancelli, e a sera il paese ti accompagna, gentile, nella cripta, come nel 1630;
+    - solo se vale «La corriera», accompagnare la nuora alla corriera;
+  - **«La corriera»** (difficile): hai trovato chi non si ammala e la ditta, e la nuora, ancora libera, ha dormito da te la terza notte; all'alba la metti sulla corriera delle sei, e la ditta resta senza vaccino;
+  - **«Il malvento si ferma»** (difficile): in tre notti il contagio non ha preso nessuna casa (bisogna visitare tutte le case del fax e chiudere o svuotare quelle coi malati, anche i nascosti e quelli cambiati);
+  - **«La stanzetta»**: hai dormito da solo tutte e tre le notti, e ti svegli sulla brandina con le dita più lunghe;
+  - **«Quelli che cambiano»**: il contagio ha preso 6 case o più (sono 8 al massimo);
+  - **«Direttore del recinto»** (difficile): 6 consegnati o più, almeno 2 col profilo che cerca la ditta;
+  - **«San Rocco»** (difficile): la fiducia del paese almeno a 75, senza aver consegnato un sano; il santino nuovo ha il becco, e il malvento entra con te in ogni casa;
+  - **«Premio di produzione»**: 4 consegnati o più;
+  - **«La croce sulla porta»**: la fiducia sotto 30;
+  - **«Il furgone bianco»**: nessuno consegnato alla ditta in tre giorni; il furgone viene per te, e la cavia migliore sei tu;
   - **«Il quarto giorno»**, in tutti gli altri casi.
+- **I finali trovati** si ricordano nel browser (`malvento.finali`): «Nuovo finale · 4 su 15» sul foglio del finale, «Finali trovati» sul titolo, e in «Com'era davvero» la lista dei quindici, con un indizio per quelli che mancano. Provati tutti e quindici con `tools/prove/prova_finali.js`.
 - **Come si racconta**: coi documenti del gioco, senza immagini nuove.
-  - Il fax della ditta col giudizio: il rendimento a simboli e un timbro rosso.
+  - Il fax della ditta col giudizio: il rendimento a simboli e un timbro rosso (non in tutti i finali: a volte la linea è muta).
   - Poi la mappa coi tre giorni di contagio (le frecce di tutte e tre le notti, le case prese in rosso), con accanto il foglio del finale.
   - Poi «Com'era davvero», che ora comincia dalle quattro tracce (trovate, oppure un indizio per quelle sfuggite) e dai numeri dei tre giorni.
-  - Nel codice: `calcolaFinale`, `quartaMattina`, `capisci`, `apriFinale` e `TRACCE` in `gioco/js/gioco.js`.
+  - Nel codice: `calcolaFinale`, `FINALI`, `GIUDIZI`, `quartaMattina`, `concludi`, `capisci`, `apriFinale` e `TRACCE` in `gioco/js/gioco.js`.
 - **Il titolo e il salvataggio**: all'apertura c'è il titolo sopra la stanza del medico, con «Nuova partita».
   - Ogni mattina, dal secondo giorno, la partita si salva nel browser (`localStorage`).
   - Se c'è un salvataggio, dal titolo «Continua» riprende da quella mattina: dopo il finale riporta alla terza mattina, per provare un altro finale.
@@ -387,6 +396,8 @@ Questionario dei filtri (08), con i voti salvati: https://claude.ai/artifact/MQT
 - `eseguibile/`: il gioco come programma per Windows (Electron; vedi "Lo stile in discussione").
 - `tools/prepara_suoni.py`: i suoni del gioco da quelli generati in `art/suoni` (vedi "I suoni"). `tools/fal_batch.py` salva anche i suoni.
 - `tools/ospite.py` e `tools/viste_ospite.js`: le immagini dell'ospite della notte (vedi "La giornata").
+- `tools/galleria.py` e `tools/galleria_pagina.py`: **la pagina con tutte le schermate delle case** (29 ottobre: «mi prepari una pagina dove posso vedere tutte le schermate disponibili delle varie case una dopo l'altra»), pubblicata come artifact a parte: https://claude.ai/artifact/VSNv1r7aKjneQr92EJNhqq. Le 57 scene delle visite (ogni versione di ogni stanza, anche quelle dentro i pacchi) e i 119 primi piani dell'esame, casa per casa e giorno per giorno, con chi c'è; si vedono come nel gioco (il filtro della casa con la lampada della videocamera, il verde di notte, il rosso dell'esame, ricalcolati in Python come in `vhs.js`) o originali, e con un clic si sfogliano a tutto schermo con le frecce.
+- `tools/prove/`: le prove automatiche col gioco servito in locale (Playwright): `prova_finali.js` (i quindici finali) e `prova_nebbie.js` (le foto delle proposte lovecraftiane della stanza).
 - Servizio: **fal.ai**. La chiave si legge da `FAL_KEY` (impostazioni dell'ambiente cloud) o da `~/.config/fal/key`; mai nel repo.
 - Modelli:
   - **GPT Image 2** (`openai/gpt-image-2`, `/edit`): il migliore per scene nuove e trasformazioni di stile. Non fa sfondi trasparenti, e il filtro dei contenuti blocca parole come "soldato ferito" o "insanguinato", e anche i bambini in una scena horror: nelle scene niente bambini.
@@ -439,6 +450,22 @@ Chiesta dall'utente al posto della plastilina: «la stanza del medico me la rifa
 - **Il filtro e il buio** (28 ottobre: «La stanza è troppo anonima però, dagli un bel filtro di quelli delle stanze. E rendila più tenebrosa»): alla fine del 3D c'è il verde malato delle visite, con gli stessi colori (`TONI_STANZA` in `stanza.js`; con `#stanza4`, `#stanza5` e `#stanza6` si provano ottanio e arancio, blu freddo e livido), e la stanza è più buia: l'esposizione scende (la mattina da 4,9 a 2,6, la sera da 2 a 1,25), il contrasto sale e la vignetta è più forte, così la luce viene dalla finestra e dalle lampade e gli angoli restano bui. Le quattro prove a confronto sono state mandate all'utente.
 - **Il giornale e l'appendiabiti** (28 ottobre, sera: «il giornale è low quality come item poggiato sulla scrivania e l'appendiabiti è storto rispetto al muro»). Il giornale di Meshy (una pila di fogli col testo sfocato) è sostituito da un giornale piegato in due fatto in `costruisci.py` (`giornale`): 28,6 x 20 centimetri, la testata verso la finestra e la piega verso chi siede, più spesso alla piega, i fogli appena ondulati e sui lati i bordi dei fogli. Sopra c'è la metà alta della prima pagina della Voce, nitida: la testata LA VOCE con ai lati la pubblicità della Panacea e il tempo, la data, il titolo, il sommario, la foto del medico con la didascalia e due colonne (la cronaca, le lettere, la breve e qualche notizia del paese: il forno chiuso, la corriera, un cane smarrito). La disegna `gioco/js/primapagina.js` su una tela coi caratteri del gioco (Old Standard TT, e Alfa Slab One per la testata); il gioco la ridisegna col giornale del giorno (`giornale()` in `stanza.js`), così il secondo giorno sulla scrivania c'è il giornale del secondo giorno; per Blender la salva `tools/prima_pagina.js` (`art/stanza_hq/texture/giornale.jpg`). L'appendiabiti (col cappotto e il cappello, di Meshy) aveva l'asse dei ganci girata di una cinquantina di gradi nel modello, e nella stanza veniva di sbieco, staccata dal muro: ora `dritto_lungo_il_muro` la gira lungo il muro (la direzione dell'asse si calcola dai vertici in cima, il davanti da dove pende il cappotto) e `al_muro` la appoggia; quello che finirebbe nel muro o nel listello della boiserie resta schiacciato davanti. La luce è ricotta.
 - **La lampadina e il clic** (28 ottobre, sera: «la lampadina nella stanza del dottore è al contrario», «cliccare sulle cose nella stanza non ti fa interagire subito ma devi ripeterlo a volte»). Il modello della lampadina di Poly Haven sta in piedi, col vetro in alto: appesa sotto il portalampada andava capovolta, e il filo le passava dentro. Ora è girata, avvitata nel foro del portalampada (`costruisci.py`), e la luce è ricotta con la lampadina al suo posto. Il vetro, che nel modello rifrange la luce, nel gioco veniva nero (una palla scura anche prima): ora è smerigliato e fa luce, come una lampadina accesa, più forte la sera (`lightbulb_01_vetro` in `stanza.js`). E siccome adesso il vetro sta a pochi centimetri dalla luce della lampadina, nella luce cotta delle cose piccole prendeva centinaia di volte la luce del resto, e la scala dell'immagine (`luce_webp` in `tools/stanza_hq.py`) saliva da 2,9 a 60, con tutto il resto in pochi passi scuri: ora quelle macchie si tolgono prima di cercare la scala (6,4 la mattina, 14 la sera). Il clic: cliccando una cosa il medico ci va, si gira verso di lei e poi la usa; se intanto si muoveva il mouse, il giro si annullava e la cosa non si usava. Ora muovere il mouse ferma solo il giro, e la cosa si usa lo stesso (`verso.fermo` in `gioco/js/stanza.js`); anche una frase che si sta scrivendo non blocca più il clic.
+
+### La stanza lovecraftiana (proposte del 29 ottobre, da scegliere)
+
+Chiesto dall'utente: «Ti vorrei chiedere anche di applicare uno shader alla stanza del dottore, dobbiamo renderla lovecraftiana, quasi nebbiosa, sui toni del viola, blu, ma non solo con un filtro colore. Fammi delle proposte».
+
+- **Come è fatta:** una nebbia vera, nel 3D (`NEBBIE`, `PassoNebbia` e `NEBBIA_FRAG` in `gioco/js/stanza.js`), dopo il disegno della stanza e prima dell'alone e del tone mapping. Con la profondità della scena si ricostruisce, per ogni punto dello schermo, il raggio dall'occhio alla cosa vista, e lo si percorre a passi (20, 10 sui telefoni, ognuno con un inizio diverso per non fare strisce). A ogni passo la nebbia toglie un po' della luce di dietro e ci mette la sua:
+  - il colore dell'aria;
+  - i raggi del sole, la mattina: entrano dai vetri delle due finestre a ghigliottina, col montante, le traverse e le tende abbassate, nella direzione del sole della luce cotta, e si vedono di più guardando verso la finestra;
+  - la lampadina e la lampada della scrivania, con l'alone nella nebbia.
+- La nebbia è più fitta in basso e fa banchi schiacciati che si muovono piano (un rumore in 3D letto da una texture sola, per stare leggeri). Alla fine, dopo il tone mapping, al posto del verde malato c'è un filtro viola e blu, e in alcune proposte lo schermo che si deforma e respira, i colori che si separano ai bordi, il buio a tentacoli.
+- **Le quattro proposte**: nel gioco si provano con `#nebbia1` ... `#nebbia4` in fondo all'indirizzo, oppure col tasto **N** nella stanza, che le passa una dopo l'altra e poi torna alla stanza com'era.
+  1. **Nebbia viola**: la nebbia bassa che striscia sul pavimento, l'aria velata di viola, i raggi lilla dalla finestra con la polvere che ci brilla dentro, l'alone della lampadina. È la più realistica.
+  2. **L'abisso**: la stanza come sott'acqua (Dagon, Innsmouth). La nebbia blu fitta si mangia gli angoli, le caustiche dell'acqua ballano su soffitto, muri e pavimento, la neve del mare sale piano e lo schermo ondeggia appena.
+  3. **Il colore venuto dallo spazio**: la nebbia cambia colore a banchi (viola, magenta, ciano), i colori si separano ai bordi dello schermo e la polvere luccica.
+  4. **R'lyeh**: la nebbia scura e fitta inghiotte i muri lontani, dal pavimento sale una luce viola che respira, lo schermo si piega piano come se la stanza non avesse gli angoli giusti, e dai bordi entra un buio a tentacoli.
+- Le foto a confronto (mattina e sera, verso la finestra e verso la porta) sono state mandate all'utente; si rifanno con `tools/prove/prova_nebbie.js`. Finché non se ne sceglie una, il gioco resta com'era.
 
 ### Scartato
 
