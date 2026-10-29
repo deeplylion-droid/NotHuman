@@ -43,7 +43,8 @@ TAGLIA = {"passo1": 0.5, "passo2": 0.5, "passo3": 0.5}
 # (chitarra), c (violoncello), d ed e (la c meno horror); poi la scelta: «mettimi visita M nel titolo, ma falla partire
 # da circa 33 secondi». Un brano puo' essere (nome, secondi da cui comincia): il pezzo prima si toglie, e l'anello
 # del gioco riparte da li'
-MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_a", "visita": "visita_j",
+# le visite: dopo la j, «cambiamo un po' di più»: cinque strade (n, o, p, q, r); scelta la r, il quartetto d'archi
+MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_a", "visita": "visita_r",
           "titolo": ("visita_m", 33)}
 
 
