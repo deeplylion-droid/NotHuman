@@ -569,6 +569,39 @@
   .ti-voce:hover, .ti-voce:focus-visible { border-color: var(--giallo); background: var(--giallo); color: var(--notte); outline: none; }
   .ti-voce:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
   #foglio-corpo .ti-nota { margin: 1rem 0 0; max-width: 30rem; font-family: var(--mono); font-size: 0.75rem; line-height: 1.5; color: var(--spento); }
+  .ti-voce.secondario { color: var(--spento); }
+
+  /* le impostazioni: un pannello del gioco; le barre a tacche come gli indicatori, le scelte come i comandi */
+  #foglio[data-tipo="impostazioni"] { background: rgba(0, 0, 0, 0.72); }
+  #foglio[data-tipo="impostazioni"] .carta { width: min(36rem, 100%); background: rgba(14, 16, 15, 0.97); color: var(--testo); border: 2px solid rgba(236, 232, 220, 0.4); box-shadow: 0 5px 0 #000, 0 1.5rem 3rem rgba(0, 0, 0, 0.6); }
+  #foglio[data-tipo="impostazioni"] #foglio-corpo { display: grid; gap: 1.25rem; padding: 1.5rem 1.7rem 1.6rem; }
+  #foglio[data-tipo="impostazioni"] h2 { margin: 0; font-family: var(--vcr); font-size: 2.3rem; font-weight: 400; line-height: 0.9; text-transform: uppercase; color: var(--giallo); text-shadow: 0.05em 0.05em 0 #000; }
+  .im-righe { display: grid; grid-template-columns: max-content minmax(0, 1fr) 3.6em; align-items: center; gap: 1.1rem 1.1rem; font-family: var(--gioco); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .im-comando { display: flex; align-items: center; gap: 0.55rem; min-width: 0; }
+  .im-passo, .im-scelta { color: var(--testo); background: rgba(14, 16, 15, 0.84); border: 2px solid rgba(236, 232, 220, 0.55); box-shadow: 0 3px 0 #000; }
+  .im-passo { flex: none; display: grid; place-items: center; width: 2.1rem; height: 2.1rem; padding: 0; }
+  .im-passo .pix { width: 50%; height: 50%; }
+  .im-barra { flex: 1; min-width: 0; display: flex; gap: 0.28rem; padding: 0.45rem 0; color: var(--giallo); cursor: pointer; touch-action: none; }
+  .im-barra:focus-visible { outline: 2px solid var(--giallo); outline-offset: 3px; }
+  .im-tacca { position: relative; flex: 1; height: 1.15rem; border: 2px solid currentColor; background: rgba(0, 0, 0, 0.4); box-shadow: 2px 2px 0 #000; }
+  .im-tacca.piena::after { content: ""; position: absolute; inset: 2px; background: currentColor; }
+  .im-valore { text-align: right; color: var(--giallo); font-variant-numeric: tabular-nums; }
+  .im-scelte { grid-column: 2 / 4; display: flex; flex-wrap: wrap; gap: 0.55rem; }
+  .im-scelta { padding: 0.55rem 0.85rem; font: inherit; letter-spacing: inherit; text-transform: inherit; }
+  .im-scelta[aria-pressed="true"] { border-color: var(--giallo); background: var(--giallo); color: var(--notte); }
+  .im-passo:hover, .im-passo:focus-visible, .im-scelta:hover, .im-scelta:focus-visible { border-color: var(--giallo); outline: none; }
+  .im-passo:hover, .im-passo:focus-visible { color: var(--giallo); }
+  .im-passo:active, .im-scelta:active { transform: translateY(2px); box-shadow: 0 1px 0 #000; }
+  #foglio-corpo .im-nota { margin: 0; max-width: 34rem; font-family: var(--mono); font-size: 0.75rem; line-height: 1.5; color: var(--spento); }
+  .im-fine { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+  .im-fine .ti-voce { flex: 1 1 12rem; }
+  /* il telefono in orizzontale: poco spazio in altezza */
+  @media (max-height: 480px) {
+    #foglio[data-tipo="impostazioni"] #foglio-corpo { gap: 0.8rem; padding: 1rem 1.2rem 1.1rem; }
+    #foglio[data-tipo="impostazioni"] h2 { font-size: 1.8rem; }
+    .im-righe { row-gap: 0.7rem; }
+    .im-fine .ti-voce { padding: 0.6rem 1rem; }
+  }
 
   /* il fax del finale: il giudizio della ditta col timbro rosso */
   .fx-esito { display: grid; gap: 0.3rem; font-family: var(--gioco); font-size: 0.72rem; letter-spacing: 0.06em; }
@@ -613,6 +646,7 @@
     <div id="aiuto"></div>
     <div id="comparsa">
       <div id="hud"></div>
+      <button type="button" class="tasto" id="impostazioni" aria-label="Impostazioni"><span class="tasto-nome">Impostazioni</span></button>
       <button type="button" class="tasto" id="audio" aria-label="Togli l'audio"><span class="tasto-nome">Togli l'audio</span></button>
       <button type="button" class="tasto" id="schermo-intero" aria-label="Schermo intero"><span class="tasto-nome">Schermo intero</span></button>
     </div>

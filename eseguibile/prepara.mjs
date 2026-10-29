@@ -1,5 +1,6 @@
-// Prepara pagina/, quello che il programma per Windows apre: il gioco (gioco/, con la stanza del medico e le visite in
-// plastilina) e i caratteri della pagina scaricati da Google Fonts (il programma deve funzionare anche senza rete).
+// Prepara pagina/, quello che il programma per Windows apre: il gioco (gioco/, con la stanza del medico) e i caratteri
+// della pagina scaricati da Google Fonts (il programma deve funzionare anche senza rete). La plastilina resta fuori:
+// si apre solo con #creta nell'indirizzo, che nel programma non c'e' (29 ottobre: 32 MB in meno).
 // Uso: node prepara.mjs (o npm run windows).
 import fs from "node:fs";
 import path from "node:path";
@@ -11,6 +12,7 @@ const PAGINA = path.join(QUI, "pagina");
 
 fs.rmSync(PAGINA, { recursive: true, force: true });
 fs.cpSync(GIOCO, PAGINA, { recursive: true });
+for (const d of ["modelli/creta", "img/creta"]) fs.rmSync(path.join(PAGINA, d), { recursive: true, force: true });
 
 // i caratteri: il foglio di Google Fonts (chiesto come un Chrome, per avere i woff2), i file accanto, la pagina che
 // li prende da qui
@@ -30,4 +32,5 @@ html = html.replace(/<link rel="preconnect"[^>]*>\n/g, "").replace(/<link rel="s
 // diventava "â–¸"), senza margine attorno
 html = '<!doctype html>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<style>body { margin: 0; }</style>\n' + html;
 fs.writeFileSync(path.join(PAGINA, "index.html"), html);
-console.log(`pagina/ pronta: ${fs.readdirSync(path.join(PAGINA, "modelli", "creta")).length} file di modelli in plastilina, ${locale.length} caratteri`);
+const peso = (d) => fs.readdirSync(d, { withFileTypes: true }).reduce((t, f) => t + (f.isDirectory() ? peso(path.join(d, f.name)) : fs.statSync(path.join(d, f.name)).size), 0);
+console.log(`pagina/ pronta: ${Math.round(peso(PAGINA) / 1e6)} MB, ${locale.length} caratteri`);

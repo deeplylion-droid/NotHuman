@@ -543,6 +543,7 @@ export class Stanza {
     this.vel = new THREE.Vector2(0, 0);
     this.yaw = 0;
     this.pitch = 0;
+    this.sguardo = 1; // la sensibilita' dello sguardo (le impostazioni): mouse, dito e levetta
     this.percorso = [];
     this.meta = null;
     this.verso = null;
@@ -578,6 +579,16 @@ export class Stanza {
     if (this.canvas.width !== w || this.canvas.height !== h) {
       this.renderer.setSize(w, h, false);
       this.composer?.setSize(w, h);
+    }
+  }
+
+  // la qualita' della nebbia (le impostazioni): quanti passi lungo ogni raggio, 20 alta, 14 media, 10 bassa
+  qualita(passi) {
+    this.passiNebbia = passi;
+    const m = this.passoNebbia?.material;
+    if (m && m.defines.PASSI !== passi) {
+      m.defines.PASSI = passi;
+      m.needsUpdate = true;
     }
   }
 
@@ -887,7 +898,7 @@ export class Stanza {
     const c = new THREE.EffectComposer(r, rt);
     c.addPass(new THREE.RenderPass(this.scena, this.camera));
     this.rumore = texturaRumore();
-    this.passoNebbia = new PassoNebbia(this.camera, this.rumore, tocco ? 10 : 20);
+    this.passoNebbia = new PassoNebbia(this.camera, this.rumore, this.passiNebbia || (tocco ? 10 : 20));
     this.passoNebbia.enabled = false;
     c.addPass(this.passoNebbia);
     this.alone = new THREE.UnrealBloomPass(new THREE.Vector2(w, h), HQ_ALONE.forza, HQ_ALONE.raggio, HQ_ALONE.soglia);
@@ -2130,8 +2141,8 @@ export class Stanza {
   leve(lx, ly, rx, ry, dt) {
     this.levetta.set(lx, ly);
     if (rx || ry) {
-      this.yaw -= rx * 2.6 * dt;
-      this.pitch = clamp(this.pitch - ry * 1.9 * dt, -1.2, 1.2);
+      this.yaw -= rx * 2.6 * this.sguardo * dt;
+      this.pitch = clamp(this.pitch - ry * 1.9 * this.sguardo * dt, -1.2, 1.2);
       if (this.verso) this.verso.fermo = true;
     }
   }
@@ -2227,8 +2238,8 @@ export class Stanza {
         return;
       }
       if (this.bloccato) {
-        this.yaw -= e.movementX * MOUSE;
-        this.pitch = clamp(this.pitch - e.movementY * MOUSE, -1.2, 1.2);
+        this.yaw -= e.movementX * MOUSE * this.sguardo;
+        this.pitch = clamp(this.pitch - e.movementY * MOUSE * this.sguardo, -1.2, 1.2);
         if (this.verso) this.verso.fermo = true;
         return;
       }
@@ -2239,7 +2250,7 @@ export class Stanza {
         if (g.mosso) {
           // trascinare di uno schermo gira lo sguardo di un campo visivo
           const [, , largo] = frazioni(e);
-          const k = 1.6 / largo;
+          const k = 1.6 / largo * this.sguardo;
           this.yaw -= dx * k;
           this.pitch = clamp(this.pitch - dy * k, -1.1, 0.9);
           if (this.verso) this.verso.fermo = true;

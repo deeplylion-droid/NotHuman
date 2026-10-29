@@ -809,7 +809,7 @@ function vaiScrivania() {
   if (stanza) {
     // la scrivania in 3D: ci si siede nella stanza e si usano le cose sul piano (stanza.onScrivania)
     stanza.fase(S.fase === "sera" ? "sera" : "mattina");
-    stanza.adatta(window.prova?.risoluzione || Math.min(canvas.width, tocco() ? 960 : 1600));
+    stanza.adatta(larghezza3d());
     stanza.giornale(S.giornale || D.GIORNALE);
     stanza.siedi();
     suoni.suona("sedia");
@@ -846,7 +846,7 @@ function vaiStanza(dove = "inizio") {
     vhs.salta();
   }
   stanza.fase(S.fase === "sera" ? "sera" : "mattina");
-  stanza.adatta(window.prova?.risoluzione || Math.min(canvas.width, tocco() ? 960 : 1600));
+  stanza.adatta(larghezza3d());
   stanza.giornale(S.giornale || D.GIORNALE);
   stanza.entra(dove);
   // si rientra dalla porta di casa (dalla mappa, o la sera al coprifuoco)
@@ -953,6 +953,7 @@ async function azioneScrivania(id) {
 
 function apriFoglio(tipo, contenuto) {
   if (stanza) stanza.rilascia();
+  R.indietroFoglio = null;
   foglio.hidden = false;
   foglio.dataset.tipo = tipo;
   foglioCorpo.replaceChildren(...contenuto);
@@ -960,8 +961,9 @@ function apriFoglio(tipo, contenuto) {
   foglio.querySelector(".chiudi")?.focus();
 }
 
+// un foglio bloccato non si chiude, ma puo' dire dove tornare (le impostazioni: al titolo o a giocare)
 function chiudiFoglio() {
-  if (foglio.dataset.bloccato === "1") return;
+  if (foglio.dataset.bloccato === "1") return R.indietroFoglio?.();
   foglio.hidden = true;
 }
 
@@ -3493,12 +3495,13 @@ function titolo() {
     fn();
   }, "ti-voce");
   if (salvato) menu.append(voce(`Continua · ${GIORNI[salvato.S.giorno - 1].toLowerCase()}`, () => riprendi(salvato)));
-  menu.append(voce("Nuova partita", introduzione));
+  menu.append(voce("Nuova partita", introduzione), voce("Impostazioni", () => apriImpostazioni(true)));
+  if (ELECTRON) menu.append(voce("Esci", () => window.close()));
   foglio.dataset.bloccato = "1";
   const visti = finaliTrovati().size;
   apriFoglio("titolo", [el("h1", "ti-nome", "Il medico della peste"), el("p", "ti-sotto", "Malvento · tre giorni · demo"), menu,
     ...(visti ? [el("p", "ti-finali", `Finali trovati: ${visti} su ${Object.keys(FINALI).length}`)] : []),
-    el("p", "ti-nota", "Il mouse gira lo sguardo, clic o E per usare, Esc libera il puntatore. Col controller: levette e A.")]);
+    el("p", "ti-nota", `Il mouse gira lo sguardo, clic o E per usare, Esc libera il puntatore. Col controller: levette e A.${ELECTRON ? " F11 o Alt+Invio: schermo intero." : ""}`)]);
   menu.querySelector("button")?.focus();
 }
 
@@ -3601,6 +3604,13 @@ function indietro() {
 }
 
 document.addEventListener("keydown", (e) => {
+  // nel programma per Windows F11 o Alt+Invio mettono e tolgono lo schermo intero, come nei giochi (nel browser F11 e'
+  // gia' del browser)
+  if (ELECTRON && (e.key === "F11" || (e.key === "Enter" && e.altKey))) {
+    e.preventDefault();
+    schermoIntero(!document.fullscreenElement);
+    return;
+  }
   if (e.key === "Escape") {
     if (!foglio.hidden) return chiudiFoglio();
     if (ruota.aperta()) return ruota.chiudi();
@@ -3662,14 +3672,198 @@ tastoAudio.addEventListener("click", (e) => {
   suoni.silenzia(!suoni.muto);
   iconaAudio();
 });
-document.addEventListener("fullscreenchange", iconaIntero);
-tastoIntero.addEventListener("click", async (e) => {
-  e.stopPropagation();
+document.addEventListener("fullscreenchange", () => {
+  iconaIntero();
+  // le impostazioni aperte: la riga dello schermo
+  for (const d of foglio.querySelectorAll(".im-scelte")) d.dispatchEvent(new Event("aggiorna"));
+});
+async function schermoIntero(si) {
   try {
     // tutta la pagina, non solo il gioco: i fogli (fax, giornale, stato di famiglia...) stanno fuori da #app
-    if (document.fullscreenElement) await document.exitFullscreen();
-    else await document.documentElement.requestFullscreen();
+    if (!si && document.fullscreenElement) await document.exitFullscreen();
+    else if (si && !document.fullscreenElement) await document.documentElement.requestFullscreen();
   } catch { /* non tutti i telefoni lo permettono */ }
+}
+tastoIntero.addEventListener("click", (e) => {
+  e.stopPropagation();
+  schermoIntero(!document.fullscreenElement);
+});
+
+// ---------- le impostazioni (29 ottobre, la demo da far provare ad altri): il volume, la sensibilita' dello sguardo
+// (il mouse, il dito, la levetta), la qualita' della stanza 3D e lo schermo intero. Si aprono dal titolo e
+// dall'ingranaggio tra le icone a comparsa, e il browser se le ricorda. Nel programma per Windows c'e' anche "Esci" ----------
+
+const IMPOSTAZIONI = "malvento.impostazioni";
+// la qualita': quanto e' larga al massimo la stanza 3D (in punti) e quanti passi fa la nebbia lungo ogni raggio;
+// "bassa" e' quella di prima sui telefoni, "alta" quella di prima sul computer
+const QUALITA = {
+  alta: { nome: "Alta", larghezza: 1600, nebbia: 20 },
+  media: { nome: "Media", larghezza: 1280, nebbia: 14 },
+  bassa: { nome: "Bassa", larghezza: 960, nebbia: 10 },
+};
+// le dieci tacche della sensibilita': quanto gira lo sguardo rispetto a prima (la quinta)
+const SGUARDO = [0.4, 0.55, 0.7, 0.85, 1, 1.2, 1.45, 1.75, 2.1, 2.5];
+const ELECTRON = /Electron/.test(navigator.userAgent);
+
+function leggiImpostazioni() {
+  let d = {};
+  try { d = JSON.parse(localStorage.getItem(IMPOSTAZIONI) || "{}") || {}; } catch { /* niente memoria: quelle di base */ }
+  const tacca = (v, a, b, base) => (Number.isInteger(v) && v >= a && v <= b ? v : base);
+  return {
+    volume: tacca(d.volume, 0, 10, 10),
+    sguardo: tacca(d.sguardo, 1, SGUARDO.length, 5),
+    qualita: Object.keys(QUALITA).includes(d.qualita) ? d.qualita : tocco() ? "bassa" : "alta",
+  };
+}
+
+const imp = leggiImpostazioni();
+
+function salvaImpostazioni() {
+  try { localStorage.setItem(IMPOSTAZIONI, JSON.stringify(imp)); } catch { /* il browser non salva: valgono fino alla chiusura */ }
+}
+
+// la larghezza della stanza 3D: quella dello schermo, fino al massimo della qualita' scelta
+function larghezza3d() {
+  return window.prova?.risoluzione || Math.min(canvas.width, QUALITA[imp.qualita].larghezza);
+}
+
+function applicaImpostazioni() {
+  suoni.volume((imp.volume / 10) ** 2);
+  if (!stanza) return;
+  stanza.sguardo = SGUARDO[imp.sguardo - 1];
+  stanza.qualita(QUALITA[imp.qualita].nebbia);
+  if (S.schermo === "stanza" || S.schermo === "scrivania") stanza.adatta(larghezza3d());
+}
+applicaImpostazioni();
+
+// il pannello: dal titolo (bloccato: si torna al titolo) o dall'ingranaggio, durante la partita (si torna a giocare;
+// il blocco resta quello di prima, cosi' un foglio che il gioco apre intanto, o il finale sotto, resta com'era)
+function apriImpostazioni(dalTitolo = false) {
+  const torna = dalTitolo ? titolo : () => { foglio.hidden = true; };
+  const righe = el("div", "im-righe");
+  righe.append(
+    ...rigaTacche("Volume", 0, 10, () => imp.volume, (v) => {
+      imp.volume = v;
+      // un colpo, per sentire quanto e' forte
+      suoni.suona("interruttore", { varia: 0 });
+    }, (v) => `${v * 10}`),
+    ...rigaTacche("Sensibilità", 1, SGUARDO.length, () => imp.sguardo, (v) => { imp.sguardo = v; },
+      (v) => `×${String(SGUARDO[v - 1]).replace(".", ",")}`),
+  );
+  // la qualita' e' quella della stanza 3D: senza (niente WebGL 2) non serve
+  if (stanza) {
+    righe.append(...rigaScelte("Qualità", Object.entries(QUALITA).map(([k, q]) => [k, q.nome]), () => imp.qualita, (k) => {
+      imp.qualita = k;
+      salvaImpostazioni();
+      applicaImpostazioni();
+    }));
+  }
+  if (document.fullscreenEnabled) {
+    righe.append(...rigaScelte("Schermo", [["intero", "Intero"], ["finestra", "Finestra"]],
+      () => (document.fullscreenElement ? "intero" : "finestra"), (k) => schermoIntero(k === "intero")));
+  }
+  const fine = el("div", "im-fine");
+  fine.append(bottone(dalTitolo ? "Indietro" : "Torna a giocare", torna, "ti-voce"));
+  if (ELECTRON) fine.append(bottone("Esci dal gioco", () => window.close(), "ti-voce secondario"));
+  if (dalTitolo) foglio.dataset.bloccato = "1";
+  apriFoglio("impostazioni", [el("h2", null, "Impostazioni"), righe,
+    ...(stanza ? [el("p", "im-nota", "Se la stanza va a scatti, prova la qualità media o bassa: si disegna più piccola, con una nebbia più semplice.")] : []),
+    fine]);
+  R.indietroFoglio = torna;
+  righe.querySelector("[role=slider]")?.focus();
+}
+
+// una riga con le tacche, come gli indicatori del gioco: si clicca (o si trascina) sulla tacca, o su meno e piu', o
+// si usano le frecce della tastiera
+function rigaTacche(nome, min, max, leggi, scrivi, scritta) {
+  const barra = el("div", "im-barra");
+  barra.tabIndex = 0;
+  barra.setAttribute("role", "slider");
+  barra.setAttribute("aria-label", nome);
+  barra.setAttribute("aria-valuemin", min);
+  barra.setAttribute("aria-valuemax", max);
+  for (let i = 0; i < max; i++) barra.append(el("span", "im-tacca"));
+  const valore = el("span", "im-valore");
+  const segna = () => {
+    const v = leggi();
+    [...barra.children].forEach((t, i) => t.classList.toggle("piena", i < v));
+    valore.textContent = scritta(v);
+    barra.setAttribute("aria-valuenow", v);
+    barra.setAttribute("aria-valuetext", scritta(v));
+  };
+  const metti = (v) => {
+    v = clamp(v, min, max);
+    if (v === leggi()) return;
+    scrivi(v);
+    salvaImpostazioni();
+    applicaImpostazioni();
+    segna();
+  };
+  const sotto = (e) => {
+    const r = barra.getBoundingClientRect();
+    return Math.ceil(((e.clientX - r.left) / r.width) * max);
+  };
+  let tiene = false;
+  barra.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0) return;
+    tiene = true;
+    // col controller il puntatore e' finto e non si cattura: basta restare sopra la barra
+    try { barra.setPointerCapture(e.pointerId); } catch { /* niente cattura */ }
+    // lasciata andare anche fuori dal pannello: non e' un clic sullo sfondo (che chiuderebbe il foglio)
+    window.addEventListener("pointerup", () => {
+      tiene = false;
+      R.sfTrascinato = performance.now();
+    }, { once: true, capture: true });
+    metti(sotto(e));
+  });
+  barra.addEventListener("pointermove", (e) => { if (tiene && e.buttons & 1) metti(sotto(e)); });
+  barra.addEventListener("pointercancel", () => { tiene = false; });
+  barra.addEventListener("keydown", (e) => {
+    const verso = { ArrowLeft: -1, ArrowDown: -1, ArrowRight: 1, ArrowUp: 1 }[e.key];
+    if (verso) metti(leggi() + verso);
+    else if (e.key === "Home") metti(min);
+    else if (e.key === "End") metti(max);
+    else return;
+    e.preventDefault();
+  });
+  const passo = (ic, d, testo) => {
+    const b = bottone("", () => metti(leggi() + d), "im-passo", ic);
+    b.setAttribute("aria-label", `${nome}: ${testo}`);
+    return b;
+  };
+  const comando = el("div", "im-comando");
+  comando.append(passo("meno", -1, "meno"), barra, passo("piu", 1, "più"));
+  segna();
+  return [el("span", "im-nome", nome), comando, valore];
+}
+
+// una riga di scelte, una sola accesa
+function rigaScelte(nome, scelte, leggi, scegli) {
+  const div = el("div", "im-scelte");
+  div.setAttribute("role", "group");
+  div.setAttribute("aria-label", nome);
+  const segna = () => {
+    for (const b of div.children) b.setAttribute("aria-pressed", b.dataset.scelta === leggi() ? "true" : "false");
+  };
+  for (const [k, testo] of scelte) {
+    const b = bottone(testo, () => {
+      scegli(k);
+      segna();
+    }, "im-scelta");
+    b.dataset.scelta = k;
+    div.append(b);
+  }
+  div.addEventListener("aggiorna", segna);
+  segna();
+  return [el("span", "im-nome", nome), div];
+}
+
+// l'ingranaggio, tra le icone a comparsa
+const tastoImpostazioni = $("#impostazioni");
+tastoImpostazioni.insertAdjacentHTML("afterbegin", icona("impostazioni"));
+tastoImpostazioni.addEventListener("click", (e) => {
+  e.stopPropagation();
+  apriImpostazioni(false);
 });
 
 // ---------- avvio ----------
@@ -3715,6 +3909,8 @@ async function caricaStanza() {
     riempi(0);
     caricamento.hidden = false;
     const s = new Stanza(schermo);
+    s.passiNebbia = QUALITA[imp.qualita].nebbia;
+    s.sguardo = SGUARDO[imp.sguardo - 1];
     await s.carica(riempi);
     s.onUsa = (id) => usaStanza(id);
     s.onScrivania = (id) => { if (!R.occupato && foglio.hidden) azioneScrivania(id); };
@@ -3836,7 +4032,7 @@ function dovePersona(persona) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash.startsWith("#prova")) window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, iniziaGiorno3, saltaAlGiorno3, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, quartaMattina, calcolaFinale, apriFinale, titolo, riprendi, leggiSalvataggio, ricomincia, finaliTrovati, dove, dovePersona, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
+if (location.hash.startsWith("#prova")) window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, iniziaGiorno3, saltaAlGiorno3, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, quartaMattina, calcolaFinale, apriFinale, titolo, riprendi, leggiSalvataggio, apriImpostazioni, impostazioni: () => imp, ricomincia, finaliTrovati, dove, dovePersona, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);

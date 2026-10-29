@@ -45,6 +45,7 @@ export class Suoni {
     this.ambienti = {}; // nome -> { src, gain }
     this.voluti = []; // gli ambienti di adesso, anche prima che l'audio possa partire
     try { this.muto = localStorage.getItem(CHIAVE) === "1"; } catch { this.muto = false; }
+    this.livello = 1; // il volume delle impostazioni (0-1), sotto l'altoparlante che toglie l'audio
     const sblocca = () => this.avvia();
     for (const ev of ["pointerdown", "keydown", "touchend"]) window.addEventListener(ev, sblocca, true);
   }
@@ -58,7 +59,7 @@ export class Suoni {
     if (!Contesto) return;
     this.ctx = new Contesto();
     this.uscita = this.ctx.createGain();
-    this.uscita.gain.value = this.muto ? 0 : 1;
+    this.uscita.gain.value = this.muto ? 0 : this.livello;
     // un limitatore in fondo: quando si sommano piu' suoni (la notte, il malvento, il nastro) non si distorce
     const limite = this.ctx.createDynamicsCompressor();
     limite.threshold.value = -6;
@@ -154,6 +155,16 @@ export class Suoni {
   silenzia(muto) {
     this.muto = muto;
     try { localStorage.setItem(CHIAVE, muto ? "1" : "0"); } catch { /* il browser non salva: pazienza */ }
-    if (this.uscita) this.uscita.gain.setTargetAtTime(muto ? 0 : 1, this.ctx.currentTime, 0.08);
+    this.alza();
+  }
+
+  // il volume delle impostazioni (0-1)
+  volume(v) {
+    this.livello = v;
+    this.alza();
+  }
+
+  alza() {
+    if (this.uscita) this.uscita.gain.setTargetAtTime(this.muto ? 0 : this.livello, this.ctx.currentTime, 0.08);
   }
 }
