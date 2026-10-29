@@ -152,7 +152,7 @@ export const PORTE = {
       { testo: "pretendi di passare", minuti: 10,
         dice: [["TU", "Spostatevi."], ["UOMO", "Provateci.", { volto: "arrabbiato" }],
           ["UOMO", "[si mette davanti alla porta]", { volto: "arrabbiato" }],
-          [null, "È grosso il doppio di te. Senza una prova, oggi non passi."]], poi: { fiducia: -10 } },
+          [null, "È grosso il doppio di te. Oggi non ti faranno passare."]], poi: { fiducia: -10 } },
       { testo: "offri 50 € all'uomo", minuti: 5, soldi: 50,
         dice: [["TU", "Cinquanta euro per aprire."], ["UOMO", "Non sono in vendita, dottore.", { volto: "arrabbiato" }]] },
     ],

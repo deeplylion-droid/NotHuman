@@ -58,5 +58,35 @@
       "force_instrumental": true,
       "output_format": "mp3_44100_128"
     }
+  },
+  {
+    "nome": "visita_c",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "prompt": "Dark ambient underscore for an indie horror game in which you question strangers at the door of their home and inspect them for signs of a disease. Muted, hazy synth pads and a deep, slowly pulsing low bass that keeps you tense; after a while a lonely clean electric guitar plays a simple, sad melody drenched in reverb, and a few soft piano notes answer it. Sad yet unsettling, intimate, nostalgic and surreal. Slow, around 70 BPM. No drums, no vocals.",
+      "music_length_ms": 120000,
+      "force_instrumental": true,
+      "output_format": "mp3_44100_128"
+    }
+  },
+  {
+    "nome": "visita_d",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "prompt": "Melancholic dark ambient theme for a slow, eerie horror game: a simple four-note piano motif repeats over a warm, muffled synth drone and a heartbeat-like sub bass; a clean electric guitar with heavy reverb enters with long sustained notes, the music swells gently into a sad, emotional peak, then falls back to almost nothing. Sad, unsettling, nostalgic. Around 72 BPM. No drums, no vocals.",
+      "music_length_ms": 120000,
+      "force_instrumental": true,
+      "output_format": "mp3_44100_128"
+    }
+  },
+  {
+    "nome": "visita_e",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "prompt": "Unsettling minimal score for interrogating a suspicious visitor in a dim room: hazy, slightly detuned synth chords, faint radio static textures, a low bass pulse that slowly tightens, and a fragile solo guitar melody with tremolo and reverb, melancholic and lonely; now and then a single piano note rings out. Slow, around 65 BPM. No drums, no vocals.",
+      "music_length_ms": 120000,
+      "force_instrumental": true,
+      "output_format": "mp3_44100_128"
+    }
   }
 ]

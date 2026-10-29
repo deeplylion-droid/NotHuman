@@ -31,9 +31,11 @@ OUT = ROOT / "gioco/suoni"
 SR = 44100
 # quanto dura al massimo un colpo, in secondi dall'inizio
 TAGLIA = {"passo1": 0.5, "passo2": 0.5, "passo3": 0.5}
-# la musica: il nome nel gioco -> il brano scelto in art/musica (le proposte del 29 ottobre: giorno a e b, sera a e b,
-# visita a e b; nel gioco per primi il pianoforte, le campane e il ticchettio)
-MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_b", "visita": "visita_a"}
+# la musica: il nome nel gioco -> il brano scelto in art/musica. Le proposte del 29 ottobre: giorno a e b, sera a e b,
+# visita a e b; l'utente ha scelto «stanza giorno a e stanza sera a vanno bene», e per le visite «me la rifai, cerca di
+# cogliere l'essenza di quella di I'm Not a Human»: visita c, d, e (sintetizzatori attutiti, basso che tiene in
+# tensione, chitarra solista e pianoforte); nel gioco la c
+MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_a", "visita": "visita_c"}
 
 
 def leggi(f):

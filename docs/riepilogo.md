@@ -237,7 +237,10 @@ Dopo «provata, va bene, prosegui pure», il traguardo scelto è la demo pronta 
     - la stanza di sera: `stanza_sera_a` (organo lontano, bordoni) e `stanza_sera_b` (campane lontane, pianoforte grave);
     - le visite: `visita_a` (archi a ticchettio, come il tempo che corre fino al coprifuoco) e `visita_b` (sintetizzatore anni '90, freddo come la ditta).
     - Spesa: circa 7 dollari.
-  - **Nel gioco**, per primi: il pianoforte di giorno, le campane la sera, il ticchettio nelle visite. `MUSICA` in `tools/prepara_suoni.py` dice quale proposta va al posto di ogni brano; `python3 tools/prepara_suoni.py musica` li porta in `gioco/suoni/musica`, stereo, tutti a -18 LUFS, in mp3 da 96 kbps.
+  - **La scelta** (la stessa sera): «stanza giorno a e stanza sera a vanno bene. Quella delle visite me la rifai, cerca di cogliere l'essenza di quella di I'm Not a Human».
+    - Di quella colonna sonora le recensioni dicono che è per lo più fatta di sintetizzatori attutiti, con un basso profondo che tiene in tensione, e che si apre in pezzi emotivi con chitarra solista e frammenti di pianoforte; triste e inquietante insieme, malinconica.
+    - Su questa linea, tre proposte nuove per le visite, senza nominare il gioco nei prompt: `visita_c` (basso pulsante e synth attutiti, poi una chitarra triste col riverbero e qualche nota di pianoforte), `visita_d` (un motivo di pianoforte su un bordone, la chitarra che cresce e ricade), `visita_e` (synth scordati, fruscio di radio, chitarra col tremolo).
+  - **Nel gioco**: il pianoforte di giorno (`stanza_giorno_a`), l'organo e i bordoni la sera (`stanza_sera_a`), nelle visite `visita_c` (da confermare). `MUSICA` in `tools/prepara_suoni.py` dice quale proposta va al posto di ogni brano; `python3 tools/prepara_suoni.py musica` li porta in `gioco/suoni/musica`, stereo, tutti a -18 LUFS, in mp3 da 96 kbps.
     - La musica della stanza suona anche alla scrivania e sulla mappa (che si guarda da casa); nelle visite c'è la sua; nel nastro della notte e nel finale niente musica.
     - Un brano sfuma nell'altro in 3 secondi. Ogni brano gira in anello: 8 secondi prima della fine riparte da capo sfumando dentro se stesso, e i brani finiscono già sfumando.
     - La musica non passa dal filtro della maschera (è la musica del gioco, non un suono della stanza).
