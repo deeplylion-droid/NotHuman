@@ -26,6 +26,8 @@ app.whenReady().then(() => {
     height: 900,
     backgroundColor: "#000000",
     title: "Malvento",
+    // l'icona: la maschera del logo (tools/steam.py)
+    icon: path.join(__dirname, "icona.ico"),
     autoHideMenuBar: true,
     webPreferences: { backgroundThrottling: false },
   });

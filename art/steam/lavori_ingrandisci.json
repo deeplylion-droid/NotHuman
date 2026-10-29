@@ -1,0 +1,12 @@
+[
+ {
+  "nome": "illustrazione_larga_x2",
+  "modello": "fal-ai/esrgan",
+  "input": {
+   "image_url": "@file:illustrazione_larga.png",
+   "scale": 2,
+   "model": "RealESRGAN_x4plus",
+   "output_format": "png"
+  }
+ }
+]

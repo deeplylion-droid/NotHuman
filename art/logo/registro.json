@@ -108,5 +108,22 @@
     "seed": null,
     "secondi": 66,
     "descrizione": null
+  },
+  "logo_a_trasparente": {
+    "modello": "fal-ai/birefnet/v2",
+    "input": {
+      "image_url": "@file:logo_a_becco.png",
+      "model": "General Use (Heavy)",
+      "operating_resolution": "2048x2048",
+      "output_format": "png",
+      "refine_foreground": true,
+      "output_mask": true
+    },
+    "file": [
+      "logo_a_trasparente.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
   }
 }

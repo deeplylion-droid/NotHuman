@@ -22,3 +22,5 @@ tools/lingua/node_modules/
 tools/lingua/package-lock.json
 # i pezzi delle traduzioni mentre si lavora (il lavoro finito e' parti/*_en.json)
 tools/lingua/parti/*_en_[0-9]*.json
+# l'illustrazione ingrandita da ESRGAN per l'hero di Steam (19 MB): si rifa con art/steam/lavori_ingrandisci.json
+art/steam/illustrazione_larga_x2.png

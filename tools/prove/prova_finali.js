@@ -19,6 +19,9 @@ const { chromium } = require('playwright');
   const lingua = process.env.LINGUA;
   const { sorveglia, fuori } = require('./lingua_fuori.js');
   if (lingua === 'xx') await sorveglia(page);
+  // in inglese i tasti si cercano col testo del catalogo
+  const CATALOGO = lingua === 'en' ? (await import(require('path').resolve(__dirname, '../../gioco/js/lingua_en.js'))).CATALOGO : null;
+  const L = (s) => (CATALOGO?.[s] ?? s);
   await page.goto(`http://127.0.0.1:8765/index.html#prova${lingua ? `-${lingua}` : ''}`);
   await page.waitForFunction(() => document.querySelector('#schermo')?.dataset.schermo === 'stanza', null, { timeout: 180000 });
   await page.evaluate(() => { window.prova.risoluzione = 320; window.prova.stanza()?.adatta?.(320); });
@@ -28,7 +31,7 @@ const { chromium } = require('playwright');
     return `[${f.dataset.tipo}] ` + [...document.querySelectorAll('#foglio-corpo > *')].map((e) => e.textContent.replace(/\s+/g, ' ').trim()).join(' / ');
   });
   const tasto = async (testo) => {
-    await page.locator('#foglio button', { hasText: testo }).first().click({ timeout: 8000 });
+    await page.locator('#foglio button', { hasText: L(testo) }).first().click({ timeout: 8000 });
     await page.waitForTimeout(1500);
   };
   const al3 = async () => {
@@ -75,7 +78,7 @@ const { chromium } = require('playwright');
     // la quarta mattina nella stanza (i finali senza fax), il fax, l'edizione straordinaria: tutti con "Avanti"
     for (let i = 0; i < 3; i++) {
       const tipo = await page.evaluate(() => document.querySelector('#foglio')?.dataset.tipo);
-      const avanti = await page.locator('#foglio button', { hasText: 'Avanti' }).count();
+      const avanti = await page.locator('#foglio button', { hasText: L('Avanti') }).count();
       if (!avanti) break;
       await page.screenshot({ path: `${out}/${sc.nome}_${i}_${tipo}.png`, timeout: 150000 });
       log.push(`  ${tipo}: ${(await foglio()).slice(0, 400)}`);
@@ -96,7 +99,7 @@ const { chromium } = require('playwright');
   log.push('trovati: ' + JSON.stringify([...(await page.evaluate(() => [...window.prova.finaliTrovati()]))]));
   // il titolo col conto
   const t = await ctx.newPage();
-  await t.goto('http://127.0.0.1:8765/index.html');
+  await t.goto(`http://127.0.0.1:8765/index.html${lingua ? `#-${lingua}` : ''}`);
   await t.waitForFunction(() => document.querySelector('#schermo')?.dataset.schermo === 'stanza', null, { timeout: 180000 });
   await t.waitForTimeout(1500);
   log.push('titolo: ' + await t.evaluate(() => [...document.querySelectorAll('#foglio-corpo > *')].map((e) => e.textContent.trim()).join(' / ')));

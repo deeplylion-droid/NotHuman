@@ -42,5 +42,43 @@
     "seed": null,
     "secondi": 100,
     "descrizione": null
+  },
+  "illustrazione_larga_x2": {
+    "modello": "fal-ai/esrgan",
+    "input": {
+      "image_url": "@file:illustrazione_larga.png",
+      "scale": 2,
+      "model": "RealESRGAN_x4plus",
+      "output_format": "png"
+    },
+    "file": [
+      "illustrazione_larga_x2.png"
+    ],
+    "seed": null,
+    "secondi": 16,
+    "descrizione": null
+  },
+  "icona": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "Square app icon for the video game in the first reference image: only the plague doctor beak mask from that logo, exactly the same mask (dark leather, brass goggle on its right, the grey camcorder lens with the small red light on its left, the strap over the top, the long beak pointing down), front view, centered, filling about 85% of the square, on a near-black background with a faint sickly green glow behind it. The second reference image is the approved design sheet of the same mask. No text, no letters, no border.",
+      "image_urls": [
+        "@file:../logo/logo_a_becco.png",
+        "@file:../medico/maschera.jpg"
+      ],
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "icona.png"
+    ],
+    "seed": null,
+    "secondi": 102,
+    "descrizione": null
   }
 }

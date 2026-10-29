@@ -209,7 +209,7 @@ const { chromium } = require('playwright');
     await chiudiRuota();
     log.push('  nastro: ' + await nastro());
     await trascina('d:dalla_sorella', 'porta7');
-    await tocca(0.63, 0.57); log.push('  voci porta7: ' + await voci()); await voce('scendi'); await page.waitForTimeout(1600); await skip(); await libero();
+    await tocca(0.63, 0.57); log.push('  voci porta7: ' + await voci()); await voce('scendi nella cripta'); await page.waitForTimeout(1600); await skip(); await libero();
     await shot('cripta');
     await zona('maschera'); await shot('maschera');
     log.push('g3 casa 7: ' + await stato());

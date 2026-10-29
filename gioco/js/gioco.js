@@ -3511,8 +3511,15 @@ function titolo() {
   if (ELECTRON) menu.append(voce(T("Esci"), () => window.close()));
   foglio.dataset.bloccato = "1";
   const visti = finaliTrovati().size;
-  // il nome del gioco (29 ottobre: «va bene malvento») resta uguale in tutte le lingue
-  apriFoglio("titolo", [el("h1", "ti-nome", "Malvento"), el("p", "ti-sotto", T("Il medico della peste · tre giorni · demo")), menu,
+  // il nome del gioco (29 ottobre: «va bene malvento») resta uguale in tutte le lingue: il logo scelto, «il becco»
+  // (art/logo, gioco/img/logo.webp da tools/steam.py), e il nome scritto se l'immagine non arriva
+  const nome = el("h1", "ti-nome");
+  const logo = new Image();
+  logo.alt = "Malvento";
+  logo.onerror = () => { nome.textContent = "Malvento"; };
+  logo.src = "img/logo.webp";
+  nome.append(logo);
+  apriFoglio("titolo", [nome, el("p", "ti-sotto", T("Il medico della peste · tre giorni · demo")), menu,
     ...(visti ? [el("p", "ti-finali", T`Finali trovati: ${visti} su ${Object.keys(FINALI).length}`)] : []),
     el("p", "ti-nota", T`Il mouse gira lo sguardo, clic o E per usare, Esc libera il puntatore. Col controller: levette e A.${ELECTRON ? T(" F11 o Alt+Invio: schermo intero.") : ""}`)]);
   // il tema del titolo (29 ottobre, sera). Il browser lascia suonare solo dopo un tasto o un clic: finche' l'audio non

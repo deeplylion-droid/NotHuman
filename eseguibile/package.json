@@ -8,7 +8,7 @@
   "scripts": {
     "prepara": "node prepara.mjs",
     "prova": "node prepara.mjs && electron .",
-    "windows": "node prepara.mjs && electron-packager . Malvento --platform=win32 --arch=x64 --out=dist --overwrite --asar --ignore=^/dist --ignore=^/prepara\\.mjs"
+    "windows": "node prepara.mjs && electron-packager . Malvento --icon=icona.ico --platform=win32 --arch=x64 --out=dist --overwrite --asar --ignore=^/dist --ignore=^/prepara\\.mjs"
   },
   "devDependencies": {
     "@electron/packager": "20.3.0",
