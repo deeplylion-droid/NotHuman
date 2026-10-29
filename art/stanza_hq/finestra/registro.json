@@ -36,5 +36,17 @@
     "seed": null,
     "secondi": 71,
     "descrizione": null
+  },
+  "vista_profondita": {
+    "modello": "fal-ai/image-preprocessors/depth-anything/v2",
+    "input": {
+      "image_url": "@file:vista_mattina.jpg"
+    },
+    "file": [
+      "vista_profondita.png"
+    ],
+    "seed": null,
+    "secondi": 5,
+    "descrizione": null
   }
 }

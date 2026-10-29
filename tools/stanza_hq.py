@@ -156,6 +156,12 @@ def viste(uscita):
     notte = (l ** 1.15)[..., None] * 0.07 * np.array([0.42, 0.58, 1.0], np.float32)
     Image.fromarray((srgb(notte) * 255 + 0.5).astype(np.uint8)).save(uscita / "vista_sera.webp", "WEBP", quality=86,
                                                                         method=6)
+    # la profondita' della vista (Depth Anything V2 su fal, lavoro "vista_profondita" in finestra/lavori.json: chiaro
+    # vicino, scuro lontano): il gioco ci mette la nebbia fuori dalla finestra, piu' fitta lontano (29 ottobre)
+    profondita = HQ / "finestra" / "vista_profondita.png"
+    if profondita.exists():
+        Image.open(profondita).convert("L").resize((1024, 576), Image.LANCZOS).convert("RGB").save(
+            uscita / "vista_profondita.webp", "WEBP", quality=90, method=6)
 
 
 def gioco():
@@ -183,6 +189,8 @@ def gioco():
                 dati[chiave][fase] = {"file": f"luce_{nome}.webp", "scala": luce_webp(npy, GIOCO / f"luce_{nome}.webp")}
     viste(GIOCO)
     dati["vista"] = {"mattina": "vista_mattina.webp", "sera": "vista_sera.webp"}
+    if (GIOCO / "vista_profondita.webp").exists():
+        dati["vista_profondita"] = "vista_profondita.webp"
     (GIOCO / "stanza_dati.json").write_text(json.dumps(dati, indent=1))
     peso = sum(f.stat().st_size for f in GIOCO.iterdir())
     print(f"nel gioco: {GIOCO} ({peso / 1e6:.1f} MB)", dati["luce"], dati["piccoli"])

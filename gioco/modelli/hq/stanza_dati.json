@@ -146,5 +146,6 @@
  "vista": {
   "mattina": "vista_mattina.webp",
   "sera": "vista_sera.webp"
- }
+ },
+ "vista_profondita": "vista_profondita.webp"
 }

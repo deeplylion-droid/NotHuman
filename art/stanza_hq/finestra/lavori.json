@@ -1,30 +1,37 @@
 [
- {
-  "nome": "vista_mattina",
-  "modello": "openai/gpt-image-2",
-  "input": {
-   "prompt": "Realistic photograph taken from a second-floor window of an old house, looking straight out over a quiet residential street of a poor, remote small town in rural America today. Old two-story wooden clapboard houses with peeling white and pale green paint, sagging front porches, worn asphalt shingle roofs, a wooden utility pole with tangled power lines and a transformer across the street, a rusty chain-link fence, bare autumn trees, a small white wooden church steeple in the distance, wooded hills fading into low grey clouds behind. Overcast grey autumn morning, soft diffuse light, muted desaturated colors, damp, quiet and empty, no people, no cars. Eye level, straight-on, wide view, no window frame, no glass, no reflections, sharp and detailed.",
-   "image_size": {
-    "width": 2048,
-    "height": 1152
-   },
-   "quality": "high",
-   "num_images": 1,
-   "output_format": "jpeg"
+  {
+    "nome": "vista_mattina",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Realistic photograph taken from a second-floor window of an old house, looking straight out over a quiet residential street of a poor, remote small town in rural America today. Old two-story wooden clapboard houses with peeling white and pale green paint, sagging front porches, worn asphalt shingle roofs, a wooden utility pole with tangled power lines and a transformer across the street, a rusty chain-link fence, bare autumn trees, a small white wooden church steeple in the distance, wooded hills fading into low grey clouds behind. Overcast grey autumn morning, soft diffuse light, muted desaturated colors, damp, quiet and empty, no people, no cars. Eye level, straight-on, wide view, no window frame, no glass, no reflections, sharp and detailed.",
+      "image_size": {
+        "width": 2048,
+        "height": 1152
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "vista_mattina_italiana",
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Realistic photograph taken from a second-floor window of an old building, looking straight out over a narrow street at the rooftops of a poor, remote mountain village in southern Europe today. Old terracotta tiled roofs with moss, plain plastered houses with peeling paint and closed roller shutters, a couple of satellite dishes and crooked TV antennas, sagging electric wires across the street, a small stone bell tower in the distance, wooded hills fading into low grey clouds behind. Overcast grey autumn morning, soft diffuse light, muted desaturated colors, damp, quiet and empty, no people, no cars. Eye level, straight-on, wide view, no window frame, no glass, no reflections, sharp and detailed.",
+      "image_size": {
+        "width": 2048,
+        "height": 1152
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "jpeg"
+    }
+  },
+  {
+    "nome": "vista_profondita",
+    "modello": "fal-ai/image-preprocessors/depth-anything/v2",
+    "input": {
+      "image_url": "@file:vista_mattina.jpg"
+    }
   }
- },
- {
-  "nome": "vista_mattina_italiana",
-  "modello": "openai/gpt-image-2",
-  "input": {
-   "prompt": "Realistic photograph taken from a second-floor window of an old building, looking straight out over a narrow street at the rooftops of a poor, remote mountain village in southern Europe today. Old terracotta tiled roofs with moss, plain plastered houses with peeling paint and closed roller shutters, a couple of satellite dishes and crooked TV antennas, sagging electric wires across the street, a small stone bell tower in the distance, wooded hills fading into low grey clouds behind. Overcast grey autumn morning, soft diffuse light, muted desaturated colors, damp, quiet and empty, no people, no cars. Eye level, straight-on, wide view, no window frame, no glass, no reflections, sharp and detailed.",
-   "image_size": {
-    "width": 2048,
-    "height": 1152
-   },
-   "quality": "high",
-   "num_images": 1,
-   "output_format": "jpeg"
-  }
- }
 ]

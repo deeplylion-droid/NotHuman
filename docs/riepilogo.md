@@ -510,6 +510,18 @@ Chiesto dall'utente: «Ti vorrei chiedere anche di applicare uno shader alla sta
   - La prova scelta vale per la stanza di tutti i giorni, non per la quarta mattina, e non si ricorda ricaricando la pagina.
   - Le foto delle quattro, mattina e sera, sono in `art/stanza_hq/nebbie/prove_in_gioco.jpg`.
   - Quando l'utente sceglie, le prove si tolgono.
+- **La scelta** (la stessa sera): «verde malato senza nebbia è la scelta giusta, però metti la nebbia nel panorama fuori dalla finestra, e la sera magari mettiamo R'lyeh livida su verde malato». Quindi, nel gioco:
+  - **di giorno** la stanza verde malato, senza nebbia;
+  - **fuori dalla finestra la nebbia**:
+    - È sulla vista, che è una foto. È più fitta lontano: le colline e il campanile spariscono, le case di fronte diventano fantasmi, la strada sotto la finestra resta pulita. Banchi lenti passano col vento.
+    - Per sapere cosa è lontano c'è la profondità della foto, fatta con Depth Anything V2 su fal (lavoro `vista_profondita` in `art/stanza_hq/finestra/lavori.json`; nel gioco `vista_profondita.webp`, preparata da `tools/stanza_hq.py`).
+    - Quella profondità va come l'inverso della distanza (le case di fronte valgono già 0,2): la nebbia attraversata si calcola come 1/profondità, altrimenti copriva anche la strada.
+    - Nel codice: `NEBBIA_FUORI`, `applicaFuori` e lo shader della vista in `stanza.js`.
+  - **la sera R'lyeh livida su verde malato** (`NEBBIE.sera`);
+  - **la quarta mattina** resta il colore venuto dallo spazio.
+  - Le prove (tasti N e M, righe nelle Impostazioni) sono tolte.
+  - Con `#nebbiaviola` torna la stanza del pomeriggio (la nebbia viola, la sera R'lyeh tenue); con `#senzanebbia` nessuna nebbia, nemmeno fuori.
+  - Le foto: `art/stanza_hq/nebbie/nebbia_fuori.jpg` (la finestra prima e dopo, mattina e sera) e `scelta_sera_29.jpg` (la stanza di giorno e di sera).
 - Le foto a confronto (mattina e sera, verso la finestra e verso la porta) sono in `art/stanza_hq/nebbie` e sono state mandate all'utente; si rifanno con `tools/prove/prova_nebbie.js`. Dopo le prime foto la nebbia viola era un velo uniforme e rosato: ora è più fitta in basso, coi raggi che si vedono di più guardando verso la finestra, l'alone della lampadina la sera e il filtro freddo; i banchi del colore fanno luce da sé anche dove la nebbia è rada; i tentacoli, che all'inizio erano righe dritte come in un fumetto, sono diventati braccia curve (poi tolti: la sera R'lyeh è senza).
 
 ### Scartato
