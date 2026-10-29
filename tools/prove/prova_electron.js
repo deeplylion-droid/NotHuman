@@ -21,6 +21,9 @@ const apri = () => electron.launch({
   win.on('pageerror', (e) => errori.push('pageerror: ' + e));
   await win.waitForFunction(() => document.querySelector('#foglio')?.dataset.tipo === 'titolo' && !document.querySelector('#foglio').hidden, null, { timeout: 300000 });
   await win.waitForTimeout(1500);
+  // il primo tasto fa partire il tema e mostra i comandi
+  await win.keyboard.press('Shift');
+  await win.waitForTimeout(800);
   const info = await win.evaluate(() => ({ ua: navigator.userAgent.match(/Electron\/[\d.]+/)?.[0], voci: [...document.querySelectorAll('.ti-menu button')].map((b) => b.textContent), webgl2: !!document.createElement('canvas').getContext('webgl2'), schermo: document.querySelector('#schermo').dataset.schermo, caratteri: document.fonts.check('12px Silkscreen') }));
   console.log(JSON.stringify(info));
   verifica(info.voci.includes('Impostazioni') && info.voci.at(-1) === 'Esci', `titolo: ${info.voci.join(' | ')}`);
@@ -54,6 +57,8 @@ const apri = () => electron.launch({
   app = await apri();
   win = await app.firstWindow();
   await win.waitForFunction(() => document.querySelector('#foglio')?.dataset.tipo === 'titolo' && !document.querySelector('#foglio').hidden, null, { timeout: 300000 });
+  await win.keyboard.press('Shift');
+  await win.waitForTimeout(800);
   const dopo = await win.evaluate(() => ({ imp: localStorage.getItem('malvento.impostazioni'), prova: localStorage.getItem('malvento.prova') }));
   console.log(JSON.stringify(dopo));
   verifica(dopo.prova === 'resta' && JSON.parse(dopo.imp || '{}').qualita === 'bassa' && JSON.parse(dopo.imp || '{}').volume === 8, 'alla seconda apertura le impostazioni e la memoria restano');

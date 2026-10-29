@@ -39,7 +39,9 @@ TAGLIA = {"passo1": 0.5, "passo2": 0.5, "passo3": 0.5}
 # malinconia e di sognante lentezza e inquietudine»: visita h, i (ElevenLabs) e j (Stable Audio 2.5), lente, a
 # sensazione dimezzata, note lunghe e silenzio, il nastro che oscilla, note un po' calanti. Scelta dall'utente: la j
 # («mettimi l'ultima, la j»)
-MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_a", "visita": "visita_j"}
+# il tema del titolo (Stable Audio 2.5, «fammi un tema per il titolo con Stable Audio»): titolo a (carillon), b
+# (chitarra), c (violoncello); nel gioco la a
+MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_a", "visita": "visita_j", "titolo": "titolo_a"}
 
 
 def leggi(f):

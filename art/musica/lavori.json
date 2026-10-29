@@ -299,5 +299,61 @@
       "prompt": "Slow dreamy melancholic ambient piece in D minor, half-time feel around 52 BPM, warm detuned electric piano with tape wow and flutter, sustained washed-out analog synth chords, sparse sad clean electric guitar notes with long reverb, faint low drone, long silences between phrases, nostalgic, wistful, uneasy, lo-fi haze, indie horror game soundtrack, no drums, no vocals",
       "seconds_total": 120
     }
+  },
+  {
+    "nome": "titolo_a",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Main title theme for a melancholic indie horror game about a plague doctor in a foggy, forgotten mountain village. Slow dreamy ambient in D minor, 58 BPM, a simple haunting music box melody that repeats like a lullaby, warm detuned electric piano chords with tape wow and flutter, washed-out analog synth pads, a distant church bell tolling now and then, faint low drone, nostalgic, wistful, uneasy, lo-fi haze, cinematic, no drums, no vocals",
+      "seconds_total": 120
+    }
+  },
+  {
+    "nome": "titolo_b",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Opening title theme for an indie horror game, slow dreamy melancholic ambient in D minor, half-time feel around 52 BPM, a lonely clean electric guitar playing a simple memorable sad melody with long reverb, answered by soft detuned piano, sustained washed-out synth chords with tape wobble, faint low drone and distant wind, nostalgic, uneasy, lo-fi haze, no drums, no vocals",
+      "seconds_total": 120
+    }
+  },
+  {
+    "nome": "titolo_c",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Title theme for a horror game about a plague doctor, slow and solemn, D minor, 60 BPM, a lone cello playing a mournful old-world melody, detuned felt piano chords, washed-out analog synth pads with tape wow and flutter, a distant church bell, faint choir-like synth pad, low drone, melancholic, dreamy, uneasy, lo-fi haze, no drums, no vocals",
+      "seconds_total": 120
+    }
+  },
+  {
+    "nome": "stanza_giorno_c",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Unsettling, strange ambient for a plague doctor's rented room on a foggy morning in a forgotten mountain village. Very slow, D minor, a detuned upright piano playing a few notes that slowly drift out of tune, a broken music box that keeps slowing down and stopping, reversed tape fragments, warped radio static, a wobbling low drone, eerie microtonal synth swells, creaking wood, dreamlike and wrong, melancholic, no drums, no vocals",
+      "seconds_total": 120
+    }
+  },
+  {
+    "nome": "stanza_giorno_d",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Strange, uneasy dreamlike ambient, a slowed-down warped tape of an old lullaby played on a toy piano, pitch wobbling and detuned, cold glassy synth harmonics, a faint high ringing tone, low sub drone, a ticking clock slightly out of time, lo-fi haze, unsettling and surreal, D minor, very slow, no drums, no vocals",
+      "seconds_total": 120
+    }
+  },
+  {
+    "nome": "stanza_sera_c",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Dark, strange, unsettling ambient for night in a haunted rented room: deep subterranean drones, slow dissonant organ clusters far away, metallic scraping and groaning textures like old pipes, a detuned bell that rings once in a while, reversed piano notes, eerie whistling wind, Lovecraftian dread, very slow, no drums, no vocals",
+      "seconds_total": 120
+    }
+  },
+  {
+    "nome": "stanza_sera_d",
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Uneasy nocturnal ambient, a heartbeat-like sub pulse, slowly detuning string clusters, a distant church bell warped and slowed down, glassy harmonics, a faint melody played on a broken out-of-tune piano behind a wall, surreal, menacing, lo-fi haze, very slow, no drums, no vocals",
+      "seconds_total": 120
+    }
   }
 ]

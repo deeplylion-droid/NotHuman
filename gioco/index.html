@@ -565,6 +565,9 @@
   .ti-nome { margin: 0; font-family: var(--vcr); font-size: clamp(2.8rem, 8.5vw, 6.2rem); font-weight: 400; line-height: 0.88; text-transform: uppercase; text-wrap: balance; color: var(--giallo); text-shadow: 0 0 1.4rem rgba(242, 209, 107, 0.3), 0.05em 0.05em 0 #000; }
   #foglio-corpo .ti-sotto { margin: 0; font-family: var(--gioco); font-size: 0.78rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--spento); }
   .ti-menu { display: grid; gap: 0.7rem; margin-top: 1.2rem; width: min(21rem, 100%); }
+  /* prima del primo tasto (l'audio non puo' ancora partire): la scritta che lampeggia, come nei giochi */
+  #foglio-corpo .ti-premi { margin: 1.6rem 0 0.4rem; font-family: var(--gioco); font-size: 0.9rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--giallo); text-shadow: 0.08em 0.08em 0 #000; animation: lampeggia 1.2s steps(2, start) infinite; }
+  @media (prefers-reduced-motion: reduce) { #foglio-corpo .ti-premi { animation: none; } }
   .ti-voce { padding: 0.8rem 1.2rem; border: 2px solid var(--linea); background: var(--pannello); color: var(--testo); font-family: var(--gioco); font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase; box-shadow: 0 4px 0 #000; }
   .ti-voce:hover, .ti-voce:focus-visible { border-color: var(--giallo); background: var(--giallo); color: var(--notte); outline: none; }
   .ti-voce:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }

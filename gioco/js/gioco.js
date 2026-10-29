@@ -3501,14 +3501,34 @@ function titolo() {
     fn();
   }, "ti-voce");
   if (salvato) menu.append(voce(`Continua · ${GIORNI[salvato.S.giorno - 1].toLowerCase()}`, () => riprendi(salvato)));
-  menu.append(voce("Nuova partita", introduzione), voce("Impostazioni", () => apriImpostazioni(true)));
+  // "Nuova partita" torna alla musica della stanza ("Continua" la cambia aprendo il giorno)
+  menu.append(voce("Nuova partita", () => { ambienteStanza(); introduzione(); }),
+    voce("Impostazioni", () => apriImpostazioni(true)));
   if (ELECTRON) menu.append(voce("Esci", () => window.close()));
   foglio.dataset.bloccato = "1";
   const visti = finaliTrovati().size;
   apriFoglio("titolo", [el("h1", "ti-nome", "Il medico della peste"), el("p", "ti-sotto", "Malvento · tre giorni · demo"), menu,
     ...(visti ? [el("p", "ti-finali", `Finali trovati: ${visti} su ${Object.keys(FINALI).length}`)] : []),
     el("p", "ti-nota", `Il mouse gira lo sguardo, clic o E per usare, Esc libera il puntatore. Col controller: levette e A.${ELECTRON ? " F11 o Alt+Invio: schermo intero." : ""}`)]);
-  menu.querySelector("button")?.focus();
+  // il tema del titolo (29 ottobre, sera). Il browser lascia suonare solo dopo un tasto o un clic: finche' l'audio non
+  // e' partito, al posto dei comandi c'e' "premi un tasto", come nei giochi; il primo tasto (o clic, o tocco) fa
+  // partire il tema e mostra i comandi. Il clic che li mostra non preme anche il comando che compare sotto, e il
+  // primo comando prende il fuoco solo dopo, perche' la barra spaziatica lasciata andare non lo prema
+  suoni.musica("titolo");
+  if (suoni.ctx?.state === "running") return menu.querySelector("button")?.focus();
+  menu.hidden = true;
+  const premi = el("p", "ti-premi", tocco() ? "Tocca lo schermo" : "Premi un tasto");
+  menu.before(premi);
+  const mostra = (e) => {
+    if (e.type === "click") { e.preventDefault(); e.stopPropagation(); }
+    window.removeEventListener("keydown", mostra, true);
+    window.removeEventListener("click", mostra, true);
+    premi.remove();
+    menu.hidden = false;
+    setTimeout(() => { if (!foglio.hidden) menu.querySelector("button")?.focus(); }, 400);
+  };
+  window.addEventListener("keydown", mostra, true);
+  window.addEventListener("click", mostra, true);
 }
 
 // la partita salvata: lo stato di quella mattina e le tabelle del suo giorno

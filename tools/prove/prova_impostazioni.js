@@ -26,6 +26,14 @@ const { chromium } = require('playwright');
   // il titolo
   await page.evaluate(() => { window.prova.parole().pulisci?.(); window.prova.titolo(); });
   await page.waitForTimeout(800);
+  // prima del primo tasto l'audio non puo' partire: "premi un tasto" al posto dei comandi; il tasto li mostra e fa
+  // partire il tema del titolo
+  const prima = await page.evaluate(() => ({ premi: document.querySelector('.ti-premi')?.textContent, menu: document.querySelector('.ti-menu').hidden }));
+  verifica(prima.premi === 'Premi un tasto' && prima.menu, `prima del tasto: ${JSON.stringify(prima)}`);
+  await page.keyboard.press('Shift');
+  await page.waitForTimeout(1200);
+  const dopoTasto = await page.evaluate(() => ({ premi: !!document.querySelector('.ti-premi'), menu: document.querySelector('.ti-menu').hidden, brano: window.prova.suoni().brano?.nome }));
+  verifica(!dopoTasto.premi && !dopoTasto.menu && dopoTasto.brano === 'titolo', `dopo il tasto: ${JSON.stringify(dopoTasto)}`);
   const voci = await page.evaluate(() => [...document.querySelectorAll('.ti-menu button')].map((b) => b.textContent));
   console.log('titolo:', voci.join(' | '));
   verifica(voci.includes('Impostazioni') && !voci.includes('Esci'), 'nel titolo c\'e\' Impostazioni (e niente Esci nel browser)');
@@ -72,6 +80,7 @@ const { chromium } = require('playwright');
   // nuova partita, poi l'ingranaggio
   await page.locator('.ti-menu button', { hasText: 'Nuova partita' }).click();
   await page.waitForTimeout(1500);
+  verifica((await page.evaluate(() => window.prova.suoni().brano?.nome)) === 'stanza_giorno', 'Nuova partita: la musica della stanza');
   for (let i = 0; i < 20 && await page.evaluate(() => window.prova.R().occupato); i++) { await page.keyboard.press(' '); await page.waitForTimeout(200); }
   const sch = await page.locator('#schermo').boundingBox();
   await page.evaluate(() => { document.querySelector('#schermo').dataset.comparsa = '1'; });
