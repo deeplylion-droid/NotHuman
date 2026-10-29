@@ -133,6 +133,35 @@ Come è fatto:
 - **La terza notte**: la cosa nera si avvicina di un passo per ogni notte che il medico ha dormito solo; **chi dorme solo tutte e tre le notti**, sul nastro, viene preso dalla cosa nera e portato nella stanzetta, avvolto nella coperta (`notte_solo_4`, col letto vuoto: `letto_vuoto` in `art/ospite/ospite.json`); la mattina si sveglia sulla brandina, con la maschera accanto. Poi il resoconto, il giornale del quarto giorno («Le campane mute», «Separate le gemelle De Rosa», «Il medico cammina di notte»...) e la verità dei tre giorni.
 - **Come è fatto**: quattro scene nuove col procedimento solito (`tools/scena.py`: `art/scene/07-sacrestia`, `08-cripta`, `09-sartoria`, `10-cantina`; la cripta ha una persona sola e `scena.py` ora lo dice nei prompt, se no il passaggio degli ammorbiditi la raddoppiava; il bozzolo, che SAM 3 non trovava, è ritagliato dalla differenza tra gli ammorbiditi e la stanza); le varianti delle case di prima con `tools/varianti.py` (`art/scene/*/giorno3`: il padre radicato, rifatto dalla scena finale perché la prima versione veniva disegnata, con una maschera di montaggio più larga per la tazza e le radici; l'uomo allungato; la camera con la finestra rotta); le schede dei sei personaggi nuovi (`art/personaggi`); 56 primi piani (i mostri, chi diventa grave, le persone nuove; tre rifiutati dal filtro per le «piaghe aperte» e riscritti come gonfiori); quattro espressioni (piangono il sacrestano, Giona e le gemelle); tutte con meno dettagli. In `tools/prepara_gioco.py` le case di prima sono a strati (`GIORNO3`, 31 scene in `img/g3`) e le nuove una per luogo (`LUOGHI3`); tutte le immagini del terzo giorno stanno in cinque pacchi `g3_*` (il più grande 8 MB), che il gioco apre all'inizio del terzo giorno. Il calore per l'infrarosso lo fa il gioco (`calore: "vivo"`, `caloreVivo` in `gioco.js`): le sagome di chi c'è col calore di oggi, più le macchie del luogo (lampade, candele, chi sta dietro una porta o sotto il pavimento). I testi sono in `gioco/js/giorno3.js` (dalle scelte dei primi due giorni); chi è cambiato non risponde e fa qualcosa di suo (`muto`: «scricchiola», «canta a bocca chiusa»); dalla cantina e dalla cripta si torna «di sopra» (`ritornoNome`). Le zone e gli esami ripresi dai giorni prima non rimettono sul nastro frasi e prove di ieri (prima avrebbero bloccato il gioco). Spesa circa 15 dollari.
 
+### Il finale della demo (bozza)
+
+**Fatto il 29 ottobre** (alla domanda «come procediamo?» l'utente ha scelto di **chiudere la demo**: un vero finale, il titolo coi salvataggi, una prova completa; il progetto è in `docs/proposta_finale.md`).
+
+- **Le prove e le frasi restano**: ogni giorno si porta dietro quelle dei giorni prima (in `S.giorni`, con la notte), e il nastro 7 ascoltato (`S.tracce`).
+- **La quarta mattina**: dopo la terza notte, il resoconto e il giornale, al posto di «Com'era davvero» c'è «La quarta mattina». Il finale dipende da quattro cose:
+  - quello che hai scoperto: le quattro tracce della storia;
+  - quante case ha preso il contagio in tre notti;
+  - quante persone hai consegnato alla ditta;
+  - la fiducia del paese.
+- **I finali**, in quest'ordine:
+  - **chi ha capito che il medico è la peste** (la maschera del 1630 nella cripta, più la leggenda della nonna, il nastro 7, un ospite che scottava o «Medico 6») si siede alla scrivania davanti alla sua maschera e sceglie:
+    - scrivere alla ditta: **«Medico 6»**, PRESO ATTO, PROSEGUA, Valcupa;
+    - scendere nella cripta: **«Le campane»**, ma se Giona è nel recinto le campane tacciono;
+    - andarsene senza maschera: **«Senza maschera»**;
+  - **«Quelli che cambiano»**, se il contagio ha preso 6 case o più (sono 8 al massimo);
+  - **«Premio di produzione»**, con 4 consegnati o più: il trasferimento a Valcupa;
+  - **«La croce sulla porta»**, con la fiducia sotto 30;
+  - **«Il quarto giorno»**, in tutti gli altri casi.
+- **Come si racconta**: coi documenti del gioco, senza immagini nuove.
+  - Il fax della ditta col giudizio: il rendimento a simboli e un timbro rosso.
+  - Poi la mappa coi tre giorni di contagio (le frecce di tutte e tre le notti, le case prese in rosso), con accanto il foglio del finale.
+  - Poi «Com'era davvero», che ora comincia dalle quattro tracce (trovate, oppure un indizio per quelle sfuggite) e dai numeri dei tre giorni.
+  - Nel codice: `calcolaFinale`, `quartaMattina`, `capisci`, `apriFinale` e `TRACCE` in `gioco/js/gioco.js`.
+- **Il titolo e il salvataggio**: all'apertura c'è il titolo sopra la stanza del medico, con «Nuova partita».
+  - Ogni mattina, dal secondo giorno, la partita si salva nel browser (`localStorage`).
+  - Se c'è un salvataggio, dal titolo «Continua» riprende da quella mattina: dopo il finale riporta alla terza mattina, per provare un altro finale.
+  - Il titolo non c'è con `#prova`, `#giorno2` e `#giorno3`.
+
 ### La visita
 
 - **Due indicatori nelle visite** (26 ottobre), in basso a sinistra sopra il nastro delle frasi, dove prima c'erano data e ora:

@@ -487,14 +487,14 @@
   .sf-fantasma { position: fixed; z-index: 100; margin: 0; pointer-events: none; translate: -50% -60%; rotate: -5deg; opacity: 0.95; filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.6)); }
   .sf-fantasma.fot { width: 360px; height: 100px; background: rgba(16, 15, 13, 0.85); }
 
-  #foglio[data-tipo="soldi"] .carta, #foglio[data-tipo="nastri"] .carta, #foglio[data-tipo="notte"] .carta, #foglio[data-tipo="verita"] .carta { background: #121514; color: var(--testo); font-family: var(--mono); border: 1px solid var(--linea); }
-  #foglio[data-tipo="notte"] h2, #foglio[data-tipo="verita"] h2, #foglio[data-tipo="nastri"] h2, #foglio[data-tipo="soldi"] h2 { font-family: var(--vcr); font-size: 2rem; font-weight: 400; color: var(--giallo); }
+  #foglio[data-tipo="soldi"] .carta, #foglio[data-tipo="nastri"] .carta, #foglio[data-tipo="notte"] .carta, #foglio[data-tipo="verita"] .carta, #foglio[data-tipo="finale"] .carta { background: #121514; color: var(--testo); font-family: var(--mono); border: 1px solid var(--linea); }
+  #foglio[data-tipo="notte"] h2, #foglio[data-tipo="verita"] h2, #foglio[data-tipo="nastri"] h2, #foglio[data-tipo="soldi"] h2, #foglio[data-tipo="finale"] h2 { font-family: var(--vcr); font-size: 2rem; font-weight: 400; color: var(--giallo); }
   #foglio[data-tipo="nastri"] .azioni { margin-top: 0.5rem; }
 
   /* il tasto per andare avanti resta sempre in vista, anche quando il foglio scorre (28 ottobre: "il tasto
      continua e' troppo in basso e sullo schermo non si vede") */
-  #foglio[data-tipo="notte"] .azioni, #foglio[data-tipo="verita"] .azioni, #foglio[data-tipo="giornale"] .azioni { position: sticky; bottom: 0; z-index: 1; }
-  #foglio[data-tipo="notte"] .azioni, #foglio[data-tipo="verita"] .azioni { background: linear-gradient(rgba(18, 21, 20, 0), #121514 0.8rem); }
+  #foglio[data-tipo="notte"] .azioni, #foglio[data-tipo="verita"] .azioni, #foglio[data-tipo="giornale"] .azioni, #foglio[data-tipo="finale"] .azioni { position: sticky; bottom: 0; z-index: 1; }
+  #foglio[data-tipo="notte"] .azioni, #foglio[data-tipo="verita"] .azioni, #foglio[data-tipo="finale"] .azioni { background: linear-gradient(rgba(18, 21, 20, 0), #121514 0.8rem); }
   #foglio[data-tipo="verita"] .azioni { margin: 1.1rem -2.2rem -1.8rem; padding: 1rem 2.2rem 1.4rem; }
   /* il giornale del mattino: la pagina si stringe quanto basta perche' sotto ci stia il tasto */
   #foglio[data-tipo="giornale"] .carta:has(.azioni) { width: min(100%, calc((100dvh - 32px - 4.2rem) * 1920 / 1072)); }
@@ -502,10 +502,10 @@
 
   /* il resoconto della notte: la mattina, sulla mappa. A sinistra un foglio corto, a destra le frecce rosse del
      contagio sulle case (28 ottobre: "la cosa importante e' sapere come si e' diffuso il contagio") */
-  #foglio[data-tipo="notte"] { background: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2) 38%, rgba(0, 0, 0, 0) 55%); place-items: center start; }
-  #foglio[data-tipo="notte"] .carta { width: min(25rem, max(17rem, 31vw)); background: rgba(18, 21, 20, 0.94); }
-  #foglio[data-tipo="notte"] #foglio-corpo { padding: 1.3rem 1.4rem 0; }
-  #foglio[data-tipo="notte"] #foglio-corpo h2 { margin: 0; font-size: 1.7rem; }
+  #foglio[data-tipo="notte"], #foglio[data-tipo="finale"] { background: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2) 38%, rgba(0, 0, 0, 0) 55%); place-items: center start; }
+  #foglio[data-tipo="notte"] .carta, #foglio[data-tipo="finale"] .carta { width: min(25rem, max(17rem, 31vw)); background: rgba(18, 21, 20, 0.94); }
+  #foglio[data-tipo="notte"] #foglio-corpo, #foglio[data-tipo="finale"] #foglio-corpo { padding: 1.3rem 1.4rem 0; }
+  #foglio[data-tipo="notte"] #foglio-corpo h2, #foglio[data-tipo="finale"] #foglio-corpo h2 { margin: 0; font-size: 1.7rem; }
   #foglio-corpo .nt-titolo { margin: 0.2rem 0 0.75rem; font-family: var(--gioco); font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: #ff7b6b; }
   #foglio-corpo .nt-contagio { list-style: none; padding: 0; margin: 0; gap: 0.5rem; }
   #foglio-corpo .nt-contagio li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.35rem; line-height: 1.25; }
@@ -521,9 +521,45 @@
   #foglio-corpo .nt-riga { margin: 0.35rem 0 0; font-size: 0.82rem; line-height: 1.4; color: var(--spento); }
   #foglio-corpo .nt-contagio + .nt-riga { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--linea); }
   .nt-riga b { margin-right: 0.35rem; font-family: var(--gioco); font-size: 0.66rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--testo); }
-  #foglio[data-tipo="notte"] .azioni { margin: 0.9rem -1.4rem 0; padding: 0.8rem 1.4rem 1.2rem; }
+  #foglio[data-tipo="notte"] .azioni, #foglio[data-tipo="finale"] .azioni { margin: 0.9rem -1.4rem 0; padding: 0.8rem 1.4rem 1.2rem; }
   /* sul telefono in piedi il foglio va in basso, la mappa resta sopra */
-  @media (max-width: 560px) { #foglio[data-tipo="notte"] { place-items: end center; background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 60%); } #foglio[data-tipo="notte"] .carta { width: 100%; max-height: 60dvh; } }
+  @media (max-width: 560px) { #foglio[data-tipo="notte"], #foglio[data-tipo="finale"] { place-items: end center; background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 60%); } #foglio[data-tipo="notte"] .carta, #foglio[data-tipo="finale"] .carta { width: 100%; max-height: 60dvh; } }
+
+  /* il finale della demo: le righe, la frase forte, le tre scelte di chi ha capito, i numeri dei tre giorni; nella
+     verita' le quattro tracce, trovate o sfuggite */
+  #foglio[data-tipo="finale"] #foglio-corpo p { margin: 0.55rem 0 0; font-size: 0.88rem; line-height: 1.5; }
+  #foglio-corpo .fn-forte { font-family: var(--gioco); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: #ff7b6b; }
+  #foglio-corpo .fn-domanda { margin: 1rem 0 0.2rem; font-family: var(--gioco); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--giallo); }
+  .fn-scelte { flex-direction: column; align-items: stretch; }
+  .fn-scelta { display: grid; gap: 0.15rem; padding: 0.6rem 0.9rem; border: 1px solid var(--linea); background: rgba(255, 255, 255, 0.03); color: var(--testo); text-align: left; font-family: var(--mono); }
+  .fn-scelta b { font-family: var(--gioco); font-size: 0.82rem; font-weight: 400; letter-spacing: 0.05em; text-transform: uppercase; }
+  .fn-scelta small { font-size: 0.75rem; color: var(--spento); }
+  .fn-scelta:hover, .fn-scelta:focus-visible { border-color: var(--giallo); background: rgba(242, 209, 107, 0.12); outline: none; }
+  #foglio-corpo .fn-numeri { list-style: none; padding: 0.7rem 0 0; margin: 0.9rem 0 0; border-top: 1px solid var(--linea); gap: 0.2rem; font-size: 0.82rem; color: var(--spento); }
+  .fn-numeri b { margin-right: 0.35rem; font-family: var(--gioco); font-size: 0.66rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--testo); }
+  #foglio-corpo .fn-tracce { list-style: none; padding: 0; gap: 0.45rem; }
+  .fn-tracce li { display: grid; gap: 0.1rem; }
+  .fn-tracce b { font-family: var(--gioco); font-size: 0.78rem; font-weight: 400; letter-spacing: 0.05em; }
+  .fn-tracce .trovata b { color: var(--verde); }
+  .fn-tracce .sfuggita b { color: var(--spento); }
+  .fn-tracce small { font-size: 0.8rem; line-height: 1.4; color: var(--spento); }
+
+  /* il titolo: sopra la stanza del medico, al buio, il nome del gioco e due comandi */
+  #foglio[data-tipo="titolo"] { background: radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.9) 78%); }
+  #foglio[data-tipo="titolo"] .carta { width: min(42rem, 100%); background: transparent; box-shadow: none; color: var(--testo); text-align: center; }
+  #foglio[data-tipo="titolo"] #foglio-corpo { padding: 1rem; display: grid; justify-items: center; gap: 0.8rem; }
+  .ti-nome { margin: 0; font-family: var(--vcr); font-size: clamp(2.8rem, 8.5vw, 6.2rem); font-weight: 400; line-height: 0.88; text-transform: uppercase; text-wrap: balance; color: var(--giallo); text-shadow: 0 0 1.4rem rgba(242, 209, 107, 0.3), 0.05em 0.05em 0 #000; }
+  #foglio-corpo .ti-sotto { margin: 0; font-family: var(--gioco); font-size: 0.78rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--spento); }
+  .ti-menu { display: grid; gap: 0.7rem; margin-top: 1.2rem; width: min(21rem, 100%); }
+  .ti-voce { padding: 0.8rem 1.2rem; border: 2px solid var(--linea); background: var(--pannello); color: var(--testo); font-family: var(--gioco); font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase; box-shadow: 0 4px 0 #000; }
+  .ti-voce:hover, .ti-voce:focus-visible { border-color: var(--giallo); background: var(--giallo); color: var(--notte); outline: none; }
+  .ti-voce:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
+  #foglio-corpo .ti-nota { margin: 1rem 0 0; max-width: 30rem; font-family: var(--mono); font-size: 0.75rem; line-height: 1.5; color: var(--spento); }
+
+  /* il fax del finale: il giudizio della ditta col timbro rosso */
+  .fx-esito { display: grid; gap: 0.3rem; font-family: var(--gioco); font-size: 0.72rem; letter-spacing: 0.06em; }
+  .fx-esito p { margin: 0; }
+  #foglio-corpo .fx-timbro { justify-self: start; margin: 0.2rem 0 0.5rem; padding: 0.35rem 0.6rem; border: 3px solid var(--timbro); color: var(--timbro); font-size: 1rem; letter-spacing: 0.08em; transform: rotate(-3deg); }
 
   button:focus-visible { outline: 2px solid var(--giallo); outline-offset: 2px; }
 </style>

@@ -3,7 +3,7 @@
 // le porte), lo stato di famiglia, i nastri della sera all'infrarosso e la notte.
 import { Vhs } from "./vhs.js";
 import * as D1 from "./dati.js";
-import { giorno2, verita2, giornale3 } from "./giorno2.js";
+import { giorno2, verita2, giornale3, IMMUNE } from "./giorno2.js";
 import { giorno3, verita3, giornale4 } from "./giorno3.js";
 import { ESPRESSIONI } from "./espressioni.js";
 import { PACCHI } from "./pacchi.js";
@@ -79,6 +79,8 @@ function nuovoStato() {
     // il giorno (la bozza ne ha due), i giorni passati (diagnosi e morti, per la verita' alla fine) e il giornale
     // di stamattina
     giorno: 1, giorni: [], giornale: null,
+    // quello che resta da un giorno all'altro per il finale, oltre alle prove e alle frasi dei giorni passati (il nastro 7)
+    tracce: {},
   };
 }
 let S = nuovoStato();
@@ -962,33 +964,41 @@ function apriFax() {
   // la prima volta il fax arriva e si stampa, poi e' solo un foglio
   suoni.suona(S.faxStampato ? "carta" : "fax");
   S.faxStampato = true;
-  const segno = (pitto, nome, nota, cls = "") => {
-    const d = el("figure", `fx-segno ${cls}`);
-    const ic = el("div", "fx-pitto");
-    ic.innerHTML = pittogramma(pitto);
-    d.append(ic, el("b", null, nome));
-    if (nota) d.append(el("span", null, nota));
-    return d;
-  };
-  const blocco = (titolo, ...figli) => {
-    const s = el("section", "fx-blocco");
-    s.append(el("h3", null, titolo), ...figli);
-    return s;
-  };
+  const testa = testaFax(`PROTOCOLLO · GIORNO ${f.giorno}`);
+  const segni = el("div", "fx-segni");
+  for (const s of f.segni) segni.append(segnoFax(s.icona, s.nome, s.nota));
+  const case_ = el("div", "fx-fila");
+  for (const n of f.case) case_.append(segnoFax("casa", `CASA ${n}`, null, "piccolo"));
+  const paga = el("div", "fx-fila");
+  paga.append(segnoFax("moneta", `${D.SOLDI.paziente} €`, "a paziente", "piccolo"),
+    segnoFax("mirino", `+${D.SOLDI.profilo} €`, f.profilo, "piccolo"));
+  const riga = el("div", "fx-riga");
+  riga.append(bloccoFax("DA VISITARE", case_), bloccoFax("PAGA", paga));
+  apriFoglio("fax", [testa, bloccoFax("SEGNI DA CERCARE", segni), riga, el("p", "fx-motto", f.motto)]);
+}
+
+// i pezzi del fax: un pittogramma con la sua scritta, un blocco col titolo, la testata della ditta
+function segnoFax(pitto, nome, nota, cls = "") {
+  const d = el("figure", `fx-segno ${cls}`);
+  const ic = el("div", "fx-pitto");
+  ic.innerHTML = pittogramma(pitto);
+  d.append(ic, el("b", null, nome));
+  if (nota) d.append(el("span", null, nota));
+  return d;
+}
+
+function bloccoFax(titolo, ...figli) {
+  const s = el("section", "fx-blocco");
+  s.append(el("h3", null, titolo), ...figli);
+  return s;
+}
+
+function testaFax(giorno) {
   const testa = el("header", "fx-testa");
   const logo = el("div", "fx-logo");
   logo.innerHTML = pittogramma("panacea");
-  testa.append(logo, el("b", "fx-ditta", "PANACEA"), el("span", "fx-giorno", `PROTOCOLLO · GIORNO ${f.giorno}`));
-  const segni = el("div", "fx-segni");
-  for (const s of f.segni) segni.append(segno(s.icona, s.nome, s.nota));
-  const case_ = el("div", "fx-fila");
-  for (const n of f.case) case_.append(segno("casa", `CASA ${n}`, null, "piccolo"));
-  const paga = el("div", "fx-fila");
-  paga.append(segno("moneta", `${D.SOLDI.paziente} €`, "a paziente", "piccolo"),
-    segno("mirino", `+${D.SOLDI.profilo} €`, f.profilo, "piccolo"));
-  const riga = el("div", "fx-riga");
-  riga.append(blocco("DA VISITARE", case_), blocco("PAGA", paga));
-  apriFoglio("fax", [testa, blocco("SEGNI DA CERCARE", segni), riga, el("p", "fx-motto", f.motto)]);
+  testa.append(logo, el("b", "fx-ditta", "PANACEA"), el("span", "fx-giorno", giorno));
+  return testa;
 }
 
 // il giornale: la carta e' disegnata, il testo e' stampato sopra con la stessa prospettiva della pagina
@@ -1031,9 +1041,9 @@ function apriGiornale(domani) {
   leggibile.append(el("h2", null, g.titolo), el("p", "gio-l-sommario", g.sommario), el("p", null, g.articolo),
     el("p", null, `LETTERE · ${g.lettera}`), el("p", null, g.breve));
   const corpo = [stampa, leggibile];
-  // dopo la prima notte comincia il secondo giorno, dopo la seconda il terzo; dopo la terza, la verita'
+  // dopo la prima notte comincia il secondo giorno, dopo la seconda il terzo; dopo la terza, il finale della demo
   if (domani) corpo.push(azioni([[["Il secondo giorno", iniziaGiorno2], ["Il terzo giorno", iniziaGiorno3]][S.giorno - 1]
-    || ["Com'era davvero", verita]]));
+    || ["La quarta mattina", quartaMattina]]));
   apriFoglio("giornale", corpo);
   const proietta = () => {
     const r = stampa.getBoundingClientRect();
@@ -1115,7 +1125,7 @@ function vaiMappa() {
     if (c.segnalata) b.classList.add("segnalata");
     if (c.croce || S.decisioni[id]?.provvedimento === "chiudi") b.classList.add("croce");
     if (S.visitate[id]) b.classList.add("visitata");
-    if (S.notte?.contagiate?.includes(id)) b.classList.add("contagiata");
+    if (S.notte?.contagiate?.includes(id) || R.contagio?.prese?.includes(id)) b.classList.add("contagiata");
   }
   for (const l of D.LUOGHI_MAPPA) {
     const b = spillo("pin luogo", l.segno, l.x, l.y, l.nome, () => mostraLuogo(l));
@@ -2648,6 +2658,7 @@ function cliccaNastro(x, y) {
 }
 
 async function riproduciVecchio() {
+  S.tracce.nastro7 = true;
   S.schermo = "nastro";
   pulisci();
   R.play = null;
@@ -2965,11 +2976,202 @@ const VERITA1 = [
 
 const GIORNI = ["Il primo giorno", "Il secondo giorno", "Il terzo giorno"];
 
+// ---------- il finale della demo (29 ottobre: "chiudere la demo"): dopo la terza notte e il giornale, la quarta
+// mattina. Il finale dipende da quello che hai scoperto nei tre giorni (le quattro tracce della storia), dal contagio,
+// da chi hai consegnato alla ditta e dalla fiducia del paese (docs/proposta_finale.md) ----------
+
+// le quattro tracce della storia: quando si contano trovate ("p:" una prova, "d:" una frase sentita, il resto un segno
+// di S.tracce) e cosa dire se sono sfuggite
+const OSPITI_FEBBRE = ["d:tornata_scottava", "d:svegliata_scottavo", "d:febbre_mattina", "d:nonna_scottava"];
+const TRACCE = [
+  { id: "medico", nome: "Il medico è la peste",
+    trovata: (ha) => ha("p:maschera_1630") && ["d:leggenda", "nastro7", "d:medico6", ...OSPITI_FEBBRE].some(ha),
+    sfuggita: "Chi dorme da te, la mattina dopo scotta. E sotto la chiesa c'è una maschera come la tua." },
+  { id: "ditta", nome: "La ditta e le cavie", trovata: (ha) => ["p:cartella", "p:peste_lenzuola"].some(ha),
+    sfuggita: "Sotto il materasso della casa 2 c'è una cartella; nella casa 4, le lenzuola del recinto." },
+  { id: "immune", nome: "Chi non si ammala", trovata: (ha) => IMMUNE.some(ha),
+    sfuggita: "Nella casa 10 qualcuno ha dormito accanto a un malato e non si è ammalato." },
+  { id: "paese", nome: "Il segreto del paese",
+    trovata: (ha) => ["p:maschera_1630", "p:canto", "p:chiave_cripta", "p:calore_cripta", "d:cripta", "d:campane_buoni"].some(ha),
+    sfuggita: "Il sacrestano della casa 7 non dice dov'è sua moglie. Ascolta dietro la porta della cantina." },
+];
+
+// il conto dei tre giorni: le tracce trovate, le case prese dal contagio, chi hai consegnato alla ditta (com'era quel
+// giorno), chi e' cambiato, le frecce del contagio di tutte e tre le notti, e il finale che ne viene
+function calcolaFinale() {
+  const giorni = [...S.giorni, oggi()];
+  const prove = new Set(giorni.flatMap((g) => g.prove || []));
+  const dette = new Set(giorni.flatMap((g) => g.dette || []));
+  const ha = (k) => (k.startsWith("p:") ? prove.has(k.slice(2)) : k.startsWith("d:") ? dette.has(k.slice(2)) : !!S.tracce[k]);
+  const notti = giorni.map((g) => g.notte).filter(Boolean);
+  const consegnati = giorni.flatMap((g) => (g.notte?.portati || []).map((id) => ({ id, ...g.persone?.[id] })));
+  // chi e' cambiato: chi lo era gia' oggi, chi era grave e stanotte non e' andato nel recinto, e chi non si incontra
+  // (il nonno, Paolo Serra, la madre uscita dalla finestra)
+  const via = S.notte?.portati || [];
+  const cambiati = Object.entries(D.PERSONE).filter(([id, p]) => p.stato === "mostro" || (p.stato === "grave" && !via.includes(id))).length
+    + Object.entries(D.ALTRI || {}).filter(([id, a]) => a.stato === "mostro" && !D.PERSONE[id]).length;
+  const f = { ha, tracce: Object.fromEntries(TRACCE.map((t) => [t.id, t.trovata(ha)])), consegnati, cambiati,
+    prese: [...new Set(notti.flatMap((n) => n.contagiate || []))], diffusione: notti.flatMap((n) => n.diffusione || []),
+    sani: consegnati.filter((p) => p.stato === "sano").length, profili: consegnati.filter((p) => p.profilo).length,
+    giona: consegnati.some((p) => p.id === "giona") };
+  f.id = f.tracce.medico ? "verita" : f.prese.length >= 6 ? "cambiano" : consegnati.length >= 4 ? "premio"
+    : S.fiducia < 30 ? "croce" : "quarto";
+  return f;
+}
+
+const quante = (n, una, tante) => (n === 1 ? una : `${n} ${tante}`);
+
+// i finali: il titolo e le righe ("fax", "cripta" e "via" sono le scelte di chi ha capito)
+const FINALI = {
+  fax: () => ({ titolo: "Medico 6", righe: [
+    "Scrivi sul fax tutto quello che sai: la lente d'ottone, gli ospiti che la mattina scottavano, le case dove entri tu.",
+    "Mezz'ora dopo il fax risponde, coi timbri: PRESO ATTO. PROSEGUA. Nuova destinazione: Valcupa, 31 case.",
+    "Lo sapevano dal primo giorno. Ti hanno mandato apposta."] }),
+  cripta: (f) => ({ titolo: "Le campane", righe: [
+    "Prendi la chiave nera e scendi. Le candele sono ancora accese, e la santa di cera canta a bocca chiusa.",
+    "Nella nicchia accanto alla sua c'è posto. Ti metti la maschera del 1630 e ti siedi.",
+    ...(f.giona ? ["Ma le campane tacciono: Giona è nel recinto. Al buio, nelle nicchie, qualcuno apre gli occhi."]
+      : ["Giona suona le campane tutta la notte, e tutte le notti dopo. A Malvento non si ammala più nessuno.",
+        "Nella stanza vuota, per tre giorni, suona il fax della Panacea."])] }),
+  via: () => ({ titolo: "Senza maschera", righe: [
+    "Lasci la maschera sulla scrivania, con la videocamera accesa, e all'alba te ne vai a piedi per la Strada del Cimitero.",
+    "Senza il becco nessuno ti riconosce. Il nastro riprende la stanza vuota per sei ore.",
+    "A valle, nel primo paese, una donna ti offre un caffè. Il malvento cammina con te."] }),
+  cambiano: (f) => ({ titolo: "Quelli che cambiano", righe: [
+    "La quarta mattina il fax non suona: la linea è muta.",
+    `In tre notti il contagio ha preso ${quante(f.prese.length, "una casa", "case")}, e ${quante(f.cambiati, "una persona è cambiata", "persone sono cambiate")}.`,
+    "Di giorno il paese è vuoto, le porte segnate con la croce. Di notte, lungo i muri, camminano quelli che cambiano.",
+    "Dalla strada, qualcuno guarda la tua finestra. Non bussa."] }),
+  premio: (f) => ({ titolo: "Premio di produzione", righe: [
+    "Prepari la valigia. Dalla finestra vedi il furgone bianco davanti al recinto.",
+    `Hai consegnato alla ditta ${f.consegnati.length} persone${f.sani ? `, ${quante(f.sani, "una sana", "sane")}` : ""}.`,
+    S.fiducia < 30 ? "Sulla porta qualcuno ha inchiodato una croce di legno. Nessuno ti saluta." : "Nessuno ti saluta.",
+    "A Valcupa, ancora, nessuno sa niente."] }),
+  croce: () => ({ titolo: "La croce sulla porta", righe: [
+    "La quarta mattina la porta non si apre: è inchiodata da fuori, con una croce di legno.",
+    "Il paese ti ha chiuso dentro, come tu chiudevi le case.",
+    "Il fax della ditta arriva alle nove: rendimento insufficiente. Ti sostituirà il Medico 7.",
+    "Di notte, sotto la porta, qualcuno respira."] }),
+  quarto: (f) => ({ titolo: "Il quarto giorno", righe: [
+    "Il fax del quarto giorno arriva a mezzogiorno, come sempre.",
+    f.prese.length ? `In tre notti il contagio ha preso ${quante(f.prese.length, "una casa", "case")}.` : "In tre notti il contagio non è uscito dalle case.",
+    "Il paese ti apre ancora la porta, ma ti guarda le mani.",
+    "La giornata comincia. Qui finisce la demo: la peste no."] }),
+};
+
+// il giudizio della ditta alla quarta mattina: il timbro e sotto due righe
+const GIUDIZI = {
+  premio: ["PREMIO DI PRODUZIONE", "TRASFERIMENTO: VALCUPA · 31 CASE", "IL FURGONE PASSA ALLE 7:00"],
+  croce: ["RENDIMENTO INSUFFICIENTE", "SOSTITUZIONE: MEDICO 7"],
+  quarto: ["PROSEGUA", "PROTOCOLLO DEL GIORNO 4 IN ARRIVO"],
+  fax: ["PRESO ATTO · PROSEGUA", "NUOVA DESTINAZIONE: VALCUPA · 31 CASE"],
+};
+
+// la quarta mattina: chi ha capito che il medico e' la peste si siede alla scrivania e sceglie; agli altri arriva il
+// fax della ditta (o non arriva: la linea e' muta), poi il finale
+function quartaMattina() {
+  R.contagio = null;
+  const f = R.finale = calcolaFinale();
+  foglio.dataset.bloccato = "1";
+  if (f.id === "verita") capisci(f);
+  else if (f.id === "cambiano") apriFinale(f, "cambiano");
+  else faxFinale(f, f.id, () => apriFinale(f, f.id));
+}
+
+// il fax della ditta: il rendimento a simboli (consegnati, profili, case prese) e il timbro del giudizio
+function faxFinale(f, chi, poi) {
+  suoni.suona("fax");
+  const [timbro, ...righe] = GIUDIZI[chi];
+  const resa = el("div", "fx-fila");
+  resa.append(segnoFax("moneta", String(f.consegnati.length), "consegnati", "piccolo"),
+    segnoFax("mirino", String(f.profili), "profili", "piccolo"), segnoFax("casa", String(f.prese.length), "case prese", "piccolo"));
+  const esito = el("div", "fx-esito");
+  esito.append(el("p", "fx-timbro", timbro), ...righe.map((r) => el("p", null, r)));
+  const riga = el("div", "fx-riga");
+  riga.append(bloccoFax("RENDIMENTO", resa), bloccoFax("ESITO", esito));
+  apriFoglio("fax", [testaFax("COMUNICAZIONE · MEDICO 6"), riga, el("p", "fx-motto", "PANACEA · Ci prendiamo cura di voi."),
+    azioni([["Avanti", poi]])]);
+}
+
+// hai capito: alla scrivania, davanti alla maschera, torna in mente quello che hai trovato; poi cosa fai
+function capisci(f) {
+  // e' mattina, e sulla scrivania c'e' il giornale nuovo
+  S.fase = "mattina";
+  S.giornale = S.giornaleDomani || S.giornale;
+  vaiScrivania();
+  hud.replaceChildren();
+  aiuto(null);
+  const righe = ["Ti siedi alla scrivania. La maschera è lì dove l'hai lasciata, con la videocamera spenta.",
+    "La sua lente d'ottone è la stessa della maschera nella cripta. Il medico del 1630 portò il malvento a Malvento.",
+    ...(f.ha("d:leggenda") ? ["La nonna l'aveva detto il primo giorno: la peste arrivò col medico."] : []),
+    ...(f.ha("nastro7") ? ["Il nastro 7: «...le case dove entra lui...»."] : []),
+    ...(OSPITI_FEBBRE.some(f.ha) ? ["Chi ha dormito da te, la mattina dopo scottava."] : []),
+    ...(f.ha("d:medico6") ? ["Per la ditta sei il Medico 6. Prima di te ce ne sono stati cinque."] : [])];
+  const scelta = (titolo, nota, fn) => {
+    const b = el("button", "fn-scelta");
+    b.type = "button";
+    b.append(el("b", null, titolo), el("small", null, nota));
+    b.addEventListener("click", (e) => { e.stopPropagation(); fn(); });
+    return b;
+  };
+  const scelte = el("div", "azioni fn-scelte");
+  scelte.append(scelta("Scrivi alla ditta", "Il fax è sulla scrivania.", () => faxFinale(f, "fax", () => apriFinale(f, "fax"))),
+    scelta("Scendi nella cripta", "La chiave nera è al chiodo, in sacrestia.", () => apriFinale(f, "cripta")),
+    scelta("Vai via senza maschera", "La porta non è chiusa a chiave.", () => apriFinale(f, "via")));
+  apriFoglio("finale", [el("h2", null, "La quarta mattina"), ...righe.map((r) => el("p", null, r)),
+    el("p", "fn-forte", "Il medico della peste è la peste."), el("h3", "fn-domanda", "Cosa fai?"), scelte]);
+}
+
+// il finale: sulla mappa i tre giorni di contagio (le frecce di tutte e tre le notti, le case prese in rosso), accanto
+// il foglio col titolo, poche righe e i numeri; poi com'era davvero
+function apriFinale(f, chi) {
+  const E = FINALI[chi](f);
+  S.schermo = "notte";
+  R.contagio = { diffusione: f.diffusione, prese: f.prese, t0: performance.now() };
+  vaiMappa();
+  hud.replaceChildren();
+  aiuto(null);
+  mostraIndicatori(null);
+  schermo.classList.add("contagio");
+  foglio.dataset.bloccato = "1";
+  apriFoglio("finale", [el("h2", null, E.titolo), ...E.righe.map((r) => el("p", null, r)), numeri(f),
+    azioni([["Com'era davvero", verita], ["Ricomincia dal primo giorno", ricomincia, "secondario"]])]);
+  inquadraContagio(f);
+  animaContagio();
+}
+
+// i numeri dei tre giorni
+function numeri(f) {
+  const ul = el("ul", "fn-numeri");
+  const riga = (nome, valore) => {
+    const li = el("li");
+    li.append(el("b", null, nome), document.createTextNode(valore));
+    return li;
+  };
+  ul.append(riga("Case prese ", String(f.prese.length)), riga("Cambiati ", String(f.cambiati)),
+    riga("Alla ditta ", `${f.consegnati.length}${f.sani ? ` (${quante(f.sani, "una sana", "sane")})` : ""}`),
+    riga("Soldi ", `${S.soldi} €`),
+    riga("Il paese ", S.fiducia >= 60 ? "ti apre la porta" : S.fiducia >= 35 ? "ti guarda storto" : "ti chiude la porta"));
+  return ul;
+}
+
 function verita() {
   const corpo = [el("h2", null, "Com'era davvero")];
+  // alla fine della demo, prima di tutto le quattro tracce della storia (trovate, o un indizio) e i numeri
+  if (S.giorno === 3) {
+    const f = R.finale || calcolaFinale();
+    const ul = el("ul", "fn-tracce");
+    for (const t of TRACCE) {
+      const li = el("li", f.tracce[t.id] ? "trovata" : "sfuggita");
+      li.append(el("b", null, `${f.tracce[t.id] ? "✓" : "✗"} ${t.nome}`));
+      if (!f.tracce[t.id]) li.append(el("small", null, `Ti è sfuggita. ${t.sfuggita}`));
+      ul.append(li);
+    }
+    corpo.push(el("h3", null, `Le quattro tracce: ${Object.values(f.tracce).filter(Boolean).length} su 4`), ul,
+      el("h3", null, "In tre giorni"), numeri(f));
+  }
   // i giorni: quelli passati (archiviati) e oggi
-  const giorni = [...S.giorni, { giorno: S.giorno, diagnosi: S.diagnosi, morti: S.morti, ieri: S.ieri,
-    anagrafe: D.ANAGRAFE, persone: D.PERSONE, altri: D.ALTRI }];
+  const giorni = [...S.giorni, oggi()];
   let tutte = 0, tutteDate = 0;
   for (const g of giorni) {
     if (giorni.length > 1) corpo.push(el("h3", null, GIORNI[g.giorno - 1]));
@@ -2988,7 +3190,7 @@ function verita() {
   corpo.push(el("p", "nota", [
     "Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove.",
     "Fine della bozza: due giornate. Nel gioco, domani torneresti alla casa 5, dove il ragazzo è giù in cantina, e alla casa 10, dove la ditta cerca chi non si ammala.",
-    "Fine della bozza: tre giornate. Nel gioco, domani la ditta verrebbe a prendere le cinque giacche nere delle gemelle, e sotto la chiesa quelli che cambiano aspetterebbero che le campane si fermino.",
+    "Fine della demo: tre giorni a Malvento. Dal titolo, «Continua» riporta alla terza mattina, per provare un altro finale.",
   ][S.giorno - 1]));
   corpo.push(azioni([["Ricomincia dal primo giorno", ricomincia]]));
   apriFoglio("verita", corpo);
@@ -2997,10 +3199,17 @@ function verita() {
 // un giorno nuovo (bozza): le tabelle del giorno (giorno2.js, giorno3.js), calcolate dalle scelte dei giorni prima,
 // prendono il posto di quelle di dati.js; dello stato restano i soldi, la fiducia, la notte (il contagio sulla mappa),
 // il giornale di stamattina e chi e' diventato un mostro. Il giorno di oggi va tra i giorni passati, per la verita'
+// il giorno di oggi, da mettere tra i giorni passati: per la verita' le diagnosi e com'era davvero, per il finale le
+// prove trovate, le frasi sentite e la notte
+function oggi() {
+  return { giorno: S.giorno, diagnosi: S.diagnosi, morti: S.morti, ieri: S.ieri, saltato: S.saltato, anagrafe: D.ANAGRAFE,
+    persone: D.PERSONE, altri: D.ALTRI, prove: [...S.prove], dette: Object.keys(S.dette), notte: S.notte };
+}
+
 function nuovoGiorno(n, tabelle, ieri) {
-  const giorni = [...S.giorni, { giorno: S.giorno, diagnosi: S.diagnosi, morti: S.morti, ieri: S.ieri, saltato: S.saltato,
-    anagrafe: D.ANAGRAFE, persone: D.PERSONE, altri: D.ALTRI }];
-  const resta = { soldi: S.soldi, fiducia: S.fiducia, notte: S.notte, giornale: S.giornaleDomani, morti: { ...S.morti } };
+  const giorni = [...S.giorni, oggi()];
+  const resta = { soldi: S.soldi, fiducia: S.fiducia, notte: S.notte, giornale: S.giornaleDomani, morti: { ...S.morti },
+    tracce: { ...S.tracce } };
   D = { ...D1, ...tabelle };
   S = Object.assign(nuovoStato(), resta, { giorno: n, giorni, ieri });
 }
@@ -3034,6 +3243,7 @@ async function apriGiorno() {
   aggiornaNastro();
   if (stanza) vaiStanza("inizio");
   else vaiScrivania();
+  salvaPartita();
   introduzione();
 }
 
@@ -3090,11 +3300,61 @@ function ricomincia() {
   foglio.dataset.bloccato = "0";
   foglio.hidden = true;
   R.contagio = null;
+  R.finale = null;
   R.play = null;
   aggiornaNastro();
   if (stanza) vaiStanza("inizio");
   else vaiScrivania();
   introduzione();
+}
+
+// ---------- il titolo e il salvataggio (29 ottobre, "chiudere la demo"): ogni mattina, dal secondo giorno, la
+// partita si salva nel browser; dal titolo "Continua" la riprende da quella mattina, con le tabelle del giorno
+// ricalcolate dalle scelte di prima (S.ieri). Senza memoria del browser si gioca lo stesso, senza salvataggi ----------
+
+const SALVATAGGIO = "malvento.partita";
+const VERSIONE = 1;
+
+function salvaPartita() {
+  if (S.giorno < 2) return;
+  try {
+    localStorage.setItem(SALVATAGGIO, JSON.stringify({ v: VERSIONE, S }));
+  } catch {
+    // niente salvataggio (memoria piena o negata): si gioca lo stesso
+  }
+}
+
+function leggiSalvataggio() {
+  try {
+    const d = JSON.parse(localStorage.getItem(SALVATAGGIO) || "null");
+    return d?.v === VERSIONE && d.S?.giorno >= 2 ? d : null;
+  } catch {
+    return null;
+  }
+}
+
+// il titolo, sopra la stanza del medico: "Continua" (se c'e' un salvataggio) e "Nuova partita"
+function titolo() {
+  const salvato = leggiSalvataggio();
+  const menu = el("div", "ti-menu");
+  const voce = (testo, fn) => bottone(testo, () => {
+    foglio.dataset.bloccato = "0";
+    foglio.hidden = true;
+    fn();
+  }, "ti-voce");
+  if (salvato) menu.append(voce(`Continua · ${GIORNI[salvato.S.giorno - 1].toLowerCase()}`, () => riprendi(salvato)));
+  menu.append(voce("Nuova partita", introduzione));
+  foglio.dataset.bloccato = "1";
+  apriFoglio("titolo", [el("h1", "ti-nome", "Il medico della peste"), el("p", "ti-sotto", "Malvento · tre giorni · demo"), menu,
+    el("p", "ti-nota", "Il mouse gira lo sguardo, clic o E per usare, Esc libera il puntatore. Col controller: levette e A.")]);
+  menu.querySelector("button")?.focus();
+}
+
+// la partita salvata: lo stato di quella mattina e le tabelle del suo giorno
+function riprendi(salvato) {
+  S = Object.assign(nuovoStato(), salvato.S);
+  D = { ...D1, ...(S.giorno === 3 ? giorno3 : giorno2)(S.ieri) };
+  return apriGiorno();
 }
 
 async function introduzione() {
@@ -3377,7 +3637,9 @@ async function avvia(dati) {
   // (non quando il codice si ricarica a meta' partita: lo stato e' gia' quello)
   if (location.hash === "#giorno2" && !(dati && dati.S)) saltaAlGiorno2();
   else if (location.hash === "#giorno3" && !(dati && dati.S)) saltaAlGiorno3();
-  else introduzione();
+  // il titolo, se si comincia da capo (non quando il codice si ricarica a meta' partita, ne' nelle prove automatiche)
+  else if ((dati && dati.S) || location.hash.startsWith("#prova")) introduzione();
+  else titolo();
   // il controller (per lo Steam Deck): nella stanza 3D si cammina e si guarda con le levette, altrove la levetta
   // muove la punta del bastone
   controller = avviaController({
@@ -3398,7 +3660,7 @@ async function avvia(dati) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash.startsWith("#prova")) window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, iniziaGiorno3, saltaAlGiorno3, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
+if (location.hash.startsWith("#prova")) window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, iniziaGiorno3, saltaAlGiorno3, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, quartaMattina, calcolaFinale, apriFinale, titolo, riprendi, leggiSalvataggio, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);
