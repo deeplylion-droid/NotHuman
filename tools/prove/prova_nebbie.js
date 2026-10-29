@@ -1,14 +1,15 @@
-// Le foto delle proposte lovecraftiane della stanza del medico (29 ottobre), col gioco servito in locale:
+// Le foto della nebbia della stanza del medico (29 ottobre), col gioco servito in locale:
 //   cd gioco && python3 -m http.server 8765 --bind 127.0.0.1
-// poi: node tools/prove/prova_nebbie.js <cartella delle foto> [nebbie, "0,1,2"] [fasi, "mattina,sera"]
-// le proposte lovecraftiane della stanza: per ogni nebbia (0 = com'era), mattina e sera, tre viste. argv[2] cartella,
-// argv[3] (facoltativo) le nebbie da provare, "1,2"; argv[4] le fasi, "mattina,sera"; argv[5] le viste,
+// poi: node tools/prove/prova_nebbie.js <cartella delle foto> [nebbie, "senza,viola,colore"] [fasi, "mattina,sera"]
+// la nebbia della stanza: per ogni nebbia ("senza" e' la stanza di prima, "viola" quella di sempre, che la sera diventa
+// R'lyeh, "colore" la quarta mattina), mattina e sera, tre viste. argv[2] cartella, argv[3] (facoltativo) le nebbie da
+// provare, "viola,colore"; argv[4] le fasi, "mattina,sera"; argv[5] le viste,
 // "finestra,stanza,letto"; argv[6] la larghezza del 3D (1280; con Chromium senza scheda video, 800 e' quattro volte
 // piu' veloce)
 const { chromium } = require('playwright');
 (async () => {
   const out = process.argv[2];
-  const nebbie = (process.argv[3] || '0,1,2,3,4').split(',').map(Number);
+  const nebbie = (process.argv[3] || 'senza,viola,colore').split(',');
   const fasi = (process.argv[4] || 'mattina,sera').split(',');
   const viste = (process.argv[5] || 'finestra,stanza,letto').split(',');
   const larghezza = Number(process.argv[6] || 1280);
@@ -31,7 +32,7 @@ const { chromium } = require('playwright');
     await page.evaluate((f) => window.prova.stanza().fase(f), f);
     await page.waitForTimeout(f === 'sera' ? 6000 : 1500);
     for (const n of nebbie) {
-      await page.evaluate((n) => window.prova.stanza().nebbia(n), n);
+      await page.evaluate((n) => window.prova.stanza().nebbia(n === 'senza' ? null : n), n);
       for (const [nome, [da, a, fov]] of Object.entries(VISTE).filter(([nome]) => viste.includes(nome))) {
         await page.evaluate(([da, a, fov]) => window.prova.stanza().inquadra(da, a, fov), [da, a, fov]);
         await page.waitForTimeout(2500);

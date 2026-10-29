@@ -68,10 +68,12 @@ const { chromium } = require('playwright');
       await tasto(sc.scelta);
       log.push(`  scelta -> ${(await foglio()).slice(0, 300)}`);
     }
-    for (let i = 0; i < 2; i++) {
+    // la quarta mattina nella stanza (i finali senza fax), il fax, l'edizione straordinaria: tutti con "Avanti"
+    for (let i = 0; i < 3; i++) {
       const tipo = await page.evaluate(() => document.querySelector('#foglio')?.dataset.tipo);
-      if (tipo !== 'fax' && tipo !== 'giornale') break;
-      await page.screenshot({ path: `${out}/${sc.nome}_${tipo}.png`, timeout: 150000 });
+      const avanti = await page.locator('#foglio button', { hasText: 'Avanti' }).count();
+      if (!avanti) break;
+      await page.screenshot({ path: `${out}/${sc.nome}_${i}_${tipo}.png`, timeout: 150000 });
       log.push(`  ${tipo}: ${(await foglio()).slice(0, 400)}`);
       await tasto('Avanti');
       await page.waitForTimeout(2000);

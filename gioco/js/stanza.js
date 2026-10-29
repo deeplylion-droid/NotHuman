@@ -184,7 +184,7 @@ const COLORE_FINALE = {
   uniforms: { tDiffuse: { value: null }, contrasto: { value: HQ_COLORE.contrasto }, saturazione: { value: HQ_COLORE.saturazione },
     vignetta: { value: HQ_COLORE.vignetta }, tinta: { value: 1 }, ombre: { value: new THREE.Vector3(...TONO_STANZA.ombre) },
     luci: { value: new THREE.Vector3(...TONO_STANZA.luci) }, tempo: { value: 0 }, deforma: { value: 0 }, aberrazione: { value: 0 },
-    tentacoli: { value: 0 }, tRumore: { value: null } },
+    tRumore: { value: null } },
   vertexShader: "varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
   fragmentShader: `uniform sampler2D tDiffuse; uniform float contrasto, saturazione, vignetta, tinta; uniform vec3 ombre, luci;
 varying vec2 vUv;
@@ -198,9 +198,9 @@ vec3 tonoColore(vec3 c) {
   g = mix(vec3(lg), g, 0.85);
   return pow(max(g, vec3(0.0)), vec3(1.12)) * 0.9;
 }
-// le proposte lovecraftiane (NEBBIE, sotto) qui aggiungono lo schermo che si deforma e respira, i colori che si
-// separano ai bordi e il buio a tentacoli che entra dai lati; a zero non fanno niente
-uniform float tempo, deforma, aberrazione, tentacoli;
+// il colore venuto dallo spazio (NEBBIE, sotto) qui aggiunge lo schermo che respira appena e i colori che si separano
+// ai bordi; a zero non fanno niente
+uniform float tempo, deforma, aberrazione;
 uniform sampler2D tRumore;
 float rumore2(vec2 x) { return texture2D(tRumore, (x + 0.5) / 256.0).x; }
 void main() {
@@ -223,52 +223,38 @@ void main() {
   x = mix(x, tonoColore(x), tinta);
   vec2 d = vUv - 0.5;
   x *= mix(1.0, smoothstep(0.85, 0.25, length(d * vec2(1.0, 0.75))), vignetta);
-  if (tentacoli > 0.0) {
-    // il buio a tentacoli: sette braccia nere che entrano dai bordi, curve, sempre piu' sottili verso la punta, che
-    // ondeggiano, avanzano e si ritirano piano; dietro, un velo scuro ai bordi
-    vec2 e = d * vec2(1.778, 1.0);
-    float r = length(e);
-    float a = atan(e.y, e.x);
-    float buio = smoothstep(0.62, 1.0, r);
-    for (int i = 0; i < 7; i++) {
-      float fi = float(i);
-      float asse = fi * 0.8976 + 0.25 * sin(tempo * 0.11 + fi * 2.1) + 0.45 * sin(r * 6.0 - tempo * 0.5 + fi * 1.3) * (r - 0.3);
-      float scarto = abs(atan(sin(a - asse), cos(a - asse))) * r;
-      float punta = 0.42 + 0.1 * sin(tempo * 0.4 + fi * 1.7);
-      float largo = 0.07 * smoothstep(punta, punta + 0.5, r);
-      float bordo = largo * (0.8 + 0.4 * rumore2(vec2(r * 30.0 - tempo * 0.8, fi * 13.0)));
-      buio = max(buio, (1.0 - smoothstep(bordo * 0.2, bordo, scarto)) * smoothstep(punta, punta + 0.12, r));
-    }
-    x *= 1.0 - tentacoli * buio;
-  }
   gl_FragColor = vec4(x, c.a);
 }`,
 };
 
-// ---------- la stanza lovecraftiana (29 ottobre, da scegliere: "dobbiamo renderla lovecraftiana, quasi nebbiosa, sui
-// toni del viola, blu, ma non solo con un filtro colore. Fammi delle proposte"). Una nebbia vera, calcolata nel 3D con
-// la profondita' della scena, prima dell'alone e del tone mapping: si marcia lungo il raggio dall'occhio alla cosa
+// ---------- la stanza lovecraftiana (29 ottobre: "dobbiamo renderla lovecraftiana, quasi nebbiosa, sui toni del
+// viola, blu, ma non solo con un filtro colore. Fammi delle proposte"; delle quattro proposte l'utente ha scelto: "usa
+// la prima, la nebbia viola. Lasciala leggera come è ora. Il colore venuto dallo spazio nella quarta mattina
+// esclusivamente"; poi la sera R'lyeh, piu' tenue e senza tentacoli; l'abisso e' scartato; le foto delle proposte in
+// art/stanza_hq/nebbie). Una nebbia vera, calcolata nel 3D
+// con la profondita' della scena, prima dell'alone e del tone mapping: si marcia lungo il raggio dall'occhio alla cosa
 // vista, e a ogni passo la nebbia toglie un po' della luce di dietro e ci mette la sua: il colore dell'aria, il sole
-// che entra a raggi dai vetri della finestra (la mattina), la lampadina e la lampada della scrivania. Quattro proposte,
-// con #nebbia1 ... #nebbia4 nell'indirizzo, o col tasto N nella stanza ----------
+// che entra a raggi dai vetri della finestra (la mattina), la lampadina e la lampada della scrivania. La nebbia viola e'
+// la stanza di giorno e R'lyeh quella della sera; il colore lo mette gioco.js nella quarta mattina. Con #senzanebbia
+// nell'indirizzo la stanza di prima, con #colore il colore subito ----------
 // densita' dell'aria e dello strato basso (per metro), quanto e' alto lo strato, i ciuffi (quanto il rumore la fa a
-// banchi, e la loro grandezza), il vento; i colori in luce vera: l'aria, i raggi del sole, la luce delle lampade; poi
-// gli effetti di ogni proposta e, alla fine, il filtro colore (ombre, luci, quanto) e gli effetti sullo schermo
+// banchi, e la loro grandezza), il vento; i colori in luce vera: l'aria, i raggi del sole, la luce delle lampade; la
+// polvere, i banchi che fanno luce da se'; alla fine il filtro colore (ombre, luci, quanto) e gli effetti sullo schermo
 const NEBBIE = {
-  1: { nome: "Nebbia viola", densita: 0.08, strato: 0.8, altezza: 3.0, ciuffi: 1, scala: 1.3, vento: [0.06, 0.01, -0.035],
+  viola: { nome: "Nebbia viola", densita: 0.08, strato: 0.8, altezza: 3.0, ciuffi: 1, scala: 1.3, vento: [0.06, 0.01, -0.035],
     aria: [0.02, 0.018, 0.055], raggi: [0.24, 0.2, 0.42], caldo: [1.0, 0.5, 0.62], particelle: 0.35,
     ombre: [0.56, 0.54, 1.0], luci: [0.84, 0.88, 1.0], tinta: 0.9 },
-  2: { nome: "L'abisso", densita: 0.2, strato: 0.25, altezza: 1.0, ciuffi: 0.5, scala: 0.6, vento: [0.0, 0.03, 0.02],
-    aria: [0.022, 0.045, 0.095], raggi: [0.12, 0.23, 0.36], caldo: [0.5, 0.65, 1.0], caustiche: 0.75, particelle: 1,
-    ombre: [0.45, 0.58, 1.0], luci: [0.7, 0.95, 1.0], deforma: 0.004 },
-  3: { nome: "Il colore venuto dallo spazio", densita: 0.06, strato: 0.5, altezza: 1.8, ciuffi: 0.9, scala: 0.9,
+  // la sera (29 ottobre, poco dopo: "R'lyeh senza tentacoli è figo comunque, si potrebbe aggiungerla durante le sere?
+  // Magari un poco più tenue"): la nebbia scura che inghiotte i muri lontani, la luce viola che respira dal pavimento,
+  // lo schermo che si piega appena; meno fitta della proposta
+  sera: { nome: "R'lyeh", densita: 0.15, strato: 0.45, altezza: 2.5, ciuffi: 0.8, scala: 1.0, vento: [0.02, 0.0, 0.04],
+    aria: [0.012, 0.008, 0.028], raggi: [0.13, 0.11, 0.26], caldo: [0.6, 0.3, 0.8], abisso: 0.5,
+    ombre: [0.6, 0.45, 1.0], luci: [0.75, 0.8, 1.0], tinta: 0.8, deforma: 0.004 },
+  colore: { nome: "Il colore venuto dallo spazio", densita: 0.06, strato: 0.5, altezza: 1.8, ciuffi: 0.9, scala: 0.9,
     vento: [0.03, 0.05, 0.02], aria: [0.03, 0.02, 0.05], raggi: [0.3, 0.16, 0.42], caldo: [0.8, 0.45, 1.0], particelle: 0.6,
     bagliore: 0.4, ombre: [0.62, 0.48, 1.0], luci: [0.78, 0.95, 1.0], tinta: 0.5, aberrazione: 0.008, deforma: 0.0015 },
-  4: { nome: "R'lyeh", densita: 0.3, strato: 0.6, altezza: 2.5, ciuffi: 0.8, scala: 1.0, vento: [0.02, 0.0, 0.04],
-    aria: [0.008, 0.005, 0.02], raggi: [0.13, 0.11, 0.26], caldo: [0.6, 0.3, 0.8], abisso: 0.7,
-    ombre: [0.6, 0.45, 1.0], luci: [0.75, 0.8, 1.0], tinta: 0.9, deforma: 0.006, tentacoli: 0.92 },
 };
-const NEBBIA_INIZIO = Number(/nebbia([1-4])/.exec(INDIRIZZO)?.[1] || 0);
+const NEBBIA_INIZIO = /senzanebbia/.test(INDIRIZZO) ? null : /colore/.test(INDIRIZZO) ? "colore" : "viola";
 
 // il rumore per la nebbia: 256 x 256 valori a caso, e nel verde gli stessi spostati di (37, 17), per avere il rumore
 // in 3D con una lettura sola (la "fetta" dopo e' la stessa tabella spostata)
@@ -296,7 +282,7 @@ function texturaRumore() {
 const NEBBIA_FRAG = `uniform sampler2D tDiffuse, tDepth, tRumore;
 uniform mat4 proiezioneInv, mondoCamera;
 uniform vec3 occhio, vento, aria, raggi, caldo;
-uniform float tempo, densita, strato, altezza, ciuffi, scala, sole, lampadina, lampada, caustiche, particelle, abisso, bagliore;
+uniform float tempo, densita, strato, altezza, ciuffi, scala, sole, lampadina, lampada, particelle, bagliore, abisso;
 varying vec2 vUv;
 const vec3 SOLE = vec3(0.472, -0.377, 0.797);
 const vec3 LAMPADINA = vec3(0.0, 2.37, 0.3);
@@ -323,12 +309,6 @@ float finestra(vec3 p) {
     + 0.12 * vetro(q, vec2(-0.62, 2.02), vec2(-0.15, 2.31));
 }
 vec3 iride(float t) { return 0.5 + 0.5 * cos(6.2832 * (t + vec3(0.0, 0.33, 0.67))); }
-// la luce dell'acqua che balla: dove due rumori si incrociano
-float caustica(vec3 p) {
-  vec3 q = vec3(p.x * 2.4 + p.y * 0.7, p.z * 2.4 - p.y * 0.7, tempo * 0.3);
-  float k = 1.0 - abs(rumore(q) - rumore(q * 1.6 + vec3(3.1, 7.4, tempo * 0.17))) * 3.5;
-  return pow(clamp(k, 0.0, 1.0), 5.0);
-}
 void main() {
   vec3 col = texture2D(tDiffuse, vUv).rgb;
   float z = texture2D(tDepth, vUv).x;
@@ -339,10 +319,6 @@ void main() {
   float L = length(rd);
   rd /= max(L, 0.0001);
   L = min(L, 14.0);
-#if VARIANTE == 2
-  // le caustiche sulle cose (non sul cielo): piu' forti in basso, dove l'acqua e' piu' vicina
-  if (z < 1.0) col *= 1.0 + caustiche * 1.6 * caustica(P) * (0.4 + 0.6 * exp(-max(P.y, 0.0) * 0.6));
-#endif
   float dt = L / float(PASSI);
   // la nebbia sparpaglia la luce soprattutto in avanti: i raggi si vedono di piu' guardando verso la finestra
   float c = dot(-rd, SOLE);
@@ -357,7 +333,7 @@ void main() {
     float n = fbm(p * vec3(scala, scala * 1.8, scala) + vento * tempo);
     float d = (densita + strato * exp(-max(p.y, 0.0) * altezza)) * mix(1.0, smoothstep(0.3, 0.75, n) * 2.0, ciuffi);
     vec3 luce = aria;
-#if VARIANTE == 3
+#if COLORE == 1
     // il colore che non e' di questo mondo: l'aria cangiante, e banchi che fanno luce da se', magenta, viola e ciano,
     // che si accendono e si spengono piano
     luce *= 0.35 + 1.4 * iride(n * 1.8 + p.y * 0.3 + tempo * 0.04);
@@ -371,11 +347,9 @@ void main() {
     vec3 a = p - LAMPADINA;
     vec3 b = p - LAMPADA;
     luce += caldo * (lampadina / (dot(a, a) + 0.08) + lampada / (dot(b, b) + 0.05));
-#if VARIANTE == 4
-    // dal pavimento sale una luce viola che respira
-    luce += vec3(0.05, 0.012, 0.11) * abisso * (0.6 + 0.4 * sin(tempo * 0.9 + n * 6.0)) * exp(-max(p.y, 0.0) * 5.0);
-#endif
-    // la polvere (o la neve del mare): puntini che salgono piano, visibili nella luce
+    // la sera (R'lyeh) dal pavimento sale una luce viola che respira
+    if (abisso > 0.0) luce += vec3(0.05, 0.012, 0.11) * abisso * (0.6 + 0.4 * sin(tempo * 0.9 + n * 6.0)) * exp(-max(p.y, 0.0) * 5.0);
+    // la polvere: puntini che salgono piano, visibili nella luce
     float g = rumore(p * 22.0 + vec3(0.0, -tempo * 0.25, tempo * 0.05));
     luce += particelle * smoothstep(0.86, 0.97, g) * (0.15 + raggio * 3.0 + lampadina * 0.02 / (dot(a, a) + 0.3)) * raggi;
     float tr = exp(-d * dt);
@@ -388,14 +362,14 @@ void main() {
 class PassoNebbia extends THREE.ShaderPass {
   constructor(camera, rumore, passi) {
     super(new THREE.ShaderMaterial({
-      defines: { VARIANTE: 1, PASSI: passi },
+      defines: { COLORE: 0, PASSI: passi },
       uniforms: { tDiffuse: { value: null }, tDepth: { value: null }, tRumore: { value: rumore },
         proiezioneInv: { value: camera.projectionMatrixInverse }, mondoCamera: { value: camera.matrixWorld },
         occhio: { value: new THREE.Vector3() }, tempo: { value: 0 }, vento: { value: new THREE.Vector3() },
         aria: { value: new THREE.Vector3() }, raggi: { value: new THREE.Vector3() }, caldo: { value: new THREE.Vector3() },
         densita: { value: 0 }, strato: { value: 0 }, altezza: { value: 1 }, ciuffi: { value: 0 }, scala: { value: 1 },
-        sole: { value: 0 }, lampadina: { value: 0 }, lampada: { value: 0 }, caustiche: { value: 0 }, particelle: { value: 0 },
-        abisso: { value: 0 }, bagliore: { value: 0 } },
+        sole: { value: 0 }, lampadina: { value: 0 }, lampada: { value: 0 }, particelle: { value: 0 }, bagliore: { value: 0 },
+        abisso: { value: 0 } },
       vertexShader: COLORE_FINALE.vertexShader,
       fragmentShader: NEBBIA_FRAG,
     }));
@@ -908,7 +882,7 @@ export class Stanza {
     const w = this.canvas.width, h = this.canvas.height;
     const tocco = typeof matchMedia !== "undefined" && matchMedia("(pointer: coarse)").matches;
     const rt = new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType, samples: tocco ? 0 : 4 });
-    // la profondita' della scena, per la nebbia delle proposte lovecraftiane
+    // la profondita' della scena, per la nebbia
     rt.depthTexture = new THREE.DepthTexture(w, h);
     const c = new THREE.EffectComposer(r, rt);
     c.addPass(new THREE.RenderPass(this.scena, this.camera));
@@ -927,17 +901,26 @@ export class Stanza {
     this.scena.add(radice);
     this.hq = hq;
     this.composer = c;
-    this.nebbiaN = 0;
+    this.nebbiaNome = null;
     this.fase("mattina");
     this.nebbia(NEBBIA_INIZIO);
   }
 
-  // la proposta lovecraftiana n (NEBBIE; 0 e' la stanza com'era): la nebbia, e alla fine il colore, la deformazione,
-  // i colori separati e il buio a tentacoli
-  nebbia(n) {
+  // la nebbia della stanza: "viola" (la stanza di sempre: la nebbia viola di giorno, R'lyeh la sera), "colore" (la
+  // quarta mattina), null (la stanza di prima, senza nebbia)
+  nebbia(nome) {
+    this.nebbiaNome = nome === "viola" || nome === "colore" ? nome : null;
+    this.applicaNebbia();
+  }
+
+  // la nebbia che si vede adesso, con le luci della fase: la mattina il sole a raggi, la sera la lampada della
+  // scrivania e l'alone della lampadina, l'aria piu' scura e la nebbia piu' fitta; alla fine il colore, lo schermo che
+  // respira e i colori separati ai bordi
+  applicaNebbia() {
     if (!this.passoNebbia) return;
-    const N = NEBBIE[n];
-    this.nebbiaN = N ? n : 0;
+    const sera = this.faseOra === "sera";
+    const nome = this.nebbiaNome === "viola" && sera ? "sera" : this.nebbiaNome;
+    const N = NEBBIE[nome];
     const p = this.passoNebbia, u = p.uniforms, k = this.colore.uniforms;
     p.enabled = !!N;
     k.ombre.value.set(...(N?.ombre || TONO_STANZA.ombre));
@@ -945,27 +928,17 @@ export class Stanza {
     k.luci.value.set(...(N?.luci || TONO_STANZA.luci));
     k.deforma.value = N?.deforma || 0;
     k.aberrazione.value = N?.aberrazione || 0;
-    k.tentacoli.value = N?.tentacoli || 0;
     if (!N) return;
-    if (p.material.defines.VARIANTE !== n) {
-      p.material.defines.VARIANTE = n;
+    const colore = nome === "colore" ? 1 : 0;
+    if (p.material.defines.COLORE !== colore) {
+      p.material.defines.COLORE = colore;
       p.material.needsUpdate = true;
     }
     for (const c of ["altezza", "ciuffi", "scala"]) u[c].value = N[c];
-    for (const c of ["caustiche", "particelle", "abisso", "bagliore"]) u[c].value = N[c] || 0;
+    for (const c of ["particelle", "bagliore", "abisso"]) u[c].value = N[c] || 0;
     u.vento.value.set(...N.vento);
     u.raggi.value.set(...N.raggi);
     u.caldo.value.set(...N.caldo);
-    this.luceNebbia();
-  }
-
-  // le luci della nebbia secondo la fase: la mattina il sole a raggi, la sera la lampada della scrivania e l'alone
-  // della lampadina; la sera l'aria e' piu' scura e la nebbia piu' fitta
-  luceNebbia() {
-    const N = NEBBIE[this.nebbiaN];
-    if (!N) return;
-    const u = this.passoNebbia.uniforms;
-    const sera = this.faseOra === "sera";
     const L = HQ_LUCE[this.faseOra] || HQ_LUCE.mattina;
     u.sole.value = sera ? 0 : 1;
     u.lampadina.value = L.lampadina * 0.03;
@@ -1019,7 +992,7 @@ export class Stanza {
     }
     this.scena.environment = hq.ambiente[f];
     this.scena.environmentIntensity = 1;
-    this.luceNebbia();
+    this.applicaNebbia();
   }
 
   // ---------- la stanza ----------
@@ -2307,10 +2280,6 @@ export class Stanza {
       if (tasti.includes(e.code)) {
         this.tasti[e.code] = true;
         e.preventDefault();
-      } else if (e.code === "KeyN" && this.passoNebbia) {
-        // le proposte lovecraftiane, una dopo l'altra, e poi la stanza com'era
-        this.nebbia((this.nebbiaN + 1) % (Object.keys(NEBBIE).length + 1));
-        this.onNebbia?.(NEBBIE[this.nebbiaN]?.nome || "La stanza com'era");
       } else if ((e.code === "KeyE" || e.code === "Enter") && this.puoi() && !e.target.closest?.("button")) {
         // usa quello che c'e' al centro dello sguardo, se e' a portata
         const c = this.colpisci(0.5, 0.5);

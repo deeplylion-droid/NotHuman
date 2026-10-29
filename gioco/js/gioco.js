@@ -3032,6 +3032,8 @@ function calcolaFinale() {
 
 const quante = (n, una, tante) => (n === 1 ? una : `${n} ${tante}`);
 const elenco = (v) => (v.length > 1 ? `${v.slice(0, -1).join(", ")} e ${v[v.length - 1]}` : v[0] || "");
+// la luce della quarta mattina, nella stanza (il colore venuto dallo spazio)
+const COLORE_MATTINA = "Nella stanza c'è una luce di un colore che non ha nome, e non viene dalla finestra.";
 
 // i finali (29 ottobre: "tanti finali diversi, alcuni difficili, almeno 6 nella demo"), nell'ordine della lista dei
 // finali trovati: il titolo, l'indizio per chi non l'ha ancora visto e le righe. "fax", "cripta", "mute", "via",
@@ -3072,13 +3074,14 @@ const FINALI = {
     "La quarta mattina il paese tace. Nessuno tossisce, nessuno chiama.",
     f.croci ? "Di notte, dietro le porte con la croce, qualcuno gratta il legno. Piano, con le unghie lunghe."
       : "Di notte, nel recinto, qualcuno gratta il legno delle brande. Piano, con le unghie lunghe."] },
-  stanzetta: { titolo: "La stanzetta", indizio: "Dormi da solo tutte e tre le notti.", righe: () => [
-    "La quarta mattina ti svegli sulla brandina della stanzetta, sotto la coperta. Non ricordi di esserci venuto.",
+  stanzetta: { titolo: "La stanzetta", indizio: "Dormi da solo tutte e tre le notti.",
+    mattina: ["Ti svegli sulla brandina della stanzetta, sotto la coperta. Non ricordi di esserci venuto.",
+      `Torni di là. ${COLORE_MATTINA}`], righe: () => [
     "Dal tuo letto alla brandina, sul pavimento, ci sono impronte nere di piedi nudi. Lunghi.",
     "Sul nastro la cosa nera ti porta di là in braccio, come un bambino. Non ha faccia: solo le mani.",
     "Ti guardi le mani. Le dita sono più lunghe di ieri, e le unghie nere."] },
-  cambiano: { titolo: "Quelli che cambiano", indizio: "Lascia correre il contagio.", righe: (f) => [
-    "La quarta mattina il fax non suona: la linea è muta.",
+  cambiano: { titolo: "Quelli che cambiano", indizio: "Lascia correre il contagio.",
+    mattina: ["Il fax non suona: la linea è muta.", COLORE_MATTINA], righe: (f) => [
     `In tre notti il contagio ha preso ${quante(f.prese.length, "una casa", "case")}, e ${quante(f.cambiati, "una persona è cambiata", "persone sono cambiate")}.`,
     "Di giorno il paese è vuoto, le porte segnate con la croce. Di notte, lungo i muri, camminano quelli che cambiano.",
     "Dalla strada, qualcuno guarda la tua finestra. Non bussa."] },
@@ -3087,8 +3090,9 @@ const FINALI = {
     "La quarta mattina il furgone bianco viene a prendere te, e ti fa sedere davanti: il tuo ufficio è nella baracca 1, dentro il recinto.",
     "Dalla finestra si vedono le brande in fila. Da una, qualcuno ti saluta con la mano: ha le dita nere.",
     "Sulla porta c'è già la targa: DIRETTORE. Sotto, a pennarello: MEDICO 6."] },
-  rocco: { titolo: "San Rocco", indizio: "Fatti amare dal paese, senza consegnare un sano.", righe: (f) => [
-    "La quarta mattina, sotto la finestra, passa la processione: il santo col bastone e il cane, portato a spalla.",
+  rocco: { titolo: "San Rocco", indizio: "Fatti amare dal paese, senza consegnare un sano.",
+    mattina: [COLORE_MATTINA, "In strada, sotto la finestra, passa la processione: il santo col bastone e il cane, portato a spalla."],
+    righe: (f) => [
     "Davanti alla tua porta si ferma. Le vecchie lasciano pane, uova e un santino nuovo: al posto del santo c'è un medico col becco.",
     f.giona ? "Le campane tacciono, ma il paese canta lo stesso." : "Giona suona a festa.",
     "Il paese si fida di te: ti apre tutte le porte, anche quelle con la croce. Il malvento entra con te in ogni casa."] },
@@ -3152,14 +3156,28 @@ function segnaFinale(id) {
   return nuovo;
 }
 
-// la quarta mattina: chi ha capito che il medico e' la peste si siede alla scrivania e sceglie; agli altri arriva il
-// fax della ditta (o non arriva: la linea e' muta), poi il finale
+// la quarta mattina comincia nella stanza, vista dalla porta, ferma: la luce ha un colore che non ha nome (29 ottobre:
+// "Il colore venuto dallo spazio nella quarta mattina esclusivamente"). Chi ha capito che il medico e' la peste sceglie
+// cosa fare; agli altri arriva il fax della ditta, o non arriva (la linea e' muta), poi il finale
 function quartaMattina() {
   R.contagio = null;
   const f = R.finale = calcolaFinale();
   foglio.dataset.bloccato = "1";
+  S.fase = "mattina";
+  S.giornale = S.giornaleDomani || S.giornale;
+  if (stanza) {
+    // la stanza ferma, vista dalla porta all'altezza degli occhi: la finestra, la scrivania, il letto
+    vaiStanza("inizio");
+    stanza.nebbia("colore");
+    stanza.inquadra([0.9, 1.62, 2.2], [-0.8, 1.2, -3.0], 62);
+    tasti();
+  } else vaiScrivania();
+  hud.replaceChildren();
+  aiuto(null);
   if (f.id === "verita") capisci(f);
-  else concludi(f, f.id);
+  else if (GIUDIZI[f.id]) concludi(f, f.id);
+  else apriFoglio("finale", [el("h2", null, "La quarta mattina"), ...FINALI[f.id].mattina.map((r) => el("p", null, r)),
+    azioni([["Avanti", () => apriFinale(f, f.id)]])]);
 }
 
 // dopo la scelta (o subito): il fax della ditta, se ha qualcosa da dire, poi il finale. La prima pagina passa prima
@@ -3203,13 +3221,7 @@ function faxFinale(f, chi, poi) {
 // hai capito: alla scrivania, davanti alla maschera, torna in mente quello che hai trovato; poi cosa fai. Chi ha
 // trovato tutte e quattro le tracce puo' portarle alla Voce; chi ha la nuora nella stanzetta puo' portarla alla corriera
 function capisci(f) {
-  // e' mattina, e sulla scrivania c'e' il giornale nuovo
-  S.fase = "mattina";
-  S.giornale = S.giornaleDomani || S.giornale;
-  vaiScrivania();
-  hud.replaceChildren();
-  aiuto(null);
-  const righe = ["Ti siedi alla scrivania. La maschera è lì dove l'hai lasciata, con la videocamera spenta.",
+  const righe = [COLORE_MATTINA, "Sulla scrivania la maschera è dove l'hai lasciata, con la videocamera spenta.",
     "La sua lente d'ottone è la stessa della maschera nella cripta. Il medico del 1630 portò il malvento a Malvento.",
     ...(f.ha("d:leggenda") ? ["La nonna l'aveva detto il primo giorno: la peste arrivò col medico."] : []),
     ...(f.ha("nastro7") ? ["Il nastro 7: «...le case dove entra lui...»."] : []),
@@ -3348,6 +3360,7 @@ function nuovoGiorno(n, tabelle, ieri) {
 async function apriGiorno() {
   foglio.dataset.bloccato = "0";
   foglio.hidden = true;
+  stanza?.nebbia("viola");
   R.contagio = null;
   R.play = null;
   R.primo = null;
@@ -3428,6 +3441,7 @@ function ricomincia() {
   S = nuovoStato();
   foglio.dataset.bloccato = "0";
   foglio.hidden = true;
+  stanza?.nebbia("viola");
   R.contagio = null;
   R.finale = null;
   R.play = null;
@@ -3701,8 +3715,6 @@ async function caricaStanza() {
     s.onSopra = (nome) => mostraEtichetta(nome);
     s.onPasso = () => suoni.passo();
     s.onBlocco = (b) => bloccoStanza(b);
-    // le proposte lovecraftiane per la stanza (29 ottobre): col tasto N si passa dall'una all'altra
-    s.onNebbia = (nome) => notifica(nome);
     if (location.hash.startsWith("#prova")) {
       // le prove automatiche: niente mouse bloccato, e la risoluzione la scelgono loro
       s.senzaBlocco = true;

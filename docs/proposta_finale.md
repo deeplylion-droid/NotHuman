@@ -4,10 +4,10 @@
 
 ## Come arriva
 
-Dopo la terza notte ci sono il resoconto sulla mappa e il giornale del quarto giorno, come prima. Sotto il giornale, al posto di «Com'era davvero», c'è **«La quarta mattina»**. Il finale si racconta coi documenti del gioco, senza immagini nuove:
-- il fax della ditta col suo giudizio (non in tutti i finali: a volte la linea è muta);
+Dopo la terza notte ci sono il resoconto sulla mappa e il giornale del quarto giorno, come prima. Sotto il giornale, al posto di «Com'era davvero», c'è **«La quarta mattina»**, che comincia nella stanza del medico, vista ferma dalla porta, con una luce di un colore che non ha nome (il colore venuto dallo spazio, solo qui: vedi `docs/riepilogo.md`, "La stanza lovecraftiana"). Il finale si racconta coi documenti del gioco, senza immagini nuove:
+- il fax della ditta col suo giudizio, sopra la stanza (non in tutti i finali: a volte la linea è muta, e allora c'è un foglio «La quarta mattina» con due righe);
 - la mappa coi tre giorni di contagio: le frecce di tutte e tre le notti;
-- la scrivania, con la maschera, per chi ha capito;
+- la stanza, con la maschera sulla scrivania, per chi ha capito;
 - per «La prima pagina», l'edizione straordinaria della Voce.
 
 Poi c'è la verità dei tre giorni, che comincia dalle quattro tracce della storia (quali hai trovato, e un indizio per quelle che ti sono sfuggite) e dalla lista dei finali.
