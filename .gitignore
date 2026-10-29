@@ -20,3 +20,5 @@ art/stanza_hq/uscita/
 # Gli strumenti per le lingue (tools/lingua): si reinstallano con npm install
 tools/lingua/node_modules/
 tools/lingua/package-lock.json
+# i pezzi delle traduzioni mentre si lavora (il lavoro finito e' parti/*_en.json)
+tools/lingua/parti/*_en_[0-9]*.json
