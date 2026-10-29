@@ -34,8 +34,11 @@ TAGLIA = {"passo1": 0.5, "passo2": 0.5, "passo3": 0.5}
 # la musica: il nome nel gioco -> il brano scelto in art/musica. Le proposte del 29 ottobre: giorno a e b, sera a e b,
 # visita a e b; l'utente ha scelto «stanza giorno a e stanza sera a vanno bene», e per le visite «me la rifai, cerca di
 # cogliere l'essenza di quella di I'm Not a Human»: visita c, d, e (sintetizzatori attutiti, basso che tiene in
-# tensione, chitarra solista e pianoforte); nel gioco la c
-MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_a", "visita": "visita_c"}
+# tensione, chitarra solista e pianoforte); poi, dallo spartito del tema del giorno di quel gioco (mandato dall'utente),
+# visita f e g: 105 BPM, re minore, un accordo per battuta, la melodia esitante (nostra); ma «le tue mancano di
+# malinconia e di sognante lentezza e inquietudine»: visita h, i (ElevenLabs) e j (Stable Audio 2.5), lente, a
+# sensazione dimezzata, note lunghe e silenzio, il nastro che oscilla, note un po' calanti; nel gioco la i
+MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_a", "visita": "visita_i"}
 
 
 def leggi(f):

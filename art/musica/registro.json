@@ -133,5 +133,241 @@
     "seed": null,
     "secondi": 26,
     "descrizione": null
+  },
+  "visita_g": {
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "prompt": "Dark ambient theme for an indie horror game in which you question strangers at their door and inspect them for a disease. D minor, 105 BPM, 4/4. Soft sustained synth chords, one chord per bar, with a small rhythmic push in the second bar of each four-bar phrase; seven bars of chords alone, then a simple, hesitant original melody of short phrases separated by rests, like questions, mostly stepwise with syncopated eighth-note pickups, played by a clean reverb electric guitar softly doubled by felt piano; later a very soft, sparse high section with wide leaps. Muted hazy synth pads and a deep soft sub bass underneath. Melancholic, sad yet unsettling, intimate. No drums, no vocals.",
+      "music_length_ms": 120000,
+      "force_instrumental": true,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "visita_g.mp3"
+    ],
+    "seed": null,
+    "secondi": 17,
+    "descrizione": null
+  },
+  "visita_f": {
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "composition_plan": {
+        "positive_global_styles": [
+          "dark ambient indie horror game soundtrack",
+          "muted hazy analog synth pads",
+          "deep soft sub bass",
+          "clean electric guitar with long reverb",
+          "soft felt piano",
+          "D minor",
+          "105 BPM",
+          "4/4 time",
+          "melancholic, sad yet unsettling, intimate, nostalgic"
+        ],
+        "negative_global_styles": [
+          "drums",
+          "drum kit",
+          "percussion loops",
+          "vocals",
+          "singing",
+          "choir",
+          "orchestral bombast",
+          "EDM",
+          "major-key brightness"
+        ],
+        "sections": [
+          {
+            "section_name": "Intro, chords alone",
+            "positive_local_styles": [
+              "soft sustained synth chords, one chord per bar, slow harmonic rhythm",
+              "in the second bar of each four-bar phrase the chord is pushed: a half note and then two short repeated chords"
+            ],
+            "negative_local_styles": [
+              "melody"
+            ],
+            "duration_ms": 16000,
+            "lines": []
+          },
+          {
+            "section_name": "Hesitant theme",
+            "positive_local_styles": [
+              "a simple, hesitant original melody made of short phrases separated by rests, like questions",
+              "mostly stepwise in a narrow middle range, with syncopated eighth-note pickups",
+              "clean reverb electric guitar softly doubled by felt piano, over the same chords"
+            ],
+            "negative_local_styles": [
+              "fast runs",
+              "loud"
+            ],
+            "duration_ms": 36000,
+            "lines": []
+          },
+          {
+            "section_name": "Theme returns, deeper",
+            "positive_local_styles": [
+              "the hesitant melody returns with small variations",
+              "a low pulsing bass joins and a faint detuned synth line adds tension"
+            ],
+            "negative_local_styles": [
+              "drums"
+            ],
+            "duration_ms": 32000,
+            "lines": []
+          },
+          {
+            "section_name": "High fragile section",
+            "positive_local_styles": [
+              "very soft, sparse high notes an octave higher with wide leaps and lots of space",
+              "guitar harmonics and delicate piano, pianissimo, almost lonely"
+            ],
+            "negative_local_styles": [
+              "bass pulse",
+              "loud"
+            ],
+            "duration_ms": 24000,
+            "lines": []
+          },
+          {
+            "section_name": "Outro, chords alone",
+            "positive_local_styles": [
+              "the chords alone, slowly fading out"
+            ],
+            "negative_local_styles": [
+              "melody"
+            ],
+            "duration_ms": 12000,
+            "lines": []
+          }
+        ]
+      },
+      "respect_sections_durations": true,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "visita_f.mp3"
+    ],
+    "seed": null,
+    "secondi": 20,
+    "descrizione": null
+  },
+  "visita_j": {
+    "modello": "fal-ai/stable-audio-25/text-to-audio",
+    "input": {
+      "prompt": "Slow dreamy melancholic ambient piece in D minor, half-time feel around 52 BPM, warm detuned electric piano with tape wow and flutter, sustained washed-out analog synth chords, sparse sad clean electric guitar notes with long reverb, faint low drone, long silences between phrases, nostalgic, wistful, uneasy, lo-fi haze, indie horror game soundtrack, no drums, no vocals",
+      "seconds_total": 120
+    },
+    "file": [
+      "visita_j.wav"
+    ],
+    "seed": 1351100376,
+    "secondi": 9,
+    "descrizione": null
+  },
+  "visita_i": {
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "prompt": "Very slow, dreamy and melancholic instrumental for an indie horror game, played while you question a stranger at the door. Half-time feel: long sustained minor chords, one every few seconds, a warm detuned electric piano with tape wobble, and a lonely clean electric guitar playing a few long, sad notes drowned in reverb, separated by long silences. Underneath, a faint low drone and washed-out synth pads; now and then a note bends slightly out of tune, leaving an uneasy, uncertain feeling. Nostalgic, wistful, unsettling, like a hazy memory. No drums, no percussion, no vocals.",
+      "music_length_ms": 120000,
+      "force_instrumental": true,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "visita_i.mp3"
+    ],
+    "seed": null,
+    "secondi": 14,
+    "descrizione": null
+  },
+  "visita_h": {
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "composition_plan": {
+        "positive_global_styles": [
+          "very slow, dreamy, melancholic ambient",
+          "half-time feel",
+          "long sustained notes and lots of silence",
+          "warm detuned electric piano with tape wow and flutter",
+          "lonely clean electric guitar drowned in reverb",
+          "washed-out analog synth pads",
+          "faint low drone",
+          "D minor",
+          "nostalgic, wistful, uneasy",
+          "lo-fi tape haze"
+        ],
+        "negative_global_styles": [
+          "drums",
+          "percussion",
+          "steady pulse",
+          "arpeggios",
+          "busy rhythm",
+          "fast notes",
+          "vocals",
+          "choir",
+          "bright major key"
+        ],
+        "sections": [
+          {
+            "section_name": "Fog",
+            "positive_local_styles": [
+              "lone sustained minor chords fading in from silence, detuned and warbling",
+              "a distant low drone"
+            ],
+            "negative_local_styles": [
+              "melody",
+              "rhythm"
+            ],
+            "duration_ms": 20000,
+            "lines": []
+          },
+          {
+            "section_name": "Questions",
+            "positive_local_styles": [
+              "a slow, sparse, wistful melody of a few long notes with long pauses between them",
+              "reverb guitar and an out-of-tune electric piano, as if asking something and waiting for an answer"
+            ],
+            "negative_local_styles": [
+              "fast notes",
+              "rhythm"
+            ],
+            "duration_ms": 40000,
+            "lines": []
+          },
+          {
+            "section_name": "Unease",
+            "positive_local_styles": [
+              "the chords drift slightly out of tune, a dissonant suspended note hangs in the air",
+              "a soft low swell like a slow heartbeat, eerie and uncertain"
+            ],
+            "negative_local_styles": [
+              "drums",
+              "melody"
+            ],
+            "duration_ms": 30000,
+            "lines": []
+          },
+          {
+            "section_name": "Memory",
+            "positive_local_styles": [
+              "the melody returns softer and higher, fragile and dreamy, like a half-forgotten memory",
+              "then everything slowly dissolves into the drone"
+            ],
+            "negative_local_styles": [
+              "loud",
+              "rhythm"
+            ],
+            "duration_ms": 30000,
+            "lines": []
+          }
+        ]
+      },
+      "respect_sections_durations": true,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "visita_h.mp3"
+    ],
+    "seed": null,
+    "secondi": 20,
+    "descrizione": null
   }
 }
