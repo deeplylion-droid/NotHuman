@@ -1,0 +1,44 @@
+{
+ "occhi": {
+  "dove": [
+   "dati.js:34"
+  ],
+  "riga": "export const PARTI = { occhi: T(\"occhi\"), bocca: T(\"bocca\"), collo: T(\"collo\"), ascelle: T(\"ascelle\"), mani: T(\"mani\") };"
+ },
+ "bocca": {
+  "dove": [
+   "dati.js:34"
+  ],
+  "riga": "export const PARTI = { occhi: T(\"occhi\"), bocca: T(\"bocca\"), collo: T(\"collo\"), ascelle: T(\"ascelle\"), mani: T(\"mani\") };"
+ },
+ "collo": {
+  "dove": [
+   "dati.js:34"
+  ],
+  "riga": "export const PARTI = { occhi: T(\"occhi\"), bocca: T(\"bocca\"), collo: T(\"collo\"), ascelle: T(\"ascelle\"), mani: T(\"mani\") };"
+ },
+ "ascelle": {
+  "dove": [
+   "dati.js:34"
+  ],
+  "riga": "export const PARTI = { occhi: T(\"occhi\"), bocca: T(\"bocca\"), collo: T(\"collo\"), ascelle: T(\"ascelle\"), mani: T(\"mani\") };"
+ },
+ "mani": {
+  "dove": [
+   "dati.js:34"
+  ],
+  "riga": "export const PARTI = { occhi: T(\"occhi\"), bocca: T(\"bocca\"), collo: T(\"collo\"), ascelle: T(\"ascelle\"), mani: T(\"mani\") };"
+ },
+ "Il medico della peste · tre giorni · demo": {
+  "dove": [
+   "gioco.js:3515"
+  ],
+  "riga": "apriFoglio(\"titolo\", [el(\"h1\", \"ti-nome\", \"Malvento\"), el(\"p\", \"ti-sotto\", T(\"Il medico della peste · tre giorni · demo\")), menu,"
+ },
+ "Malvento": {
+  "dove": [
+   "index.html"
+  ],
+  "riga": "index.html"
+ }
+}
