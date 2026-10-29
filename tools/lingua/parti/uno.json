@@ -1,0 +1,3063 @@
+{
+ "Basta. Fuori da casa mia!": {
+  "dove": [
+   "dati.js:14"
+  ],
+  "riga": "casa3: [[\"PADRE\", T(\"Basta. Fuori da casa mia!\"), { volto: \"arrabbiato\" }], [null, T(\"Ti sbattono la porta alle spalle.\")]],"
+ },
+ "Ti sbattono la porta alle spalle.": {
+  "dove": [
+   "dati.js:14",
+   "dati.js:15",
+   "giorno2.js:822"
+  ],
+  "riga": "casa3: [[\"PADRE\", T(\"Basta. Fuori da casa mia!\"), { volto: \"arrabbiato\" }], [null, T(\"Ti sbattono la porta alle spalle.\")]],"
+ },
+ "Fuori di qui, dottore. Adesso.": {
+  "dove": [
+   "dati.js:15"
+  ],
+  "riga": "casa5: [[\"UOMO\", T(\"Fuori di qui, dottore. Adesso.\"), { volto: \"arrabbiato\" }], [null, T(\"Ti sbattono la porta alle spalle.\")]],"
+ },
+ "il padre": {
+  "dove": [
+   "dati.js:21",
+   "giorno2.js:41",
+   "giorno3.js:68"
+  ],
+  "riga": "padre: { nome: T(\"il padre\"), voce: \"PADRE\", casa: \"casa3\", luogo: \"cucina\", stato: \"malato\", profilo: false, calore: 0.8 },"
+ },
+ "la figlia": {
+  "dove": [
+   "dati.js:22",
+   "giorno2.js:42",
+   "giorno3.js:70"
+  ],
+  "riga": "figlia: { nome: T(\"la figlia\"), voce: \"FIGLIA\", casa: \"casa3\", luogo: \"cucina\", stato: \"sano\", profilo: true, calore: 0.52 },"
+ },
+ "la madre": {
+  "dove": [
+   "dati.js:23",
+   "giorno2.js:45"
+  ],
+  "riga": "madre: { nome: T(\"la madre\"), voce: \"MADRE\", casa: \"casa3\", luogo: \"camera\", stato: \"grave\", profilo: false, calore: 1.0 },"
+ },
+ "l'uomo in tuta": {
+  "dove": [
+   "dati.js:24",
+   "giorno2.js:46",
+   "giorno3.js:73"
+  ],
+  "riga": "uomo: { nome: T(\"l'uomo in tuta\"), voce: \"UOMO\", casa: \"casa5\", luogo: \"soggiorno\", stato: \"malato\", profilo: false, calore: 0.78 },"
+ },
+ "la ragazza": {
+  "dove": [
+   "dati.js:25",
+   "giorno2.js:47",
+   "giorno3.js:75"
+  ],
+  "riga": "giovane: { nome: T(\"la ragazza\"), voce: \"RAGAZZA\", casa: \"casa5\", luogo: \"soggiorno\", stato: \"sano\", profilo: true, calore: 0.4 },"
+ },
+ "la nonna": {
+  "dove": [
+   "dati.js:26",
+   "giorno2.js:50",
+   "giorno3.js:77"
+  ],
+  "riga": "nonna: { nome: T(\"la nonna\"), voce: \"NONNA\", casa: \"casa5\", luogo: \"soggiorno\", stato: \"sano\", profilo: false, calore: 0.5 },"
+ },
+ "il ragazzo dietro la porta": {
+  "dove": [
+   "dati.js:31"
+  ],
+  "riga": "export const NASCOSTI = { casa5: [{ nome: T(\"il ragazzo dietro la porta\"), stato: \"grave\" }] };"
+ },
+ "la tavola": {
+  "dove": [
+   "dati.js:59"
+  ],
+  "riga": "{ id: \"tavola\", nome: T(\"la tavola\"), box: [0.66, 0.58, 0.97, 0.84], tipo: \"indizio\","
+ },
+ "Quattro *piatti* apparecchiati. Dicono di essere in due.": {
+  "dove": [
+   "dati.js:61"
+  ],
+  "riga": "dice: [[null, T(\"Quattro *piatti* apparecchiati. Dicono di essere in due.\"), { k: \"zona:tavola\" }]], poi: { prova: \"piatti\" } },"
+ },
+ "il corridoio": {
+  "dove": [
+   "dati.js:62"
+  ],
+  "riga": "{ id: \"corridoio\", nome: T(\"il corridoio\"), box: [0.395, 0.13, 0.52, 0.62], tipo: \"porta\","
+ },
+ "il comodino": {
+  "dove": [
+   "dati.js:82",
+   "giorno2.js:202"
+  ],
+  "riga": "{ id: \"comodino\", nome: T(\"il comodino\"), box: [0.26, 0.5, 0.38, 0.8], tipo: \"indizio\","
+ },
+ "Sul comodino: un rosario e una scatola di *aspirine* vuota.": {
+  "dove": [
+   "dati.js:84"
+  ],
+  "riga": "dice: [[null, T(\"Sul comodino: un rosario e una scatola di *aspirine* vuota.\"), { k: \"zona:comodino\" }]] },"
+ },
+ "la porta chiusa": {
+  "dove": [
+   "dati.js:113"
+  ],
+  "riga": "{ id: \"porta\", nome: T(\"la porta chiusa\"), box: [0.745, 0.03, 0.925, 0.92], tipo: \"porta\","
+ },
+ "il termosifone": {
+  "dove": [
+   "dati.js:115"
+  ],
+  "riga": "{ id: \"termosifone\", nome: T(\"il termosifone\"), box: [0.08, 0.515, 0.275, 0.6], tipo: \"indizio\","
+ },
+ "Il termosifone è *freddo*. Spento da giorni.": {
+  "dove": [
+   "dati.js:117"
+  ],
+  "riga": "dice: [[null, T(\"Il termosifone è *freddo*. Spento da giorni.\"), { k: \"zona:termosifone\" }]], poi: { prova: \"termosifone\" } },"
+ },
+ "Dottore.": {
+  "dove": [
+   "dati.js:125"
+  ],
+  "riga": "cucina: [[\"PADRE\", T(\"Dottore.\")], [\"PADRE\", T(\"Qui stiamo tutti bene. Faccia in fretta.\"), { d: \"tutti_bene\" }]],"
+ },
+ "Qui stiamo tutti bene. Faccia in fretta.": {
+  "dove": [
+   "dati.js:125"
+  ],
+  "riga": "cucina: [[\"PADRE\", T(\"Dottore.\")], [\"PADRE\", T(\"Qui stiamo tutti bene. Faccia in fretta.\"), { d: \"tutti_bene\" }]],"
+ },
+ "Chi è?": {
+  "dove": [
+   "dati.js:126",
+   "giorno2.js:235"
+  ],
+  "riga": "camera: [[\"MADRE\", T(\"Chi è?\")], [\"MADRE\", T(\"[vede il medico]\")], [\"MADRE\", T(\"No. No, vi prego.\")]],"
+ },
+ "[vede il medico]": {
+  "dove": [
+   "dati.js:126"
+  ],
+  "riga": "camera: [[\"MADRE\", T(\"Chi è?\")], [\"MADRE\", T(\"[vede il medico]\")], [\"MADRE\", T(\"No. No, vi prego.\")]],"
+ },
+ "No. No, vi prego.": {
+  "dove": [
+   "dati.js:126"
+  ],
+  "riga": "camera: [[\"MADRE\", T(\"Chi è?\")], [\"MADRE\", T(\"[vede il medico]\")], [\"MADRE\", T(\"No. No, vi prego.\")]],"
+ },
+ "Il medico.": {
+  "dove": [
+   "dati.js:127"
+  ],
+  "riga": "soggiorno: [[\"UOMO\", T(\"Il medico.\")], [\"NONNA\", T(\"Che bel becco. Mio marito ce l'aveva uguale.\")]],"
+ },
+ "Che bel becco. Mio marito ce l'aveva uguale.": {
+  "dove": [
+   "dati.js:127"
+  ],
+  "riga": "soggiorno: [[\"UOMO\", T(\"Il medico.\")], [\"NONNA\", T(\"Che bel becco. Mio marito ce l'aveva uguale.\")]],"
+ },
+ "entra nel corridoio": {
+  "dove": [
+   "dati.js:133",
+   "giorno2.js:255",
+   "giorno2.js:259",
+   "giorno3.js:387",
+   "giorno3.js:391"
+  ],
+  "riga": "entra: { testo: T(\"entra nel corridoio\"), vai: \"camera\" },"
+ },
+ "pretendi di passare": {
+  "dove": [
+   "dati.js:135",
+   "dati.js:153"
+  ],
+  "riga": "{ testo: T(\"pretendi di passare\"), minuti: 20,"
+ },
+ "Voglio vedere di là.": {
+  "dove": [
+   "dati.js:136",
+   "giorno2.js:260",
+   "giorno3.js:392"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Voglio vedere di là.\")], [\"PADRE\", T(\"Di là non c'è niente!\"), { volto: \"arrabbiato\" }],"
+ },
+ "Di là non c'è niente!": {
+  "dove": [
+   "dati.js:136"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Voglio vedere di là.\")], [\"PADRE\", T(\"Di là non c'è niente!\"), { volto: \"arrabbiato\" }],"
+ },
+ "[si scansa]": {
+  "dove": [
+   "dati.js:137"
+  ],
+  "riga": "[\"PADRE\", T(\"[si scansa]\"), { volto: \"arrabbiato\" }], [\"PADRE\", T(\"Va bene. Ma non la toccate.\"), { volto: \"arrabbiato\" }]],"
+ },
+ "Va bene. Ma non la toccate.": {
+  "dove": [
+   "dati.js:137"
+  ],
+  "riga": "[\"PADRE\", T(\"[si scansa]\"), { volto: \"arrabbiato\" }], [\"PADRE\", T(\"Va bene. Ma non la toccate.\"), { volto: \"arrabbiato\" }]],"
+ },
+ "offri 50 € al padre": {
+  "dove": [
+   "dati.js:139"
+  ],
+  "riga": "{ testo: T(\"offri 50 € al padre\"), minuti: 5, soldi: 50,"
+ },
+ "Cinquanta euro, e non ho visto niente.": {
+  "dove": [
+   "dati.js:140",
+   "giorno2.js:307"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Cinquanta euro, e non ho visto niente.\")], [\"PADRE\", T(\"[prende i soldi]\"), { volto: \"nervoso\" }],"
+ },
+ "[prende i soldi]": {
+  "dove": [
+   "dati.js:140"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Cinquanta euro, e non ho visto niente.\")], [\"PADRE\", T(\"[prende i soldi]\"), { volto: \"nervoso\" }],"
+ },
+ "Cinque minuti.": {
+  "dove": [
+   "dati.js:141"
+  ],
+  "riga": "[\"PADRE\", T(\"Cinque minuti.\")]],"
+ },
+ "chiedi di aprire": {
+  "dove": [
+   "dati.js:147",
+   "giorno2.js:267",
+   "giorno2.js:297",
+   "giorno3.js:400",
+   "giorno3.js:420",
+   "giorno3.js:431"
+  ],
+  "riga": "{ testo: T(\"chiedi di aprire\"), minuti: 5,"
+ },
+ "Aprite questa porta.": {
+  "dove": [
+   "dati.js:148",
+   "giorno2.js:268",
+   "giorno2.js:298",
+   "giorno3.js:401"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Aprite questa porta.\")],"
+ },
+ "È il *ripostiglio*. Roba vecchia.": {
+  "dove": [
+   "dati.js:149"
+  ],
+  "riga": "[\"UOMO\", T(\"È il *ripostiglio*. Roba vecchia.\"), { d: \"ripostiglio\", k: \"zona:porta\", volto: \"nervoso\" }],"
+ },
+ "La chiave non so dove sia.": {
+  "dove": [
+   "dati.js:150"
+  ],
+  "riga": "[\"UOMO\", T(\"La chiave non so dove sia.\"), { d: \"chiave\", volto: \"nervoso\" }]] },"
+ },
+ "ascolta alla porta": {
+  "dove": [
+   "dati.js:151",
+   "giorno2.js:272",
+   "giorno2.js:300",
+   "giorno3.js:404",
+   "giorno3.js:429"
+  ],
+  "riga": "{ testo: T(\"ascolta alla porta\"), minuti: 5,"
+ },
+ "[da dietro la porta: una *tosse* lunga, soffocata]": {
+  "dove": [
+   "dati.js:152"
+  ],
+  "riga": "dice: [[null, T(\"[da dietro la porta: una *tosse* lunga, soffocata]\"), { k: \"zona:porta\" }]], poi: { prova: \"tosse\" } },"
+ },
+ "Spostatevi.": {
+  "dove": [
+   "dati.js:154"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Spostatevi.\")], [\"UOMO\", T(\"Provateci.\"), { volto: \"arrabbiato\" }],"
+ },
+ "Provateci.": {
+  "dove": [
+   "dati.js:154"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Spostatevi.\")], [\"UOMO\", T(\"Provateci.\"), { volto: \"arrabbiato\" }],"
+ },
+ "[si mette davanti alla porta]": {
+  "dove": [
+   "dati.js:155"
+  ],
+  "riga": "[\"UOMO\", T(\"[si mette davanti alla porta]\"), { volto: \"arrabbiato\" }],"
+ },
+ "È grosso il doppio di te. Oggi non ti faranno passare.": {
+  "dove": [
+   "dati.js:156"
+  ],
+  "riga": "[null, T(\"È grosso il doppio di te. Oggi non ti faranno passare.\")]], poi: { fiducia: -10 } },"
+ },
+ "offri 50 € all'uomo": {
+  "dove": [
+   "dati.js:157"
+  ],
+  "riga": "{ testo: T(\"offri 50 € all'uomo\"), minuti: 5, soldi: 50,"
+ },
+ "Cinquanta euro per aprire.": {
+  "dove": [
+   "dati.js:158"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Cinquanta euro per aprire.\")], [\"UOMO\", T(\"Non sono in vendita, dottore.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "Non sono in vendita, dottore.": {
+  "dove": [
+   "dati.js:158"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Cinquanta euro per aprire.\")], [\"UOMO\", T(\"Non sono in vendita, dottore.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "occhi lucidi e arrossati": {
+  "dove": [
+   "dati.js:168"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi lucidi e arrossati\"), segno: \"febbre\", dice: [[\"PADRE\", T(\"Ho dormito poco.\")]] },"
+ },
+ "Ho dormito poco.": {
+  "dove": [
+   "dati.js:168",
+   "dati.js:351",
+   "giorno2.js:343"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi lucidi e arrossati\"), segno: \"febbre\", dice: [[\"PADRE\", T(\"Ho dormito poco.\")]] },"
+ },
+ "denti marci": {
+  "dove": [
+   "dati.js:169"
+  ],
+  "riga": "bocca: { reperto: T(\"denti marci\"), dice: [[\"PADRE\", T(\"I denti sono così da sempre.\")]] },"
+ },
+ "I denti sono così da sempre.": {
+  "dove": [
+   "dati.js:169"
+  ],
+  "riga": "bocca: { reperto: T(\"denti marci\"), dice: [[\"PADRE\", T(\"I denti sono così da sempre.\")]] },"
+ },
+ "gonfiore duro sotto la mascella": {
+  "dove": [
+   "dati.js:170"
+  ],
+  "riga": "collo: { reperto: T(\"gonfiore duro sotto la mascella\"), segno: \"bubbone\","
+ },
+ "[tira su il colletto]": {
+  "dove": [
+   "dati.js:171"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"[tira su il colletto]\")], [\"PADRE\", T(\"È una *botta*.\"), { d: \"botta\", k: \"parte:padre.collo\" }]] },"
+ },
+ "È una *botta*.": {
+  "dove": [
+   "dati.js:171"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"[tira su il colletto]\")], [\"PADRE\", T(\"È una *botta*.\"), { d: \"botta\", k: \"parte:padre.collo\" }]] },"
+ },
+ "si è rifiutato": {
+  "dove": [
+   "dati.js:172",
+   "dati.js:194",
+   "giorno2.js:347",
+   "giorno2.js:382",
+   "giorno3.js:557",
+   "giorno3.js:565"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutato\"), rifiuta: [[\"PADRE\", T(\"Non mi spoglio davanti a mia figlia.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "Non mi spoglio davanti a mia figlia.": {
+  "dove": [
+   "dati.js:172"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutato\"), rifiuta: [[\"PADRE\", T(\"Non mi spoglio davanti a mia figlia.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "grasso da meccanico sotto le unghie": {
+  "dove": [
+   "dati.js:173"
+  ],
+  "riga": "mani: { reperto: T(\"grasso da meccanico sotto le unghie\"), dice: [[\"PADRE\", T(\"È grasso. Faccio il meccanico.\")]] },"
+ },
+ "È grasso. Faccio il meccanico.": {
+  "dove": [
+   "dati.js:173"
+  ],
+  "riga": "mani: { reperto: T(\"grasso da meccanico sotto le unghie\"), dice: [[\"PADRE\", T(\"È grasso. Faccio il meccanico.\")]] },"
+ },
+ "occhiaie, occhi chiari": {
+  "dove": [
+   "dati.js:176",
+   "dati.js:198"
+  ],
+  "riga": "occhi: { reperto: T(\"occhiaie, occhi chiari\"), dice: [[\"FIGLIA\", T(\"Non dormo bene.\")]] },"
+ },
+ "Non dormo bene.": {
+  "dove": [
+   "dati.js:176"
+  ],
+  "riga": "occhi: { reperto: T(\"occhiaie, occhi chiari\"), dice: [[\"FIGLIA\", T(\"Non dormo bene.\")]] },"
+ },
+ "labbra screpolate": {
+  "dove": [
+   "dati.js:177"
+  ],
+  "riga": "bocca: { reperto: T(\"labbra screpolate\"), dice: [[\"FIGLIA\", T(\"[silenzio]\")]] },"
+ },
+ "[silenzio]": {
+  "dove": [
+   "dati.js:177",
+   "dati.js:198",
+   "dati.js:409",
+   "giorno2.js:273",
+   "giorno2.js:710",
+   "giorno3.js:895"
+  ],
+  "riga": "bocca: { reperto: T(\"labbra screpolate\"), dice: [[\"FIGLIA\", T(\"[silenzio]\")]] },"
+ },
+ "niente": {
+  "dove": [
+   "dati.js:178",
+   "dati.js:192",
+   "dati.js:195",
+   "dati.js:201",
+   "giorno2.js:366",
+   "giorno3.js:553",
+   "giorno3.js:584",
+   "giorno3.js:585"
+  ],
+  "riga": "collo: { reperto: T(\"niente\"), dice: [[\"FIGLIA\", T(\"[trattiene il respiro]\")]] },"
+ },
+ "[trattiene il respiro]": {
+  "dove": [
+   "dati.js:178"
+  ],
+  "riga": "collo: { reperto: T(\"niente\"), dice: [[\"FIGLIA\", T(\"[trattiene il respiro]\")]] },"
+ },
+ "si è rifiutata": {
+  "dove": [
+   "dati.js:179",
+   "dati.js:208",
+   "giorno2.js:329",
+   "giorno2.js:369",
+   "giorno2.js:399",
+   "giorno3.js:462",
+   "giorno3.js:593",
+   "giorno3.js:596"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutata\"), rifiuta: [[\"FIGLIA\", T(\"No.\")], [\"PADRE\", T(\"Lasciatela stare.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "No.": {
+  "dove": [
+   "dati.js:179",
+   "giorno2.js:329",
+   "giorno3.js:596",
+   "giorno3.js:873"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutata\"), rifiuta: [[\"FIGLIA\", T(\"No.\")], [\"PADRE\", T(\"Lasciatela stare.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "Lasciatela stare.": {
+  "dove": [
+   "dati.js:179"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutata\"), rifiuta: [[\"FIGLIA\", T(\"No.\")], [\"PADRE\", T(\"Lasciatela stare.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "unghie mangiate": {
+  "dove": [
+   "dati.js:180"
+  ],
+  "riga": "mani: { reperto: T(\"unghie mangiate\"), dice: [[\"FIGLIA\", T(\"Me le mangio. Da quando...\")], [\"FIGLIA\", T(\"[si ferma]\")]] },"
+ },
+ "Me le mangio. Da quando...": {
+  "dove": [
+   "dati.js:180"
+  ],
+  "riga": "mani: { reperto: T(\"unghie mangiate\"), dice: [[\"FIGLIA\", T(\"Me le mangio. Da quando...\")], [\"FIGLIA\", T(\"[si ferma]\")]] },"
+ },
+ "[si ferma]": {
+  "dove": [
+   "dati.js:180"
+  ],
+  "riga": "mani: { reperto: T(\"unghie mangiate\"), dice: [[\"FIGLIA\", T(\"Me le mangio. Da quando...\")], [\"FIGLIA\", T(\"[si ferma]\")]] },"
+ },
+ "occhi lucidi, febbre alta": {
+  "dove": [
+   "dati.js:183"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi lucidi, febbre alta\"), segno: \"febbre\", dice: [[\"MADRE\", T(\"[non riesce a tenere gli occhi aperti]\")]] },"
+ },
+ "[non riesce a tenere gli occhi aperti]": {
+  "dove": [
+   "dati.js:183",
+   "giorno3.js:519"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi lucidi, febbre alta\"), segno: \"febbre\", dice: [[\"MADRE\", T(\"[non riesce a tenere gli occhi aperti]\")]] },"
+ },
+ "labbra secche": {
+  "dove": [
+   "dati.js:184"
+  ],
+  "riga": "bocca: { reperto: T(\"labbra secche\"), dice: [[\"MADRE\", T(\"Acqua...\")]] },"
+ },
+ "Acqua...": {
+  "dove": [
+   "dati.js:184"
+  ],
+  "riga": "bocca: { reperto: T(\"labbra secche\"), dice: [[\"MADRE\", T(\"Acqua...\")]] },"
+ },
+ "ghiandole gonfie": {
+  "dove": [
+   "dati.js:185"
+  ],
+  "riga": "collo: { reperto: T(\"ghiandole gonfie\"), segno: \"bubbone\", dice: [[\"MADRE\", T(\"[geme]\")]] },"
+ },
+ "[geme]": {
+  "dove": [
+   "dati.js:185"
+  ],
+  "riga": "collo: { reperto: T(\"ghiandole gonfie\"), segno: \"bubbone\", dice: [[\"MADRE\", T(\"[geme]\")]] },"
+ },
+ "bubbone sotto l'ascella": {
+  "dove": [
+   "dati.js:186"
+  ],
+  "riga": "ascelle: { reperto: T(\"bubbone sotto l'ascella\"), segno: \"bubbone\", dice: [[\"MADRE\", T(\"Fa male. Fa tanto male.\")]] },"
+ },
+ "Fa male. Fa tanto male.": {
+  "dove": [
+   "dati.js:186"
+  ],
+  "riga": "ascelle: { reperto: T(\"bubbone sotto l'ascella\"), segno: \"bubbone\", dice: [[\"MADRE\", T(\"Fa male. Fa tanto male.\")]] },"
+ },
+ "punte delle dita nere": {
+  "dove": [
+   "dati.js:187"
+  ],
+  "riga": "mani: { reperto: T(\"punte delle dita nere\"), segno: \"dita\", dice: [[\"MADRE\", T(\"Non le sento più, le dita.\")]] },"
+ },
+ "Non le sento più, le dita.": {
+  "dove": [
+   "dati.js:187"
+  ],
+  "riga": "mani: { reperto: T(\"punte delle dita nere\"), segno: \"dita\", dice: [[\"MADRE\", T(\"Non le sento più, le dita.\")]] },"
+ },
+ "occhi lucidi e arrossati, sudore": {
+  "dove": [
+   "dati.js:190"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi lucidi e arrossati, sudore\"), segno: \"febbre\","
+ },
+ "È il *termosifone*, vi ho detto.": {
+  "dove": [
+   "dati.js:191"
+  ],
+  "riga": "dice: [[\"UOMO\", T(\"È il *termosifone*, vi ho detto.\"), { d: \"sudo\", k: \"zona:termosifone\" }]] },"
+ },
+ "[ringhia]": {
+  "dove": [
+   "dati.js:192"
+  ],
+  "riga": "bocca: { reperto: T(\"niente\"), dice: [[\"UOMO\", T(\"[ringhia]\")]] },"
+ },
+ "sudato, niente gonfiori": {
+  "dove": [
+   "dati.js:193"
+  ],
+  "riga": "collo: { reperto: T(\"sudato, niente gonfiori\"), dice: [[\"UOMO\", T(\"Avete finito?\")]] },"
+ },
+ "Avete finito?": {
+  "dove": [
+   "dati.js:193"
+  ],
+  "riga": "collo: { reperto: T(\"sudato, niente gonfiori\"), dice: [[\"UOMO\", T(\"Avete finito?\")]] },"
+ },
+ "Toccatemi e vi rompo il becco.": {
+  "dove": [
+   "dati.js:194"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutato\"), rifiuta: [[\"UOMO\", T(\"Toccatemi e vi rompo il becco.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "[stringe i pugni]": {
+  "dove": [
+   "dati.js:195"
+  ],
+  "riga": "mani: { reperto: T(\"niente\"), dice: [[\"UOMO\", T(\"[stringe i pugni]\")]] },"
+ },
+ "labbra pallide, quasi viola": {
+  "dove": [
+   "dati.js:199"
+  ],
+  "riga": "bocca: { reperto: T(\"labbra pallide, quasi viola\"), segno: \"pallore\", dice: [[\"RAGAZZA\", T(\"Ho *freddo*.\"), { d: \"freddo\", k: \"zona:termosifone\" }]] },"
+ },
+ "Ho *freddo*.": {
+  "dove": [
+   "dati.js:199"
+  ],
+  "riga": "bocca: { reperto: T(\"labbra pallide, quasi viola\"), segno: \"pallore\", dice: [[\"RAGAZZA\", T(\"Ho *freddo*.\"), { d: \"freddo\", k: \"zona:termosifone\" }]] },"
+ },
+ "pallido, niente gonfiori": {
+  "dove": [
+   "dati.js:200"
+  ],
+  "riga": "collo: { reperto: T(\"pallido, niente gonfiori\"), segno: \"pallore\", dice: [[\"RAGAZZA\", T(\"[deglutisce]\")]] },"
+ },
+ "[deglutisce]": {
+  "dove": [
+   "dati.js:200",
+   "giorno2.js:381",
+   "giorno3.js:530"
+  ],
+  "riga": "collo: { reperto: T(\"pallido, niente gonfiori\"), segno: \"pallore\", dice: [[\"RAGAZZA\", T(\"[deglutisce]\")]] },"
+ },
+ "Va bene.": {
+  "dove": [
+   "dati.js:201"
+  ],
+  "riga": "ascelle: { reperto: T(\"niente\"), dice: [[\"RAGAZZA\", T(\"Va bene.\")]] },"
+ },
+ "mani fredde, unghie bluastre": {
+  "dove": [
+   "dati.js:202"
+  ],
+  "riga": "mani: { reperto: T(\"mani fredde, unghie bluastre\"), segno: \"pallore\", dice: [[\"RAGAZZA\", T(\"Sono sempre fredde.\")]] },"
+ },
+ "Sono sempre fredde.": {
+  "dove": [
+   "dati.js:202"
+  ],
+  "riga": "mani: { reperto: T(\"mani fredde, unghie bluastre\"), segno: \"pallore\", dice: [[\"RAGAZZA\", T(\"Sono sempre fredde.\")]] },"
+ },
+ "cataratta": {
+  "dove": [
+   "dati.js:205"
+  ],
+  "riga": "occhi: { reperto: T(\"cataratta\"), dice: [[\"NONNA\", T(\"Ci vedo poco. Ma lei la vedo benissimo.\")]] },"
+ },
+ "Ci vedo poco. Ma lei la vedo benissimo.": {
+  "dove": [
+   "dati.js:205"
+  ],
+  "riga": "occhi: { reperto: T(\"cataratta\"), dice: [[\"NONNA\", T(\"Ci vedo poco. Ma lei la vedo benissimo.\")]] },"
+ },
+ "un dente solo": {
+  "dove": [
+   "dati.js:206"
+  ],
+  "riga": "bocca: { reperto: T(\"un dente solo\"), dice: [[\"NONNA\", T(\"L'ultimo dente. Lo tengo per le feste.\")]] },"
+ },
+ "L'ultimo dente. Lo tengo per le feste.": {
+  "dove": [
+   "dati.js:206"
+  ],
+  "riga": "bocca: { reperto: T(\"un dente solo\"), dice: [[\"NONNA\", T(\"L'ultimo dente. Lo tengo per le feste.\")]] },"
+ },
+ "una medaglietta": {
+  "dove": [
+   "dati.js:207"
+  ],
+  "riga": "collo: { reperto: T(\"una medaglietta\"), dice: [[\"NONNA\", T(\"La Madonna. Contro i medici.\")]] },"
+ },
+ "La Madonna. Contro i medici.": {
+  "dove": [
+   "dati.js:207"
+  ],
+  "riga": "collo: { reperto: T(\"una medaglietta\"), dice: [[\"NONNA\", T(\"La Madonna. Contro i medici.\")]] },"
+ },
+ "Alla mia età? Si vergogni, dottore.": {
+  "dove": [
+   "dati.js:208"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutata\"), rifiuta: [[\"NONNA\", T(\"Alla mia età? Si vergogni, dottore.\")]] },"
+ },
+ "artrite": {
+  "dove": [
+   "dati.js:209"
+  ],
+  "riga": "mani: { reperto: T(\"artrite\"), dice: [[\"NONNA\", T(\"Ottant'anni di lavoro. Guardi pure.\")]] },"
+ },
+ "Ottant'anni di lavoro. Guardi pure.": {
+  "dove": [
+   "dati.js:209"
+  ],
+  "riga": "mani: { reperto: T(\"artrite\"), dice: [[\"NONNA\", T(\"Ottant'anni di lavoro. Guardi pure.\")]] },"
+ },
+ "chi vive qui?": {
+  "dove": [
+   "dati.js:217",
+   "dati.js:249",
+   "giorno2.js:492",
+   "giorno3.js:685"
+  ],
+  "riga": "{ id: \"chi\", breve: T(\"chi vive qui?\"), testo: T(\"Chi vive in questa casa?\"),"
+ },
+ "Chi vive in questa casa?": {
+  "dove": [
+   "dati.js:217",
+   "dati.js:249",
+   "giorno2.js:492",
+   "giorno3.js:685"
+  ],
+  "riga": "{ id: \"chi\", breve: T(\"chi vive qui?\"), testo: T(\"Chi vive in questa casa?\"),"
+ },
+ "Io e mia *figlia*. Basta.": {
+  "dove": [
+   "dati.js:218"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Io e mia *figlia*. Basta.\"), { d: \"solo_due\", k: \"persona:figlia\" }]] },"
+ },
+ "la febbre?": {
+  "dove": [
+   "dati.js:219",
+   "dati.js:251"
+  ],
+  "riga": "{ id: \"febbre\", breve: T(\"la febbre?\"), testo: T(\"Qualcuno ha avuto la febbre?\"),"
+ },
+ "Qualcuno ha avuto la febbre?": {
+  "dove": [
+   "dati.js:219"
+  ],
+  "riga": "{ id: \"febbre\", breve: T(\"la febbre?\"), testo: T(\"Qualcuno ha avuto la febbre?\"),"
+ },
+ "Nessuno ha la *febbre*. Stiamo bene.": {
+  "dove": [
+   "dati.js:220"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Nessuno ha la *febbre*. Stiamo bene.\"), { d: \"nessuna_febbre\", k: \"parte:padre.occhi\" }]] },"
+ },
+ "il gonfiore?": {
+  "dove": [
+   "dati.js:221"
+  ],
+  "riga": "{ id: \"collo\", breve: T(\"il gonfiore?\"), testo: T(\"Cos'è quel gonfiore sul collo?\"), se: { esame: \"padre_collo\" },"
+ },
+ "Cos'è quel gonfiore sul collo?": {
+  "dove": [
+   "dati.js:221"
+  ],
+  "riga": "{ id: \"collo\", breve: T(\"il gonfiore?\"), testo: T(\"Cos'è quel gonfiore sul collo?\"), se: { esame: \"padre_collo\" },"
+ },
+ "Una *botta*. Al lavoro.": {
+  "dove": [
+   "dati.js:222"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Una *botta*. Al lavoro.\"), { d: \"botta\", k: \"parte:padre.collo\", volto: \"nervoso\" }],"
+ },
+ "Faccio il meccanico.": {
+  "dove": [
+   "dati.js:223"
+  ],
+  "riga": "[\"PADRE\", T(\"Faccio il meccanico.\"), { volto: \"nervoso\" }]] },"
+ },
+ "il corridoio?": {
+  "dove": [
+   "dati.js:224",
+   "dati.js:232"
+  ],
+  "riga": "{ id: \"corridoio\", breve: T(\"il corridoio?\"), testo: T(\"Chi c'è nel corridoio?\"),"
+ },
+ "Chi c'è nel corridoio?": {
+  "dove": [
+   "dati.js:224",
+   "dati.js:232"
+  ],
+  "riga": "{ id: \"corridoio\", breve: T(\"il corridoio?\"), testo: T(\"Chi c'è nel corridoio?\"),"
+ },
+ "Nessuno. È saltata la luce.": {
+  "dove": [
+   "dati.js:225"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Nessuno. È saltata la luce.\"), { volto: \"nervoso\" }],"
+ },
+ "*Di là* non ci andiamo.": {
+  "dove": [
+   "dati.js:226"
+  ],
+  "riga": "[\"PADRE\", T(\"*Di là* non ci andiamo.\"), { d: \"luce\", k: \"zona:corridoio\", volto: \"nervoso\" }]] },"
+ },
+ "tuo padre?": {
+  "dove": [
+   "dati.js:227",
+   "giorno3.js:610",
+   "giorno3.js:613",
+   "giorno3.js:636"
+  ],
+  "riga": "{ id: \"nonno\", breve: T(\"tuo padre?\"), testo: T(\"Dov'è tuo padre?\"), se: { detta: \"piatto_morto\" },"
+ },
+ "Dov'è tuo padre?": {
+  "dove": [
+   "dati.js:227",
+   "giorno3.js:636"
+  ],
+  "riga": "{ id: \"nonno\", breve: T(\"tuo padre?\"), testo: T(\"Dov'è tuo padre?\"), se: { detta: \"piatto_morto\" },"
+ },
+ "Era vecchio.": {
+  "dove": [
+   "dati.js:228"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Era vecchio.\"), { volto: \"nervoso\" }], [\"PADRE\", T(\"Una notte si è alzato ed è uscito. Scalzo.\"), { volto: \"nervoso\" }]] },"
+ },
+ "Una notte si è alzato ed è uscito. Scalzo.": {
+  "dove": [
+   "dati.js:228"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Era vecchio.\"), { volto: \"nervoso\" }], [\"PADRE\", T(\"Una notte si è alzato ed è uscito. Scalzo.\"), { volto: \"nervoso\" }]] },"
+ },
+ "stai bene?": {
+  "dove": [
+   "dati.js:231",
+   "giorno2.js:427"
+  ],
+  "riga": "{ id: \"bene\", breve: T(\"stai bene?\"), testo: T(\"Stai bene?\"), dice: [[\"FIGLIA\", T(\"Sì.\")], [\"FIGLIA\", T(\"[guarda il padre]\")]] },"
+ },
+ "Stai bene?": {
+  "dove": [
+   "dati.js:231",
+   "giorno2.js:427"
+  ],
+  "riga": "{ id: \"bene\", breve: T(\"stai bene?\"), testo: T(\"Stai bene?\"), dice: [[\"FIGLIA\", T(\"Sì.\")], [\"FIGLIA\", T(\"[guarda il padre]\")]] },"
+ },
+ "Sì.": {
+  "dove": [
+   "dati.js:231",
+   "giorno2.js:429"
+  ],
+  "riga": "{ id: \"bene\", breve: T(\"stai bene?\"), testo: T(\"Stai bene?\"), dice: [[\"FIGLIA\", T(\"Sì.\")], [\"FIGLIA\", T(\"[guarda il padre]\")]] },"
+ },
+ "[guarda il padre]": {
+  "dove": [
+   "dati.js:231",
+   "dati.js:260",
+   "dati.js:392",
+   "dati.js:408"
+  ],
+  "riga": "{ id: \"bene\", breve: T(\"stai bene?\"), testo: T(\"Stai bene?\"), dice: [[\"FIGLIA\", T(\"Sì.\")], [\"FIGLIA\", T(\"[guarda il padre]\")]] },"
+ },
+ "Nessuno.": {
+  "dove": [
+   "dati.js:233"
+  ],
+  "riga": "dice: [[\"FIGLIA\", T(\"Nessuno.\")], [\"FIGLIA\", T(\"*Nessuno*, dottore.\"), { d: \"nessuno_figlia\", k: \"zona:corridoio\" }]] },"
+ },
+ "*Nessuno*, dottore.": {
+  "dove": [
+   "dati.js:233"
+  ],
+  "riga": "dice: [[\"FIGLIA\", T(\"Nessuno.\")], [\"FIGLIA\", T(\"*Nessuno*, dottore.\"), { d: \"nessuno_figlia\", k: \"zona:corridoio\" }]] },"
+ },
+ "tua madre?": {
+  "dove": [
+   "dati.js:234",
+   "giorno2.js:430",
+   "giorno3.js:614"
+  ],
+  "riga": "{ id: \"madre\", breve: T(\"tua madre?\"), testo: T(\"Dov'è tua madre?\"),"
+ },
+ "Dov'è tua madre?": {
+  "dove": [
+   "dati.js:234",
+   "giorno2.js:430",
+   "giorno3.js:701"
+  ],
+  "riga": "{ id: \"madre\", breve: T(\"tua madre?\"), testo: T(\"Dov'è tua madre?\"),"
+ },
+ "In città. Dalla zia.": {
+  "dove": [
+   "dati.js:235"
+  ],
+  "riga": "dice: [[\"FIGLIA\", T(\"In città. Dalla zia.\"), { d: \"madre_citta\" }],"
+ },
+ "È partita prima che chiudessero la strada.": {
+  "dove": [
+   "dati.js:236",
+   "dati.js:388"
+  ],
+  "riga": "[\"PADRE\", T(\"È partita prima che chiudessero la strada.\"), { volto: \"nervoso\" }]] },"
+ },
+ "il nonno?": {
+  "dove": [
+   "dati.js:237",
+   "giorno3.js:618"
+  ],
+  "riga": "{ id: \"nonno\", breve: T(\"il nonno?\"), testo: T(\"Dov'è il nonno?\"), se: { detta: \"piatto_morto\" },"
+ },
+ "Dov'è il nonno?": {
+  "dove": [
+   "dati.js:237"
+  ],
+  "riga": "{ id: \"nonno\", breve: T(\"il nonno?\"), testo: T(\"Dov'è il nonno?\"), se: { detta: \"piatto_morto\" },"
+ },
+ "In tre giorni è cambiato. Poi non c'era più.": {
+  "dove": [
+   "dati.js:238"
+  ],
+  "riga": "dice: [[\"FIGLIA\", T(\"In tre giorni è cambiato. Poi non c'era più.\")], [\"FIGLIA\", T(\"Aveva le dita nere.\"), { d: \"dita_nere\" }]] },"
+ },
+ "Aveva le dita nere.": {
+  "dove": [
+   "dati.js:238"
+  ],
+  "riga": "dice: [[\"FIGLIA\", T(\"In tre giorni è cambiato. Poi non c'era più.\")], [\"FIGLIA\", T(\"Aveva le dita nere.\"), { d: \"dita_nere\" }]] },"
+ },
+ "da quanto?": {
+  "dove": [
+   "dati.js:241"
+  ],
+  "riga": "{ id: \"febbre\", breve: T(\"da quanto?\"), testo: T(\"Da quanto hai la febbre?\"),"
+ },
+ "Da quanto hai la febbre?": {
+  "dove": [
+   "dati.js:241"
+  ],
+  "riga": "{ id: \"febbre\", breve: T(\"da quanto?\"), testo: T(\"Da quanto hai la febbre?\"),"
+ },
+ "Tre giorni. Forse quattro.": {
+  "dove": [
+   "dati.js:242"
+  ],
+  "riga": "dice: [[\"MADRE\", T(\"Tre giorni. Forse quattro.\")], [\"MADRE\", T(\"Mio suocero è finito così.\"), { d: \"suocero\" }]] },"
+ },
+ "Mio suocero è finito così.": {
+  "dove": [
+   "dati.js:242"
+  ],
+  "riga": "dice: [[\"MADRE\", T(\"Tre giorni. Forse quattro.\")], [\"MADRE\", T(\"Mio suocero è finito così.\"), { d: \"suocero\" }]] },"
+ },
+ "perché ti nascondi?": {
+  "dove": [
+   "dati.js:243"
+  ],
+  "riga": "{ id: \"nasconde\", breve: T(\"perché ti nascondi?\"), testo: T(\"Perché ti nascondi?\"),"
+ },
+ "Perché ti nascondi?": {
+  "dove": [
+   "dati.js:243"
+  ],
+  "riga": "{ id: \"nasconde\", breve: T(\"perché ti nascondi?\"), testo: T(\"Perché ti nascondi?\"),"
+ },
+ "Quelli che portate via non tornano.": {
+  "dove": [
+   "dati.js:244"
+  ],
+  "riga": "dice: [[\"MADRE\", T(\"Quelli che portate via non tornano.\"), { d: \"non_tornano\" }], [\"MADRE\", T(\"Lo sanno tutti.\")]] },"
+ },
+ "Lo sanno tutti.": {
+  "dove": [
+   "dati.js:244"
+  ],
+  "riga": "dice: [[\"MADRE\", T(\"Quelli che portate via non tornano.\"), { d: \"non_tornano\" }], [\"MADRE\", T(\"Lo sanno tutti.\")]] },"
+ },
+ "chi ti dà da mangiare?": {
+  "dove": [
+   "dati.js:245"
+  ],
+  "riga": "{ id: \"cibo\", breve: T(\"chi ti dà da mangiare?\"), testo: T(\"Chi ti porta da mangiare?\"),"
+ },
+ "Chi ti porta da mangiare?": {
+  "dove": [
+   "dati.js:245"
+  ],
+  "riga": "{ id: \"cibo\", breve: T(\"chi ti dà da mangiare?\"), testo: T(\"Chi ti porta da mangiare?\"),"
+ },
+ "Mia figlia. Lei sta bene.": {
+  "dove": [
+   "dati.js:246"
+  ],
+  "riga": "dice: [[\"MADRE\", T(\"Mia figlia. Lei sta bene.\")], [\"MADRE\", T(\"Non toccatela.\")]] },"
+ },
+ "Non toccatela.": {
+  "dove": [
+   "dati.js:246"
+  ],
+  "riga": "dice: [[\"MADRE\", T(\"Mia figlia. Lei sta bene.\")], [\"MADRE\", T(\"Non toccatela.\")]] },"
+ },
+ "Io, mia madre e mia figlia. Siamo in tre.": {
+  "dove": [
+   "dati.js:250"
+  ],
+  "riga": "dice: [[\"UOMO\", T(\"Io, mia madre e mia figlia. Siamo in tre.\"), { d: \"tre_in_casa\" }]] },"
+ },
+ "Avete avuto la febbre?": {
+  "dove": [
+   "dati.js:251"
+  ],
+  "riga": "{ id: \"febbre\", breve: T(\"la febbre?\"), testo: T(\"Avete avuto la febbre?\"),"
+ },
+ "Io sudo sempre. È il *termosifone*.": {
+  "dove": [
+   "dati.js:252"
+  ],
+  "riga": "dice: [[\"UOMO\", T(\"Io sudo sempre. È il *termosifone*.\"), { d: \"sudo\", k: \"zona:termosifone\" }]] },"
+ },
+ "la porta?": {
+  "dove": [
+   "dati.js:253",
+   "dati.js:259",
+   "dati.js:267",
+   "giorno2.js:441",
+   "giorno2.js:498"
+  ],
+  "riga": "{ id: \"porta\", breve: T(\"la porta?\"), testo: T(\"Cosa c'è dietro quella porta?\"),"
+ },
+ "Cosa c'è dietro quella porta?": {
+  "dove": [
+   "dati.js:253",
+   "giorno2.js:441",
+   "giorno2.js:498"
+  ],
+  "riga": "{ id: \"porta\", breve: T(\"la porta?\"), testo: T(\"Cosa c'è dietro quella porta?\"),"
+ },
+ "Il *ripostiglio*. Roba vecchia.": {
+  "dove": [
+   "dati.js:254"
+  ],
+  "riga": "dice: [[\"UOMO\", T(\"Il *ripostiglio*. Roba vecchia.\"), { d: \"ripostiglio\", k: \"zona:porta\", volto: \"nervoso\" }]] },"
+ },
+ "sei pallida": {
+  "dove": [
+   "dati.js:257"
+  ],
+  "riga": "{ id: \"pallida\", breve: T(\"sei pallida\"), testo: T(\"Sei molto pallida. Stai bene?\"),"
+ },
+ "Sei molto pallida. Stai bene?": {
+  "dove": [
+   "dati.js:257"
+  ],
+  "riga": "{ id: \"pallida\", breve: T(\"sei pallida\"), testo: T(\"Sei molto pallida. Stai bene?\"),"
+ },
+ "Non mangio molto, ultimamente.": {
+  "dove": [
+   "dati.js:258"
+  ],
+  "riga": "dice: [[\"RAGAZZA\", T(\"Non mangio molto, ultimamente.\")], [\"RAGAZZA\", T(\"E ho *freddo*.\"), { d: \"freddo\", k: \"zona:termosifone\" }]] },"
+ },
+ "E ho *freddo*.": {
+  "dove": [
+   "dati.js:258"
+  ],
+  "riga": "dice: [[\"RAGAZZA\", T(\"Non mangio molto, ultimamente.\")], [\"RAGAZZA\", T(\"E ho *freddo*.\"), { d: \"freddo\", k: \"zona:termosifone\" }]] },"
+ },
+ "Chi c'è dietro la porta?": {
+  "dove": [
+   "dati.js:259",
+   "dati.js:267"
+  ],
+  "riga": "{ id: \"porta\", breve: T(\"la porta?\"), testo: T(\"Chi c'è dietro la porta?\"),"
+ },
+ "*Nessuno*.": {
+  "dove": [
+   "dati.js:260"
+  ],
+  "riga": "dice: [[\"RAGAZZA\", T(\"[guarda il padre]\")], [\"RAGAZZA\", T(\"*Nessuno*.\"), { d: \"nessuno_ragazza\", k: \"zona:porta\" }]] },"
+ },
+ "fratelli?": {
+  "dove": [
+   "dati.js:261"
+  ],
+  "riga": "{ id: \"fratelli\", breve: T(\"fratelli?\"), testo: T(\"Hai fratelli?\"),"
+ },
+ "Hai fratelli?": {
+  "dove": [
+   "dati.js:261"
+  ],
+  "riga": "{ id: \"fratelli\", breve: T(\"fratelli?\"), testo: T(\"Hai fratelli?\"),"
+ },
+ "Uno. Lavora in città.": {
+  "dove": [
+   "dati.js:262"
+  ],
+  "riga": "dice: [[\"RAGAZZA\", T(\"Uno. Lavora in città.\"), { d: \"fratello_citta\" }], [\"UOMO\", T(\"Da un anno.\"), { volto: \"nervoso\" }]] },"
+ },
+ "Da un anno.": {
+  "dove": [
+   "dati.js:262"
+  ],
+  "riga": "dice: [[\"RAGAZZA\", T(\"Uno. Lavora in città.\"), { d: \"fratello_citta\" }], [\"UOMO\", T(\"Da un anno.\"), { volto: \"nervoso\" }]] },"
+ },
+ "come sta?": {
+  "dove": [
+   "dati.js:265",
+   "giorno2.js:481",
+   "giorno3.js:660",
+   "giorno3.js:668"
+  ],
+  "riga": "{ id: \"come\", breve: T(\"come sta?\"), testo: T(\"Come sta, signora?\"),"
+ },
+ "Come sta, signora?": {
+  "dove": [
+   "dati.js:265",
+   "giorno3.js:668"
+  ],
+  "riga": "{ id: \"come\", breve: T(\"come sta?\"), testo: T(\"Come sta, signora?\"),"
+ },
+ "Ho ottantasei anni e un dente solo.": {
+  "dove": [
+   "dati.js:266"
+  ],
+  "riga": "dice: [[\"NONNA\", T(\"Ho ottantasei anni e un dente solo.\")], [\"NONNA\", T(\"Benissimo.\")]] },"
+ },
+ "Benissimo.": {
+  "dove": [
+   "dati.js:266"
+  ],
+  "riga": "dice: [[\"NONNA\", T(\"Ho ottantasei anni e un dente solo.\")], [\"NONNA\", T(\"Benissimo.\")]] },"
+ },
+ "Il *ragazzo* dorme. Lasciatelo dormire.": {
+  "dove": [
+   "dati.js:268"
+  ],
+  "riga": "dice: [[\"NONNA\", T(\"Il *ragazzo* dorme. Lasciatelo dormire.\"), { d: \"ragazzo_dorme\", k: \"zona:porta\" }],"
+ },
+ "Mamma!": {
+  "dove": [
+   "dati.js:269",
+   "dati.js:381",
+   "giorno2.js:458"
+  ],
+  "riga": "[\"UOMO\", T(\"Mamma!\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "la peste?": {
+  "dove": [
+   "dati.js:270"
+  ],
+  "riga": "{ id: \"peste\", breve: T(\"la peste?\"), testo: T(\"Ha mai visto la peste?\"),"
+ },
+ "Ha mai visto la peste?": {
+  "dove": [
+   "dati.js:270"
+  ],
+  "riga": "{ id: \"peste\", breve: T(\"la peste?\"), testo: T(\"Ha mai visto la peste?\"),"
+ },
+ "Io no. Mia nonna sì.": {
+  "dove": [
+   "dati.js:271"
+  ],
+  "riga": "dice: [[\"NONNA\", T(\"Io no. Mia nonna sì.\")], [\"NONNA\", T(\"Diceva che arrivò insieme al medico.\"), { d: \"leggenda\" }],"
+ },
+ "Diceva che arrivò insieme al medico.": {
+  "dove": [
+   "dati.js:271"
+  ],
+  "riga": "dice: [[\"NONNA\", T(\"Io no. Mia nonna sì.\")], [\"NONNA\", T(\"Diceva che arrivò insieme al medico.\"), { d: \"leggenda\" }],"
+ },
+ "Uno vestito come lei.": {
+  "dove": [
+   "dati.js:272"
+  ],
+  "riga": "[\"NONNA\", T(\"Uno vestito come lei.\")]] },"
+ },
+ "«Stiamo tutti bene.»": {
+  "dove": [
+   "dati.js:278"
+  ],
+  "riga": "tutti_bene: { chi: \"padre\", testo: T(\"«Stiamo tutti bene.»\") },"
+ },
+ "«Io e mia figlia. Basta.»": {
+  "dove": [
+   "dati.js:279"
+  ],
+  "riga": "solo_due: { chi: \"padre\", testo: T(\"«Io e mia figlia. Basta.»\") },"
+ },
+ "«Nessuno ha la febbre.»": {
+  "dove": [
+   "dati.js:280"
+  ],
+  "riga": "nessuna_febbre: { chi: \"padre\", testo: T(\"«Nessuno ha la febbre.»\") },"
+ },
+ "«Una botta. Al lavoro.»": {
+  "dove": [
+   "dati.js:281"
+  ],
+  "riga": "botta: { chi: \"padre\", testo: T(\"«Una botta. Al lavoro.»\") },"
+ },
+ "«Di là non ci andiamo.»": {
+  "dove": [
+   "dati.js:282"
+  ],
+  "riga": "luce: { chi: \"padre\", testo: T(\"«Di là non ci andiamo.»\") },"
+ },
+ "«Un piatto è per mio padre. Se torna.»": {
+  "dove": [
+   "dati.js:283"
+  ],
+  "riga": "piatto_morto: { chi: \"padre\", testo: T(\"«Un piatto è per mio padre. Se torna.»\") },"
+ },
+ "«Nel corridoio? Nessuno.»": {
+  "dove": [
+   "dati.js:284"
+  ],
+  "riga": "nessuno_figlia: { chi: \"figlia\", testo: T(\"«Nel corridoio? Nessuno.»\") },"
+ },
+ "«La mamma è in città.»": {
+  "dove": [
+   "dati.js:285"
+  ],
+  "riga": "madre_citta: { chi: \"figlia\", testo: T(\"«La mamma è in città.»\") },"
+ },
+ "«La mamma è di là, con la febbre.»": {
+  "dove": [
+   "dati.js:286"
+  ],
+  "riga": "mamma_di_la: { chi: \"figlia\", testo: T(\"«La mamma è di là, con la febbre.»\") },"
+ },
+ "«Il nonno aveva le dita nere.»": {
+  "dove": [
+   "dati.js:287"
+  ],
+  "riga": "dita_nere: { chi: \"figlia\", testo: T(\"«Il nonno aveva le dita nere.»\") },"
+ },
+ "«Mio suocero è finito così.»": {
+  "dove": [
+   "dati.js:288"
+  ],
+  "riga": "suocero: { chi: \"madre\", testo: T(\"«Mio suocero è finito così.»\") },"
+ },
+ "«Quelli che portate via non tornano.»": {
+  "dove": [
+   "dati.js:289"
+  ],
+  "riga": "non_tornano: { chi: \"madre\", testo: T(\"«Quelli che portate via non tornano.»\") },"
+ },
+ "«Siamo in tre.»": {
+  "dove": [
+   "dati.js:290"
+  ],
+  "riga": "tre_in_casa: { chi: \"uomo\", testo: T(\"«Siamo in tre.»\") },"
+ },
+ "«Sudo per il termosifone.»": {
+  "dove": [
+   "dati.js:291"
+  ],
+  "riga": "sudo: { chi: \"uomo\", testo: T(\"«Sudo per il termosifone.»\") },"
+ },
+ "«È il ripostiglio.»": {
+  "dove": [
+   "dati.js:292"
+  ],
+  "riga": "ripostiglio: { chi: \"uomo\", testo: T(\"«È il ripostiglio.»\") },"
+ },
+ "«La chiave non so dove sia.»": {
+  "dove": [
+   "dati.js:293"
+  ],
+  "riga": "chiave: { chi: \"uomo\", testo: T(\"«La chiave non so dove sia.»\") },"
+ },
+ "«Ho freddo.»": {
+  "dove": [
+   "dati.js:294",
+   "giorno2.js:534"
+  ],
+  "riga": "freddo: { chi: \"giovane\", testo: T(\"«Ho freddo.»\") },"
+ },
+ "«Dietro la porta? Nessuno.»": {
+  "dove": [
+   "dati.js:295"
+  ],
+  "riga": "nessuno_ragazza: { chi: \"giovane\", testo: T(\"«Dietro la porta? Nessuno.»\") },"
+ },
+ "«Mio fratello è in città.»": {
+  "dove": [
+   "dati.js:296"
+  ],
+  "riga": "fratello_citta: { chi: \"giovane\", testo: T(\"«Mio fratello è in città.»\") },"
+ },
+ "«È mio fratello. Lasciatelo stare.»": {
+  "dove": [
+   "dati.js:297"
+  ],
+  "riga": "lasciatelo: { chi: \"giovane\", testo: T(\"«È mio fratello. Lasciatelo stare.»\") },"
+ },
+ "«Il ragazzo dorme.»": {
+  "dove": [
+   "dati.js:298"
+  ],
+  "riga": "ragazzo_dorme: { chi: \"nonna\", testo: T(\"«Il ragazzo dorme.»\") },"
+ },
+ "«La peste arrivò col medico.»": {
+  "dove": [
+   "dati.js:299"
+  ],
+  "riga": "leggenda: { chi: \"nonna\", testo: T(\"«La peste arrivò col medico.»\") },"
+ },
+ "«Ha i polmoni deboli.»": {
+  "dove": [
+   "dati.js:300"
+  ],
+  "riga": "polmoni: { chi: \"nonna\", testo: T(\"«Ha i polmoni deboli.»\") },"
+ },
+ "Quattro piatti in tavola. Dicono di essere in due.": {
+  "dove": [
+   "dati.js:306"
+  ],
+  "riga": "piatti: { casa: \"casa3\", testo: T(\"Quattro piatti in tavola. Dicono di essere in due.\"), breve: T(\"Quattro piatti in tavola.\"),"
+ },
+ "Quattro piatti in tavola.": {
+  "dove": [
+   "dati.js:306"
+  ],
+  "riga": "piatti: { casa: \"casa3\", testo: T(\"Quattro piatti in tavola. Dicono di essere in due.\"), breve: T(\"Quattro piatti in tavola.\"),"
+ },
+ "Il padre ha un gonfiore duro sotto la mascella. Dice che è una botta.": {
+  "dove": [
+   "dati.js:308"
+  ],
+  "riga": "bubbone_padre: { casa: \"casa3\", testo: T(\"Il padre ha un gonfiore duro sotto la mascella. Dice che è una botta.\"),"
+ },
+ "Il collo: non è una botta.": {
+  "dove": [
+   "dati.js:309"
+  ],
+  "riga": "breve: T(\"Il collo: non è una botta.\"), parte: [\"padre\", \"collo\"] },"
+ },
+ "Il padre ha gli occhi lucidi e suda, ma dice che nessuno ha la febbre.": {
+  "dove": [
+   "dati.js:310"
+  ],
+  "riga": "febbre_padre: { casa: \"casa3\", testo: T(\"Il padre ha gli occhi lucidi e suda, ma dice che nessuno ha la febbre.\"),"
+ },
+ "Il padre ha la febbre.": {
+  "dove": [
+   "dati.js:311"
+  ],
+  "riga": "breve: T(\"Il padre ha la febbre.\"), parte: [\"padre\", \"occhi\"] },"
+ },
+ "La madre ha le dita nere, come il nonno prima di sparire.": {
+  "dove": [
+   "dati.js:312"
+  ],
+  "riga": "madre_nonno: { casa: \"casa3\", testo: T(\"La madre ha le dita nere, come il nonno prima di sparire.\"),"
+ },
+ "Dita nere, come il nonno.": {
+  "dove": [
+   "dati.js:313"
+  ],
+  "riga": "breve: T(\"Dita nere, come il nonno.\"), parte: [\"madre\", \"mani\"] },"
+ },
+ "Dal nastro: calore in fondo al corridoio. C'è qualcuno.": {
+  "dove": [
+   "dati.js:314"
+  ],
+  "riga": "calore_corridoio: { casa: \"casa3\", testo: T(\"Dal nastro: calore in fondo al corridoio. C'è qualcuno.\"),"
+ },
+ "Calore nel corridoio.": {
+  "dove": [
+   "dati.js:315"
+  ],
+  "riga": "breve: T(\"Calore nel corridoio.\"), zona: [\"cucina\", \"corridoio\"], ir: true },"
+ },
+ "Una tosse dietro la porta chiusa.": {
+  "dove": [
+   "dati.js:316"
+  ],
+  "riga": "tosse: { casa: \"casa5\", testo: T(\"Una tosse dietro la porta chiusa.\"), breve: T(\"Una tosse dietro la porta.\"),"
+ },
+ "Una tosse dietro la porta.": {
+  "dove": [
+   "dati.js:316"
+  ],
+  "riga": "tosse: { casa: \"casa5\", testo: T(\"Una tosse dietro la porta chiusa.\"), breve: T(\"Una tosse dietro la porta.\"),"
+ },
+ "Il termosifone è freddo: spento da giorni.": {
+  "dove": [
+   "dati.js:318"
+  ],
+  "riga": "termosifone: { casa: \"casa5\", testo: T(\"Il termosifone è freddo: spento da giorni.\"), breve: T(\"Il termosifone è spento.\"),"
+ },
+ "Il termosifone è spento.": {
+  "dove": [
+   "dati.js:318"
+  ],
+  "riga": "termosifone: { casa: \"casa5\", testo: T(\"Il termosifone è freddo: spento da giorni.\"), breve: T(\"Il termosifone è spento.\"),"
+ },
+ "L'uomo suda con il termosifone spento: è febbre.": {
+  "dove": [
+   "dati.js:320"
+  ],
+  "riga": "febbre_uomo: { casa: \"casa5\", testo: T(\"L'uomo suda con il termosifone spento: è febbre.\"), breve: T(\"L'uomo suda al freddo.\"),"
+ },
+ "L'uomo suda al freddo.": {
+  "dove": [
+   "dati.js:320"
+  ],
+  "riga": "febbre_uomo: { casa: \"casa5\", testo: T(\"L'uomo suda con il termosifone spento: è febbre.\"), breve: T(\"L'uomo suda al freddo.\"),"
+ },
+ "Nel «ripostiglio» qualcuno tossisce. E non hanno il gatto.": {
+  "dove": [
+   "dati.js:322"
+  ],
+  "riga": "tosse_ripostiglio: { casa: \"casa5\", testo: T(\"Nel «ripostiglio» qualcuno tossisce. E non hanno il gatto.\"),"
+ },
+ "Il ripostiglio tossisce.": {
+  "dove": [
+   "dati.js:323"
+  ],
+  "riga": "breve: T(\"Il ripostiglio tossisce.\"), da: \"nonna\" },"
+ },
+ "Dal nastro: calore dietro la porta chiusa. C'è qualcuno sdraiato.": {
+  "dove": [
+   "dati.js:324"
+  ],
+  "riga": "calore_porta: { casa: \"casa5\", testo: T(\"Dal nastro: calore dietro la porta chiusa. C'è qualcuno sdraiato.\"),"
+ },
+ "Calore dietro la porta.": {
+  "dove": [
+   "dati.js:325",
+   "giorno2.js:594",
+   "giorno3.js:778"
+  ],
+  "riga": "breve: T(\"Calore dietro la porta.\"), zona: [\"soggiorno\", \"porta\"], ir: true },"
+ },
+ "Siete in due. E quattro piatti?": {
+  "dove": [
+   "dati.js:334"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Siete in due. E quattro piatti?\")], [\"PADRE\", T(\"[guarda la tavola]\"), { volto: \"nervoso\" }],"
+ },
+ "[guarda la tavola]": {
+  "dove": [
+   "dati.js:334"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Siete in due. E quattro piatti?\")], [\"PADRE\", T(\"[guarda la tavola]\"), { volto: \"nervoso\" }],"
+ },
+ "Uno è per mio padre. È *sparito* la settimana scorsa.": {
+  "dove": [
+   "dati.js:335"
+  ],
+  "riga": "[\"PADRE\", T(\"Uno è per mio padre. È *sparito* la settimana scorsa.\"), { d: \"piatto_morto\", k: \"zona:tavola\", volto: \"nervoso\" }],"
+ },
+ "Da noi si apparecchia per chi non torna. Quaranta giorni.": {
+  "dove": [
+   "dati.js:336"
+  ],
+  "riga": "[\"PADRE\", T(\"Da noi si apparecchia per chi non torna. Quaranta giorni.\"), { volto: \"nervoso\" }]] },"
+ },
+ "Tu, tua figlia, tuo padre. E il quarto piatto?": {
+  "dove": [
+   "dati.js:338"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Tu, tua figlia, tuo padre. E il quarto piatto?\")], [\"PADRE\", \"...\", { volto: \"arrabbiato\" }],"
+ },
+ "Avete finito? Allora andate.": {
+  "dove": [
+   "dati.js:339"
+  ],
+  "riga": "[\"PADRE\", T(\"Avete finito? Allora andate.\"), { volto: \"arrabbiato\" }]], poi: { fiducia: -5 } },"
+ },
+ "Quattro piatti. Per chi è il quarto?": {
+  "dove": [
+   "dati.js:343"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Quattro piatti. Per chi è il quarto?\")], [\"FIGLIA\", T(\"[piange]\"), { volto: \"piange\" }],"
+ },
+ "[piange]": {
+  "dove": [
+   "dati.js:343",
+   "giorno2.js:614",
+   "giorno2.js:680",
+   "giorno2.js:694",
+   "giorno3.js:814",
+   "giorno3.js:821"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Quattro piatti. Per chi è il quarto?\")], [\"FIGLIA\", T(\"[piange]\"), { volto: \"piange\" }],"
+ },
+ "La mamma è *di là*. Ha la febbre da tre giorni.": {
+  "dove": [
+   "dati.js:344"
+  ],
+  "riga": "[\"FIGLIA\", T(\"La mamma è *di là*. Ha la febbre da tre giorni.\"), { d: \"mamma_di_la\", k: \"zona:corridoio\", volto: \"piange\" }],"
+ },
+ "Vi prego, non portatela via.": {
+  "dove": [
+   "dati.js:345"
+  ],
+  "riga": "[\"FIGLIA\", T(\"Vi prego, non portatela via.\"), { volto: \"piange\" }], [\"PADRE\", T(\"Stupida.\"), { volto: \"arrabbiato\" }]],"
+ },
+ "Stupida.": {
+  "dove": [
+   "dati.js:345"
+  ],
+  "riga": "[\"FIGLIA\", T(\"Vi prego, non portatela via.\"), { volto: \"piange\" }], [\"PADRE\", T(\"Stupida.\"), { volto: \"arrabbiato\" }]],"
+ },
+ "Una botta non diventa dura e nera così.": {
+  "dove": [
+   "dati.js:348"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Una botta non diventa dura e nera così.\")], [\"PADRE\", T(\"[si tira su il colletto]\"), { volto: \"nervoso\" }],"
+ },
+ "[si tira su il colletto]": {
+  "dove": [
+   "dati.js:348"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Una botta non diventa dura e nera così.\")], [\"PADRE\", T(\"[si tira su il colletto]\"), { volto: \"nervoso\" }],"
+ },
+ "Sono affari miei.": {
+  "dove": [
+   "dati.js:349"
+  ],
+  "riga": "[\"PADRE\", T(\"Sono affari miei.\"), { volto: \"arrabbiato\" }]], poi: { prova: \"bubbone_padre\" } },"
+ },
+ "Occhi lucidi, sudore. Questa è febbre.": {
+  "dove": [
+   "dati.js:351"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Occhi lucidi, sudore. Questa è febbre.\")], [\"PADRE\", T(\"Ho dormito poco.\"), { volto: \"nervoso\" }],"
+ },
+ "Faccio il turno di notte, in officina.": {
+  "dove": [
+   "dati.js:352"
+  ],
+  "riga": "[\"PADRE\", T(\"Faccio il turno di notte, in officina.\"), { volto: \"nervoso\" }]], poi: { prova: \"febbre_padre\" } },"
+ },
+ "Di là non ci andate. Ma tua moglie è di là.": {
+  "dove": [
+   "dati.js:354"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Di là non ci andate. Ma tua moglie è di là.\")], [\"PADRE\", T(\"[guarda la figlia]\"), { volto: \"arrabbiato\" }],"
+ },
+ "[guarda la figlia]": {
+  "dove": [
+   "dati.js:354"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Di là non ci andate. Ma tua moglie è di là.\")], [\"PADRE\", T(\"[guarda la figlia]\"), { volto: \"arrabbiato\" }],"
+ },
+ "Cosa volete da noi?": {
+  "dove": [
+   "dati.js:355"
+  ],
+  "riga": "[\"PADRE\", T(\"Cosa volete da noi?\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "COMBACIA": {
+  "dove": [
+   "dati.js:356",
+   "dati.js:378",
+   "giorno2.js:646"
+  ],
+  "riga": "{ id: \"come_il_nonno\", timbro: T(\"COMBACIA\"), coppie: [[[\"d:dita_nere\", \"d:suocero\"], [\"parte:madre.mani\", \"persona:madre\"]]],"
+ },
+ "Tuo suocero aveva le dita nere.": {
+  "dove": [
+   "dati.js:357"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Tuo suocero aveva le dita nere.\")], [\"MADRE\", T(\"Come le mie.\")], [\"MADRE\", T(\"[si guarda le mani]\")]],"
+ },
+ "Come le mie.": {
+  "dove": [
+   "dati.js:357"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Tuo suocero aveva le dita nere.\")], [\"MADRE\", T(\"Come le mie.\")], [\"MADRE\", T(\"[si guarda le mani]\")]],"
+ },
+ "[si guarda le mani]": {
+  "dove": [
+   "dati.js:357"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Tuo suocero aveva le dita nere.\")], [\"MADRE\", T(\"Come le mie.\")], [\"MADRE\", T(\"[si guarda le mani]\")]],"
+ },
+ "Il termosifone è freddo. Perché sudi?": {
+  "dove": [
+   "dati.js:361"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Il termosifone è freddo. Perché sudi?\")], [\"UOMO\", T(\"Si sarà spento adesso.\"), { volto: \"nervoso\" }],"
+ },
+ "Si sarà spento adesso.": {
+  "dove": [
+   "dati.js:361"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Il termosifone è freddo. Perché sudi?\")], [\"UOMO\", T(\"Si sarà spento adesso.\"), { volto: \"nervoso\" }],"
+ },
+ "È spento da una settimana.": {
+  "dove": [
+   "dati.js:362"
+  ],
+  "riga": "[\"NONNA\", T(\"È spento da una settimana.\")]], poi: { prova: \"febbre_uomo\" } },"
+ },
+ "Dietro quella porta qualcuno tossisce.": {
+  "dove": [
+   "dati.js:364"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Dietro quella porta qualcuno tossisce.\")], [\"UOMO\", T(\"Sarà il gatto.\"), { volto: \"nervoso\" }],"
+ },
+ "Sarà il gatto.": {
+  "dove": [
+   "dati.js:364"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Dietro quella porta qualcuno tossisce.\")], [\"UOMO\", T(\"Sarà il gatto.\"), { volto: \"nervoso\" }],"
+ },
+ "Non abbiamo il gatto.": {
+  "dove": [
+   "dati.js:365"
+  ],
+  "riga": "[\"NONNA\", T(\"Non abbiamo il gatto.\")]], poi: { prova: \"tosse_ripostiglio\" } },"
+ },
+ "Siete in tre. E il ragazzo che dorme di là?": {
+  "dove": [
+   "dati.js:369"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Siete in tre. E il ragazzo che dorme di là?\")], [\"UOMO\", T(\"Mamma, stai zitta.\"), { volto: \"arrabbiato\" }],"
+ },
+ "Mamma, stai zitta.": {
+  "dove": [
+   "dati.js:369"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Siete in tre. E il ragazzo che dorme di là?\")], [\"UOMO\", T(\"Mamma, stai zitta.\"), { volto: \"arrabbiato\" }],"
+ },
+ "Non c'è nessun ragazzo. Andate via.": {
+  "dove": [
+   "dati.js:370"
+  ],
+  "riga": "[\"UOMO\", T(\"Non c'è nessun ragazzo. Andate via.\"), { volto: \"arrabbiato\" }]], poi: { fiducia: -5 } },"
+ },
+ "Chi c'è davvero dietro quella porta?": {
+  "dove": [
+   "dati.js:374"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Chi c'è davvero dietro quella porta?\")], [\"RAGAZZA\", T(\"[le tremano le labbra]\"), { volto: \"piange\" }],"
+ },
+ "[le tremano le labbra]": {
+  "dove": [
+   "dati.js:374",
+   "giorno2.js:634"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Chi c'è davvero dietro quella porta?\")], [\"RAGAZZA\", T(\"[le tremano le labbra]\"), { volto: \"piange\" }],"
+ },
+ "È mio *fratello*. Lasciatelo stare.": {
+  "dove": [
+   "dati.js:375"
+  ],
+  "riga": "[\"RAGAZZA\", T(\"È mio *fratello*. Lasciatelo stare.\"), { d: \"lasciatelo\", k: \"zona:porta\", volto: \"piange\" }],"
+ },
+ "Vi prego.": {
+  "dove": [
+   "dati.js:376"
+  ],
+  "riga": "[\"RAGAZZA\", T(\"Vi prego.\"), { volto: \"piange\" }], [\"UOMO\", T(\"Basta così!\"), { volto: \"arrabbiato\" }]],"
+ },
+ "Basta così!": {
+  "dove": [
+   "dati.js:376",
+   "giorno2.js:638"
+  ],
+  "riga": "[\"RAGAZZA\", T(\"Vi prego.\"), { volto: \"piange\" }], [\"UOMO\", T(\"Basta così!\"), { volto: \"arrabbiato\" }]],"
+ },
+ "Chi tossisce così, signora?": {
+  "dove": [
+   "dati.js:379"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Chi tossisce così, signora?\")],"
+ },
+ "Il ragazzo ha sempre avuto i *polmoni* deboli.": {
+  "dove": [
+   "dati.js:380"
+  ],
+  "riga": "[\"NONNA\", T(\"Il ragazzo ha sempre avuto i *polmoni* deboli.\"), { d: \"polmoni\", k: \"zona:porta\" }],"
+ },
+ "[si irrigidisce]": {
+  "dove": [
+   "dati.js:387"
+  ],
+  "riga": "dita_nere: [[\"PADRE\", T(\"[si irrigidisce]\"), { volto: \"nervoso\" }], [\"PADRE\", T(\"Mio padre era vecchio. Basta.\")]],"
+ },
+ "Mio padre era vecchio. Basta.": {
+  "dove": [
+   "dati.js:387"
+  ],
+  "riga": "dita_nere: [[\"PADRE\", T(\"[si irrigidisce]\"), { volto: \"nervoso\" }], [\"PADRE\", T(\"Mio padre era vecchio. Basta.\")]],"
+ },
+ "E allora?": {
+  "dove": [
+   "dati.js:389",
+   "giorno2.js:712",
+   "giorno3.js:898"
+  ],
+  "riga": "_: [[\"PADRE\", T(\"E allora?\")]],"
+ },
+ "Sì. Io e lui.": {
+  "dove": [
+   "dati.js:392"
+  ],
+  "riga": "solo_due: [[\"FIGLIA\", T(\"[guarda il padre]\")], [\"FIGLIA\", T(\"Sì. Io e lui.\")]],"
+ },
+ "[scuote la testa]": {
+  "dove": [
+   "dati.js:393",
+   "giorno2.js:707",
+   "giorno3.js:893"
+  ],
+  "riga": "_: [[\"FIGLIA\", T(\"[scuote la testa]\")]],"
+ },
+ "Non è colpa sua. Gliel'ho chiesto io.": {
+  "dove": [
+   "dati.js:396"
+  ],
+  "riga": "mamma_di_la: [[\"MADRE\", T(\"Non è colpa sua. Gliel'ho chiesto io.\")]],"
+ },
+ "In città? Ha detto così?": {
+  "dove": [
+   "dati.js:397"
+  ],
+  "riga": "madre_citta: [[\"MADRE\", T(\"In città? Ha detto così?\")], [\"MADRE\", T(\"Brava. Brava bambina.\")]],"
+ },
+ "Brava. Brava bambina.": {
+  "dove": [
+   "dati.js:397"
+  ],
+  "riga": "madre_citta: [[\"MADRE\", T(\"In città? Ha detto così?\")], [\"MADRE\", T(\"Brava. Brava bambina.\")]],"
+ },
+ "Gli mettiamo il piatto. Così non si offende.": {
+  "dove": [
+   "dati.js:398"
+  ],
+  "riga": "piatto_morto: [[\"MADRE\", T(\"Gli mettiamo il piatto. Così non si offende.\")]],"
+ },
+ "[tossisce]": {
+  "dove": [
+   "dati.js:399",
+   "giorno2.js:482",
+   "giorno2.js:714",
+   "giorno3.js:899"
+  ],
+  "riga": "_: [[\"MADRE\", T(\"[tossisce]\")]],"
+ },
+ "Favole da vecchi.": {
+  "dove": [
+   "dati.js:402",
+   "giorno2.js:709"
+  ],
+  "riga": "leggenda: [[\"UOMO\", T(\"Favole da vecchi.\")]],"
+ },
+ "Il gasolio costa. E allora?": {
+  "dove": [
+   "dati.js:403"
+  ],
+  "riga": "termosifone: [[\"UOMO\", T(\"Il gasolio costa. E allora?\")]],"
+ },
+ "Non so di cosa parlate.": {
+  "dove": [
+   "dati.js:404",
+   "giorno2.js:709"
+  ],
+  "riga": "_: [[\"UOMO\", T(\"Non so di cosa parlate.\")]],"
+ },
+ "Non abbiamo i soldi per il gasolio.": {
+  "dove": [
+   "dati.js:407"
+  ],
+  "riga": "termosifone: [[\"RAGAZZA\", T(\"Non abbiamo i soldi per il gasolio.\")]],"
+ },
+ "Sì. In tre.": {
+  "dove": [
+   "dati.js:408"
+  ],
+  "riga": "tre_in_casa: [[\"RAGAZZA\", T(\"[guarda il padre]\")], [\"RAGAZZA\", T(\"Sì. In tre.\")]],"
+ },
+ "Freddo come una tomba. Ci siamo abituati.": {
+  "dove": [
+   "dati.js:412"
+  ],
+  "riga": "termosifone: [[\"NONNA\", T(\"Freddo come una tomba. Ci siamo abituati.\")]],"
+ },
+ "Le porte chiuse non fermano niente. Lo diceva mia nonna.": {
+  "dove": [
+   "dati.js:413"
+  ],
+  "riga": "chiave: [[\"NONNA\", T(\"Le porte chiuse non fermano niente. Lo diceva mia nonna.\")]],"
+ },
+ "Tre? Mio figlio non ha mai saputo contare.": {
+  "dove": [
+   "dati.js:414"
+  ],
+  "riga": "tre_in_casa: [[\"NONNA\", T(\"Tre? Mio figlio non ha mai saputo contare.\")]],"
+ },
+ "Eh? Parli più forte, con quel becco.": {
+  "dove": [
+   "dati.js:415",
+   "giorno2.js:711",
+   "giorno3.js:896"
+  ],
+  "riga": "_: [[\"NONNA\", T(\"Eh? Parli più forte, con quel becco.\")]],"
+ },
+ "Via della Chiesa 12": {
+  "dove": [
+   "dati.js:425"
+  ],
+  "riga": "casa3: { via: T(\"Via della Chiesa 12\"), righe: ["
+ },
+ "ROSSI MARIO": {
+  "dove": [
+   "dati.js:426"
+  ],
+  "riga": "{ persona: \"padre\", nome: T(\"ROSSI MARIO\"), ruolo: T(\"intestatario\"), nato: 1971, mestiere: T(\"meccanico\") },"
+ },
+ "intestatario": {
+  "dove": [
+   "dati.js:426",
+   "dati.js:432",
+   "giorno2.js:807",
+   "giorno2.js:811",
+   "giorno3.js:983"
+  ],
+  "riga": "{ persona: \"padre\", nome: T(\"ROSSI MARIO\"), ruolo: T(\"intestatario\"), nato: 1971, mestiere: T(\"meccanico\") },"
+ },
+ "meccanico": {
+  "dove": [
+   "dati.js:426"
+  ],
+  "riga": "{ persona: \"padre\", nome: T(\"ROSSI MARIO\"), ruolo: T(\"intestatario\"), nato: 1971, mestiere: T(\"meccanico\") },"
+ },
+ "BIANCHI ANNA": {
+  "dove": [
+   "dati.js:427"
+  ],
+  "riga": "{ persona: \"madre\", nome: T(\"BIANCHI ANNA\"), ruolo: T(\"moglie\"), nato: 1974, donna: true },"
+ },
+ "moglie": {
+  "dove": [
+   "dati.js:427",
+   "giorno2.js:808",
+   "giorno2.js:812",
+   "giorno3.js:984"
+  ],
+  "riga": "{ persona: \"madre\", nome: T(\"BIANCHI ANNA\"), ruolo: T(\"moglie\"), nato: 1974, donna: true },"
+ },
+ "ROSSI GIULIA": {
+  "dove": [
+   "dati.js:428"
+  ],
+  "riga": "{ persona: \"figlia\", nome: T(\"ROSSI GIULIA\"), ruolo: T(\"figlia\"), nato: 2004, donna: true },"
+ },
+ "figlia": {
+  "dove": [
+   "dati.js:428",
+   "dati.js:434"
+  ],
+  "riga": "{ persona: \"figlia\", nome: T(\"ROSSI GIULIA\"), ruolo: T(\"figlia\"), nato: 2004, donna: true },"
+ },
+ "ROSSI PIETRO": {
+  "dove": [
+   "dati.js:429"
+  ],
+  "riga": "{ persona: \"nonno\", nome: T(\"ROSSI PIETRO\"), ruolo: T(\"padre dell'intestatario\"), nato: 1941 },"
+ },
+ "padre dell'intestatario": {
+  "dove": [
+   "dati.js:429"
+  ],
+  "riga": "{ persona: \"nonno\", nome: T(\"ROSSI PIETRO\"), ruolo: T(\"padre dell'intestatario\"), nato: 1941 },"
+ },
+ "Vicolo Stretto 3": {
+  "dove": [
+   "dati.js:431"
+  ],
+  "riga": "casa5: { via: T(\"Vicolo Stretto 3\"), righe: ["
+ },
+ "FERRI LUIGI": {
+  "dove": [
+   "dati.js:432"
+  ],
+  "riga": "{ persona: \"uomo\", nome: T(\"FERRI LUIGI\"), ruolo: T(\"intestatario\"), nato: 1968, mestiere: T(\"muratore\") },"
+ },
+ "muratore": {
+  "dove": [
+   "dati.js:432"
+  ],
+  "riga": "{ persona: \"uomo\", nome: T(\"FERRI LUIGI\"), ruolo: T(\"intestatario\"), nato: 1968, mestiere: T(\"muratore\") },"
+ },
+ "COSTA ADELE ved. FERRI": {
+  "dove": [
+   "dati.js:433"
+  ],
+  "riga": "{ persona: \"nonna\", nome: T(\"COSTA ADELE ved. FERRI\"), ruolo: T(\"madre dell'intestatario\"), nato: 1940, donna: true },"
+ },
+ "madre dell'intestatario": {
+  "dove": [
+   "dati.js:433",
+   "giorno2.js:813"
+  ],
+  "riga": "{ persona: \"nonna\", nome: T(\"COSTA ADELE ved. FERRI\"), ruolo: T(\"madre dell'intestatario\"), nato: 1940, donna: true },"
+ },
+ "FERRI MARTA": {
+  "dove": [
+   "dati.js:434"
+  ],
+  "riga": "{ persona: \"giovane\", nome: T(\"FERRI MARTA\"), ruolo: T(\"figlia\"), nato: 2003, donna: true },"
+ },
+ "FERRI DAVIDE": {
+  "dove": [
+   "dati.js:435"
+  ],
+  "riga": "{ persona: \"ragazzo\", nome: T(\"FERRI DAVIDE\"), ruolo: T(\"figlio\"), nato: 2006, anagrafe: T(\"emigrato in città il 3.3.2025\") },"
+ },
+ "figlio": {
+  "dove": [
+   "dati.js:435",
+   "giorno3.js:985"
+  ],
+  "riga": "{ persona: \"ragazzo\", nome: T(\"FERRI DAVIDE\"), ruolo: T(\"figlio\"), nato: 2006, anagrafe: T(\"emigrato in città il 3.3.2025\") },"
+ },
+ "emigrato in città il 3.3.2025": {
+  "dove": [
+   "dati.js:435"
+  ],
+  "riga": "{ persona: \"ragazzo\", nome: T(\"FERRI DAVIDE\"), ruolo: T(\"figlio\"), nato: 2006, anagrafe: T(\"emigrato in città il 3.3.2025\") },"
+ },
+ "«stiamo tutti bene»": {
+  "dove": [
+   "dati.js:447"
+  ],
+  "riga": "\"d:tutti_bene\": { padre: T(\"«stiamo tutti bene»\") },"
+ },
+ "«io e mia figlia, basta»: ma risultano in quattro": {
+  "dove": [
+   "dati.js:448"
+  ],
+  "riga": "\"d:solo_due\": { padre: T(\"«io e mia figlia, basta»: ma risultano in quattro\") },"
+ },
+ "«una botta» al collo": {
+  "dove": [
+   "dati.js:449"
+  ],
+  "riga": "\"d:botta\": { padre: T(\"«una botta» al collo\") },"
+ },
+ "è un bubbone, sotto la mascella": {
+  "dove": [
+   "dati.js:450"
+  ],
+  "riga": "\"p:bubbone_padre\": { padre: { testo: T(\"è un bubbone, sotto la mascella\"), barra: \"d:botta\" } },"
+ },
+ "ha la febbre: occhi lucidi, sudore": {
+  "dove": [
+   "dati.js:451"
+  ],
+  "riga": "\"p:febbre_padre\": { padre: { testo: T(\"ha la febbre: occhi lucidi, sudore\"), barra: \"d:tutti_bene\" } },"
+ },
+ "«nessuno ha la febbre»": {
+  "dove": [
+   "dati.js:452"
+  ],
+  "riga": "\"d:nessuna_febbre\": { padre: T(\"«nessuno ha la febbre»\") },"
+ },
+ "«di là non ci andiamo»": {
+  "dove": [
+   "dati.js:453"
+  ],
+  "riga": "\"d:luce\": { padre: T(\"«di là non ci andiamo»\") },"
+ },
+ "«è in città, dalla zia» (la figlia)": {
+  "dove": [
+   "dati.js:454"
+  ],
+  "riga": "\"d:madre_citta\": { madre: T(\"«è in città, dalla zia» (la figlia)\") },"
+ },
+ "nascosta di là, in camera: febbre da tre giorni": {
+  "dove": [
+   "dati.js:455"
+  ],
+  "riga": "\"d:mamma_di_la\": { madre: { testo: T(\"nascosta di là, in camera: febbre da tre giorni\"), barra: \"d:madre_citta\" },"
+ },
+ "ha nascosto la madre": {
+  "dove": [
+   "dati.js:456"
+  ],
+  "riga": "figlia: T(\"ha nascosto la madre\") },"
+ },
+ "ha paura: «quelli che portate via non tornano»": {
+  "dove": [
+   "dati.js:457"
+  ],
+  "riga": "\"d:non_tornano\": { madre: T(\"ha paura: «quelli che portate via non tornano»\") },"
+ },
+ "dita nere, come il suocero prima che sparisse": {
+  "dove": [
+   "dati.js:458"
+  ],
+  "riga": "\"p:madre_nonno\": { madre: T(\"dita nere, come il suocero prima che sparisse\") },"
+ },
+ "il nastro all'infrarosso: calore in fondo al corridoio": {
+  "dove": [
+   "dati.js:459"
+  ],
+  "riga": "\"p:calore_corridoio\": { madre: T(\"il nastro all'infrarosso: calore in fondo al corridoio\") },"
+ },
+ "«nel corridoio non c'è nessuno»": {
+  "dove": [
+   "dati.js:460"
+  ],
+  "riga": "\"d:nessuno_figlia\": { figlia: T(\"«nel corridoio non c'è nessuno»\") },"
+ },
+ "sparito la settimana scorsa: il quarto piatto è per lui": {
+  "dove": [
+   "dati.js:461"
+  ],
+  "riga": "\"d:piatto_morto\": { nonno: { testo: T(\"sparito la settimana scorsa: il quarto piatto è per lui\"), morto: true } },"
+ },
+ "cambiato in tre giorni, con le dita nere, poi sparito": {
+  "dove": [
+   "dati.js:462"
+  ],
+  "riga": "\"d:dita_nere\": { nonno: { testo: T(\"cambiato in tre giorni, con le dita nere, poi sparito\"), morto: true } },"
+ },
+ "«è finito così» (la nuora)": {
+  "dove": [
+   "dati.js:463"
+  ],
+  "riga": "\"d:suocero\": { nonno: { testo: T(\"«è finito così» (la nuora)\"), morto: true } },"
+ },
+ "«siamo in tre»: ma risultano in quattro": {
+  "dove": [
+   "dati.js:465"
+  ],
+  "riga": "\"d:tre_in_casa\": { uomo: T(\"«siamo in tre»: ma risultano in quattro\") },"
+ },
+ "«sudo per il termosifone»": {
+  "dove": [
+   "dati.js:466"
+  ],
+  "riga": "\"d:sudo\": { uomo: T(\"«sudo per il termosifone»\") },"
+ },
+ "ha la febbre: suda col termosifone spento": {
+  "dove": [
+   "dati.js:467"
+  ],
+  "riga": "\"p:febbre_uomo\": { uomo: { testo: T(\"ha la febbre: suda col termosifone spento\"), barra: \"d:sudo\" } },"
+ },
+ "«dietro la porta c'è il ripostiglio»": {
+  "dove": [
+   "dati.js:468"
+  ],
+  "riga": "\"d:ripostiglio\": { uomo: T(\"«dietro la porta c'è il ripostiglio»\") },"
+ },
+ "«la chiave non so dove sia»": {
+  "dove": [
+   "dati.js:469"
+  ],
+  "riga": "\"d:chiave\": { uomo: T(\"«la chiave non so dove sia»\") },"
+ },
+ "«ho freddo»": {
+  "dove": [
+   "dati.js:470",
+   "giorno2.js:759"
+  ],
+  "riga": "\"d:freddo\": { giovane: T(\"«ho freddo»\") },"
+ },
+ "pallida per il freddo e la fame, non per la peste?": {
+  "dove": [
+   "dati.js:471",
+   "giorno2.js:760"
+  ],
+  "riga": "\"p:termosifone\": { giovane: T(\"pallida per il freddo e la fame, non per la peste?\") },"
+ },
+ "«dietro la porta nessuno»": {
+  "dove": [
+   "dati.js:472"
+  ],
+  "riga": "\"d:nessuno_ragazza\": { giovane: T(\"«dietro la porta nessuno»\") },"
+ },
+ "«lavora in città» (la sorella)": {
+  "dove": [
+   "dati.js:473"
+  ],
+  "riga": "\"d:fratello_citta\": { ragazzo: T(\"«lavora in città» (la sorella)\") },"
+ },
+ "«il ragazzo dorme» (la nonna): è in casa": {
+  "dove": [
+   "dati.js:474"
+  ],
+  "riga": "\"d:ragazzo_dorme\": { ragazzo: { testo: T(\"«il ragazzo dorme» (la nonna): è in casa\"), barra: [\"d:fratello_citta\", \"anagrafe\"] } },"
+ },
+ "è dietro la porta chiusa (la sorella)": {
+  "dove": [
+   "dati.js:475"
+  ],
+  "riga": "\"d:lasciatelo\": { ragazzo: { testo: T(\"è dietro la porta chiusa (la sorella)\"), barra: [\"d:fratello_citta\", \"anagrafe\"] },"
+ },
+ "protegge il fratello": {
+  "dove": [
+   "dati.js:476"
+  ],
+  "riga": "giovane: T(\"protegge il fratello\") },"
+ },
+ "ha i polmoni deboli (la nonna)": {
+  "dove": [
+   "dati.js:477"
+  ],
+  "riga": "\"d:polmoni\": { ragazzo: T(\"ha i polmoni deboli (la nonna)\") },"
+ },
+ "una tosse dietro la porta chiusa": {
+  "dove": [
+   "dati.js:478"
+  ],
+  "riga": "\"p:tosse\": { ragazzo: T(\"una tosse dietro la porta chiusa\") },"
+ },
+ "tossisce nel «ripostiglio»": {
+  "dove": [
+   "dati.js:479"
+  ],
+  "riga": "\"p:tosse_ripostiglio\": { ragazzo: { testo: T(\"tossisce nel «ripostiglio»\"), barra: \"anagrafe\" } },"
+ },
+ "il nastro all'infrarosso: sdraiato dietro la porta, caldo": {
+  "dove": [
+   "dati.js:480"
+  ],
+  "riga": "\"p:calore_porta\": { ragazzo: { testo: T(\"il nastro all'infrarosso: sdraiato dietro la porta, caldo\"), barra: \"anagrafe\" } },"
+ },
+ "la peste arrivò con un medico vestito come te": {
+  "dove": [
+   "dati.js:481"
+  ],
+  "riga": "\"d:leggenda\": { nonna: T(\"la peste arrivò con un medico vestito come te\") },"
+ },
+ "SANO": {
+  "dove": [
+   "dati.js:486"
+  ],
+  "riga": "{ id: \"sano\", testo: T(\"SANO\") }, { id: \"sospetto\", testo: T(\"SOSPETTO\") },"
+ },
+ "SOSPETTO": {
+  "dove": [
+   "dati.js:486"
+  ],
+  "riga": "{ id: \"sano\", testo: T(\"SANO\") }, { id: \"sospetto\", testo: T(\"SOSPETTO\") },"
+ },
+ "MALATO": {
+  "dove": [
+   "dati.js:487"
+  ],
+  "riga": "{ id: \"malato\", testo: T(\"MALATO\") }, { id: \"grave\", testo: T(\"GRAVE\") },"
+ },
+ "GRAVE": {
+  "dove": [
+   "dati.js:487"
+  ],
+  "riga": "{ id: \"malato\", testo: T(\"MALATO\") }, { id: \"grave\", testo: T(\"GRAVE\") },"
+ },
+ "La strada: le case di legno scrostate, i fili della luce, il campanile bianco della chiesa.": {
+  "dove": [
+   "dati.js:494"
+  ],
+  "riga": "mattina: [T(\"La strada: le case di legno scrostate, i fili della luce, il campanile bianco della chiesa.\")],"
+ },
+ "Le tende tirate giù a metà. Ogni tanto ci passa sopra la luce dei fari della ditta.": {
+  "dove": [
+   "dati.js:495"
+  ],
+  "riga": "sera: [T(\"Le tende tirate giù a metà. Ogni tanto ci passa sopra la luce dei fari della ditta.\")],"
+ },
+ "Due camicie, un maglione, e una bottiglia lasciata da chi stava qui prima.": {
+  "dove": [
+   "dati.js:497"
+  ],
+  "riga": "armadio: { sempre: [T(\"Due camicie, un maglione, e una bottiglia lasciata da chi stava qui prima.\")] },"
+ },
+ "Il cappotto incerato e il cappello. La ditta li vuole addosso a ogni visita.": {
+  "dove": [
+   "dati.js:498"
+  ],
+  "riga": "cappotto: { sempre: [T(\"Il cappotto incerato e il cappello. La ditta li vuole addosso a ogni visita.\")] },"
+ },
+ "Il calendario della Panacea: «Ci prendiamo cura di voi».": {
+  "dove": [
+   "dati.js:499"
+  ],
+  "riga": "calendario: { sempre: [T(\"Il calendario della Panacea: «Ci prendiamo cura di voi».\"), T(\"Qualcuno, prima di te, ha cerchiato il 17.\")] },"
+ },
+ "Qualcuno, prima di te, ha cerchiato il 17.": {
+  "dove": [
+   "dati.js:499"
+  ],
+  "riga": "calendario: { sempre: [T(\"Il calendario della Panacea: «Ci prendiamo cura di voi».\"), T(\"Qualcuno, prima di te, ha cerchiato il 17.\")] },"
+ },
+ "Un santino della padrona di casa: il santo che curava gli appestati, col bastone e il cane.": {
+  "dove": [
+   "dati.js:500"
+  ],
+  "riga": "santino: { sempre: [T(\"Un santino della padrona di casa: il santo che curava gli appestati, col bastone e il cane.\")] },"
+ },
+ "Freddo. La padrona di casa lo accende a dicembre, se va bene.": {
+  "dove": [
+   "dati.js:501"
+  ],
+  "riga": "termosifone: { sempre: [T(\"Freddo. La padrona di casa lo accende a dicembre, se va bene.\")] },"
+ },
+ "La borsa: il termometro, i guanti di ricambio, le cassette vergini.": {
+  "dove": [
+   "dati.js:502"
+  ],
+  "riga": "borsa: { sempre: [T(\"La borsa: il termometro, i guanti di ricambio, le cassette vergini.\")] },"
+ },
+ "La radiosveglia. Il coprifuoco è alle otto.": {
+  "dove": [
+   "dati.js:504"
+  ],
+  "riga": "mattina: [T(\"La radiosveglia. Il coprifuoco è alle otto.\")],"
+ },
+ "La radiosveglia. Domani a mezzogiorno arriva il fax nuovo.": {
+  "dove": [
+   "dati.js:505"
+  ],
+  "riga": "sera: [T(\"La radiosveglia. Domani a mezzogiorno arriva il fax nuovo.\")],"
+ },
+ "Il tavolino di legno, coi cerchi delle tazze. Due sedie: una in più, per chi non viene mai.": {
+  "dove": [
+   "dati.js:507"
+  ],
+  "riga": "tavolo: { sempre: [T(\"Il tavolino di legno, coi cerchi delle tazze. Due sedie: una in più, per chi non viene mai.\")] },"
+ },
+ "Il bollitore e la cassetta della ditta. Dentro: fagioli in scatola, crackers, il caffè solubile.": {
+  "dove": [
+   "dati.js:508"
+  ],
+  "riga": "credenza: { sempre: [T(\"Il bollitore e la cassetta della ditta. Dentro: fagioli in scatola, crackers, il caffè solubile.\")] },"
+ },
+ "L'acqua esce gialla, poi diventa fredda.": {
+  "dove": [
+   "dati.js:510"
+  ],
+  "riga": "mattina: [T(\"L'acqua esce gialla, poi diventa fredda.\")],"
+ },
+ "Lo specchio è macchiato. Di notte è meglio non guardarci dentro.": {
+  "dove": [
+   "dati.js:511"
+  ],
+  "riga": "sera: [T(\"Lo specchio è macchiato. Di notte è meglio non guardarci dentro.\")],"
+ },
+ "La stanzetta per l'ospite: una brandina dell'esercito e una coperta piegata.": {
+  "dove": [
+   "dati.js:516"
+  ],
+  "riga": "mattina: [T(\"La stanzetta per l'ospite: una brandina dell'esercito e una coperta piegata.\"), T(\"In paese dicono: chi dorme solo, il malvento se lo prende.\")],"
+ },
+ "In paese dicono: chi dorme solo, il malvento se lo prende.": {
+  "dove": [
+   "dati.js:516"
+  ],
+  "riga": "mattina: [T(\"La stanzetta per l'ospite: una brandina dell'esercito e una coperta piegata.\"), T(\"In paese dicono: chi dorme solo, il malvento se lo prende.\")],"
+ },
+ "La figlia ti ha seguito fino a casa senza dire una parola. Dorme nella stanzetta.": {
+  "dove": [
+   "dati.js:527"
+  ],
+  "riga": "arriva: T(\"La figlia ti ha seguito fino a casa senza dire una parola. Dorme nella stanzetta.\"),"
+ },
+ "Non riesco a dormire.": {
+  "dove": [
+   "dati.js:528"
+  ],
+  "riga": "controllo: [[\"FIGLIA\", T(\"Non riesco a dormire.\")], [null, T(\"Tiene gli occhi aperti nel buio, finché non chiudi la porta.\")]],"
+ },
+ "Tiene gli occhi aperti nel buio, finché non chiudi la porta.": {
+  "dove": [
+   "dati.js:528"
+  ],
+  "riga": "controllo: [[\"FIGLIA\", T(\"Non riesco a dormire.\")], [null, T(\"Tiene gli occhi aperti nel buio, finché non chiudi la porta.\")]],"
+ },
+ "[la stanza al buio. Il medico dorme]": {
+  "dove": [
+   "dati.js:529",
+   "dati.js:535",
+   "dati.js:541",
+   "dati.js:547",
+   "dati.js:553",
+   "dati.js:559",
+   "dati.js:565",
+   "giorno2.js:849",
+   "giorno2.js:858",
+   "giorno2.js:865",
+   "giorno3.js:1040"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la porta della stanzetta si apre. La figlia resta lì, a guardarti dormire]\"), T(\"[fruga nelle tasche del tuo cappotto]\")],"
+ },
+ "[la porta della stanzetta si apre. La figlia resta lì, a guardarti dormire]": {
+  "dove": [
+   "dati.js:529"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la porta della stanzetta si apre. La figlia resta lì, a guardarti dormire]\"), T(\"[fruga nelle tasche del tuo cappotto]\")],"
+ },
+ "[fruga nelle tasche del tuo cappotto]": {
+  "dove": [
+   "dati.js:529"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la porta della stanzetta si apre. La figlia resta lì, a guardarti dormire]\"), T(\"[fruga nelle tasche del tuo cappotto]\")],"
+ },
+ "La figlia. Sul nastro fruga nelle tasche del tuo cappotto.": {
+  "dove": [
+   "dati.js:530"
+  ],
+  "riga": "mattina: T(\"La figlia. Sul nastro fruga nelle tasche del tuo cappotto.\"),"
+ },
+ "La ragazza è venuta con te senza fare domande. Ha freddo. Dorme nella stanzetta.": {
+  "dove": [
+   "dati.js:533"
+  ],
+  "riga": "arriva: T(\"La ragazza è venuta con te senza fare domande. Ha freddo. Dorme nella stanzetta.\"),"
+ },
+ "Qui almeno c'è il termosifone.": {
+  "dove": [
+   "dati.js:534"
+  ],
+  "riga": "controllo: [[\"RAGAZZA\", T(\"Qui almeno c'è il termosifone.\")], [null, T(\"Il termosifone è spento. Lei trema lo stesso, seduta sulla brandina.\")]],"
+ },
+ "Il termosifone è spento. Lei trema lo stesso, seduta sulla brandina.": {
+  "dove": [
+   "dati.js:534"
+  ],
+  "riga": "controllo: [[\"RAGAZZA\", T(\"Qui almeno c'è il termosifone.\")], [null, T(\"Il termosifone è spento. Lei trema lo stesso, seduta sulla brandina.\")]],"
+ },
+ "[la ragazza è sulla porta della stanzetta. Ti guarda]": {
+  "dove": [
+   "dati.js:535"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la ragazza è sulla porta della stanzetta. Ti guarda]\"), T(\"[si china su di te. Resta così, a lungo]\")],"
+ },
+ "[si china su di te. Resta così, a lungo]": {
+  "dove": [
+   "dati.js:535"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la ragazza è sulla porta della stanzetta. Ti guarda]\"), T(\"[si china su di te. Resta così, a lungo]\")],"
+ },
+ "La ragazza. Sul nastro resta china su di te quasi un'ora.": {
+  "dove": [
+   "dati.js:536"
+  ],
+  "riga": "mattina: T(\"La ragazza. Sul nastro resta china su di te quasi un'ora.\"),"
+ },
+ "La nonna ha voluto venire. «Così vedo chi sei», ha detto. Dorme nella stanzetta.": {
+  "dove": [
+   "dati.js:539"
+  ],
+  "riga": "arriva: T(\"La nonna ha voluto venire. «Così vedo chi sei», ha detto. Dorme nella stanzetta.\"),"
+ },
+ "Ave Maria, piena di grazia…": {
+  "dove": [
+   "dati.js:540"
+  ],
+  "riga": "controllo: [[\"NONNA\", T(\"Ave Maria, piena di grazia…\")], [null, T(\"Prega a occhi aperti. Non smette quando apri la porta.\")]],"
+ },
+ "Prega a occhi aperti. Non smette quando apri la porta.": {
+  "dove": [
+   "dati.js:540"
+  ],
+  "riga": "controllo: [[\"NONNA\", T(\"Ave Maria, piena di grazia…\")], [null, T(\"Prega a occhi aperti. Non smette quando apri la porta.\")]],"
+ },
+ "[la nonna è sulla porta della stanzetta, col rosario]": {
+  "dove": [
+   "dati.js:541"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la nonna è sulla porta della stanzetta, col rosario]\"), T(\"[ai piedi del letto ti benedice con l'acqua santa]\")],"
+ },
+ "[ai piedi del letto ti benedice con l'acqua santa]": {
+  "dove": [
+   "dati.js:541"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la nonna è sulla porta della stanzetta, col rosario]\"), T(\"[ai piedi del letto ti benedice con l'acqua santa]\")],"
+ },
+ "La nonna. Sul nastro ti benedice nel sonno, come si fa con i morti.": {
+  "dove": [
+   "dati.js:542"
+  ],
+  "riga": "mattina: T(\"La nonna. Sul nastro ti benedice nel sonno, come si fa con i morti.\"),"
+ },
+ "Il padre ti ha seguito fino a casa. Suda, ma dice che è la stanchezza. Dorme nella stanzetta.": {
+  "dove": [
+   "dati.js:545"
+  ],
+  "riga": "arriva: T(\"Il padre ti ha seguito fino a casa. Suda, ma dice che è la stanchezza. Dorme nella stanzetta.\"),"
+ },
+ "Sto bene, dottore. È solo il freddo.": {
+  "dove": [
+   "dati.js:546"
+  ],
+  "riga": "controllo: [[\"PADRE\", T(\"Sto bene, dottore. È solo il freddo.\")], [null, T(\"Trema sotto la coperta. Sul collo il gonfiore è più grosso di stamattina.\")]],"
+ },
+ "Trema sotto la coperta. Sul collo il gonfiore è più grosso di stamattina.": {
+  "dove": [
+   "dati.js:546"
+  ],
+  "riga": "controllo: [[\"PADRE\", T(\"Sto bene, dottore. È solo il freddo.\")], [null, T(\"Trema sotto la coperta. Sul collo il gonfiore è più grosso di stamattina.\")]],"
+ },
+ "[il padre è sulla porta della stanzetta. Tossisce sangue nella mano]": {
+  "dove": [
+   "dati.js:547"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[il padre è sulla porta della stanzetta. Tossisce sangue nella mano]\"), T(\"[ti respira addosso, chino sul letto]\")],"
+ },
+ "[ti respira addosso, chino sul letto]": {
+  "dove": [
+   "dati.js:547"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[il padre è sulla porta della stanzetta. Tossisce sangue nella mano]\"), T(\"[ti respira addosso, chino sul letto]\")],"
+ },
+ "Il padre, malato. Sul nastro ti respira addosso per ore.": {
+  "dove": [
+   "dati.js:548"
+  ],
+  "riga": "mattina: T(\"Il padre, malato. Sul nastro ti respira addosso per ore.\"),"
+ },
+ "L'uomo in tuta è venuto con te, a malincuore. Suda. Dorme nella stanzetta.": {
+  "dove": [
+   "dati.js:551"
+  ],
+  "riga": "arriva: T(\"L'uomo in tuta è venuto con te, a malincuore. Suda. Dorme nella stanzetta.\"),"
+ },
+ "Chiudi quella porta. Sto bene.": {
+  "dove": [
+   "dati.js:552"
+  ],
+  "riga": "controllo: [[\"UOMO\", T(\"Chiudi quella porta. Sto bene.\")], [null, T(\"Tossisce nel pugno. La brandina è troppo piccola per lui.\")]],"
+ },
+ "Tossisce nel pugno. La brandina è troppo piccola per lui.": {
+  "dove": [
+   "dati.js:552"
+  ],
+  "riga": "controllo: [[\"UOMO\", T(\"Chiudi quella porta. Sto bene.\")], [null, T(\"Tossisce nel pugno. La brandina è troppo piccola per lui.\")]],"
+ },
+ "[l'uomo si regge alla porta della stanzetta. Barcolla]": {
+  "dove": [
+   "dati.js:553"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[l'uomo si regge alla porta della stanzetta. Barcolla]\"), T(\"[si siede sul tuo letto, ai tuoi piedi, e tossisce verso la videocamera]\")],"
+ },
+ "[si siede sul tuo letto, ai tuoi piedi, e tossisce verso la videocamera]": {
+  "dove": [
+   "dati.js:553"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[l'uomo si regge alla porta della stanzetta. Barcolla]\"), T(\"[si siede sul tuo letto, ai tuoi piedi, e tossisce verso la videocamera]\")],"
+ },
+ "L'uomo in tuta, malato. Sul nastro tossisce seduto sul tuo letto.": {
+  "dove": [
+   "dati.js:554"
+  ],
+  "riga": "mattina: T(\"L'uomo in tuta, malato. Sul nastro tossisce seduto sul tuo letto.\"),"
+ },
+ "La madre è venuta con te, appoggiata al tuo braccio. Brucia di febbre. Dorme nella stanzetta.": {
+  "dove": [
+   "dati.js:557"
+  ],
+  "riga": "arriva: T(\"La madre è venuta con te, appoggiata al tuo braccio. Brucia di febbre. Dorme nella stanzetta.\"),"
+ },
+ "Non dite niente a mio marito.": {
+  "dove": [
+   "dati.js:558"
+  ],
+  "riga": "controllo: [[\"MADRE\", T(\"Non dite niente a mio marito.\")], [null, T(\"Respira con la bocca aperta. Le dita nere pendono fuori dalla brandina.\")]],"
+ },
+ "Respira con la bocca aperta. Le dita nere pendono fuori dalla brandina.": {
+  "dove": [
+   "dati.js:558"
+  ],
+  "riga": "controllo: [[\"MADRE\", T(\"Non dite niente a mio marito.\")], [null, T(\"Respira con la bocca aperta. Le dita nere pendono fuori dalla brandina.\")]],"
+ },
+ "[la madre striscia fuori dalla stanzetta, sul pavimento]": {
+  "dove": [
+   "dati.js:559"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la madre striscia fuori dalla stanzetta, sul pavimento]\"), T(\"[è in piedi accanto al letto. Allunga la mano verso di te]\")],"
+ },
+ "[è in piedi accanto al letto. Allunga la mano verso di te]": {
+  "dove": [
+   "dati.js:559"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la madre striscia fuori dalla stanzetta, sul pavimento]\"), T(\"[è in piedi accanto al letto. Allunga la mano verso di te]\")],"
+ },
+ "La madre, grave. Sul nastro allunga verso di te le dita nere.": {
+  "dove": [
+   "dati.js:560"
+  ],
+  "riga": "mattina: T(\"La madre, grave. Sul nastro allunga verso di te le dita nere.\"),"
+ },
+ "Stanotte dormi solo. In paese dicono: chi dorme solo, il malvento se lo prende.": {
+  "dove": [
+   "dati.js:563"
+  ],
+  "riga": "arriva: T(\"Stanotte dormi solo. In paese dicono: chi dorme solo, il malvento se lo prende.\"),"
+ },
+ "Il buio della stanzetta. La brandina è vuota.": {
+  "dove": [
+   "dati.js:564",
+   "giorno2.js:848"
+  ],
+  "riga": "controllo: [[null, T(\"Il buio della stanzetta. La brandina è vuota.\")], [null, T(\"Chi dorme solo, il malvento se lo prende.\")]],"
+ },
+ "Chi dorme solo, il malvento se lo prende.": {
+  "dove": [
+   "dati.js:564"
+  ],
+  "riga": "controllo: [[null, T(\"Il buio della stanzetta. La brandina è vuota.\")], [null, T(\"Chi dorme solo, il malvento se lo prende.\")]],"
+ },
+ "[la porta della stanzetta si apre da sola. Nel buio c'è qualcosa]": {
+  "dove": [
+   "dati.js:565"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la porta della stanzetta si apre da sola. Nel buio c'è qualcosa]\"), T(\"[qualcosa è in piedi accanto al letto, chino su di te]\")],"
+ },
+ "[qualcosa è in piedi accanto al letto, chino su di te]": {
+  "dove": [
+   "dati.js:565"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la porta della stanzetta si apre da sola. Nel buio c'è qualcosa]\"), T(\"[qualcosa è in piedi accanto al letto, chino su di te]\")],"
+ },
+ "Sul nastro, accanto al letto, c'è qualcosa di alto e nero. Alla terza notte, dicono, ti porta via.": {
+  "dove": [
+   "dati.js:566"
+  ],
+  "riga": "mattina: T(\"Sul nastro, accanto al letto, c'è qualcosa di alto e nero. Alla terza notte, dicono, ti porta via.\"),"
+ },
+ "Il fax": {
+  "dove": [
+   "dati.js:572"
+  ],
+  "riga": "{ id: \"fax\", nome: T(\"Il fax\"), box: [0.03, 0.12, 0.3, 0.57] },"
+ },
+ "Il giornale": {
+  "dove": [
+   "dati.js:573"
+  ],
+  "riga": "{ id: \"giornale\", nome: T(\"Il giornale\"), box: [0.38, 0.05, 0.6, 0.26] },"
+ },
+ "La mappa del paese": {
+  "dove": [
+   "dati.js:574"
+  ],
+  "riga": "{ id: \"mappa\", nome: T(\"La mappa del paese\"), box: [0.33, 0.27, 0.67, 0.64] },"
+ },
+ "Il videoregistratore": {
+  "dove": [
+   "dati.js:575",
+   "stanza.js:58"
+  ],
+  "riga": "{ id: \"nastri\", nome: T(\"Il videoregistratore\"), box: [0.69, 0.0, 0.97, 0.88] },"
+ },
+ "Gli stati di famiglia": {
+  "dove": [
+   "dati.js:576"
+  ],
+  "riga": "{ id: \"taccuino\", nome: T(\"Gli stati di famiglia\"), box: [0.1, 0.67, 0.2, 0.89] },"
+ },
+ "I soldi": {
+  "dove": [
+   "dati.js:577"
+  ],
+  "riga": "{ id: \"soldi\", nome: T(\"I soldi\"), box: [0.205, 0.65, 0.29, 0.82] },"
+ },
+ "La maschera": {
+  "dove": [
+   "dati.js:578"
+  ],
+  "riga": "{ id: \"maschera\", nome: T(\"La maschera\"), box: [0.32, 0.61, 0.67, 0.95] },"
+ },
+ "La lampada": {
+  "dove": [
+   "dati.js:579"
+  ],
+  "riga": "{ id: \"lampada\", nome: T(\"La lampada\"), box: [0.03, 0.0, 0.16, 0.12] },"
+ },
+ "Nessuna segnalazione.": {
+  "dove": [
+   "dati.js:601"
+  ],
+  "riga": "CASE[`casa${i + 1}`] = { n: i + 1, x, y, ex, ey, rx, ry, gx, gy, nota: T(\"Nessuna segnalazione.\") };"
+ },
+ "Croce sulla porta. Chiusa da ieri.": {
+  "dove": [
+   "dati.js:603"
+  ],
+  "riga": "Object.assign(CASE.casa1, { nota: T(\"Croce sulla porta. Chiusa da ieri.\"), croce: true });"
+ },
+ "Un vicino: «Di notte tossiscono. E la moglie non si vede da giorni.»": {
+  "dove": [
+   "dati.js:605"
+  ],
+  "riga": "segnalata: T(\"Un vicino: «Di notte tossiscono. E la moglie non si vede da giorni.»\") });"
+ },
+ "Biglietto anonimo: «Tengono un ragazzo chiuso in casa.»": {
+  "dove": [
+   "dati.js:606"
+  ],
+  "riga": "Object.assign(CASE.casa5, { luogo: \"soggiorno\", segnalata: T(\"Biglietto anonimo: «Tengono un ragazzo chiuso in casa.»\") });"
+ },
+ "La chiesa": {
+  "dove": [
+   "dati.js:615"
+  ],
+  "riga": "{ id: \"chiesa\", nome: T(\"La chiesa\"), segno: \"A\", x: MAPPA_3D.luoghi.chiesa[0], y: MAPPA_3D.luoghi.chiesa[1], nota: T(\"Il campanile suona solo per i funerali.\") },"
+ },
+ "Il campanile suona solo per i funerali.": {
+  "dove": [
+   "dati.js:615"
+  ],
+  "riga": "{ id: \"chiesa\", nome: T(\"La chiesa\"), segno: \"A\", x: MAPPA_3D.luoghi.chiesa[0], y: MAPPA_3D.luoghi.chiesa[1], nota: T(\"Il campanile suona solo per i funerali.\") },"
+ },
+ "Il cimitero": {
+  "dove": [
+   "dati.js:616"
+  ],
+  "riga": "{ id: \"cimitero\", nome: T(\"Il cimitero\"), segno: \"B\", x: MAPPA_3D.luoghi.cimitero[0], y: MAPPA_3D.luoghi.cimitero[1], nota: T(\"Tre bare chiuse questa settimana. Nessuno le ha viste aprire.\") },"
+ },
+ "Tre bare chiuse questa settimana. Nessuno le ha viste aprire.": {
+  "dove": [
+   "dati.js:616"
+  ],
+  "riga": "{ id: \"cimitero\", nome: T(\"Il cimitero\"), segno: \"B\", x: MAPPA_3D.luoghi.cimitero[0], y: MAPPA_3D.luoghi.cimitero[1], nota: T(\"Tre bare chiuse questa settimana. Nessuno le ha viste aprire.\") },"
+ },
+ "Il recinto della Panacea": {
+  "dove": [
+   "dati.js:617"
+  ],
+  "riga": "{ id: \"ditta\", nome: T(\"Il recinto della Panacea\"), segno: \"C\", x: MAPPA_3D.luoghi.ditta[0], y: MAPPA_3D.luoghi.ditta[1],"
+ },
+ "Il lazzaretto della ditta: tre prefabbricati bianchi, un'antenna, i fari accesi tutta la notte. Nessuno del paese ci è mai entrato.": {
+  "dove": [
+   "dati.js:618"
+  ],
+  "riga": "nota: T(\"Il lazzaretto della ditta: tre prefabbricati bianchi, un'antenna, i fari accesi tutta la notte. Nessuno del paese ci è mai entrato.\") },"
+ },
+ "FEBBRE": {
+  "dove": [
+   "dati.js:627",
+   "giorno2.js:879"
+  ],
+  "riga": "{ icona: \"febbre\", nome: T(\"FEBBRE\"), nota: T(\"occhi lucidi, sudore\") },"
+ },
+ "occhi lucidi, sudore": {
+  "dove": [
+   "dati.js:627",
+   "giorno2.js:879"
+  ],
+  "riga": "{ icona: \"febbre\", nome: T(\"FEBBRE\"), nota: T(\"occhi lucidi, sudore\") },"
+ },
+ "BUBBONI": {
+  "dove": [
+   "dati.js:628",
+   "giorno2.js:880"
+  ],
+  "riga": "{ icona: \"bubboni\", nome: T(\"BUBBONI\"), nota: T(\"collo, ascelle\") },"
+ },
+ "collo, ascelle": {
+  "dove": [
+   "dati.js:628",
+   "giorno2.js:880"
+  ],
+  "riga": "{ icona: \"bubboni\", nome: T(\"BUBBONI\"), nota: T(\"collo, ascelle\") },"
+ },
+ "PALLORE": {
+  "dove": [
+   "dati.js:629",
+   "giorno2.js:882"
+  ],
+  "riga": "{ icona: \"pallore\", nome: T(\"PALLORE\"), nota: T(\"labbra viola\") },"
+ },
+ "labbra viola": {
+  "dove": [
+   "dati.js:629",
+   "giorno2.js:882"
+  ],
+  "riga": "{ icona: \"pallore\", nome: T(\"PALLORE\"), nota: T(\"labbra viola\") },"
+ },
+ "DITA NERE": {
+  "dove": [
+   "dati.js:630",
+   "giorno2.js:883"
+  ],
+  "riga": "{ icona: \"dita\", nome: T(\"DITA NERE\"), nota: T(\"lazzaretto subito\") },"
+ },
+ "lazzaretto subito": {
+  "dove": [
+   "dati.js:630",
+   "giorno2.js:883"
+  ],
+  "riga": "{ icona: \"dita\", nome: T(\"DITA NERE\"), nota: T(\"lazzaretto subito\") },"
+ },
+ "18–35 anni, sani": {
+  "dove": [
+   "dati.js:632"
+  ],
+  "riga": "profilo: T(\"18–35 anni, sani\"),"
+ },
+ "Il tempo è salute. La salute è nostra.": {
+  "dove": [
+   "dati.js:633"
+  ],
+  "riga": "motto: T(\"Il tempo è salute. La salute è nostra.\"),"
+ },
+ "LA VOCE": {
+  "dove": [
+   "dati.js:649",
+   "gioco.js:2956",
+   "gioco.js:3215",
+   "giorno2.js:956",
+   "giorno3.js:1126",
+   "primapagina.js:161",
+   "primapagina.js:162"
+  ],
+  "riga": "testata: T(\"LA VOCE\"),"
+ },
+ "Foglio del paese · lunedì 26 ottobre": {
+  "dove": [
+   "dati.js:650"
+  ],
+  "riga": "data: T(\"Foglio del paese · lunedì 26 ottobre\"),"
+ },
+ "È arrivato il medico": {
+  "dove": [
+   "dati.js:651"
+  ],
+  "riga": "titolo: T(\"È arrivato il medico\"),"
+ },
+ "La ditta Panacea ha mandato un medico per la peste. Il sindaco: «Aprite le porte e collaborate». Il coprifuoco resta alle 20.": {
+  "dove": [
+   "dati.js:652"
+  ],
+  "riga": "sommario: T(\"La ditta Panacea ha mandato un medico per la peste. Il sindaco: «Aprite le porte e collaborate». Il coprifuoco resta alle 20.\"),"
+ },
+ "Il medico alloggia nella stanza sopra il bar. Gira con la maschera e il bastone, come nei quadri della chiesa. «Mi ha fatto paura», dice una vicina. «Ma se serve, serve.»": {
+  "dove": [
+   "dati.js:653"
+  ],
+  "riga": "articolo: T(\"Il medico alloggia nella stanza sopra il bar. Gira con la maschera e il bastone, come nei quadri della chiesa. «Mi ha fatto paura», dice una vicina. «Ma se serve, serve.»\"),"
+ },
+ "«Mia nonna diceva che la peste arrivò in paese insieme a un medico. Chiudete le porte.» Lettera firmata.": {
+  "dove": [
+   "dati.js:654"
+  ],
+  "riga": "lettera: T(\"«Mia nonna diceva che la peste arrivò in paese insieme a un medico. Chiudete le porte.» Lettera firmata.\"),"
+ },
+ "Tre funerali a bara chiusa questa settimana. Il parroco: «Vecchiaia e freddo».": {
+  "dove": [
+   "dati.js:655"
+  ],
+  "riga": "breve: T(\"Tre funerali a bara chiusa questa settimana. Il parroco: «Vecchiaia e freddo».\"),"
+ },
+ "PANACEA · Ci prendiamo cura di voi.": {
+  "dove": [
+   "dati.js:656",
+   "gioco.js:2961",
+   "gioco.js:3236",
+   "giorno2.js:960",
+   "primapagina.js:167"
+  ],
+  "riga": "pubblicita: T(\"PANACEA · Ci prendiamo cura di voi.\"),"
+ },
+ "Il medico, ieri sera, nella via principale.": {
+  "dove": [
+   "dati.js:657",
+   "primapagina.js:243"
+  ],
+  "riga": "didascalia: T(\"Il medico, ieri sera, nella via principale.\"),"
+ },
+ "NASTRO 7 · NON CANCELLARE": {
+  "dove": [
+   "dati.js:662"
+  ],
+  "riga": "titolo: T(\"NASTRO 7 · NON CANCELLARE\"),"
+ },
+ "MAR. 14 1998": {
+  "dove": [
+   "dati.js:663"
+  ],
+  "riga": "data: T(\"MAR. 14 1998\"),"
+ },
+ "[neve]": {
+  "dove": [
+   "dati.js:664",
+   "dati.js:664"
+  ],
+  "riga": "righe: [[null, T(\"[neve]\")], [\"VOCE\", T(\"...è arrivato il medico...\")], [\"VOCE\", T(\"...chiudete le porte...\")], [null, T(\"[neve]\")],"
+ },
+ "...è arrivato il medico...": {
+  "dove": [
+   "dati.js:664"
+  ],
+  "riga": "righe: [[null, T(\"[neve]\")], [\"VOCE\", T(\"...è arrivato il medico...\")], [\"VOCE\", T(\"...chiudete le porte...\")], [null, T(\"[neve]\")],"
+ },
+ "...chiudete le porte...": {
+  "dove": [
+   "dati.js:664"
+  ],
+  "riga": "righe: [[null, T(\"[neve]\")], [\"VOCE\", T(\"...è arrivato il medico...\")], [\"VOCE\", T(\"...chiudete le porte...\")], [null, T(\"[neve]\")],"
+ },
+ "...le case dove entra lui...": {
+  "dove": [
+   "dati.js:665"
+  ],
+  "riga": "[\"VOCE\", T(\"...le case dove entra lui...\")], [null, T(\"[il nastro si interrompe]\")]],"
+ },
+ "[il nastro si interrompe]": {
+  "dove": [
+   "dati.js:665"
+  ],
+  "riga": "[\"VOCE\", T(\"...le case dove entra lui...\")], [null, T(\"[il nastro si interrompe]\")]],"
+ },
+ "Tu: ": {
+  "dove": [
+   "parole.js:78"
+  ],
+  "riga": "nome.textContent = ancora.nome ? `${T(ancora.nome)} · ` : chi === \"TU\" ? T(\"Tu: \") : chi ? `${T(chi)}: ` : \"\";"
+ },
+ "Chiudi le domande": {
+  "dove": [
+   "parole.js:193"
+  ],
+  "riga": "chiudi.setAttribute(\"aria-label\", T(\"Chiudi le domande\"));"
+ },
+ "{0} ({1}). Trascina su chi o cosa lo contraddice.": {
+  "dove": [
+   "parole.js:242"
+  ],
+  "riga": "d.setAttribute(\"aria-label\", T`${f.testo} (${f.meta}). Trascina su chi o cosa lo contraddice.`);"
+ },
+ "La scrivania": {
+  "dove": [
+   "stanza.js:57"
+  ],
+  "riga": "scrivania: { nome: T(\"La scrivania\"), sosta: [-0.7, -1.35], guarda: [-0.7, 0.78, -2.65] },"
+ },
+ "La finestra": {
+  "dove": [
+   "stanza.js:59"
+  ],
+  "riga": "finestra: { nome: T(\"La finestra\"), sosta: [-0.7, -1.35], guarda: [-0.7, 1.7, -3.1] },"
+ },
+ "La porta": {
+  "dove": [
+   "stanza.js:60"
+  ],
+  "riga": "porta: { nome: T(\"La porta\"), sosta: [-1.5, 2.3], guarda: [-1.5, 1.15, 3.0] },"
+ },
+ "Il letto": {
+  "dove": [
+   "stanza.js:61"
+  ],
+  "riga": "letto: { nome: T(\"Il letto\"), sosta: [1.15, -1.5], guarda: [1.95, 0.55, -1.9] },"
+ },
+ "L'armadio": {
+  "dove": [
+   "stanza.js:62"
+  ],
+  "riga": "armadio: { nome: T(\"L'armadio\"), sosta: [-1.35, -1.8], guarda: [-2.2, 1.2, -1.8] },"
+ },
+ "Il cappotto": {
+  "dove": [
+   "stanza.js:63",
+   "stanza.js:64",
+   "stanza.js:673"
+  ],
+  "riga": "cappotto: CRETA || HQ ? { nome: T(\"Il cappotto\"), sosta: [1.9, 0.45], guarda: [2.5, 1.5, 0.45] }"
+ },
+ "Il calendario della ditta": {
+  "dove": [
+   "stanza.js:65"
+  ],
+  "riga": "calendario: { nome: T(\"Il calendario della ditta\"), sosta: [-1.55, 0.25], guarda: [-2.5, 1.62, 0.25] },"
+ },
+ "Il santino": {
+  "dove": [
+   "stanza.js:66"
+  ],
+  "riga": "santino: { nome: T(\"Il santino\"), sosta: [1.1, -1.7], guarda: [2.5, 1.7, -2.3] },"
+ },
+ "Il termosifone": {
+  "dove": [
+   "stanza.js:67"
+  ],
+  "riga": "termosifone: { nome: T(\"Il termosifone\"), sosta: [0.6, -2.15], guarda: [0.6, 0.35, -2.95] },"
+ },
+ "La borsa": {
+  "dove": [
+   "stanza.js:68"
+  ],
+  "riga": "borsa: { nome: T(\"La borsa\"), sosta: [-1.5, -1.95], guarda: [-2.1, 0.15, -2.72] },"
+ },
+ "La radiosveglia": {
+  "dove": [
+   "stanza.js:69"
+  ],
+  "riga": "orologio: { nome: T(\"La radiosveglia\"), sosta: [0.95, -2.1], guarda: [1.18, 0.6, -2.75] },"
+ },
+ "Il tavolino": {
+  "dove": [
+   "stanza.js:70"
+  ],
+  "riga": "tavolo: { nome: T(\"Il tavolino\"), sosta: [-0.75, 1.65], guarda: [0.05, 0.75, 1.65] },"
+ },
+ "La credenza": {
+  "dove": [
+   "stanza.js:71"
+  ],
+  "riga": "credenza: { nome: T(\"La credenza\"), sosta: [-1.45, 0.25], guarda: [-2.25, 0.95, 0.25] },"
+ },
+ "Il lavandino": {
+  "dove": [
+   "stanza.js:72"
+  ],
+  "riga": "lavandino: { nome: T(\"Il lavandino\"), sosta: [-1.55, 1.75], guarda: [-2.35, 1.1, 1.75] },"
+ },
+ "La stanzetta dell'ospite": {
+  "dove": [
+   "stanza.js:73"
+  ],
+  "riga": "ospite: { nome: T(\"La stanzetta dell'ospite\"), sosta: [1.75, 1.7], guarda: [2.6, 1.15, 1.7] },"
+ },
+ "Gira il telefono: si gioca in orizzontale.": {
+  "dove": [
+   "index.html"
+  ],
+  "riga": "index.html"
+ },
+ "PAZIENZA": {
+  "dove": [
+   "index.html"
+  ],
+  "riga": "index.html"
+ },
+ "TEMPO": {
+  "dove": [
+   "index.html"
+  ],
+  "riga": "index.html"
+ },
+ "CARICO LA STANZA": {
+  "dove": [
+   "index.html"
+  ],
+  "riga": "index.html"
+ },
+ "La videocamera del medico": {
+  "dove": [
+   "index.html"
+  ],
+  "riga": "index.html"
+ },
+ "La pazienza della famiglia": {
+  "dove": [
+   "index.html"
+  ],
+  "riga": "index.html"
+ },
+ "Il tempo fino al coprifuoco": {
+  "dove": [
+   "index.html"
+  ],
+  "riga": "index.html"
+ },
+ "Carico la stanza": {
+  "dove": [
+   "index.html"
+  ],
+  "riga": "index.html"
+ },
+ "Il nastro delle frasi": {
+  "dove": [
+   "index.html"
+  ],
+  "riga": "index.html"
+ },
+ "ADA": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "ASSUNTA": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "FIGLIA": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "GIONA": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "LIA": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "MADRE": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "MARITO": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "MOGLIE": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "NONNA": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "NUORA": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "PADRE": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "RAGAZZA": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "RAGAZZO": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "SACRESTANO": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "SUOCERA": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "UOMO": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ },
+ "VOCE": {
+  "dove": [
+   "voce"
+  ],
+  "riga": "chi parla (in maiuscolo)"
+ }
+}

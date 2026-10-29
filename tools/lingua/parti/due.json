@@ -1,0 +1,3851 @@
+{
+ "la moglie": {
+  "dove": [
+   "giorno2.js:55",
+   "giorno3.js:83"
+  ],
+  "riga": "moglie: { nome: T(\"la moglie\"), voce: \"MOGLIE\", casa: \"casa2\", luogo: \"monolocale\", stato: \"sano\", profilo: false, calore: 0.5, volto: \"g2/moglie\" },"
+ },
+ "il marito": {
+  "dove": [
+   "giorno2.js:56",
+   "giorno3.js:85"
+  ],
+  "riga": "marito: { nome: T(\"il marito\"), voce: \"MARITO\", casa: \"casa2\", luogo: \"monolocale\", stato: maritoMalato ? \"malato\" : \"sano\", profilo: true,"
+ },
+ "non si regge in piedi": {
+  "dove": [
+   "giorno2.js:57",
+   "giorno3.js:86"
+  ],
+  "riga": "calore: maritoMalato ? 0.85 : 0.5, volto: \"g2/marito\", ospite: T(\"non si regge in piedi\") },"
+ },
+ "la suocera": {
+  "dove": [
+   "giorno2.js:59",
+   "giorno3.js:88"
+  ],
+  "riga": "suocera: { nome: T(\"la suocera\"), voce: \"SUOCERA\", casa: \"casa10\", luogo: \"cucina10\", stato: suoceraMalata ? \"malato\" : \"sano\", profilo: true,"
+ },
+ "non lascia la casa": {
+  "dove": [
+   "giorno2.js:60",
+   "giorno3.js:89"
+  ],
+  "riga": "calore: suoceraMalata ? 0.8 : 0.5, volto: \"g2/suocera\", ospite: T(\"non lascia la casa\") },"
+ },
+ "la nuora": {
+  "dove": [
+   "giorno2.js:61",
+   "giorno3.js:90"
+  ],
+  "riga": "nuora: { nome: T(\"la nuora\"), voce: \"NUORA\", casa: \"casa10\", luogo: \"camera10\", stato: \"sano\", profilo: false, calore: 0.5, volto: \"g2/nuora\" },"
+ },
+ "I quattro *piatti* di ieri, ancora sul tavolo. Nessuno ha mangiato.": {
+  "dove": [
+   "giorno2.js:82"
+  ],
+  "riga": "{ ...copia(L1.cucina.zone[0]), dice: [[null, T(\"I quattro *piatti* di ieri, ancora sul tavolo. Nessuno ha mangiato.\"), { k: \"zona:tavola\" }]], poi: null },"
+ },
+ "Sul comodino: la scatola di *aspirine*, vuota, e un bicchiere d'acqua che nessuno ha bevuto.": {
+  "dove": [
+   "giorno2.js:103"
+  ],
+  "riga": "dice: [[null, T(\"Sul comodino: la scatola di *aspirine*, vuota, e un bicchiere d'acqua che nessuno ha bevuto.\"), { k: \"zona:comodino\" }]] }],"
+ },
+ "la stufa": {
+  "dove": [
+   "giorno2.js:145"
+  ],
+  "riga": "{ id: \"stufa\", nome: T(\"la stufa\"), box: [0.0, 0.55, 0.33, 1.0], tipo: \"indizio\", segni: [[0.215, 0.83, 0.03, 0.07]],"
+ },
+ "La stufa è fredda. Dentro, al posto della legna, un *camice* bianco appallottolato.": {
+  "dove": [
+   "giorno2.js:146"
+  ],
+  "riga": "dice: [[null, T(\"La stufa è fredda. Dentro, al posto della legna, un *camice* bianco appallottolato.\"), { k: \"zona:stufa\" }],"
+ },
+ "Sul taschino, ricamato in blu, il triangolo della Panacea.": {
+  "dove": [
+   "giorno2.js:147"
+  ],
+  "riga": "[null, T(\"Sul taschino, ricamato in blu, il triangolo della Panacea.\")]], poi: { prova: \"camice\" } },"
+ },
+ "il letto": {
+  "dove": [
+   "giorno2.js:149",
+   "giorno2.js:198"
+  ],
+  "riga": "{ id: \"letto\", nome: T(\"il letto\"), box: [0.55, 0.42, 0.74, 0.75], tipo: \"porta\", segni: [[0.64, 0.6, 0.08, 0.08]] },"
+ },
+ "il nebulizzatore": {
+  "dove": [
+   "giorno2.js:150"
+  ],
+  "riga": "{ id: \"nebulizzatore\", nome: T(\"il nebulizzatore\"), box: [0.86, 0.7, 1.0, 0.98], tipo: \"indizio\", segni: [[0.935, 0.83, 0.055, 0.1]],"
+ },
+ "Il nebulizzatore è nuovo, ancora con l'etichetta: «PANACEA · Programma Respiro».": {
+  "dove": [
+   "giorno2.js:151"
+  ],
+  "riga": "dice: [[null, T(\"Il nebulizzatore è nuovo, ancora con l'etichetta: «PANACEA · Programma Respiro».\")],"
+ },
+ "«Riservato ai *dipendenti* e ai loro familiari.»": {
+  "dove": [
+   "giorno2.js:152"
+  ],
+  "riga": "[null, T(\"«Riservato ai *dipendenti* e ai loro familiari.»\"), { k: \"zona:nebulizzatore\" }]], poi: { prova: \"nebulizzatore\" } },"
+ },
+ "il cappotto rosso": {
+  "dove": [
+   "giorno2.js:171"
+  ],
+  "riga": "{ id: \"cappotto\", nome: T(\"il cappotto rosso\"), box: [0.16, 0.14, 0.29, 0.67], tipo: \"indizio\", segni: [[0.225, 0.42, 0.055, 0.22]],"
+ },
+ "Un *cappotto* rosso da ragazza, appeso dietro la porta. Non è roba da vecchia.": {
+  "dove": [
+   "giorno2.js:172"
+  ],
+  "riga": "dice: [[null, T(\"Un *cappotto* rosso da ragazza, appeso dietro la porta. Non è roba da vecchia.\"), { k: \"zona:cappotto\" }],"
+ },
+ "In tasca, un biglietto della corriera per la città. Mai timbrato.": {
+  "dove": [
+   "giorno2.js:173"
+  ],
+  "riga": "[null, T(\"In tasca, un biglietto della corriera per la città. Mai timbrato.\")]], poi: { prova: \"cappotto\" } },"
+ },
+ "la foto": {
+  "dove": [
+   "giorno2.js:174"
+  ],
+  "riga": "{ id: \"foto\", nome: T(\"la foto\"), box: [0.37, 0.4, 0.47, 0.58], tipo: \"indizio\", segni: [[0.42, 0.49, 0.045, 0.08]],"
+ },
+ "La foto delle nozze col nastro nero: Paolo e una ragazza dai capelli neri.": {
+  "dove": [
+   "giorno2.js:175"
+  ],
+  "riga": "dice: [[null, T(\"La foto delle nozze col nastro nero: Paolo e una ragazza dai capelli neri.\")],"
+ },
+ "Davanti, un lumino rosso acceso. La cera è colata sul mobile.": {
+  "dove": [
+   "giorno2.js:176"
+  ],
+  "riga": "[null, T(\"Davanti, un lumino rosso acceso. La cera è colata sul mobile.\")]] },"
+ },
+ "la porta della camera": {
+  "dove": [
+   "giorno2.js:177"
+  ],
+  "riga": "{ id: \"porta10\", nome: T(\"la porta della camera\"), box: [0.665, 0.12, 0.82, 0.92], tipo: \"porta\", segni: [[0.745, 0.52, 0.075, 0.4]] },"
+ },
+ "Il letto matrimoniale: due *cuscini*, tutti e due schiacciati, come se ci dormissero ancora in due.": {
+  "dove": [
+   "giorno2.js:200"
+  ],
+  "riga": "dice: [[null, T(\"Il letto matrimoniale: due *cuscini*, tutti e due schiacciati, come se ci dormissero ancora in due.\"), { k: \"zona:cuscini\" }],"
+ },
+ "Su quello di sinistra, lunghi capelli neri.": {
+  "dove": [
+   "giorno2.js:201"
+  ],
+  "riga": "[null, T(\"Su quello di sinistra, lunghi capelli neri.\")]], poi: { prova: \"due_cuscini\" } },"
+ },
+ "Sul comodino, la foto di un ragazzo dagli occhi chiari: Paolo.": {
+  "dove": [
+   "giorno2.js:203"
+  ],
+  "riga": "dice: [[null, T(\"Sul comodino, la foto di un ragazzo dagli occhi chiari: Paolo.\")],"
+ },
+ "Sotto la foto, una *ricevuta* della Panacea: «Restituiti alla famiglia: fede nuziale (1), orologio (1).»": {
+  "dove": [
+   "giorno2.js:204"
+  ],
+  "riga": "[null, T(\"Sotto la foto, una *ricevuta* della Panacea: «Restituiti alla famiglia: fede nuziale (1), orologio (1).»\"), { k: \"zona:comodino\" }],"
+ },
+ "«Salma: trattenuta per gli accertamenti.»": {
+  "dove": [
+   "giorno2.js:205"
+  ],
+  "riga": "[null, T(\"«Salma: trattenuta per gli accertamenti.»\")]], poi: { prova: \"ricevuta\" } },"
+ },
+ "la candeggina": {
+  "dove": [
+   "giorno2.js:206"
+  ],
+  "riga": "{ id: \"candeggina\", nome: T(\"la candeggina\"), box: [0.69, 0.6, 0.8, 0.8], tipo: \"indizio\","
+ },
+ "Un secchio e una tanica di *candeggina*, quasi vuota. L'odore passa anche il becco.": {
+  "dove": [
+   "giorno2.js:208"
+  ],
+  "riga": "dice: [[null, T(\"Un secchio e una tanica di *candeggina*, quasi vuota. L'odore passa anche il becco.\"), { k: \"zona:candeggina\" }]],"
+ },
+ "[il padre è appoggiato al mobile. Respira a fatica]": {
+  "dove": [
+   "giorno2.js:217"
+  ],
+  "riga": "cucina2: padre ? [[null, T(\"[il padre è appoggiato al mobile. Respira a fatica]\")], [\"PADRE\", T(\"Ancora voi.\")],"
+ },
+ "Ancora voi.": {
+  "dove": [
+   "giorno2.js:217"
+  ],
+  "riga": "cucina2: padre ? [[null, T(\"[il padre è appoggiato al mobile. Respira a fatica]\")], [\"PADRE\", T(\"Ancora voi.\")],"
+ },
+ "Fate quello che dovete. Non ho più la forza di mandarvi via.": {
+  "dove": [
+   "giorno2.js:218"
+  ],
+  "riga": "[\"PADRE\", T(\"Fate quello che dovete. Non ho più la forza di mandarvi via.\")]]"
+ },
+ "Mio padre ce l'avete voi.": {
+  "dove": [
+   "giorno2.js:219"
+  ],
+  "riga": ": figlia ? [[\"FIGLIA\", T(\"Mio padre ce l'avete voi.\")], [\"FIGLIA\", T(\"Cosa volete ancora?\")]]"
+ },
+ "Cosa volete ancora?": {
+  "dove": [
+   "giorno2.js:219"
+  ],
+  "riga": ": figlia ? [[\"FIGLIA\", T(\"Mio padre ce l'avete voi.\")], [\"FIGLIA\", T(\"Cosa volete ancora?\")]]"
+ },
+ "[la porta di casa è socchiusa. Nessuno risponde]": {
+  "dove": [
+   "giorno2.js:220"
+  ],
+  "riga": ": [[null, T(\"[la porta di casa è socchiusa. Nessuno risponde]\")], [null, T(\"In cucina non c'è nessuno.\")]],"
+ },
+ "In cucina non c'è nessuno.": {
+  "dove": [
+   "giorno2.js:220"
+  ],
+  "riga": ": [[null, T(\"[la porta di casa è socchiusa. Nessuno risponde]\")], [null, T(\"In cucina non c'è nessuno.\")]],"
+ },
+ "[il letto è vuoto. Il lenzuolo strappato, la coperta per terra]": {
+  "dove": [
+   "giorno2.js:221"
+  ],
+  "riga": "camera2: madre ? [[null, T(\"[il letto è vuoto. Il lenzuolo strappato, la coperta per terra]\")],"
+ },
+ "[sopra la testiera, sotto la finestra, qualcosa graffia il ferro]": {
+  "dove": [
+   "giorno2.js:222"
+  ],
+  "riga": "[null, T(\"[sopra la testiera, sotto la finestra, qualcosa graffia il ferro]\")], [null, T(\"È la madre. Non è morta: è cambiata.\")]]"
+ },
+ "È la madre. Non è morta: è cambiata.": {
+  "dove": [
+   "giorno2.js:222"
+  ],
+  "riga": "[null, T(\"[sopra la testiera, sotto la finestra, qualcosa graffia il ferro]\")], [null, T(\"È la madre. Non è morta: è cambiata.\")]]"
+ },
+ "[il letto è rifatto, il lenzuolo tirato]": {
+  "dove": [
+   "giorno2.js:223",
+   "giorno3.js:342"
+  ],
+  "riga": ": [[null, T(\"[il letto è rifatto, il lenzuolo tirato]\")], [null, T(\"La madre è nel recinto della ditta, da ieri.\")]],"
+ },
+ "La madre è nel recinto della ditta, da ieri.": {
+  "dove": [
+   "giorno2.js:223"
+  ],
+  "riga": ": [[null, T(\"[il letto è rifatto, il lenzuolo tirato]\")], [null, T(\"La madre è nel recinto della ditta, da ieri.\")]],"
+ },
+ "[l'uomo tossisce nel fazzoletto. Sul bianco, macchie rosse]": {
+  "dove": [
+   "giorno2.js:224"
+  ],
+  "riga": "soggiorno2: uomo ? righe([null, T(\"[l'uomo tossisce nel fazzoletto. Sul bianco, macchie rosse]\")], [\"UOMO\", T(\"Ancora il becco.\")],"
+ },
+ "Ancora il becco.": {
+  "dove": [
+   "giorno2.js:224"
+  ],
+  "riga": "soggiorno2: uomo ? righe([null, T(\"[l'uomo tossisce nel fazzoletto. Sul bianco, macchie rosse]\")], [\"UOMO\", T(\"Ancora il becco.\")],"
+ },
+ "Oggi tossiamo tutti, dottore. Si accomodi.": {
+  "dove": [
+   "giorno2.js:225"
+  ],
+  "riga": "nonna && [\"NONNA\", T(\"Oggi tossiamo tutti, dottore. Si accomodi.\")])"
+ },
+ "Mio figlio l'avete preso voi.": {
+  "dove": [
+   "giorno2.js:226"
+  ],
+  "riga": ": nonna ? [[\"NONNA\", T(\"Mio figlio l'avete preso voi.\")], [\"NONNA\", T(\"Adesso chi volete? Me?\")]]"
+ },
+ "Adesso chi volete? Me?": {
+  "dove": [
+   "giorno2.js:226"
+  ],
+  "riga": ": nonna ? [[\"NONNA\", T(\"Mio figlio l'avete preso voi.\")], [\"NONNA\", T(\"Adesso chi volete? Me?\")]]"
+ },
+ "Sono rimasta sola.": {
+  "dove": [
+   "giorno2.js:227"
+  ],
+  "riga": ": giovane ? [[\"RAGAZZA\", T(\"Sono rimasta sola.\")], [\"RAGAZZA\", T(\"Cosa volete?\")]]"
+ },
+ "Cosa volete?": {
+  "dove": [
+   "giorno2.js:227"
+  ],
+  "riga": ": giovane ? [[\"RAGAZZA\", T(\"Sono rimasta sola.\")], [\"RAGAZZA\", T(\"Cosa volete?\")]]"
+ },
+ "[la porta è aperta. In casa non c'è nessuno]": {
+  "dove": [
+   "giorno2.js:228",
+   "giorno3.js:346"
+  ],
+  "riga": ": [[null, T(\"[la porta è aperta. In casa non c'è nessuno]\")]],"
+ },
+ "[una stanza sola: la cucina, il letto, la stufa. Odore di disinfettante]": {
+  "dove": [
+   "giorno2.js:229"
+  ],
+  "riga": "monolocale: [[null, T(\"[una stanza sola: la cucina, il letto, la stufa. Odore di disinfettante]\")],"
+ },
+ "Mio marito non si alza. Fate in fretta: stanotte lavoro.": {
+  "dove": [
+   "giorno2.js:230"
+  ],
+  "riga": "[\"MOGLIE\", T(\"Mio marito non si alza. Fate in fretta: stanotte lavoro.\")],"
+ },
+ "[tossisce nel tubo del nebulizzatore. Suda]": {
+  "dove": [
+   "giorno2.js:231"
+  ],
+  "riga": "[\"MARITO\", maritoMalato ? T(\"[tossisce nel tubo del nebulizzatore. Suda]\") : T(\"[respira dal tubo del nebulizzatore]\")]],"
+ },
+ "[respira dal tubo del nebulizzatore]": {
+  "dove": [
+   "giorno2.js:231"
+  ],
+  "riga": "[\"MARITO\", maritoMalato ? T(\"[tossisce nel tubo del nebulizzatore. Suda]\") : T(\"[respira dal tubo del nebulizzatore]\")]],"
+ },
+ "[la vecchia apre appena la porta. Poi si fa da parte]": {
+  "dove": [
+   "giorno2.js:232"
+  ],
+  "riga": "cucina10: [[null, T(\"[la vecchia apre appena la porta. Poi si fa da parte]\")],"
+ },
+ "Entrate, se dovete. In questa casa il malvento è già passato.": {
+  "dove": [
+   "giorno2.js:233"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Entrate, se dovete. In questa casa il malvento è già passato.\")],"
+ },
+ "[si asciuga il sudore sotto il fazzoletto]": {
+  "dove": [
+   "giorno2.js:234"
+  ],
+  "riga": "suoceraMalata ? [\"SUOCERA\", T(\"[si asciuga il sudore sotto il fazzoletto]\")] : [\"SUOCERA\", T(\"[resta davanti alla porta della camera]\")]],"
+ },
+ "[resta davanti alla porta della camera]": {
+  "dove": [
+   "giorno2.js:234"
+  ],
+  "riga": "suoceraMalata ? [\"SUOCERA\", T(\"[si asciuga il sudore sotto il fazzoletto]\")] : [\"SUOCERA\", T(\"[resta davanti alla porta della camera]\")]],"
+ },
+ "[la camera è al buio. Sul letto, una ragazza vestita di nero]": {
+  "dove": [
+   "giorno2.js:235"
+  ],
+  "riga": "camera10: [[null, T(\"[la camera è al buio. Sul letto, una ragazza vestita di nero]\")], [\"NUORA\", T(\"Chi è?\")],"
+ },
+ "[vede la maschera]": {
+  "dove": [
+   "giorno2.js:236"
+  ],
+  "riga": "[\"NUORA\", T(\"[vede la maschera]\")], [\"NUORA\", T(\"Siete della ditta? Siete venuti a prendermi?\")]],"
+ },
+ "Siete della ditta? Siete venuti a prendermi?": {
+  "dove": [
+   "giorno2.js:236"
+  ],
+  "riga": "[\"NUORA\", T(\"[vede la maschera]\")], [\"NUORA\", T(\"Siete della ditta? Siete venuti a prendermi?\")]],"
+ },
+ "cambiata": {
+  "dove": [
+   "giorno2.js:245"
+  ],
+  "riga": "return s === \"grave\" ? (donna ? T(\"cambiata\") : T(\"cambiato\")) : s === \"sano\" ? (donna ? T(\"sana, idonea\") : T(\"sano, idoneo\")) : T(\"in osservazione\");"
+ },
+ "cambiato": {
+  "dove": [
+   "giorno2.js:245"
+  ],
+  "riga": "return s === \"grave\" ? (donna ? T(\"cambiata\") : T(\"cambiato\")) : s === \"sano\" ? (donna ? T(\"sana, idonea\") : T(\"sano, idoneo\")) : T(\"in osservazione\");"
+ },
+ "sana, idonea": {
+  "dove": [
+   "giorno2.js:245"
+  ],
+  "riga": "return s === \"grave\" ? (donna ? T(\"cambiata\") : T(\"cambiato\")) : s === \"sano\" ? (donna ? T(\"sana, idonea\") : T(\"sano, idoneo\")) : T(\"in osservazione\");"
+ },
+ "sano, idoneo": {
+  "dove": [
+   "giorno2.js:245"
+  ],
+  "riga": "return s === \"grave\" ? (donna ? T(\"cambiata\") : T(\"cambiato\")) : s === \"sano\" ? (donna ? T(\"sana, idonea\") : T(\"sano, idoneo\")) : T(\"in osservazione\");"
+ },
+ "in osservazione": {
+  "dove": [
+   "giorno2.js:245"
+  ],
+  "riga": "return s === \"grave\" ? (donna ? T(\"cambiata\") : T(\"cambiato\")) : s === \"sano\" ? (donna ? T(\"sana, idonea\") : T(\"sano, idoneo\")) : T(\"in osservazione\");"
+ },
+ "ROSSI PIETRO, PROVA 1, «cambiato»": {
+  "dove": [
+   "giorno2.js:248"
+  ],
+  "riga": "const schede = [T(\"ROSSI PIETRO, PROVA 1, «cambiato»\"), T(\"SERRA PAOLO, PROVA 2, «cambiato»\"),"
+ },
+ "SERRA PAOLO, PROVA 2, «cambiato»": {
+  "dove": [
+   "giorno2.js:248"
+  ],
+  "riga": "const schede = [T(\"ROSSI PIETRO, PROVA 1, «cambiato»\"), T(\"SERRA PAOLO, PROVA 2, «cambiato»\"),"
+ },
+ "{0}, PROVA {1}, «{2}»": {
+  "dove": [
+   "giorno2.js:249"
+  ],
+  "riga": "...provati.map((p) => T`${p.nome}, PROVA ${p.n}, «${p.esito}»`)];"
+ },
+ "ascolta": {
+  "dove": [
+   "giorno2.js:257",
+   "giorno3.js:389"
+  ],
+  "riga": "{ testo: T(\"ascolta\"), minuti: 5, dice: [[null, T(\"[dal fondo del corridoio non viene nessun rumore]\")],"
+ },
+ "[dal fondo del corridoio non viene nessun rumore]": {
+  "dove": [
+   "giorno2.js:257",
+   "giorno3.js:390"
+  ],
+  "riga": "{ testo: T(\"ascolta\"), minuti: 5, dice: [[null, T(\"[dal fondo del corridoio non viene nessun rumore]\")],"
+ },
+ "Ieri, da lì, si sentiva respirare.": {
+  "dove": [
+   "giorno2.js:258"
+  ],
+  "riga": "[null, T(\"Ieri, da lì, si sentiva respirare.\")]], poi: { prova: \"silenzio\" } },"
+ },
+ "[non ha la forza di alzarsi]": {
+  "dove": [
+   "giorno2.js:260"
+  ],
+  "riga": "dice: righe([\"TU\", T(\"Voglio vedere di là.\")], padre && [\"PADRE\", T(\"[non ha la forza di alzarsi]\")],"
+ },
+ "No! Lasciatela dormire!": {
+  "dove": [
+   "giorno2.js:261"
+  ],
+  "riga": "!padre && figlia && [\"FIGLIA\", T(\"No! Lasciatela dormire!\")]),"
+ },
+ "È aperta. Guardate pure.": {
+  "dove": [
+   "giorno2.js:268",
+   "giorno3.js:401"
+  ],
+  "riga": "dice: righe([\"TU\", T(\"Aprite questa porta.\")], chiApre && [chiApre, T(\"È aperta. Guardate pure.\")],"
+ },
+ "Il ripostiglio è vuoto: una brandina sfatta, un secchio, un cuscino con una macchia scura.": {
+  "dove": [
+   "giorno2.js:269"
+  ],
+  "riga": "[null, T(\"Il ripostiglio è vuoto: una brandina sfatta, un secchio, un cuscino con una macchia scura.\")],"
+ },
+ "Per terra, una *botola*, chiusa con un lucchetto nuovo.": {
+  "dove": [
+   "giorno2.js:270"
+  ],
+  "riga": "[null, T(\"Per terra, una *botola*, chiusa con un lucchetto nuovo.\"), { k: \"zona:porta\" }]),"
+ },
+ "Poi, da *sotto* il pavimento, un colpo di tosse.": {
+  "dove": [
+   "giorno2.js:273"
+  ],
+  "riga": "dice: [[null, T(\"[silenzio]\")], [null, T(\"Poi, da *sotto* il pavimento, un colpo di tosse.\"), { k: \"zona:porta\" }]],"
+ },
+ "chiedi della botola": {
+  "dove": [
+   "giorno2.js:275"
+  ],
+  "riga": "...(chiApre ? [{ testo: T(\"chiedi della botola\"), minuti: 5, se: { prova: \"ripostiglio_vuoto\" },"
+ },
+ "E la botola?": {
+  "dove": [
+   "giorno2.js:276"
+  ],
+  "riga": "dice: righe([\"TU\", T(\"E la botola?\")], [chiApre, T(\"La cantina. Ci teniamo le *patate*.\"), { d: \"patate\", k: \"zona:porta\" }],"
+ },
+ "La cantina. Ci teniamo le *patate*.": {
+  "dove": [
+   "giorno2.js:276"
+  ],
+  "riga": "dice: righe([\"TU\", T(\"E la botola?\")], [chiApre, T(\"La cantina. Ci teniamo le *patate*.\"), { d: \"patate\", k: \"zona:porta\" }],"
+ },
+ "Le patate sono finite a settembre.": {
+  "dove": [
+   "giorno2.js:277",
+   "giorno2.js:640"
+  ],
+  "riga": "nonna && chiApre !== \"NONNA\" && [\"NONNA\", T(\"Le patate sono finite a settembre.\")]) }] : []),"
+ },
+ "solleva il materasso": {
+  "dove": [
+   "giorno2.js:283"
+  ],
+  "riga": "{ testo: T(\"solleva il materasso\"), minuti: 10,"
+ },
+ "Fatemi vedere sotto il materasso.": {
+  "dove": [
+   "giorno2.js:284"
+  ],
+  "riga": "dice: righe([\"TU\", T(\"Fatemi vedere sotto il materasso.\")], [\"MOGLIE\", T(\"Quello è il mio letto!\"), { volto: \"arrabbiato\" }],"
+ },
+ "Quello è il mio letto!": {
+  "dove": [
+   "giorno2.js:284"
+  ],
+  "riga": "dice: righe([\"TU\", T(\"Fatemi vedere sotto il materasso.\")], [\"MOGLIE\", T(\"Quello è il mio letto!\"), { volto: \"arrabbiato\" }],"
+ },
+ "Sotto il materasso, una *cartella* grigia col triangolo della Panacea.": {
+  "dove": [
+   "giorno2.js:285"
+  ],
+  "riga": "[null, T(\"Sotto il materasso, una *cartella* grigia col triangolo della Panacea.\"), { k: \"zona:letto\" }],"
+ },
+ "Dentro, schede con una foto e un numero. {0}.": {
+  "dove": [
+   "giorno2.js:286"
+  ],
+  "riga": "[null, T`Dentro, schede con una foto e un numero. ${schede.slice(0, 2).join(\". \")}.`],"
+ },
+ "E quelli che hai mandato tu, ieri: {0}.": {
+  "dove": [
+   "giorno2.js:287"
+  ],
+  "riga": "provati.length && [null, T`E quelli che hai mandato tu, ieri: ${schede.slice(2).join(\". \")}.`],"
+ },
+ "In fondo, un foglio: «MEDICO 6 · MALVENTO». E uno vecchio, ingiallito: «MEDICO 6 · PIETRASCURA · MARZO 1998».": {
+  "dove": [
+   "giorno2.js:288"
+  ],
+  "riga": "[null, T(\"In fondo, un foglio: «MEDICO 6 · MALVENTO». E uno vecchio, ingiallito: «MEDICO 6 · PIETRASCURA · MARZO 1998».\")],"
+ },
+ "[non dice niente. Ti guarda]": {
+  "dove": [
+   "giorno2.js:289"
+  ],
+  "riga": "[\"MOGLIE\", T(\"[non dice niente. Ti guarda]\"), { volto: \"arrabbiato\" }]),"
+ },
+ "entra nella camera": {
+  "dove": [
+   "giorno2.js:295",
+   "giorno3.js:418"
+  ],
+  "riga": "entra: { testo: T(\"entra nella camera\"), vai: \"camera10\" },"
+ },
+ "È la camera di Paolo. Non ci entra più nessuno.": {
+  "dove": [
+   "giorno2.js:298"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Aprite questa porta.\")], [\"SUOCERA\", T(\"È la camera di Paolo. Non ci entra più nessuno.\"), { volto: \"arrabbiato\" }],"
+ },
+ "Lasciategli almeno quella.": {
+  "dove": [
+   "giorno2.js:299",
+   "giorno2.js:499"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Lasciategli almeno quella.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "[dietro la porta: un *respiro*, piano. Poi la molla di un letto]": {
+  "dove": [
+   "giorno2.js:301"
+  ],
+  "riga": "dice: [[null, T(\"[dietro la porta: un *respiro*, piano. Poi la molla di un letto]\"), { k: \"zona:porta10\" }]], poi: { prova: \"respiro_camera\" } },"
+ },
+ "gira la chiave": {
+  "dove": [
+   "giorno2.js:302"
+  ],
+  "riga": "{ testo: T(\"gira la chiave\"), minuti: 10,"
+ },
+ "La chiave è nella toppa. Giro io.": {
+  "dove": [
+   "giorno2.js:303"
+  ],
+  "riga": "dice: [[\"TU\", T(\"La chiave è nella toppa. Giro io.\")], [\"SUOCERA\", T(\"No! Non toccate!\"), { volto: \"arrabbiato\" }],"
+ },
+ "No! Non toccate!": {
+  "dove": [
+   "giorno2.js:303"
+  ],
+  "riga": "dice: [[\"TU\", T(\"La chiave è nella toppa. Giro io.\")], [\"SUOCERA\", T(\"No! Non toccate!\"), { volto: \"arrabbiato\" }],"
+ },
+ "[ti si aggrappa al braccio. Pesa come un uccello]": {
+  "dove": [
+   "giorno2.js:304"
+  ],
+  "riga": "[\"SUOCERA\", T(\"[ti si aggrappa al braccio. Pesa come un uccello]\"), { volto: \"arrabbiato\" }]],"
+ },
+ "offri 50 € alla suocera": {
+  "dove": [
+   "giorno2.js:306"
+  ],
+  "riga": "{ testo: T(\"offri 50 € alla suocera\"), minuti: 5, soldi: 50,"
+ },
+ "Soldi della ditta? Tenetevi i vostri soldi.": {
+  "dove": [
+   "giorno2.js:308"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Soldi della ditta? Tenetevi i vostri soldi.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "occhi lucidi e cerchiati, febbre altissima": {
+  "dove": [
+   "giorno2.js:317"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi lucidi e cerchiati, febbre altissima\"), segno: \"febbre\", foto: \"g2/padre_occhi\", dice: [[\"PADRE\", T(\"Brucio. Da stanotte.\")]] },"
+ },
+ "Brucio. Da stanotte.": {
+  "dove": [
+   "giorno2.js:317",
+   "giorno2.js:375",
+   "giorno3.js:525"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi lucidi e cerchiati, febbre altissima\"), segno: \"febbre\", foto: \"g2/padre_occhi\", dice: [[\"PADRE\", T(\"Brucio. Da stanotte.\")]] },"
+ },
+ "labbra spaccate, sangue secco": {
+  "dove": [
+   "giorno2.js:318"
+  ],
+  "riga": "bocca: { reperto: T(\"labbra spaccate, sangue secco\"), segno: \"tosse\", foto: \"g2/padre_bocca\", dice: [[\"PADRE\", T(\"[respira con la bocca aperta]\")]] },"
+ },
+ "[respira con la bocca aperta]": {
+  "dove": [
+   "giorno2.js:318"
+  ],
+  "riga": "bocca: { reperto: T(\"labbra spaccate, sangue secco\"), segno: \"tosse\", foto: \"g2/padre_bocca\", dice: [[\"PADRE\", T(\"[respira con la bocca aperta]\")]] },"
+ },
+ "il bubbone è viola, e si è aperto": {
+  "dove": [
+   "giorno2.js:319"
+  ],
+  "riga": "collo: { reperto: T(\"il bubbone è viola, e si è aperto\"), segno: \"bubbone\", foto: \"g2/padre_collo\","
+ },
+ "Lo so cos'è. Non serve che me lo dite.": {
+  "dove": [
+   "giorno2.js:320"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Lo so cos'è. Non serve che me lo dite.\")]] },"
+ },
+ "un altro bubbone sotto l'ascella": {
+  "dove": [
+   "giorno2.js:321"
+  ],
+  "riga": "ascelle: { reperto: T(\"un altro bubbone sotto l'ascella\"), segno: \"bubbone\", foto: \"g2/padre_ascelle\", dice: [[\"PADRE\", T(\"[alza il braccio senza dire niente]\")]] },"
+ },
+ "[alza il braccio senza dire niente]": {
+  "dove": [
+   "giorno2.js:321",
+   "giorno2.js:408"
+  ],
+  "riga": "ascelle: { reperto: T(\"un altro bubbone sotto l'ascella\"), segno: \"bubbone\", foto: \"g2/padre_ascelle\", dice: [[\"PADRE\", T(\"[alza il braccio senza dire niente]\")]] },"
+ },
+ "trema; due dita diventano nere": {
+  "dove": [
+   "giorno2.js:322"
+  ],
+  "riga": "mani: { reperto: T(\"trema; due dita diventano nere\"), segno: \"dita\", foto: \"g2/padre_mani\", dice: [[\"PADRE\", T(\"Le dita. Come mio padre.\")]] },"
+ },
+ "Le dita. Come mio padre.": {
+  "dove": [
+   "giorno2.js:322"
+  ],
+  "riga": "mani: { reperto: T(\"trema; due dita diventano nere\"), segno: \"dita\", foto: \"g2/padre_mani\", dice: [[\"PADRE\", T(\"Le dita. Come mio padre.\")]] },"
+ },
+ "occhi lucidi, guance rosse: febbre": {
+  "dove": [
+   "giorno2.js:325",
+   "giorno2.js:352",
+   "giorno3.js:466",
+   "giorno3.js:487"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi lucidi, guance rosse: febbre\"), segno: \"febbre\", foto: \"g2/figlia_occhi\", dice: [[\"FIGLIA\", T(\"È il caldo della coperta.\")]] },"
+ },
+ "È il caldo della coperta.": {
+  "dove": [
+   "giorno2.js:325",
+   "giorno2.js:620"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi lucidi, guance rosse: febbre\"), segno: \"febbre\", foto: \"g2/figlia_occhi\", dice: [[\"FIGLIA\", T(\"È il caldo della coperta.\")]] },"
+ },
+ "labbra screpolate e secche": {
+  "dove": [
+   "giorno2.js:326"
+  ],
+  "riga": "bocca: { ...copia(E1.figlia.bocca), reperto: T(\"labbra screpolate e secche\") },"
+ },
+ "un gonfiore piccolo sotto l'orecchio, appena cominciato": {
+  "dove": [
+   "giorno2.js:327",
+   "giorno3.js:467"
+  ],
+  "riga": "collo: { reperto: T(\"un gonfiore piccolo sotto l'orecchio, appena cominciato\"), segno: \"bubbone\", foto: \"g2/figlia_collo\","
+ },
+ "[si tira su la coperta]": {
+  "dove": [
+   "giorno2.js:328"
+  ],
+  "riga": "dice: [[\"FIGLIA\", T(\"[si tira su la coperta]\")]] },"
+ },
+ "Lasciatela stare. Almeno lei.": {
+  "dove": [
+   "giorno2.js:329"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutata\"), rifiuta: righe([\"FIGLIA\", T(\"No.\")], padre && [\"PADRE\", T(\"Lasciatela stare. Almeno lei.\")]) },"
+ },
+ "unghie mangiate, mani che scottano": {
+  "dove": [
+   "giorno2.js:330"
+  ],
+  "riga": "mani: { ...copia(E1.figlia.mani), reperto: T(\"unghie mangiate, mani che scottano\"), dice: [[\"FIGLIA\", T(\"Me le mangio. Lo sapete.\")]] },"
+ },
+ "Me le mangio. Lo sapete.": {
+  "dove": [
+   "giorno2.js:330"
+  ],
+  "riga": "mani: { ...copia(E1.figlia.mani), reperto: T(\"unghie mangiate, mani che scottano\"), dice: [[\"FIGLIA\", T(\"Me le mangio. Lo sapete.\")]] },"
+ },
+ "occhi bianchi, senza pupille: non ti riconosce": {
+  "dove": [
+   "giorno2.js:333"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi bianchi, senza pupille: non ti riconosce\"), foto: \"g2/mostro_occhi\","
+ },
+ "[gli occhi bianchi ti seguono, senza battere le palpebre]": {
+  "dove": [
+   "giorno2.js:334"
+  ],
+  "riga": "dice: [[null, T(\"[gli occhi bianchi ti seguono, senza battere le palpebre]\")]] },"
+ },
+ "la bocca troppo larga, le gengive nere, la bava nera": {
+  "dove": [
+   "giorno2.js:335"
+  ],
+  "riga": "bocca: { reperto: T(\"la bocca troppo larga, le gengive nere, la bava nera\"), segno: \"tosse\", foto: \"g2/mostro_bocca\","
+ },
+ "[ringhia. Un filo di bava nera cola sulla testiera]": {
+  "dove": [
+   "giorno2.js:336"
+  ],
+  "riga": "dice: [[null, T(\"[ringhia. Un filo di bava nera cola sulla testiera]\")]] },"
+ },
+ "la pelle grigia, le vene nere: i bubboni si sono aperti": {
+  "dove": [
+   "giorno2.js:337"
+  ],
+  "riga": "collo: { reperto: T(\"la pelle grigia, le vene nere: i bubboni si sono aperti\"), segno: \"bubbone\", dice: [[null, T(\"[non si lascia avvicinare]\")]] },"
+ },
+ "[non si lascia avvicinare]": {
+  "dove": [
+   "giorno2.js:337"
+  ],
+  "riga": "collo: { reperto: T(\"la pelle grigia, le vene nere: i bubboni si sono aperti\"), segno: \"bubbone\", dice: [[null, T(\"[non si lascia avvicinare]\")]] },"
+ },
+ "non si lascia toccare": {
+  "dove": [
+   "giorno2.js:338"
+  ],
+  "riga": "ascelle: { reperto: T(\"non si lascia toccare\"), rifiuta: [[null, T(\"[ti soffia contro e si schiaccia contro la finestra]\")]] },"
+ },
+ "[ti soffia contro e si schiaccia contro la finestra]": {
+  "dove": [
+   "giorno2.js:338"
+  ],
+  "riga": "ascelle: { reperto: T(\"non si lascia toccare\"), rifiuta: [[null, T(\"[ti soffia contro e si schiaccia contro la finestra]\")]] },"
+ },
+ "le dita lunghe e nere, le unghie come artigli": {
+  "dove": [
+   "giorno2.js:339"
+  ],
+  "riga": "mani: { reperto: T(\"le dita lunghe e nere, le unghie come artigli\"), segno: \"dita\", foto: \"g2/mostro_mani\","
+ },
+ "Le unghie nere graffiano il ferro della testiera.": {
+  "dove": [
+   "giorno2.js:340"
+  ],
+  "riga": "dice: [[null, T(\"Le unghie nere graffiano il ferro della testiera.\")]] },"
+ },
+ "occhi lucidi e cerchiati, febbre alta": {
+  "dove": [
+   "giorno2.js:343"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi lucidi e cerchiati, febbre alta\"), segno: \"febbre\", foto: \"g2/uomo_occhi\", dice: [[\"UOMO\", T(\"Ho dormito poco.\")]] },"
+ },
+ "sangue sulle labbra: viene dai polmoni": {
+  "dove": [
+   "giorno2.js:344"
+  ],
+  "riga": "bocca: { reperto: T(\"sangue sulle labbra: viene dai polmoni\"), segno: \"tosse\", foto: \"g2/uomo_bocca\","
+ },
+ "Mi sono *morso* la lingua.": {
+  "dove": [
+   "giorno2.js:345",
+   "giorno2.js:438"
+  ],
+  "riga": "dice: [[\"UOMO\", T(\"Mi sono *morso* la lingua.\"), { d: \"lingua\", k: \"parte:uomo.bocca\" }]] },"
+ },
+ "un bubbone sotto la mascella": {
+  "dove": [
+   "giorno2.js:346"
+  ],
+  "riga": "collo: { reperto: T(\"un bubbone sotto la mascella\"), segno: \"bubbone\", foto: \"g2/uomo_collo\", dice: [[\"UOMO\", T(\"[deglutisce a fatica]\")]] },"
+ },
+ "[deglutisce a fatica]": {
+  "dove": [
+   "giorno2.js:346",
+   "giorno3.js:484"
+  ],
+  "riga": "collo: { reperto: T(\"un bubbone sotto la mascella\"), segno: \"bubbone\", foto: \"g2/uomo_collo\", dice: [[\"UOMO\", T(\"[deglutisce a fatica]\")]] },"
+ },
+ "No. Non oggi.": {
+  "dove": [
+   "giorno2.js:347"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutato\"), rifiuta: [[\"UOMO\", T(\"No. Non oggi.\")]] },"
+ },
+ "sangue nel palmo: ha tossito nella mano": {
+  "dove": [
+   "giorno2.js:348"
+  ],
+  "riga": "mani: { reperto: T(\"sangue nel palmo: ha tossito nella mano\"), segno: \"tosse\", foto: \"g2/uomo_mani\", dice: [[\"UOMO\", T(\"[si pulisce la mano sulla tuta]\")]] },"
+ },
+ "[si pulisce la mano sulla tuta]": {
+  "dove": [
+   "giorno2.js:348"
+  ],
+  "riga": "mani: { reperto: T(\"sangue nel palmo: ha tossito nella mano\"), segno: \"tosse\", foto: \"g2/uomo_mani\", dice: [[\"UOMO\", T(\"[si pulisce la mano sulla tuta]\")]] },"
+ },
+ "Ho dormito poco. Da voi.": {
+  "dove": [
+   "giorno2.js:353"
+  ],
+  "riga": "dice: [[\"RAGAZZA\", T(\"Ho dormito poco. Da voi.\")]] };"
+ },
+ "tosse secca, niente sangue": {
+  "dove": [
+   "giorno2.js:357",
+   "giorno3.js:491"
+  ],
+  "riga": "ESAMI.nonna.bocca = { reperto: T(\"tosse secca, niente sangue\"), dice: [[\"NONNA\", T(\"Tossisco dal '44, dottore.\")]] };"
+ },
+ "Tossisco dal '44, dottore.": {
+  "dove": [
+   "giorno2.js:357",
+   "giorno2.js:455",
+   "giorno3.js:491"
+  ],
+  "riga": "ESAMI.nonna.bocca = { reperto: T(\"tosse secca, niente sangue\"), dice: [[\"NONNA\", T(\"Tossisco dal '44, dottore.\")]] };"
+ },
+ "cataratta, e occhi lucidi: febbre": {
+  "dove": [
+   "giorno2.js:358",
+   "giorno3.js:497"
+  ],
+  "riga": "if (nonnaMalata) ESAMI.nonna.occhi = { reperto: T(\"cataratta, e occhi lucidi: febbre\"), segno: \"febbre\", foto: \"g2/nonna_occhi\","
+ },
+ "Ecco. È arrivata anche per me.": {
+  "dove": [
+   "giorno2.js:359",
+   "giorno3.js:498"
+  ],
+  "riga": "dice: [[\"NONNA\", T(\"Ecco. È arrivata anche per me.\")]] };"
+ },
+ "occhi arrossati ai bordi, niente febbre: non dorme di notte": {
+  "dove": [
+   "giorno2.js:364"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi arrossati ai bordi, niente febbre: non dorme di notte\"), foto: \"g2/moglie_occhi\","
+ },
+ "Faccio le notti. Ve l'ho detto.": {
+  "dove": [
+   "giorno2.js:365"
+  ],
+  "riga": "dice: [[\"MOGLIE\", T(\"Faccio le notti. Ve l'ho detto.\")]] },"
+ },
+ "[stringe le labbra]": {
+  "dove": [
+   "giorno2.js:366"
+  ],
+  "riga": "bocca: { reperto: T(\"niente\"), foto: \"g2/moglie_bocca\", dice: [[\"MOGLIE\", T(\"[stringe le labbra]\")]] },"
+ },
+ "due righe rosse dietro l'orecchio e sulla guancia: l'elastico di una mascherina, portata per ore": {
+  "dove": [
+   "giorno2.js:367"
+  ],
+  "riga": "collo: { reperto: T(\"due righe rosse dietro l'orecchio e sulla guancia: l'elastico di una mascherina, portata per ore\"),"
+ },
+ "[si tira su il collo del golf]": {
+  "dove": [
+   "giorno2.js:368"
+  ],
+  "riga": "foto: \"g2/moglie_collo\", dice: [[\"MOGLIE\", T(\"[si tira su il collo del golf]\"), { volto: \"nervoso\" }]] },"
+ },
+ "Non ci penso nemmeno.": {
+  "dove": [
+   "giorno2.js:369"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutata\"), rifiuta: [[\"MOGLIE\", T(\"Non ci penso nemmeno.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "screpolate dal disinfettante; sul dorso, un timbro blu: un triangolo con un numero": {
+  "dove": [
+   "giorno2.js:370"
+  ],
+  "riga": "mani: { reperto: T(\"screpolate dal disinfettante; sul dorso, un timbro blu: un triangolo con un numero\"), foto: \"g2/moglie_mani\","
+ },
+ "[nasconde la mano destra nella manica]": {
+  "dove": [
+   "giorno2.js:371"
+  ],
+  "riga": "dice: [[\"MOGLIE\", T(\"[nasconde la mano destra nella manica]\"), { volto: \"nervoso\" }]] },"
+ },
+ "occhi lucidi e arrossati, sudore: febbre": {
+  "dove": [
+   "giorno2.js:375",
+   "giorno3.js:525"
+  ],
+  "riga": "? { reperto: T(\"occhi lucidi e arrossati, sudore: febbre\"), segno: \"febbre\", foto: \"g2/marito_occhi_febbre\", dice: [[\"MARITO\", T(\"Brucio. Da stanotte.\")]] }"
+ },
+ "occhi stanchi, niente febbre": {
+  "dove": [
+   "giorno2.js:376",
+   "giorno3.js:529"
+  ],
+  "riga": ": { reperto: T(\"occhi stanchi, niente febbre\"), foto: \"g2/marito_occhi\", dice: [[\"MARITO\", T(\"Ci vedo ancora. Purtroppo.\")]] },"
+ },
+ "Ci vedo ancora. Purtroppo.": {
+  "dove": [
+   "giorno2.js:376",
+   "giorno3.js:529"
+  ],
+  "riga": ": { reperto: T(\"occhi stanchi, niente febbre\"), foto: \"g2/marito_occhi\", dice: [[\"MARITO\", T(\"Ci vedo ancora. Purtroppo.\")]] },"
+ },
+ "labbra viola, fiato corto, catarro grigio": {
+  "dove": [
+   "giorno2.js:377"
+  ],
+  "riga": "bocca: { reperto: T(\"labbra viola, fiato corto, catarro grigio\"), segno: \"pallore\", foto: \"g2/marito_bocca\","
+ },
+ "[respira a fatica, sotto i baffi]": {
+  "dove": [
+   "giorno2.js:378"
+  ],
+  "riga": "dice: [[\"MARITO\", T(\"[respira a fatica, sotto i baffi]\")]] },"
+ },
+ "un bubbone sotto la mascella, appena cominciato": {
+  "dove": [
+   "giorno2.js:380",
+   "giorno2.js:396",
+   "giorno3.js:526",
+   "giorno3.js:541",
+   "giorno3.js:555",
+   "giorno3.js:564"
+  ],
+  "riga": "? { reperto: T(\"un bubbone sotto la mascella, appena cominciato\"), segno: \"bubbone\", foto: \"g2/marito_collo_febbre\", dice: [[\"MARITO\", T(\"Ieri non c'era.\")]] }"
+ },
+ "Ieri non c'era.": {
+  "dove": [
+   "giorno2.js:380",
+   "giorno3.js:526"
+  ],
+  "riga": "? { reperto: T(\"un bubbone sotto la mascella, appena cominciato\"), segno: \"bubbone\", foto: \"g2/marito_collo_febbre\", dice: [[\"MARITO\", T(\"Ieri non c'era.\")]] }"
+ },
+ "i tendini tirati dal respiro, niente gonfiori": {
+  "dove": [
+   "giorno2.js:381",
+   "giorno3.js:530"
+  ],
+  "riga": ": { reperto: T(\"i tendini tirati dal respiro, niente gonfiori\"), foto: \"g2/marito_collo\", dice: [[\"MARITO\", T(\"[deglutisce]\")]] },"
+ },
+ "Lasciatemi la coperta. Ho freddo da quarant'anni.": {
+  "dove": [
+   "giorno2.js:382"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutato\"), rifiuta: [[\"MARITO\", T(\"Lasciatemi la coperta. Ho freddo da quarant'anni.\")]] },"
+ },
+ "dita a spatola, unghie blu: i polmoni malati da anni, non da giorni": {
+  "dove": [
+   "giorno2.js:383"
+  ],
+  "riga": "mani: { reperto: T(\"dita a spatola, unghie blu: i polmoni malati da anni, non da giorni\"), segno: \"pallore\", foto: \"g2/marito_mani\","
+ },
+ "Mani da cava.": {
+  "dove": [
+   "giorno2.js:384"
+  ],
+  "riga": "dice: [[\"MARITO\", T(\"Mani da cava.\")]] },"
+ },
+ "occhi lucidi, sudore sotto il fazzoletto: febbre": {
+  "dove": [
+   "giorno2.js:390",
+   "giorno3.js:540"
+  ],
+  "riga": "? { reperto: T(\"occhi lucidi, sudore sotto il fazzoletto: febbre\"), segno: \"febbre\", foto: \"g2/suocera_occhi_febbre\","
+ },
+ "Ho pianto. Si piange, quando si seppellisce un figlio.": {
+  "dove": [
+   "giorno2.js:391",
+   "giorno2.js:393"
+  ],
+  "riga": "dice: [[\"SUOCERA\", T(\"Ho pianto. Si piange, quando si seppellisce un figlio.\")]] }"
+ },
+ "palpebre gonfie di pianto, occhi asciutti: niente febbre": {
+  "dove": [
+   "giorno2.js:392",
+   "giorno3.js:544"
+  ],
+  "riga": ": { reperto: T(\"palpebre gonfie di pianto, occhi asciutti: niente febbre\"), foto: \"g2/suocera_occhi\","
+ },
+ "denti vecchi ma tutti suoi, niente": {
+  "dove": [
+   "giorno2.js:394"
+  ],
+  "riga": "bocca: { reperto: T(\"denti vecchi ma tutti suoi, niente\"), foto: \"g2/suocera_bocca\", dice: [[\"SUOCERA\", T(\"[serra le labbra]\")]] },"
+ },
+ "[serra le labbra]": {
+  "dove": [
+   "giorno2.js:394"
+  ],
+  "riga": "bocca: { reperto: T(\"denti vecchi ma tutti suoi, niente\"), foto: \"g2/suocera_bocca\", dice: [[\"SUOCERA\", T(\"[serra le labbra]\")]] },"
+ },
+ "Il malvento. Adesso ce l'ho anch'io.": {
+  "dove": [
+   "giorno2.js:397",
+   "giorno3.js:541"
+  ],
+  "riga": "dice: [[\"SUOCERA\", T(\"Il malvento. Adesso ce l'ho anch'io.\")]] }"
+ },
+ "un nastro nero al collo, niente gonfiori": {
+  "dove": [
+   "giorno2.js:398",
+   "giorno3.js:545"
+  ],
+  "riga": ": { reperto: T(\"un nastro nero al collo, niente gonfiori\"), foto: \"g2/suocera_collo\", dice: [[\"SUOCERA\", T(\"Il lutto. Lo porto per Paolo.\")]] },"
+ },
+ "Il lutto. Lo porto per Paolo.": {
+  "dove": [
+   "giorno2.js:398",
+   "giorno3.js:545"
+  ],
+  "riga": ": { reperto: T(\"un nastro nero al collo, niente gonfiori\"), foto: \"g2/suocera_collo\", dice: [[\"SUOCERA\", T(\"Il lutto. Lo porto per Paolo.\")]] },"
+ },
+ "Ho ottant'anni, dottore. Abbiate rispetto.": {
+  "dove": [
+   "giorno2.js:399"
+  ],
+  "riga": "ascelle: { reperto: T(\"si è rifiutata\"), rifiuta: [[\"SUOCERA\", T(\"Ho ottant'anni, dottore. Abbiate rispetto.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "terra nera sotto le unghie, una crosta di cera rossa su un dito": {
+  "dove": [
+   "giorno2.js:400"
+  ],
+  "riga": "mani: { reperto: T(\"terra nera sotto le unghie, una crosta di cera rossa su un dito\"), foto: \"g2/suocera_mani\","
+ },
+ "L'*orto*.": {
+  "dove": [
+   "giorno2.js:401"
+  ],
+  "riga": "dice: [[\"SUOCERA\", T(\"L'*orto*.\"), { d: \"orto\", k: \"parte:suocera.mani\" }]] },"
+ },
+ "occhi grandi e scuri, bordi arrossati di pianto; niente febbre": {
+  "dove": [
+   "giorno2.js:404"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi grandi e scuri, bordi arrossati di pianto; niente febbre\"), foto: \"g2/nuora_occhi\", dice: [[\"NUORA\", T(\"Non dormo. Da una settimana.\")]] },"
+ },
+ "Non dormo. Da una settimana.": {
+  "dove": [
+   "giorno2.js:404"
+  ],
+  "riga": "occhi: { reperto: T(\"occhi grandi e scuri, bordi arrossati di pianto; niente febbre\"), foto: \"g2/nuora_occhi\", dice: [[\"NUORA\", T(\"Non dormo. Da una settimana.\")]] },"
+ },
+ "labbra morse, niente": {
+  "dove": [
+   "giorno2.js:405"
+  ],
+  "riga": "bocca: { reperto: T(\"labbra morse, niente\"), foto: \"g2/nuora_bocca\", dice: [[\"NUORA\", T(\"[si morde il labbro]\")]] },"
+ },
+ "[si morde il labbro]": {
+  "dove": [
+   "giorno2.js:405"
+  ],
+  "riga": "bocca: { reperto: T(\"labbra morse, niente\"), foto: \"g2/nuora_bocca\", dice: [[\"NUORA\", T(\"[si morde il labbro]\")]] },"
+ },
+ "al collo, su una catenina, la fede di un uomo; niente gonfiori": {
+  "dove": [
+   "giorno2.js:406"
+  ],
+  "riga": "collo: { reperto: T(\"al collo, su una catenina, la fede di un uomo; niente gonfiori\"), foto: \"g2/nuora_collo\","
+ },
+ "La *fede* di Paolo. Me l'hanno data loro, in una busta.": {
+  "dove": [
+   "giorno2.js:407"
+  ],
+  "riga": "dice: [[\"NUORA\", T(\"La *fede* di Paolo. Me l'hanno data loro, in una busta.\"), { d: \"fede_busta\", k: \"parte:nuora.collo\" }]] },"
+ },
+ "pelle sana, niente bubboni": {
+  "dove": [
+   "giorno2.js:408",
+   "giorno3.js:586"
+  ],
+  "riga": "ascelle: { reperto: T(\"pelle sana, niente bubboni\"), foto: \"g2/nuora_ascelle\", dice: [[\"NUORA\", T(\"[alza il braccio senza dire niente]\")]] },"
+ },
+ "screpolate e spellate dalla candeggina: lavate cento volte al giorno": {
+  "dove": [
+   "giorno2.js:409"
+  ],
+  "riga": "mani: { reperto: T(\"screpolate e spellate dalla candeggina: lavate cento volte al giorno\"), foto: \"g2/nuora_mani\","
+ },
+ "[le richiude subito]": {
+  "dove": [
+   "giorno2.js:410"
+  ],
+  "riga": "dice: [[\"NUORA\", T(\"[le richiude subito]\")]] },"
+ },
+ "come stai?": {
+  "dove": [
+   "giorno2.js:416",
+   "giorno2.js:445",
+   "giorno2.js:508",
+   "giorno3.js:606",
+   "giorno3.js:632",
+   "giorno3.js:656",
+   "giorno3.js:679",
+   "giorno3.js:715"
+  ],
+  "riga": "{ id: \"come\", breve: T(\"come stai?\"), testo: T(\"Come stai?\"),"
+ },
+ "Come stai?": {
+  "dove": [
+   "giorno2.js:416",
+   "giorno2.js:445",
+   "giorno2.js:508",
+   "giorno3.js:606",
+   "giorno3.js:632",
+   "giorno3.js:679"
+  ],
+  "riga": "{ id: \"come\", breve: T(\"come stai?\"), testo: T(\"Come stai?\"),"
+ },
+ "Come uno che ha la peste, dottore.": {
+  "dove": [
+   "giorno2.js:417"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Come uno che ha la peste, dottore.\")], [\"PADRE\", T(\"Per vederlo non serve la vostra maschera.\")]] },"
+ },
+ "Per vederlo non serve la vostra maschera.": {
+  "dove": [
+   "giorno2.js:417"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Come uno che ha la peste, dottore.\")], [\"PADRE\", T(\"Per vederlo non serve la vostra maschera.\")]] },"
+ },
+ "tua moglie?": {
+  "dove": [
+   "giorno2.js:418"
+  ],
+  "riga": "...(madre ? [{ id: \"moglie\", breve: T(\"tua moglie?\"), testo: T(\"Dov'è tua moglie?\"),"
+ },
+ "Dov'è tua moglie?": {
+  "dove": [
+   "giorno2.js:418"
+  ],
+  "riga": "...(madre ? [{ id: \"moglie\", breve: T(\"tua moglie?\"), testo: T(\"Dov'è tua moglie?\"),"
+ },
+ "Di là. *Dorme*.": {
+  "dove": [
+   "giorno2.js:419"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Di là. *Dorme*.\"), { d: \"dorme_padre\", k: \"zona:corridoio\" }], [\"PADRE\", T(\"Stanotte è stata male. Adesso dorme.\")]] }] : []),"
+ },
+ "Stanotte è stata male. Adesso dorme.": {
+  "dove": [
+   "giorno2.js:419"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Di là. *Dorme*.\"), { d: \"dorme_padre\", k: \"zona:corridoio\" }], [\"PADRE\", T(\"Stanotte è stata male. Adesso dorme.\")]] }] : []),"
+ },
+ "tua figlia?": {
+  "dove": [
+   "giorno2.js:420"
+  ],
+  "riga": "...(figlia ? [{ id: \"figlia\", breve: T(\"tua figlia?\"), testo: T(\"E tua figlia?\"),"
+ },
+ "E tua figlia?": {
+  "dove": [
+   "giorno2.js:420"
+  ],
+  "riga": "...(figlia ? [{ id: \"figlia\", breve: T(\"tua figlia?\"), testo: T(\"E tua figlia?\"),"
+ },
+ "Lei sta *bene*.": {
+  "dove": [
+   "giorno2.js:421"
+  ],
+  "riga": "dice: figliaMalata ? [[\"PADRE\", T(\"Lei sta *bene*.\"), { d: \"figlia_bene\", k: \"persona:figlia\" }], [\"PADRE\", T(\"[non la guarda]\")]]"
+ },
+ "[non la guarda]": {
+  "dove": [
+   "giorno2.js:421"
+  ],
+  "riga": "dice: figliaMalata ? [[\"PADRE\", T(\"Lei sta *bene*.\"), { d: \"figlia_bene\", k: \"persona:figlia\" }], [\"PADRE\", T(\"[non la guarda]\")]]"
+ },
+ "Lei sta bene. Lei sì.": {
+  "dove": [
+   "giorno2.js:422"
+  ],
+  "riga": ": [[\"PADRE\", T(\"Lei sta bene. Lei sì.\")]] }] : []),"
+ },
+ "stanotte?": {
+  "dove": [
+   "giorno2.js:423"
+  ],
+  "riga": "...(ospiteF ? [{ id: \"notte\", breve: T(\"stanotte?\"), testo: T(\"Dov'era tua figlia stanotte?\"),"
+ },
+ "Dov'era tua figlia stanotte?": {
+  "dove": [
+   "giorno2.js:423"
+  ],
+  "riga": "...(ospiteF ? [{ id: \"notte\", breve: T(\"stanotte?\"), testo: T(\"Dov'era tua figlia stanotte?\"),"
+ },
+ "Da voi. Ve la siete portata a casa.": {
+  "dove": [
+   "giorno2.js:424"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Da voi. Ve la siete portata a casa.\")], [\"PADRE\", T(\"Ed è tornata che *scottava*.\"), { d: \"tornata_scottava\", k: \"persona:figlia\" }]] }] : []),"
+ },
+ "Ed è tornata che *scottava*.": {
+  "dove": [
+   "giorno2.js:424"
+  ],
+  "riga": "dice: [[\"PADRE\", T(\"Da voi. Ve la siete portata a casa.\")], [\"PADRE\", T(\"Ed è tornata che *scottava*.\"), { d: \"tornata_scottava\", k: \"persona:figlia\" }]] }] : []),"
+ },
+ "*Sì*. Sto bene.": {
+  "dove": [
+   "giorno2.js:428"
+  ],
+  "riga": "dice: figliaMalata ? [[\"FIGLIA\", T(\"*Sì*. Sto bene.\"), { d: \"sto_bene\", k: \"parte:figlia.occhi\" }], [\"FIGLIA\", T(\"[trema sotto la coperta]\")]]"
+ },
+ "[trema sotto la coperta]": {
+  "dove": [
+   "giorno2.js:428"
+  ],
+  "riga": "dice: figliaMalata ? [[\"FIGLIA\", T(\"*Sì*. Sto bene.\"), { d: \"sto_bene\", k: \"parte:figlia.occhi\" }], [\"FIGLIA\", T(\"[trema sotto la coperta]\")]]"
+ },
+ "Sono sola, dottore. Stanotte ho sentito il vento.": {
+  "dove": [
+   "giorno2.js:429"
+  ],
+  "riga": ": [[\"FIGLIA\", T(\"Sì.\")], [\"FIGLIA\", T(\"Sono sola, dottore. Stanotte ho sentito il vento.\")]] },"
+ },
+ "*Dorme*.": {
+  "dove": [
+   "giorno2.js:431"
+  ],
+  "riga": "dice: madre ? [[\"FIGLIA\", T(\"*Dorme*.\"), { d: \"dorme_figlia\", k: \"zona:corridoio\" }], [\"FIGLIA\", T(\"Non svegliatela.\")]]"
+ },
+ "Non svegliatela.": {
+  "dove": [
+   "giorno2.js:431"
+  ],
+  "riga": "dice: madre ? [[\"FIGLIA\", T(\"*Dorme*.\"), { d: \"dorme_figlia\", k: \"zona:corridoio\" }], [\"FIGLIA\", T(\"Non svegliatela.\")]]"
+ },
+ "Ce l'avete voi. Nel recinto.": {
+  "dove": [
+   "giorno2.js:432",
+   "giorno3.js:613"
+  ],
+  "riga": ": [[\"FIGLIA\", T(\"Ce l'avete voi. Nel recinto.\")], [\"FIGLIA\", T(\"Come sta? Ditemi come sta.\")], [null, T(\"Non lo sai. Dal recinto non esce nessuna notizia.\")]] },"
+ },
+ "Come sta? Ditemi come sta.": {
+  "dove": [
+   "giorno2.js:432"
+  ],
+  "riga": ": [[\"FIGLIA\", T(\"Ce l'avete voi. Nel recinto.\")], [\"FIGLIA\", T(\"Come sta? Ditemi come sta.\")], [null, T(\"Non lo sai. Dal recinto non esce nessuna notizia.\")]] },"
+ },
+ "Non lo sai. Dal recinto non esce nessuna notizia.": {
+  "dove": [
+   "giorno2.js:432"
+  ],
+  "riga": ": [[\"FIGLIA\", T(\"Ce l'avete voi. Nel recinto.\")], [\"FIGLIA\", T(\"Come sta? Ditemi come sta.\")], [null, T(\"Non lo sai. Dal recinto non esce nessuna notizia.\")]] },"
+ },
+ "dove hai dormito?": {
+  "dove": [
+   "giorno2.js:433",
+   "giorno2.js:450"
+  ],
+  "riga": "...(ospiteF ? [{ id: \"notte\", breve: T(\"dove hai dormito?\"), testo: T(\"Come hai dormito, stanotte?\"),"
+ },
+ "Come hai dormito, stanotte?": {
+  "dove": [
+   "giorno2.js:433",
+   "giorno2.js:450"
+  ],
+  "riga": "...(ospiteF ? [{ id: \"notte\", breve: T(\"dove hai dormito?\"), testo: T(\"Come hai dormito, stanotte?\"),"
+ },
+ "Da voi. Sulla brandina.": {
+  "dove": [
+   "giorno2.js:434"
+  ],
+  "riga": "dice: [[\"FIGLIA\", T(\"Da voi. Sulla brandina.\")], [\"FIGLIA\", T(\"Stamattina mi sono svegliata che *scottavo*.\"), { d: \"svegliata_scottavo\", k: \"parte:figlia.occhi\" }]] }] : []),"
+ },
+ "Stamattina mi sono svegliata che *scottavo*.": {
+  "dove": [
+   "giorno2.js:434"
+  ],
+  "riga": "dice: [[\"FIGLIA\", T(\"Da voi. Sulla brandina.\")], [\"FIGLIA\", T(\"Stamattina mi sono svegliata che *scottavo*.\"), { d: \"svegliata_scottavo\", k: \"parte:figlia.occhi\" }]] }] : []),"
+ },
+ "il fazzoletto?": {
+  "dove": [
+   "giorno2.js:437"
+  ],
+  "riga": "{ id: \"sangue\", breve: T(\"il fazzoletto?\"), testo: T(\"Cos'è quel sangue sul fazzoletto?\"),"
+ },
+ "Cos'è quel sangue sul fazzoletto?": {
+  "dove": [
+   "giorno2.js:437"
+  ],
+  "riga": "{ id: \"sangue\", breve: T(\"il fazzoletto?\"), testo: T(\"Cos'è quel sangue sul fazzoletto?\"),"
+ },
+ "il ragazzo?": {
+  "dove": [
+   "giorno2.js:439",
+   "giorno2.js:456"
+  ],
+  "riga": "{ id: \"figlio\", breve: T(\"il ragazzo?\"), testo: T(\"Dov'è il ragazzo di ieri?\"),"
+ },
+ "Dov'è il ragazzo di ieri?": {
+  "dove": [
+   "giorno2.js:439"
+  ],
+  "riga": "{ id: \"figlio\", breve: T(\"il ragazzo?\"), testo: T(\"Dov'è il ragazzo di ieri?\"),"
+ },
+ "Quale ragazzo?": {
+  "dove": [
+   "giorno2.js:440"
+  ],
+  "riga": "dice: [[\"UOMO\", T(\"Quale ragazzo?\")], [\"UOMO\", T(\"Mio figlio è *partito*. Stanotte, per la città.\"), { d: \"partito\", k: \"zona:porta\" }]] },"
+ },
+ "Mio figlio è *partito*. Stanotte, per la città.": {
+  "dove": [
+   "giorno2.js:440"
+  ],
+  "riga": "dice: [[\"UOMO\", T(\"Quale ragazzo?\")], [\"UOMO\", T(\"Mio figlio è *partito*. Stanotte, per la città.\"), { d: \"partito\", k: \"zona:porta\" }]] },"
+ },
+ "Il ripostiglio. Oggi è aperto: guardate pure.": {
+  "dove": [
+   "giorno2.js:442"
+  ],
+  "riga": "dice: [[\"UOMO\", T(\"Il ripostiglio. Oggi è aperto: guardate pure.\"), { k: \"zona:porta\" }]] },"
+ },
+ "*Bene*.": {
+  "dove": [
+   "giorno2.js:446",
+   "giorno3.js:607",
+   "giorno3.js:634"
+  ],
+  "riga": "dice: giovaneMalata ? [[\"RAGAZZA\", T(\"*Bene*.\"), { d: \"bene_ragazza\", k: \"parte:giovane.occhi\" }], [\"RAGAZZA\", T(\"[ha le guance rosse]\")]]"
+ },
+ "[ha le guance rosse]": {
+  "dove": [
+   "giorno2.js:446",
+   "giorno3.js:634"
+  ],
+  "riga": "dice: giovaneMalata ? [[\"RAGAZZA\", T(\"*Bene*.\"), { d: \"bene_ragazza\", k: \"parte:giovane.occhi\" }], [\"RAGAZZA\", T(\"[ha le guance rosse]\")]]"
+ },
+ "Ho fame.": {
+  "dove": [
+   "giorno2.js:447",
+   "giorno3.js:635"
+  ],
+  "riga": ": [[\"RAGAZZA\", T(\"Ho fame.\")], [\"RAGAZZA\", T(\"E freddo. Come ieri.\")]] },"
+ },
+ "E freddo. Come ieri.": {
+  "dove": [
+   "giorno2.js:447"
+  ],
+  "riga": ": [[\"RAGAZZA\", T(\"Ho fame.\")], [\"RAGAZZA\", T(\"E freddo. Come ieri.\")]] },"
+ },
+ "tuo fratello?": {
+  "dove": [
+   "giorno2.js:448",
+   "giorno3.js:638"
+  ],
+  "riga": "{ id: \"fratello\", breve: T(\"tuo fratello?\"), testo: T(\"Dov'è tuo fratello?\"),"
+ },
+ "Dov'è tuo fratello?": {
+  "dove": [
+   "giorno2.js:448"
+  ],
+  "riga": "{ id: \"fratello\", breve: T(\"tuo fratello?\"), testo: T(\"Dov'è tuo fratello?\"),"
+ },
+ "È *partito*. Stanotte.": {
+  "dove": [
+   "giorno2.js:449"
+  ],
+  "riga": "dice: [[\"RAGAZZA\", T(\"È *partito*. Stanotte.\"), { d: \"partito_ragazza\", k: \"zona:porta\" }], [\"RAGAZZA\", T(\"[guarda il pavimento]\")]] },"
+ },
+ "[guarda il pavimento]": {
+  "dove": [
+   "giorno2.js:449"
+  ],
+  "riga": "dice: [[\"RAGAZZA\", T(\"È *partito*. Stanotte.\"), { d: \"partito_ragazza\", k: \"zona:porta\" }], [\"RAGAZZA\", T(\"[guarda il pavimento]\")]] },"
+ },
+ "Da voi. Sulla brandina, col termosifone spento.": {
+  "dove": [
+   "giorno2.js:451"
+  ],
+  "riga": "dice: [[\"RAGAZZA\", T(\"Da voi. Sulla brandina, col termosifone spento.\")], [\"RAGAZZA\", T(\"Stamattina avevo la *febbre*.\"), { d: \"febbre_mattina\", k: \"parte:giovane.occhi\" }]] }] : []),"
+ },
+ "Stamattina avevo la *febbre*.": {
+  "dove": [
+   "giorno2.js:451"
+  ],
+  "riga": "dice: [[\"RAGAZZA\", T(\"Da voi. Sulla brandina, col termosifone spento.\")], [\"RAGAZZA\", T(\"Stamattina avevo la *febbre*.\"), { d: \"febbre_mattina\", k: \"parte:giovane.occhi\" }]] }] : []),"
+ },
+ "la tosse?": {
+  "dove": [
+   "giorno2.js:454"
+  ],
+  "riga": "{ id: \"tosse\", breve: T(\"la tosse?\"), testo: T(\"E quella tosse, signora?\"),"
+ },
+ "E quella tosse, signora?": {
+  "dove": [
+   "giorno2.js:454"
+  ],
+  "riga": "{ id: \"tosse\", breve: T(\"la tosse?\"), testo: T(\"E quella tosse, signora?\"),"
+ },
+ "Non è la vostra peste. È la mia età.": {
+  "dove": [
+   "giorno2.js:455"
+  ],
+  "riga": "dice: [[\"NONNA\", T(\"Tossisco dal '44, dottore.\"), { d: \"tosse_vecchia\", k: \"parte:nonna.bocca\" }], [\"NONNA\", T(\"Non è la vostra peste. È la mia età.\")]] },"
+ },
+ "Dov'è il ragazzo?": {
+  "dove": [
+   "giorno2.js:456"
+  ],
+  "riga": "{ id: \"ragazzo\", breve: T(\"il ragazzo?\"), testo: T(\"Dov'è il ragazzo?\"),"
+ },
+ "Davide sta *sotto*. Al riparo.": {
+  "dove": [
+   "giorno2.js:457"
+  ],
+  "riga": "dice: righe([\"NONNA\", T(\"Davide sta *sotto*. Al riparo.\"), { d: \"sotto\", k: \"zona:porta\" }],"
+ },
+ "Nonna!": {
+  "dove": [
+   "giorno2.js:458"
+  ],
+  "riga": "uomo ? [\"UOMO\", T(\"Mamma!\")] : giovane ? [\"RAGAZZA\", T(\"Nonna!\")] : null) },"
+ },
+ "la ditta?": {
+  "dove": [
+   "giorno2.js:459",
+   "giorno2.js:514",
+   "giorno3.js:628"
+  ],
+  "riga": "{ id: \"ditta\", breve: T(\"la ditta?\"), testo: T(\"Cosa sa della ditta?\"),"
+ },
+ "Cosa sa della ditta?": {
+  "dove": [
+   "giorno2.js:459"
+  ],
+  "riga": "{ id: \"ditta\", breve: T(\"la ditta?\"), testo: T(\"Cosa sa della ditta?\"),"
+ },
+ "Che vogliono i vecchi. Per le loro prove.": {
+  "dove": [
+   "giorno2.js:460"
+  ],
+  "riga": "dice: [[\"NONNA\", T(\"Che vogliono i vecchi. Per le loro prove.\")], [\"NONNA\", T(\"Lo dicono al bar. E lo dice anche il vostro fax.\"), { d: \"vecchi_prove\" }]] },"
+ },
+ "Lo dicono al bar. E lo dice anche il vostro fax.": {
+  "dove": [
+   "giorno2.js:460"
+  ],
+  "riga": "dice: [[\"NONNA\", T(\"Che vogliono i vecchi. Per le loro prove.\")], [\"NONNA\", T(\"Lo dicono al bar. E lo dice anche il vostro fax.\"), { d: \"vecchi_prove\" }]] },"
+ },
+ "come ha dormito?": {
+  "dove": [
+   "giorno2.js:461"
+  ],
+  "riga": "...(ospiteN ? [{ id: \"notte\", breve: T(\"come ha dormito?\"), testo: T(\"Come ha dormito, stanotte?\"),"
+ },
+ "Come ha dormito, stanotte?": {
+  "dove": [
+   "giorno2.js:461"
+  ],
+  "riga": "...(ospiteN ? [{ id: \"notte\", breve: T(\"come ha dormito?\"), testo: T(\"Come ha dormito, stanotte?\"),"
+ },
+ "Da lei, dottore. Ho sognato mia nonna.": {
+  "dove": [
+   "giorno2.js:462"
+  ],
+  "riga": "dice: [[\"NONNA\", T(\"Da lei, dottore. Ho sognato mia nonna.\")], [\"NONNA\", T(\"Stamattina *scottavo*.\"), { d: \"nonna_scottava\", k: \"parte:nonna.occhi\" }]] }] : []),"
+ },
+ "Stamattina *scottavo*.": {
+  "dove": [
+   "giorno2.js:462"
+  ],
+  "riga": "dice: [[\"NONNA\", T(\"Da lei, dottore. Ho sognato mia nonna.\")], [\"NONNA\", T(\"Stamattina *scottavo*.\"), { d: \"nonna_scottava\", k: \"parte:nonna.occhi\" }]] }] : []),"
+ },
+ "che lavoro fai?": {
+  "dove": [
+   "giorno2.js:466"
+  ],
+  "riga": "{ id: \"lavoro\", breve: T(\"che lavoro fai?\"), testo: T(\"Che lavoro fai?\"),"
+ },
+ "Che lavoro fai?": {
+  "dove": [
+   "giorno2.js:466"
+  ],
+  "riga": "{ id: \"lavoro\", breve: T(\"che lavoro fai?\"), testo: T(\"Che lavoro fai?\"),"
+ },
+ "Faccio le notti alla *mensa*. Lavo i piatti.": {
+  "dove": [
+   "giorno2.js:467"
+  ],
+  "riga": "dice: [[\"MOGLIE\", T(\"Faccio le notti alla *mensa*. Lavo i piatti.\"), { d: \"mensa\", k: \"zona:stufa\" }],"
+ },
+ "Torno all'alba. Dormo di giorno, quando lui mi lascia.": {
+  "dove": [
+   "giorno2.js:468"
+  ],
+  "riga": "[\"MOGLIE\", T(\"Torno all'alba. Dormo di giorno, quando lui mi lascia.\")]] },"
+ },
+ "tuo marito?": {
+  "dove": [
+   "giorno2.js:469",
+   "giorno2.js:509",
+   "giorno3.js:651"
+  ],
+  "riga": "{ id: \"marito\", breve: T(\"tuo marito?\"), testo: T(\"Cos'ha tuo marito?\"),"
+ },
+ "Cos'ha tuo marito?": {
+  "dove": [
+   "giorno2.js:469"
+  ],
+  "riga": "{ id: \"marito\", breve: T(\"tuo marito?\"), testo: T(\"Cos'ha tuo marito?\"),"
+ },
+ "L'*asma*. Da sempre.": {
+  "dove": [
+   "giorno2.js:470"
+  ],
+  "riga": "dice: [[\"MOGLIE\", T(\"L'*asma*. Da sempre.\"), { d: \"asma\", k: \"parte:marito.mani\" }], [\"MOGLIE\", T(\"Non è la vostra peste, se è quello che cercate.\")]] },"
+ },
+ "Non è la vostra peste, se è quello che cercate.": {
+  "dove": [
+   "giorno2.js:470"
+  ],
+  "riga": "dice: [[\"MOGLIE\", T(\"L'*asma*. Da sempre.\"), { d: \"asma\", k: \"parte:marito.mani\" }], [\"MOGLIE\", T(\"Non è la vostra peste, se è quello che cercate.\")]] },"
+ },
+ "il coprifuoco?": {
+  "dove": [
+   "giorno2.js:471"
+  ],
+  "riga": "{ id: \"coprifuoco\", breve: T(\"il coprifuoco?\"), testo: T(\"Il coprifuoco è alle otto. Come fai a uscire di notte?\"), se: { detta: \"mensa\" },"
+ },
+ "Il coprifuoco è alle otto. Come fai a uscire di notte?": {
+  "dove": [
+   "giorno2.js:471"
+  ],
+  "riga": "{ id: \"coprifuoco\", breve: T(\"il coprifuoco?\"), testo: T(\"Il coprifuoco è alle otto. Come fai a uscire di notte?\"), se: { detta: \"mensa\" },"
+ },
+ "Ho un permesso.": {
+  "dove": [
+   "giorno2.js:472"
+  ],
+  "riga": "dice: [[\"MOGLIE\", T(\"Ho un permesso.\"), { volto: \"nervoso\" }], [\"MOGLIE\", T(\"[non dice chi gliel'ha dato]\"), { volto: \"nervoso\" }]] },"
+ },
+ "[non dice chi gliel'ha dato]": {
+  "dove": [
+   "giorno2.js:472"
+  ],
+  "riga": "dice: [[\"MOGLIE\", T(\"Ho un permesso.\"), { volto: \"nervoso\" }], [\"MOGLIE\", T(\"[non dice chi gliel'ha dato]\"), { volto: \"nervoso\" }]] },"
+ },
+ "cosa c'è nel recinto?": {
+  "dove": [
+   "giorno2.js:473"
+  ],
+  "riga": "{ id: \"recinto\", breve: T(\"cosa c'è nel recinto?\"), testo: T(\"Cosa c'è, dentro il recinto?\"), se: { detta: \"recinto\" },"
+ },
+ "Cosa c'è, dentro il recinto?": {
+  "dove": [
+   "giorno2.js:473"
+  ],
+  "riga": "{ id: \"recinto\", breve: T(\"cosa c'è nel recinto?\"), testo: T(\"Cosa c'è, dentro il recinto?\"), se: { detta: \"recinto\" },"
+ },
+ "Brande. Flebo. Un odore che non va via nemmeno con la candeggina.": {
+  "dove": [
+   "giorno2.js:474"
+  ],
+  "riga": "dice: [[\"MOGLIE\", T(\"Brande. Flebo. Un odore che non va via nemmeno con la candeggina.\")],"
+ },
+ "Quelli che *cambiano* li portano nel prefabbricato in fondo. Lì non entra nessuno di noi.": {
+  "dove": [
+   "giorno2.js:475"
+  ],
+  "riga": "[\"MOGLIE\", T(\"Quelli che *cambiano* li portano nel prefabbricato in fondo. Lì non entra nessuno di noi.\"), { d: \"prefabbricato\" }],"
+ },
+ "Di notte li sento grattare contro le pareti.": {
+  "dove": [
+   "giorno2.js:476"
+  ],
+  "riga": "[\"MOGLIE\", T(\"Di notte li sento grattare contro le pareti.\")]] },"
+ },
+ "e i portati via?": {
+  "dove": [
+   "giorno2.js:477"
+  ],
+  "riga": "{ id: \"portati\", breve: T(\"e i portati via?\"), testo: T(\"Quelli che porto al lazzaretto, come stanno?\"), se: { detta: \"recinto\" },"
+ },
+ "Quelli che porto al lazzaretto, come stanno?": {
+  "dove": [
+   "giorno2.js:477"
+  ],
+  "riga": "{ id: \"portati\", breve: T(\"e i portati via?\"), testo: T(\"Quelli che porto al lazzaretto, come stanno?\"), se: { detta: \"recinto\" },"
+ },
+ "Non è un ospedale, dottore.": {
+  "dove": [
+   "giorno2.js:478"
+  ],
+  "riga": "dice: [[\"MOGLIE\", T(\"Non è un ospedale, dottore.\")], [\"MOGLIE\", T(\"Non ne ho mai visto uscire uno.\")]] },"
+ },
+ "Non ne ho mai visto uscire uno.": {
+  "dove": [
+   "giorno2.js:478"
+  ],
+  "riga": "dice: [[\"MOGLIE\", T(\"Non è un ospedale, dottore.\")], [\"MOGLIE\", T(\"Non ne ho mai visto uscire uno.\")]] },"
+ },
+ "Come sta?": {
+  "dove": [
+   "giorno2.js:481",
+   "giorno3.js:660"
+  ],
+  "riga": "{ id: \"come\", breve: T(\"come sta?\"), testo: T(\"Come sta?\"),"
+ },
+ "Da stanotte brucio.": {
+  "dove": [
+   "giorno2.js:482",
+   "giorno3.js:661"
+  ],
+  "riga": "dice: [...(maritoMalato ? [[\"MARITO\", T(\"Da stanotte brucio.\")], [\"MARITO\", T(\"[tossisce]\")]] : [[\"MARITO\", T(\"Come uno che respira col tubo.\")]]),"
+ },
+ "Come uno che respira col tubo.": {
+  "dove": [
+   "giorno2.js:482",
+   "giorno3.js:662"
+  ],
+  "riga": "dice: [...(maritoMalato ? [[\"MARITO\", T(\"Da stanotte brucio.\")], [\"MARITO\", T(\"[tossisce]\")]] : [[\"MARITO\", T(\"Come uno che respira col tubo.\")]]),"
+ },
+ "Lei dice che è l'*asma*. Lei dice tante cose.": {
+  "dove": [
+   "giorno2.js:483"
+  ],
+  "riga": "[\"MARITO\", T(\"Lei dice che è l'*asma*. Lei dice tante cose.\"), { k: \"persona:moglie\" }]] },"
+ },
+ "sua moglie?": {
+  "dove": [
+   "giorno2.js:484",
+   "giorno3.js:663"
+  ],
+  "riga": "{ id: \"moglie\", breve: T(\"sua moglie?\"), testo: T(\"Dove va sua moglie, di notte?\"),"
+ },
+ "Dove va sua moglie, di notte?": {
+  "dove": [
+   "giorno2.js:484"
+  ],
+  "riga": "{ id: \"moglie\", breve: T(\"sua moglie?\"), testo: T(\"Dove va sua moglie, di notte?\"),"
+ },
+ "Alla mensa, dice.": {
+  "dove": [
+   "giorno2.js:485"
+  ],
+  "riga": "dice: [[\"MARITO\", T(\"Alla mensa, dice.\")],"
+ },
+ "Torna all'alba, puzza di candeggina e nasconde la roba sotto il *materasso*, come una gazza.": {
+  "dove": [
+   "giorno2.js:486"
+  ],
+  "riga": "[\"MARITO\", T(\"Torna all'alba, puzza di candeggina e nasconde la roba sotto il *materasso*, come una gazza.\"), { k: \"zona:letto\" }]] },"
+ },
+ "che lavoro faceva?": {
+  "dove": [
+   "giorno2.js:487"
+  ],
+  "riga": "{ id: \"lavoro\", breve: T(\"che lavoro faceva?\"), testo: T(\"Che lavoro faceva?\"),"
+ },
+ "Che lavoro faceva?": {
+  "dove": [
+   "giorno2.js:487"
+  ],
+  "riga": "{ id: \"lavoro\", breve: T(\"che lavoro faceva?\"), testo: T(\"Che lavoro faceva?\"),"
+ },
+ "Il cavatore. Quarant'anni alla cava di pietra, sopra il paese.": {
+  "dove": [
+   "giorno2.js:488"
+  ],
+  "riga": "dice: [[\"MARITO\", T(\"Il cavatore. Quarant'anni alla cava di pietra, sopra il paese.\")], [\"MARITO\", T(\"Poi l'hanno chiusa. Adesso la collina è della ditta.\")]] },"
+ },
+ "Poi l'hanno chiusa. Adesso la collina è della ditta.": {
+  "dove": [
+   "giorno2.js:488"
+  ],
+  "riga": "dice: [[\"MARITO\", T(\"Il cavatore. Quarant'anni alla cava di pietra, sopra il paese.\")], [\"MARITO\", T(\"Poi l'hanno chiusa. Adesso la collina è della ditta.\")]] },"
+ },
+ "Io *sola*, adesso.": {
+  "dove": [
+   "giorno2.js:493"
+  ],
+  "riga": "dice: [[\"SUOCERA\", T(\"Io *sola*, adesso.\"), { d: \"sola\", k: \"zona:porta10\" }],"
+ },
+ "Mio figlio Paolo l'abbiamo *seppellito* martedì. Bara chiusa.": {
+  "dove": [
+   "giorno2.js:494"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Mio figlio Paolo l'abbiamo *seppellito* martedì. Bara chiusa.\"), { d: \"sepolto\" }]] },"
+ },
+ "e la nuora?": {
+  "dove": [
+   "giorno2.js:495"
+  ],
+  "riga": "{ id: \"nuora\", breve: T(\"e la nuora?\"), testo: T(\"Nello stato di famiglia c'è anche sua nuora, Chiara.\"),"
+ },
+ "Nello stato di famiglia c'è anche sua nuora, Chiara.": {
+  "dove": [
+   "giorno2.js:495"
+  ],
+  "riga": "{ id: \"nuora\", breve: T(\"e la nuora?\"), testo: T(\"Nello stato di famiglia c'è anche sua nuora, Chiara.\"),"
+ },
+ "*Partita*. Dai suoi, giù in città, il giorno dopo il funerale.": {
+  "dove": [
+   "giorno2.js:496"
+  ],
+  "riga": "dice: [[\"SUOCERA\", T(\"*Partita*. Dai suoi, giù in città, il giorno dopo il funerale.\"), { d: \"nuora_partita\", k: \"zona:cappotto\" }],"
+ },
+ "Qui non ci voleva più stare.": {
+  "dove": [
+   "giorno2.js:497"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Qui non ci voleva più stare.\")]] },"
+ },
+ "La camera di Paolo. Non ci entra più nessuno.": {
+  "dove": [
+   "giorno2.js:499"
+  ],
+  "riga": "dice: [[\"SUOCERA\", T(\"La camera di Paolo. Non ci entra più nessuno.\"), { volto: \"arrabbiato\" }], [\"SUOCERA\", T(\"Lasciategli almeno quella.\")]] },"
+ },
+ "suo figlio?": {
+  "dove": [
+   "giorno2.js:500",
+   "giorno3.js:622",
+   "giorno3.js:624"
+  ],
+  "riga": "{ id: \"figlio\", breve: T(\"suo figlio?\"), testo: T(\"Com'è morto suo figlio?\"),"
+ },
+ "Com'è morto suo figlio?": {
+  "dove": [
+   "giorno2.js:500"
+  ],
+  "riga": "{ id: \"figlio\", breve: T(\"suo figlio?\"), testo: T(\"Com'è morto suo figlio?\"),"
+ },
+ "La febbre, i bubboni, le dita nere. In quattro giorni.": {
+  "dove": [
+   "giorno2.js:501"
+  ],
+  "riga": "dice: [[\"SUOCERA\", T(\"La febbre, i bubboni, le dita nere. In quattro giorni.\")],"
+ },
+ "Poi sono venuti quelli della ditta e se lo sono portato via. Non ce l'hanno più fatto vedere.": {
+  "dove": [
+   "giorno2.js:502"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Poi sono venuti quelli della ditta e se lo sono portato via. Non ce l'hanno più fatto vedere.\")]] },"
+ },
+ "perché la nasconde?": {
+  "dove": [
+   "giorno2.js:503"
+  ],
+  "riga": "{ id: \"perche\", breve: T(\"perché la nasconde?\"), testo: T(\"Perché la tiene chiusa a chiave?\"), se: { detta: \"non_si_ammala\" },"
+ },
+ "Perché la tiene chiusa a chiave?": {
+  "dove": [
+   "giorno2.js:503"
+  ],
+  "riga": "{ id: \"perche\", breve: T(\"perché la nasconde?\"), testo: T(\"Perché la tiene chiusa a chiave?\"), se: { detta: \"non_si_ammala\" },"
+ },
+ "Al bar dicono che la ditta paga per chi non si ammala. Tanto. Che li cercano casa per casa.": {
+  "dove": [
+   "giorno2.js:504"
+  ],
+  "riga": "dice: [[\"SUOCERA\", T(\"Al bar dicono che la ditta paga per chi non si ammala. Tanto. Che li cercano casa per casa.\")],"
+ },
+ "Mi hanno già preso un figlio. Lei no.": {
+  "dove": [
+   "giorno2.js:505"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Mi hanno già preso un figlio. Lei no.\"), { volto: \"piange\" }]] },"
+ },
+ "Sto bene. Sto sempre bene.": {
+  "dove": [
+   "giorno2.js:508",
+   "giorno3.js:679"
+  ],
+  "riga": "{ id: \"come\", breve: T(\"come stai?\"), testo: T(\"Come stai?\"), dice: [[\"NUORA\", T(\"Sto bene. Sto sempre bene.\")], [\"NUORA\", T(\"È questo che non va.\")]] },"
+ },
+ "È questo che non va.": {
+  "dove": [
+   "giorno2.js:508"
+  ],
+  "riga": "{ id: \"come\", breve: T(\"come stai?\"), testo: T(\"Come stai?\"), dice: [[\"NUORA\", T(\"Sto bene. Sto sempre bene.\")], [\"NUORA\", T(\"È questo che non va.\")]] },"
+ },
+ "Gli sei stata vicina, quando era malato?": {
+  "dove": [
+   "giorno2.js:509"
+  ],
+  "riga": "{ id: \"marito\", breve: T(\"tuo marito?\"), testo: T(\"Gli sei stata vicina, quando era malato?\"),"
+ },
+ "No. Non l'ho mai *toccato*. Dormivo sulla sedia, in cucina.": {
+  "dove": [
+   "giorno2.js:510"
+  ],
+  "riga": "dice: [[\"NUORA\", T(\"No. Non l'ho mai *toccato*. Dormivo sulla sedia, in cucina.\"), { d: \"mai_toccato\", k: \"zona:cuscini\" }],"
+ },
+ "Me l'aveva detto lei.": {
+  "dove": [
+   "giorno2.js:511"
+  ],
+  "riga": "[\"NUORA\", T(\"Me l'aveva detto lei.\")]] },"
+ },
+ "perché sei chiusa qui?": {
+  "dove": [
+   "giorno2.js:512"
+  ],
+  "riga": "{ id: \"chiusa\", breve: T(\"perché sei chiusa qui?\"), testo: T(\"Perché sei chiusa qui dentro?\"),"
+ },
+ "Perché sei chiusa qui dentro?": {
+  "dove": [
+   "giorno2.js:512"
+  ],
+  "riga": "{ id: \"chiusa\", breve: T(\"perché sei chiusa qui?\"), testo: T(\"Perché sei chiusa qui dentro?\"),"
+ },
+ "Dice che è per il mio bene.": {
+  "dove": [
+   "giorno2.js:513"
+  ],
+  "riga": "dice: [[\"NUORA\", T(\"Dice che è per il mio bene.\")], [\"NUORA\", T(\"Mi porta da mangiare due volte al giorno. Di notte la sento pregare dietro la porta.\")]] },"
+ },
+ "Mi porta da mangiare due volte al giorno. Di notte la sento pregare dietro la porta.": {
+  "dove": [
+   "giorno2.js:513"
+  ],
+  "riga": "dice: [[\"NUORA\", T(\"Dice che è per il mio bene.\")], [\"NUORA\", T(\"Mi porta da mangiare due volte al giorno. Di notte la sento pregare dietro la porta.\")]] },"
+ },
+ "Cosa ti hanno detto, quelli della ditta?": {
+  "dove": [
+   "giorno2.js:514"
+  ],
+  "riga": "{ id: \"ditta\", breve: T(\"la ditta?\"), testo: T(\"Cosa ti hanno detto, quelli della ditta?\"), se: { detta: \"niente_nuora\" },"
+ },
+ "Il giorno che l'hanno portato via mi hanno fatto un prelievo. Uno solo.": {
+  "dove": [
+   "giorno2.js:515"
+  ],
+  "riga": "dice: [[\"NUORA\", T(\"Il giorno che l'hanno portato via mi hanno fatto un prelievo. Uno solo.\")],"
+ },
+ "Il giorno dopo sono tornati a cercarmi. Lei ha detto che ero partita.": {
+  "dove": [
+   "giorno2.js:516"
+  ],
+  "riga": "[\"NUORA\", T(\"Il giorno dopo sono tornati a cercarmi. Lei ha detto che ero partita.\")]] },"
+ },
+ "«Mia moglie dorme.»": {
+  "dove": [
+   "giorno2.js:520"
+  ],
+  "riga": "dorme_padre: { chi: \"padre\", testo: T(\"«Mia moglie dorme.»\") },"
+ },
+ "«Lei sta bene.»": {
+  "dove": [
+   "giorno2.js:521"
+  ],
+  "riga": "figlia_bene: { chi: \"padre\", testo: T(\"«Lei sta bene.»\") },"
+ },
+ "«È tornata da voi che scottava.»": {
+  "dove": [
+   "giorno2.js:522"
+  ],
+  "riga": "tornata_scottava: { chi: \"padre\", testo: T(\"«È tornata da voi che scottava.»\") },"
+ },
+ "«La mamma dorme.»": {
+  "dove": [
+   "giorno2.js:523"
+  ],
+  "riga": "dorme_figlia: { chi: \"figlia\", testo: T(\"«La mamma dorme.»\") },"
+ },
+ "«Sto bene.»": {
+  "dove": [
+   "giorno2.js:524",
+   "giorno2.js:532",
+   "giorno3.js:721",
+   "giorno3.js:729",
+   "giorno3.js:734"
+  ],
+  "riga": "sto_bene: { chi: \"figlia\", testo: T(\"«Sto bene.»\") },"
+ },
+ "«Dopo la notte da voi, scottavo.»": {
+  "dove": [
+   "giorno2.js:525"
+  ],
+  "riga": "svegliata_scottavo: { chi: \"figlia\", testo: T(\"«Dopo la notte da voi, scottavo.»\") },"
+ },
+ "«Le tenevo la mano.»": {
+  "dove": [
+   "giorno2.js:526"
+  ],
+  "riga": "le_tenevo: { chi: \"figlia\", testo: T(\"«Le tenevo la mano.»\") },"
+ },
+ "«Voi quelli come lei li portate nel recinto.»": {
+  "dove": [
+   "giorno2.js:527"
+  ],
+  "riga": "bruciate: { chi: figlia ? \"figlia\" : \"padre\", testo: T(\"«Voi quelli come lei li portate nel recinto.»\") },"
+ },
+ "«Mi sono morso la lingua.»": {
+  "dove": [
+   "giorno2.js:528"
+  ],
+  "riga": "lingua: { chi: \"uomo\", testo: T(\"«Mi sono morso la lingua.»\") },"
+ },
+ "«Mio figlio è partito stanotte.»": {
+  "dove": [
+   "giorno2.js:529"
+  ],
+  "riga": "partito: { chi: \"uomo\", testo: T(\"«Mio figlio è partito stanotte.»\") },"
+ },
+ "«Chi li sfama, se mi portate via?»": {
+  "dove": [
+   "giorno2.js:530"
+  ],
+  "riga": "chi_sfama: { chi: \"uomo\", testo: T(\"«Chi li sfama, se mi portate via?»\") },"
+ },
+ "«In cantina ci sono le patate.»": {
+  "dove": [
+   "giorno2.js:531"
+  ],
+  "riga": "patate: { chi: chiApre === \"UOMO\" ? \"uomo\" : chiApre === \"RAGAZZA\" ? \"giovane\" : \"nonna\", testo: T(\"«In cantina ci sono le patate.»\") },"
+ },
+ "«È partito stanotte.»": {
+  "dove": [
+   "giorno2.js:535"
+  ],
+  "riga": "partito_ragazza: { chi: \"giovane\", testo: T(\"«È partito stanotte.»\") },"
+ },
+ "«Dopo la notte da voi, la febbre.»": {
+  "dove": [
+   "giorno2.js:536"
+  ],
+  "riga": "febbre_mattina: { chi: \"giovane\", testo: T(\"«Dopo la notte da voi, la febbre.»\") },"
+ },
+ "«È giù in cantina.»": {
+  "dove": [
+   "giorno2.js:537"
+  ],
+  "riga": "in_cantina: { chi: giovane ? \"giovane\" : uomo ? \"uomo\" : \"nonna\", testo: T(\"«È giù in cantina.»\") },"
+ },
+ "«Tossisco dal '44.»": {
+  "dove": [
+   "giorno2.js:538"
+  ],
+  "riga": "tosse_vecchia: { chi: \"nonna\", testo: T(\"«Tossisco dal '44.»\") },"
+ },
+ "«Davide sta sotto, al riparo.»": {
+  "dove": [
+   "giorno2.js:539"
+  ],
+  "riga": "sotto: { chi: \"nonna\", testo: T(\"«Davide sta sotto, al riparo.»\") },"
+ },
+ "«La ditta vuole i vecchi, per le prove.»": {
+  "dove": [
+   "giorno2.js:540"
+  ],
+  "riga": "vecchi_prove: { chi: \"nonna\", testo: T(\"«La ditta vuole i vecchi, per le prove.»\") },"
+ },
+ "«Dopo la notte da lei, scottavo.»": {
+  "dove": [
+   "giorno2.js:541"
+  ],
+  "riga": "nonna_scottava: { chi: \"nonna\", testo: T(\"«Dopo la notte da lei, scottavo.»\") },"
+ },
+ "«Faccio le notti alla mensa.»": {
+  "dove": [
+   "giorno2.js:543"
+  ],
+  "riga": "mensa: { chi: \"moglie\", testo: T(\"«Faccio le notti alla mensa.»\") },"
+ },
+ "«Mio marito ha l'asma.»": {
+  "dove": [
+   "giorno2.js:544"
+  ],
+  "riga": "asma: { chi: \"moglie\", testo: T(\"«Mio marito ha l'asma.»\") },"
+ },
+ "«Lavoro di notte nel recinto.»": {
+  "dove": [
+   "giorno2.js:545"
+  ],
+  "riga": "recinto: { chi: \"moglie\", testo: T(\"«Lavoro di notte nel recinto.»\") },"
+ },
+ "«Quelli che cambiano li portano nel prefabbricato.»": {
+  "dove": [
+   "giorno2.js:546"
+  ],
+  "riga": "prefabbricato: { chi: \"moglie\", testo: T(\"«Quelli che cambiano li portano nel prefabbricato.»\") },"
+ },
+ "«Medico 6 siete voi.»": {
+  "dove": [
+   "giorno2.js:547"
+  ],
+  "riga": "medico6: { chi: \"moglie\", testo: T(\"«Medico 6 siete voi.»\") },"
+ },
+ "«Io sola, adesso.»": {
+  "dove": [
+   "giorno2.js:549"
+  ],
+  "riga": "sola: { chi: \"suocera\", testo: T(\"«Io sola, adesso.»\") },"
+ },
+ "«Paolo l'abbiamo seppellito martedì.»": {
+  "dove": [
+   "giorno2.js:550"
+  ],
+  "riga": "sepolto: { chi: \"suocera\", testo: T(\"«Paolo l'abbiamo seppellito martedì.»\") },"
+ },
+ "«Chiara è partita, dai suoi.»": {
+  "dove": [
+   "giorno2.js:551"
+  ],
+  "riga": "nuora_partita: { chi: \"suocera\", testo: T(\"«Chiara è partita, dai suoi.»\") },"
+ },
+ "«Ha dormito con lui e non si è ammalata.»": {
+  "dove": [
+   "giorno2.js:552"
+  ],
+  "riga": "non_si_ammala: { chi: \"suocera\", testo: T(\"«Ha dormito con lui e non si è ammalata.»\") },"
+ },
+ "«Nella bara c'erano sassi.»": {
+  "dove": [
+   "giorno2.js:553"
+  ],
+  "riga": "bara_leggera: { chi: \"suocera\", testo: T(\"«Nella bara c'erano sassi.»\") },"
+ },
+ "«È la terra dell'orto.»": {
+  "dove": [
+   "giorno2.js:554"
+  ],
+  "riga": "orto: { chi: \"suocera\", testo: T(\"«È la terra dell'orto.»\") },"
+ },
+ "«Non l'ho mai toccato.»": {
+  "dove": [
+   "giorno2.js:555"
+  ],
+  "riga": "mai_toccato: { chi: \"nuora\", testo: T(\"«Non l'ho mai toccato.»\") },"
+ },
+ "«Non mi è venuto niente.»": {
+  "dove": [
+   "giorno2.js:556"
+  ],
+  "riga": "niente_nuora: { chi: \"nuora\", testo: T(\"«Non mi è venuto niente.»\") },"
+ },
+ "«La fede me l'hanno data loro, in una busta.»": {
+  "dove": [
+   "giorno2.js:557"
+  ],
+  "riga": "fede_busta: { chi: \"nuora\", testo: T(\"«La fede me l'hanno data loro, in una busta.»\") },"
+ },
+ "Dal fondo del corridoio, oggi, nessun respiro: solo unghie sul ferro.": {
+  "dove": [
+   "giorno2.js:561"
+  ],
+  "riga": "silenzio: { casa: \"casa3\", testo: T(\"Dal fondo del corridoio, oggi, nessun respiro: solo unghie sul ferro.\"), breve: T(\"Unghie sul ferro, di là.\"),"
+ },
+ "Unghie sul ferro, di là.": {
+  "dove": [
+   "giorno2.js:561"
+  ],
+  "riga": "silenzio: { casa: \"casa3\", testo: T(\"Dal fondo del corridoio, oggi, nessun respiro: solo unghie sul ferro.\"), breve: T(\"Unghie sul ferro, di là.\"),"
+ },
+ "La madre stanotte è diventata un mostro, in casa. Non l'hanno detto.": {
+  "dove": [
+   "giorno2.js:563"
+  ],
+  "riga": "madre_morta: { casa: \"casa3\", testo: T(\"La madre stanotte è diventata un mostro, in casa. Non l'hanno detto.\"), breve: T(\"La madre è cambiata.\"),"
+ },
+ "La madre è cambiata.": {
+  "dove": [
+   "giorno2.js:563"
+  ],
+  "riga": "madre_morta: { casa: \"casa3\", testo: T(\"La madre stanotte è diventata un mostro, in casa. Non l'hanno detto.\"), breve: T(\"La madre è cambiata.\"),"
+ },
+ "La figlia ha la febbre: occhi lucidi, guance rosse.": {
+  "dove": [
+   "giorno2.js:565"
+  ],
+  "riga": "febbre_figlia: { casa: \"casa3\", testo: T(\"La figlia ha la febbre: occhi lucidi, guance rosse.\"), breve: T(\"La figlia ha la febbre.\"), parte: [\"figlia\", \"occhi\"] },"
+ },
+ "La figlia ha la febbre.": {
+  "dove": [
+   "giorno2.js:565"
+  ],
+  "riga": "febbre_figlia: { casa: \"casa3\", testo: T(\"La figlia ha la febbre: occhi lucidi, guance rosse.\"), breve: T(\"La figlia ha la febbre.\"), parte: [\"figlia\", \"occhi\"] },"
+ },
+ "L'uomo tossisce sangue: viene dai polmoni, non dalla lingua.": {
+  "dove": [
+   "giorno2.js:566"
+  ],
+  "riga": "sangue_uomo: { casa: \"casa5\", testo: T(\"L'uomo tossisce sangue: viene dai polmoni, non dalla lingua.\"), breve: T(\"Tosse col sangue.\"), parte: [\"uomo\", \"bocca\"] },"
+ },
+ "Tosse col sangue.": {
+  "dove": [
+   "giorno2.js:566"
+  ],
+  "riga": "sangue_uomo: { casa: \"casa5\", testo: T(\"L'uomo tossisce sangue: viene dai polmoni, non dalla lingua.\"), breve: T(\"Tosse col sangue.\"), parte: [\"uomo\", \"bocca\"] },"
+ },
+ "Il ripostiglio è vuoto: una brandina sfatta, un cuscino macchiato, una botola col lucchetto nuovo.": {
+  "dove": [
+   "giorno2.js:567"
+  ],
+  "riga": "ripostiglio_vuoto: { casa: \"casa5\", testo: T(\"Il ripostiglio è vuoto: una brandina sfatta, un cuscino macchiato, una botola col lucchetto nuovo.\"),"
+ },
+ "Il ripostiglio vuoto, la botola.": {
+  "dove": [
+   "giorno2.js:568"
+  ],
+  "riga": "breve: T(\"Il ripostiglio vuoto, la botola.\"), zona: [\"soggiorno2\", \"porta\"] },"
+ },
+ "Da sotto il pavimento, un colpo di tosse.": {
+  "dove": [
+   "giorno2.js:569"
+  ],
+  "riga": "tosse_sotto: { casa: \"casa5\", testo: T(\"Da sotto il pavimento, un colpo di tosse.\"), breve: T(\"Una tosse sotto il pavimento.\"), zona: [\"soggiorno2\", \"porta\"] },"
+ },
+ "Una tosse sotto il pavimento.": {
+  "dove": [
+   "giorno2.js:569"
+  ],
+  "riga": "tosse_sotto: { casa: \"casa5\", testo: T(\"Da sotto il pavimento, un colpo di tosse.\"), breve: T(\"Una tosse sotto il pavimento.\"), zona: [\"soggiorno2\", \"porta\"] },"
+ },
+ "La ragazza ha la febbre, da stamattina.": {
+  "dove": [
+   "giorno2.js:570"
+  ],
+  "riga": "febbre_giovane: { casa: \"casa5\", testo: T(\"La ragazza ha la febbre, da stamattina.\"), breve: T(\"La ragazza ha la febbre.\"), parte: [\"giovane\", \"occhi\"] },"
+ },
+ "La ragazza ha la febbre.": {
+  "dove": [
+   "giorno2.js:570"
+  ],
+  "riga": "febbre_giovane: { casa: \"casa5\", testo: T(\"La ragazza ha la febbre, da stamattina.\"), breve: T(\"La ragazza ha la febbre.\"), parte: [\"giovane\", \"occhi\"] },"
+ },
+ "La nonna ha la febbre, da stamattina.": {
+  "dove": [
+   "giorno2.js:573"
+  ],
+  "riga": "febbre_nonna: { casa: \"casa5\", testo: T(\"La nonna ha la febbre, da stamattina.\"), breve: T(\"La nonna ha la febbre.\"), parte: [\"nonna\", \"occhi\"] },"
+ },
+ "La nonna ha la febbre.": {
+  "dove": [
+   "giorno2.js:573"
+  ],
+  "riga": "febbre_nonna: { casa: \"casa5\", testo: T(\"La nonna ha la febbre, da stamattina.\"), breve: T(\"La nonna ha la febbre.\"), parte: [\"nonna\", \"occhi\"] },"
+ },
+ "Dal nastro: un calore debole sotto il pavimento, vicino alla porta. In cantina c'è qualcuno.": {
+  "dove": [
+   "giorno2.js:574"
+  ],
+  "riga": "calore_cantina: { casa: \"casa5\", testo: T(\"Dal nastro: un calore debole sotto il pavimento, vicino alla porta. In cantina c'è qualcuno.\"),"
+ },
+ "Calore sotto il pavimento.": {
+  "dove": [
+   "giorno2.js:575",
+   "giorno3.js:769"
+  ],
+  "riga": "breve: T(\"Calore sotto il pavimento.\"), zona: [\"soggiorno2\", \"porta\"], ir: true },"
+ },
+ "Nella stufa spenta, al posto della legna, un camice bianco col triangolo della Panacea.": {
+  "dove": [
+   "giorno2.js:577"
+  ],
+  "riga": "camice: { casa: \"casa2\", testo: T(\"Nella stufa spenta, al posto della legna, un camice bianco col triangolo della Panacea.\"),"
+ },
+ "Il camice della Panacea.": {
+  "dove": [
+   "giorno2.js:578"
+  ],
+  "riga": "breve: T(\"Il camice della Panacea.\"), zona: [\"monolocale\", \"stufa\"] },"
+ },
+ "Il nebulizzatore del marito è nuovo, della Panacea: «riservato ai dipendenti e ai loro familiari».": {
+  "dove": [
+   "giorno2.js:579"
+  ],
+  "riga": "nebulizzatore: { casa: \"casa2\", testo: T(\"Il nebulizzatore del marito è nuovo, della Panacea: «riservato ai dipendenti e ai loro familiari».\"),"
+ },
+ "Il nebulizzatore della ditta.": {
+  "dove": [
+   "giorno2.js:580"
+  ],
+  "riga": "breve: T(\"Il nebulizzatore della ditta.\"), zona: [\"monolocale\", \"nebulizzatore\"] },"
+ },
+ "Sotto il materasso della moglie, una cartella della Panacea: le schede dei portati via, con un numero. {0}. In fondo: «MEDICO 6 · MALVENTO», e un foglio del 1998: «MEDICO 6 · PIETRASCURA».": {
+  "dove": [
+   "giorno2.js:583"
+  ],
+  "riga": "testo: T`Sotto il materasso della moglie, una cartella della Panacea: le schede dei portati via, con un numero. ${schede.join(\"; \")}. In fondo: «MEDICO 6 · MALVENTO», e un foglio del 1998: «MEDICO 6 · PIETRASCURA».`,"
+ },
+ "La cartella della ditta.": {
+  "dove": [
+   "giorno2.js:584"
+  ],
+  "riga": "breve: T(\"La cartella della ditta.\"), zona: [\"monolocale\", \"letto\"] },"
+ },
+ "Il marito ha le labbra viola e le unghie blu da vent'anni: è la polvere della cava, non la peste.": {
+  "dove": [
+   "giorno2.js:585"
+  ],
+  "riga": "silicosi: { casa: \"casa2\", testo: T(\"Il marito ha le labbra viola e le unghie blu da vent'anni: è la polvere della cava, non la peste.\"),"
+ },
+ "Labbra viola: la cava.": {
+  "dove": [
+   "giorno2.js:586"
+  ],
+  "riga": "breve: T(\"Labbra viola: la cava.\"), parte: [\"marito\", \"mani\"] },"
+ },
+ "Il marito ha la febbre da stanotte: non è l'asma.": {
+  "dove": [
+   "giorno2.js:587"
+  ],
+  "riga": "...(maritoMalato ? { febbre_marito: { casa: \"casa2\", testo: T(\"Il marito ha la febbre da stanotte: non è l'asma.\"), breve: T(\"Il marito ha la febbre.\"),"
+ },
+ "Il marito ha la febbre.": {
+  "dove": [
+   "giorno2.js:587"
+  ],
+  "riga": "...(maritoMalato ? { febbre_marito: { casa: \"casa2\", testo: T(\"Il marito ha la febbre da stanotte: non è l'asma.\"), breve: T(\"Il marito ha la febbre.\"),"
+ },
+ "In cucina, un cappotto rosso da ragazza; in tasca, un biglietto della corriera mai timbrato.": {
+  "dove": [
+   "giorno2.js:590"
+  ],
+  "riga": "cappotto: { casa: \"casa10\", testo: T(\"In cucina, un cappotto rosso da ragazza; in tasca, un biglietto della corriera mai timbrato.\"),"
+ },
+ "Il cappotto rosso.": {
+  "dove": [
+   "giorno2.js:591"
+  ],
+  "riga": "breve: T(\"Il cappotto rosso.\"), zona: [\"cucina10\", \"cappotto\"] },"
+ },
+ "Dietro la porta della camera, chiusa a chiave, qualcuno respira.": {
+  "dove": [
+   "giorno2.js:592"
+  ],
+  "riga": "respiro_camera: { casa: \"casa10\", testo: T(\"Dietro la porta della camera, chiusa a chiave, qualcuno respira.\"), breve: T(\"Un respiro dietro la porta.\"),"
+ },
+ "Un respiro dietro la porta.": {
+  "dove": [
+   "giorno2.js:592"
+  ],
+  "riga": "respiro_camera: { casa: \"casa10\", testo: T(\"Dietro la porta della camera, chiusa a chiave, qualcuno respira.\"), breve: T(\"Un respiro dietro la porta.\"),"
+ },
+ "Dal nastro: calore dietro la porta della camera. C'è qualcuno seduto.": {
+  "dove": [
+   "giorno2.js:594"
+  ],
+  "riga": "calore_camera10: { casa: \"casa10\", testo: T(\"Dal nastro: calore dietro la porta della camera. C'è qualcuno seduto.\"), breve: T(\"Calore dietro la porta.\"),"
+ },
+ "Sul comodino, una ricevuta della Panacea: «Restituiti alla famiglia: fede nuziale, orologio. Salma: trattenuta per gli accertamenti».": {
+  "dove": [
+   "giorno2.js:596"
+  ],
+  "riga": "ricevuta: { casa: \"casa10\", testo: T(\"Sul comodino, una ricevuta della Panacea: «Restituiti alla famiglia: fede nuziale, orologio. Salma: trattenuta per gli accertamenti».\"),"
+ },
+ "«Salma trattenuta».": {
+  "dove": [
+   "giorno2.js:597"
+  ],
+  "riga": "breve: T(\"«Salma trattenuta».\"), zona: [\"camera10\", \"comodino\"] },"
+ },
+ "Nel letto matrimoniale due cuscini schiacciati: ci dormivano in due, fino all'ultimo.": {
+  "dove": [
+   "giorno2.js:598"
+  ],
+  "riga": "due_cuscini: { casa: \"casa10\", testo: T(\"Nel letto matrimoniale due cuscini schiacciati: ci dormivano in due, fino all'ultimo.\"), breve: T(\"Due cuscini.\"),"
+ },
+ "Due cuscini.": {
+  "dove": [
+   "giorno2.js:598"
+  ],
+  "riga": "due_cuscini: { casa: \"casa10\", testo: T(\"Nel letto matrimoniale due cuscini schiacciati: ci dormivano in due, fino all'ultimo.\"), breve: T(\"Due cuscini.\"),"
+ },
+ "Una tanica di candeggina quasi vuota: qualcuno ha lavato un malato, per giorni.": {
+  "dove": [
+   "giorno2.js:600"
+  ],
+  "riga": "candeggina: { casa: \"casa10\", testo: T(\"Una tanica di candeggina quasi vuota: qualcuno ha lavato un malato, per giorni.\"), breve: T(\"La candeggina.\"),"
+ },
+ "La candeggina.": {
+  "dove": [
+   "giorno2.js:600"
+  ],
+  "riga": "candeggina: { casa: \"casa10\", testo: T(\"Una tanica di candeggina quasi vuota: qualcuno ha lavato un malato, per giorni.\"), breve: T(\"La candeggina.\"),"
+ },
+ "La nuora ha dormito col marito malato fino alla fine, e non si è ammalata: né febbre né segni.": {
+  "dove": [
+   "giorno2.js:602"
+  ],
+  "riga": "immune: { casa: \"casa10\", testo: T(\"La nuora ha dormito col marito malato fino alla fine, e non si è ammalata: né febbre né segni.\"),"
+ },
+ "Non si ammala.": {
+  "dove": [
+   "giorno2.js:603"
+  ],
+  "riga": "breve: T(\"Non si ammala.\"), da: \"nuora\" },"
+ },
+ "Non dorme. Guardatela.": {
+  "dove": [
+   "giorno2.js:613"
+  ],
+  "riga": "dice: righe([\"TU\", T(\"Non dorme. Guardatela.\")],"
+ },
+ "Stanotte si è alzata. Le tenevo la *mano*.": {
+  "dove": [
+   "giorno2.js:615"
+  ],
+  "riga": "figlia && [\"FIGLIA\", T(\"Stanotte si è alzata. Le tenevo la *mano*.\"), { d: \"le_tenevo\", k: \"persona:madre\", volto: \"piange\" }],"
+ },
+ "È ancora lei. Ogni tanto mi guarda come prima.": {
+  "dove": [
+   "giorno2.js:616"
+  ],
+  "riga": "padre && [\"PADRE\", T(\"È ancora lei. Ogni tanto mi guarda come prima.\")],"
+ },
+ "Voi quelli come lei li portate nel *recinto*.": {
+  "dove": [
+   "giorno2.js:617"
+  ],
+  "riga": "[figlia ? \"FIGLIA\" : \"PADRE\", T(\"Voi quelli come lei li portate nel *recinto*.\"), { d: \"bruciate\", ...(figlia ? { volto: \"piange\" } : {}) }]),"
+ },
+ "Hai la febbre.": {
+  "dove": [
+   "giorno2.js:620",
+   "giorno2.js:649",
+   "giorno3.js:838",
+   "giorno3.js:846"
+  ],
+  "riga": "dice: righe([\"TU\", T(\"Hai la febbre.\")], [\"FIGLIA\", T(\"È il caldo della coperta.\")],"
+ },
+ "Lasciatela stare! Lei no!": {
+  "dove": [
+   "giorno2.js:621"
+  ],
+  "riga": "padre ? [\"PADRE\", T(\"Lasciatela stare! Lei no!\")] : [\"FIGLIA\", T(\"Non portatemi via. Qui non c'è più nessuno.\")]),"
+ },
+ "Non portatemi via. Qui non c'è più nessuno.": {
+  "dove": [
+   "giorno2.js:621"
+  ],
+  "riga": "padre ? [\"PADRE\", T(\"Lasciatela stare! Lei no!\")] : [\"FIGLIA\", T(\"Non portatemi via. Qui non c'è più nessuno.\")]),"
+ },
+ "Tua figlia ha la febbre.": {
+  "dove": [
+   "giorno2.js:624"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Tua figlia ha la febbre.\")], [\"PADRE\", T(\"[chiude gli occhi]\")], [\"PADRE\", T(\"Lo so. Lo so che ce l'ha.\")]] }] : []),"
+ },
+ "[chiude gli occhi]": {
+  "dove": [
+   "giorno2.js:624"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Tua figlia ha la febbre.\")], [\"PADRE\", T(\"[chiude gli occhi]\")], [\"PADRE\", T(\"Lo so. Lo so che ce l'ha.\")]] }] : []),"
+ },
+ "Lo so. Lo so che ce l'ha.": {
+  "dove": [
+   "giorno2.js:624"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Tua figlia ha la febbre.\")], [\"PADRE\", T(\"[chiude gli occhi]\")], [\"PADRE\", T(\"Lo so. Lo so che ce l'ha.\")]] }] : []),"
+ },
+ "Non è la lingua. Viene dai polmoni.": {
+  "dove": [
+   "giorno2.js:627"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Non è la lingua. Viene dai polmoni.\")], [\"UOMO\", T(\"E allora? Mi portate via?\"), { volto: \"arrabbiato\" }],"
+ },
+ "E allora? Mi portate via?": {
+  "dove": [
+   "giorno2.js:627"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Non è la lingua. Viene dai polmoni.\")], [\"UOMO\", T(\"E allora? Mi portate via?\"), { volto: \"arrabbiato\" }],"
+ },
+ "Chi li sfama, questi, se mi portate via?": {
+  "dove": [
+   "giorno2.js:628"
+  ],
+  "riga": "[\"UOMO\", T(\"Chi li sfama, questi, se mi portate via?\"), { d: \"chi_sfama\", volto: \"arrabbiato\" }]],"
+ },
+ "Partito. E chi tossisce sotto il pavimento?": {
+  "dove": [
+   "giorno2.js:633"
+  ],
+  "riga": "dice: righe([\"TU\", T(\"Partito. E chi tossisce sotto il pavimento?\")],"
+ },
+ "È giù in *cantina*. L'abbiamo portato giù stanotte.": {
+  "dove": [
+   "giorno2.js:635"
+  ],
+  "riga": "giovane ? [\"RAGAZZA\", T(\"È giù in *cantina*. L'abbiamo portato giù stanotte.\"), { d: \"in_cantina\", k: \"zona:porta\" }]"
+ },
+ "È giù in *cantina*. Al buio non lo trovate, pensavamo.": {
+  "dove": [
+   "giorno2.js:636"
+  ],
+  "riga": ": uomo ? [\"UOMO\", T(\"È giù in *cantina*. Al buio non lo trovate, pensavamo.\"), { d: \"in_cantina\", k: \"zona:porta\" }]"
+ },
+ "Ve l'avevo detto. Sta *sotto*, in cantina.": {
+  "dove": [
+   "giorno2.js:637"
+  ],
+  "riga": ": [\"NONNA\", T(\"Ve l'avevo detto. Sta *sotto*, in cantina.\"), { d: \"in_cantina\", k: \"zona:porta\" }],"
+ },
+ "Le patate tossiscono?": {
+  "dove": [
+   "giorno2.js:640"
+  ],
+  "riga": "dice: righe([\"TU\", T(\"Le patate tossiscono?\")], nonna && chiApre !== \"NONNA\" ? [\"NONNA\", T(\"Le patate sono finite a settembre.\")] : null,"
+ },
+ "Andate via, dottore.": {
+  "dove": [
+   "giorno2.js:641"
+  ],
+  "riga": "uomo ? [\"UOMO\", T(\"Andate via, dottore.\"), { volto: \"arrabbiato\" }] : null) },"
+ },
+ "Ha la febbre, signora.": {
+  "dove": [
+   "giorno2.js:644"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Ha la febbre, signora.\")], [\"NONNA\", T(\"Allora è arrivata anche per me.\")], [\"NONNA\", T(\"Come diceva mia nonna: arriva col medico.\")]],"
+ },
+ "Allora è arrivata anche per me.": {
+  "dove": [
+   "giorno2.js:644"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Ha la febbre, signora.\")], [\"NONNA\", T(\"Allora è arrivata anche per me.\")], [\"NONNA\", T(\"Come diceva mia nonna: arriva col medico.\")]],"
+ },
+ "Come diceva mia nonna: arriva col medico.": {
+  "dove": [
+   "giorno2.js:644"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Ha la febbre, signora.\")], [\"NONNA\", T(\"Allora è arrivata anche per me.\")], [\"NONNA\", T(\"Come diceva mia nonna: arriva col medico.\")]],"
+ },
+ "Tosse secca, niente sangue.": {
+  "dove": [
+   "giorno2.js:647"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Tosse secca, niente sangue.\")], [\"NONNA\", T(\"Ve l'ho detto. È la mia età.\")]] }] : []),"
+ },
+ "Ve l'ho detto. È la mia età.": {
+  "dove": [
+   "giorno2.js:647"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Tosse secca, niente sangue.\")], [\"NONNA\", T(\"Ve l'ho detto. È la mia età.\")]] }] : []),"
+ },
+ "Da stamattina.": {
+  "dove": [
+   "giorno2.js:649",
+   "giorno3.js:838"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Hai la febbre.\")], [\"RAGAZZA\", T(\"Da stamattina.\")], [\"RAGAZZA\", T(\"Ieri stavo bene. Ho dormito da voi.\")]],"
+ },
+ "Ieri stavo bene. Ho dormito da voi.": {
+  "dove": [
+   "giorno2.js:649"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Hai la febbre.\")], [\"RAGAZZA\", T(\"Da stamattina.\")], [\"RAGAZZA\", T(\"Ieri stavo bene. Ho dormito da voi.\")]],"
+ },
+ "Non lavori alla mensa. Lavori per la Panacea.": {
+  "dove": [
+   "giorno2.js:655"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Non lavori alla mensa. Lavori per la Panacea.\")], [\"MOGLIE\", T(\"[stringe le braccia]\"), { volto: \"nervoso\" }],"
+ },
+ "[stringe le braccia]": {
+  "dove": [
+   "giorno2.js:655"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Non lavori alla mensa. Lavori per la Panacea.\")], [\"MOGLIE\", T(\"[stringe le braccia]\"), { volto: \"nervoso\" }],"
+ },
+ "Va bene. Lavoro per loro. Di notte, nel *recinto*.": {
+  "dove": [
+   "giorno2.js:656"
+  ],
+  "riga": "[\"MOGLIE\", T(\"Va bene. Lavoro per loro. Di notte, nel *recinto*.\"), { d: \"recinto\", k: \"persona:moglie\", volto: \"nervoso\" }],"
+ },
+ "Lavo i pavimenti, cambio le brande. Con quello che pagano, compro le medicine a lui.": {
+  "dove": [
+   "giorno2.js:657"
+  ],
+  "riga": "[\"MOGLIE\", T(\"Lavo i pavimenti, cambio le brande. Con quello che pagano, compro le medicine a lui.\"), { volto: \"nervoso\" }],"
+ },
+ "In paese non lo deve sapere nessuno. Mi ammazzano.": {
+  "dove": [
+   "giorno2.js:658"
+  ],
+  "riga": "[\"MOGLIE\", T(\"In paese non lo deve sapere nessuno. Mi ammazzano.\"), { volto: \"nervoso\" }]],"
+ },
+ "Dita a spatola, unghie blu. Non è asma: è da anni che ti manca l'aria.": {
+  "dove": [
+   "giorno2.js:661"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Dita a spatola, unghie blu. Non è asma: è da anni che ti manca l'aria.\")], [\"MARITO\", T(\"Asma… La chiama così, lei.\")],"
+ },
+ "Asma… La chiama così, lei.": {
+  "dove": [
+   "giorno2.js:661"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Dita a spatola, unghie blu. Non è asma: è da anni che ti manca l'aria.\")], [\"MARITO\", T(\"Asma… La chiama così, lei.\")],"
+ },
+ "È la cava. Quarant'anni a tagliare la pietra: ho i polmoni pieni di polvere.": {
+  "dove": [
+   "giorno2.js:662"
+  ],
+  "riga": "[\"MARITO\", T(\"È la cava. Quarant'anni a tagliare la pietra: ho i polmoni pieni di polvere.\")],"
+ },
+ "Le labbra viola ce le ho da vent'anni, dottore. La vostra peste non c'entra.": {
+  "dove": [
+   "giorno2.js:663"
+  ],
+  "riga": "[\"MARITO\", T(\"Le labbra viola ce le ho da vent'anni, dottore. La vostra peste non c'entra.\")]],"
+ },
+ "L'asma non fa venire la febbre.": {
+  "dove": [
+   "giorno2.js:666"
+  ],
+  "riga": "dice: [[\"TU\", T(\"L'asma non fa venire la febbre.\")], [\"MOGLIE\", T(\"[guarda il marito]\"), { volto: \"nervoso\" }],"
+ },
+ "[guarda il marito]": {
+  "dove": [
+   "giorno2.js:666"
+  ],
+  "riga": "dice: [[\"TU\", T(\"L'asma non fa venire la febbre.\")], [\"MOGLIE\", T(\"[guarda il marito]\"), { volto: \"nervoso\" }],"
+ },
+ "Da stanotte. Scotta da stanotte.": {
+  "dove": [
+   "giorno2.js:667"
+  ],
+  "riga": "[\"MOGLIE\", T(\"Da stanotte. Scotta da stanotte.\"), { volto: \"nervoso\" }],"
+ },
+ "Non portatelo via. Io lo so cosa c'è, là dentro.": {
+  "dove": [
+   "giorno2.js:668"
+  ],
+  "riga": "[\"MOGLIE\", T(\"Non portatelo via. Io lo so cosa c'è, là dentro.\"), { volto: \"nervoso\" }]],"
+ },
+ "Questa l'hai presa nel recinto.": {
+  "dove": [
+   "giorno2.js:671"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Questa l'hai presa nel recinto.\")], [\"MOGLIE\", T(\"Sì. Dall'ufficio, una notte che non c'era nessuno.\"), { volto: \"arrabbiato\" }],"
+ },
+ "Sì. Dall'ufficio, una notte che non c'era nessuno.": {
+  "dove": [
+   "giorno2.js:671"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Questa l'hai presa nel recinto.\")], [\"MOGLIE\", T(\"Sì. Dall'ufficio, una notte che non c'era nessuno.\"), { volto: \"arrabbiato\" }],"
+ },
+ "Volevo che qualcuno sapesse cosa fanno, là dentro.": {
+  "dove": [
+   "giorno2.js:672"
+  ],
+  "riga": "[\"MOGLIE\", T(\"Volevo che qualcuno sapesse cosa fanno, là dentro.\"), { volto: \"arrabbiato\" }],"
+ },
+ "Guardate l'ultimo foglio. «Medico 6, Malvento.»": {
+  "dove": [
+   "giorno2.js:673"
+  ],
+  "riga": "[\"MOGLIE\", T(\"Guardate l'ultimo foglio. «Medico 6, Malvento.»\"), { volto: \"arrabbiato\" }],"
+ },
+ "Medico sei siete *voi*, dottore.": {
+  "dove": [
+   "giorno2.js:674"
+  ],
+  "riga": "[\"MOGLIE\", T(\"Medico sei siete *voi*, dottore.\"), { d: \"medico6\", k: \"persona:moglie\", volto: \"arrabbiato\" }]],"
+ },
+ "In questa casa non sei sola.": {
+  "dove": [
+   "giorno2.js:680"
+  ],
+  "riga": "dice: [[\"TU\", T(\"In questa casa non sei sola.\")], [\"SUOCERA\", T(\"[piange]\"), { volto: \"piange\" }],"
+ },
+ "È di là. L'ho chiusa io, a chiave.": {
+  "dove": [
+   "giorno2.js:681"
+  ],
+  "riga": "[\"SUOCERA\", T(\"È di là. L'ho chiusa io, a chiave.\"), { volto: \"piange\" }],"
+ },
+ "Ha dormito con Paolo fino all'ultima notte, e non si è *ammalata*. Niente.": {
+  "dove": [
+   "giorno2.js:682"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Ha dormito con Paolo fino all'ultima notte, e non si è *ammalata*. Niente.\"), { d: \"non_si_ammala\", k: \"zona:porta10\", volto: \"piange\" }],"
+ },
+ "Se la ditta lo viene a sapere, se la prende. Come si sono presi lui.": {
+  "dove": [
+   "giorno2.js:683"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Se la ditta lo viene a sapere, se la prende. Come si sono presi lui.\"), { volto: \"piange\" }]],"
+ },
+ "Paolo non è in quella bara. La ditta se l'è tenuto.": {
+  "dove": [
+   "giorno2.js:686"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Paolo non è in quella bara. La ditta se l'è tenuto.\")], [\"SUOCERA\", T(\"[si porta le mani alla bocca]\"), { volto: \"piange\" }],"
+ },
+ "[si porta le mani alla bocca]": {
+  "dove": [
+   "giorno2.js:686"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Paolo non è in quella bara. La ditta se l'è tenuto.\")], [\"SUOCERA\", T(\"[si porta le mani alla bocca]\"), { volto: \"piange\" }],"
+ },
+ "Lo sapevo. La bara era *leggera*. Troppo leggera, per il mio Paolo.": {
+  "dove": [
+   "giorno2.js:687"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Lo sapevo. La bara era *leggera*. Troppo leggera, per il mio Paolo.\"), { d: \"bara_leggera\", k: \"parte:suocera.mani\", volto: \"piange\" }],"
+ },
+ "Domenica notte sono andata al cimitero e l'ho aperta. Con le mani.": {
+  "dove": [
+   "giorno2.js:688"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Domenica notte sono andata al cimitero e l'ho aperta. Con le mani.\"), { volto: \"piange\" }],"
+ },
+ "Dentro c'erano sassi.": {
+  "dove": [
+   "giorno2.js:689"
+  ],
+  "riga": "[\"SUOCERA\", T(\"Dentro c'erano sassi.\"), { volto: \"piange\" }]],"
+ },
+ "L'hai curato tu. Fino all'ultimo.": {
+  "dove": [
+   "giorno2.js:694"
+  ],
+  "riga": "dice: [[\"TU\", T(\"L'hai curato tu. Fino all'ultimo.\")], [\"NUORA\", T(\"[piange]\"), { volto: \"piange\" }],"
+ },
+ "Ho dormito con lui fino all'ultima notte. Lo lavavo io, lo cambiavo io.": {
+  "dove": [
+   "giorno2.js:695"
+  ],
+  "riga": "[\"NUORA\", T(\"Ho dormito con lui fino all'ultima notte. Lo lavavo io, lo cambiavo io.\"), { volto: \"piange\" }],"
+ },
+ "E non mi è venuto *niente*. Né la febbre, né i segni. Niente.": {
+  "dove": [
+   "giorno2.js:696"
+  ],
+  "riga": "[\"NUORA\", T(\"E non mi è venuto *niente*. Né la febbre, né i segni. Niente.\"), { d: \"niente_nuora\", k: \"persona:nuora\", volto: \"piange\" }],"
+ },
+ "Perché io no, dottore? Perché lui sì e io no?": {
+  "dove": [
+   "giorno2.js:697"
+  ],
+  "riga": "[\"NUORA\", T(\"Perché io no, dottore? Perché lui sì e io no?\"), { volto: \"piange\" }]],"
+ },
+ "A te hanno dato la fede. E Paolo?": {
+  "dove": [
+   "giorno2.js:700"
+  ],
+  "riga": "dice: [[\"TU\", T(\"A te hanno dato la fede. E Paolo?\")], [\"NUORA\", T(\"Mi hanno detto che era morto. Che era meglio non vederlo.\")],"
+ },
+ "Mi hanno detto che era morto. Che era meglio non vederlo.": {
+  "dove": [
+   "giorno2.js:700"
+  ],
+  "riga": "dice: [[\"TU\", T(\"A te hanno dato la fede. E Paolo?\")], [\"NUORA\", T(\"Mi hanno detto che era morto. Che era meglio non vederlo.\")],"
+ },
+ "Allora dov'è, adesso?": {
+  "dove": [
+   "giorno2.js:701"
+  ],
+  "riga": "[\"NUORA\", T(\"Allora dov'è, adesso?\"), { volto: \"piange\" }]],"
+ },
+ "[non ha la forza di rispondere]": {
+  "dove": [
+   "giorno2.js:706"
+  ],
+  "riga": "padre: { _: [[\"PADRE\", T(\"[non ha la forza di rispondere]\")]] },"
+ },
+ "[non risponde. Non risponderà più]": {
+  "dove": [
+   "giorno2.js:708"
+  ],
+  "riga": "madre: { _: [[null, T(\"[non risponde. Non risponderà più]\")]] },"
+ },
+ "Mia madre non la tocca nessuno.": {
+  "dove": [
+   "giorno2.js:709"
+  ],
+  "riga": "uomo: { leggenda: [[\"UOMO\", T(\"Favole da vecchi.\")]], vecchi_prove: [[\"UOMO\", T(\"Mia madre non la tocca nessuno.\")]], _: [[\"UOMO\", T(\"Non so di cosa parlate.\")]] },"
+ },
+ "Partito? Mio figlio non ha mai saputo mentire.": {
+  "dove": [
+   "giorno2.js:711"
+  ],
+  "riga": "nonna: { partito: [[\"NONNA\", T(\"Partito? Mio figlio non ha mai saputo mentire.\")]], _: [[\"NONNA\", T(\"Eh? Parli più forte, con quel becco.\")]] },"
+ },
+ "Gliel'ha detto il medico della mutua. Asma.": {
+  "dove": [
+   "giorno2.js:712"
+  ],
+  "riga": "moglie: { asma: [[\"MOGLIE\", T(\"Gliel'ha detto il medico della mutua. Asma.\")]], _: [[\"MOGLIE\", T(\"E allora?\")]] },"
+ },
+ "La mensa… Sì. Così dice lei.": {
+  "dove": [
+   "giorno2.js:713"
+  ],
+  "riga": "marito: { mensa: [[\"MARITO\", T(\"La mensa… Sì. Così dice lei.\")]], recinto: [[\"MARITO\", T(\"Lo so. Lo so da un pezzo.\")]],"
+ },
+ "Lo so. Lo so da un pezzo.": {
+  "dove": [
+   "giorno2.js:713"
+  ],
+  "riga": "marito: { mensa: [[\"MARITO\", T(\"La mensa… Sì. Così dice lei.\")]], recinto: [[\"MARITO\", T(\"Lo so. Lo so da un pezzo.\")]],"
+ },
+ "Gliel'avevo detto, di non portare niente a casa.": {
+  "dove": [
+   "giorno2.js:714"
+  ],
+  "riga": "cartella: [[\"MARITO\", T(\"Gliel'avevo detto, di non portare niente a casa.\")]], _: [[\"MARITO\", T(\"[tossisce]\")]] },"
+ },
+ "Ve l'ho detto. Non si ammala. Non so se è una grazia o un castigo.": {
+  "dove": [
+   "giorno2.js:715"
+  ],
+  "riga": "suocera: { non_si_ammala: [[\"SUOCERA\", T(\"Ve l'ho detto. Non si ammala. Non so se è una grazia o un castigo.\")]],"
+ },
+ "Ho l'orto dietro casa. Le patate non si cavano da sole.": {
+  "dove": [
+   "giorno2.js:716"
+  ],
+  "riga": "orto: [[\"SUOCERA\", T(\"Ho l'orto dietro casa. Le patate non si cavano da sole.\")]], _: [[\"SUOCERA\", T(\"Non capisco cosa volete da me.\")]] },"
+ },
+ "Non capisco cosa volete da me.": {
+  "dove": [
+   "giorno2.js:716",
+   "giorno3.js:900"
+  ],
+  "riga": "orto: [[\"SUOCERA\", T(\"Ho l'orto dietro casa. Le patate non si cavano da sole.\")]], _: [[\"SUOCERA\", T(\"Non capisco cosa volete da me.\")]] },"
+ },
+ "È il mio. Me l'ha regalato lui, per le nozze.": {
+  "dove": [
+   "giorno2.js:717"
+  ],
+  "riga": "nuora: { cappotto: [[\"NUORA\", T(\"È il mio. Me l'ha regalato lui, per le nozze.\")]], nuora_partita: [[\"NUORA\", T(\"Partita? È lei che non mi lascia uscire.\")]],"
+ },
+ "Partita? È lei che non mi lascia uscire.": {
+  "dove": [
+   "giorno2.js:717"
+  ],
+  "riga": "nuora: { cappotto: [[\"NUORA\", T(\"È il mio. Me l'ha regalato lui, per le nozze.\")]], nuora_partita: [[\"NUORA\", T(\"Partita? È lei che non mi lascia uscire.\")]],"
+ },
+ "[non ti guarda]": {
+  "dove": [
+   "giorno2.js:718",
+   "giorno3.js:616",
+   "giorno3.js:901"
+  ],
+  "riga": "_: [[\"NUORA\", T(\"[non ti guarda]\")]] },"
+ },
+ "Rossi Pietro. È mio padre.": {
+  "dove": [
+   "giorno2.js:721"
+  ],
+  "riga": "REAZIONI.padre.cartella = [[\"PADRE\", T(\"Rossi Pietro. È mio padre.\")], [\"PADRE\", T(\"«Cambiato»… Cosa gli fanno, là dentro?\")]];"
+ },
+ "«Cambiato»… Cosa gli fanno, là dentro?": {
+  "dove": [
+   "giorno2.js:721"
+  ],
+  "riga": "REAZIONI.padre.cartella = [[\"PADRE\", T(\"Rossi Pietro. È mio padre.\")], [\"PADRE\", T(\"«Cambiato»… Cosa gli fanno, là dentro?\")]];"
+ },
+ "Il nonno…": {
+  "dove": [
+   "giorno2.js:722"
+  ],
+  "riga": "REAZIONI.figlia.cartella = [[\"FIGLIA\", T(\"Il nonno…\")], [\"FIGLIA\", T(\"[legge il foglio due volte, senza dire niente]\")]];"
+ },
+ "[legge il foglio due volte, senza dire niente]": {
+  "dove": [
+   "giorno2.js:722"
+  ],
+  "riga": "REAZIONI.figlia.cartella = [[\"FIGLIA\", T(\"Il nonno…\")], [\"FIGLIA\", T(\"[legge il foglio due volte, senza dire niente]\")]];"
+ },
+ "Non so leggere quella roba. Portatela via.": {
+  "dove": [
+   "giorno2.js:723"
+  ],
+  "riga": "REAZIONI.uomo.cartella = [[\"UOMO\", T(\"Non so leggere quella roba. Portatela via.\")]];"
+ },
+ "Ci sono anche i nomi di quelli di ieri?": {
+  "dove": [
+   "giorno2.js:724"
+  ],
+  "riga": "REAZIONI.giovane.cartella = [[\"RAGAZZA\", T(\"Ci sono anche i nomi di quelli di ieri?\")]];"
+ },
+ "Prova uno, prova due… Come i conigli di mio padre.": {
+  "dove": [
+   "giorno2.js:725"
+  ],
+  "riga": "REAZIONI.nonna.cartella = [[\"NONNA\", T(\"Prova uno, prova due… Come i conigli di mio padre.\")]];"
+ },
+ "Serra Paolo, prova due.": {
+  "dove": [
+   "giorno2.js:726"
+  ],
+  "riga": "REAZIONI.nuora.cartella = [[\"NUORA\", T(\"Serra Paolo, prova due.\")], [\"NUORA\", T(\"[si stringe la fede in mano]\")]];"
+ },
+ "[si stringe la fede in mano]": {
+  "dove": [
+   "giorno2.js:726"
+  ],
+  "riga": "REAZIONI.nuora.cartella = [[\"NUORA\", T(\"Serra Paolo, prova due.\")], [\"NUORA\", T(\"[si stringe la fede in mano]\")]];"
+ },
+ "«dorme» (il marito)": {
+  "dove": [
+   "giorno2.js:730"
+  ],
+  "riga": "\"d:dorme_padre\": { madre: T(\"«dorme» (il marito)\") },"
+ },
+ "«dorme» (la figlia)": {
+  "dove": [
+   "giorno2.js:731"
+  ],
+  "riga": "\"d:dorme_figlia\": { madre: T(\"«dorme» (la figlia)\") },"
+ },
+ "dalla camera, nessun respiro: unghie sul ferro": {
+  "dove": [
+   "giorno2.js:732"
+  ],
+  "riga": "\"p:silenzio\": { madre: T(\"dalla camera, nessun respiro: unghie sul ferro\") },"
+ },
+ "cambiata stanotte, in casa: non è più lei": {
+  "dove": [
+   "giorno2.js:733"
+  ],
+  "riga": "\"p:madre_morta\": { madre: { testo: T(\"cambiata stanotte, in casa: non è più lei\"), barra: [\"d:dorme_padre\", \"d:dorme_figlia\"], morto: true } },"
+ },
+ "si è alzata stanotte, cambiata: la figlia le teneva la mano": {
+  "dove": [
+   "giorno2.js:734"
+  ],
+  "riga": "\"d:le_tenevo\": { madre: { testo: T(\"si è alzata stanotte, cambiata: la figlia le teneva la mano\"), morto: true },"
+ },
+ "è rimasta con la madre cambiata": {
+  "dove": [
+   "giorno2.js:735"
+  ],
+  "riga": "figlia: T(\"è rimasta con la madre cambiata\") },"
+ },
+ "la tenevano in casa: «voi li portate nel recinto»": {
+  "dove": [
+   "giorno2.js:736"
+  ],
+  "riga": "\"d:bruciate\": { madre: T(\"la tenevano in casa: «voi li portate nel recinto»\") },"
+ },
+ "«sto bene»": {
+  "dove": [
+   "giorno2.js:737",
+   "giorno2.js:758",
+   "giorno3.js:923",
+   "giorno3.js:935",
+   "giorno3.js:941"
+  ],
+  "riga": "\"d:sto_bene\": { figlia: T(\"«sto bene»\") },"
+ },
+ "ha la febbre: occhi lucidi, guance rosse": {
+  "dove": [
+   "giorno2.js:738"
+  ],
+  "riga": "\"p:febbre_figlia\": { figlia: { testo: T(\"ha la febbre: occhi lucidi, guance rosse\"), barra: [\"d:sto_bene\", \"d:figlia_bene\"] } },"
+ },
+ "«lei sta bene» (il padre)": {
+  "dove": [
+   "giorno2.js:739"
+  ],
+  "riga": "\"d:figlia_bene\": { figlia: T(\"«lei sta bene» (il padre)\") },"
+ },
+ "ha dormito dal medico: è tornata che scottava": {
+  "dove": [
+   "giorno2.js:740"
+  ],
+  "riga": "\"d:tornata_scottava\": { figlia: T(\"ha dormito dal medico: è tornata che scottava\") },"
+ },
+ "dopo la notte dal medico, la febbre": {
+  "dove": [
+   "giorno2.js:741",
+   "giorno2.js:756",
+   "giorno2.js:761"
+  ],
+  "riga": "\"d:svegliata_scottavo\": { figlia: T(\"dopo la notte dal medico, la febbre\") },"
+ },
+ "«mi sono morso la lingua»": {
+  "dove": [
+   "giorno2.js:743"
+  ],
+  "riga": "\"d:lingua\": { uomo: T(\"«mi sono morso la lingua»\") },"
+ },
+ "tossisce sangue, dai polmoni": {
+  "dove": [
+   "giorno2.js:744"
+  ],
+  "riga": "\"p:sangue_uomo\": { uomo: { testo: T(\"tossisce sangue, dai polmoni\"), barra: \"d:lingua\" } },"
+ },
+ "«chi li sfama, se mi portate via?»": {
+  "dove": [
+   "giorno2.js:745"
+  ],
+  "riga": "\"d:chi_sfama\": { uomo: T(\"«chi li sfama, se mi portate via?»\") },"
+ },
+ "«partito stanotte per la città» (il padre)": {
+  "dove": [
+   "giorno2.js:746"
+  ],
+  "riga": "\"d:partito\": { ragazzo: T(\"«partito stanotte per la città» (il padre)\") },"
+ },
+ "«partito stanotte» (la sorella)": {
+  "dove": [
+   "giorno2.js:747"
+  ],
+  "riga": "\"d:partito_ragazza\": { ragazzo: T(\"«partito stanotte» (la sorella)\") },"
+ },
+ "il ripostiglio è vuoto: una brandina sfatta, una botola col lucchetto": {
+  "dove": [
+   "giorno2.js:748"
+  ],
+  "riga": "\"p:ripostiglio_vuoto\": { ragazzo: T(\"il ripostiglio è vuoto: una brandina sfatta, una botola col lucchetto\") },"
+ },
+ "una tosse sotto il pavimento": {
+  "dove": [
+   "giorno2.js:749"
+  ],
+  "riga": "\"p:tosse_sotto\": { ragazzo: T(\"una tosse sotto il pavimento\") },"
+ },
+ "«sta sotto, al riparo» (la nonna)": {
+  "dove": [
+   "giorno2.js:750"
+  ],
+  "riga": "\"d:sotto\": { ragazzo: T(\"«sta sotto, al riparo» (la nonna)\") },"
+ },
+ "«in cantina ci sono le patate»": {
+  "dove": [
+   "giorno2.js:751"
+  ],
+  "riga": "\"d:patate\": { ragazzo: T(\"«in cantina ci sono le patate»\") },"
+ },
+ "è giù in cantina, sotto la botola": {
+  "dove": [
+   "giorno2.js:752"
+  ],
+  "riga": "\"d:in_cantina\": { ragazzo: { testo: T(\"è giù in cantina, sotto la botola\"), barra: [\"d:partito\", \"d:partito_ragazza\", \"d:patate\", \"anagrafe\"] } },"
+ },
+ "il nastro all'infrarosso: caldo sotto il pavimento": {
+  "dove": [
+   "giorno2.js:753"
+  ],
+  "riga": "\"p:calore_cantina\": { ragazzo: { testo: T(\"il nastro all'infrarosso: caldo sotto il pavimento\"), barra: \"anagrafe\" } },"
+ },
+ "«tossisco dal '44»": {
+  "dove": [
+   "giorno2.js:754"
+  ],
+  "riga": "\"d:tosse_vecchia\": { nonna: T(\"«tossisco dal '44»\") },"
+ },
+ "la ditta vuole i vecchi «per le prove»": {
+  "dove": [
+   "giorno2.js:755"
+  ],
+  "riga": "\"d:vecchi_prove\": { nonna: T(\"la ditta vuole i vecchi «per le prove»\") },"
+ },
+ "ha la febbre": {
+  "dove": [
+   "giorno2.js:757",
+   "giorno2.js:762"
+  ],
+  "riga": "\"p:febbre_nonna\": { nonna: { testo: T(\"ha la febbre\"), barra: \"d:tosse_vecchia\" } },"
+ },
+ "«faccio le notti alla mensa»": {
+  "dove": [
+   "giorno2.js:764"
+  ],
+  "riga": "\"d:mensa\": { moglie: T(\"«faccio le notti alla mensa»\") },"
+ },
+ "nella stufa spenta, il suo camice della Panacea": {
+  "dove": [
+   "giorno2.js:765"
+  ],
+  "riga": "\"p:camice\": { moglie: { testo: T(\"nella stufa spenta, il suo camice della Panacea\"), barra: \"d:mensa\" } },"
+ },
+ "il nebulizzatore è della Panacea: «per i dipendenti e i familiari»": {
+  "dove": [
+   "giorno2.js:766"
+  ],
+  "riga": "\"p:nebulizzatore\": { moglie: T(\"il nebulizzatore è della Panacea: «per i dipendenti e i familiari»\"),"
+ },
+ "il nebulizzatore gliel'ha dato la Panacea": {
+  "dove": [
+   "giorno2.js:767"
+  ],
+  "riga": "marito: T(\"il nebulizzatore gliel'ha dato la Panacea\") },"
+ },
+ "lavora di notte nel recinto della ditta: lava i pavimenti, cambia le brande": {
+  "dove": [
+   "giorno2.js:768"
+  ],
+  "riga": "\"d:recinto\": { moglie: { testo: T(\"lavora di notte nel recinto della ditta: lava i pavimenti, cambia le brande\"), barra: \"d:mensa\" } },"
+ },
+ "«quelli che cambiano li portano nel prefabbricato in fondo»": {
+  "dove": [
+   "giorno2.js:769"
+  ],
+  "riga": "\"d:prefabbricato\": { moglie: T(\"«quelli che cambiano li portano nel prefabbricato in fondo»\") },"
+ },
+ "«medico 6 siete voi»": {
+  "dove": [
+   "giorno2.js:770"
+  ],
+  "riga": "\"d:medico6\": { moglie: T(\"«medico 6 siete voi»\") },"
+ },
+ "«ha l'asma» (la moglie)": {
+  "dove": [
+   "giorno2.js:771"
+  ],
+  "riga": "\"d:asma\": { marito: T(\"«ha l'asma» (la moglie)\") },"
+ },
+ "labbra viola e unghie blu da vent'anni: la polvere della cava, non la peste": {
+  "dove": [
+   "giorno2.js:772"
+  ],
+  "riga": "\"p:silicosi\": { marito: { testo: T(\"labbra viola e unghie blu da vent'anni: la polvere della cava, non la peste\"), barra: \"d:asma\" } },"
+ },
+ "ha la febbre, da stanotte": {
+  "dove": [
+   "giorno2.js:773"
+  ],
+  "riga": "...(maritoMalato ? { \"p:febbre_marito\": { marito: { testo: T(\"ha la febbre, da stanotte\"), barra: \"d:asma\" } } } : {}),"
+ },
+ "ha preso nel recinto la cartella della ditta": {
+  "dove": [
+   "giorno2.js:776"
+  ],
+  "riga": "moglie: T(\"ha preso nel recinto la cartella della ditta\"),"
+ },
+ "nella cartella della ditta: «PROVA 1 · cambiato»": {
+  "dove": [
+   "giorno2.js:777"
+  ],
+  "riga": "nonno: { testo: T(\"nella cartella della ditta: «PROVA 1 · cambiato»\"), morto: true },"
+ },
+ "nella cartella della ditta: «PROVA 2 · cambiato». Non è morto": {
+  "dove": [
+   "giorno2.js:778"
+  ],
+  "riga": "paolo: { testo: T(\"nella cartella della ditta: «PROVA 2 · cambiato». Non è morto\"), barra: \"anagrafe\", morto: true },"
+ },
+ "nella cartella della ditta: «PROVA {0} · {1}»": {
+  "dove": [
+   "giorno2.js:779"
+  ],
+  "riga": "...Object.fromEntries(provati.map((p) => [p.id, T`nella cartella della ditta: «PROVA ${p.n} · ${p.esito}»`])),"
+ },
+ "«io sola, adesso»": {
+  "dove": [
+   "giorno2.js:782"
+  ],
+  "riga": "\"d:sola\": { suocera: T(\"«io sola, adesso»\"), nuora: T(\"«io sola» (la suocera)\") },"
+ },
+ "«io sola» (la suocera)": {
+  "dove": [
+   "giorno2.js:782"
+  ],
+  "riga": "\"d:sola\": { suocera: T(\"«io sola, adesso»\"), nuora: T(\"«io sola» (la suocera)\") },"
+ },
+ "«partita dai suoi, il giorno dopo il funerale» (la suocera)": {
+  "dove": [
+   "giorno2.js:783"
+  ],
+  "riga": "\"d:nuora_partita\": { nuora: T(\"«partita dai suoi, il giorno dopo il funerale» (la suocera)\") },"
+ },
+ "il suo cappotto rosso è in cucina, col biglietto della corriera mai timbrato": {
+  "dove": [
+   "giorno2.js:784"
+  ],
+  "riga": "\"p:cappotto\": { nuora: { testo: T(\"il suo cappotto rosso è in cucina, col biglietto della corriera mai timbrato\"), barra: \"d:nuora_partita\" } },"
+ },
+ "qualcuno respira dietro la porta chiusa a chiave": {
+  "dove": [
+   "giorno2.js:785"
+  ],
+  "riga": "\"p:respiro_camera\": { nuora: { testo: T(\"qualcuno respira dietro la porta chiusa a chiave\"), barra: \"d:nuora_partita\" } },"
+ },
+ "il nastro all'infrarosso: qualcuno seduto dietro la porta della camera": {
+  "dove": [
+   "giorno2.js:786"
+  ],
+  "riga": "\"p:calore_camera10\": { nuora: { testo: T(\"il nastro all'infrarosso: qualcuno seduto dietro la porta della camera\"), barra: \"d:nuora_partita\" } },"
+ },
+ "chiusa in camera dalla suocera: ha dormito col marito malato e non si è ammalata": {
+  "dove": [
+   "giorno2.js:787"
+  ],
+  "riga": "\"d:non_si_ammala\": { nuora: { testo: T(\"chiusa in camera dalla suocera: ha dormito col marito malato e non si è ammalata\"), barra: [\"d:nuora_partita\", \"d:sola\"] },"
+ },
+ "nasconde la nuora: «se la ditta lo scopre, se la prende»": {
+  "dove": [
+   "giorno2.js:788"
+  ],
+  "riga": "suocera: T(\"nasconde la nuora: «se la ditta lo scopre, se la prende»\") },"
+ },
+ "«la terra sotto le unghie è dell'orto»": {
+  "dove": [
+   "giorno2.js:789"
+  ],
+  "riga": "\"d:orto\": { suocera: T(\"«la terra sotto le unghie è dell'orto»\") },"
+ },
+ "«sepolto martedì, bara chiusa» (la madre)": {
+  "dove": [
+   "giorno2.js:790"
+  ],
+  "riga": "\"d:sepolto\": { paolo: T(\"«sepolto martedì, bara chiusa» (la madre)\") },"
+ },
+ "la ricevuta della Panacea: «salma trattenuta per gli accertamenti»": {
+  "dove": [
+   "giorno2.js:791"
+  ],
+  "riga": "\"p:ricevuta\": { paolo: { testo: T(\"la ricevuta della Panacea: «salma trattenuta per gli accertamenti»\"), barra: \"d:sepolto\" } },"
+ },
+ "nella bara c'erano sassi: la madre l'ha aperta, di notte": {
+  "dove": [
+   "giorno2.js:792"
+  ],
+  "riga": "\"d:bara_leggera\": { paolo: { testo: T(\"nella bara c'erano sassi: la madre l'ha aperta, di notte\"), barra: [\"anagrafe\", \"d:sepolto\"], morto: true },"
+ },
+ "ha aperto la bara del figlio, di notte, con le mani": {
+  "dove": [
+   "giorno2.js:793"
+  ],
+  "riga": "suocera: { testo: T(\"ha aperto la bara del figlio, di notte, con le mani\"), barra: \"d:orto\" } },"
+ },
+ "la fede l'ha restituita la ditta, in una busta (la moglie)": {
+  "dove": [
+   "giorno2.js:794"
+  ],
+  "riga": "\"d:fede_busta\": { paolo: T(\"la fede l'ha restituita la ditta, in una busta (la moglie)\") },"
+ },
+ "«non l'ho mai toccato»": {
+  "dove": [
+   "giorno2.js:795"
+  ],
+  "riga": "\"d:mai_toccato\": { nuora: T(\"«non l'ho mai toccato»\") },"
+ },
+ "due cuscini schiacciati nel letto: dormivano in due": {
+  "dove": [
+   "giorno2.js:796"
+  ],
+  "riga": "\"p:due_cuscini\": { nuora: T(\"due cuscini schiacciati nel letto: dormivano in due\") },"
+ },
+ "la candeggina, e le mani bruciate: l'ha lavato lei, per giorni": {
+  "dove": [
+   "giorno2.js:797"
+  ],
+  "riga": "\"p:candeggina\": { nuora: T(\"la candeggina, e le mani bruciate: l'ha lavato lei, per giorni\") },"
+ },
+ "ha curato il marito fino alla fine e non si è ammalata": {
+  "dove": [
+   "giorno2.js:798"
+  ],
+  "riga": "\"p:immune\": { nuora: { testo: T(\"ha curato il marito fino alla fine e non si è ammalata\"), barra: \"d:mai_toccato\" } },"
+ },
+ "«non mi è venuto niente»": {
+  "dove": [
+   "giorno2.js:799"
+  ],
+  "riga": "\"d:niente_nuora\": { nuora: T(\"«non mi è venuto niente»\") },"
+ },
+ "AL LAZZARETTO DAL 26.10": {
+  "dove": [
+   "giorno2.js:804"
+  ],
+  "riga": "for (const A of Object.values(ANAGRAFE)) for (const r of A.righe) if (via.has(r.persona)) r.ditta = T(\"AL LAZZARETTO DAL 26.10\");"
+ },
+ "Via della Chiesa 8": {
+  "dove": [
+   "giorno2.js:806"
+  ],
+  "riga": "ANAGRAFE.casa2 = { via: T(\"Via della Chiesa 8\"), righe: ["
+ },
+ "GALLI ERNESTO": {
+  "dove": [
+   "giorno2.js:807"
+  ],
+  "riga": "{ persona: \"marito\", nome: T(\"GALLI ERNESTO\"), ruolo: T(\"intestatario\"), nato: 1953, mestiere: T(\"cavatore in pensione\") },"
+ },
+ "cavatore in pensione": {
+  "dove": [
+   "giorno2.js:807"
+  ],
+  "riga": "{ persona: \"marito\", nome: T(\"GALLI ERNESTO\"), ruolo: T(\"intestatario\"), nato: 1953, mestiere: T(\"cavatore in pensione\") },"
+ },
+ "MARINI LUCIA": {
+  "dove": [
+   "giorno2.js:808"
+  ],
+  "riga": "{ persona: \"moglie\", nome: T(\"MARINI LUCIA\"), ruolo: T(\"moglie\"), nato: 1971, mestiere: T(\"casalinga\"), donna: true },"
+ },
+ "casalinga": {
+  "dove": [
+   "giorno2.js:808",
+   "giorno3.js:984"
+  ],
+  "riga": "{ persona: \"moglie\", nome: T(\"MARINI LUCIA\"), ruolo: T(\"moglie\"), nato: 1971, mestiere: T(\"casalinga\"), donna: true },"
+ },
+ "Vicolo Stretto 7": {
+  "dove": [
+   "giorno2.js:810"
+  ],
+  "riga": "ANAGRAFE.casa10 = { via: T(\"Vicolo Stretto 7\"), righe: ["
+ },
+ "SERRA PAOLO": {
+  "dove": [
+   "giorno2.js:811"
+  ],
+  "riga": "{ persona: \"paolo\", nome: T(\"SERRA PAOLO\"), ruolo: T(\"intestatario\"), nato: 1992, mestiere: T(\"boscaiolo\"), anagrafe: T(\"deceduto il 18.10.2026\") },"
+ },
+ "boscaiolo": {
+  "dove": [
+   "giorno2.js:811"
+  ],
+  "riga": "{ persona: \"paolo\", nome: T(\"SERRA PAOLO\"), ruolo: T(\"intestatario\"), nato: 1992, mestiere: T(\"boscaiolo\"), anagrafe: T(\"deceduto il 18.10.2026\") },"
+ },
+ "deceduto il 18.10.2026": {
+  "dove": [
+   "giorno2.js:811"
+  ],
+  "riga": "{ persona: \"paolo\", nome: T(\"SERRA PAOLO\"), ruolo: T(\"intestatario\"), nato: 1992, mestiere: T(\"boscaiolo\"), anagrafe: T(\"deceduto il 18.10.2026\") },"
+ },
+ "LORENZI CHIARA": {
+  "dove": [
+   "giorno2.js:812"
+  ],
+  "riga": "{ persona: \"nuora\", nome: T(\"LORENZI CHIARA\"), ruolo: T(\"moglie\"), nato: 1994, donna: true },"
+ },
+ "FONTANA ROSA ved. SERRA": {
+  "dove": [
+   "giorno2.js:813"
+  ],
+  "riga": "{ persona: \"suocera\", nome: T(\"FONTANA ROSA ved. SERRA\"), ruolo: T(\"madre dell'intestatario\"), nato: 1946, donna: true },"
+ },
+ "Andate via. Lasciateci in pace, con lei.": {
+  "dove": [
+   "giorno2.js:819"
+  ],
+  "riga": "casa3: righe(padre ? [\"PADRE\", T(\"Andate via. Lasciateci in pace, con lei.\")] : figlia ? [\"FIGLIA\", T(\"Andate via!\")] : null,"
+ },
+ "Andate via!": {
+  "dove": [
+   "giorno2.js:819",
+   "giorno2.js:821",
+   "giorno3.js:997"
+  ],
+  "riga": "casa3: righe(padre ? [\"PADRE\", T(\"Andate via. Lasciateci in pace, con lei.\")] : figlia ? [\"FIGLIA\", T(\"Andate via!\")] : null,"
+ },
+ "Ti chiudono la porta alle spalle.": {
+  "dove": [
+   "giorno2.js:820",
+   "giorno3.js:996",
+   "giorno3.js:997"
+  ],
+  "riga": "[null, T(\"Ti chiudono la porta alle spalle.\")]),"
+ },
+ "Fuori. Adesso.": {
+  "dove": [
+   "giorno2.js:821"
+  ],
+  "riga": "casa5: righe(uomo ? [\"UOMO\", T(\"Fuori. Adesso.\"), { volto: \"arrabbiato\" }] : nonna ? [\"NONNA\", T(\"Fuori, becco.\")] : giovane ? [\"RAGAZZA\", T(\"Andate via!\")] : null,"
+ },
+ "Fuori, becco.": {
+  "dove": [
+   "giorno2.js:821"
+  ],
+  "riga": "casa5: righe(uomo ? [\"UOMO\", T(\"Fuori. Adesso.\"), { volto: \"arrabbiato\" }] : nonna ? [\"NONNA\", T(\"Fuori, becco.\")] : giovane ? [\"RAGAZZA\", T(\"Andate via!\")] : null,"
+ },
+ "Fuori. Ho dormito tre ore.": {
+  "dove": [
+   "giorno2.js:823"
+  ],
+  "riga": "casa2: [[\"MOGLIE\", T(\"Fuori. Ho dormito tre ore.\"), { volto: \"arrabbiato\" }],"
+ },
+ "Ti chiude la porta alle spalle. Dentro, il nebulizzatore continua a borbottare.": {
+  "dove": [
+   "giorno2.js:824"
+  ],
+  "riga": "[null, T(\"Ti chiude la porta alle spalle. Dentro, il nebulizzatore continua a borbottare.\")]],"
+ },
+ "Fuori da casa mia. Che il malvento vi porti via.": {
+  "dove": [
+   "giorno2.js:825"
+  ],
+  "riga": "casa10: [[\"SUOCERA\", T(\"Fuori da casa mia. Che il malvento vi porti via.\"), { volto: \"arrabbiato\" }], [null, T(\"Senti girare la chiave due volte.\")]],"
+ },
+ "Senti girare la chiave due volte.": {
+  "dove": [
+   "giorno2.js:825"
+  ],
+  "riga": "casa10: [[\"SUOCERA\", T(\"Fuori da casa mia. Che il malvento vi porti via.\"), { volto: \"arrabbiato\" }], [null, T(\"Senti girare la chiave due volte.\")]],"
+ },
+ "Un vicino: «Stanotte la ragazza gridava. Poi più niente.»": {
+  "dove": [
+   "giorno2.js:831"
+  ],
+  "riga": "CASE.casa3.segnalata = madre ? T(\"Un vicino: «Stanotte la ragazza gridava. Poi più niente.»\")"
+ },
+ "Un vicino: «Il padre tossisce tutta la notte. Si sente dalla strada.»": {
+  "dove": [
+   "giorno2.js:832"
+  ],
+  "riga": ": T(\"Un vicino: «Il padre tossisce tutta la notte. Si sente dalla strada.»\");"
+ },
+ "Un altro biglietto: «Stanotte hanno portato giù qualcosa in cantina.»": {
+  "dove": [
+   "giorno2.js:834"
+  ],
+  "riga": "CASE.casa5.segnalata = T(\"Un altro biglietto: «Stanotte hanno portato giù qualcosa in cantina.»\");"
+ },
+ "Un vicino: «Da Galli stanotte tossivano forte. E la moglie è uscita lo stesso, col coprifuoco.»": {
+  "dove": [
+   "giorno2.js:837"
+  ],
+  "riga": "CASE.casa2.segnalata = maritoMalato ? T(\"Un vicino: «Da Galli stanotte tossivano forte. E la moglie è uscita lo stesso, col coprifuoco.»\")"
+ },
+ "Un vicino: «La moglie di Galli esce ogni notte, col coprifuoco, e torna all'alba. Dove va?»": {
+  "dove": [
+   "giorno2.js:838"
+  ],
+  "riga": ": T(\"Un vicino: «La moglie di Galli esce ogni notte, col coprifuoco, e torna all'alba. Dove va?»\");"
+ },
+ "Biglietto anonimo: «Stanotte la vecchia Serra si lamentava. E in casa sua parlano in due.»": {
+  "dove": [
+   "giorno2.js:840"
+  ],
+  "riga": "CASE.casa10.segnalata = suoceraMalata ? T(\"Biglietto anonimo: «Stanotte la vecchia Serra si lamentava. E in casa sua parlano in due.»\")"
+ },
+ "Biglietto anonimo: «Dalla vedova Serra, dopo il funerale, la luce della camera resta accesa tutta la notte.»": {
+  "dove": [
+   "giorno2.js:841"
+  ],
+  "riga": ": T(\"Biglietto anonimo: «Dalla vedova Serra, dopo il funerale, la luce della camera resta accesa tutta la notte.»\");"
+ },
+ "Stanotte qui si è ammalato qualcuno. (Nella bozza non si visita.)": {
+  "dove": [
+   "giorno2.js:842"
+  ],
+  "riga": "for (const id of ieri.contagiate || []) if (CASE[id] && !CASE[id].luogo) CASE[id].nota = T(\"Stanotte qui si è ammalato qualcuno. (Nella bozza non si visita.)\");"
+ },
+ "Stanotte dormi di nuovo solo. Chi dorme solo, il malvento se lo prende.": {
+  "dove": [
+   "giorno2.js:847"
+  ],
+  "riga": "arriva: T(\"Stanotte dormi di nuovo solo. Chi dorme solo, il malvento se lo prende.\"),"
+ },
+ "Sulla coperta piegata c'è un incavo, come se qualcuno ci fosse stato seduto.": {
+  "dove": [
+   "giorno2.js:848"
+  ],
+  "riga": "controllo: [[null, T(\"Il buio della stanzetta. La brandina è vuota.\")], [null, T(\"Sulla coperta piegata c'è un incavo, come se qualcuno ci fosse stato seduto.\")]],"
+ },
+ "[qualcosa è chino sul letto, come ieri notte]": {
+  "dove": [
+   "giorno2.js:849"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[qualcosa è chino sul letto, come ieri notte]\"), T(\"[adesso è seduto sul letto. Ti tiene una mano sul petto]\")],"
+ },
+ "[adesso è seduto sul letto. Ti tiene una mano sul petto]": {
+  "dove": [
+   "giorno2.js:849"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[qualcosa è chino sul letto, come ieri notte]\"), T(\"[adesso è seduto sul letto. Ti tiene una mano sul petto]\")],"
+ },
+ "Sul nastro la cosa nera è seduta sul tuo letto, con una mano sul tuo petto. Alla terza notte, dicono, ti porta via.": {
+  "dove": [
+   "giorno2.js:851"
+  ],
+  "riga": "mattina: T(\"Sul nastro la cosa nera è seduta sul tuo letto, con una mano sul tuo petto. Alla terza notte, dicono, ti porta via.\"),"
+ },
+ " All'alba aveva la fronte calda.": {
+  "dove": [
+   "giorno2.js:853"
+  ],
+  "riga": "for (const p of [\"figlia\", \"giovane\", \"nonna\"]) OSPITE[p].mattina += T(\" All'alba aveva la fronte calda.\");"
+ },
+ "La moglie di Galli è venuta con te. «Tanto alle undici attacco», ha detto. Aspetta nella stanzetta, vestita.": {
+  "dove": [
+   "giorno2.js:856"
+  ],
+  "riga": "arriva: T(\"La moglie di Galli è venuta con te. «Tanto alle undici attacco», ha detto. Aspetta nella stanzetta, vestita.\"),"
+ },
+ "Chiudete pure. Non dormo, tanto.": {
+  "dove": [
+   "giorno2.js:857"
+  ],
+  "riga": "controllo: [[\"MOGLIE\", T(\"Chiudete pure. Non dormo, tanto.\")], [null, T(\"È seduta sulla brandina, vestita e con le scarpe. Guarda l'orologio.\")]],"
+ },
+ "È seduta sulla brandina, vestita e con le scarpe. Guarda l'orologio.": {
+  "dove": [
+   "giorno2.js:857"
+  ],
+  "riga": "controllo: [[\"MOGLIE\", T(\"Chiudete pure. Non dormo, tanto.\")], [null, T(\"È seduta sulla brandina, vestita e con le scarpe. Guarda l'orologio.\")]],"
+ },
+ "[la moglie di Galli è sulla porta della stanzetta, vestita. Ti guarda dormire]": {
+  "dove": [
+   "giorno2.js:858"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la moglie di Galli è sulla porta della stanzetta, vestita. Ti guarda dormire]\"),"
+ },
+ "[alla scrivania legge il tuo fax, alla luce del televisore. Poi lo rimette a posto]": {
+  "dove": [
+   "giorno2.js:859"
+  ],
+  "riga": "T(\"[alla scrivania legge il tuo fax, alla luce del televisore. Poi lo rimette a posto]\")],"
+ },
+ "La moglie di Galli. Alle undici è uscita verso il recinto; prima, sul nastro, legge il tuo fax. Aveva la fronte calda.": {
+  "dove": [
+   "giorno2.js:860"
+  ],
+  "riga": "mattina: T(\"La moglie di Galli. Alle undici è uscita verso il recinto; prima, sul nastro, legge il tuo fax. Aveva la fronte calda.\"),"
+ },
+ "La nuora è venuta con te, di nascosto dalla suocera. Ha portato la sua candeggina. Dorme nella stanzetta.": {
+  "dove": [
+   "giorno2.js:863"
+  ],
+  "riga": "arriva: T(\"La nuora è venuta con te, di nascosto dalla suocera. Ha portato la sua candeggina. Dorme nella stanzetta.\"),"
+ },
+ "Lasciate uno spiraglio. Al buio sento ancora il suo respiro.": {
+  "dove": [
+   "giorno2.js:864"
+  ],
+  "riga": "controllo: [[\"NUORA\", T(\"Lasciate uno spiraglio. Al buio sento ancora il suo respiro.\")], [null, T(\"È seduta sulla brandina e si rigira la fede di Paolo tra le dita.\")]],"
+ },
+ "È seduta sulla brandina e si rigira la fede di Paolo tra le dita.": {
+  "dove": [
+   "giorno2.js:864"
+  ],
+  "riga": "controllo: [[\"NUORA\", T(\"Lasciate uno spiraglio. Al buio sento ancora il suo respiro.\")], [null, T(\"È seduta sulla brandina e si rigira la fede di Paolo tra le dita.\")]],"
+ },
+ "[la nuora è sulla porta della stanzetta, con la candeggina e uno straccio]": {
+  "dove": [
+   "giorno2.js:865"
+  ],
+  "riga": "nastro: [T(\"[la stanza al buio. Il medico dorme]\"), T(\"[la nuora è sulla porta della stanzetta, con la candeggina e uno straccio]\"),"
+ },
+ "[in ginocchio, lava il pavimento attorno al tuo letto]": {
+  "dove": [
+   "giorno2.js:866"
+  ],
+  "riga": "T(\"[in ginocchio, lava il pavimento attorno al tuo letto]\")],"
+ },
+ "La nuora. Sul nastro lava con la candeggina il pavimento attorno al tuo letto. La fronte non scotta: è l'unica.": {
+  "dove": [
+   "giorno2.js:867"
+  ],
+  "riga": "mattina: T(\"La nuora. Sul nastro lava con la candeggina il pavimento attorno al tuo letto. La fronte non scotta: è l'unica.\"),"
+ },
+ "il ragazzo in cantina": {
+  "dove": [
+   "giorno2.js:871"
+  ],
+  "riga": "PERSONE, VOCI, NASCOSTI: { casa5: [{ nome: T(\"il ragazzo in cantina\"), stato: \"grave\" }] }, LUOGHI, ARRIVO, PORTE, ESAMI, DOMANDE,"
+ },
+ "TOSSE": {
+  "dove": [
+   "giorno2.js:881"
+  ],
+  "riga": "{ icona: \"tosse\", nome: T(\"TOSSE\"), nota: T(\"col sangue: grave\") },"
+ },
+ "col sangue: grave": {
+  "dove": [
+   "giorno2.js:881"
+  ],
+  "riga": "{ icona: \"tosse\", nome: T(\"TOSSE\"), nota: T(\"col sangue: grave\") },"
+ },
+ "oltre 70 anni, malati": {
+  "dove": [
+   "giorno2.js:885"
+  ],
+  "riga": "profilo: T(\"oltre 70 anni, malati\"),"
+ },
+ "Un paziente consegnato è un paziente salvato.": {
+  "dove": [
+   "giorno2.js:886"
+  ],
+  "riga": "motto: T(\"Un paziente consegnato è un paziente salvato.\"),"
+ },
+ "Giorno 2. Il fax nuovo è arrivato all'alba, col protocollo cambiato.": {
+  "dove": [
+   "giorno2.js:888"
+  ],
+  "riga": "INTRO: [[null, T(\"Giorno 2. Il fax nuovo è arrivato all'alba, col protocollo cambiato.\")],"
+ },
+ "Le case 3 e 5 sono di nuovo sulla lista. E due case nuove, vicine a quelle di ieri: la 2 e la 10.": {
+  "dove": [
+   "giorno2.js:889"
+  ],
+  "riga": "[null, T(\"Le case 3 e 5 sono di nuovo sulla lista. E due case nuove, vicine a quelle di ieri: la 2 e la 10.\")]],"
+ },
+ "la madre nella notte è diventata un mostro, in casa: era grave da giorni": {
+  "dove": [
+   "giorno2.js:899"
+  ],
+  "riga": "t.push(T`Casa 3: ${c(\"madre\") ? T(\"la madre nella notte è diventata un mostro, in casa: era grave da giorni\") : T(\"la madre era nel recinto della ditta\")}. `"
+ },
+ "la madre era nel recinto della ditta": {
+  "dove": [
+   "giorno2.js:899"
+  ],
+  "riga": "t.push(T`Casa 3: ${c(\"madre\") ? T(\"la madre nella notte è diventata un mostro, in casa: era grave da giorni\") : T(\"la madre era nel recinto della ditta\")}. `"
+ },
+ "Casa 3: {0}. ": {
+  "dove": [
+   "giorno2.js:899",
+   "giorno3.js:1078"
+  ],
+  "riga": "t.push(T`Casa 3: ${c(\"madre\") ? T(\"la madre nella notte è diventata un mostro, in casa: era grave da giorni\") : T(\"la madre era nel recinto della ditta\")}. `"
+ },
+ "Il padre era grave: bubbone aperto, dita che diventano nere": {
+  "dove": [
+   "giorno2.js:900"
+  ],
+  "riga": "+ `${c(\"padre\") ? T(\"Il padre era grave: bubbone aperto, dita che diventano nere\") : T(\"Il padre era nel recinto\")}. `"
+ },
+ "Il padre era nel recinto": {
+  "dove": [
+   "giorno2.js:900"
+  ],
+  "riga": "+ `${c(\"padre\") ? T(\"Il padre era grave: bubbone aperto, dita che diventano nere\") : T(\"Il padre era nel recinto\")}. `"
+ },
+ "aveva dormito da te": {
+  "dove": [
+   "giorno2.js:901"
+  ],
+  "riga": "+ (c(\"figlia\") ? (figliaMalata ? T`La figlia si è ammalata: ${ieri.ospite === \"figlia\" ? T(\"aveva dormito da te\") : T(\"viveva coi malati\")}.` : T(\"La figlia era ancora sana.\")) : T(\"La figlia era nel recinto.\")));"
+ },
+ "viveva coi malati": {
+  "dove": [
+   "giorno2.js:901"
+  ],
+  "riga": "+ (c(\"figlia\") ? (figliaMalata ? T`La figlia si è ammalata: ${ieri.ospite === \"figlia\" ? T(\"aveva dormito da te\") : T(\"viveva coi malati\")}.` : T(\"La figlia era ancora sana.\")) : T(\"La figlia era nel recinto.\")));"
+ },
+ "La figlia si è ammalata: {0}.": {
+  "dove": [
+   "giorno2.js:901"
+  ],
+  "riga": "+ (c(\"figlia\") ? (figliaMalata ? T`La figlia si è ammalata: ${ieri.ospite === \"figlia\" ? T(\"aveva dormito da te\") : T(\"viveva coi malati\")}.` : T(\"La figlia era ancora sana.\")) : T(\"La figlia era nel recinto.\")));"
+ },
+ "La figlia era ancora sana.": {
+  "dove": [
+   "giorno2.js:901"
+  ],
+  "riga": "+ (c(\"figlia\") ? (figliaMalata ? T`La figlia si è ammalata: ${ieri.ospite === \"figlia\" ? T(\"aveva dormito da te\") : T(\"viveva coi malati\")}.` : T(\"La figlia era ancora sana.\")) : T(\"La figlia era nel recinto.\")));"
+ },
+ "La figlia era nel recinto.": {
+  "dove": [
+   "giorno2.js:901",
+   "giorno3.js:1080"
+  ],
+  "riga": "+ (c(\"figlia\") ? (figliaMalata ? T`La figlia si è ammalata: ${ieri.ospite === \"figlia\" ? T(\"aveva dormito da te\") : T(\"viveva coi malati\")}.` : T(\"La figlia era ancora sana.\")) : T(\"La figlia era nel recinto.\")));"
+ },
+ "l'uomo era grave, tossiva sangue": {
+  "dove": [
+   "giorno2.js:902"
+  ],
+  "riga": "t.push(T`Casa 5: ${c(\"uomo\") ? T(\"l'uomo era grave, tossiva sangue\") : T(\"l'uomo era nel recinto\")}. `"
+ },
+ "l'uomo era nel recinto": {
+  "dove": [
+   "giorno2.js:902"
+  ],
+  "riga": "t.push(T`Casa 5: ${c(\"uomo\") ? T(\"l'uomo era grave, tossiva sangue\") : T(\"l'uomo era nel recinto\")}. `"
+ },
+ "Casa 5: {0}. ": {
+  "dove": [
+   "giorno2.js:902"
+  ],
+  "riga": "t.push(T`Casa 5: ${c(\"uomo\") ? T(\"l'uomo era grave, tossiva sangue\") : T(\"l'uomo era nel recinto\")}. `"
+ },
+ "La ragazza aveva la febbre: aveva dormito da te. ": {
+  "dove": [
+   "giorno2.js:903"
+  ],
+  "riga": "+ (c(\"giovane\") ? (ieri.ospite === \"giovane\" ? T(\"La ragazza aveva la febbre: aveva dormito da te. \") : T(\"La ragazza era sana, pallida di freddo e di fame. \")) : \"\")"
+ },
+ "La ragazza era sana, pallida di freddo e di fame. ": {
+  "dove": [
+   "giorno2.js:903"
+  ],
+  "riga": "+ (c(\"giovane\") ? (ieri.ospite === \"giovane\" ? T(\"La ragazza aveva la febbre: aveva dormito da te. \") : T(\"La ragazza era sana, pallida di freddo e di fame. \")) : \"\")"
+ },
+ "La nonna aveva la febbre: aveva dormito da te. ": {
+  "dove": [
+   "giorno2.js:904"
+  ],
+  "riga": "+ (c(\"nonna\") ? (ieri.ospite === \"nonna\" ? T(\"La nonna aveva la febbre: aveva dormito da te. \") : T(\"La nonna era sana: la sua tosse è vecchiaia. \")) : \"\")"
+ },
+ "La nonna era sana: la sua tosse è vecchiaia. ": {
+  "dove": [
+   "giorno2.js:904"
+  ],
+  "riga": "+ (c(\"nonna\") ? (ieri.ospite === \"nonna\" ? T(\"La nonna aveva la febbre: aveva dormito da te. \") : T(\"La nonna era sana: la sua tosse è vecchiaia. \")) : \"\")"
+ },
+ "Il ragazzo era giù in cantina, sotto la botola: grave.": {
+  "dove": [
+   "giorno2.js:905"
+  ],
+  "riga": "+ T(\"Il ragazzo era giù in cantina, sotto la botola: grave.\"));"
+ },
+ "Casa 2: la moglie lavorava di notte nel recinto della Panacea, e sotto il materasso teneva la cartella delle prove. ": {
+  "dove": [
+   "giorno2.js:907"
+  ],
+  "riga": "t.push(T(\"Casa 2: la moglie lavorava di notte nel recinto della Panacea, e sotto il materasso teneva la cartella delle prove. \")"
+ },
+ ", ma stanotte il contagio era arrivato anche da lui: la febbre era vera": {
+  "dove": [
+   "giorno2.js:908"
+  ],
+  "riga": "+ T`Il marito aveva i polmoni della cava: le labbra viola non erano la peste${contagiate.has(\"casa2\") ? T(\", ma stanotte il contagio era arrivato anche da lui: la febbre era vera\") : \"\"}.`);"
+ },
+ "Il marito aveva i polmoni della cava: le labbra viola non erano la peste{0}.": {
+  "dove": [
+   "giorno2.js:908"
+  ],
+  "riga": "+ T`Il marito aveva i polmoni della cava: le labbra viola non erano la peste${contagiate.has(\"casa2\") ? T(\", ma stanotte il contagio era arrivato anche da lui: la febbre era vera\") : \"\"}.`);"
+ },
+ "Casa 10: Paolo Serra non era morto. Era cambiato, e la ditta lo teneva come PROVA 2: nella bara c'erano sassi. ": {
+  "dove": [
+   "giorno2.js:909"
+  ],
+  "riga": "t.push(T(\"Casa 10: Paolo Serra non era morto. Era cambiato, e la ditta lo teneva come PROVA 2: nella bara c'erano sassi. \")"
+ },
+ "La nuora, chiusa in camera dalla suocera, non si ammala: ha dormito col marito malato fino alla fine. È lei che la ditta cerca.": {
+  "dove": [
+   "giorno2.js:910"
+  ],
+  "riga": "+ T(\"La nuora, chiusa in camera dalla suocera, non si ammala: ha dormito col marito malato fino alla fine. È lei che la ditta cerca.\")"
+ },
+ " La suocera si era ammalata stanotte.": {
+  "dove": [
+   "giorno2.js:911"
+  ],
+  "riga": "+ (contagiate.has(\"casa10\") ? T(\" La suocera si era ammalata stanotte.\") : \"\"));"
+ },
+ "Il protocollo mentiva ancora sul pallore. La tosse col sangue era vera.": {
+  "dove": [
+   "giorno2.js:912"
+  ],
+  "riga": "t.push(T(\"Il protocollo mentiva ancora sul pallore. La tosse col sangue era vera.\"));"
+ },
+ "Chi dorme dal medico si ammala: il medico è il portatore, e non lo sa.": {
+  "dove": [
+   "giorno2.js:913"
+  ],
+  "riga": "t.push(T(\"Chi dorme dal medico si ammala: il medico è il portatore, e non lo sa.\"));"
+ },
+ "Il medico torna nelle stesse case": {
+  "dove": [
+   "giorno2.js:920"
+  ],
+  "riga": "let titolo = T(\"Il medico torna nelle stesse case\");"
+ },
+ "Secondo giro alla casa 3 e alla casa 5. In paese ci si chiede cosa cerchi.": {
+  "dove": [
+   "giorno2.js:921"
+  ],
+  "riga": "let sommario = T(\"Secondo giro alla casa 3 e alla casa 5. In paese ci si chiede cosa cerchi.\");"
+ },
+ "Il furgone bianco in Vicolo Stretto": {
+  "dove": [
+   "giorno2.js:925"
+  ],
+  "riga": "titolo = T(\"Il furgone bianco in Vicolo Stretto\");"
+ },
+ "Alle tre di notte la Panacea si è fermata dalla vedova Serra. «Prelievo programmato», dice la ditta. La suocera urlava dalla finestra.": {
+  "dove": [
+   "giorno2.js:926"
+  ],
+  "riga": "sommario = T(\"Alle tre di notte la Panacea si è fermata dalla vedova Serra. «Prelievo programmato», dice la ditta. La suocera urlava dalla finestra.\");"
+ },
+ "Portata via la nonna del vicolo": {
+  "dove": [
+   "giorno2.js:928"
+  ],
+  "riga": "titolo = T(\"Portata via la nonna del vicolo\");"
+ },
+ "Ottantasei anni. La Panacea: «Rientrava nel profilo». La nipote l'ha seguita fino al recinto.": {
+  "dove": [
+   "giorno2.js:929"
+  ],
+  "riga": "sommario = T(\"Ottantasei anni. La Panacea: «Rientrava nel profilo». La nipote l'ha seguita fino al recinto.\");"
+ },
+ "Portata via la vedova di Vicolo Stretto": {
+  "dove": [
+   "giorno2.js:931"
+  ],
+  "riga": "titolo = T(\"Portata via la vedova di Vicolo Stretto\");"
+ },
+ "Non aveva febbre né segni. La Panacea: «Un caso di grande interesse». La suocera l'ha seguita a piedi fino al recinto.": {
+  "dove": [
+   "giorno2.js:932"
+  ],
+  "riga": "sommario = T(\"Non aveva febbre né segni. La Panacea: «Un caso di grande interesse». La suocera l'ha seguita a piedi fino al recinto.\");"
+ },
+ "L'inserviente del recinto ci entra da paziente": {
+  "dove": [
+   "giorno2.js:934"
+  ],
+  "riga": "titolo = T(\"L'inserviente del recinto ci entra da paziente\");"
+ },
+ "La moglie di Galli lavorava di notte per la ditta. Il marito è rimasto solo, col nebulizzatore.": {
+  "dove": [
+   "giorno2.js:935"
+  ],
+  "riga": "sommario = T(\"La moglie di Galli lavorava di notte per la ditta. Il marito è rimasto solo, col nebulizzatore.\");"
+ },
+ "Qualcosa sul tetto di Via della Chiesa": {
+  "dove": [
+   "giorno2.js:937"
+  ],
+  "riga": "titolo = T(\"Qualcosa sul tetto di Via della Chiesa\");"
+ },
+ "Stanotte i vicini hanno sentito graffiare le tegole. La moglie del meccanico non si vede da giorni.": {
+  "dove": [
+   "giorno2.js:938"
+  ],
+  "riga": "sommario = T(\"Stanotte i vicini hanno sentito graffiare le tegole. La moglie del meccanico non si vede da giorni.\");"
+ },
+ "Il medico gira la chiave": {
+  "dove": [
+   "giorno2.js:940"
+  ],
+  "riga": "titolo = T(\"Il medico gira la chiave\");"
+ },
+ "In Vicolo Stretto ha aperto la camera di una vedova, chiusa a chiave. «Come i ladri», dice la suocera.": {
+  "dove": [
+   "giorno2.js:941"
+  ],
+  "riga": "sommario = T(\"In Vicolo Stretto ha aperto la camera di una vedova, chiusa a chiave. «Come i ladri», dice la suocera.\");"
+ },
+ "la ragazza del vicolo": {
+  "dove": [
+   "giorno2.js:943"
+  ],
+  "riga": "const nome = { giovane: T(\"la ragazza del vicolo\"), nonna: T(\"la nonna del vicolo\"), moglie: T(\"la moglie di Galli\"), nuora: T(\"la vedova Serra\") }[n.ospite.chi]"
+ },
+ "la nonna del vicolo": {
+  "dove": [
+   "giorno2.js:943"
+  ],
+  "riga": "const nome = { giovane: T(\"la ragazza del vicolo\"), nonna: T(\"la nonna del vicolo\"), moglie: T(\"la moglie di Galli\"), nuora: T(\"la vedova Serra\") }[n.ospite.chi]"
+ },
+ "la moglie di Galli": {
+  "dove": [
+   "giorno2.js:943"
+  ],
+  "riga": "const nome = { giovane: T(\"la ragazza del vicolo\"), nonna: T(\"la nonna del vicolo\"), moglie: T(\"la moglie di Galli\"), nuora: T(\"la vedova Serra\") }[n.ospite.chi]"
+ },
+ "la vedova Serra": {
+  "dove": [
+   "giorno2.js:943"
+  ],
+  "riga": "const nome = { giovane: T(\"la ragazza del vicolo\"), nonna: T(\"la nonna del vicolo\"), moglie: T(\"la moglie di Galli\"), nuora: T(\"la vedova Serra\") }[n.ospite.chi]"
+ },
+ "la figlia del meccanico": {
+  "dove": [
+   "giorno2.js:944"
+  ],
+  "riga": "|| T(\"la figlia del meccanico\");"
+ },
+ "«È l'unica che il giorno dopo non scotta», dice qualcuno al bar. In paese la guardano come una santa.": {
+  "dove": [
+   "giorno2.js:946"
+  ],
+  "riga": "sommario = n.ospite.chi === \"nuora\" ? T(\"«È l'unica che il giorno dopo non scotta», dice qualcuno al bar. In paese la guardano come una santa.\")"
+ },
+ "«Chi va a dormire da lui, il giorno dopo scotta», dice qualcuno al bar.": {
+  "dove": [
+   "giorno2.js:947"
+  ],
+  "riga": ": T(\"«Chi va a dormire da lui, il giorno dopo scotta», dice qualcuno al bar.\");"
+ },
+ "La peste si allarga ancora": {
+  "dove": [
+   "giorno2.js:949"
+  ],
+  "riga": "titolo = T(\"La peste si allarga ancora\");"
+ },
+ "«Almeno lui ci prova», dice il barista.": {
+  "dove": [
+   "giorno2.js:952"
+  ],
+  "riga": "const umore = n.fiducia >= 60 ? T(\"«Almeno lui ci prova», dice il barista.\")"
+ },
+ "Al bar, quando entra il discorso del medico, si abbassa la voce.": {
+  "dove": [
+   "giorno2.js:953"
+  ],
+  "riga": ": n.fiducia >= 35 ? T(\"Al bar, quando entra il discorso del medico, si abbassa la voce.\")"
+ },
+ "Stanotte qualcuno ha dipinto una croce nera sulla porta del bar, sotto la stanza del medico.": {
+  "dove": [
+   "giorno2.js:954"
+  ],
+  "riga": ": T(\"Stanotte qualcuno ha dipinto una croce nera sulla porta del bar, sotto la stanza del medico.\");"
+ },
+ "Foglio del paese · mercoledì 28 ottobre": {
+  "dove": [
+   "giorno2.js:956"
+  ],
+  "riga": "testata: T(\"LA VOCE\"), data: T(\"Foglio del paese · mercoledì 28 ottobre\"), titolo, sommario, articolo: umore,"
+ },
+ "«Chi dorme con lui si ammala. Non è una favola.» Lettera non firmata.": {
+  "dove": [
+   "giorno2.js:957"
+  ],
+  "riga": "lettera: n.ospite ? T(\"«Chi dorme con lui si ammala. Non è una favola.» Lettera non firmata.\")"
+ },
+ "«Due notti da solo. Alla terza, il malvento se lo prende.» Lettera non firmata.": {
+  "dove": [
+   "giorno2.js:958"
+  ],
+  "riga": ": T(\"«Due notti da solo. Alla terza, il malvento se lo prende.» Lettera non firmata.\"),"
+ },
+ "La Panacea alza i compensi: «Il profilo cambia ogni giorno, come il virus».": {
+  "dove": [
+   "giorno2.js:959"
+  ],
+  "riga": "breve: T(\"La Panacea alza i compensi: «Il profilo cambia ogni giorno, come il virus».\"),"
+ }
+}

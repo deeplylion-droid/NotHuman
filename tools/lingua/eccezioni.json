@@ -1,0 +1,24 @@
+{
+ "testo": [
+  "gioco.js:1330:nessuno",
+  "gioco.js:2964:sano",
+  "gioco.js:2964:malato",
+  "gioco.js:2964:grave",
+  "giorno3.js:1074:sana",
+  "giorno3.js:1074:malata",
+  "giorno3.js:1074:grave",
+  "giorno2.js:244:cambiata",
+  "giorno2.js:244:cambiato"
+ ],
+ "codice": [
+  "stanza.js:verde malato",
+  "stanza.js:ottanio e arancio",
+  "stanza.js:blu freddo",
+  "stanza.js:livido",
+  "stanza.js:R'lyeh livida",
+  "stanza.js:Il colore venuto dallo spazio",
+  "stanza.js:Nebbia viola",
+  "stanza.js:R'lyeh",
+  "gioco.js:Lingua · Language"
+ ]
+}

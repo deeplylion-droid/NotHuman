@@ -1,0 +1,2732 @@
+{
+ "REC": {
+  "dove": [
+   "gioco.js:395"
+  ],
+  "riga": "osd.stato.append(el(\"i\", \"punto\"), document.createTextNode(T(\"REC\")));"
+ },
+ "PLAY": {
+  "dove": [
+   "gioco.js:402"
+  ],
+  "riga": "osd.stato.append(el(\"i\", \"triangolo\"), document.createTextNode(T(\"PLAY\")));"
+ },
+ "−{0} MIN": {
+  "dove": [
+   "gioco.js:415"
+  ],
+  "riga": "if (min > 0) colpo(\"tempo\", T`−${min} MIN`);"
+ },
+ "NASTRO IR": {
+  "dove": [
+   "gioco.js:723",
+   "gioco.js:730"
+  ],
+  "riga": "return { id: v.id, tipo: \"prova\", foto: src ? { src } : null, testo: P.breve, meta: P.ir ? T(\"NASTRO IR\") : T(\"INDIZIO\"),"
+ },
+ "INDIZIO": {
+  "dove": [
+   "gioco.js:723",
+   "gioco.js:730"
+  ],
+  "riga": "return { id: v.id, tipo: \"prova\", foto: src ? { src } : null, testo: P.breve, meta: P.ir ? T(\"NASTRO IR\") : T(\"INDIZIO\"),"
+ },
+ "Il nastro delle frasi: quello che conta finisce qui. Trascinalo su chi o cosa lo smentisce.": {
+  "dove": [
+   "gioco.js:736"
+  ],
+  "riga": "striscia.mostra(lista, T(\"Il nastro delle frasi: quello che conta finisce qui. Trascinalo su chi o cosa lo smentisce.\"));"
+ },
+ "Sul nastro delle frasi": {
+  "dove": [
+   "gioco.js:755"
+  ],
+  "riga": "notifica(T(\"Sul nastro delle frasi\"));"
+ },
+ "Alzati": {
+  "dove": [
+   "gioco.js:829"
+  ],
+  "riga": "tasti(...(stanza ? [tasto(T(\"Alzati\"), () => vaiStanza(\"scrivania\"), \"su\")] : []));"
+ },
+ "Sera. Rivedi i nastri al videoregistratore, poi spegni la lampada.": {
+  "dove": [
+   "gioco.js:831"
+  ],
+  "riga": "? T(\"Sera. Rivedi i nastri al videoregistratore, poi spegni la lampada.\")"
+ },
+ "Leggi il fax, poi prendi la maschera ed esci.": {
+  "dove": [
+   "gioco.js:832"
+  ],
+  "riga": ": T(\"Leggi il fax, poi prendi la maschera ed esci.\"));"
+ },
+ "Trascina per guardarti attorno, tocca dove andare o cosa usare.": {
+  "dove": [
+   "gioco.js:870"
+  ],
+  "riga": "const come = tocco() ? T(\"Trascina per guardarti attorno, tocca dove andare o cosa usare.\")"
+ },
+ "Trascina per guardarti attorno, clicca dove andare o cosa usare. Si cammina con WASD.": {
+  "dove": [
+   "gioco.js:871"
+  ],
+  "riga": ": stanza.senzaBlocco ? T(\"Trascina per guardarti attorno, clicca dove andare o cosa usare. Si cammina con WASD.\")"
+ },
+ "Clicca per guardarti attorno col mouse. WASD per camminare, clic o E per usare. Esc libera il mouse.": {
+  "dove": [
+   "gioco.js:872"
+  ],
+  "riga": ": T(\"Clicca per guardarti attorno col mouse. WASD per camminare, clic o E per usare. Esc libera il mouse.\");"
+ },
+ "Sera: i nastri sono nel videoregistratore, poi a letto. {0}": {
+  "dove": [
+   "gioco.js:873"
+  ],
+  "riga": "aiuto(S.fase === \"sera\" ? T`Sera: i nastri sono nel videoregistratore, poi a letto. ${come}` : come);"
+ },
+ "È il coprifuoco. Fino a domattina non si esce.": {
+  "dove": [
+   "gioco.js:902",
+   "gioco.js:949"
+  ],
+  "riga": "if (S.fase === \"sera\") return dici([[null, T(\"È il coprifuoco. Fino a domattina non si esce.\")]], false, false);"
+ },
+ "Non è ancora ora di dormire. La ditta paga a paziente.": {
+  "dove": [
+   "gioco.js:908"
+  ],
+  "riga": "return dici([[null, T(\"Non è ancora ora di dormire. La ditta paga a paziente.\")]], false, false);"
+ },
+ "La lampada. Si spegne quando è ora di dormire.": {
+  "dove": [
+   "gioco.js:954"
+  ],
+  "riga": "return dici([[null, T(\"La lampada. Si spegne quando è ora di dormire.\")]], false, false);"
+ },
+ "PROTOCOLLO · GIORNO {0}": {
+  "dove": [
+   "gioco.js:982"
+  ],
+  "riga": "const testa = testaFax(T`PROTOCOLLO · GIORNO ${f.giorno}`);"
+ },
+ "CASA {0}": {
+  "dove": [
+   "gioco.js:986"
+  ],
+  "riga": "for (const n of f.case) case_.append(segnoFax(\"casa\", T`CASA ${n}`, null, \"piccolo\"));"
+ },
+ "a paziente": {
+  "dove": [
+   "gioco.js:988"
+  ],
+  "riga": "paga.append(segnoFax(\"moneta\", `${D.SOLDI.paziente} €`, T(\"a paziente\"), \"piccolo\"),"
+ },
+ "DA VISITARE": {
+  "dove": [
+   "gioco.js:991"
+  ],
+  "riga": "riga.append(bloccoFax(T(\"DA VISITARE\"), case_), bloccoFax(T(\"PAGA\"), paga));"
+ },
+ "PAGA": {
+  "dove": [
+   "gioco.js:991"
+  ],
+  "riga": "riga.append(bloccoFax(T(\"DA VISITARE\"), case_), bloccoFax(T(\"PAGA\"), paga));"
+ },
+ "SEGNI DA CERCARE": {
+  "dove": [
+   "gioco.js:992"
+  ],
+  "riga": "apriFoglio(\"fax\", [testa, bloccoFax(T(\"SEGNI DA CERCARE\"), segni), riga, el(\"p\", \"fx-motto\", f.motto)]);"
+ },
+ "PANACEA": {
+  "dove": [
+   "gioco.js:1015"
+  ],
+  "riga": "testa.append(logo, el(\"b\", \"fx-ditta\", T(\"PANACEA\")), el(\"span\", \"fx-giorno\", giorno));"
+ },
+ "La Voce, il giornale del paese: {0}": {
+  "dove": [
+   "gioco.js:1031"
+  ],
+  "riga": "carta.alt = T`La Voce, il giornale del paese: ${g.titolo}`;"
+ },
+ "{0}px": {
+  "dove": [
+   "gioco.js:1036",
+   "gioco.js:1036",
+   "gioco.js:1036",
+   "gioco.js:1037"
+  ],
+  "riga": "Object.assign(b.style, { left: T`${u0 * U}px`, top: T`${(v0 - V0) * U}px`, width: T`${(u1 - u0) * U}px`,"
+ },
+ "LETTERE · ": {
+  "dove": [
+   "gioco.js:1045"
+  ],
+  "riga": "lettera.append(el(\"b\", null, T(\"LETTERE · \")), document.createTextNode(g.lettera));"
+ },
+ "LETTERE · {0}": {
+  "dove": [
+   "gioco.js:1059"
+  ],
+  "riga": "el(\"p\", null, T`LETTERE · ${g.lettera}`), el(\"p\", null, g.breve));"
+ },
+ "Il secondo giorno": {
+  "dove": [
+   "gioco.js:1063",
+   "gioco.js:2999"
+  ],
+  "riga": "else if (domani) corpo.push(azioni([[[T(\"Il secondo giorno\"), iniziaGiorno2], [T(\"Il terzo giorno\"), iniziaGiorno3]][S.giorno - 1]"
+ },
+ "Il terzo giorno": {
+  "dove": [
+   "gioco.js:1063",
+   "gioco.js:2999"
+  ],
+  "riga": "else if (domani) corpo.push(azioni([[[T(\"Il secondo giorno\"), iniziaGiorno2], [T(\"Il terzo giorno\"), iniziaGiorno3]][S.giorno - 1]"
+ },
+ "La quarta mattina": {
+  "dove": [
+   "gioco.js:1064",
+   "gioco.js:3198",
+   "gioco.js:3263"
+  ],
+  "riga": "|| [T(\"La quarta mattina\"), quartaMattina]]));"
+ },
+ "Ogni notte: stanza {0} €, cena {1} €, {2} € per ogni cassetta usata.": {
+  "dove": [
+   "gioco.js:1099"
+  ],
+  "riga": "el(\"p\", null, T`Ogni notte: stanza ${D.SOLDI.stanza} €, cena ${D.SOLDI.cena} €, ${D.SOLDI.cassetta} € per ogni cassetta usata.`),"
+ },
+ "La ditta paga {0} € a paziente consegnato, {1} € in più per il profilo richiesto.": {
+  "dove": [
+   "gioco.js:1100"
+  ],
+  "riga": "el(\"p\", null, T`La ditta paga ${D.SOLDI.paziente} € a paziente consegnato, ${D.SOLDI.profilo} € in più per il profilo richiesto.`),"
+ },
+ " · segnalata": {
+  "dove": [
+   "gioco.js:1141"
+  ],
+  "riga": "const b = spillo(\"pin\", String(c.n), c.x, c.y, T`Casa ${c.n}${c.segnalata ? T(\" · segnalata\") : \"\"}`, () => scegli(id));"
+ },
+ "Casa {0}{1}": {
+  "dove": [
+   "gioco.js:1141"
+  ],
+  "riga": "const b = spillo(\"pin\", String(c.n), c.x, c.y, T`Casa ${c.n}${c.segnalata ? T(\" · segnalata\") : \"\"}`, () => scegli(id));"
+ },
+ "Tocca la mappa per ingrandire": {
+  "dove": [
+   "gioco.js:1155"
+  ],
+  "riga": "aiuto(T(\"Tocca la mappa per ingrandire\"));"
+ },
+ "Torna in stanza · finisce la giornata": {
+  "dove": [
+   "gioco.js:1156"
+  ],
+  "riga": "tasti(tasto(visite ? T(\"Torna in stanza · finisce la giornata\") : stanza ? T(\"Torna in stanza\") : T(\"Torna alla scrivania\"),"
+ },
+ "Torna in stanza": {
+  "dove": [
+   "gioco.js:1156"
+  ],
+  "riga": "tasti(tasto(visite ? T(\"Torna in stanza · finisce la giornata\") : stanza ? T(\"Torna in stanza\") : T(\"Torna alla scrivania\"),"
+ },
+ "Torna alla scrivania": {
+  "dove": [
+   "gioco.js:1156"
+  ],
+  "riga": "tasti(tasto(visite ? T(\"Torna in stanza · finisce la giornata\") : stanza ? T(\"Torna in stanza\") : T(\"Torna alla scrivania\"),"
+ },
+ "Casa {0}": {
+  "dove": [
+   "gioco.js:1286",
+   "gioco.js:2085"
+  ],
+  "riga": "testa.append(el(\"b\", null, T`Casa ${c.n}`));"
+ },
+ "segnalata": {
+  "dove": [
+   "gioco.js:1287"
+  ],
+  "riga": "if (c.segnalata) testa.append(timbro(T(\"segnalata\"), \"rosso\"));"
+ },
+ "croce": {
+  "dove": [
+   "gioco.js:1288"
+  ],
+  "riga": "if (c.croce || S.decisioni[id]?.provvedimento === \"chiudi\") testa.append(timbro(T(\"croce\"), \"nero\"));"
+ },
+ "visitata": {
+  "dove": [
+   "gioco.js:1289"
+  ],
+  "riga": "if (S.visitate[id]) testa.append(timbro(T(\"visitata\"), \"blu\"));"
+ },
+ "contagio": {
+  "dove": [
+   "gioco.js:1290"
+  ],
+  "riga": "if (S.notte?.contagiate?.includes(id)) testa.append(timbro(T(\"contagio\"), \"rosso\"));"
+ },
+ "Occupanti": {
+  "dove": [
+   "gioco.js:1293"
+  ],
+  "riga": "card.append(el(\"p\", \"sc-titolo\", T(\"Occupanti\")));"
+ },
+ "non esaminato": {
+  "dove": [
+   "gioco.js:1310",
+   "gioco.js:1958"
+  ],
+  "riga": "testo.append(el(\"span\", null, reperti.length ? reperti.join(\" · \") : T(\"non esaminato\")));"
+ },
+ "al lazzaretto": {
+  "dove": [
+   "gioco.js:1312"
+  ],
+  "riga": "dec.via.includes(pid) ? T(\"al lazzaretto\") : dec.ospite === pid ? T(\"ospite stanotte\") : T(\"resta in casa\")));"
+ },
+ "ospite stanotte": {
+  "dove": [
+   "gioco.js:1312"
+  ],
+  "riga": "dec.via.includes(pid) ? T(\"al lazzaretto\") : dec.ospite === pid ? T(\"ospite stanotte\") : T(\"resta in casa\")));"
+ },
+ "resta in casa": {
+  "dove": [
+   "gioco.js:1312"
+  ],
+  "riga": "dec.via.includes(pid) ? T(\"al lazzaretto\") : dec.ospite === pid ? T(\"ospite stanotte\") : T(\"resta in casa\")));"
+ },
+ "Qualcuno dietro la porta": {
+  "dove": [
+   "gioco.js:1322"
+  ],
+  "riga": "testo.append(el(\"b\", null, T(\"Qualcuno dietro la porta\")), el(\"span\", null, T(\"non visto\")));"
+ },
+ "non visto": {
+  "dove": [
+   "gioco.js:1322"
+  ],
+  "riga": "testo.append(el(\"b\", null, T(\"Qualcuno dietro la porta\")), el(\"span\", null, T(\"non visto\")));"
+ },
+ "Prove": {
+  "dove": [
+   "gioco.js:1329"
+  ],
+  "riga": "card.append(el(\"p\", \"sc-titolo\", T(\"Prove\")));"
+ },
+ "nessuno": {
+  "dove": [
+   "gioco.js:1334"
+  ],
+  "riga": "const prov = { nessuno: T(\"nessuno\"), chiudi: T(\"croce sulla porta\"), domani: T(\"tornare domani\") }[dec.provvedimento];"
+ },
+ "croce sulla porta": {
+  "dove": [
+   "gioco.js:1334",
+   "gioco.js:2108"
+  ],
+  "riga": "const prov = { nessuno: T(\"nessuno\"), chiudi: T(\"croce sulla porta\"), domani: T(\"tornare domani\") }[dec.provvedimento];"
+ },
+ "tornare domani": {
+  "dove": [
+   "gioco.js:1334",
+   "gioco.js:2108"
+  ],
+  "riga": "const prov = { nessuno: T(\"nessuno\"), chiudi: T(\"croce sulla porta\"), domani: T(\"tornare domani\") }[dec.provvedimento];"
+ },
+ "Provvedimento: {0}.": {
+  "dove": [
+   "gioco.js:1335"
+  ],
+  "riga": "card.append(el(\"p\", \"sc-nota\", T`Provvedimento: ${prov}.`));"
+ },
+ "Chiusa: nessuno entra o esce.": {
+  "dove": [
+   "gioco.js:1339"
+  ],
+  "riga": "card.append(vuoti, el(\"p\", \"sc-nota\", c.croce ? T(\"Chiusa: nessuno entra o esce.\") : T(\"Non ancora visitata.\")));"
+ },
+ "Non ancora visitata.": {
+  "dove": [
+   "gioco.js:1339"
+  ],
+  "riga": "card.append(vuoti, el(\"p\", \"sc-nota\", c.croce ? T(\"Chiusa: nessuno entra o esce.\") : T(\"Non ancora visitata.\")));"
+ },
+ "Non fai in tempo prima del coprifuoco.": {
+  "dove": [
+   "gioco.js:1344"
+  ],
+  "riga": "if (S.ora + D.MINUTI.viaggio >= D.INIZIO.coprifuoco) azioni.append(el(\"span\", null, T(\"Non fai in tempo prima del coprifuoco.\")));"
+ },
+ "Vai · {0} min": {
+  "dove": [
+   "gioco.js:1345"
+  ],
+  "riga": "else azioni.append(bottone(T`Vai · ${D.MINUTI.viaggio} min`, () => vai(id), \"sc-vai\"));"
+ },
+ "La ditta paga solo le case segnalate.": {
+  "dove": [
+   "gioco.js:1347"
+  ],
+  "riga": "azioni.append(el(\"span\", null, T(\"La ditta paga solo le case segnalate.\")));"
+ },
+ "Chiudi": {
+  "dove": [
+   "gioco.js:1349",
+   "gioco.js:1369",
+   "gioco.js:2088",
+   "index.html"
+  ],
+  "riga": "azioni.append(bottone(T(\"Chiudi\"), () => scegli(null), \"sc-chiudi\"));"
+ },
+ "NASTRO {0} · CASA {1}": {
+  "dove": [
+   "gioco.js:1408"
+  ],
+  "riga": "S.nastri.push({ casa: id, titolo: T`NASTRO ${S.nastri.length + 1} · CASA ${c.n}`, inizio: S.ora, fine: null, riprese: [] });"
+ },
+ "NOTTE": {
+  "dove": [
+   "gioco.js:1452",
+   "gioco.js:2331",
+   "gioco.js:2371",
+   "gioco.js:2410",
+   "gioco.js:2474",
+   "gioco.js:2571"
+  ],
+  "riga": "osd.modo.textContent = L.notte ? T(\"NOTTE\") : \"\";"
+ },
+ "Torna in cucina": {
+  "dove": [
+   "gioco.js:1499"
+  ],
+  "riga": "tasti(...(L.ritorno ? [tasto(L.ritornoNome || T(\"Torna in cucina\"), () => tornaCucina(), \"indietro\")] : []),"
+ },
+ "Stato di famiglia": {
+  "dove": [
+   "gioco.js:1500"
+  ],
+  "riga": "tasto(T(\"Stato di famiglia\"), () => apriStato(S.casa), \"foglio\"),"
+ },
+ "Concludi la visita": {
+  "dove": [
+   "gioco.js:1501"
+  ],
+  "riga": "tasto(T(\"Concludi la visita\"), () => apriStato(S.casa, { firma: true }), \"firma\", true));"
+ },
+ "{0} · PARLA": {
+  "dove": [
+   "gioco.js:1545"
+  ],
+  "riga": "return c.parte ? `${nome} · ${maiuscolo(D.PARTI[c.parte])}` : T`${nome} · PARLA`;"
+ },
+ "Torna alla stanza": {
+  "dove": [
+   "gioco.js:1621"
+  ],
+  "riga": "tasti(tasto(T(\"Torna alla stanza\"), chiudiPrimo, \"indietro\", true));"
+ },
+ "Sono le otto: coprifuoco. Devi andare.": {
+  "dove": [
+   "gioco.js:1661"
+  ],
+  "riga": "await dici([[null, T(\"Sono le otto: coprifuoco. Devi andare.\")]]);"
+ },
+ "ringhia, non risponde più": {
+  "dove": [
+   "gioco.js:1681"
+  ],
+  "riga": "if (!voci.length) voci.push({ testo: P.muto || (P.stato === \"mostro\" ? T(\"ringhia, non risponde più\") : T(\"nient'altro da chiedere\")), disattiva: true });"
+ },
+ "nient'altro da chiedere": {
+  "dove": [
+   "gioco.js:1681"
+  ],
+  "riga": "if (!voci.length) voci.push({ testo: P.muto || (P.stato === \"mostro\" ? T(\"ringhia, non risponde più\") : T(\"nient'altro da chiedere\")), disattiva: true });"
+ },
+ "L'hai già fatto notare": {
+  "dove": [
+   "gioco.js:1733"
+  ],
+  "riga": "if (c && S.contestate[c.id]) { notifica(T(\"L'hai già fatto notare\")); return; }"
+ },
+ "CONTRADDIZIONE": {
+  "dove": [
+   "gioco.js:1740"
+  ],
+  "riga": "timbra(c.timbro || T(\"CONTRADDIZIONE\"), tx, ty, c.timbro ? \"combacia\" : \"\");"
+ },
+ "Le due cose stanno insieme. Niente da contestare.": {
+  "dove": [
+   "gioco.js:1751"
+  ],
+  "riga": "const r = persona ? (D.REAZIONI[persona][k] || D.REAZIONI[persona]._) : [[null, T(\"Le due cose stanno insieme. Niente da contestare.\")]];"
+ },
+ "TOCCA CHI O COSA LA SMENTISCE": {
+  "dove": [
+   "gioco.js:1770"
+  ],
+  "riga": "mostraEtichetta(T(\"TOCCA CHI O COSA LA SMENTISCE\"));"
+ },
+ "CONFRONTA": {
+  "dove": [
+   "gioco.js:1793"
+  ],
+  "riga": "mostraEtichetta(T(\"CONFRONTA\"));"
+ },
+ "CONTESTA · {0}": {
+  "dove": [
+   "gioco.js:1798"
+  ],
+  "riga": "mostraEtichetta(T`CONTESTA · ${testoBersaglio(b)}`);"
+ },
+ "Non è qui": {
+  "dove": [
+   "gioco.js:1855"
+  ],
+  "riga": "if (!forme) { notifica(T(\"Non è qui\")); return; }"
+ },
+ "{0} · −{1} min": {
+  "dove": [
+   "gioco.js:1878"
+  ],
+  "riga": "voci.push({ testo: s.minuti > 5 ? T`${s.testo} · −${s.minuti} min` : s.testo, disattiva: !!(s.soldi && s.soldi > S.soldi),"
+ },
+ "ZERO": {
+  "dove": [
+   "gioco.js:1911"
+  ],
+  "riga": "const NUMERI = [T(\"ZERO\"), T(\"UNO\"), T(\"DUE\"), T(\"TRE\"), T(\"QUATTRO\"), T(\"CINQUE\"), T(\"SEI\")];"
+ },
+ "UNO": {
+  "dove": [
+   "gioco.js:1911"
+  ],
+  "riga": "const NUMERI = [T(\"ZERO\"), T(\"UNO\"), T(\"DUE\"), T(\"TRE\"), T(\"QUATTRO\"), T(\"CINQUE\"), T(\"SEI\")];"
+ },
+ "DUE": {
+  "dove": [
+   "gioco.js:1911"
+  ],
+  "riga": "const NUMERI = [T(\"ZERO\"), T(\"UNO\"), T(\"DUE\"), T(\"TRE\"), T(\"QUATTRO\"), T(\"CINQUE\"), T(\"SEI\")];"
+ },
+ "TRE": {
+  "dove": [
+   "gioco.js:1911"
+  ],
+  "riga": "const NUMERI = [T(\"ZERO\"), T(\"UNO\"), T(\"DUE\"), T(\"TRE\"), T(\"QUATTRO\"), T(\"CINQUE\"), T(\"SEI\")];"
+ },
+ "QUATTRO": {
+  "dove": [
+   "gioco.js:1911"
+  ],
+  "riga": "const NUMERI = [T(\"ZERO\"), T(\"UNO\"), T(\"DUE\"), T(\"TRE\"), T(\"QUATTRO\"), T(\"CINQUE\"), T(\"SEI\")];"
+ },
+ "CINQUE": {
+  "dove": [
+   "gioco.js:1911"
+  ],
+  "riga": "const NUMERI = [T(\"ZERO\"), T(\"UNO\"), T(\"DUE\"), T(\"TRE\"), T(\"QUATTRO\"), T(\"CINQUE\"), T(\"SEI\")];"
+ },
+ "SEI": {
+  "dove": [
+   "gioco.js:1911"
+  ],
+  "riga": "const NUMERI = [T(\"ZERO\"), T(\"UNO\"), T(\"DUE\"), T(\"TRE\"), T(\"QUATTRO\"), T(\"CINQUE\"), T(\"SEI\")];"
+ },
+ "MOSTRO": {
+  "dove": [
+   "gioco.js:1989",
+   "gioco.js:1993"
+  ],
+  "riga": "if (S.morti[persona]) foto.append(el(\"span\", \"sf-timbro-mostro\", T(\"MOSTRO\")));"
+ },
+ "nata": {
+  "dove": [
+   "gioco.js:1998"
+  ],
+  "riga": "const info = el(\"small\", null, T`${r.ruolo} · ${r.donna ? T(\"nata\") : T(\"nato\")} nel ${r.nato}${r.mestiere ? ` · ${r.mestiere}` : \"\"}`.toUpperCase());"
+ },
+ "nato": {
+  "dove": [
+   "gioco.js:1998"
+  ],
+  "riga": "const info = el(\"small\", null, T`${r.ruolo} · ${r.donna ? T(\"nata\") : T(\"nato\")} nel ${r.nato}${r.mestiere ? ` · ${r.mestiere}` : \"\"}`.toUpperCase());"
+ },
+ "{0} · {1} nel {2}{3}": {
+  "dove": [
+   "gioco.js:1998"
+  ],
+  "riga": "const info = el(\"small\", null, T`${r.ruolo} · ${r.donna ? T(\"nata\") : T(\"nato\")} nel ${r.nato}${r.mestiere ? ` · ${r.mestiere}` : \"\"}`.toUpperCase());"
+ },
+ "SEGNI PARTICOLARI: {0}": {
+  "dove": [
+   "gioco.js:2002"
+  ],
+  "riga": "if (r.segni) dati.append(el(\"small\", \"sf-segni\", T`SEGNI PARTICOLARI: ${r.segni.toUpperCase()}`));"
+ },
+ "diagnosi": {
+  "dove": [
+   "gioco.js:2014"
+  ],
+  "riga": "else esito.append(el(\"span\", \"sf-vuoto-timbro\", T(\"diagnosi\")));"
+ },
+ "ieri: {0}": {
+  "dove": [
+   "gioco.js:2017"
+  ],
+  "riga": "if (ieri) esito.append(el(\"small\", \"sf-ieri\", T`ieri: ${D.TIMBRI.find((t) => t.id === ieri).testo}`));"
+ },
+ "★ PROFILO RICHIESTO · +{0} €": {
+  "dove": [
+   "gioco.js:2018"
+  ],
+  "riga": "if (P?.profilo) esito.append(el(\"span\", \"sf-ditta\", T`★ PROFILO RICHIESTO · +${D.SOLDI.profilo} €`));"
+ },
+ "Al lazzaretto": {
+  "dove": [
+   "gioco.js:2029"
+  ],
+  "riga": "sceltaStato(\"lazzaretto\", T(\"Al lazzaretto\"), `+${D.SOLDI.paziente} €`, via, !!firmata, () => {"
+ },
+ "Ospite stanotte": {
+  "dove": [
+   "gioco.js:2036"
+  ],
+  "riga": "sceltaStato(\"ospite\", T(\"Ospite stanotte\"), ospite ? T(\"dorme da te\") : P.ospite || (!D.OSPITE[persona] ? T(\"non può venire\")"
+ },
+ "dorme da te": {
+  "dove": [
+   "gioco.js:2036",
+   "gioco.js:2037"
+  ],
+  "riga": "sceltaStato(\"ospite\", T(\"Ospite stanotte\"), ospite ? T(\"dorme da te\") : P.ospite || (!D.OSPITE[persona] ? T(\"non può venire\")"
+ },
+ "non può venire": {
+  "dove": [
+   "gioco.js:2036"
+  ],
+  "riga": "sceltaStato(\"ospite\", T(\"Ospite stanotte\"), ospite ? T(\"dorme da te\") : P.ospite || (!D.OSPITE[persona] ? T(\"non può venire\")"
+ },
+ "solo chi è sano": {
+  "dove": [
+   "gioco.js:2037"
+  ],
+  "riga": ": !sano ? T(\"solo chi è sano\") : preso ? T`c'è già ${D.PERSONE[S.ospite].nome}` : T(\"dorme da te\")), ospite,"
+ },
+ "c'è già {0}": {
+  "dove": [
+   "gioco.js:2037"
+  ],
+  "riga": ": !sano ? T(\"solo chi è sano\") : preso ? T`c'è già ${D.PERSONE[S.ospite].nome}` : T(\"dorme da te\")), ospite,"
+ },
+ "COMUNE DI {0}": {
+  "dove": [
+   "gioco.js:2093"
+  ],
+  "riga": "el(\"div\", \"sf-comune\", T`COMUNE DI ${D.COMUNE}`),"
+ },
+ "UFFICIO ANAGRAFE · SERVIZIO DEMOGRAFICO": {
+  "dove": [
+   "gioco.js:2094"
+  ],
+  "riga": "el(\"div\", \"sf-ufficio\", T(\"UFFICIO ANAGRAFE · SERVIZIO DEMOGRAFICO\")),"
+ },
+ "CERTIFICATO DI STATO DI FAMIGLIA": {
+  "dove": [
+   "gioco.js:2095"
+  ],
+  "riga": "el(\"div\", \"sf-titolo\", T(\"CERTIFICATO DI STATO DI FAMIGLIA\")),"
+ },
+ "Si certifica che nell'abitazione di {0} (casa n. {1}) la famiglia anagrafica risulta così composta:": {
+  "dove": [
+   "gioco.js:2096"
+  ],
+  "riga": "el(\"p\", \"sf-premessa\", T`Si certifica che nell'abitazione di ${A.via} (casa n. ${c.n}) la famiglia anagrafica risulta così composta:`));"
+ },
+ "Componenti risultanti: {0}.": {
+  "dove": [
+   "gioco.js:2102"
+  ],
+  "riga": "const comp = el(\"p\", null, T`Componenti risultanti: ${NUMERI[A.righe.length] || A.righe.length}.`);"
+ },
+ " vivi: {0}": {
+  "dove": [
+   "gioco.js:2103"
+  ],
+  "riga": "if (vivi < A.righe.length) comp.append(el(\"span\", \"penna\", T` vivi: ${vivi}`));"
+ },
+ "Provvedimento: ": {
+  "dove": [
+   "gioco.js:2106"
+  ],
+  "riga": "prov.append(document.createTextNode(T(\"Provvedimento: \")));"
+ },
+ "Il medico: ": {
+  "dove": [
+   "gioco.js:2123"
+  ],
+  "riga": "firma.append(el(\"span\", null, T(\"Il medico: \")));"
+ },
+ "Dott. ———": {
+  "dove": [
+   "gioco.js:2125",
+   "gioco.js:2277"
+  ],
+  "riga": "firma.append(el(\"span\", \"sf-scarabocchio\", T(\"Dott. ———\")), el(\"span\", \"sf-consegnato\", T(\"CONSEGNATO ALLA DITTA\")));"
+ },
+ "CONSEGNATO ALLA DITTA": {
+  "dove": [
+   "gioco.js:2125"
+  ],
+  "riga": "firma.append(el(\"span\", \"sf-scarabocchio\", T(\"Dott. ———\")), el(\"span\", \"sf-consegnato\", T(\"CONSEGNATO ALLA DITTA\")));"
+ },
+ "firma e consegna alla ditta": {
+  "dove": [
+   "gioco.js:2127"
+  ],
+  "riga": "const b = bottone(T(\"firma e consegna alla ditta\"), () => firmaStato(casa, b), \"sf-bottone-firma\");"
+ },
+ "si firma a fine visita, nella sua casa": {
+  "dove": [
+   "gioco.js:2130"
+  ],
+  "riga": "} else firma.append(el(\"span\", \"sf-spiega\", S.casa ? T(\"si firma a fine visita, nella sua casa\") : T(\"si firma a fine visita\")));"
+ },
+ "si firma a fine visita": {
+  "dove": [
+   "gioco.js:2130"
+  ],
+  "riga": "} else firma.append(el(\"span\", \"sf-spiega\", S.casa ? T(\"si firma a fine visita, nella sua casa\") : T(\"si firma a fine visita\")));"
+ },
+ "Timbri": {
+  "dove": [
+   "gioco.js:2136"
+  ],
+  "riga": "lato.append(el(\"h3\", null, T(\"Timbri\")));"
+ },
+ "Timbro {0}": {
+  "dove": [
+   "gioco.js:2141"
+  ],
+  "riga": "b.setAttribute(\"aria-label\", T`Timbro ${t.testo}`);"
+ },
+ "Dal nastro delle frasi": {
+  "dove": [
+   "gioco.js:2146"
+  ],
+  "riga": "lato.append(rastrelliera, el(\"h3\", null, T(\"Dal nastro delle frasi\")));"
+ },
+ "Ancora niente: le frasi arrivano dalle visite.": {
+  "dove": [
+   "gioco.js:2149"
+  ],
+  "riga": "if (!mie.length) frasi.append(el(\"p\", \"sf-spiega\", T(\"Ancora niente: le frasi arrivano dalle visite.\")));"
+ },
+ "Trascina un timbro su una persona: è la tua diagnosi. Trascina una frase sul nome giusto: la penna la scrive, e barra quello che smentisce. Decidi chi porti al lazzaretto e chi ospiti stanotte (solo un sano: chi dorme solo, il malvento se lo prende), poi firma.": {
+  "dove": [
+   "gioco.js:2170"
+  ],
+  "riga": "lato.append(frasi, el(\"p\", \"sf-aiuto\", T(\"Trascina un timbro su una persona: è la tua diagnosi. Trascina una frase sul nome giusto: la penna la scrive, e barra quello che smentisce. Decidi chi porti al lazzaretto e chi ospiti stanotte (solo un sano: chi dorme solo, il malvento se lo prende), poi fir"
+ },
+ "Ora scegli una persona": {
+  "dove": [
+   "gioco.js:2249"
+  ],
+  "riga": "notifica(T(\"Ora scegli una persona\"));"
+ },
+ "Già annotato": {
+  "dove": [
+   "gioco.js:2262",
+   "gioco.js:2668"
+  ],
+  "riga": "if (esito === \"gia\") notifica(T(\"Già annotato\"));"
+ },
+ "Non c'entra": {
+  "dove": [
+   "gioco.js:2264"
+  ],
+  "riga": "notifica(T(\"Non c'entra\"));"
+ },
+ "Le otto. Coprifuoco.": {
+  "dove": [
+   "gioco.js:2306"
+  ],
+  "riga": "await dici([[null, T(\"Le otto. Coprifuoco.\")], [null, D.OSPITE[S.ospite || \"solo\"].arriva],"
+ },
+ "I nastri di oggi sono nel videoregistratore.": {
+  "dove": [
+   "gioco.js:2307"
+  ],
+  "riga": "[null, T(\"I nastri di oggi sono nel videoregistratore.\")]], false, false);"
+ },
+ "Chiudi la porta": {
+  "dove": [
+   "gioco.js:2344",
+   "gioco.js:2386"
+  ],
+  "riga": "tasti(tasto(T(\"Chiudi la porta\"), () => { stanza.socchiudi(false); suoni.suona(\"porta\", { volume: 0.5 }); vaiStanza(\"ospite\"); }, \"indietro\", true));"
+ },
+ "Chiudi la porta per tornare nella stanza.": {
+  "dove": [
+   "gioco.js:2345",
+   "gioco.js:2393"
+  ],
+  "riga": "aiuto(T(\"Chiudi la porta per tornare nella stanza.\"));"
+ },
+ "Il nastro della notte: la maschera è rimasta accesa sulla scrivania.": {
+  "dove": [
+   "gioco.js:2419",
+   "gioco.js:2483"
+  ],
+  "riga": "aiuto(T(\"Il nastro della notte: la maschera è rimasta accesa sulla scrivania.\"));"
+ },
+ "Nastri": {
+  "dove": [
+   "gioco.js:2515"
+  ],
+  "riga": "const corpo = [el(\"h2\", null, T(\"Nastri\"))];"
+ },
+ "Nessuna visita registrata, per ora.": {
+  "dove": [
+   "gioco.js:2516"
+  ],
+  "riga": "if (!S.nastri.length) corpo.push(el(\"p\", \"vuoto\", T(\"Nessuna visita registrata, per ora.\")));"
+ },
+ "Durante la riproduzione tocca l'immagine per ingrandire. Con l'infrarosso si vede il calore: tocca quello che non torna.": {
+  "dove": [
+   "gioco.js:2521"
+  ],
+  "riga": "corpo.push(el(\"p\", \"nota\", T(\"Durante la riproduzione tocca l'immagine per ingrandire. Con l'infrarosso si vede il calore: tocca quello che non torna.\")));"
+ },
+ "IR": {
+  "dove": [
+   "gioco.js:2534",
+   "gioco.js:2571"
+  ],
+  "riga": "bottone(T(\"IR\"), infrarosso, \"cmd cmd-ir\"),"
+ },
+ "Esci": {
+  "dove": [
+   "gioco.js:2535",
+   "gioco.js:2688",
+   "gioco.js:3511"
+  ],
+  "riga": "bottone(T(\"Esci\"), tornaDaiNastri, \"cmd cmd-esci\"));"
+ },
+ "[fine del nastro]": {
+  "dove": [
+   "gioco.js:2597"
+  ],
+  "riga": "parole.scrivi(null, T(\"[fine del nastro]\"), { lato: \"sotto\" });"
+ },
+ "nessun malato in casa": {
+  "dove": [
+   "gioco.js:2723"
+  ],
+  "riga": "let esito = \"pulita\", perche = T(\"nessun malato in casa\");"
+ },
+ "nessuna visita": {
+  "dove": [
+   "gioco.js:2726"
+  ],
+  "riga": "perche = T(\"nessuna visita\");"
+ },
+ "la croce lo tiene dentro, coi sani": {
+  "dove": [
+   "gioco.js:2730"
+  ],
+  "riga": "perche = sani ? T(\"la croce lo tiene dentro, coi sani\") : T(\"la croce lo tiene dentro\");"
+ },
+ "la croce lo tiene dentro": {
+  "dove": [
+   "gioco.js:2730"
+  ],
+  "riga": "perche = sani ? T(\"la croce lo tiene dentro, coi sani\") : T(\"la croce lo tiene dentro\");"
+ },
+ "la croce, ma non c'erano malati": {
+  "dove": [
+   "gioco.js:2733"
+  ],
+  "riga": "perche = T(\"la croce, ma non c'erano malati\");"
+ },
+ "malati rimasti in casa": {
+  "dove": [
+   "gioco.js:2737"
+  ],
+  "riga": "perche = T(\"malati rimasti in casa\");"
+ },
+ " · ti hanno cacciato": {
+  "dove": [
+   "gioco.js:2815"
+  ],
+  "riga": "li.append(el(\"small\", null, c.perche + (c.cacciato ? T(\" · ti hanno cacciato\") : \"\")));"
+ },
+ "la tua stanza": {
+  "dove": [
+   "gioco.js:2821"
+  ],
+  "riga": "li.append(casella(\"✚\", \"fonte\"), el(\"span\", \"nt-freccia\", \"→\"), el(\"span\", \"nt-casa presa nt-tua\", T(\"la tua stanza\")),"
+ },
+ "malata": {
+  "dove": [
+   "gioco.js:2822",
+   "giorno3.js:1075"
+  ],
+  "riga": "el(\"small\", null, T`${D.PERSONE[n.ospite.chi].nome}, ${donna(n.ospite.chi) ? T(\"malata\") : T(\"malato\")}, ha dormito da te`));"
+ },
+ "malato": {
+  "dove": [
+   "gioco.js:2822",
+   "gioco.js:2968",
+   "giorno3.js:1084",
+   "giorno3.js:1090"
+  ],
+  "riga": "el(\"small\", null, T`${D.PERSONE[n.ospite.chi].nome}, ${donna(n.ospite.chi) ? T(\"malata\") : T(\"malato\")}, ha dormito da te`));"
+ },
+ "{0}, {1}, ha dormito da te": {
+  "dove": [
+   "gioco.js:2822"
+  ],
+  "riga": "el(\"small\", null, T`${D.PERSONE[n.ospite.chi].nome}, ${donna(n.ospite.chi) ? T(\"malata\") : T(\"malato\")}, ha dormito da te`));"
+ },
+ "La prima notte": {
+  "dove": [
+   "gioco.js:2834"
+  ],
+  "riga": "el(\"h2\", null, [T(\"La prima notte\"), T(\"La seconda notte\"), T(\"La terza notte\")][S.giorno - 1]),"
+ },
+ "La seconda notte": {
+  "dove": [
+   "gioco.js:2834"
+  ],
+  "riga": "el(\"h2\", null, [T(\"La prima notte\"), T(\"La seconda notte\"), T(\"La terza notte\")][S.giorno - 1]),"
+ },
+ "La terza notte": {
+  "dove": [
+   "gioco.js:2834"
+  ],
+  "riga": "el(\"h2\", null, [T(\"La prima notte\"), T(\"La seconda notte\"), T(\"La terza notte\")][S.giorno - 1]),"
+ },
+ "una casa nuova": {
+  "dove": [
+   "gioco.js:2835"
+  ],
+  "riga": "el(\"h3\", \"nt-titolo\", nuove ? T`Il contagio: ${nuove === 1 ? T(\"una casa nuova\") : T`${nuove} case nuove`}` : T(\"Il contagio non è passato\")),"
+ },
+ "{0} case nuove": {
+  "dove": [
+   "gioco.js:2835"
+  ],
+  "riga": "el(\"h3\", \"nt-titolo\", nuove ? T`Il contagio: ${nuove === 1 ? T(\"una casa nuova\") : T`${nuove} case nuove`}` : T(\"Il contagio non è passato\")),"
+ },
+ "Il contagio: {0}": {
+  "dove": [
+   "gioco.js:2835"
+  ],
+  "riga": "el(\"h3\", \"nt-titolo\", nuove ? T`Il contagio: ${nuove === 1 ? T(\"una casa nuova\") : T`${nuove} case nuove`}` : T(\"Il contagio non è passato\")),"
+ },
+ "Il contagio non è passato": {
+  "dove": [
+   "gioco.js:2835"
+  ],
+  "riga": "el(\"h3\", \"nt-titolo\", nuove ? T`Il contagio: ${nuove === 1 ? T(\"una casa nuova\") : T`${nuove} case nuove`}` : T(\"Il contagio non è passato\")),"
+ },
+ "Al lazzaretto ": {
+  "dove": [
+   "gioco.js:2837"
+  ],
+  "riga": "riga(T(\"Al lazzaretto \"), portati ? `${portati}.` : T(\"nessuno.\")),"
+ },
+ "nessuno.": {
+  "dove": [
+   "gioco.js:2837"
+  ],
+  "riga": "riga(T(\"Al lazzaretto \"), portati ? `${portati}.` : T(\"nessuno.\")),"
+ },
+ "Ospite ": {
+  "dove": [
+   "gioco.js:2838"
+  ],
+  "riga": "riga(n.ospite ? T(\"Ospite \") : T(\"Da solo \"), O.mattina),"
+ },
+ "Da solo ": {
+  "dove": [
+   "gioco.js:2838"
+  ],
+  "riga": "riga(n.ospite ? T(\"Ospite \") : T(\"Da solo \"), O.mattina),"
+ },
+ "Soldi ": {
+  "dove": [
+   "gioco.js:2839",
+   "gioco.js:3299"
+  ],
+  "riga": "riga(T(\"Soldi \"), T`+${n.incasso} € dalla ditta, −${n.spese} € di spese: restano ${S.soldi} €.`),"
+ },
+ "+{0} € dalla ditta, −{1} € di spese: restano {2} €.": {
+  "dove": [
+   "gioco.js:2839"
+  ],
+  "riga": "riga(T(\"Soldi \"), T`+${n.incasso} € dalla ditta, −${n.spese} € di spese: restano ${S.soldi} €.`),"
+ },
+ "Il giornale del mattino": {
+  "dove": [
+   "gioco.js:2840"
+  ],
+  "riga": "azioni([[T(\"Il giornale del mattino\"), () => { R.contagio = null; apriGiornale(true); }]]),"
+ },
+ "Un altro giorno di paura": {
+  "dove": [
+   "gioco.js:2929"
+  ],
+  "riga": "let titolo = T(\"Un altro giorno di paura\");"
+ },
+ "Il medico ha girato per il paese fino al coprifuoco. Nessuno sa ancora quante case visiterà domani.": {
+  "dove": [
+   "gioco.js:2930"
+  ],
+  "riga": "let sommario = T(\"Il medico ha girato per il paese fino al coprifuoco. Nessuno sa ancora quante case visiterà domani.\");"
+ },
+ "Portata via una ragazza sana": {
+  "dove": [
+   "gioco.js:2932"
+  ],
+  "riga": "titolo = T(\"Portata via una ragazza sana\");"
+ },
+ "La famiglia della casa 5: «Aveva solo freddo». La Panacea: «Procedura corretta».": {
+  "dove": [
+   "gioco.js:2933"
+  ],
+  "riga": "sommario = T(\"La famiglia della casa 5: «Aveva solo freddo». La Panacea: «Procedura corretta».\");"
+ },
+ "Portata via la figlia del meccanico": {
+  "dove": [
+   "gioco.js:2935"
+  ],
+  "riga": "titolo = T(\"Portata via la figlia del meccanico\");"
+ },
+ "«Stava bene», giurano i vicini. La ditta non risponde.": {
+  "dove": [
+   "gioco.js:2936"
+  ],
+  "riga": "sommario = T(\"«Stava bene», giurano i vicini. La ditta non risponde.\");"
+ },
+ "Il medico si porta a casa un malato": {
+  "dove": [
+   "gioco.js:2939"
+  ],
+  "riga": "titolo = n.ospite.malato ? T(\"Il medico si porta a casa un malato\") : T`Il medico ospita ${nome}`;"
+ },
+ "Il medico ospita {0}": {
+  "dove": [
+   "gioco.js:2939",
+   "giorno2.js:945"
+  ],
+  "riga": "titolo = n.ospite.malato ? T(\"Il medico si porta a casa un malato\") : T`Il medico ospita ${nome}`;"
+ },
+ "Lo hanno visto entrare con lui sopra il bar. «Così ci ammaliamo tutti», dice il barista.": {
+  "dove": [
+   "gioco.js:2940"
+  ],
+  "riga": "sommario = n.ospite.malato ? T(\"Lo hanno visto entrare con lui sopra il bar. «Così ci ammaliamo tutti», dice il barista.\")"
+ },
+ "«Chi dorme solo, il malvento se lo prende», dicono in paese. Qualcuno ride, qualcuno no.": {
+  "dove": [
+   "gioco.js:2941"
+  ],
+  "riga": ": T(\"«Chi dorme solo, il malvento se lo prende», dicono in paese. Qualcuno ride, qualcuno no.\");"
+ },
+ "Il medico entra con la forza": {
+  "dove": [
+   "gioco.js:2943"
+  ],
+  "riga": "titolo = T(\"Il medico entra con la forza\");"
+ },
+ "Alla casa 3 ha spinto via il padrone di casa per entrare nel corridoio.": {
+  "dove": [
+   "gioco.js:2944"
+  ],
+  "riga": "sommario = T(\"Alla casa 3 ha spinto via il padrone di casa per entrare nel corridoio.\");"
+ },
+ "La peste si allarga": {
+  "dove": [
+   "gioco.js:2946"
+  ],
+  "riga": "titolo = T(\"La peste si allarga\");"
+ },
+ "Nuovi malati nelle case {0}.": {
+  "dove": [
+   "gioco.js:2947",
+   "giorno2.js:950",
+   "giorno3.js:1120"
+  ],
+  "riga": "sommario = T`Nuovi malati nelle case ${n.contagiate.map((c) => D.CASE[c].n).join(\", \")}.`;"
+ },
+ "Croci sulle porte": {
+  "dove": [
+   "gioco.js:2949"
+  ],
+  "riga": "titolo = T(\"Croci sulle porte\");"
+ },
+ "Il medico ha chiuso delle case. In paese c'è chi applaude e chi sputa per terra.": {
+  "dove": [
+   "gioco.js:2950"
+  ],
+  "riga": "sommario = T(\"Il medico ha chiuso delle case. In paese c'è chi applaude e chi sputa per terra.\");"
+ },
+ "«Almeno qualcuno fa qualcosa», dicono al bar.": {
+  "dove": [
+   "gioco.js:2952"
+  ],
+  "riga": "const umore = n.fiducia >= 60 ? T(\"«Almeno qualcuno fa qualcosa», dicono al bar.\")"
+ },
+ "Al bar si parla solo del medico. Nessuno gli si siede vicino.": {
+  "dove": [
+   "gioco.js:2953"
+  ],
+  "riga": ": n.fiducia >= 35 ? T(\"Al bar si parla solo del medico. Nessuno gli si siede vicino.\")"
+ },
+ "Sul muro della chiesa, stanotte, qualcuno ha scritto: IL MEDICO È LA PESTE.": {
+  "dove": [
+   "gioco.js:2954"
+  ],
+  "riga": ": T(\"Sul muro della chiesa, stanotte, qualcuno ha scritto: IL MEDICO È LA PESTE.\");"
+ },
+ "Foglio del paese · martedì 27 ottobre": {
+  "dove": [
+   "gioco.js:2956"
+  ],
+  "riga": "testata: T(\"LA VOCE\"), data: T(\"Foglio del paese · martedì 27 ottobre\"), titolo, sommario,"
+ },
+ "«Le case dove entra lui si ammalano. Contate.» Lettera non firmata.": {
+  "dove": [
+   "gioco.js:2958"
+  ],
+  "riga": "lettera: n.ospite ? T(\"«Le case dove entra lui si ammalano. Contate.» Lettera non firmata.\")"
+ },
+ "«Ha dormito solo. Chi dorme solo, il malvento se lo prende.» Lettera non firmata.": {
+  "dove": [
+   "gioco.js:2959"
+  ],
+  "riga": ": T(\"«Ha dormito solo. Chi dorme solo, il malvento se lo prende.» Lettera non firmata.\"),"
+ },
+ "La Panacea annuncia un premio di produzione per il medico.": {
+  "dove": [
+   "gioco.js:2960"
+  ],
+  "riga": "breve: T(\"La Panacea annuncia un premio di produzione per il medico.\"),"
+ },
+ "Il medico, ieri, davanti a una delle case segnalate.": {
+  "dove": [
+   "gioco.js:2962",
+   "giorno2.js:961"
+  ],
+  "riga": "didascalia: T(\"Il medico, ieri, davanti a una delle case segnalate.\"),"
+ },
+ "sano": {
+  "dove": [
+   "gioco.js:2968",
+   "giorno3.js:1084",
+   "giorno3.js:1090"
+  ],
+  "riga": "const stati = { sano: T(\"sano\"), malato: T(\"malato\"), grave: T(\"grave\"), mostro: T(\"diventato un mostro\"), lazzaretto: T(\"nel recinto\") };"
+ },
+ "grave": {
+  "dove": [
+   "gioco.js:2968",
+   "giorno3.js:1075",
+   "giorno3.js:1084"
+  ],
+  "riga": "const stati = { sano: T(\"sano\"), malato: T(\"malato\"), grave: T(\"grave\"), mostro: T(\"diventato un mostro\"), lazzaretto: T(\"nel recinto\") };"
+ },
+ "diventato un mostro": {
+  "dove": [
+   "gioco.js:2968"
+  ],
+  "riga": "const stati = { sano: T(\"sano\"), malato: T(\"malato\"), grave: T(\"grave\"), mostro: T(\"diventato un mostro\"), lazzaretto: T(\"nel recinto\") };"
+ },
+ "nel recinto": {
+  "dove": [
+   "gioco.js:2968"
+  ],
+  "riga": "const stati = { sano: T(\"sano\"), malato: T(\"malato\"), grave: T(\"grave\"), mostro: T(\"diventato un mostro\"), lazzaretto: T(\"nel recinto\") };"
+ },
+ "trovata cambiata": {
+  "dove": [
+   "gioco.js:2978"
+  ],
+  "riga": "ul.append(el(\"li\", null, T`✓ ${r.nome}: l'hai ${r.donna ? T(\"trovata cambiata\") : T(\"trovato cambiato\")}, un mostro.`));"
+ },
+ "trovato cambiato": {
+  "dove": [
+   "gioco.js:2978"
+  ],
+  "riga": "ul.append(el(\"li\", null, T`✓ ${r.nome}: l'hai ${r.donna ? T(\"trovata cambiata\") : T(\"trovato cambiato\")}, un mostro.`));"
+ },
+ "✓ {0}: l'hai {1}, un mostro.": {
+  "dove": [
+   "gioco.js:2978"
+  ],
+  "riga": "ul.append(el(\"li\", null, T`✓ ${r.nome}: l'hai ${r.donna ? T(\"trovata cambiata\") : T(\"trovato cambiato\")}, un mostro.`));"
+ },
+ "{0} {1}: hai timbrato {2}, era {3}.": {
+  "dove": [
+   "gioco.js:2985"
+  ],
+  "riga": "ul.append(el(\"li\", null, T`${giusta ? \"✓\" : \"✗\"} ${r.nome}: hai timbrato ${D.TIMBRI.find((t) => t.id === mio).testo}, era ${stati[vero] || vero}.`));"
+ },
+ "Casa 3: il padre era malato (febbre, bubbone al collo). La madre era grave, nascosta in camera, con le dita nere. La figlia era sana.": {
+  "dove": [
+   "gioco.js:2992"
+  ],
+  "riga": "T(\"Casa 3: il padre era malato (febbre, bubbone al collo). La madre era grave, nascosta in camera, con le dita nere. La figlia era sana.\"),"
+ },
+ "Il nonno della casa 3 non era morto: una settimana fa si è alzato dal letto, cambiato, ed è uscito scalzo. È uno di quelli che la ditta cerca di notte.": {
+  "dove": [
+   "gioco.js:2993"
+  ],
+  "riga": "T(\"Il nonno della casa 3 non era morto: una settimana fa si è alzato dal letto, cambiato, ed è uscito scalzo. È uno di quelli che la ditta cerca di notte.\"),"
+ },
+ "Casa 5: l'uomo aveva la febbre, il contagio era all'inizio. La ragazza era sana: pallida per il freddo e la fame, non per la peste. La nonna era sana. Dietro la porta c'era il figlio, grave.": {
+  "dove": [
+   "gioco.js:2994"
+  ],
+  "riga": "T(\"Casa 5: l'uomo aveva la febbre, il contagio era all'inizio. La ragazza era sana: pallida per il freddo e la fame, non per la peste. La nonna era sana. Dietro la porta c'era il figlio, grave.\"),"
+ },
+ "Il protocollo mentiva sul pallore, e la ditta paga di più per i giovani sani.": {
+  "dove": [
+   "gioco.js:2995"
+  ],
+  "riga": "T(\"Il protocollo mentiva sul pallore, e la ditta paga di più per i giovani sani.\"),"
+ },
+ "La nonna e il nastro 7 dicono la stessa cosa: la peste arriva con il medico.": {
+  "dove": [
+   "gioco.js:2996"
+  ],
+  "riga": "T(\"La nonna e il nastro 7 dicono la stessa cosa: la peste arriva con il medico.\"),"
+ },
+ "Il primo giorno": {
+  "dove": [
+   "gioco.js:2999"
+  ],
+  "riga": "const GIORNI = [T(\"Il primo giorno\"), T(\"Il secondo giorno\"), T(\"Il terzo giorno\")];"
+ },
+ "Il medico è la peste": {
+  "dove": [
+   "gioco.js:3009",
+   "gioco.js:3215"
+  ],
+  "riga": "{ id: \"medico\", nome: T(\"Il medico è la peste\"),"
+ },
+ "Chi dorme da te, la mattina dopo scotta. E sotto la chiesa c'è una maschera come la tua.": {
+  "dove": [
+   "gioco.js:3011"
+  ],
+  "riga": "sfuggita: T(\"Chi dorme da te, la mattina dopo scotta. E sotto la chiesa c'è una maschera come la tua.\") },"
+ },
+ "La ditta e le cavie": {
+  "dove": [
+   "gioco.js:3012"
+  ],
+  "riga": "{ id: \"ditta\", nome: T(\"La ditta e le cavie\"), trovata: (ha) => [\"p:cartella\", \"p:peste_lenzuola\"].some(ha),"
+ },
+ "Sotto il materasso della casa 2 c'è una cartella; nella casa 4, le lenzuola del recinto.": {
+  "dove": [
+   "gioco.js:3013"
+  ],
+  "riga": "sfuggita: T(\"Sotto il materasso della casa 2 c'è una cartella; nella casa 4, le lenzuola del recinto.\") },"
+ },
+ "Chi non si ammala": {
+  "dove": [
+   "gioco.js:3014"
+  ],
+  "riga": "{ id: \"immune\", nome: T(\"Chi non si ammala\"), trovata: (ha) => IMMUNE.some(ha),"
+ },
+ "Nella casa 10 qualcuno ha dormito accanto a un malato e non si è ammalato.": {
+  "dove": [
+   "gioco.js:3015"
+  ],
+  "riga": "sfuggita: T(\"Nella casa 10 qualcuno ha dormito accanto a un malato e non si è ammalato.\") },"
+ },
+ "Il segreto del paese": {
+  "dove": [
+   "gioco.js:3016"
+  ],
+  "riga": "{ id: \"paese\", nome: T(\"Il segreto del paese\"),"
+ },
+ "Il sacrestano della casa 7 non dice dov'è sua moglie. Ascolta dietro la porta della cantina.": {
+  "dove": [
+   "gioco.js:3018"
+  ],
+  "riga": "sfuggita: T(\"Il sacrestano della casa 7 non dice dov'è sua moglie. Ascolta dietro la porta della cantina.\") },"
+ },
+ "{0} e {1}": {
+  "dove": [
+   "gioco.js:3053"
+  ],
+  "riga": "const elenco = (v) => (v.length > 1 ? T`${v.slice(0, -1).join(\", \")} e ${v[v.length - 1]}` : v[0] || \"\");"
+ },
+ "Nella stanza c'è una luce di un colore che non ha nome, e non viene dalla finestra.": {
+  "dove": [
+   "gioco.js:3055"
+  ],
+  "riga": "const COLORE_MATTINA = T(\"Nella stanza c'è una luce di un colore che non ha nome, e non viene dalla finestra.\");"
+ },
+ "Medico 6": {
+  "dove": [
+   "gioco.js:3061"
+  ],
+  "riga": "fax: { titolo: T(\"Medico 6\"), indizio: T(\"Capisci chi sei, e scrivilo alla ditta.\"), righe: () => ["
+ },
+ "Capisci chi sei, e scrivilo alla ditta.": {
+  "dove": [
+   "gioco.js:3061"
+  ],
+  "riga": "fax: { titolo: T(\"Medico 6\"), indizio: T(\"Capisci chi sei, e scrivilo alla ditta.\"), righe: () => ["
+ },
+ "Scrivi sul fax tutto quello che sai: la lente d'ottone, gli ospiti che la mattina scottavano, le case dove entri tu.": {
+  "dove": [
+   "gioco.js:3062"
+  ],
+  "riga": "T(\"Scrivi sul fax tutto quello che sai: la lente d'ottone, gli ospiti che la mattina scottavano, le case dove entri tu.\"),"
+ },
+ "Mezz'ora dopo il fax risponde, coi timbri: PRESO ATTO. PROSEGUA. Nuova destinazione: Valcupa, 31 case.": {
+  "dove": [
+   "gioco.js:3063"
+  ],
+  "riga": "T(\"Mezz'ora dopo il fax risponde, coi timbri: PRESO ATTO. PROSEGUA. Nuova destinazione: Valcupa, 31 case.\"),"
+ },
+ "Lo sapevano dal primo giorno. Ti hanno mandato apposta.": {
+  "dove": [
+   "gioco.js:3064"
+  ],
+  "riga": "T(\"Lo sapevano dal primo giorno. Ti hanno mandato apposta.\")] },"
+ },
+ "Le campane": {
+  "dove": [
+   "gioco.js:3065"
+  ],
+  "riga": "cripta: { titolo: T(\"Le campane\"), indizio: T(\"Capisci chi sei, e scendi nella cripta.\"), righe: () => ["
+ },
+ "Capisci chi sei, e scendi nella cripta.": {
+  "dove": [
+   "gioco.js:3065"
+  ],
+  "riga": "cripta: { titolo: T(\"Le campane\"), indizio: T(\"Capisci chi sei, e scendi nella cripta.\"), righe: () => ["
+ },
+ "Prendi la chiave nera e scendi. Le candele sono ancora accese, e la santa di cera canta a bocca chiusa.": {
+  "dove": [
+   "gioco.js:3066",
+   "gioco.js:3071"
+  ],
+  "riga": "T(\"Prendi la chiave nera e scendi. Le candele sono ancora accese, e la santa di cera canta a bocca chiusa.\"),"
+ },
+ "Nella nicchia accanto alla sua c'è posto. Ti metti la maschera del 1630 e ti siedi.": {
+  "dove": [
+   "gioco.js:3067",
+   "gioco.js:3072"
+  ],
+  "riga": "T(\"Nella nicchia accanto alla sua c'è posto. Ti metti la maschera del 1630 e ti siedi.\"),"
+ },
+ "Giona suona le campane tutta la notte, e tutte le notti dopo. A Malvento non si ammala più nessuno.": {
+  "dove": [
+   "gioco.js:3068"
+  ],
+  "riga": "T(\"Giona suona le campane tutta la notte, e tutte le notti dopo. A Malvento non si ammala più nessuno.\"),"
+ },
+ "Nella stanza vuota, per tre giorni, suona il fax della Panacea.": {
+  "dove": [
+   "gioco.js:3069"
+  ],
+  "riga": "T(\"Nella stanza vuota, per tre giorni, suona il fax della Panacea.\")] },"
+ },
+ "Le campane mute": {
+  "dove": [
+   "gioco.js:3070",
+   "giorno3.js:1104"
+  ],
+  "riga": "mute: { titolo: T(\"Le campane mute\"), indizio: T(\"Scendi nella cripta quando le campane non suonano più.\"), righe: () => ["
+ },
+ "Scendi nella cripta quando le campane non suonano più.": {
+  "dove": [
+   "gioco.js:3070"
+  ],
+  "riga": "mute: { titolo: T(\"Le campane mute\"), indizio: T(\"Scendi nella cripta quando le campane non suonano più.\"), righe: () => ["
+ },
+ "Ma le campane tacciono: Giona è nel recinto, e nessuno sale sul campanile.": {
+  "dove": [
+   "gioco.js:3073"
+  ],
+  "riga": "T(\"Ma le campane tacciono: Giona è nel recinto, e nessuno sale sul campanile.\"),"
+ },
+ "Al buio, nelle nicchie, qualcuno apre gli occhi. Sono più di quanti credevi.": {
+  "dove": [
+   "gioco.js:3074"
+  ],
+  "riga": "T(\"Al buio, nelle nicchie, qualcuno apre gli occhi. Sono più di quanti credevi.\")] },"
+ },
+ "Senza maschera": {
+  "dove": [
+   "gioco.js:3075"
+  ],
+  "riga": "via: { titolo: T(\"Senza maschera\"), indizio: T(\"Capisci chi sei, e vattene.\"), righe: () => ["
+ },
+ "Capisci chi sei, e vattene.": {
+  "dove": [
+   "gioco.js:3075"
+  ],
+  "riga": "via: { titolo: T(\"Senza maschera\"), indizio: T(\"Capisci chi sei, e vattene.\"), righe: () => ["
+ },
+ "Lasci la maschera sulla scrivania, con la videocamera accesa, e all'alba te ne vai a piedi per la Strada del Cimitero.": {
+  "dove": [
+   "gioco.js:3076"
+  ],
+  "riga": "T(\"Lasci la maschera sulla scrivania, con la videocamera accesa, e all'alba te ne vai a piedi per la Strada del Cimitero.\"),"
+ },
+ "Senza il becco nessuno ti riconosce. Il nastro riprende la stanza vuota per sei ore.": {
+  "dove": [
+   "gioco.js:3077"
+  ],
+  "riga": "T(\"Senza il becco nessuno ti riconosce. Il nastro riprende la stanza vuota per sei ore.\"),"
+ },
+ "A valle, nel primo paese, una donna ti offre un caffè. Il malvento cammina con te.": {
+  "dove": [
+   "gioco.js:3078"
+  ],
+  "riga": "T(\"A valle, nel primo paese, una donna ti offre un caffè. Il malvento cammina con te.\")] },"
+ },
+ "La prima pagina": {
+  "dove": [
+   "gioco.js:3079"
+  ],
+  "riga": "pagina: { titolo: T(\"La prima pagina\"), indizio: T(\"Trova tutte e quattro le tracce, e portale alla Voce.\"), righe: () => ["
+ },
+ "Trova tutte e quattro le tracce, e portale alla Voce.": {
+  "dove": [
+   "gioco.js:3079"
+  ],
+  "riga": "pagina: { titolo: T(\"La prima pagina\"), indizio: T(\"Trova tutte e quattro le tracce, e portale alla Voce.\"), righe: () => ["
+ },
+ "Al giornale ti ascoltano fino a sera, e fermano la macchina per te. La mattina dopo la Voce esce in edizione straordinaria.": {
+  "dove": [
+   "gioco.js:3080"
+  ],
+  "riga": "T(\"Al giornale ti ascoltano fino a sera, e fermano la macchina per te. La mattina dopo la Voce esce in edizione straordinaria.\"),"
+ },
+ "Il recinto apre i cancelli. I parenti entrano a cercare i loro, e il furgone bianco riparte vuoto per Valcupa.": {
+  "dove": [
+   "gioco.js:3081"
+  ],
+  "riga": "T(\"Il recinto apre i cancelli. I parenti entrano a cercare i loro, e il furgone bianco riparte vuoto per Valcupa.\"),"
+ },
+ "A sera bussano alla tua porta, con le lanterne. Ti accompagnano giù nella cripta, gentili, come fecero nel 1630.": {
+  "dove": [
+   "gioco.js:3082"
+  ],
+  "riga": "T(\"A sera bussano alla tua porta, con le lanterne. Ti accompagnano giù nella cripta, gentili, come fecero nel 1630.\"),"
+ },
+ "La nicchia accanto alla santa di cera è pronta. Il malvento resta a Malvento, con te.": {
+  "dove": [
+   "gioco.js:3083"
+  ],
+  "riga": "T(\"La nicchia accanto alla santa di cera è pronta. Il malvento resta a Malvento, con te.\")] },"
+ },
+ "La corriera": {
+  "dove": [
+   "gioco.js:3084"
+  ],
+  "riga": "corriera: { titolo: T(\"La corriera\"), indizio: T(\"Chi non si ammala deve dormire da te l'ultima notte.\"), righe: () => ["
+ },
+ "Chi non si ammala deve dormire da te l'ultima notte.": {
+  "dove": [
+   "gioco.js:3084"
+  ],
+  "riga": "corriera: { titolo: T(\"La corriera\"), indizio: T(\"Chi non si ammala deve dormire da te l'ultima notte.\"), righe: () => ["
+ },
+ "All'alba svegli la nuora nella stanzetta. Le dai il tuo cappotto e i soldi che ti restano, e non le dici perché.": {
+  "dove": [
+   "gioco.js:3085"
+  ],
+  "riga": "T(\"All'alba svegli la nuora nella stanzetta. Le dai il tuo cappotto e i soldi che ti restano, e non le dici perché.\"),"
+ },
+ "Aspettate la corriera delle sei alla fermata della Strada del Cimitero. Lei stringe la fede di Paolo, sulla catenina.": {
+  "dove": [
+   "gioco.js:3086"
+  ],
+  "riga": "T(\"Aspettate la corriera delle sei alla fermata della Strada del Cimitero. Lei stringe la fede di Paolo, sulla catenina.\"),"
+ },
+ "Sale, si siede in fondo e non si volta. Alle sette il furgone bianco si ferma davanti alla casa 10, e riparte vuoto.": {
+  "dove": [
+   "gioco.js:3087"
+  ],
+  "riga": "T(\"Sale, si siede in fondo e non si volta. Alle sette il furgone bianco si ferma davanti alla casa 10, e riparte vuoto.\"),"
+ },
+ "Senza di lei la ditta non avrà il suo vaccino. E nemmeno Malvento.": {
+  "dove": [
+   "gioco.js:3088"
+  ],
+  "riga": "T(\"Senza di lei la ditta non avrà il suo vaccino. E nemmeno Malvento.\")] },"
+ },
+ "Il malvento si ferma": {
+  "dove": [
+   "gioco.js:3089"
+  ],
+  "riga": "ferma: { titolo: T(\"Il malvento si ferma\"), indizio: T(\"Tre notti senza nessuna casa presa dal contagio.\"), righe: (f) => ["
+ },
+ "Tre notti senza nessuna casa presa dal contagio.": {
+  "dove": [
+   "gioco.js:3089"
+  ],
+  "riga": "ferma: { titolo: T(\"Il malvento si ferma\"), indizio: T(\"Tre notti senza nessuna casa presa dal contagio.\"), righe: (f) => ["
+ },
+ "In tre notti il contagio non è uscito da nessuna casa. Il malvento si è fermato.": {
+  "dove": [
+   "gioco.js:3090"
+  ],
+  "riga": "T(\"In tre notti il contagio non è uscito da nessuna casa. Il malvento si è fermato.\"),"
+ },
+ "Ti sono servite {0} croci: Malvento è un paese di porte segnate, e dietro ognuna una famiglia aspetta che tu torni ad aprire.": {
+  "dove": [
+   "gioco.js:3091"
+  ],
+  "riga": "f.croci >= 3 ? T`Ti sono servite ${f.croci} croci: Malvento è un paese di porte segnate, e dietro ognuna una famiglia aspetta che tu torni ad aprire.`"
+ },
+ "Hai portato via i malati prima di sera, ogni giorno, e hai chiuso le porte giuste.": {
+  "dove": [
+   "gioco.js:3092"
+  ],
+  "riga": ": T(\"Hai portato via i malati prima di sera, ogni giorno, e hai chiuso le porte giuste.\"),"
+ },
+ "La quarta mattina il paese tace. Nessuno tossisce, nessuno chiama.": {
+  "dove": [
+   "gioco.js:3093"
+  ],
+  "riga": "T(\"La quarta mattina il paese tace. Nessuno tossisce, nessuno chiama.\"),"
+ },
+ "Di notte, dietro le porte con la croce, qualcuno gratta il legno. Piano, con le unghie lunghe.": {
+  "dove": [
+   "gioco.js:3094"
+  ],
+  "riga": "f.croci ? T(\"Di notte, dietro le porte con la croce, qualcuno gratta il legno. Piano, con le unghie lunghe.\")"
+ },
+ "Di notte, nel recinto, qualcuno gratta il legno delle brande. Piano, con le unghie lunghe.": {
+  "dove": [
+   "gioco.js:3095"
+  ],
+  "riga": ": T(\"Di notte, nel recinto, qualcuno gratta il legno delle brande. Piano, con le unghie lunghe.\")] },"
+ },
+ "La stanzetta": {
+  "dove": [
+   "gioco.js:3096"
+  ],
+  "riga": "stanzetta: { titolo: T(\"La stanzetta\"), indizio: T(\"Dormi da solo tutte e tre le notti.\"),"
+ },
+ "Dormi da solo tutte e tre le notti.": {
+  "dove": [
+   "gioco.js:3096"
+  ],
+  "riga": "stanzetta: { titolo: T(\"La stanzetta\"), indizio: T(\"Dormi da solo tutte e tre le notti.\"),"
+ },
+ "Ti svegli sulla brandina della stanzetta, sotto la coperta. Non ricordi di esserci venuto.": {
+  "dove": [
+   "gioco.js:3097"
+  ],
+  "riga": "mattina: [T(\"Ti svegli sulla brandina della stanzetta, sotto la coperta. Non ricordi di esserci venuto.\"),"
+ },
+ "Torni di là. {0}": {
+  "dove": [
+   "gioco.js:3098"
+  ],
+  "riga": "T`Torni di là. ${COLORE_MATTINA}`], righe: () => ["
+ },
+ "Dal tuo letto alla brandina, sul pavimento, ci sono impronte nere di piedi nudi. Lunghi.": {
+  "dove": [
+   "gioco.js:3099"
+  ],
+  "riga": "T(\"Dal tuo letto alla brandina, sul pavimento, ci sono impronte nere di piedi nudi. Lunghi.\"),"
+ },
+ "Sul nastro la cosa nera ti porta di là in braccio, come un bambino. Non ha faccia: solo le mani.": {
+  "dove": [
+   "gioco.js:3100"
+  ],
+  "riga": "T(\"Sul nastro la cosa nera ti porta di là in braccio, come un bambino. Non ha faccia: solo le mani.\"),"
+ },
+ "Ti guardi le mani. Le dita sono più lunghe di ieri, e le unghie nere.": {
+  "dove": [
+   "gioco.js:3101"
+  ],
+  "riga": "T(\"Ti guardi le mani. Le dita sono più lunghe di ieri, e le unghie nere.\")] },"
+ },
+ "Quelli che cambiano": {
+  "dove": [
+   "gioco.js:3102"
+  ],
+  "riga": "cambiano: { titolo: T(\"Quelli che cambiano\"), indizio: T(\"Lascia correre il contagio.\"),"
+ },
+ "Lascia correre il contagio.": {
+  "dove": [
+   "gioco.js:3102"
+  ],
+  "riga": "cambiano: { titolo: T(\"Quelli che cambiano\"), indizio: T(\"Lascia correre il contagio.\"),"
+ },
+ "Il fax non suona: la linea è muta.": {
+  "dove": [
+   "gioco.js:3103"
+  ],
+  "riga": "mattina: [T(\"Il fax non suona: la linea è muta.\"), COLORE_MATTINA], righe: (f) => ["
+ },
+ "una casa": {
+  "dove": [
+   "gioco.js:3104",
+   "gioco.js:3135"
+  ],
+  "riga": "T`In tre notti il contagio ha preso ${quante(f.prese.length, T(\"una casa\"), T(\"case\"))}, e ${quante(f.cambiati, T(\"una persona è cambiata\"), T(\"persone sono cambiate\"))}.`,"
+ },
+ "case": {
+  "dove": [
+   "gioco.js:3104",
+   "gioco.js:3135"
+  ],
+  "riga": "T`In tre notti il contagio ha preso ${quante(f.prese.length, T(\"una casa\"), T(\"case\"))}, e ${quante(f.cambiati, T(\"una persona è cambiata\"), T(\"persone sono cambiate\"))}.`,"
+ },
+ "una persona è cambiata": {
+  "dove": [
+   "gioco.js:3104"
+  ],
+  "riga": "T`In tre notti il contagio ha preso ${quante(f.prese.length, T(\"una casa\"), T(\"case\"))}, e ${quante(f.cambiati, T(\"una persona è cambiata\"), T(\"persone sono cambiate\"))}.`,"
+ },
+ "persone sono cambiate": {
+  "dove": [
+   "gioco.js:3104"
+  ],
+  "riga": "T`In tre notti il contagio ha preso ${quante(f.prese.length, T(\"una casa\"), T(\"case\"))}, e ${quante(f.cambiati, T(\"una persona è cambiata\"), T(\"persone sono cambiate\"))}.`,"
+ },
+ "In tre notti il contagio ha preso {0}, e {1}.": {
+  "dove": [
+   "gioco.js:3104"
+  ],
+  "riga": "T`In tre notti il contagio ha preso ${quante(f.prese.length, T(\"una casa\"), T(\"case\"))}, e ${quante(f.cambiati, T(\"una persona è cambiata\"), T(\"persone sono cambiate\"))}.`,"
+ },
+ "Di giorno il paese è vuoto, le porte segnate con la croce. Di notte, lungo i muri, camminano quelli che cambiano.": {
+  "dove": [
+   "gioco.js:3105"
+  ],
+  "riga": "T(\"Di giorno il paese è vuoto, le porte segnate con la croce. Di notte, lungo i muri, camminano quelli che cambiano.\"),"
+ },
+ "Dalla strada, qualcuno guarda la tua finestra. Non bussa.": {
+  "dove": [
+   "gioco.js:3106"
+  ],
+  "riga": "T(\"Dalla strada, qualcuno guarda la tua finestra. Non bussa.\")] },"
+ },
+ "Direttore del recinto": {
+  "dove": [
+   "gioco.js:3107"
+  ],
+  "riga": "direttore: { titolo: T(\"Direttore del recinto\"), indizio: T(\"Consegna alla ditta sei persone, e almeno due col profilo che cerca.\"), righe: (f) => ["
+ },
+ "Consegna alla ditta sei persone, e almeno due col profilo che cerca.": {
+  "dove": [
+   "gioco.js:3107"
+  ],
+  "riga": "direttore: { titolo: T(\"Direttore del recinto\"), indizio: T(\"Consegna alla ditta sei persone, e almeno due col profilo che cerca.\"), righe: (f) => ["
+ },
+ "Hai consegnato alla ditta {0} persone, e {1} avevano il profilo che cerca. Nessun medico prima di te aveva fatto tanto.": {
+  "dove": [
+   "gioco.js:3108"
+  ],
+  "riga": "T`Hai consegnato alla ditta ${f.consegnati.length} persone, e ${f.profili} avevano il profilo che cerca. Nessun medico prima di te aveva fatto tanto.`,"
+ },
+ "La quarta mattina il furgone bianco viene a prendere te, e ti fa sedere davanti: il tuo ufficio è nella baracca 1, dentro il recinto.": {
+  "dove": [
+   "gioco.js:3109"
+  ],
+  "riga": "T(\"La quarta mattina il furgone bianco viene a prendere te, e ti fa sedere davanti: il tuo ufficio è nella baracca 1, dentro il recinto.\"),"
+ },
+ "Dalla finestra si vedono le brande in fila. Da una, qualcuno ti saluta con la mano: ha le dita nere.": {
+  "dove": [
+   "gioco.js:3110"
+  ],
+  "riga": "T(\"Dalla finestra si vedono le brande in fila. Da una, qualcuno ti saluta con la mano: ha le dita nere.\"),"
+ },
+ "Sulla porta c'è già la targa: DIRETTORE. Sotto, a pennarello: MEDICO 6.": {
+  "dove": [
+   "gioco.js:3111"
+  ],
+  "riga": "T(\"Sulla porta c'è già la targa: DIRETTORE. Sotto, a pennarello: MEDICO 6.\")] },"
+ },
+ "San Rocco": {
+  "dove": [
+   "gioco.js:3112"
+  ],
+  "riga": "rocco: { titolo: T(\"San Rocco\"), indizio: T(\"Fatti amare dal paese, senza consegnare un sano.\"),"
+ },
+ "Fatti amare dal paese, senza consegnare un sano.": {
+  "dove": [
+   "gioco.js:3112"
+  ],
+  "riga": "rocco: { titolo: T(\"San Rocco\"), indizio: T(\"Fatti amare dal paese, senza consegnare un sano.\"),"
+ },
+ "In strada, sotto la finestra, passa la processione: il santo col bastone e il cane, portato a spalla.": {
+  "dove": [
+   "gioco.js:3113"
+  ],
+  "riga": "mattina: [COLORE_MATTINA, T(\"In strada, sotto la finestra, passa la processione: il santo col bastone e il cane, portato a spalla.\")],"
+ },
+ "Davanti alla tua porta si ferma. Le vecchie lasciano pane, uova e un santino nuovo: al posto del santo c'è un medico col becco.": {
+  "dove": [
+   "gioco.js:3115"
+  ],
+  "riga": "T(\"Davanti alla tua porta si ferma. Le vecchie lasciano pane, uova e un santino nuovo: al posto del santo c'è un medico col becco.\"),"
+ },
+ "Le campane tacciono, ma il paese canta lo stesso.": {
+  "dove": [
+   "gioco.js:3116"
+  ],
+  "riga": "f.giona ? T(\"Le campane tacciono, ma il paese canta lo stesso.\") : T(\"Giona suona a festa.\"),"
+ },
+ "Giona suona a festa.": {
+  "dove": [
+   "gioco.js:3116"
+  ],
+  "riga": "f.giona ? T(\"Le campane tacciono, ma il paese canta lo stesso.\") : T(\"Giona suona a festa.\"),"
+ },
+ "Il paese si fida di te: ti apre tutte le porte, anche quelle con la croce. Il malvento entra con te in ogni casa.": {
+  "dove": [
+   "gioco.js:3117"
+  ],
+  "riga": "T(\"Il paese si fida di te: ti apre tutte le porte, anche quelle con la croce. Il malvento entra con te in ogni casa.\")] },"
+ },
+ "Premio di produzione": {
+  "dove": [
+   "gioco.js:3118"
+  ],
+  "riga": "premio: { titolo: T(\"Premio di produzione\"), indizio: T(\"Consegna alla ditta quattro persone.\"), righe: (f) => ["
+ },
+ "Consegna alla ditta quattro persone.": {
+  "dove": [
+   "gioco.js:3118"
+  ],
+  "riga": "premio: { titolo: T(\"Premio di produzione\"), indizio: T(\"Consegna alla ditta quattro persone.\"), righe: (f) => ["
+ },
+ "Prepari la valigia. Dalla finestra vedi il furgone bianco davanti al recinto.": {
+  "dove": [
+   "gioco.js:3119"
+  ],
+  "riga": "T(\"Prepari la valigia. Dalla finestra vedi il furgone bianco davanti al recinto.\"),"
+ },
+ "una sana": {
+  "dove": [
+   "gioco.js:3120",
+   "gioco.js:3298"
+  ],
+  "riga": "T`Hai consegnato alla ditta ${f.consegnati.length} persone${f.sani ? `, ${quante(f.sani, T(\"una sana\"), T(\"sane\"))}` : \"\"}.`,"
+ },
+ "sane": {
+  "dove": [
+   "gioco.js:3120",
+   "gioco.js:3298"
+  ],
+  "riga": "T`Hai consegnato alla ditta ${f.consegnati.length} persone${f.sani ? `, ${quante(f.sani, T(\"una sana\"), T(\"sane\"))}` : \"\"}.`,"
+ },
+ "Hai consegnato alla ditta {0} persone{1}.": {
+  "dove": [
+   "gioco.js:3120"
+  ],
+  "riga": "T`Hai consegnato alla ditta ${f.consegnati.length} persone${f.sani ? `, ${quante(f.sani, T(\"una sana\"), T(\"sane\"))}` : \"\"}.`,"
+ },
+ "Sulla porta qualcuno ha inchiodato una croce di legno. Nessuno ti saluta.": {
+  "dove": [
+   "gioco.js:3121"
+  ],
+  "riga": "S.fiducia < 30 ? T(\"Sulla porta qualcuno ha inchiodato una croce di legno. Nessuno ti saluta.\") : T(\"Nessuno ti saluta.\"),"
+ },
+ "Nessuno ti saluta.": {
+  "dove": [
+   "gioco.js:3121"
+  ],
+  "riga": "S.fiducia < 30 ? T(\"Sulla porta qualcuno ha inchiodato una croce di legno. Nessuno ti saluta.\") : T(\"Nessuno ti saluta.\"),"
+ },
+ "A Valcupa, ancora, nessuno sa niente.": {
+  "dove": [
+   "gioco.js:3122"
+  ],
+  "riga": "T(\"A Valcupa, ancora, nessuno sa niente.\")] },"
+ },
+ "La croce sulla porta": {
+  "dove": [
+   "gioco.js:3123"
+  ],
+  "riga": "croce: { titolo: T(\"La croce sulla porta\"), indizio: T(\"Perdi la fiducia del paese.\"), righe: () => ["
+ },
+ "Perdi la fiducia del paese.": {
+  "dove": [
+   "gioco.js:3123"
+  ],
+  "riga": "croce: { titolo: T(\"La croce sulla porta\"), indizio: T(\"Perdi la fiducia del paese.\"), righe: () => ["
+ },
+ "La quarta mattina la porta non si apre: è inchiodata da fuori, con una croce di legno.": {
+  "dove": [
+   "gioco.js:3124"
+  ],
+  "riga": "T(\"La quarta mattina la porta non si apre: è inchiodata da fuori, con una croce di legno.\"),"
+ },
+ "Il paese ti ha chiuso dentro, come tu chiudevi le case.": {
+  "dove": [
+   "gioco.js:3125"
+  ],
+  "riga": "T(\"Il paese ti ha chiuso dentro, come tu chiudevi le case.\"),"
+ },
+ "Il fax della ditta arriva alle nove: rendimento insufficiente. Ti sostituirà il Medico 7.": {
+  "dove": [
+   "gioco.js:3126"
+  ],
+  "riga": "T(\"Il fax della ditta arriva alle nove: rendimento insufficiente. Ti sostituirà il Medico 7.\"),"
+ },
+ "Di notte, sotto la porta, qualcuno respira.": {
+  "dove": [
+   "gioco.js:3127"
+  ],
+  "riga": "T(\"Di notte, sotto la porta, qualcuno respira.\")] },"
+ },
+ "Il furgone bianco": {
+  "dove": [
+   "gioco.js:3128"
+  ],
+  "riga": "furgone: { titolo: T(\"Il furgone bianco\"), indizio: T(\"Non consegnare nessuno alla ditta.\"), righe: () => ["
+ },
+ "Non consegnare nessuno alla ditta.": {
+  "dove": [
+   "gioco.js:3128"
+  ],
+  "riga": "furgone: { titolo: T(\"Il furgone bianco\"), indizio: T(\"Non consegnare nessuno alla ditta.\"), righe: () => ["
+ },
+ "In tre giorni non hai consegnato nessuno alla ditta.": {
+  "dove": [
+   "gioco.js:3129"
+  ],
+  "riga": "T(\"In tre giorni non hai consegnato nessuno alla ditta.\"),"
+ },
+ "Alle sette il furgone bianco si ferma sotto la tua finestra. Scendono due uomini con la tuta e la mascherina.": {
+  "dove": [
+   "gioco.js:3130"
+  ],
+  "riga": "T(\"Alle sette il furgone bianco si ferma sotto la tua finestra. Scendono due uomini con la tuta e la mascherina.\"),"
+ },
+ "Ti chiamano dottore, con gentilezza. Ti dicono di portare anche la maschera: «Serve a noi».": {
+  "dove": [
+   "gioco.js:3131"
+  ],
+  "riga": "T(\"Ti chiamano dottore, con gentilezza. Ti dicono di portare anche la maschera: «Serve a noi».\"),"
+ },
+ "Nel recinto ti danno la branda numero 6 e un prelievo ogni ora. La cavia migliore, per la ditta, sei tu.": {
+  "dove": [
+   "gioco.js:3132"
+  ],
+  "riga": "T(\"Nel recinto ti danno la branda numero 6 e un prelievo ogni ora. La cavia migliore, per la ditta, sei tu.\")] },"
+ },
+ "Il quarto giorno": {
+  "dove": [
+   "gioco.js:3133"
+  ],
+  "riga": "quarto: { titolo: T(\"Il quarto giorno\"), indizio: T(\"Arriva alla quarta mattina senza niente di tutto questo.\"), righe: (f) => ["
+ },
+ "Arriva alla quarta mattina senza niente di tutto questo.": {
+  "dove": [
+   "gioco.js:3133"
+  ],
+  "riga": "quarto: { titolo: T(\"Il quarto giorno\"), indizio: T(\"Arriva alla quarta mattina senza niente di tutto questo.\"), righe: (f) => ["
+ },
+ "Il fax del quarto giorno arriva a mezzogiorno, come sempre.": {
+  "dove": [
+   "gioco.js:3134"
+  ],
+  "riga": "T(\"Il fax del quarto giorno arriva a mezzogiorno, come sempre.\"),"
+ },
+ "In tre notti il contagio ha preso {0}.": {
+  "dove": [
+   "gioco.js:3135"
+  ],
+  "riga": "f.prese.length ? T`In tre notti il contagio ha preso ${quante(f.prese.length, T(\"una casa\"), T(\"case\"))}.` : T(\"In tre notti il contagio non è uscito dalle case.\"),"
+ },
+ "In tre notti il contagio non è uscito dalle case.": {
+  "dove": [
+   "gioco.js:3135"
+  ],
+  "riga": "f.prese.length ? T`In tre notti il contagio ha preso ${quante(f.prese.length, T(\"una casa\"), T(\"case\"))}.` : T(\"In tre notti il contagio non è uscito dalle case.\"),"
+ },
+ "Il paese ti apre ancora la porta, ma ti guarda le mani.": {
+  "dove": [
+   "gioco.js:3136"
+  ],
+  "riga": "T(\"Il paese ti apre ancora la porta, ma ti guarda le mani.\"),"
+ },
+ "La giornata comincia. Qui finisce la demo: la peste no.": {
+  "dove": [
+   "gioco.js:3137"
+  ],
+  "riga": "T(\"La giornata comincia. Qui finisce la demo: la peste no.\")] },"
+ },
+ "PRESO ATTO · PROSEGUA": {
+  "dove": [
+   "gioco.js:3142"
+  ],
+  "riga": "fax: [T(\"PRESO ATTO · PROSEGUA\"), T(\"NUOVA DESTINAZIONE: VALCUPA · 31 CASE\")],"
+ },
+ "NUOVA DESTINAZIONE: VALCUPA · 31 CASE": {
+  "dove": [
+   "gioco.js:3142"
+  ],
+  "riga": "fax: [T(\"PRESO ATTO · PROSEGUA\"), T(\"NUOVA DESTINAZIONE: VALCUPA · 31 CASE\")],"
+ },
+ "SOGGETTO 0 IRREPERIBILE": {
+  "dove": [
+   "gioco.js:3143"
+  ],
+  "riga": "corriera: [T(\"SOGGETTO 0 IRREPERIBILE\"), T(\"IL MEDICO 6 È PREGATO DI RINTRACCIARLO\"), T(\"PREMIO: 5.000 €\")],"
+ },
+ "IL MEDICO 6 È PREGATO DI RINTRACCIARLO": {
+  "dove": [
+   "gioco.js:3143"
+  ],
+  "riga": "corriera: [T(\"SOGGETTO 0 IRREPERIBILE\"), T(\"IL MEDICO 6 È PREGATO DI RINTRACCIARLO\"), T(\"PREMIO: 5.000 €\")],"
+ },
+ "PREMIO: 5.000 €": {
+  "dove": [
+   "gioco.js:3143"
+  ],
+  "riga": "corriera: [T(\"SOGGETTO 0 IRREPERIBILE\"), T(\"IL MEDICO 6 È PREGATO DI RINTRACCIARLO\"), T(\"PREMIO: 5.000 €\")],"
+ },
+ "CONTENIMENTO ESEMPLARE": {
+  "dove": [
+   "gioco.js:3144"
+  ],
+  "riga": "ferma: [T(\"CONTENIMENTO ESEMPLARE\"), T(\"CONSEGNE SOTTO L'OBIETTIVO\"), T(\"SI RACCOMANDA PIÙ ELASTICITÀ\")],"
+ },
+ "CONSEGNE SOTTO L'OBIETTIVO": {
+  "dove": [
+   "gioco.js:3144"
+  ],
+  "riga": "ferma: [T(\"CONTENIMENTO ESEMPLARE\"), T(\"CONSEGNE SOTTO L'OBIETTIVO\"), T(\"SI RACCOMANDA PIÙ ELASTICITÀ\")],"
+ },
+ "SI RACCOMANDA PIÙ ELASTICITÀ": {
+  "dove": [
+   "gioco.js:3144"
+  ],
+  "riga": "ferma: [T(\"CONTENIMENTO ESEMPLARE\"), T(\"CONSEGNE SOTTO L'OBIETTIVO\"), T(\"SI RACCOMANDA PIÙ ELASTICITÀ\")],"
+ },
+ "PROMOZIONE": {
+  "dove": [
+   "gioco.js:3145"
+  ],
+  "riga": "direttore: [T(\"PROMOZIONE\"), T(\"RESPONSABILE DEL RECINTO DI MALVENTO\"), T(\"UFFICIO: BARACCA 1 · DA OGGI\")],"
+ },
+ "RESPONSABILE DEL RECINTO DI MALVENTO": {
+  "dove": [
+   "gioco.js:3145"
+  ],
+  "riga": "direttore: [T(\"PROMOZIONE\"), T(\"RESPONSABILE DEL RECINTO DI MALVENTO\"), T(\"UFFICIO: BARACCA 1 · DA OGGI\")],"
+ },
+ "UFFICIO: BARACCA 1 · DA OGGI": {
+  "dove": [
+   "gioco.js:3145"
+  ],
+  "riga": "direttore: [T(\"PROMOZIONE\"), T(\"RESPONSABILE DEL RECINTO DI MALVENTO\"), T(\"UFFICIO: BARACCA 1 · DA OGGI\")],"
+ },
+ "PREMIO DI PRODUZIONE": {
+  "dove": [
+   "gioco.js:3146"
+  ],
+  "riga": "premio: [T(\"PREMIO DI PRODUZIONE\"), T(\"TRASFERIMENTO: VALCUPA · 31 CASE\"), T(\"IL FURGONE PASSA ALLE 7:00\")],"
+ },
+ "TRASFERIMENTO: VALCUPA · 31 CASE": {
+  "dove": [
+   "gioco.js:3146"
+  ],
+  "riga": "premio: [T(\"PREMIO DI PRODUZIONE\"), T(\"TRASFERIMENTO: VALCUPA · 31 CASE\"), T(\"IL FURGONE PASSA ALLE 7:00\")],"
+ },
+ "IL FURGONE PASSA ALLE 7:00": {
+  "dove": [
+   "gioco.js:3146",
+   "gioco.js:3148"
+  ],
+  "riga": "premio: [T(\"PREMIO DI PRODUZIONE\"), T(\"TRASFERIMENTO: VALCUPA · 31 CASE\"), T(\"IL FURGONE PASSA ALLE 7:00\")],"
+ },
+ "RENDIMENTO INSUFFICIENTE": {
+  "dove": [
+   "gioco.js:3147"
+  ],
+  "riga": "croce: [T(\"RENDIMENTO INSUFFICIENTE\"), T(\"SOSTITUZIONE: MEDICO 7\")],"
+ },
+ "SOSTITUZIONE: MEDICO 7": {
+  "dove": [
+   "gioco.js:3147"
+  ],
+  "riga": "croce: [T(\"RENDIMENTO INSUFFICIENTE\"), T(\"SOSTITUZIONE: MEDICO 7\")],"
+ },
+ "RENDIMENTO NULLO": {
+  "dove": [
+   "gioco.js:3148"
+  ],
+  "riga": "furgone: [T(\"RENDIMENTO NULLO\"), T(\"IL MEDICO 6 RIENTRA AL RECINTO PER CONTROLLI\"), T(\"IL FURGONE PASSA ALLE 7:00\")],"
+ },
+ "IL MEDICO 6 RIENTRA AL RECINTO PER CONTROLLI": {
+  "dove": [
+   "gioco.js:3148"
+  ],
+  "riga": "furgone: [T(\"RENDIMENTO NULLO\"), T(\"IL MEDICO 6 RIENTRA AL RECINTO PER CONTROLLI\"), T(\"IL FURGONE PASSA ALLE 7:00\")],"
+ },
+ "PROSEGUA": {
+  "dove": [
+   "gioco.js:3149"
+  ],
+  "riga": "quarto: [T(\"PROSEGUA\"), T(\"PROTOCOLLO DEL GIORNO 4 IN ARRIVO\")],"
+ },
+ "PROTOCOLLO DEL GIORNO 4 IN ARRIVO": {
+  "dove": [
+   "gioco.js:3149"
+  ],
+  "riga": "quarto: [T(\"PROSEGUA\"), T(\"PROTOCOLLO DEL GIORNO 4 IN ARRIVO\")],"
+ },
+ "Avanti": {
+  "dove": [
+   "gioco.js:3199",
+   "gioco.js:3205",
+   "gioco.js:3237"
+  ],
+  "riga": "azioni([[T(\"Avanti\"), () => apriFinale(f, f.id)]])]);"
+ },
+ "la cartella della Panacea": {
+  "dove": [
+   "gioco.js:3212"
+  ],
+  "riga": "const prove = elenco([f.ha(\"p:cartella\") && T(\"la cartella della Panacea\"), f.ha(\"p:peste_lenzuola\") && T(\"le lenzuola del recinto\"),"
+ },
+ "le lenzuola del recinto": {
+  "dove": [
+   "gioco.js:3212"
+  ],
+  "riga": "const prove = elenco([f.ha(\"p:cartella\") && T(\"la cartella della Panacea\"), f.ha(\"p:peste_lenzuola\") && T(\"le lenzuola del recinto\"),"
+ },
+ "i nastri": {
+  "dove": [
+   "gioco.js:3213"
+  ],
+  "riga": "T(\"i nastri\"), T(\"la maschera del 1630\")].filter(Boolean));"
+ },
+ "la maschera del 1630": {
+  "dove": [
+   "gioco.js:3213"
+  ],
+  "riga": "T(\"i nastri\"), T(\"la maschera del 1630\")].filter(Boolean));"
+ },
+ "Edizione straordinaria · venerdì 30 ottobre": {
+  "dove": [
+   "gioco.js:3215"
+  ],
+  "riga": "testata: T(\"LA VOCE\"), data: T(\"Edizione straordinaria · venerdì 30 ottobre\"), titolo: T(\"Il medico è la peste\"),"
+ },
+ "Il Medico 6 porta alla Voce le sue prove: {0}. Il recinto apre i cancelli.": {
+  "dove": [
+   "gioco.js:3216"
+  ],
+  "riga": "sommario: T`Il Medico 6 porta alla Voce le sue prove: ${prove}. Il recinto apre i cancelli.`,"
+ },
+ "Nel recinto della Panacea i malati sono cavie: la ditta cerca chi non si ammala, per farne un vaccino. E il medico che manda di paese in paese porta il contagio senza saperlo: le case dove entra si ammalano. La Panacea smentisce.": {
+  "dove": [
+   "gioco.js:3217"
+  ],
+  "riga": "articolo: T(\"Nel recinto della Panacea i malati sono cavie: la ditta cerca chi non si ammala, per farne un vaccino. E il medico che manda di paese in paese porta il contagio senza saperlo: le case dove entra si ammalano. La Panacea smentisce.\"),"
+ },
+ "«Lo sapevamo dal 1630. Adesso lo sa anche lui, e sa dove deve stare.» Lettera non firmata.": {
+  "dove": [
+   "gioco.js:3218"
+  ],
+  "riga": "lettera: T(\"«Lo sapevamo dal 1630. Adesso lo sa anche lui, e sa dove deve stare.» Lettera non firmata.\"),"
+ },
+ "Stanotte il furgone bianco è ripartito vuoto per Valcupa.": {
+  "dove": [
+   "gioco.js:3219"
+  ],
+  "riga": "breve: T(\"Stanotte il furgone bianco è ripartito vuoto per Valcupa.\"),"
+ },
+ "PANACEA · Smentiamo tutto. Ci prendiamo cura di voi.": {
+  "dove": [
+   "gioco.js:3220"
+  ],
+  "riga": "pubblicita: T(\"PANACEA · Smentiamo tutto. Ci prendiamo cura di voi.\"),"
+ },
+ "Il Medico 6, ieri, alla redazione della Voce.": {
+  "dove": [
+   "gioco.js:3221"
+  ],
+  "riga": "didascalia: T(\"Il Medico 6, ieri, alla redazione della Voce.\"),"
+ },
+ "consegnati": {
+  "dove": [
+   "gioco.js:3230"
+  ],
+  "riga": "resa.append(segnoFax(\"moneta\", String(f.consegnati.length), T(\"consegnati\"), \"piccolo\"),"
+ },
+ "profili": {
+  "dove": [
+   "gioco.js:3231"
+  ],
+  "riga": "segnoFax(\"mirino\", String(f.profili), T(\"profili\"), \"piccolo\"), segnoFax(\"casa\", String(f.prese.length), T(\"case prese\"), \"piccolo\"));"
+ },
+ "case prese": {
+  "dove": [
+   "gioco.js:3231"
+  ],
+  "riga": "segnoFax(\"mirino\", String(f.profili), T(\"profili\"), \"piccolo\"), segnoFax(\"casa\", String(f.prese.length), T(\"case prese\"), \"piccolo\"));"
+ },
+ "RENDIMENTO": {
+  "dove": [
+   "gioco.js:3235"
+  ],
+  "riga": "riga.append(bloccoFax(T(\"RENDIMENTO\"), resa), bloccoFax(T(\"ESITO\"), esito));"
+ },
+ "ESITO": {
+  "dove": [
+   "gioco.js:3235"
+  ],
+  "riga": "riga.append(bloccoFax(T(\"RENDIMENTO\"), resa), bloccoFax(T(\"ESITO\"), esito));"
+ },
+ "COMUNICAZIONE · MEDICO 6": {
+  "dove": [
+   "gioco.js:3236"
+  ],
+  "riga": "apriFoglio(\"fax\", [testaFax(T(\"COMUNICAZIONE · MEDICO 6\")), riga, el(\"p\", \"fx-motto\", T(\"PANACEA · Ci prendiamo cura di voi.\")),"
+ },
+ "Sulla scrivania la maschera è dove l'hai lasciata, con la videocamera spenta.": {
+  "dove": [
+   "gioco.js:3243"
+  ],
+  "riga": "const righe = [COLORE_MATTINA, T(\"Sulla scrivania la maschera è dove l'hai lasciata, con la videocamera spenta.\"),"
+ },
+ "La sua lente d'ottone è la stessa della maschera nella cripta. Il medico del 1630 portò il malvento a Malvento.": {
+  "dove": [
+   "gioco.js:3244"
+  ],
+  "riga": "T(\"La sua lente d'ottone è la stessa della maschera nella cripta. Il medico del 1630 portò il malvento a Malvento.\"),"
+ },
+ "La nonna l'aveva detto il primo giorno: la peste arrivò col medico.": {
+  "dove": [
+   "gioco.js:3245"
+  ],
+  "riga": "...(f.ha(\"d:leggenda\") ? [T(\"La nonna l'aveva detto il primo giorno: la peste arrivò col medico.\")] : []),"
+ },
+ "Il nastro 7: «...le case dove entra lui...».": {
+  "dove": [
+   "gioco.js:3246"
+  ],
+  "riga": "...(f.ha(\"nastro7\") ? [T(\"Il nastro 7: «...le case dove entra lui...».\")] : []),"
+ },
+ "Chi ha dormito da te, la mattina dopo scottava.": {
+  "dove": [
+   "gioco.js:3247"
+  ],
+  "riga": "...(OSPITI_FEBBRE.some(f.ha) ? [T(\"Chi ha dormito da te, la mattina dopo scottava.\")] : []),"
+ },
+ "Per la ditta sei il Medico 6. Prima di te ce ne sono stati cinque.": {
+  "dove": [
+   "gioco.js:3248"
+  ],
+  "riga": "...(f.ha(\"d:medico6\") ? [T(\"Per la ditta sei il Medico 6. Prima di te ce ne sono stati cinque.\")] : [])];"
+ },
+ "Scrivi alla ditta": {
+  "dove": [
+   "gioco.js:3257"
+  ],
+  "riga": "scelte.append(scelta(T(\"Scrivi alla ditta\"), T(\"Il fax è sulla scrivania.\"), () => concludi(f, \"fax\")),"
+ },
+ "Il fax è sulla scrivania.": {
+  "dove": [
+   "gioco.js:3257"
+  ],
+  "riga": "scelte.append(scelta(T(\"Scrivi alla ditta\"), T(\"Il fax è sulla scrivania.\"), () => concludi(f, \"fax\")),"
+ },
+ "Scendi nella cripta": {
+  "dove": [
+   "gioco.js:3258"
+  ],
+  "riga": "scelta(T(\"Scendi nella cripta\"), T(\"La chiave nera è al chiodo, in sacrestia.\"), () => concludi(f, f.giona ? \"mute\" : \"cripta\")),"
+ },
+ "La chiave nera è al chiodo, in sacrestia.": {
+  "dove": [
+   "gioco.js:3258"
+  ],
+  "riga": "scelta(T(\"Scendi nella cripta\"), T(\"La chiave nera è al chiodo, in sacrestia.\"), () => concludi(f, f.giona ? \"mute\" : \"cripta\")),"
+ },
+ "Vai via senza maschera": {
+  "dove": [
+   "gioco.js:3259"
+  ],
+  "riga": "scelta(T(\"Vai via senza maschera\"), T(\"La porta non è chiusa a chiave.\"), () => concludi(f, \"via\")));"
+ },
+ "La porta non è chiusa a chiave.": {
+  "dove": [
+   "gioco.js:3259"
+  ],
+  "riga": "scelta(T(\"Vai via senza maschera\"), T(\"La porta non è chiusa a chiave.\"), () => concludi(f, \"via\")));"
+ },
+ "Porta tutto alla Voce": {
+  "dove": [
+   "gioco.js:3260"
+  ],
+  "riga": "if (f.tutte) scelte.append(scelta(T(\"Porta tutto alla Voce\"), T(\"Hai trovato tutte e quattro le tracce.\"), () => concludi(f, \"pagina\"), true));"
+ },
+ "Hai trovato tutte e quattro le tracce.": {
+  "dove": [
+   "gioco.js:3260"
+  ],
+  "riga": "if (f.tutte) scelte.append(scelta(T(\"Porta tutto alla Voce\"), T(\"Hai trovato tutte e quattro le tracce.\"), () => concludi(f, \"pagina\"), true));"
+ },
+ "Accompagna la nuora alla corriera": {
+  "dove": [
+   "gioco.js:3261"
+  ],
+  "riga": "if (f.corriera) scelte.append(scelta(T(\"Accompagna la nuora alla corriera\"), T(\"Ha dormito nella stanzetta, e non si ammala.\"),"
+ },
+ "Ha dormito nella stanzetta, e non si ammala.": {
+  "dove": [
+   "gioco.js:3261"
+  ],
+  "riga": "if (f.corriera) scelte.append(scelta(T(\"Accompagna la nuora alla corriera\"), T(\"Ha dormito nella stanzetta, e non si ammala.\"),"
+ },
+ "Il medico della peste è la peste.": {
+  "dove": [
+   "gioco.js:3264"
+  ],
+  "riga": "el(\"p\", \"fn-forte\", T(\"Il medico della peste è la peste.\")), el(\"h3\", \"fn-domanda\", T(\"Cosa fai?\")), scelte]);"
+ },
+ "Cosa fai?": {
+  "dove": [
+   "gioco.js:3264"
+  ],
+  "riga": "el(\"p\", \"fn-forte\", T(\"Il medico della peste è la peste.\")), el(\"h3\", \"fn-domanda\", T(\"Cosa fai?\")), scelte]);"
+ },
+ "Nuovo finale": {
+  "dove": [
+   "gioco.js:3282"
+  ],
+  "riga": "apriFoglio(\"finale\", [el(\"p\", \"fn-conta\", T`${nuovo ? T(\"Nuovo finale\") : T(\"Finale\")} · ${visti} su ${Object.keys(FINALI).length}`),"
+ },
+ "Finale": {
+  "dove": [
+   "gioco.js:3282"
+  ],
+  "riga": "apriFoglio(\"finale\", [el(\"p\", \"fn-conta\", T`${nuovo ? T(\"Nuovo finale\") : T(\"Finale\")} · ${visti} su ${Object.keys(FINALI).length}`),"
+ },
+ "{0} · {1} su {2}": {
+  "dove": [
+   "gioco.js:3282"
+  ],
+  "riga": "apriFoglio(\"finale\", [el(\"p\", \"fn-conta\", T`${nuovo ? T(\"Nuovo finale\") : T(\"Finale\")} · ${visti} su ${Object.keys(FINALI).length}`),"
+ },
+ "Com'era davvero": {
+  "dove": [
+   "gioco.js:3284",
+   "gioco.js:3318"
+  ],
+  "riga": "azioni([[T(\"Com'era davvero\"), verita], [T(\"Ricomincia dal primo giorno\"), ricomincia, \"secondario\"]])]);"
+ },
+ "Ricomincia dal primo giorno": {
+  "dove": [
+   "gioco.js:3284",
+   "gioco.js:3354"
+  ],
+  "riga": "azioni([[T(\"Com'era davvero\"), verita], [T(\"Ricomincia dal primo giorno\"), ricomincia, \"secondario\"]])]);"
+ },
+ "Case prese ": {
+  "dove": [
+   "gioco.js:3297"
+  ],
+  "riga": "ul.append(riga(T(\"Case prese \"), String(f.prese.length)), riga(T(\"Cambiati \"), String(f.cambiati)),"
+ },
+ "Cambiati ": {
+  "dove": [
+   "gioco.js:3297"
+  ],
+  "riga": "ul.append(riga(T(\"Case prese \"), String(f.prese.length)), riga(T(\"Cambiati \"), String(f.cambiati)),"
+ },
+ "Alla ditta ": {
+  "dove": [
+   "gioco.js:3298"
+  ],
+  "riga": "riga(T(\"Alla ditta \"), `${f.consegnati.length}${f.sani ? ` (${quante(f.sani, T(\"una sana\"), T(\"sane\"))})` : \"\"}`),"
+ },
+ "Il paese ": {
+  "dove": [
+   "gioco.js:3300"
+  ],
+  "riga": "riga(T(\"Il paese \"), S.fiducia >= 60 ? T(\"ti apre la porta\") : S.fiducia >= 35 ? T(\"ti guarda storto\") : T(\"ti chiude la porta\")));"
+ },
+ "ti apre la porta": {
+  "dove": [
+   "gioco.js:3300"
+  ],
+  "riga": "riga(T(\"Il paese \"), S.fiducia >= 60 ? T(\"ti apre la porta\") : S.fiducia >= 35 ? T(\"ti guarda storto\") : T(\"ti chiude la porta\")));"
+ },
+ "ti guarda storto": {
+  "dove": [
+   "gioco.js:3300"
+  ],
+  "riga": "riga(T(\"Il paese \"), S.fiducia >= 60 ? T(\"ti apre la porta\") : S.fiducia >= 35 ? T(\"ti guarda storto\") : T(\"ti chiude la porta\")));"
+ },
+ "ti chiude la porta": {
+  "dove": [
+   "gioco.js:3300"
+  ],
+  "riga": "riga(T(\"Il paese \"), S.fiducia >= 60 ? T(\"ti apre la porta\") : S.fiducia >= 35 ? T(\"ti guarda storto\") : T(\"ti chiude la porta\")));"
+ },
+ "I finali: {0} su {1}": {
+  "dove": [
+   "gioco.js:3314"
+  ],
+  "riga": "return [el(\"h3\", null, T`I finali: ${visti.size} su ${Object.keys(FINALI).length}`), ul];"
+ },
+ "Ti è sfuggita. {0}": {
+  "dove": [
+   "gioco.js:3326"
+  ],
+  "riga": "if (!f.tracce[t.id]) li.append(el(\"small\", null, T`Ti è sfuggita. ${t.sfuggita}`));"
+ },
+ "Le quattro tracce: {0} su 4": {
+  "dove": [
+   "gioco.js:3329"
+  ],
+  "riga": "corpo.push(el(\"h3\", null, T`Le quattro tracce: ${Object.values(f.tracce).filter(Boolean).length} su 4`), ul,"
+ },
+ "In tre giorni": {
+  "dove": [
+   "gioco.js:3330"
+  ],
+  "riga": "el(\"h3\", null, T(\"In tre giorni\")), numeri(f), ...elencoFinali(f));"
+ },
+ "{0} l'hai saltato: come se nessuno fosse andato al lazzaretto, e senza ospiti.": {
+  "dove": [
+   "gioco.js:3340"
+  ],
+  "riga": "if (g.saltato) corpo.push(el(\"p\", \"nota\", T`${GIORNI[g.giorno - 1]} l'hai saltato: come se nessuno fosse andato al lazzaretto, e senza ospiti.`));"
+ },
+ "Le tue diagnosi: {0} giuste su {1}": {
+  "dove": [
+   "gioco.js:3344"
+  ],
+  "riga": "corpo.push(el(\"h3\", null, T`Le tue diagnosi: ${giuste} giuste su ${date}`));"
+ },
+ "Non hai timbrato nessuno stato di famiglia.": {
+  "dove": [
+   "gioco.js:3346"
+  ],
+  "riga": "else corpo.push(el(\"p\", \"vuoto\", T(\"Non hai timbrato nessuno stato di famiglia.\")));"
+ },
+ "In tutto: {0} giuste su {1}.": {
+  "dove": [
+   "gioco.js:3348"
+  ],
+  "riga": "if (giorni.length > 1) corpo.push(el(\"p\", \"nota\", T`In tutto: ${tutte} giuste su ${tutteDate}.`));"
+ },
+ "Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove.": {
+  "dove": [
+   "gioco.js:3350"
+  ],
+  "riga": "T(\"Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove.\"),"
+ },
+ "Fine della bozza: due giornate. Nel gioco, domani torneresti alla casa 5, dove il ragazzo è giù in cantina, e alla casa 10, dove la ditta cerca chi non si ammala.": {
+  "dove": [
+   "gioco.js:3351"
+  ],
+  "riga": "T(\"Fine della bozza: due giornate. Nel gioco, domani torneresti alla casa 5, dove il ragazzo è giù in cantina, e alla casa 10, dove la ditta cerca chi non si ammala.\"),"
+ },
+ "Fine della demo: tre giorni a Malvento. Dal titolo, «Continua» riporta alla terza mattina, per cercare gli altri finali.": {
+  "dove": [
+   "gioco.js:3352"
+  ],
+  "riga": "T(\"Fine della demo: tre giorni a Malvento. Dal titolo, «Continua» riporta alla terza mattina, per cercare gli altri finali.\"),"
+ },
+ "Riavvolgo i nastri…": {
+  "dove": [
+   "gioco.js:3387"
+  ],
+  "riga": "parole.scrivi(null, T(\"Riavvolgo i nastri…\"), { lato: \"sotto\" }, {}, { veloce: true });"
+ },
+ "secondo": {
+  "dove": [
+   "gioco.js:3399"
+  ],
+  "riga": "notifica(T`Le scene del ${[\"\", \"\", T(\"secondo\"), T(\"terzo\")][S.giorno]} giorno non si caricano`);"
+ },
+ "terzo": {
+  "dove": [
+   "gioco.js:3399"
+  ],
+  "riga": "notifica(T`Le scene del ${[\"\", \"\", T(\"secondo\"), T(\"terzo\")][S.giorno]} giorno non si caricano`);"
+ },
+ "Le scene del {0} giorno non si caricano": {
+  "dove": [
+   "gioco.js:3399"
+  ],
+  "riga": "notifica(T`Le scene del ${[\"\", \"\", T(\"secondo\"), T(\"terzo\")][S.giorno]} giorno non si caricano`);"
+ },
+ "Continua · {0}": {
+  "dove": [
+   "gioco.js:3507"
+  ],
+  "riga": "if (salvato) menu.append(voce(T`Continua · ${GIORNI[salvato.S.giorno - 1].toLowerCase()}`, () => riprendi(salvato)));"
+ },
+ "Nuova partita": {
+  "dove": [
+   "gioco.js:3509"
+  ],
+  "riga": "menu.append(voce(T(\"Nuova partita\"), () => { ambienteStanza(); introduzione(); }),"
+ },
+ "Impostazioni": {
+  "dove": [
+   "gioco.js:3510",
+   "gioco.js:3812",
+   "index.html",
+   "index.html"
+  ],
+  "riga": "voce(T(\"Impostazioni\"), () => apriImpostazioni(true)));"
+ },
+ "Il medico della peste": {
+  "dove": [
+   "gioco.js:3514",
+   "index.html"
+  ],
+  "riga": "apriFoglio(\"titolo\", [el(\"h1\", \"ti-nome\", T(\"Il medico della peste\")), el(\"p\", \"ti-sotto\", T(\"Malvento · tre giorni · demo\")), menu,"
+ },
+ "Malvento · tre giorni · demo": {
+  "dove": [
+   "gioco.js:3514"
+  ],
+  "riga": "apriFoglio(\"titolo\", [el(\"h1\", \"ti-nome\", T(\"Il medico della peste\")), el(\"p\", \"ti-sotto\", T(\"Malvento · tre giorni · demo\")), menu,"
+ },
+ "Finali trovati: {0} su {1}": {
+  "dove": [
+   "gioco.js:3515"
+  ],
+  "riga": "...(visti ? [el(\"p\", \"ti-finali\", T`Finali trovati: ${visti} su ${Object.keys(FINALI).length}`)] : []),"
+ },
+ " F11 o Alt+Invio: schermo intero.": {
+  "dove": [
+   "gioco.js:3516"
+  ],
+  "riga": "el(\"p\", \"ti-nota\", T`Il mouse gira lo sguardo, clic o E per usare, Esc libera il puntatore. Col controller: levette e A.${ELECTRON ? T(\" F11 o Alt+Invio: schermo intero.\") : \"\"}`)]);"
+ },
+ "Il mouse gira lo sguardo, clic o E per usare, Esc libera il puntatore. Col controller: levette e A.{0}": {
+  "dove": [
+   "gioco.js:3516"
+  ],
+  "riga": "el(\"p\", \"ti-nota\", T`Il mouse gira lo sguardo, clic o E per usare, Esc libera il puntatore. Col controller: levette e A.${ELECTRON ? T(\" F11 o Alt+Invio: schermo intero.\") : \"\"}`)]);"
+ },
+ "Tocca lo schermo": {
+  "dove": [
+   "gioco.js:3524"
+  ],
+  "riga": "const premi = el(\"p\", \"ti-premi\", tocco() ? T(\"Tocca lo schermo\") : T(\"Premi un tasto\"));"
+ },
+ "Premi un tasto": {
+  "dove": [
+   "gioco.js:3524"
+  ],
+  "riga": "const premi = el(\"p\", \"ti-premi\", tocco() ? T(\"Tocca lo schermo\") : T(\"Premi un tasto\"));"
+ },
+ "Giorno 1. La ditta ti ha mandato in paese ieri sera.": {
+  "dove": [
+   "gioco.js:3548"
+  ],
+  "riga": "const righe = D.INTRO || [[null, T(\"Giorno 1. La ditta ti ha mandato in paese ieri sera.\")],"
+ },
+ "Il fax con il protocollo è arrivato a mezzogiorno.": {
+  "dove": [
+   "gioco.js:3549"
+  ],
+  "riga": "[null, T(\"Il fax con il protocollo è arrivato a mezzogiorno.\")]];"
+ },
+ "È sulla scrivania, sotto la finestra.": {
+  "dove": [
+   "gioco.js:3550"
+  ],
+  "riga": "await dici([...righe, ...(stanza ? [[null, T(\"È sulla scrivania, sotto la finestra.\")]] : [])], false, false);"
+ },
+ "Aspetta che finisca di parlare": {
+  "dove": [
+   "gioco.js:3664"
+  ],
+  "riga": "if (R.occupato) { notifica(T(\"Aspetta che finisca di parlare\")); return; }"
+ },
+ "Esci dallo schermo intero": {
+  "dove": [
+   "gioco.js:3681"
+  ],
+  "riga": "const nome = dentro ? T(\"Esci dallo schermo intero\") : T(\"Schermo intero\");"
+ },
+ "Schermo intero": {
+  "dove": [
+   "gioco.js:3681",
+   "index.html",
+   "index.html"
+  ],
+  "riga": "const nome = dentro ? T(\"Esci dallo schermo intero\") : T(\"Schermo intero\");"
+ },
+ "Rimetti l'audio": {
+  "dove": [
+   "gioco.js:3693"
+  ],
+  "riga": "const nome = suoni.muto ? T(\"Rimetti l'audio\") : T(\"Togli l'audio\");"
+ },
+ "Togli l'audio": {
+  "dove": [
+   "gioco.js:3693",
+   "index.html",
+   "index.html"
+  ],
+  "riga": "const nome = suoni.muto ? T(\"Rimetti l'audio\") : T(\"Togli l'audio\");"
+ },
+ "Alta": {
+  "dove": [
+   "gioco.js:3730"
+  ],
+  "riga": "alta: { nome: T(\"Alta\"), larghezza: 1600, nebbia: 20 },"
+ },
+ "Media": {
+  "dove": [
+   "gioco.js:3731"
+  ],
+  "riga": "media: { nome: T(\"Media\"), larghezza: 1280, nebbia: 14 },"
+ },
+ "Bassa": {
+  "dove": [
+   "gioco.js:3732"
+  ],
+  "riga": "bassa: { nome: T(\"Bassa\"), larghezza: 960, nebbia: 10 },"
+ },
+ "Volume": {
+  "dove": [
+   "gioco.js:3777"
+  ],
+  "riga": "...rigaTacche(T(\"Volume\"), 0, 10, () => imp.volume, (v) => {"
+ },
+ "Musica": {
+  "dove": [
+   "gioco.js:3782"
+  ],
+  "riga": "...rigaTacche(T(\"Musica\"), 0, 10, () => imp.musica, (v) => { imp.musica = v; }, (v) => `${v * 10}`),"
+ },
+ "Sensibilità": {
+  "dove": [
+   "gioco.js:3783"
+  ],
+  "riga": "...rigaTacche(T(\"Sensibilità\"), 1, SGUARDO.length, () => imp.sguardo, (v) => { imp.sguardo = v; },"
+ },
+ "Qualità": {
+  "dove": [
+   "gioco.js:3788"
+  ],
+  "riga": "righe.append(...rigaScelte(T(\"Qualità\"), Object.entries(QUALITA).map(([k, q]) => [k, q.nome]), () => imp.qualita, (k) => {"
+ },
+ "Schermo": {
+  "dove": [
+   "gioco.js:3795"
+  ],
+  "riga": "righe.append(...rigaScelte(T(\"Schermo\"), [[\"intero\", T(\"Intero\")], [\"finestra\", T(\"Finestra\")]],"
+ },
+ "Intero": {
+  "dove": [
+   "gioco.js:3795"
+  ],
+  "riga": "righe.append(...rigaScelte(T(\"Schermo\"), [[\"intero\", T(\"Intero\")], [\"finestra\", T(\"Finestra\")]],"
+ },
+ "Finestra": {
+  "dove": [
+   "gioco.js:3795"
+  ],
+  "riga": "righe.append(...rigaScelte(T(\"Schermo\"), [[\"intero\", T(\"Intero\")], [\"finestra\", T(\"Finestra\")]],"
+ },
+ "Indietro": {
+  "dove": [
+   "gioco.js:3809"
+  ],
+  "riga": "fine.append(bottone(dalTitolo ? T(\"Indietro\") : T(\"Torna a giocare\"), torna, \"ti-voce\"));"
+ },
+ "Torna a giocare": {
+  "dove": [
+   "gioco.js:3809"
+  ],
+  "riga": "fine.append(bottone(dalTitolo ? T(\"Indietro\") : T(\"Torna a giocare\"), torna, \"ti-voce\"));"
+ },
+ "Esci dal gioco": {
+  "dove": [
+   "gioco.js:3810"
+  ],
+  "riga": "if (ELECTRON) fine.append(bottone(T(\"Esci dal gioco\"), () => window.close(), \"ti-voce secondario\"));"
+ },
+ "Se la stanza va a scatti, prova la qualità media o bassa: si disegna più piccola, con una nebbia più semplice.": {
+  "dove": [
+   "gioco.js:3813"
+  ],
+  "riga": "...(stanza ? [el(\"p\", \"im-nota\", T(\"Se la stanza va a scatti, prova la qualità media o bassa: si disegna più piccola, con una nebbia più semplice.\"))] : []),"
+ },
+ "meno": {
+  "dove": [
+   "gioco.js:3878"
+  ],
+  "riga": "comando.append(passo(\"meno\", -1, T(\"meno\")), barra, passo(\"piu\", 1, T(\"più\")));"
+ },
+ "più": {
+  "dove": [
+   "gioco.js:3878"
+  ],
+  "riga": "comando.append(passo(\"meno\", -1, T(\"meno\")), barra, passo(\"piu\", 1, T(\"più\")));"
+ },
+ "Non riesco a caricare {0}": {
+  "dove": [
+   "gioco.js:3933"
+  ],
+  "riga": "await caricaLuoghi(D.LUOGHI).catch((e) => notifica(T`Non riesco a caricare ${e.message}`));"
+ },
+ "Carico i nastri…": {
+  "dove": [
+   "gioco.js:3982"
+  ],
+  "riga": "parole.scrivi(null, T(\"Carico i nastri…\"), { lato: \"sotto\" }, {}, { veloce: true });"
+ },
+ "Non riesco a caricare {0}. Ricarica la pagina.": {
+  "dove": [
+   "gioco.js:3999"
+  ],
+  "riga": "parole.scrivi(null, T`Non riesco a caricare ${err.message}. Ricarica la pagina.`, { lato: \"sotto\" });"
+ },
+ "IL FORNO": {
+  "dove": [
+   "primapagina.js:22"
+  ],
+  "riga": "[T(\"IL FORNO\"), T(\"Il forno di via dei Mulini resta chiuso fino a nuovo avviso. Il pane si ritira in canonica, la mattina, fino alle nove.\")],"
+ },
+ "Il forno di via dei Mulini resta chiuso fino a nuovo avviso. Il pane si ritira in canonica, la mattina, fino alle nove.": {
+  "dove": [
+   "primapagina.js:22"
+  ],
+  "riga": "[T(\"IL FORNO\"), T(\"Il forno di via dei Mulini resta chiuso fino a nuovo avviso. Il pane si ritira in canonica, la mattina, fino alle nove.\")],"
+ },
+ "LA CORRIERA": {
+  "dove": [
+   "primapagina.js:23"
+  ],
+  "riga": "[T(\"LA CORRIERA\"), T(\"La corriera per la città passa una volta al giorno, alle 6.10. Chi parte deve avere il foglio della ditta.\")],"
+ },
+ "La corriera per la città passa una volta al giorno, alle 6.10. Chi parte deve avere il foglio della ditta.": {
+  "dove": [
+   "primapagina.js:23"
+  ],
+  "riga": "[T(\"LA CORRIERA\"), T(\"La corriera per la città passa una volta al giorno, alle 6.10. Chi parte deve avere il foglio della ditta.\")],"
+ },
+ "LEGNA": {
+  "dove": [
+   "primapagina.js:24"
+  ],
+  "riga": "[T(\"LEGNA\"), T(\"Si cercano uomini per la legna della scuola. Paga il comune, in natura.\")],"
+ },
+ "Si cercano uomini per la legna della scuola. Paga il comune, in natura.": {
+  "dove": [
+   "primapagina.js:24"
+  ],
+  "riga": "[T(\"LEGNA\"), T(\"Si cercano uomini per la legna della scuola. Paga il comune, in natura.\")],"
+ },
+ "SMARRITO": {
+  "dove": [
+   "primapagina.js:27"
+  ],
+  "riga": "[T(\"SMARRITO\"), T(\"Un cane da pastore, nero, risponde al nome di Lupo. Manca da giovedì notte. Chi lo vede lo dica al bar.\")],"
+ },
+ "Un cane da pastore, nero, risponde al nome di Lupo. Manca da giovedì notte. Chi lo vede lo dica al bar.": {
+  "dove": [
+   "primapagina.js:27"
+  ],
+  "riga": "[T(\"SMARRITO\"), T(\"Un cane da pastore, nero, risponde al nome di Lupo. Manca da giovedì notte. Chi lo vede lo dica al bar.\")],"
+ },
+ "ORARI": {
+  "dove": [
+   "primapagina.js:28"
+  ],
+  "riga": "[T(\"ORARI\"), T(\"Il coprifuoco resta alle otto di sera. Le campane suonano mezz'ora prima.\")],"
+ },
+ "Il coprifuoco resta alle otto di sera. Le campane suonano mezz'ora prima.": {
+  "dove": [
+   "primapagina.js:28"
+  ],
+  "riga": "[T(\"ORARI\"), T(\"Il coprifuoco resta alle otto di sera. Le campane suonano mezz'ora prima.\")],"
+ },
+ "IL TEMPO": {
+  "dove": [
+   "primapagina.js:30"
+  ],
+  "riga": "const METEO = [T(\"IL TEMPO\"), T(\"Nebbia al mattino,\"), T(\"vento da nord.\"), T(\"Minima 4 gradi.\")];"
+ },
+ "Nebbia al mattino,": {
+  "dove": [
+   "primapagina.js:30"
+  ],
+  "riga": "const METEO = [T(\"IL TEMPO\"), T(\"Nebbia al mattino,\"), T(\"vento da nord.\"), T(\"Minima 4 gradi.\")];"
+ },
+ "vento da nord.": {
+  "dove": [
+   "primapagina.js:30"
+  ],
+  "riga": "const METEO = [T(\"IL TEMPO\"), T(\"Nebbia al mattino,\"), T(\"vento da nord.\"), T(\"Minima 4 gradi.\")];"
+ },
+ "Minima 4 gradi.": {
+  "dove": [
+   "primapagina.js:30"
+  ],
+  "riga": "const METEO = [T(\"IL TEMPO\"), T(\"Nebbia al mattino,\"), T(\"vento da nord.\"), T(\"Minima 4 gradi.\")];"
+ },
+ "Il consiglio comunale si è riunito ieri sera in canonica, a porte chiuse. Il sindaco ha letto la lettera della ditta e ha chiesto a tutti di collaborare con il medico. Qualcuno ha domandato chi paga le case chiuse con la croce, e quando riapre la scuola. Nessuna risposta. In fondo alla sala si parlava del recinto: le luci accese tutta la notte, i camion senza targa. ": {
+  "dove": [
+   "primapagina.js:31"
+  ],
+  "riga": "const DENTRO = T(\"Il consiglio comunale si è riunito ieri sera in canonica, a porte chiuse. Il sindaco ha letto la lettera della ditta e ha chiesto a tutti di collaborare con il medico. Qualcuno ha domandato chi paga le case chiuse con la croce, e quando riapre la scuola. Nessuna risposta. In fondo "
+ },
+ "MALVENTO": {
+  "dove": [
+   "primapagina.js:192"
+  ],
+  "riga": "c.fillText(T(\"MALVENTO\"), m, y);"
+ },
+ "ANNO XLII · N. 301": {
+  "dove": [
+   "primapagina.js:194"
+  ],
+  "riga": "c.fillText(T(\"ANNO XLII · N. 301\"), W - m, y);"
+ },
+ "CRONACA": {
+  "dove": [
+   "primapagina.js:250"
+  ],
+  "riga": "colonna(c, [[T(\"CRONACA\"), g.articolo || \"\"], ...RIEMPI1], x1, top, largo, H - 8, 32);"
+ },
+ "LETTERE": {
+  "dove": [
+   "primapagina.js:251"
+  ],
+  "riga": "colonna(c, [[T(\"LETTERE\"), g.lettera || \"\"], [T(\"IN BREVE\"), g.breve || \"\"], ...RIEMPI2], x2, top, largo, H - 8, 32);"
+ },
+ "IN BREVE": {
+  "dove": [
+   "primapagina.js:251"
+  ],
+  "riga": "colonna(c, [[T(\"LETTERE\"), g.lettera || \"\"], [T(\"IN BREVE\"), g.breve || \"\"], ...RIEMPI2], x2, top, largo, H - 8, 32);"
+ }
+}

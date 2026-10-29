@@ -5,6 +5,8 @@
 // finiscono nel nastro in basso, da trascinare su qualcosa o qualcuno che li contraddice.
 // Tutte le coordinate sono frazioni dello schermo (0-1, da sinistra e dall'alto).
 
+import { T } from "./lingua.js";
+
 const aspetta = (ms) => new Promise((res) => setTimeout(res, ms));
 const SVG = "http://www.w3.org/2000/svg";
 const VW = 1000, VH = 562.5;
@@ -72,7 +74,8 @@ export class Parole {
     // chi parla, per chi legge con lo screen reader (e scritto davvero quando non si vede)
     const nome = document.createElement("span");
     nome.className = ancora.nome ? "chi" : "chi solo-lettori";
-    nome.textContent = ancora.nome ? `${ancora.nome} · ` : chi === "TU" ? "Tu: " : chi ? `${chi}: ` : "";
+    // chi parla e' una voce dei dati (PADRE, FIGLIA...): si traduce qui
+    nome.textContent = ancora.nome ? `${T(ancora.nome)} · ` : chi === "TU" ? T("Tu: ") : chi ? `${T(chi)}: ` : "";
     f.append(nome);
     const nodi = [];
     for (const p of pezzi(chi === "TU" ? `— ${testo}` : testo)) {
@@ -187,7 +190,7 @@ export class Ruota {
     const chiudi = document.createElement("button");
     chiudi.type = "button";
     chiudi.className = "ruota-chiudi";
-    chiudi.setAttribute("aria-label", "Chiudi le domande");
+    chiudi.setAttribute("aria-label", T("Chiudi le domande"));
     chiudi.style.left = `${x * 100}%`;
     chiudi.style.top = `${y * 100}%`;
     chiudi.addEventListener("click", (e) => { e.stopPropagation(); this.chiudi(); });
@@ -236,7 +239,7 @@ export class Striscia {
       d.dataset.id = f.id;
       d.tabIndex = 0;
       d.setAttribute("role", "button");
-      d.setAttribute("aria-label", `${f.testo} (${f.meta}). Trascina su chi o cosa lo contraddice.`);
+      d.setAttribute("aria-label", T`${f.testo} (${f.meta}). Trascina su chi o cosa lo contraddice.`);
       const foto = document.createElement("span");
       foto.className = "fot-foto";
       if (f.foto) {

@@ -18,6 +18,7 @@
 import * as THREE from "../lib/three.js";
 import * as C from "./plastilina.js";
 import { caratteri, primaPagina } from "./primapagina.js";
+import { T } from "./lingua.js";
 
 const IMG = "img/stanza/";
 const MOD = "modelli/";
@@ -53,23 +54,23 @@ const STANZETTA = { x1: X1 + 2.0, z0: 0.35, z1: Z1 };
 // le cose che si usano: dove si ferma il medico [x, z] e dove guarda [x, y, z]. La sosta dev'essere libera: a
 // RAGGIO dai mobili (la sedia della scrivania arriva a z -1,46)
 const OGGETTI = {
-  scrivania: { nome: "La scrivania", sosta: [-0.7, -1.35], guarda: [-0.7, 0.78, -2.65] },
-  videoregistratore: { nome: "Il videoregistratore", sosta: [-0.15, -1.55], guarda: [-0.15, 0.84, -2.55] },
-  finestra: { nome: "La finestra", sosta: [-0.7, -1.35], guarda: [-0.7, 1.7, -3.1] },
-  porta: { nome: "La porta", sosta: [-1.5, 2.3], guarda: [-1.5, 1.15, 3.0] },
-  letto: { nome: "Il letto", sosta: [1.15, -1.5], guarda: [1.95, 0.55, -1.9] },
-  armadio: { nome: "L'armadio", sosta: [-1.35, -1.8], guarda: [-2.2, 1.2, -1.8] },
-  cappotto: CRETA || HQ ? { nome: "Il cappotto", sosta: [1.9, 0.45], guarda: [2.5, 1.5, 0.45] }
-    : { nome: "Il cappotto", sosta: [-0.75, 2.35], guarda: [-0.55, 1.5, 3.0] },
-  calendario: { nome: "Il calendario della ditta", sosta: [-1.55, 0.25], guarda: [-2.5, 1.62, 0.25] },
-  santino: { nome: "Il santino", sosta: [1.1, -1.7], guarda: [2.5, 1.7, -2.3] },
-  termosifone: { nome: "Il termosifone", sosta: [0.6, -2.15], guarda: [0.6, 0.35, -2.95] },
-  borsa: { nome: "La borsa", sosta: [-1.5, -1.95], guarda: [-2.1, 0.15, -2.72] },
-  orologio: { nome: "La radiosveglia", sosta: [0.95, -2.1], guarda: [1.18, 0.6, -2.75] },
-  tavolo: { nome: "Il tavolino", sosta: [-0.75, 1.65], guarda: [0.05, 0.75, 1.65] },
-  credenza: { nome: "La credenza", sosta: [-1.45, 0.25], guarda: [-2.25, 0.95, 0.25] },
-  lavandino: { nome: "Il lavandino", sosta: [-1.55, 1.75], guarda: [-2.35, 1.1, 1.75] },
-  ospite: { nome: "La stanzetta dell'ospite", sosta: [1.75, 1.7], guarda: [2.6, 1.15, 1.7] },
+  scrivania: { nome: T("La scrivania"), sosta: [-0.7, -1.35], guarda: [-0.7, 0.78, -2.65] },
+  videoregistratore: { nome: T("Il videoregistratore"), sosta: [-0.15, -1.55], guarda: [-0.15, 0.84, -2.55] },
+  finestra: { nome: T("La finestra"), sosta: [-0.7, -1.35], guarda: [-0.7, 1.7, -3.1] },
+  porta: { nome: T("La porta"), sosta: [-1.5, 2.3], guarda: [-1.5, 1.15, 3.0] },
+  letto: { nome: T("Il letto"), sosta: [1.15, -1.5], guarda: [1.95, 0.55, -1.9] },
+  armadio: { nome: T("L'armadio"), sosta: [-1.35, -1.8], guarda: [-2.2, 1.2, -1.8] },
+  cappotto: CRETA || HQ ? { nome: T("Il cappotto"), sosta: [1.9, 0.45], guarda: [2.5, 1.5, 0.45] }
+    : { nome: T("Il cappotto"), sosta: [-0.75, 2.35], guarda: [-0.55, 1.5, 3.0] },
+  calendario: { nome: T("Il calendario della ditta"), sosta: [-1.55, 0.25], guarda: [-2.5, 1.62, 0.25] },
+  santino: { nome: T("Il santino"), sosta: [1.1, -1.7], guarda: [2.5, 1.7, -2.3] },
+  termosifone: { nome: T("Il termosifone"), sosta: [0.6, -2.15], guarda: [0.6, 0.35, -2.95] },
+  borsa: { nome: T("La borsa"), sosta: [-1.5, -1.95], guarda: [-2.1, 0.15, -2.72] },
+  orologio: { nome: T("La radiosveglia"), sosta: [0.95, -2.1], guarda: [1.18, 0.6, -2.75] },
+  tavolo: { nome: T("Il tavolino"), sosta: [-0.75, 1.65], guarda: [0.05, 0.75, 1.65] },
+  credenza: { nome: T("La credenza"), sosta: [-1.45, 0.25], guarda: [-2.25, 0.95, 0.25] },
+  lavandino: { nome: T("Il lavandino"), sosta: [-1.55, 1.75], guarda: [-2.35, 1.1, 1.75] },
+  ospite: { nome: T("La stanzetta dell'ospite"), sosta: [1.75, 1.7], guarda: [2.6, 1.15, 1.7] },
 };
 
 // da dove si parte entrando nella stanza: [x, z, direzione dello sguardo in radianti, inclinazione]
@@ -669,7 +670,7 @@ export class Stanza {
       } catch (err) {
         console.warn("La stanza ad alta qualità non si carica, resta quella di prima:", err);
         Object.assign(this, { hq: null, composer: null, cardine: null, pezzi: {}, ingombri: [], modelli: {} });
-        OGGETTI.cappotto = { nome: "Il cappotto", sosta: [-0.75, 2.35], guarda: [-0.55, 1.5, 3.0] };
+        OGGETTI.cappotto = { nome: T("Il cappotto"), sosta: [-0.75, 2.35], guarda: [-0.55, 1.5, 3.0] };
       }
     }
     const sorgente = (m) => (CRETA && m.creta ? `creta/${m.creta}` : m.nome);

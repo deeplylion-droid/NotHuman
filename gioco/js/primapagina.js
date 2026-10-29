@@ -5,6 +5,8 @@
 // che si vede sopra la piega (la testata, la data, il titolo, il sommario, la foto con la didascalia e due colonne);
 // sotto, le pagine di dentro, che si vedono sulla piega, e in fondo i bordi dei fogli uno sopra l'altro.
 
+import { T } from "./lingua.js";
+
 export const LATO = 2048;
 export const PIEGA = 0.7;
 // la striscia in fondo coi bordi dei fogli (per i lati del giornale), in frazioni della tela
@@ -17,16 +19,16 @@ const TESTATA = '"Alfa Slab One", "Old Standard TT", Georgia, serif';
 
 // le notizie piccole che riempiono le colonne, uguali tutti i giorni (il paese non cambia)
 const RIEMPI1 = [
-  ["IL FORNO", "Il forno di via dei Mulini resta chiuso fino a nuovo avviso. Il pane si ritira in canonica, la mattina, fino alle nove."],
-  ["LA CORRIERA", "La corriera per la città passa una volta al giorno, alle 6.10. Chi parte deve avere il foglio della ditta."],
-  ["LEGNA", "Si cercano uomini per la legna della scuola. Paga il comune, in natura."],
+  [T("IL FORNO"), T("Il forno di via dei Mulini resta chiuso fino a nuovo avviso. Il pane si ritira in canonica, la mattina, fino alle nove.")],
+  [T("LA CORRIERA"), T("La corriera per la città passa una volta al giorno, alle 6.10. Chi parte deve avere il foglio della ditta.")],
+  [T("LEGNA"), T("Si cercano uomini per la legna della scuola. Paga il comune, in natura.")],
 ];
 const RIEMPI2 = [
-  ["SMARRITO", "Un cane da pastore, nero, risponde al nome di Lupo. Manca da giovedì notte. Chi lo vede lo dica al bar."],
-  ["ORARI", "Il coprifuoco resta alle otto di sera. Le campane suonano mezz'ora prima."],
+  [T("SMARRITO"), T("Un cane da pastore, nero, risponde al nome di Lupo. Manca da giovedì notte. Chi lo vede lo dica al bar.")],
+  [T("ORARI"), T("Il coprifuoco resta alle otto di sera. Le campane suonano mezz'ora prima.")],
 ];
-const METEO = ["IL TEMPO", "Nebbia al mattino,", "vento da nord.", "Minima 4 gradi."];
-const DENTRO = "Il consiglio comunale si è riunito ieri sera in canonica, a porte chiuse. Il sindaco ha letto la lettera della ditta e ha chiesto a tutti di collaborare con il medico. Qualcuno ha domandato chi paga le case chiuse con la croce, e quando riapre la scuola. Nessuna risposta. In fondo alla sala si parlava del recinto: le luci accese tutta la notte, i camion senza targa. ";
+const METEO = [T("IL TEMPO"), T("Nebbia al mattino,"), T("vento da nord."), T("Minima 4 gradi.")];
+const DENTRO = T("Il consiglio comunale si è riunito ieri sera in canonica, a porte chiuse. Il sindaco ha letto la lettera della ditta e ha chiesto a tutti di collaborare con il medico. Qualcuno ha domandato chi paga le case chiuse con la croce, e quando riapre la scuola. Nessuna risposta. In fondo alla sala si parlava del recinto: le luci accese tutta la notte, i camion senza targa. ");
 
 // i caratteri del giornale (Google Fonts, come nel gioco): la tela li usa solo se sono gia' arrivati
 export async function caratteri() {
@@ -156,13 +158,13 @@ export function primaPagina(tela, g, foto) {
   c.textAlign = "center";
   let fs = 330;
   c.font = `400 ${fs}px ${TESTATA}`;
-  while (c.measureText(g.testata || "LA VOCE").width > (W - 2 * m) * 0.62 && fs > 120) c.font = `400 ${(fs -= 6)}px ${TESTATA}`;
-  c.fillText(g.testata || "LA VOCE", W / 2, m + fs * 0.8);
+  while (c.measureText(g.testata || T("LA VOCE")).width > (W - 2 * m) * 0.62 && fs > 120) c.font = `400 ${(fs -= 6)}px ${TESTATA}`;
+  c.fillText(g.testata || T("LA VOCE"), W / 2, m + fs * 0.8);
   const orecchio = (W - 2 * m) * 0.17, oh = fs * 0.78;
   c.lineWidth = 4;
   c.strokeRect(m, m + 6, orecchio, oh);
   c.strokeRect(W - m - orecchio, m + 6, orecchio, oh);
-  const [ditta, motto] = (g.pubblicita || "PANACEA · Ci prendiamo cura di voi.").split(" · ");
+  const [ditta, motto] = (g.pubblicita || T("PANACEA · Ci prendiamo cura di voi.")).split(" · ");
   const tx = m + orecchio / 2, ty = m + 6 + oh * 0.28;
   c.beginPath();
   c.moveTo(tx, ty - 34);
@@ -187,9 +189,9 @@ export function primaPagina(tela, g, foto) {
   y += 74;
   c.font = `400 34px ${SERIF}`;
   c.textAlign = "left";
-  c.fillText("MALVENTO", m, y);
+  c.fillText(T("MALVENTO"), m, y);
   c.textAlign = "right";
-  c.fillText("ANNO XLII · N. 301", W - m, y);
+  c.fillText(T("ANNO XLII · N. 301"), W - m, y);
   c.textAlign = "center";
   c.font = `400 36px ${SERIF}`;
   c.fillText((g.data || "").toUpperCase(), W / 2, y);
@@ -238,15 +240,15 @@ export function primaPagina(tela, g, foto) {
   c.fillStyle = INCHIOSTRO;
   c.textAlign = "left";
   c.font = `italic 400 34px ${SERIF}`;
-  righe(c, g.didascalia || "Il medico, ieri sera, nella via principale.", fotoL).slice(0, 2)
+  righe(c, g.didascalia || T("Il medico, ieri sera, nella via principale."), fotoL).slice(0, 2)
     .forEach((r, i) => c.fillText(r, m, top + fotoH + 44 + i * 40));
   const x1 = m + fotoL + 54;
   const largo = (W - m - x1 - 48) / 2;
   const x2 = x1 + largo + 48;
   c.fillRect(x1 + largo + 22, top, 3, fondo - top);
   // le colonne arrivano alla piega: il testo continua sotto, come sui giornali veri
-  colonna(c, [["CRONACA", g.articolo || ""], ...RIEMPI1], x1, top, largo, H - 8, 32);
-  colonna(c, [["LETTERE", g.lettera || ""], ["IN BREVE", g.breve || ""], ...RIEMPI2], x2, top, largo, H - 8, 32);
+  colonna(c, [[T("CRONACA"), g.articolo || ""], ...RIEMPI1], x1, top, largo, H - 8, 32);
+  colonna(c, [[T("LETTERE"), g.lettera || ""], [T("IN BREVE"), g.breve || ""], ...RIEMPI2], x2, top, largo, H - 8, 32);
   alone(c, W - 520, 330, 150);
   // sotto la piega: le pagine di dentro, testo fitto e piccolo
   c.fillStyle = "rgba(0, 0, 0, 0.04)";

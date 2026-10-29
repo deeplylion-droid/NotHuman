@@ -14,7 +14,20 @@ const { chromium } = require('playwright');
   page.on('console', (m) => { if ((m.type() === 'error' || m.type() === 'warning') && !/GPU stall|GL Driver|swiftshader/i.test(m.text())) errors.push(m.type() + ': ' + m.text()); });
   page.on('pageerror', (e) => errors.push('pageerror: ' + e));
   page.on('requestfailed', (r) => errors.push('requestfailed: ' + r.url()));
-  await page.goto('http://127.0.0.1:8765/index.html#prova');
+  // LINGUA=en (o xx, la lingua finta: alla fine i testi rimasti fuori dalla traduzione) per provarla in un'altra lingua
+  const lingua = process.env.LINGUA;
+  const { sorveglia, fuori } = require('./lingua_fuori.js');
+  if (lingua === 'xx') await sorveglia(page);
+  // in inglese i testi da cliccare si cercano nel catalogo: la chiave uguale o, per un pezzo di testo, la piu' corta che lo
+  // contiene ("Concludi" -> "Concludi la visita" -> "End the visit")
+  const CATALOGO = lingua === 'en' ? (await import(require('path').resolve(__dirname, '../../gioco/js/lingua_en.js'))).CATALOGO : null;
+  const L = (s) => {
+    if (!CATALOGO) return s;
+    if (CATALOGO[s]) return CATALOGO[s];
+    const k = Object.keys(CATALOGO).filter((k) => k.includes(s)).sort((a, b) => a.length - b.length)[0];
+    return k ? CATALOGO[k] : s;
+  };
+  await page.goto(`http://127.0.0.1:8765/index.html#prova${lingua ? `-${lingua}` : ''}`);
   await page.waitForFunction(() => document.querySelector('#schermo')?.dataset.schermo === 'stanza', null, { timeout: 180000 });
   await page.waitForTimeout(1000);
   await page.evaluate(() => { window.prova.risoluzione = 320; window.prova.stanza().adatta(320); });
@@ -35,9 +48,9 @@ const { chromium } = require('playwright');
     const p = at(0.5, 0.45);
     await page.mouse.move(p.x, p.y); await page.mouse.move(p.x + 6, p.y + 3);
     await page.waitForTimeout(300);
-    await page.locator('#hud button', { hasText: nome }).click({ timeout: 8000 });
+    await page.locator('#hud button', { hasText: L(nome) }).click({ timeout: 8000 });
   };
-  const voce = async (txt) => { await page.locator('#ruota .ruota-voce', { hasText: txt }).first().click({ timeout: 4000 }); await page.waitForTimeout(250); };
+  const voce = async (txt) => { await page.locator('#ruota .ruota-voce', { hasText: L(txt) }).first().click({ timeout: 4000 }); await page.waitForTimeout(250); };
   const voci = async () => page.evaluate(() => [...document.querySelectorAll('#ruota .ruota-voce')].map((b) => b.textContent).join(' | '));
   const chiudiRuota = async () => { if (await page.locator('#ruota').isVisible()) { await page.keyboard.press('Escape'); await page.waitForTimeout(250); } };
   const libero = async () => { for (let i = 0; i < 40 && await page.evaluate(() => window.prova.R().occupato); i++) { await page.keyboard.press(' '); await page.waitForTimeout(200); } };
@@ -118,9 +131,9 @@ const { chromium } = require('playwright');
     }
     await page.waitForTimeout(2500); await shot(`notte${n}`);
     log.push(`notte ${n}: ` + await page.evaluate(() => document.querySelector('#foglio-corpo').innerText.replace(/\s+/g, ' ').slice(0, 400)));
-    await page.locator('#foglio button', { hasText: 'giornale' }).click(); await page.waitForTimeout(2000); await shot(`giornale${n + 1}`);
+    await page.locator('#foglio button', { hasText: L('giornale') }).click(); await page.waitForTimeout(2000); await shot(`giornale${n + 1}`);
     log.push(`giornale ${n + 1}: ` + await page.evaluate(() => document.querySelector('.gio-titolo')?.textContent));
-    await page.locator('#foglio button', { hasText: dopo }).click(); await page.waitForTimeout(1500);
+    await page.locator('#foglio button', { hasText: L(dopo) }).click(); await page.waitForTimeout(1500);
   };
 
   // ---------- il primo giorno ----------
@@ -150,7 +163,7 @@ const { chromium } = require('playwright');
   await step('sera1', async () => {
     await page.evaluate(() => window.prova.sera()); await page.waitForTimeout(1500); await skip();
     await page.evaluate(() => window.prova.apriNastri()); await page.waitForTimeout(800);
-    await page.locator('#foglio button', { hasText: 'NASTRO 7' }).click(); await page.waitForTimeout(1000);
+    await page.locator('#foglio button', { hasText: L('NASTRO 7') }).click(); await page.waitForTimeout(1000);
     for (let i = 0; i < 60 && await page.evaluate(() => window.prova.S.schermo === 'nastro'); i++) { await page.keyboard.press(' '); await page.waitForTimeout(300); }
     log.push('nastro 7: ' + await page.evaluate(() => JSON.stringify(window.prova.S.tracce)));
   });
@@ -211,14 +224,15 @@ const { chromium } = require('playwright');
     log.push('finale: ' + await page.evaluate(() => { const f = window.prova.R().finale; return JSON.stringify({ id: f.id, tracce: f.tracce, prese: f.prese.length, consegnati: f.consegnati.map((p) => p.id), cambiati: f.cambiati }); }));
     log.push('  ' + await page.evaluate(() => document.querySelector('#foglio-corpo').innerText.replace(/\s+/g, ' ').slice(0, 600)));
     await shot('quarta_mattina');
-    await page.locator('#foglio button', { hasText: 'Scendi nella cripta' }).click(); await page.waitForTimeout(3000);
+    await page.locator('#foglio button', { hasText: L('Scendi nella cripta') }).click(); await page.waitForTimeout(3000);
     log.push('  ' + await page.evaluate(() => document.querySelector('#foglio-corpo').innerText.replace(/\s+/g, ' ').slice(0, 600)));
     await shot('finale');
-    await page.locator('#foglio button', { hasText: "Com'era davvero" }).click(); await page.waitForTimeout(1500);
+    await page.locator('#foglio button', { hasText: L("Com'era davvero") }).click(); await page.waitForTimeout(1500);
     log.push('  ' + await page.evaluate(() => document.querySelector('#foglio-corpo').innerText.replace(/\s+/g, ' ').slice(0, 900)));
     await shot('verita');
   });
   console.log(log.join('\n'));
+  if (lingua === 'xx') console.log('FUORI DALLA TRADUZIONE:\n' + (await fuori(page)).join('\n'));
   console.log('ERRORI:', JSON.stringify(errors, null, 1));
   await browser.close();
 })();

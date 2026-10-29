@@ -15,7 +15,11 @@ const { chromium } = require('playwright');
   const log = [];
   page.on('console', (m) => { if ((m.type() === 'error' || m.type() === 'warning') && !/GPU stall|GL Driver|swiftshader/i.test(m.text())) errors.push(`${m.type()}: ${m.text()}`); });
   page.on('pageerror', (e) => errors.push(`pageerror: ${e}`));
-  await page.goto('http://127.0.0.1:8765/index.html#prova');
+  // LINGUA=en (o xx, la lingua finta: alla fine i testi rimasti fuori dalla traduzione) per provarla in un'altra lingua
+  const lingua = process.env.LINGUA;
+  const { sorveglia, fuori } = require('./lingua_fuori.js');
+  if (lingua === 'xx') await sorveglia(page);
+  await page.goto(`http://127.0.0.1:8765/index.html#prova${lingua ? `-${lingua}` : ''}`);
   await page.waitForFunction(() => document.querySelector('#schermo')?.dataset.schermo === 'stanza', null, { timeout: 180000 });
   await page.evaluate(() => { window.prova.risoluzione = 320; window.prova.stanza()?.adatta?.(320); });
   const foglio = () => page.evaluate(() => {
@@ -98,6 +102,7 @@ const { chromium } = require('playwright');
   log.push('titolo: ' + await t.evaluate(() => [...document.querySelectorAll('#foglio-corpo > *')].map((e) => e.textContent.trim()).join(' / ')));
   await t.screenshot({ path: `${out}/titolo.png`, timeout: 150000 });
   console.log(log.join('\n'));
+  if (lingua === 'xx') console.log('FUORI DALLA TRADUZIONE:\n' + (await fuori(page)).join('\n'));
   console.log('ERRORI:', JSON.stringify(errors, null, 1));
   await browser.close();
 })();

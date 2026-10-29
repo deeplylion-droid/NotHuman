@@ -11,6 +11,7 @@ import { Parole, Ruota, Striscia, Segni } from "./parole.js";
 import { icona, pittogramma } from "./icone.js";
 import { Suoni } from "./suoni.js";
 import { avviaController } from "./controller.js";
+import { T, LINGUA, LINGUE, scegliLingua, traduciPagina } from "./lingua.js";
 
 const $ = (sel) => document.querySelector(sel);
 const el = (tag, cls, text) => {
@@ -22,6 +23,9 @@ const el = (tag, cls, text) => {
 const hhmm = (m) => `${String(Math.floor(m / 60) % 24).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const maiuscolo = (s) => s.toUpperCase();
+
+// i testi scritti in index.html, nella lingua scelta
+traduciPagina();
 
 const schermo = $("#schermo");
 const canvas = $("#vhs");
@@ -388,14 +392,14 @@ function osdRec() {
   osd.box.hidden = false;
   osd.box.classList.remove("play");
   osd.stato.innerHTML = "";
-  osd.stato.append(el("i", "punto"), document.createTextNode("REC"));
+  osd.stato.append(el("i", "punto"), document.createTextNode(T("REC")));
 }
 
 function osdPlay() {
   osd.box.hidden = false;
   osd.box.classList.add("play");
   osd.stato.innerHTML = "";
-  osd.stato.append(el("i", "triangolo"), document.createTextNode("PLAY"));
+  osd.stato.append(el("i", "triangolo"), document.createTextNode(T("PLAY")));
 }
 
 // in alto i soldi, come in un videogioco; data e ora non si vedono (resta la radiosveglia nella stanza)
@@ -408,7 +412,7 @@ function aggiornaHud() {
 function avanza(min) {
   S.ora += min;
   aggiornaHud();
-  if (min > 0) colpo("tempo", `−${min} MIN`);
+  if (min > 0) colpo("tempo", T`−${min} MIN`);
 }
 
 // ---------- gli indicatori: la pazienza della famiglia e il tempo che resta fino al coprifuoco ----------
@@ -716,20 +720,20 @@ function fotogramma(v) {
   let foto = null;
   if (visita) {
     const src = fotoProva(k);
-    return { id: v.id, tipo: "prova", foto: src ? { src } : null, testo: P.breve, meta: P.ir ? "NASTRO IR" : "INDIZIO",
+    return { id: v.id, tipo: "prova", foto: src ? { src } : null, testo: P.breve, meta: P.ir ? T("NASTRO IR") : T("INDIZIO"),
       icona: icona(P.ir ? "fiamma" : "lente") };
   }
   if (P.zona) foto = ritaglioZona(...P.zona);
   else if (P.parte) foto = { src: url(`img/pp/${fotoPrimo(...P.parte)}.jpg`), w: (6 / 7) * (9 / 16), h: 1, x: 0.5 - (6 / 7) * (9 / 32), y: 0 };
   else if (P.da) foto = { src: url(`img/volti/${fotoVolto(P.da)}.jpg`) };
   if (foto && P.ir) foto.filtro = "ir";
-  return { id: v.id, tipo: "prova", foto, testo: P.breve, meta: P.ir ? "NASTRO IR" : "INDIZIO", icona: icona(P.ir ? "fiamma" : "lente") };
+  return { id: v.id, tipo: "prova", foto, testo: P.breve, meta: P.ir ? T("NASTRO IR") : T("INDIZIO"), icona: icona(P.ir ? "fiamma" : "lente") };
 }
 
 function aggiornaNastro() {
   if (S.schermo !== "visita") return;
   const lista = S.frasi.filter((f) => valeIn(f.id, S.casa)).map(fotogramma);
-  striscia.mostra(lista, "Il nastro delle frasi: quello che conta finisce qui. Trascinalo su chi o cosa lo smentisce.");
+  striscia.mostra(lista, T("Il nastro delle frasi: quello che conta finisce qui. Trascinalo su chi o cosa lo smentisce."));
   for (const d of nastroFrasi.querySelectorAll(".fot")) d.classList.toggle("scelta", !!R.scelta && d.dataset.id === R.scelta.id);
 }
 
@@ -748,7 +752,7 @@ function applica(poi) {
     if (visita) fotoProva(poi.prova);
     S.prove.push(poi.prova);
     mettiSulNastro(`p:${poi.prova}`);
-    notifica("Sul nastro delle frasi");
+    notifica(T("Sul nastro delle frasi"));
   }
   if (poi.volti) {
     Object.assign(S.volti, poi.volti);
@@ -822,10 +826,10 @@ function vaiScrivania() {
     mostra(IMG.scrivania);
     for (const z of D.SCRIVANIA) zoneBox.append(zonaHtml(z, () => azioneScrivania(z.id)));
   }
-  tasti(...(stanza ? [tasto("Alzati", () => vaiStanza("scrivania"), "su")] : []));
+  tasti(...(stanza ? [tasto(T("Alzati"), () => vaiStanza("scrivania"), "su")] : []));
   aiuto(S.fase === "sera"
-    ? "Sera. Rivedi i nastri al videoregistratore, poi spegni la lampada."
-    : "Leggi il fax, poi prendi la maschera ed esci.");
+    ? T("Sera. Rivedi i nastri al videoregistratore, poi spegni la lampada.")
+    : T("Leggi il fax, poi prendi la maschera ed esci."));
   aggiornaHud();
 }
 
@@ -863,10 +867,10 @@ function vaiStanza(dove = "inizio") {
 // il suggerimento della stanza: col mouse si clicca per girare lo sguardo (Esc libera il puntatore), col dito si
 // trascina; la sera, cosa resta da fare
 function aiutoStanza() {
-  const come = tocco() ? "Trascina per guardarti attorno, tocca dove andare o cosa usare."
-    : stanza.senzaBlocco ? "Trascina per guardarti attorno, clicca dove andare o cosa usare. Si cammina con WASD."
-      : "Clicca per guardarti attorno col mouse. WASD per camminare, clic o E per usare. Esc libera il mouse.";
-  aiuto(S.fase === "sera" ? `Sera: i nastri sono nel videoregistratore, poi a letto. ${come}` : come);
+  const come = tocco() ? T("Trascina per guardarti attorno, tocca dove andare o cosa usare.")
+    : stanza.senzaBlocco ? T("Trascina per guardarti attorno, clicca dove andare o cosa usare. Si cammina con WASD.")
+      : T("Clicca per guardarti attorno col mouse. WASD per camminare, clic o E per usare. Esc libera il mouse.");
+  aiuto(S.fase === "sera" ? T`Sera: i nastri sono nel videoregistratore, poi a letto. ${come}` : come);
 }
 
 // quando il mouse si blocca nella stanza: niente icone ne' suggerimento, il mirino al centro e il nome di quello
@@ -895,13 +899,13 @@ async function usaStanza(id) {
   }
   if (id === "videoregistratore") { R.ritorno = "stanza"; return apriNastri(); }
   if (id === "porta") {
-    if (S.fase === "sera") return dici([[null, "È il coprifuoco. Fino a domattina non si esce."]], false, false);
+    if (S.fase === "sera") return dici([[null, T("È il coprifuoco. Fino a domattina non si esce.")]], false, false);
     suoni.suona("porta", { volume: 0.7 });
     return vaiMappa();
   }
   if (id === "letto") {
     if (S.fase === "sera") return dormi();
-    return dici([[null, "Non è ancora ora di dormire. La ditta paga a paziente."]], false, false);
+    return dici([[null, T("Non è ancora ora di dormire. La ditta paga a paziente.")]], false, false);
   }
   if (id === "ospite" && S.fase === "sera") return controllaOspite();
   const T = D.STANZA[id];
@@ -942,12 +946,12 @@ async function azioneScrivania(id) {
   if (id === "soldi") return apriSoldi();
   if (id === "nastri") { R.ritorno = "scrivania"; return apriNastri(); }
   if (id === "mappa" || id === "maschera") {
-    if (S.fase === "sera") return dici([[null, "È il coprifuoco. Fino a domattina non si esce."]], false, false);
+    if (S.fase === "sera") return dici([[null, T("È il coprifuoco. Fino a domattina non si esce.")]], false, false);
     return vaiMappa();
   }
   if (id === "lampada") {
     if (S.fase === "sera") return dormi();
-    return dici([[null, "La lampada. Si spegne quando è ora di dormire."]], false, false);
+    return dici([[null, T("La lampada. Si spegne quando è ora di dormire.")]], false, false);
   }
 }
 
@@ -975,17 +979,17 @@ function apriFax() {
   // la prima volta il fax arriva e si stampa, poi e' solo un foglio
   suoni.suona(S.faxStampato ? "carta" : "fax");
   S.faxStampato = true;
-  const testa = testaFax(`PROTOCOLLO · GIORNO ${f.giorno}`);
+  const testa = testaFax(T`PROTOCOLLO · GIORNO ${f.giorno}`);
   const segni = el("div", "fx-segni");
   for (const s of f.segni) segni.append(segnoFax(s.icona, s.nome, s.nota));
   const case_ = el("div", "fx-fila");
-  for (const n of f.case) case_.append(segnoFax("casa", `CASA ${n}`, null, "piccolo"));
+  for (const n of f.case) case_.append(segnoFax("casa", T`CASA ${n}`, null, "piccolo"));
   const paga = el("div", "fx-fila");
-  paga.append(segnoFax("moneta", `${D.SOLDI.paziente} €`, "a paziente", "piccolo"),
+  paga.append(segnoFax("moneta", `${D.SOLDI.paziente} €`, T("a paziente"), "piccolo"),
     segnoFax("mirino", `+${D.SOLDI.profilo} €`, f.profilo, "piccolo"));
   const riga = el("div", "fx-riga");
-  riga.append(bloccoFax("DA VISITARE", case_), bloccoFax("PAGA", paga));
-  apriFoglio("fax", [testa, bloccoFax("SEGNI DA CERCARE", segni), riga, el("p", "fx-motto", f.motto)]);
+  riga.append(bloccoFax(T("DA VISITARE"), case_), bloccoFax(T("PAGA"), paga));
+  apriFoglio("fax", [testa, bloccoFax(T("SEGNI DA CERCARE"), segni), riga, el("p", "fx-motto", f.motto)]);
 }
 
 // i pezzi del fax: un pittogramma con la sua scritta, un blocco col titolo, la testata della ditta
@@ -1008,7 +1012,7 @@ function testaFax(giorno) {
   const testa = el("header", "fx-testa");
   const logo = el("div", "fx-logo");
   logo.innerHTML = pittogramma("panacea");
-  testa.append(logo, el("b", "fx-ditta", "PANACEA"), el("span", "fx-giorno", giorno));
+  testa.append(logo, el("b", "fx-ditta", T("PANACEA")), el("span", "fx-giorno", giorno));
   return testa;
 }
 
@@ -1024,13 +1028,13 @@ function apriGiornale(domani, speciale, dopo) {
   const stampa = el("div", "gio-stampa");
   const carta = el("img", "gio-carta");
   carta.src = "img/giornale.jpg";
-  carta.alt = `La Voce, il giornale del paese: ${g.titolo}`;
+  carta.alt = T`La Voce, il giornale del paese: ${g.titolo}`;
   const piano = el("div", "gio-piano");
   const blocco = (nome, cls, ...figli) => {
     const [u0, v0, u1, v1] = D.PAGINA.blocchi[nome];
     const b = el("div", `gio-blocco ${cls}`);
-    Object.assign(b.style, { left: `${u0 * U}px`, top: `${(v0 - V0) * U}px`, width: `${(u1 - u0) * U}px`,
-      height: `${(v1 - v0) * U}px` });
+    Object.assign(b.style, { left: T`${u0 * U}px`, top: T`${(v0 - V0) * U}px`, width: T`${(u1 - u0) * U}px`,
+      height: T`${(v1 - v0) * U}px` });
     b.append(...figli);
     return b;
   };
@@ -1038,7 +1042,7 @@ function apriGiornale(domani, speciale, dopo) {
   foto.src = "img/foto_medico.jpg";
   foto.alt = "";
   const lettera = el("p");
-  lettera.append(el("b", null, "LETTERE · "), document.createTextNode(g.lettera));
+  lettera.append(el("b", null, T("LETTERE · ")), document.createTextNode(g.lettera));
   piano.append(
     blocco("data", "gio-data", document.createTextNode(g.data)),
     blocco("titolo", "gio-titolo", el("span", null, g.titolo)),
@@ -1052,12 +1056,12 @@ function apriGiornale(domani, speciale, dopo) {
   // sugli schermi stretti la pagina e' troppo piccola: sotto c'e' lo stesso testo da leggere
   const leggibile = el("div", "gio-leggibile");
   leggibile.append(el("h2", null, g.titolo), el("p", "gio-l-sommario", g.sommario), el("p", null, g.articolo),
-    el("p", null, `LETTERE · ${g.lettera}`), el("p", null, g.breve));
+    el("p", null, T`LETTERE · ${g.lettera}`), el("p", null, g.breve));
   const corpo = [stampa, leggibile];
   // dopo la prima notte comincia il secondo giorno, dopo la seconda il terzo; dopo la terza, il finale della demo
   if (dopo) corpo.push(azioni([dopo]));
-  else if (domani) corpo.push(azioni([[["Il secondo giorno", iniziaGiorno2], ["Il terzo giorno", iniziaGiorno3]][S.giorno - 1]
-    || ["La quarta mattina", quartaMattina]]));
+  else if (domani) corpo.push(azioni([[[T("Il secondo giorno"), iniziaGiorno2], [T("Il terzo giorno"), iniziaGiorno3]][S.giorno - 1]
+    || [T("La quarta mattina"), quartaMattina]]));
   apriFoglio("giornale", corpo);
   const proietta = () => {
     const r = stampa.getBoundingClientRect();
@@ -1092,8 +1096,8 @@ function apriSoldi() {
   suoni.suona("monete");
   apriFoglio("soldi", [
     el("h2", null, `${S.soldi} €`),
-    el("p", null, `Ogni notte: stanza ${D.SOLDI.stanza} €, cena ${D.SOLDI.cena} €, ${D.SOLDI.cassetta} € per ogni cassetta usata.`),
-    el("p", null, `La ditta paga ${D.SOLDI.paziente} € a paziente consegnato, ${D.SOLDI.profilo} € in più per il profilo richiesto.`),
+    el("p", null, T`Ogni notte: stanza ${D.SOLDI.stanza} €, cena ${D.SOLDI.cena} €, ${D.SOLDI.cassetta} € per ogni cassetta usata.`),
+    el("p", null, T`La ditta paga ${D.SOLDI.paziente} € a paziente consegnato, ${D.SOLDI.profilo} € in più per il profilo richiesto.`),
   ]);
 }
 
@@ -1134,7 +1138,7 @@ function vaiMappa() {
     return b;
   };
   for (const [id, c] of Object.entries(D.CASE)) {
-    const b = spillo("pin", String(c.n), c.x, c.y, `Casa ${c.n}${c.segnalata ? " · segnalata" : ""}`, () => scegli(id));
+    const b = spillo("pin", String(c.n), c.x, c.y, T`Casa ${c.n}${c.segnalata ? T(" · segnalata") : ""}`, () => scegli(id));
     b.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") evidenzia(id); });
     if (c.segnalata) b.classList.add("segnalata");
     if (c.croce || S.decisioni[id]?.provvedimento === "chiudi") b.classList.add("croce");
@@ -1148,8 +1152,8 @@ function vaiMappa() {
   }
   posizionaSpilli();
   const visite = Object.keys(S.visitate).length;
-  aiuto("Tocca la mappa per ingrandire");
-  tasti(tasto(visite ? "Torna in stanza · finisce la giornata" : stanza ? "Torna in stanza" : "Torna alla scrivania",
+  aiuto(T("Tocca la mappa per ingrandire"));
+  tasti(tasto(visite ? T("Torna in stanza · finisce la giornata") : stanza ? T("Torna in stanza") : T("Torna alla scrivania"),
     () => (visite ? sera() : stanza ? vaiStanza("porta") : vaiScrivania()), stanza ? "casa" : "indietro"));
   mostraIndicatori("mappa");
   aggiornaHud();
@@ -1279,14 +1283,14 @@ function mostraScheda(id, fissa) {
   const card = schedaCasa;
   card.replaceChildren();
   const testa = el("div", "sc-testa");
-  testa.append(el("b", null, `Casa ${c.n}`));
-  if (c.segnalata) testa.append(timbro("segnalata", "rosso"));
-  if (c.croce || S.decisioni[id]?.provvedimento === "chiudi") testa.append(timbro("croce", "nero"));
-  if (S.visitate[id]) testa.append(timbro("visitata", "blu"));
-  if (S.notte?.contagiate?.includes(id)) testa.append(timbro("contagio", "rosso"));
+  testa.append(el("b", null, T`Casa ${c.n}`));
+  if (c.segnalata) testa.append(timbro(T("segnalata"), "rosso"));
+  if (c.croce || S.decisioni[id]?.provvedimento === "chiudi") testa.append(timbro(T("croce"), "nero"));
+  if (S.visitate[id]) testa.append(timbro(T("visitata"), "blu"));
+  if (S.notte?.contagiate?.includes(id)) testa.append(timbro(T("contagio"), "rosso"));
   card.append(testa);
   card.append(el("p", "sc-nota", c.segnalata || c.nota));
-  card.append(el("p", "sc-titolo", "Occupanti"));
+  card.append(el("p", "sc-titolo", T("Occupanti")));
   if (S.visitate[id]) {
     const dec = S.decisioni[id] || { via: [], provvedimento: "nessuno" };
     for (const [pid, persona] of personeDellaCasa(id)) {
@@ -1303,9 +1307,9 @@ function mostraScheda(id, fissa) {
       testo.append(nome);
       const visti = Object.keys(D.ESAMI[pid] || {}).filter((parte) => S.esami[`${pid}_${parte}`]);
       const reperti = visti.map((parte) => `${parte}: ${esameFatto(pid, parte).reperto}`);
-      testo.append(el("span", null, reperti.length ? reperti.join(" · ") : "non esaminato"));
+      testo.append(el("span", null, reperti.length ? reperti.join(" · ") : T("non esaminato")));
       testo.append(el("em", dec.via.includes(pid) ? "via" : dec.ospite === pid ? "ospite" : "",
-        dec.via.includes(pid) ? "al lazzaretto" : dec.ospite === pid ? "ospite stanotte" : "resta in casa"));
+        dec.via.includes(pid) ? T("al lazzaretto") : dec.ospite === pid ? T("ospite stanotte") : T("resta in casa")));
       riga.append(foto, testo);
       card.append(riga);
     }
@@ -1315,34 +1319,34 @@ function mostraScheda(id, fissa) {
         const riga = el("div", "sc-persona");
         riga.append(el("span", "sc-foto ignota", "?"));
         const testo = el("div", "sc-dati");
-        testo.append(el("b", null, "Qualcuno dietro la porta"), el("span", null, "non visto"));
+        testo.append(el("b", null, T("Qualcuno dietro la porta")), el("span", null, T("non visto")));
         riga.append(testo);
         card.append(riga);
       }
     }
     const prove = S.prove.filter((p) => D.PROVE[p].casa === id);
     if (prove.length) {
-      card.append(el("p", "sc-titolo", "Prove"));
+      card.append(el("p", "sc-titolo", T("Prove")));
       const ul = el("ul", "sc-prove");
       for (const p of prove) ul.append(el("li", null, D.PROVE[p].testo));
       card.append(ul);
     }
-    const prov = { nessuno: "nessuno", chiudi: "croce sulla porta", domani: "tornare domani" }[dec.provvedimento];
-    card.append(el("p", "sc-nota", `Provvedimento: ${prov}.`));
+    const prov = { nessuno: T("nessuno"), chiudi: T("croce sulla porta"), domani: T("tornare domani") }[dec.provvedimento];
+    card.append(el("p", "sc-nota", T`Provvedimento: ${prov}.`));
   } else {
     const vuoti = el("div", "sc-vuoti");
     for (let i = 0; i < 3; i++) vuoti.append(el("span", "sc-foto ignota", "?"));
-    card.append(vuoti, el("p", "sc-nota", c.croce ? "Chiusa: nessuno entra o esce." : "Non ancora visitata."));
+    card.append(vuoti, el("p", "sc-nota", c.croce ? T("Chiusa: nessuno entra o esce.") : T("Non ancora visitata.")));
   }
   if (fissa) {
     const azioni = el("div", "sc-azioni");
     if (c.segnalata && !S.visitate[id] && S.fase !== "sera" && S.schermo === "mappa") {
-      if (S.ora + D.MINUTI.viaggio >= D.INIZIO.coprifuoco) azioni.append(el("span", null, "Non fai in tempo prima del coprifuoco."));
-      else azioni.append(bottone(`Vai · ${D.MINUTI.viaggio} min`, () => vai(id), "sc-vai"));
+      if (S.ora + D.MINUTI.viaggio >= D.INIZIO.coprifuoco) azioni.append(el("span", null, T("Non fai in tempo prima del coprifuoco.")));
+      else azioni.append(bottone(T`Vai · ${D.MINUTI.viaggio} min`, () => vai(id), "sc-vai"));
     } else if (!c.segnalata && !c.croce && S.schermo === "mappa") {
-      azioni.append(el("span", null, "La ditta paga solo le case segnalate."));
+      azioni.append(el("span", null, T("La ditta paga solo le case segnalate.")));
     }
-    azioni.append(bottone("Chiudi", () => scegli(null), "sc-chiudi"));
+    azioni.append(bottone(T("Chiudi"), () => scegli(null), "sc-chiudi"));
     card.append(azioni);
   }
   card.hidden = false;
@@ -1362,7 +1366,7 @@ function mostraLuogo(l) {
   delete card.dataset.lunga;
   card.replaceChildren(el("div", "sc-testa", l.nome), el("p", "sc-nota", l.nota));
   const azioni = el("div", "sc-azioni");
-  azioni.append(bottone("Chiudi", () => { card.hidden = true; }, "sc-chiudi"));
+  azioni.append(bottone(T("Chiudi"), () => { card.hidden = true; }, "sc-chiudi"));
   card.append(azioni);
   card.dataset.x = l.x;
   card.dataset.y = l.y;
@@ -1401,7 +1405,7 @@ async function vai(id) {
 async function entraCasa(id) {
   const c = D.CASE[id];
   S.casa = id;
-  S.nastri.push({ casa: id, titolo: `NASTRO ${S.nastri.length + 1} · CASA ${c.n}`, inizio: S.ora, fine: null, riprese: [] });
+  S.nastri.push({ casa: id, titolo: T`NASTRO ${S.nastri.length + 1} · CASA ${c.n}`, inizio: S.ora, fine: null, riprese: [] });
   suoni.suona("rec");
   await vaiLuogo(c.luogo);
 }
@@ -1445,7 +1449,7 @@ async function vaiLuogo(luogo) {
     mostra(R.scena, IMG[luogo].src);
   }
   osdRec();
-  osd.modo.textContent = L.notte ? "NOTTE" : "";
+  osd.modo.textContent = L.notte ? T("NOTTE") : "";
   S.pazienza[S.casa] ??= D.PAZIENZA;
   mostraIndicatori("visita");
   hudVisita();
@@ -1492,9 +1496,9 @@ async function aspettaVisite() {
 function hudVisita() {
   const L = D.LUOGHI[S.luogo];
   // "ritornoNome": da sotto si torna di sopra (la cantina della casa 5, la cripta della casa 7)
-  tasti(...(L.ritorno ? [tasto(L.ritornoNome || "Torna in cucina", () => tornaCucina(), "indietro")] : []),
-    tasto("Stato di famiglia", () => apriStato(S.casa), "foglio"),
-    tasto("Concludi la visita", () => apriStato(S.casa, { firma: true }), "firma", true));
+  tasti(...(L.ritorno ? [tasto(L.ritornoNome || T("Torna in cucina"), () => tornaCucina(), "indietro")] : []),
+    tasto(T("Stato di famiglia"), () => apriStato(S.casa), "foglio"),
+    tasto(T("Concludi la visita"), () => apriStato(S.casa, { firma: true }), "firma", true));
 }
 
 async function tornaCucina() {
@@ -1538,7 +1542,7 @@ function testoColpo(c) {
   if (!c) return "";
   if (c.zona) return maiuscolo(c.zona.nome);
   const nome = maiuscolo(D.PERSONE[c.persona].nome);
-  return c.parte ? `${nome} · ${maiuscolo(D.PARTI[c.parte])}` : `${nome} · PARLA`;
+  return c.parte ? `${nome} · ${maiuscolo(D.PARTI[c.parte])}` : T`${nome} · PARLA`;
 }
 
 // il bersaglio di una contestazione: "parte:padre.collo", "persona:padre", "zona:tavola"
@@ -1614,7 +1618,7 @@ async function esamina(persona, parte) {
   S.esami[`${persona}_${parte}`] = true;
   didascalia.textContent = `${maiuscolo(D.PARTI[parte])} · ${maiuscolo(D.PERSONE[persona].nome)}`;
   didascalia.hidden = false;
-  tasti(tasto("Torna alla stanza", chiudiPrimo, "indietro", true));
+  tasti(tasto(T("Torna alla stanza"), chiudiPrimo, "indietro", true));
   nuovaRipresa({ tipo: "primo", persona, parte });
   R.occupato = false;
   await dici(e.dice);
@@ -1654,7 +1658,7 @@ async function dopoAzione() {
     return true;
   }
   if (S.ora < D.INIZIO.coprifuoco) return false;
-  await dici([[null, "Sono le otto: coprifuoco. Devi andare."]]);
+  await dici([[null, T("Sono le otto: coprifuoco. Devi andare.")]]);
   apriStato(S.casa, { firma: true, obbligato: true });
   return true;
 }
@@ -1674,7 +1678,7 @@ function apriDomande(persona, x, y) {
   // chi e' diventato un mostro non risponde piu' (la madre, il secondo giorno); "muto": cosa fa invece (il terzo
   // giorno ognuno cambia a modo suo: il padre scricchiola, la moglie del sacrestano canta a bocca chiusa)
   const P = D.PERSONE[persona];
-  if (!voci.length) voci.push({ testo: P.muto || (P.stato === "mostro" ? "ringhia, non risponde più" : "nient'altro da chiedere"), disattiva: true });
+  if (!voci.length) voci.push({ testo: P.muto || (P.stato === "mostro" ? T("ringhia, non risponde più") : T("nient'altro da chiedere")), disattiva: true });
   ruota.apri(x, y, voci, maiuscolo(D.PERSONE[persona].voce), 0.8);
 }
 
@@ -1726,14 +1730,14 @@ async function contesta(f, bersaglio, x, y) {
   if (R.occupato || !bersaglio || bersaglio === f.id) return;
   ruota.chiudi();
   const c = trovaContestazione(f.id, bersaglio);
-  if (c && S.contestate[c.id]) { notifica("L'hai già fatto notare"); return; }
+  if (c && S.contestate[c.id]) { notifica(T("L'hai già fatto notare")); return; }
   const da = centroDi(f.id);
   const [tx, ty] = x == null ? centroDi(bersaglio) : [x, y];
   segni.filo("contesta", da[0], da[1], tx, ty, "rosso fermo");
   if (c) {
     S.contestate[c.id] = true;
     avanza(D.MINUTI.prova);
-    timbra(c.timbro || "CONTRADDIZIONE", tx, ty, c.timbro ? "combacia" : "");
+    timbra(c.timbro || T("CONTRADDIZIONE"), tx, ty, c.timbro ? "combacia" : "");
     suoni.suona("contraddizione");
     if (vhs && !R.primo) vhs.burst(0.3);
     await dici(c.dice);
@@ -1744,7 +1748,7 @@ async function contesta(f, bersaglio, x, y) {
     const persona = personaDi(bersaglio);
     const k = f.id.slice(2);
     const testo = f.id.startsWith("d:") ? D.DICHIARAZIONI[k].testo : D.PROVE[k].breve;
-    const r = persona ? (D.REAZIONI[persona][k] || D.REAZIONI[persona]._) : [[null, "Le due cose stanno insieme. Niente da contestare."]];
+    const r = persona ? (D.REAZIONI[persona][k] || D.REAZIONI[persona]._) : [[null, T("Le due cose stanno insieme. Niente da contestare.")]];
     if (persona) arrabbia();
     await dici(persona ? [["TU", testo], ...r] : r);
   }
@@ -1763,7 +1767,7 @@ function scegliFrase(f) {
       const r = schermo.getBoundingClientRect(), q = d.getBoundingClientRect();
       etichetta.style.transform = `translate(${q.left - r.left}px, ${q.top - r.top - q.height * 0.9}px)`;
     }
-    mostraEtichetta("TOCCA CHI O COSA LA SMENTISCE");
+    mostraEtichetta(T("TOCCA CHI O COSA LA SMENTISCE"));
   } else etichetta.hidden = true;
 }
 
@@ -1786,12 +1790,12 @@ function sopraFrase(f, x, y, sotto) {
   R.hover = null;
   if (b && (b.startsWith("d:") || b.startsWith("p:"))) {
     nastroFrasi.querySelector(`.fot[data-id="${b}"]`)?.classList.add("bersaglio");
-    mostraEtichetta("CONFRONTA");
+    mostraEtichetta(T("CONFRONTA"));
   } else if (b) {
     const forme = formeDi(b);
     if (forme?.ellissi) segni.ellissi("bersaglio", forme.ellissi, "rosso");
     if (forme?.persona) R.hover = { persona: forme.persona };
-    mostraEtichetta(`CONTESTA · ${testoBersaglio(b)}`);
+    mostraEtichetta(T`CONTESTA · ${testoBersaglio(b)}`);
   } else etichetta.hidden = true;
   if (S.schermo === "visita" && !R.primo && (prima || R.hover)) disegnaScena();
 }
@@ -1848,7 +1852,7 @@ function sopraChiave(link, span) {
 function seguiChiave(link) {
   if (R.occupato || S.schermo !== "visita") return;
   const forme = formeDi(link);
-  if (!forme) { notifica("Non è qui"); return; }
+  if (!forme) { notifica(T("Non è qui")); return; }
   sopraChiave(null);
   const [tipo, resto] = link.split(":");
   if (tipo === "parte") return esamina(...resto.split("."));
@@ -1871,7 +1875,7 @@ function menuPorta(zona, x, y) {
   } else {
     // "se": una scelta che compare solo dopo una prova (la botola, dopo aver visto il ripostiglio vuoto)
     for (const s of P.scelte.filter((x) => condizione(x.se)))
-      voci.push({ testo: s.minuti > 5 ? `${s.testo} · −${s.minuti} min` : s.testo, disattiva: !!(s.soldi && s.soldi > S.soldi),
+      voci.push({ testo: s.minuti > 5 ? T`${s.testo} · −${s.minuti} min` : s.testo, disattiva: !!(s.soldi && s.soldi > S.soldi),
         icona: icona(s.soldi ? "moneta" : "porta"), azione: () => sceltaPorta(s) });
   }
   ruota.apri(x, y, voci, maiuscolo(zona.nome), 0.8);
@@ -1904,7 +1908,7 @@ function maiuscolaIniziale(t) {
   return `${t[0].toUpperCase()}${t.slice(1)}`;
 }
 
-const NUMERI = ["ZERO", "UNO", "DUE", "TRE", "QUATTRO", "CINQUE", "SEI"];
+const NUMERI = [T("ZERO"), T("UNO"), T("DUE"), T("TRE"), T("QUATTRO"), T("CINQUE"), T("SEI")];
 
 // una frase o una prova del nastro lasciata sul nome di una persona: se c'entra diventa una nota a penna.
 // Risponde "nuova", "gia" (gia' annotata) o "no" (non c'entra)
@@ -1951,7 +1955,7 @@ function sagoma(persona) {
       const c = document.createElementNS(ns, "circle");
       Object.entries({ cx, cy, r: cls === "segno" || cls === "dita" ? 4.6 : 3.6, class: `sf-punto ${cls}` }).forEach(([k, v]) => c.setAttribute(k, v));
       const t = document.createElementNS(ns, "title");
-      t.textContent = `${D.PARTI[parte]}: ${!fatto ? "non esaminato" : e.reperto}`;
+      t.textContent = `${D.PARTI[parte]}: ${!fatto ? T("non esaminato") : e.reperto}`;
       c.append(t);
       svg.append(c);
     }
@@ -1982,20 +1986,20 @@ function rigaStato(casa, r, firmata) {
     im.alt = P.nome;
     foto.append(el("span", "sf-graffetta"), im);
     // chi e' diventato un mostro: il timbro rosso sopra la foto
-    if (S.morti[persona]) foto.append(el("span", "sf-timbro-mostro", "MOSTRO"));
+    if (S.morti[persona]) foto.append(el("span", "sf-timbro-mostro", T("MOSTRO")));
   } else {
     foto.classList.add("vuota");
     // chi e' diventato un mostro: al posto della foto il timbro rosso
-    foto.textContent = S.morti[persona] ? "MOSTRO" : "?";
+    foto.textContent = S.morti[persona] ? T("MOSTRO") : "?";
     if (S.morti[persona]) foto.classList.add("mostro");
   }
   const dati = el("div", "sf-dati");
   const nome = el("b", S.morti[persona] ? "barrato" : "", r.nome);
-  const info = el("small", null, `${r.ruolo} · nat${r.donna ? "a" : "o"} nel ${r.nato}${r.mestiere ? ` · ${r.mestiere}` : ""}`.toUpperCase());
+  const info = el("small", null, T`${r.ruolo} · ${r.donna ? T("nata") : T("nato")} nel ${r.nato}${r.mestiere ? ` · ${r.mestiere}` : ""}`.toUpperCase());
   dati.append(nome, info);
   if (r.anagrafe) dati.append(el("small", `sf-anagrafe${S.barrati[persona] ? " barrato" : ""}`, r.anagrafe.toUpperCase()));
   // i segni particolari del comune: le gemelle si distinguono solo dal neo
-  if (r.segni) dati.append(el("small", "sf-segni", `SEGNI PARTICOLARI: ${r.segni.toUpperCase()}`));
+  if (r.segni) dati.append(el("small", "sf-segni", T`SEGNI PARTICOLARI: ${r.segni.toUpperCase()}`));
   // il secondo giorno: chi ieri e' andato al lazzaretto ha il timbro della ditta
   if (r.ditta) dati.append(el("small", "sf-ditta-nota", r.ditta));
   const note = el("ul", "sf-note");
@@ -2007,11 +2011,11 @@ function rigaStato(casa, r, firmata) {
   dati.append(note);
   const esito = el("div", "sf-esito");
   if (S.diagnosi[persona]) esito.append(timbroDiagnosi(S.diagnosi[persona], R.sfNuovoTimbro === persona));
-  else esito.append(el("span", "sf-vuoto-timbro", "diagnosi"));
+  else esito.append(el("span", "sf-vuoto-timbro", T("diagnosi")));
   // la diagnosi dei giorni prima, a matita
   const ieri = S.giorni[S.giorni.length - 1]?.diagnosi[persona];
-  if (ieri) esito.append(el("small", "sf-ieri", `ieri: ${D.TIMBRI.find((t) => t.id === ieri).testo}`));
-  if (P?.profilo) esito.append(el("span", "sf-ditta", `★ PROFILO RICHIESTO · +${D.SOLDI.profilo} €`));
+  if (ieri) esito.append(el("small", "sf-ieri", T`ieri: ${D.TIMBRI.find((t) => t.id === ieri).testo}`));
+  if (P?.profilo) esito.append(el("span", "sf-ditta", T`★ PROFILO RICHIESTO · +${D.SOLDI.profilo} €`));
   // le decisioni, ben visibili: al lazzaretto, o ospite stanotte (solo un sano, uno per notte; mai tutte e due)
   const decidi = el("div", "sf-decidi");
   if (P && vista(persona) && !S.morti[persona]) {
@@ -2022,15 +2026,15 @@ function rigaStato(casa, r, firmata) {
     // un altro ospite gia' deciso, in una casa gia' firmata: stanotte il posto e' preso
     const preso = S.ospite && S.ospite !== persona && S.decisioni[D.PERSONE[S.ospite].casa];
     decidi.append(
-      sceltaStato("lazzaretto", "Al lazzaretto", `+${D.SOLDI.paziente} €`, via, !!firmata, () => {
+      sceltaStato("lazzaretto", T("Al lazzaretto"), `+${D.SOLDI.paziente} €`, via, !!firmata, () => {
         S.lazzaretto[persona] = !S.lazzaretto[persona];
         if (S.lazzaretto[persona] && S.ospite === persona) S.ospite = null;
         ridisegnaStato(casa);
       }),
       // "ospite" della persona: perche' non puo' venire (il marito della casa 2 non si regge in piedi); chi non ha la
       // sua notte in D.OSPITE (un mostro timbrato sano per sbaglio) non viene
-      sceltaStato("ospite", "Ospite stanotte", ospite ? "dorme da te" : P.ospite || (!D.OSPITE[persona] ? "non può venire"
-        : !sano ? "solo chi è sano" : preso ? `c'è già ${D.PERSONE[S.ospite].nome}` : "dorme da te"), ospite,
+      sceltaStato("ospite", T("Ospite stanotte"), ospite ? T("dorme da te") : P.ospite || (!D.OSPITE[persona] ? T("non può venire")
+        : !sano ? T("solo chi è sano") : preso ? T`c'è già ${D.PERSONE[S.ospite].nome}` : T("dorme da te")), ospite,
       !!firmata || !sano || !!preso || !!P.ospite || !D.OSPITE[persona], () => {
         S.ospite = S.ospite === persona ? null : persona;
         if (S.ospite === persona) S.lazzaretto[persona] = false;
@@ -2078,30 +2082,30 @@ function apriStato(casa, opzioni = {}) {
   {
     const linguette = el("div", "sf-linguette");
     for (const k of segnalate) {
-      linguette.append(bottone(`Casa ${D.CASE[k].n}`, () => { R.sfCasa = k; apriStato(daScrivania ? null : k, opzioni); },
+      linguette.append(bottone(T`Casa ${D.CASE[k].n}`, () => { R.sfCasa = k; apriStato(daScrivania ? null : k, opzioni); },
         k === casa ? "attiva" : ""));
     }
-    if (!opzioni.obbligato) linguette.append(bottone("Chiudi", chiudiFoglio, "sf-chiudi"));
+    if (!opzioni.obbligato) linguette.append(bottone(T("Chiudi"), chiudiFoglio, "sf-chiudi"));
     tavolo.append(linguette);
   }
   const carta = el("div", "sf-carta");
   carta.append(
-    el("div", "sf-comune", `COMUNE DI ${D.COMUNE}`),
-    el("div", "sf-ufficio", "UFFICIO ANAGRAFE · SERVIZIO DEMOGRAFICO"),
-    el("div", "sf-titolo", "CERTIFICATO DI STATO DI FAMIGLIA"),
-    el("p", "sf-premessa", `Si certifica che nell'abitazione di ${A.via} (casa n. ${c.n}) la famiglia anagrafica risulta così composta:`));
+    el("div", "sf-comune", T`COMUNE DI ${D.COMUNE}`),
+    el("div", "sf-ufficio", T("UFFICIO ANAGRAFE · SERVIZIO DEMOGRAFICO")),
+    el("div", "sf-titolo", T("CERTIFICATO DI STATO DI FAMIGLIA")),
+    el("p", "sf-premessa", T`Si certifica che nell'abitazione di ${A.via} (casa n. ${c.n}) la famiglia anagrafica risulta così composta:`));
   const righe = el("div", "sf-righe");
   for (const r of A.righe) righe.append(rigaStato(casa, r, firmata));
   carta.append(righe);
   const piede = el("div", "sf-piede");
   const vivi = A.righe.filter((r) => !S.morti[r.persona]).length;
-  const comp = el("p", null, `Componenti risultanti: ${NUMERI[A.righe.length] || A.righe.length}.`);
-  if (vivi < A.righe.length) comp.append(el("span", "penna", ` vivi: ${vivi}`));
+  const comp = el("p", null, T`Componenti risultanti: ${NUMERI[A.righe.length] || A.righe.length}.`);
+  if (vivi < A.righe.length) comp.append(el("span", "penna", T` vivi: ${vivi}`));
   piede.append(comp);
   const prov = el("p", "sf-prov");
-  prov.append(document.createTextNode("Provvedimento: "));
+  prov.append(document.createTextNode(T("Provvedimento: ")));
   const scelto = firmata ? S.decisioni[casa].provvedimento : S.provv[casa] || "nessuno";
-  for (const [v, testo] of [["chiudi", "croce sulla porta"], ["domani", "tornare domani"]]) {
+  for (const [v, testo] of [["chiudi", T("croce sulla porta")], ["domani", T("tornare domani")]]) {
     const lab = el("label", "sf-casella");
     const cb = el("input");
     cb.type = "checkbox";
@@ -2116,33 +2120,33 @@ function apriStato(casa, opzioni = {}) {
   }
   piede.append(prov);
   const firma = el("div", "sf-firma");
-  firma.append(el("span", null, "Il medico: "));
+  firma.append(el("span", null, T("Il medico: ")));
   if (firmata) {
-    firma.append(el("span", "sf-scarabocchio", "Dott. ———"), el("span", "sf-consegnato", "CONSEGNATO ALLA DITTA"));
+    firma.append(el("span", "sf-scarabocchio", T("Dott. ———")), el("span", "sf-consegnato", T("CONSEGNATO ALLA DITTA")));
   } else if (puoFirmare) {
-    const b = bottone("firma e consegna alla ditta", () => firmaStato(casa, b), "sf-bottone-firma");
+    const b = bottone(T("firma e consegna alla ditta"), () => firmaStato(casa, b), "sf-bottone-firma");
     firma.append(b);
     if (opzioni.firma) b.classList.add("invito");
-  } else firma.append(el("span", "sf-spiega", S.casa ? "si firma a fine visita, nella sua casa" : "si firma a fine visita"));
+  } else firma.append(el("span", "sf-spiega", S.casa ? T("si firma a fine visita, nella sua casa") : T("si firma a fine visita")));
   piede.append(firma);
   carta.append(piede);
 
   // sul tavolo, a destra: i timbri e le frasi del nastro di questa casa
   const lato = el("div", "sf-lato");
-  lato.append(el("h3", null, "Timbri"));
+  lato.append(el("h3", null, T("Timbri")));
   const rastrelliera = el("div", "sf-rastrelliera");
   for (const t of D.TIMBRI) {
     const b = el("button", `sf-manico ${t.id}`);
     b.type = "button";
-    b.setAttribute("aria-label", `Timbro ${t.testo}`);
+    b.setAttribute("aria-label", T`Timbro ${t.testo}`);
     b.append(el("span", "sf-legno"), el("span", "sf-base"), el("span", "sf-gomma", t.testo));
     trascinabile(b, { tipo: "timbro", id: t.id, testo: t.testo }, casa);
     rastrelliera.append(b);
   }
-  lato.append(rastrelliera, el("h3", null, "Dal nastro delle frasi"));
+  lato.append(rastrelliera, el("h3", null, T("Dal nastro delle frasi")));
   const frasi = el("div", "sf-frasi");
   const mie = S.frasi.filter((f) => valeIn(f.id, casa));
-  if (!mie.length) frasi.append(el("p", "sf-spiega", "Ancora niente: le frasi arrivano dalle visite."));
+  if (!mie.length) frasi.append(el("p", "sf-spiega", T("Ancora niente: le frasi arrivano dalle visite.")));
   for (const v of mie) {
     const f = fotogramma(v);
     const usata = Object.values(S.note).some((l) => l.some((n) => n.id === v.id));
@@ -2163,7 +2167,7 @@ function apriStato(casa, opzioni = {}) {
     trascinabile(d, { tipo: "frase", id: v.id, testo: f.testo }, casa);
     frasi.append(d);
   }
-  lato.append(frasi, el("p", "sf-aiuto", "Trascina un timbro su una persona: è la tua diagnosi. Trascina una frase sul nome giusto: la penna la scrive, e barra quello che smentisce. Decidi chi porti al lazzaretto e chi ospiti stanotte (solo un sano: chi dorme solo, il malvento se lo prende), poi firma."));
+  lato.append(frasi, el("p", "sf-aiuto", T("Trascina un timbro su una persona: è la tua diagnosi. Trascina una frase sul nome giusto: la penna la scrive, e barra quello che smentisce. Decidi chi porti al lazzaretto e chi ospiti stanotte (solo un sano: chi dorme solo, il malvento se lo prende), poi firma.")));
   tavolo.append(carta, lato);
   sf.append(tavolo);
   // il clic su una riga, dopo aver scelto un timbro o una frase col tocco
@@ -2242,7 +2246,7 @@ function trascinabile(elem, dato, casa) {
     R.sfScelta = dato;
     for (const x of foglio.querySelectorAll(".sf-scelto")) x.classList.remove("sf-scelto");
     elem.classList.add("sf-scelto");
-    notifica("Ora scegli una persona");
+    notifica(T("Ora scegli una persona"));
   });
 }
 
@@ -2255,9 +2259,9 @@ function usaSu(dato, persona, casa) {
     if (dato.id !== "sano" && S.ospite === persona) S.ospite = null;
   } else {
     const esito = annota(dato.id, persona);
-    if (esito === "gia") notifica("Già annotato");
+    if (esito === "gia") notifica(T("Già annotato"));
     if (esito === "no") {
-      notifica("Non c'entra");
+      notifica(T("Non c'entra"));
       const riga = foglio.querySelector(`.sf-riga[data-persona="${persona}"]`);
       riga?.classList.add("no");
       setTimeout(() => riga?.classList.remove("no"), 600);
@@ -2270,7 +2274,7 @@ function usaSu(dato, persona, casa) {
 
 function firmaStato(casa, bottoneFirma) {
   bottoneFirma.disabled = true;
-  bottoneFirma.replaceWith(el("span", "sf-scarabocchio scrive", "Dott. ———"));
+  bottoneFirma.replaceWith(el("span", "sf-scarabocchio scrive", T("Dott. ———")));
   suoni.suona("firma");
   const via = personeDellaCasa(casa).map(([id]) => id).filter((id) => S.lazzaretto[id]);
   const ospite = S.ospite && D.PERSONE[S.ospite].casa === casa ? S.ospite : null;
@@ -2299,8 +2303,8 @@ async function sera() {
   S.ora = Math.max(S.ora, D.INIZIO.coprifuoco);
   if (stanza) vaiStanza("porta");
   else vaiScrivania();
-  await dici([[null, "Le otto. Coprifuoco."], [null, D.OSPITE[S.ospite || "solo"].arriva],
-    [null, "I nastri di oggi sono nel videoregistratore."]], false, false);
+  await dici([[null, T("Le otto. Coprifuoco.")], [null, D.OSPITE[S.ospite || "solo"].arriva],
+    [null, T("I nastri di oggi sono nel videoregistratore.")]], false, false);
 }
 
 // la stanzetta, la sera: la porta 3D si socchiude e si guarda dentro, al buio (un'immagine in verde), con l'ospite
@@ -2324,7 +2328,7 @@ async function controllaOspite() {
   S.schermo = "stanzetta";
   pulisci();
   osdRec();
-  osd.modo.textContent = "NOTTE";
+  osd.modo.textContent = T("NOTTE");
   if (vhs) {
     vhs.mode("notte");
     vhs.setLuce(0);
@@ -2337,8 +2341,8 @@ async function controllaOspite() {
   mostra(im);
   // la videocamera si abitua al buio e stringe sulla brandina
   if (vhs) vhs.tween({ zoom: 1.5, cx: 0.45, cy: 0.55 }, 1800);
-  tasti(tasto("Chiudi la porta", () => { stanza.socchiudi(false); suoni.suona("porta", { volume: 0.5 }); vaiStanza("ospite"); }, "indietro", true));
-  aiuto("Chiudi la porta per tornare nella stanza.");
+  tasti(tasto(T("Chiudi la porta"), () => { stanza.socchiudi(false); suoni.suona("porta", { volume: 0.5 }); vaiStanza("ospite"); }, "indietro", true));
+  aiuto(T("Chiudi la porta per tornare nella stanza."));
   await dici(O.controllo, false);
 }
 
@@ -2364,7 +2368,7 @@ async function controllaOspite3D(O) {
   S.schermo = "stanzetta";
   pulisci();
   osdRec();
-  osd.modo.textContent = "NOTTE";
+  osd.modo.textContent = T("NOTTE");
   // pulisci() ferma la stanza: qui la si riprende ancora
   mostra(stanza.canvas, IMG.scrivania.src);
   vhs.prima = (dt) => { stanza.passo(dt); vhs.refresh(); };
@@ -2379,14 +2383,14 @@ async function controllaOspite3D(O) {
   }
   stanza.inquadra([1.85, 1.5, 1.7], [4.0, 0.6, 1.75], 50);
   stanza.notte([1.9, 1.55, 1.6], [4.0, 0.5, 1.75], 2.2);
-  tasti(tasto("Chiudi la porta", () => {
+  tasti(tasto(T("Chiudi la porta"), () => {
     stanza.togliPupazzi();
     stanza.notte(null);
     stanza.socchiudi(false);
     suoni.suona("porta", { volume: 0.5 });
     vaiStanza("ospite");
   }, "indietro", true));
-  aiuto("Chiudi la porta per tornare nella stanza.");
+  aiuto(T("Chiudi la porta per tornare nella stanza."));
   R.occupato = false;
   await dici(O.controllo, false);
 }
@@ -2403,7 +2407,7 @@ async function nastroNotte3D(O) {
   S.schermo = "nastro-notte";
   pulisci();
   osdPlay();
-  osd.modo.textContent = "NOTTE";
+  osd.modo.textContent = T("NOTTE");
   if (vhs) {
     vhs.mode("notte");
     vhs.setLuce(0);
@@ -2412,7 +2416,7 @@ async function nastroNotte3D(O) {
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
     vhs.salta();
   }
-  aiuto("Il nastro della notte: la maschera è rimasta accesa sulla scrivania.");
+  aiuto(T("Il nastro della notte: la maschera è rimasta accesa sulla scrivania."));
   suoni.suona("videoregistratore");
   suoni.ambiente("nastro", "notte");
   suoni.musica(null);
@@ -2467,7 +2471,7 @@ async function nastroNotte() {
   S.schermo = "nastro-notte";
   pulisci();
   osdPlay();
-  osd.modo.textContent = "NOTTE";
+  osd.modo.textContent = T("NOTTE");
   if (vhs) {
     vhs.mode("notte");
     vhs.setLuce(0);
@@ -2476,7 +2480,7 @@ async function nastroNotte() {
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
     vhs.salta();
   }
-  aiuto("Il nastro della notte: la maschera è rimasta accesa sulla scrivania.");
+  aiuto(T("Il nastro della notte: la maschera è rimasta accesa sulla scrivania."));
   suoni.suona("videoregistratore");
   suoni.ambiente("nastro", "notte");
   suoni.musica(null);
@@ -2508,13 +2512,13 @@ function attendi(ms) {
 
 function apriNastri() {
   suoni.suona("videoregistratore");
-  const corpo = [el("h2", null, "Nastri")];
-  if (!S.nastri.length) corpo.push(el("p", "vuoto", "Nessuna visita registrata, per ora."));
+  const corpo = [el("h2", null, T("Nastri"))];
+  if (!S.nastri.length) corpo.push(el("p", "vuoto", T("Nessuna visita registrata, per ora.")));
   for (const n of S.nastri) {
     corpo.push(azioni([[n.titolo, () => { chiudiFoglio(); riproduci(n); }]]));
   }
   corpo.push(azioni([[`${D.NASTRO_VECCHIO.titolo}`, () => { chiudiFoglio(); riproduciVecchio(); }, "secondario"]]));
-  corpo.push(el("p", "nota", "Durante la riproduzione tocca l'immagine per ingrandire. Con l'infrarosso si vede il calore: tocca quello che non torna."));
+  corpo.push(el("p", "nota", T("Durante la riproduzione tocca l'immagine per ingrandire. Con l'infrarosso si vede il calore: tocca quello che non torna.")));
   apriFoglio("nastri", corpo);
 }
 
@@ -2527,8 +2531,8 @@ function riproduci(nastro) {
     bottone("◀◀", () => ripresa(R.play.i - 1), "cmd"),
     bottone("❚❚", pausa, "cmd cmd-play"),
     bottone("▶▶", () => ripresa(R.play.i + 1), "cmd"),
-    bottone("IR", infrarosso, "cmd cmd-ir"),
-    bottone("Esci", tornaDaiNastri, "cmd cmd-esci"));
+    bottone(T("IR"), infrarosso, "cmd cmd-ir"),
+    bottone(T("Esci"), tornaDaiNastri, "cmd cmd-esci"));
   if (vhs) vhs.setDark(0);
   ripresa(0);
 }
@@ -2564,7 +2568,7 @@ function modoRipresa() {
     vhs.setEsame(!p.ir && r.tipo === "primo" ? 1 : 0);
     vhs.salta();
   }
-  osd.modo.textContent = p.ir ? "IR" : notte ? "NOTTE" : "";
+  osd.modo.textContent = p.ir ? T("IR") : notte ? T("NOTTE") : "";
 }
 
 // la scena del nastro con le facce che avevano in quel momento
@@ -2590,7 +2594,7 @@ async function ripresa(i) {
   parole.pulisci();
   if (i >= n.riprese.length) {
     p.token++;
-    parole.scrivi(null, "[fine del nastro]", { lato: "sotto" });
+    parole.scrivi(null, T("[fine del nastro]"), { lato: "sotto" });
     return;
   }
   p.i = i;
@@ -2661,7 +2665,7 @@ function cliccaNastro(x, y) {
   if (p.ir && r.tipo === "scena") {
     for (const t of D.LUOGHI[r.luogo].nascosti) {
       if (((ix - t.x) / t.rx) ** 2 + ((iy - t.y) / t.ry) ** 2 <= 1) {
-        if (S.prove.includes(t.prova)) notifica("Già annotato");
+        if (S.prove.includes(t.prova)) notifica(T("Già annotato"));
         else applica({ prova: t.prova });
         return;
       }
@@ -2681,7 +2685,7 @@ async function riproduciVecchio() {
   pulisci();
   R.play = null;
   comandi.hidden = false;
-  comandi.append(bottone("Esci", tornaDaiNastri, "cmd cmd-esci"));
+  comandi.append(bottone(T("Esci"), tornaDaiNastri, "cmd cmd-esci"));
   const nero = document.createElement("canvas");
   nero.width = 16; nero.height = 9;
   nero.getContext("2d").fillRect(0, 0, 16, 9);
@@ -2716,21 +2720,21 @@ function calcolaNotte() {
     }
     const malati = membri.filter(([id, p]) => p.stato !== "sano" && !via.includes(id)).length + (D.NASCOSTI[casa] || []).length;
     const sani = membri.some(([id, p]) => p.stato === "sano" && !via.includes(id));
-    let esito = "pulita", perche = "nessun malato in casa";
+    let esito = "pulita", perche = T("nessun malato in casa");
     if (!dec) {
       esito = "passa";
-      perche = "nessuna visita";
+      perche = T("nessuna visita");
     } else if (dec.provvedimento === "chiudi") {
       if (malati) {
         esito = "fermo";
-        perche = sani ? "la croce lo tiene dentro, coi sani" : "la croce lo tiene dentro";
+        perche = sani ? T("la croce lo tiene dentro, coi sani") : T("la croce lo tiene dentro");
       } else {
         fiducia -= 10;
-        perche = "la croce, ma non c'erano malati";
+        perche = T("la croce, ma non c'erano malati");
       }
     } else if (malati) {
       esito = "passa";
-      perche = "malati rimasti in casa";
+      perche = T("malati rimasti in casa");
     }
     if (esito === "passa") {
       contagiate.push(...c.vicini);
@@ -2808,14 +2812,14 @@ function resoconto(n) {
       li.append(el("span", "nt-freccia", "→"));
       for (const v of c.a) li.append(casella(D.CASE[v].n, "presa"));
     } else li.append(el("span", "nt-segno", c.esito === "fermo" ? "✝" : "·"));
-    li.append(el("small", null, c.perche + (c.cacciato ? " · ti hanno cacciato" : "")));
+    li.append(el("small", null, c.perche + (c.cacciato ? T(" · ti hanno cacciato") : "")));
     contagio.append(li);
   }
   // l'ospite malato porta il contagio nella stanza del medico
   if (n.ospite?.malato) {
     const li = el("li", "nt-passa");
-    li.append(casella("✚", "fonte"), el("span", "nt-freccia", "→"), el("span", "nt-casa presa nt-tua", "la tua stanza"),
-      el("small", null, `${D.PERSONE[n.ospite.chi].nome}, ${donna(n.ospite.chi) ? "malata" : "malato"}, ha dormito da te`));
+    li.append(casella("✚", "fonte"), el("span", "nt-freccia", "→"), el("span", "nt-casa presa nt-tua", T("la tua stanza")),
+      el("small", null, T`${D.PERSONE[n.ospite.chi].nome}, ${donna(n.ospite.chi) ? T("malata") : T("malato")}, ha dormito da te`));
     contagio.append(li);
   }
   const nuove = n.contagiate.length;
@@ -2827,13 +2831,13 @@ function resoconto(n) {
   const portati = n.portati.map((id) => D.PERSONE[id].nome).join(", ");
   const O = D.OSPITE[n.ospite ? n.ospite.chi : "solo"];
   return [
-    el("h2", null, ["La prima notte", "La seconda notte", "La terza notte"][S.giorno - 1]),
-    el("h3", "nt-titolo", nuove ? `Il contagio: ${nuove === 1 ? "una casa nuova" : `${nuove} case nuove`}` : "Il contagio non è passato"),
+    el("h2", null, [T("La prima notte"), T("La seconda notte"), T("La terza notte")][S.giorno - 1]),
+    el("h3", "nt-titolo", nuove ? T`Il contagio: ${nuove === 1 ? T("una casa nuova") : T`${nuove} case nuove`}` : T("Il contagio non è passato")),
     contagio,
-    riga("Al lazzaretto ", portati ? `${portati}.` : "nessuno."),
-    riga(n.ospite ? "Ospite " : "Da solo ", O.mattina),
-    riga("Soldi ", `+${n.incasso} € dalla ditta, −${n.spese} € di spese: restano ${S.soldi} €.`),
-    azioni([["Il giornale del mattino", () => { R.contagio = null; apriGiornale(true); }]]),
+    riga(T("Al lazzaretto "), portati ? `${portati}.` : T("nessuno.")),
+    riga(n.ospite ? T("Ospite ") : T("Da solo "), O.mattina),
+    riga(T("Soldi "), T`+${n.incasso} € dalla ditta, −${n.spese} € di spese: restano ${S.soldi} €.`),
+    azioni([[T("Il giornale del mattino"), () => { R.contagio = null; apriGiornale(true); }]]),
   ];
 }
 
@@ -2922,46 +2926,46 @@ function frecceContagio(ctx, w, h) {
 function giornaleDomani() {
   const n = S.notte;
   const presi = n.portati;
-  let titolo = "Un altro giorno di paura";
-  let sommario = "Il medico ha girato per il paese fino al coprifuoco. Nessuno sa ancora quante case visiterà domani.";
+  let titolo = T("Un altro giorno di paura");
+  let sommario = T("Il medico ha girato per il paese fino al coprifuoco. Nessuno sa ancora quante case visiterà domani.");
   if (presi.includes("giovane")) {
-    titolo = "Portata via una ragazza sana";
-    sommario = "La famiglia della casa 5: «Aveva solo freddo». La Panacea: «Procedura corretta».";
+    titolo = T("Portata via una ragazza sana");
+    sommario = T("La famiglia della casa 5: «Aveva solo freddo». La Panacea: «Procedura corretta».");
   } else if (presi.includes("figlia")) {
-    titolo = "Portata via la figlia del meccanico";
-    sommario = "«Stava bene», giurano i vicini. La ditta non risponde.";
+    titolo = T("Portata via la figlia del meccanico");
+    sommario = T("«Stava bene», giurano i vicini. La ditta non risponde.");
   } else if (n.ospite) {
     const nome = D.PERSONE[n.ospite.chi].nome;
-    titolo = n.ospite.malato ? "Il medico si porta a casa un malato" : `Il medico ospita ${nome}`;
-    sommario = n.ospite.malato ? "Lo hanno visto entrare con lui sopra il bar. «Così ci ammaliamo tutti», dice il barista."
-      : "«Chi dorme solo, il malvento se lo prende», dicono in paese. Qualcuno ride, qualcuno no.";
+    titolo = n.ospite.malato ? T("Il medico si porta a casa un malato") : T`Il medico ospita ${nome}`;
+    sommario = n.ospite.malato ? T("Lo hanno visto entrare con lui sopra il bar. «Così ci ammaliamo tutti», dice il barista.")
+      : T("«Chi dorme solo, il malvento se lo prende», dicono in paese. Qualcuno ride, qualcuno no.");
   } else if (S.forzate.casa3) {
-    titolo = "Il medico entra con la forza";
-    sommario = "Alla casa 3 ha spinto via il padrone di casa per entrare nel corridoio.";
+    titolo = T("Il medico entra con la forza");
+    sommario = T("Alla casa 3 ha spinto via il padrone di casa per entrare nel corridoio.");
   } else if (n.contagiate.length) {
-    titolo = "La peste si allarga";
-    sommario = `Nuovi malati nelle case ${n.contagiate.map((c) => D.CASE[c].n).join(", ")}.`;
+    titolo = T("La peste si allarga");
+    sommario = T`Nuovi malati nelle case ${n.contagiate.map((c) => D.CASE[c].n).join(", ")}.`;
   } else if (Object.values(S.decisioni).some((d) => d.provvedimento === "chiudi")) {
-    titolo = "Croci sulle porte";
-    sommario = "Il medico ha chiuso delle case. In paese c'è chi applaude e chi sputa per terra.";
+    titolo = T("Croci sulle porte");
+    sommario = T("Il medico ha chiuso delle case. In paese c'è chi applaude e chi sputa per terra.");
   }
-  const umore = n.fiducia >= 60 ? "«Almeno qualcuno fa qualcosa», dicono al bar."
-    : n.fiducia >= 35 ? "Al bar si parla solo del medico. Nessuno gli si siede vicino."
-      : "Sul muro della chiesa, stanotte, qualcuno ha scritto: IL MEDICO È LA PESTE.";
+  const umore = n.fiducia >= 60 ? T("«Almeno qualcuno fa qualcosa», dicono al bar.")
+    : n.fiducia >= 35 ? T("Al bar si parla solo del medico. Nessuno gli si siede vicino.")
+      : T("Sul muro della chiesa, stanotte, qualcuno ha scritto: IL MEDICO È LA PESTE.");
   return {
-    testata: "LA VOCE", data: "Foglio del paese · martedì 27 ottobre", titolo, sommario,
+    testata: T("LA VOCE"), data: T("Foglio del paese · martedì 27 ottobre"), titolo, sommario,
     articolo: umore,
-    lettera: n.ospite ? "«Le case dove entra lui si ammalano. Contate.» Lettera non firmata."
-      : "«Ha dormito solo. Chi dorme solo, il malvento se lo prende.» Lettera non firmata.",
-    breve: "La Panacea annuncia un premio di produzione per il medico.",
-    pubblicita: "PANACEA · Ci prendiamo cura di voi.",
-    didascalia: "Il medico, ieri, davanti a una delle case segnalate.",
+    lettera: n.ospite ? T("«Le case dove entra lui si ammalano. Contate.» Lettera non firmata.")
+      : T("«Ha dormito solo. Chi dorme solo, il malvento se lo prende.» Lettera non firmata."),
+    breve: T("La Panacea annuncia un premio di produzione per il medico."),
+    pubblicita: T("PANACEA · Ci prendiamo cura di voi."),
+    didascalia: T("Il medico, ieri, davanti a una delle case segnalate."),
   };
 }
 
 // le diagnosi timbrate sugli stati di famiglia di un giorno, contro com'era davvero
 function confronto(diagnosi, morti, anagrafe, persone, altri) {
-  const stati = { sano: "sano", malato: "malato", grave: "grave", mostro: "diventato un mostro", lazzaretto: "nel recinto" };
+  const stati = { sano: T("sano"), malato: T("malato"), grave: T("grave"), mostro: T("diventato un mostro"), lazzaretto: T("nel recinto") };
   const ul = el("ul");
   let giuste = 0, date = 0;
   for (const A of Object.values(anagrafe)) {
@@ -2971,28 +2975,28 @@ function confronto(diagnosi, morti, anagrafe, persone, altri) {
       // chi era diventato un mostro e lo hai segnato (il timbro sullo stato di famiglia)
       if (vero === "mostro" && morti[r.persona] && persone[r.persona]) {
         date++; giuste++;
-        ul.append(el("li", null, `✓ ${r.nome}: l'hai ${r.donna ? "trovata cambiata" : "trovato cambiato"}, un mostro.`));
+        ul.append(el("li", null, T`✓ ${r.nome}: l'hai ${r.donna ? T("trovata cambiata") : T("trovato cambiato")}, un mostro.`));
         continue;
       }
       if (!mio) continue;
       date++;
       const giusta = mio === vero || (mio === "sospetto" && vero !== "sano" && vero !== "mostro");
       if (giusta) giuste++;
-      ul.append(el("li", null, `${giusta ? "✓" : "✗"} ${r.nome}: hai timbrato ${D.TIMBRI.find((t) => t.id === mio).testo}, era ${stati[vero] || vero}.`));
+      ul.append(el("li", null, T`${giusta ? "✓" : "✗"} ${r.nome}: hai timbrato ${D.TIMBRI.find((t) => t.id === mio).testo}, era ${stati[vero] || vero}.`));
     }
   }
   return { giuste, date, ul };
 }
 
 const VERITA1 = [
-  "Casa 3: il padre era malato (febbre, bubbone al collo). La madre era grave, nascosta in camera, con le dita nere. La figlia era sana.",
-  "Il nonno della casa 3 non era morto: una settimana fa si è alzato dal letto, cambiato, ed è uscito scalzo. È uno di quelli che la ditta cerca di notte.",
-  "Casa 5: l'uomo aveva la febbre, il contagio era all'inizio. La ragazza era sana: pallida per il freddo e la fame, non per la peste. La nonna era sana. Dietro la porta c'era il figlio, grave.",
-  "Il protocollo mentiva sul pallore, e la ditta paga di più per i giovani sani.",
-  "La nonna e il nastro 7 dicono la stessa cosa: la peste arriva con il medico.",
+  T("Casa 3: il padre era malato (febbre, bubbone al collo). La madre era grave, nascosta in camera, con le dita nere. La figlia era sana."),
+  T("Il nonno della casa 3 non era morto: una settimana fa si è alzato dal letto, cambiato, ed è uscito scalzo. È uno di quelli che la ditta cerca di notte."),
+  T("Casa 5: l'uomo aveva la febbre, il contagio era all'inizio. La ragazza era sana: pallida per il freddo e la fame, non per la peste. La nonna era sana. Dietro la porta c'era il figlio, grave."),
+  T("Il protocollo mentiva sul pallore, e la ditta paga di più per i giovani sani."),
+  T("La nonna e il nastro 7 dicono la stessa cosa: la peste arriva con il medico."),
 ];
 
-const GIORNI = ["Il primo giorno", "Il secondo giorno", "Il terzo giorno"];
+const GIORNI = [T("Il primo giorno"), T("Il secondo giorno"), T("Il terzo giorno")];
 
 // ---------- il finale della demo (29 ottobre: "chiudere la demo"): dopo la terza notte e il giornale, la quarta
 // mattina. Il finale dipende da quello che hai scoperto nei tre giorni (le quattro tracce della storia), dal contagio,
@@ -3002,16 +3006,16 @@ const GIORNI = ["Il primo giorno", "Il secondo giorno", "Il terzo giorno"];
 // di S.tracce) e cosa dire se sono sfuggite
 const OSPITI_FEBBRE = ["d:tornata_scottava", "d:svegliata_scottavo", "d:febbre_mattina", "d:nonna_scottava"];
 const TRACCE = [
-  { id: "medico", nome: "Il medico è la peste",
+  { id: "medico", nome: T("Il medico è la peste"),
     trovata: (ha) => ha("p:maschera_1630") && ["d:leggenda", "nastro7", "d:medico6", ...OSPITI_FEBBRE].some(ha),
-    sfuggita: "Chi dorme da te, la mattina dopo scotta. E sotto la chiesa c'è una maschera come la tua." },
-  { id: "ditta", nome: "La ditta e le cavie", trovata: (ha) => ["p:cartella", "p:peste_lenzuola"].some(ha),
-    sfuggita: "Sotto il materasso della casa 2 c'è una cartella; nella casa 4, le lenzuola del recinto." },
-  { id: "immune", nome: "Chi non si ammala", trovata: (ha) => IMMUNE.some(ha),
-    sfuggita: "Nella casa 10 qualcuno ha dormito accanto a un malato e non si è ammalato." },
-  { id: "paese", nome: "Il segreto del paese",
+    sfuggita: T("Chi dorme da te, la mattina dopo scotta. E sotto la chiesa c'è una maschera come la tua.") },
+  { id: "ditta", nome: T("La ditta e le cavie"), trovata: (ha) => ["p:cartella", "p:peste_lenzuola"].some(ha),
+    sfuggita: T("Sotto il materasso della casa 2 c'è una cartella; nella casa 4, le lenzuola del recinto.") },
+  { id: "immune", nome: T("Chi non si ammala"), trovata: (ha) => IMMUNE.some(ha),
+    sfuggita: T("Nella casa 10 qualcuno ha dormito accanto a un malato e non si è ammalato.") },
+  { id: "paese", nome: T("Il segreto del paese"),
     trovata: (ha) => ["p:maschera_1630", "p:canto", "p:chiave_cripta", "p:calore_cripta", "d:cripta", "d:campane_buoni"].some(ha),
-    sfuggita: "Il sacrestano della casa 7 non dice dov'è sua moglie. Ascolta dietro la porta della cantina." },
+    sfuggita: T("Il sacrestano della casa 7 non dice dov'è sua moglie. Ascolta dietro la porta della cantina.") },
 ];
 
 // il conto dei tre giorni: le tracce trovate, le case prese dal contagio, chi hai consegnato alla ditta (com'era quel
@@ -3046,103 +3050,103 @@ function calcolaFinale() {
 }
 
 const quante = (n, una, tante) => (n === 1 ? una : `${n} ${tante}`);
-const elenco = (v) => (v.length > 1 ? `${v.slice(0, -1).join(", ")} e ${v[v.length - 1]}` : v[0] || "");
+const elenco = (v) => (v.length > 1 ? T`${v.slice(0, -1).join(", ")} e ${v[v.length - 1]}` : v[0] || "");
 // la luce della quarta mattina, nella stanza (il colore venuto dallo spazio)
-const COLORE_MATTINA = "Nella stanza c'è una luce di un colore che non ha nome, e non viene dalla finestra.";
+const COLORE_MATTINA = T("Nella stanza c'è una luce di un colore che non ha nome, e non viene dalla finestra.");
 
 // i finali (29 ottobre: "tanti finali diversi, alcuni difficili, almeno 6 nella demo"), nell'ordine della lista dei
 // finali trovati: il titolo, l'indizio per chi non l'ha ancora visto e le righe. "fax", "cripta", "mute", "via",
 // "pagina" e "corriera" si scelgono alla scrivania, dopo aver capito che il medico e' la peste
 const FINALI = {
-  fax: { titolo: "Medico 6", indizio: "Capisci chi sei, e scrivilo alla ditta.", righe: () => [
-    "Scrivi sul fax tutto quello che sai: la lente d'ottone, gli ospiti che la mattina scottavano, le case dove entri tu.",
-    "Mezz'ora dopo il fax risponde, coi timbri: PRESO ATTO. PROSEGUA. Nuova destinazione: Valcupa, 31 case.",
-    "Lo sapevano dal primo giorno. Ti hanno mandato apposta."] },
-  cripta: { titolo: "Le campane", indizio: "Capisci chi sei, e scendi nella cripta.", righe: () => [
-    "Prendi la chiave nera e scendi. Le candele sono ancora accese, e la santa di cera canta a bocca chiusa.",
-    "Nella nicchia accanto alla sua c'è posto. Ti metti la maschera del 1630 e ti siedi.",
-    "Giona suona le campane tutta la notte, e tutte le notti dopo. A Malvento non si ammala più nessuno.",
-    "Nella stanza vuota, per tre giorni, suona il fax della Panacea."] },
-  mute: { titolo: "Le campane mute", indizio: "Scendi nella cripta quando le campane non suonano più.", righe: () => [
-    "Prendi la chiave nera e scendi. Le candele sono ancora accese, e la santa di cera canta a bocca chiusa.",
-    "Nella nicchia accanto alla sua c'è posto. Ti metti la maschera del 1630 e ti siedi.",
-    "Ma le campane tacciono: Giona è nel recinto, e nessuno sale sul campanile.",
-    "Al buio, nelle nicchie, qualcuno apre gli occhi. Sono più di quanti credevi."] },
-  via: { titolo: "Senza maschera", indizio: "Capisci chi sei, e vattene.", righe: () => [
-    "Lasci la maschera sulla scrivania, con la videocamera accesa, e all'alba te ne vai a piedi per la Strada del Cimitero.",
-    "Senza il becco nessuno ti riconosce. Il nastro riprende la stanza vuota per sei ore.",
-    "A valle, nel primo paese, una donna ti offre un caffè. Il malvento cammina con te."] },
-  pagina: { titolo: "La prima pagina", indizio: "Trova tutte e quattro le tracce, e portale alla Voce.", righe: () => [
-    "Al giornale ti ascoltano fino a sera, e fermano la macchina per te. La mattina dopo la Voce esce in edizione straordinaria.",
-    "Il recinto apre i cancelli. I parenti entrano a cercare i loro, e il furgone bianco riparte vuoto per Valcupa.",
-    "A sera bussano alla tua porta, con le lanterne. Ti accompagnano giù nella cripta, gentili, come fecero nel 1630.",
-    "La nicchia accanto alla santa di cera è pronta. Il malvento resta a Malvento, con te."] },
-  corriera: { titolo: "La corriera", indizio: "Chi non si ammala deve dormire da te l'ultima notte.", righe: () => [
-    "All'alba svegli la nuora nella stanzetta. Le dai il tuo cappotto e i soldi che ti restano, e non le dici perché.",
-    "Aspettate la corriera delle sei alla fermata della Strada del Cimitero. Lei stringe la fede di Paolo, sulla catenina.",
-    "Sale, si siede in fondo e non si volta. Alle sette il furgone bianco si ferma davanti alla casa 10, e riparte vuoto.",
-    "Senza di lei la ditta non avrà il suo vaccino. E nemmeno Malvento."] },
-  ferma: { titolo: "Il malvento si ferma", indizio: "Tre notti senza nessuna casa presa dal contagio.", righe: (f) => [
-    "In tre notti il contagio non è uscito da nessuna casa. Il malvento si è fermato.",
-    f.croci >= 3 ? `Ti sono servite ${f.croci} croci: Malvento è un paese di porte segnate, e dietro ognuna una famiglia aspetta che tu torni ad aprire.`
-      : "Hai portato via i malati prima di sera, ogni giorno, e hai chiuso le porte giuste.",
-    "La quarta mattina il paese tace. Nessuno tossisce, nessuno chiama.",
-    f.croci ? "Di notte, dietro le porte con la croce, qualcuno gratta il legno. Piano, con le unghie lunghe."
-      : "Di notte, nel recinto, qualcuno gratta il legno delle brande. Piano, con le unghie lunghe."] },
-  stanzetta: { titolo: "La stanzetta", indizio: "Dormi da solo tutte e tre le notti.",
-    mattina: ["Ti svegli sulla brandina della stanzetta, sotto la coperta. Non ricordi di esserci venuto.",
-      `Torni di là. ${COLORE_MATTINA}`], righe: () => [
-    "Dal tuo letto alla brandina, sul pavimento, ci sono impronte nere di piedi nudi. Lunghi.",
-    "Sul nastro la cosa nera ti porta di là in braccio, come un bambino. Non ha faccia: solo le mani.",
-    "Ti guardi le mani. Le dita sono più lunghe di ieri, e le unghie nere."] },
-  cambiano: { titolo: "Quelli che cambiano", indizio: "Lascia correre il contagio.",
-    mattina: ["Il fax non suona: la linea è muta.", COLORE_MATTINA], righe: (f) => [
-    `In tre notti il contagio ha preso ${quante(f.prese.length, "una casa", "case")}, e ${quante(f.cambiati, "una persona è cambiata", "persone sono cambiate")}.`,
-    "Di giorno il paese è vuoto, le porte segnate con la croce. Di notte, lungo i muri, camminano quelli che cambiano.",
-    "Dalla strada, qualcuno guarda la tua finestra. Non bussa."] },
-  direttore: { titolo: "Direttore del recinto", indizio: "Consegna alla ditta sei persone, e almeno due col profilo che cerca.", righe: (f) => [
-    `Hai consegnato alla ditta ${f.consegnati.length} persone, e ${f.profili} avevano il profilo che cerca. Nessun medico prima di te aveva fatto tanto.`,
-    "La quarta mattina il furgone bianco viene a prendere te, e ti fa sedere davanti: il tuo ufficio è nella baracca 1, dentro il recinto.",
-    "Dalla finestra si vedono le brande in fila. Da una, qualcuno ti saluta con la mano: ha le dita nere.",
-    "Sulla porta c'è già la targa: DIRETTORE. Sotto, a pennarello: MEDICO 6."] },
-  rocco: { titolo: "San Rocco", indizio: "Fatti amare dal paese, senza consegnare un sano.",
-    mattina: [COLORE_MATTINA, "In strada, sotto la finestra, passa la processione: il santo col bastone e il cane, portato a spalla."],
+  fax: { titolo: T("Medico 6"), indizio: T("Capisci chi sei, e scrivilo alla ditta."), righe: () => [
+    T("Scrivi sul fax tutto quello che sai: la lente d'ottone, gli ospiti che la mattina scottavano, le case dove entri tu."),
+    T("Mezz'ora dopo il fax risponde, coi timbri: PRESO ATTO. PROSEGUA. Nuova destinazione: Valcupa, 31 case."),
+    T("Lo sapevano dal primo giorno. Ti hanno mandato apposta.")] },
+  cripta: { titolo: T("Le campane"), indizio: T("Capisci chi sei, e scendi nella cripta."), righe: () => [
+    T("Prendi la chiave nera e scendi. Le candele sono ancora accese, e la santa di cera canta a bocca chiusa."),
+    T("Nella nicchia accanto alla sua c'è posto. Ti metti la maschera del 1630 e ti siedi."),
+    T("Giona suona le campane tutta la notte, e tutte le notti dopo. A Malvento non si ammala più nessuno."),
+    T("Nella stanza vuota, per tre giorni, suona il fax della Panacea.")] },
+  mute: { titolo: T("Le campane mute"), indizio: T("Scendi nella cripta quando le campane non suonano più."), righe: () => [
+    T("Prendi la chiave nera e scendi. Le candele sono ancora accese, e la santa di cera canta a bocca chiusa."),
+    T("Nella nicchia accanto alla sua c'è posto. Ti metti la maschera del 1630 e ti siedi."),
+    T("Ma le campane tacciono: Giona è nel recinto, e nessuno sale sul campanile."),
+    T("Al buio, nelle nicchie, qualcuno apre gli occhi. Sono più di quanti credevi.")] },
+  via: { titolo: T("Senza maschera"), indizio: T("Capisci chi sei, e vattene."), righe: () => [
+    T("Lasci la maschera sulla scrivania, con la videocamera accesa, e all'alba te ne vai a piedi per la Strada del Cimitero."),
+    T("Senza il becco nessuno ti riconosce. Il nastro riprende la stanza vuota per sei ore."),
+    T("A valle, nel primo paese, una donna ti offre un caffè. Il malvento cammina con te.")] },
+  pagina: { titolo: T("La prima pagina"), indizio: T("Trova tutte e quattro le tracce, e portale alla Voce."), righe: () => [
+    T("Al giornale ti ascoltano fino a sera, e fermano la macchina per te. La mattina dopo la Voce esce in edizione straordinaria."),
+    T("Il recinto apre i cancelli. I parenti entrano a cercare i loro, e il furgone bianco riparte vuoto per Valcupa."),
+    T("A sera bussano alla tua porta, con le lanterne. Ti accompagnano giù nella cripta, gentili, come fecero nel 1630."),
+    T("La nicchia accanto alla santa di cera è pronta. Il malvento resta a Malvento, con te.")] },
+  corriera: { titolo: T("La corriera"), indizio: T("Chi non si ammala deve dormire da te l'ultima notte."), righe: () => [
+    T("All'alba svegli la nuora nella stanzetta. Le dai il tuo cappotto e i soldi che ti restano, e non le dici perché."),
+    T("Aspettate la corriera delle sei alla fermata della Strada del Cimitero. Lei stringe la fede di Paolo, sulla catenina."),
+    T("Sale, si siede in fondo e non si volta. Alle sette il furgone bianco si ferma davanti alla casa 10, e riparte vuoto."),
+    T("Senza di lei la ditta non avrà il suo vaccino. E nemmeno Malvento.")] },
+  ferma: { titolo: T("Il malvento si ferma"), indizio: T("Tre notti senza nessuna casa presa dal contagio."), righe: (f) => [
+    T("In tre notti il contagio non è uscito da nessuna casa. Il malvento si è fermato."),
+    f.croci >= 3 ? T`Ti sono servite ${f.croci} croci: Malvento è un paese di porte segnate, e dietro ognuna una famiglia aspetta che tu torni ad aprire.`
+      : T("Hai portato via i malati prima di sera, ogni giorno, e hai chiuso le porte giuste."),
+    T("La quarta mattina il paese tace. Nessuno tossisce, nessuno chiama."),
+    f.croci ? T("Di notte, dietro le porte con la croce, qualcuno gratta il legno. Piano, con le unghie lunghe.")
+      : T("Di notte, nel recinto, qualcuno gratta il legno delle brande. Piano, con le unghie lunghe.")] },
+  stanzetta: { titolo: T("La stanzetta"), indizio: T("Dormi da solo tutte e tre le notti."),
+    mattina: [T("Ti svegli sulla brandina della stanzetta, sotto la coperta. Non ricordi di esserci venuto."),
+      T`Torni di là. ${COLORE_MATTINA}`], righe: () => [
+    T("Dal tuo letto alla brandina, sul pavimento, ci sono impronte nere di piedi nudi. Lunghi."),
+    T("Sul nastro la cosa nera ti porta di là in braccio, come un bambino. Non ha faccia: solo le mani."),
+    T("Ti guardi le mani. Le dita sono più lunghe di ieri, e le unghie nere.")] },
+  cambiano: { titolo: T("Quelli che cambiano"), indizio: T("Lascia correre il contagio."),
+    mattina: [T("Il fax non suona: la linea è muta."), COLORE_MATTINA], righe: (f) => [
+    T`In tre notti il contagio ha preso ${quante(f.prese.length, T("una casa"), T("case"))}, e ${quante(f.cambiati, T("una persona è cambiata"), T("persone sono cambiate"))}.`,
+    T("Di giorno il paese è vuoto, le porte segnate con la croce. Di notte, lungo i muri, camminano quelli che cambiano."),
+    T("Dalla strada, qualcuno guarda la tua finestra. Non bussa.")] },
+  direttore: { titolo: T("Direttore del recinto"), indizio: T("Consegna alla ditta sei persone, e almeno due col profilo che cerca."), righe: (f) => [
+    T`Hai consegnato alla ditta ${f.consegnati.length} persone, e ${f.profili} avevano il profilo che cerca. Nessun medico prima di te aveva fatto tanto.`,
+    T("La quarta mattina il furgone bianco viene a prendere te, e ti fa sedere davanti: il tuo ufficio è nella baracca 1, dentro il recinto."),
+    T("Dalla finestra si vedono le brande in fila. Da una, qualcuno ti saluta con la mano: ha le dita nere."),
+    T("Sulla porta c'è già la targa: DIRETTORE. Sotto, a pennarello: MEDICO 6.")] },
+  rocco: { titolo: T("San Rocco"), indizio: T("Fatti amare dal paese, senza consegnare un sano."),
+    mattina: [COLORE_MATTINA, T("In strada, sotto la finestra, passa la processione: il santo col bastone e il cane, portato a spalla.")],
     righe: (f) => [
-    "Davanti alla tua porta si ferma. Le vecchie lasciano pane, uova e un santino nuovo: al posto del santo c'è un medico col becco.",
-    f.giona ? "Le campane tacciono, ma il paese canta lo stesso." : "Giona suona a festa.",
-    "Il paese si fida di te: ti apre tutte le porte, anche quelle con la croce. Il malvento entra con te in ogni casa."] },
-  premio: { titolo: "Premio di produzione", indizio: "Consegna alla ditta quattro persone.", righe: (f) => [
-    "Prepari la valigia. Dalla finestra vedi il furgone bianco davanti al recinto.",
-    `Hai consegnato alla ditta ${f.consegnati.length} persone${f.sani ? `, ${quante(f.sani, "una sana", "sane")}` : ""}.`,
-    S.fiducia < 30 ? "Sulla porta qualcuno ha inchiodato una croce di legno. Nessuno ti saluta." : "Nessuno ti saluta.",
-    "A Valcupa, ancora, nessuno sa niente."] },
-  croce: { titolo: "La croce sulla porta", indizio: "Perdi la fiducia del paese.", righe: () => [
-    "La quarta mattina la porta non si apre: è inchiodata da fuori, con una croce di legno.",
-    "Il paese ti ha chiuso dentro, come tu chiudevi le case.",
-    "Il fax della ditta arriva alle nove: rendimento insufficiente. Ti sostituirà il Medico 7.",
-    "Di notte, sotto la porta, qualcuno respira."] },
-  furgone: { titolo: "Il furgone bianco", indizio: "Non consegnare nessuno alla ditta.", righe: () => [
-    "In tre giorni non hai consegnato nessuno alla ditta.",
-    "Alle sette il furgone bianco si ferma sotto la tua finestra. Scendono due uomini con la tuta e la mascherina.",
-    "Ti chiamano dottore, con gentilezza. Ti dicono di portare anche la maschera: «Serve a noi».",
-    "Nel recinto ti danno la branda numero 6 e un prelievo ogni ora. La cavia migliore, per la ditta, sei tu."] },
-  quarto: { titolo: "Il quarto giorno", indizio: "Arriva alla quarta mattina senza niente di tutto questo.", righe: (f) => [
-    "Il fax del quarto giorno arriva a mezzogiorno, come sempre.",
-    f.prese.length ? `In tre notti il contagio ha preso ${quante(f.prese.length, "una casa", "case")}.` : "In tre notti il contagio non è uscito dalle case.",
-    "Il paese ti apre ancora la porta, ma ti guarda le mani.",
-    "La giornata comincia. Qui finisce la demo: la peste no."] },
+    T("Davanti alla tua porta si ferma. Le vecchie lasciano pane, uova e un santino nuovo: al posto del santo c'è un medico col becco."),
+    f.giona ? T("Le campane tacciono, ma il paese canta lo stesso.") : T("Giona suona a festa."),
+    T("Il paese si fida di te: ti apre tutte le porte, anche quelle con la croce. Il malvento entra con te in ogni casa.")] },
+  premio: { titolo: T("Premio di produzione"), indizio: T("Consegna alla ditta quattro persone."), righe: (f) => [
+    T("Prepari la valigia. Dalla finestra vedi il furgone bianco davanti al recinto."),
+    T`Hai consegnato alla ditta ${f.consegnati.length} persone${f.sani ? `, ${quante(f.sani, T("una sana"), T("sane"))}` : ""}.`,
+    S.fiducia < 30 ? T("Sulla porta qualcuno ha inchiodato una croce di legno. Nessuno ti saluta.") : T("Nessuno ti saluta."),
+    T("A Valcupa, ancora, nessuno sa niente.")] },
+  croce: { titolo: T("La croce sulla porta"), indizio: T("Perdi la fiducia del paese."), righe: () => [
+    T("La quarta mattina la porta non si apre: è inchiodata da fuori, con una croce di legno."),
+    T("Il paese ti ha chiuso dentro, come tu chiudevi le case."),
+    T("Il fax della ditta arriva alle nove: rendimento insufficiente. Ti sostituirà il Medico 7."),
+    T("Di notte, sotto la porta, qualcuno respira.")] },
+  furgone: { titolo: T("Il furgone bianco"), indizio: T("Non consegnare nessuno alla ditta."), righe: () => [
+    T("In tre giorni non hai consegnato nessuno alla ditta."),
+    T("Alle sette il furgone bianco si ferma sotto la tua finestra. Scendono due uomini con la tuta e la mascherina."),
+    T("Ti chiamano dottore, con gentilezza. Ti dicono di portare anche la maschera: «Serve a noi»."),
+    T("Nel recinto ti danno la branda numero 6 e un prelievo ogni ora. La cavia migliore, per la ditta, sei tu.")] },
+  quarto: { titolo: T("Il quarto giorno"), indizio: T("Arriva alla quarta mattina senza niente di tutto questo."), righe: (f) => [
+    T("Il fax del quarto giorno arriva a mezzogiorno, come sempre."),
+    f.prese.length ? T`In tre notti il contagio ha preso ${quante(f.prese.length, T("una casa"), T("case"))}.` : T("In tre notti il contagio non è uscito dalle case."),
+    T("Il paese ti apre ancora la porta, ma ti guarda le mani."),
+    T("La giornata comincia. Qui finisce la demo: la peste no.")] },
 };
 
 // il giudizio della ditta alla quarta mattina: il timbro e sotto due righe (chi non e' qui non riceve il fax)
 const GIUDIZI = {
-  fax: ["PRESO ATTO · PROSEGUA", "NUOVA DESTINAZIONE: VALCUPA · 31 CASE"],
-  corriera: ["SOGGETTO 0 IRREPERIBILE", "IL MEDICO 6 È PREGATO DI RINTRACCIARLO", "PREMIO: 5.000 €"],
-  ferma: ["CONTENIMENTO ESEMPLARE", "CONSEGNE SOTTO L'OBIETTIVO", "SI RACCOMANDA PIÙ ELASTICITÀ"],
-  direttore: ["PROMOZIONE", "RESPONSABILE DEL RECINTO DI MALVENTO", "UFFICIO: BARACCA 1 · DA OGGI"],
-  premio: ["PREMIO DI PRODUZIONE", "TRASFERIMENTO: VALCUPA · 31 CASE", "IL FURGONE PASSA ALLE 7:00"],
-  croce: ["RENDIMENTO INSUFFICIENTE", "SOSTITUZIONE: MEDICO 7"],
-  furgone: ["RENDIMENTO NULLO", "IL MEDICO 6 RIENTRA AL RECINTO PER CONTROLLI", "IL FURGONE PASSA ALLE 7:00"],
-  quarto: ["PROSEGUA", "PROTOCOLLO DEL GIORNO 4 IN ARRIVO"],
+  fax: [T("PRESO ATTO · PROSEGUA"), T("NUOVA DESTINAZIONE: VALCUPA · 31 CASE")],
+  corriera: [T("SOGGETTO 0 IRREPERIBILE"), T("IL MEDICO 6 È PREGATO DI RINTRACCIARLO"), T("PREMIO: 5.000 €")],
+  ferma: [T("CONTENIMENTO ESEMPLARE"), T("CONSEGNE SOTTO L'OBIETTIVO"), T("SI RACCOMANDA PIÙ ELASTICITÀ")],
+  direttore: [T("PROMOZIONE"), T("RESPONSABILE DEL RECINTO DI MALVENTO"), T("UFFICIO: BARACCA 1 · DA OGGI")],
+  premio: [T("PREMIO DI PRODUZIONE"), T("TRASFERIMENTO: VALCUPA · 31 CASE"), T("IL FURGONE PASSA ALLE 7:00")],
+  croce: [T("RENDIMENTO INSUFFICIENTE"), T("SOSTITUZIONE: MEDICO 7")],
+  furgone: [T("RENDIMENTO NULLO"), T("IL MEDICO 6 RIENTRA AL RECINTO PER CONTROLLI"), T("IL FURGONE PASSA ALLE 7:00")],
+  quarto: [T("PROSEGUA"), T("PROTOCOLLO DEL GIORNO 4 IN ARRIVO")],
 };
 
 // i finali visti, in questo browser; senza memoria del browser valgono quelli di questa partita
@@ -3191,30 +3195,30 @@ function quartaMattina() {
   aiuto(null);
   if (f.id === "verita") capisci(f);
   else if (GIUDIZI[f.id]) concludi(f, f.id);
-  else apriFoglio("finale", [el("h2", null, "La quarta mattina"), ...FINALI[f.id].mattina.map((r) => el("p", null, r)),
-    azioni([["Avanti", () => apriFinale(f, f.id)]])]);
+  else apriFoglio("finale", [el("h2", null, T("La quarta mattina")), ...FINALI[f.id].mattina.map((r) => el("p", null, r)),
+    azioni([[T("Avanti"), () => apriFinale(f, f.id)]])]);
 }
 
 // dopo la scelta (o subito): il fax della ditta, se ha qualcosa da dire, poi il finale. La prima pagina passa prima
 // dall'edizione straordinaria della Voce
 function concludi(f, chi) {
-  if (chi === "pagina") apriGiornale(false, primaPagina(f), ["Avanti", () => apriFinale(f, chi)]);
+  if (chi === "pagina") apriGiornale(false, primaPagina(f), [T("Avanti"), () => apriFinale(f, chi)]);
   else if (GIUDIZI[chi]) faxFinale(f, chi, () => apriFinale(f, chi));
   else apriFinale(f, chi);
 }
 
 // l'edizione straordinaria della Voce, il giorno dopo la quarta mattina
 function primaPagina(f) {
-  const prove = elenco([f.ha("p:cartella") && "la cartella della Panacea", f.ha("p:peste_lenzuola") && "le lenzuola del recinto",
-    "i nastri", "la maschera del 1630"].filter(Boolean));
+  const prove = elenco([f.ha("p:cartella") && T("la cartella della Panacea"), f.ha("p:peste_lenzuola") && T("le lenzuola del recinto"),
+    T("i nastri"), T("la maschera del 1630")].filter(Boolean));
   return {
-    testata: "LA VOCE", data: "Edizione straordinaria · venerdì 30 ottobre", titolo: "Il medico è la peste",
-    sommario: `Il Medico 6 porta alla Voce le sue prove: ${prove}. Il recinto apre i cancelli.`,
-    articolo: "Nel recinto della Panacea i malati sono cavie: la ditta cerca chi non si ammala, per farne un vaccino. E il medico che manda di paese in paese porta il contagio senza saperlo: le case dove entra si ammalano. La Panacea smentisce.",
-    lettera: "«Lo sapevamo dal 1630. Adesso lo sa anche lui, e sa dove deve stare.» Lettera non firmata.",
-    breve: "Stanotte il furgone bianco è ripartito vuoto per Valcupa.",
-    pubblicita: "PANACEA · Smentiamo tutto. Ci prendiamo cura di voi.",
-    didascalia: "Il Medico 6, ieri, alla redazione della Voce.",
+    testata: T("LA VOCE"), data: T("Edizione straordinaria · venerdì 30 ottobre"), titolo: T("Il medico è la peste"),
+    sommario: T`Il Medico 6 porta alla Voce le sue prove: ${prove}. Il recinto apre i cancelli.`,
+    articolo: T("Nel recinto della Panacea i malati sono cavie: la ditta cerca chi non si ammala, per farne un vaccino. E il medico che manda di paese in paese porta il contagio senza saperlo: le case dove entra si ammalano. La Panacea smentisce."),
+    lettera: T("«Lo sapevamo dal 1630. Adesso lo sa anche lui, e sa dove deve stare.» Lettera non firmata."),
+    breve: T("Stanotte il furgone bianco è ripartito vuoto per Valcupa."),
+    pubblicita: T("PANACEA · Smentiamo tutto. Ci prendiamo cura di voi."),
+    didascalia: T("Il Medico 6, ieri, alla redazione della Voce."),
   };
 }
 
@@ -3223,25 +3227,25 @@ function faxFinale(f, chi, poi) {
   suoni.suona("fax");
   const [timbro, ...righe] = GIUDIZI[chi];
   const resa = el("div", "fx-fila");
-  resa.append(segnoFax("moneta", String(f.consegnati.length), "consegnati", "piccolo"),
-    segnoFax("mirino", String(f.profili), "profili", "piccolo"), segnoFax("casa", String(f.prese.length), "case prese", "piccolo"));
+  resa.append(segnoFax("moneta", String(f.consegnati.length), T("consegnati"), "piccolo"),
+    segnoFax("mirino", String(f.profili), T("profili"), "piccolo"), segnoFax("casa", String(f.prese.length), T("case prese"), "piccolo"));
   const esito = el("div", "fx-esito");
   esito.append(el("p", "fx-timbro", timbro), ...righe.map((r) => el("p", null, r)));
   const riga = el("div", "fx-riga");
-  riga.append(bloccoFax("RENDIMENTO", resa), bloccoFax("ESITO", esito));
-  apriFoglio("fax", [testaFax("COMUNICAZIONE · MEDICO 6"), riga, el("p", "fx-motto", "PANACEA · Ci prendiamo cura di voi."),
-    azioni([["Avanti", poi]])]);
+  riga.append(bloccoFax(T("RENDIMENTO"), resa), bloccoFax(T("ESITO"), esito));
+  apriFoglio("fax", [testaFax(T("COMUNICAZIONE · MEDICO 6")), riga, el("p", "fx-motto", T("PANACEA · Ci prendiamo cura di voi.")),
+    azioni([[T("Avanti"), poi]])]);
 }
 
 // hai capito: alla scrivania, davanti alla maschera, torna in mente quello che hai trovato; poi cosa fai. Chi ha
 // trovato tutte e quattro le tracce puo' portarle alla Voce; chi ha la nuora nella stanzetta puo' portarla alla corriera
 function capisci(f) {
-  const righe = [COLORE_MATTINA, "Sulla scrivania la maschera è dove l'hai lasciata, con la videocamera spenta.",
-    "La sua lente d'ottone è la stessa della maschera nella cripta. Il medico del 1630 portò il malvento a Malvento.",
-    ...(f.ha("d:leggenda") ? ["La nonna l'aveva detto il primo giorno: la peste arrivò col medico."] : []),
-    ...(f.ha("nastro7") ? ["Il nastro 7: «...le case dove entra lui...»."] : []),
-    ...(OSPITI_FEBBRE.some(f.ha) ? ["Chi ha dormito da te, la mattina dopo scottava."] : []),
-    ...(f.ha("d:medico6") ? ["Per la ditta sei il Medico 6. Prima di te ce ne sono stati cinque."] : [])];
+  const righe = [COLORE_MATTINA, T("Sulla scrivania la maschera è dove l'hai lasciata, con la videocamera spenta."),
+    T("La sua lente d'ottone è la stessa della maschera nella cripta. Il medico del 1630 portò il malvento a Malvento."),
+    ...(f.ha("d:leggenda") ? [T("La nonna l'aveva detto il primo giorno: la peste arrivò col medico.")] : []),
+    ...(f.ha("nastro7") ? [T("Il nastro 7: «...le case dove entra lui...».")] : []),
+    ...(OSPITI_FEBBRE.some(f.ha) ? [T("Chi ha dormito da te, la mattina dopo scottava.")] : []),
+    ...(f.ha("d:medico6") ? [T("Per la ditta sei il Medico 6. Prima di te ce ne sono stati cinque.")] : [])];
   const scelta = (titolo, nota, fn, rara) => {
     const b = el("button", rara ? "fn-scelta fn-rara" : "fn-scelta");
     b.type = "button";
@@ -3250,14 +3254,14 @@ function capisci(f) {
     return b;
   };
   const scelte = el("div", "azioni fn-scelte");
-  scelte.append(scelta("Scrivi alla ditta", "Il fax è sulla scrivania.", () => concludi(f, "fax")),
-    scelta("Scendi nella cripta", "La chiave nera è al chiodo, in sacrestia.", () => concludi(f, f.giona ? "mute" : "cripta")),
-    scelta("Vai via senza maschera", "La porta non è chiusa a chiave.", () => concludi(f, "via")));
-  if (f.tutte) scelte.append(scelta("Porta tutto alla Voce", "Hai trovato tutte e quattro le tracce.", () => concludi(f, "pagina"), true));
-  if (f.corriera) scelte.append(scelta("Accompagna la nuora alla corriera", "Ha dormito nella stanzetta, e non si ammala.",
+  scelte.append(scelta(T("Scrivi alla ditta"), T("Il fax è sulla scrivania."), () => concludi(f, "fax")),
+    scelta(T("Scendi nella cripta"), T("La chiave nera è al chiodo, in sacrestia."), () => concludi(f, f.giona ? "mute" : "cripta")),
+    scelta(T("Vai via senza maschera"), T("La porta non è chiusa a chiave."), () => concludi(f, "via")));
+  if (f.tutte) scelte.append(scelta(T("Porta tutto alla Voce"), T("Hai trovato tutte e quattro le tracce."), () => concludi(f, "pagina"), true));
+  if (f.corriera) scelte.append(scelta(T("Accompagna la nuora alla corriera"), T("Ha dormito nella stanzetta, e non si ammala."),
     () => concludi(f, "corriera"), true));
-  apriFoglio("finale", [el("h2", null, "La quarta mattina"), ...righe.map((r) => el("p", null, r)),
-    el("p", "fn-forte", "Il medico della peste è la peste."), el("h3", "fn-domanda", "Cosa fai?"), scelte]);
+  apriFoglio("finale", [el("h2", null, T("La quarta mattina")), ...righe.map((r) => el("p", null, r)),
+    el("p", "fn-forte", T("Il medico della peste è la peste.")), el("h3", "fn-domanda", T("Cosa fai?")), scelte]);
 }
 
 // il finale: sulla mappa i tre giorni di contagio (le frecce di tutte e tre le notti, le case prese in rosso), accanto
@@ -3275,9 +3279,9 @@ function apriFinale(f, chi) {
   mostraIndicatori(null);
   schermo.classList.add("contagio");
   foglio.dataset.bloccato = "1";
-  apriFoglio("finale", [el("p", "fn-conta", `${nuovo ? "Nuovo finale" : "Finale"} · ${visti} su ${Object.keys(FINALI).length}`),
+  apriFoglio("finale", [el("p", "fn-conta", T`${nuovo ? T("Nuovo finale") : T("Finale")} · ${visti} su ${Object.keys(FINALI).length}`),
     el("h2", null, E.titolo), ...E.righe(f).map((r) => el("p", null, r)), numeri(f),
-    azioni([["Com'era davvero", verita], ["Ricomincia dal primo giorno", ricomincia, "secondario"]])]);
+    azioni([[T("Com'era davvero"), verita], [T("Ricomincia dal primo giorno"), ricomincia, "secondario"]])]);
   inquadraContagio(f);
   animaContagio();
 }
@@ -3290,10 +3294,10 @@ function numeri(f) {
     li.append(el("b", null, nome), document.createTextNode(valore));
     return li;
   };
-  ul.append(riga("Case prese ", String(f.prese.length)), riga("Cambiati ", String(f.cambiati)),
-    riga("Alla ditta ", `${f.consegnati.length}${f.sani ? ` (${quante(f.sani, "una sana", "sane")})` : ""}`),
-    riga("Soldi ", `${S.soldi} €`),
-    riga("Il paese ", S.fiducia >= 60 ? "ti apre la porta" : S.fiducia >= 35 ? "ti guarda storto" : "ti chiude la porta"));
+  ul.append(riga(T("Case prese "), String(f.prese.length)), riga(T("Cambiati "), String(f.cambiati)),
+    riga(T("Alla ditta "), `${f.consegnati.length}${f.sani ? ` (${quante(f.sani, T("una sana"), T("sane"))})` : ""}`),
+    riga(T("Soldi "), `${S.soldi} €`),
+    riga(T("Il paese "), S.fiducia >= 60 ? T("ti apre la porta") : S.fiducia >= 35 ? T("ti guarda storto") : T("ti chiude la porta")));
   return ul;
 }
 
@@ -3307,11 +3311,11 @@ function elencoFinali(f) {
     if (!visti.has(id)) li.append(el("small", null, E.indizio));
     ul.append(li);
   }
-  return [el("h3", null, `I finali: ${visti.size} su ${Object.keys(FINALI).length}`), ul];
+  return [el("h3", null, T`I finali: ${visti.size} su ${Object.keys(FINALI).length}`), ul];
 }
 
 function verita() {
-  const corpo = [el("h2", null, "Com'era davvero")];
+  const corpo = [el("h2", null, T("Com'era davvero"))];
   // alla fine della demo, prima di tutto le quattro tracce della storia (trovate, o un indizio) e i numeri
   if (S.giorno === 3) {
     const f = R.finale || calcolaFinale();
@@ -3319,11 +3323,11 @@ function verita() {
     for (const t of TRACCE) {
       const li = el("li", f.tracce[t.id] ? "trovata" : "sfuggita");
       li.append(el("b", null, `${f.tracce[t.id] ? "✓" : "✗"} ${t.nome}`));
-      if (!f.tracce[t.id]) li.append(el("small", null, `Ti è sfuggita. ${t.sfuggita}`));
+      if (!f.tracce[t.id]) li.append(el("small", null, T`Ti è sfuggita. ${t.sfuggita}`));
       ul.append(li);
     }
-    corpo.push(el("h3", null, `Le quattro tracce: ${Object.values(f.tracce).filter(Boolean).length} su 4`), ul,
-      el("h3", null, "In tre giorni"), numeri(f), ...elencoFinali(f));
+    corpo.push(el("h3", null, T`Le quattro tracce: ${Object.values(f.tracce).filter(Boolean).length} su 4`), ul,
+      el("h3", null, T("In tre giorni")), numeri(f), ...elencoFinali(f));
   }
   // i giorni: quelli passati (archiviati) e oggi
   const giorni = [...S.giorni, oggi()];
@@ -3333,21 +3337,21 @@ function verita() {
     const ul = el("ul");
     for (const t of [() => VERITA1, verita2, verita3][g.giorno - 1](g.ieri)) ul.append(el("li", null, t));
     corpo.push(ul);
-    if (g.saltato) corpo.push(el("p", "nota", `${GIORNI[g.giorno - 1]} l'hai saltato: come se nessuno fosse andato al lazzaretto, e senza ospiti.`));
+    if (g.saltato) corpo.push(el("p", "nota", T`${GIORNI[g.giorno - 1]} l'hai saltato: come se nessuno fosse andato al lazzaretto, e senza ospiti.`));
     const { giuste, date, ul: dg } = confronto(g.diagnosi, g.morti, g.anagrafe, g.persone, g.altri);
     tutte += giuste;
     tutteDate += date;
-    corpo.push(el("h3", null, `Le tue diagnosi: ${giuste} giuste su ${date}`));
+    corpo.push(el("h3", null, T`Le tue diagnosi: ${giuste} giuste su ${date}`));
     if (date) corpo.push(dg);
-    else corpo.push(el("p", "vuoto", "Non hai timbrato nessuno stato di famiglia."));
+    else corpo.push(el("p", "vuoto", T("Non hai timbrato nessuno stato di famiglia.")));
   }
-  if (giorni.length > 1) corpo.push(el("p", "nota", `In tutto: ${tutte} giuste su ${tutteDate}.`));
+  if (giorni.length > 1) corpo.push(el("p", "nota", T`In tutto: ${tutte} giuste su ${tutteDate}.`));
   corpo.push(el("p", "nota", [
-    "Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove.",
-    "Fine della bozza: due giornate. Nel gioco, domani torneresti alla casa 5, dove il ragazzo è giù in cantina, e alla casa 10, dove la ditta cerca chi non si ammala.",
-    "Fine della demo: tre giorni a Malvento. Dal titolo, «Continua» riporta alla terza mattina, per cercare gli altri finali.",
+    T("Fine del prototipo: una giornata. Nel gioco, domani torneresti alla casa 5 con le prove."),
+    T("Fine della bozza: due giornate. Nel gioco, domani torneresti alla casa 5, dove il ragazzo è giù in cantina, e alla casa 10, dove la ditta cerca chi non si ammala."),
+    T("Fine della demo: tre giorni a Malvento. Dal titolo, «Continua» riporta alla terza mattina, per cercare gli altri finali."),
   ][S.giorno - 1]));
-  corpo.push(azioni([["Ricomincia dal primo giorno", ricomincia]]));
+  corpo.push(azioni([[T("Ricomincia dal primo giorno"), ricomincia]]));
   apriFoglio("verita", corpo);
 }
 
@@ -3380,7 +3384,7 @@ async function apriGiorno() {
   R.play = null;
   R.primo = null;
   R.scelta = null;
-  parole.scrivi(null, "Riavvolgo i nastri…", { lato: "sotto" }, {}, { veloce: true });
+  parole.scrivi(null, T("Riavvolgo i nastri…"), { lato: "sotto" }, {}, { veloce: true });
   try {
     await apriPacchi();
     if (visitaPronta && !visita) await visitaPronta;
@@ -3392,7 +3396,7 @@ async function apriGiorno() {
     if (visita) await visita.prepara(D.LUOGHI);
     else await caricaLuoghi(D.LUOGHI);
   } catch (err) {
-    notifica(`Le scene del ${["", "", "secondo", "terzo"][S.giorno]} giorno non si caricano`);
+    notifica(T`Le scene del ${["", "", T("secondo"), T("terzo")][S.giorno]} giorno non si caricano`);
     console.error(err);
   }
   parole.pulisci();
@@ -3500,16 +3504,16 @@ function titolo() {
     foglio.hidden = true;
     fn();
   }, "ti-voce");
-  if (salvato) menu.append(voce(`Continua · ${GIORNI[salvato.S.giorno - 1].toLowerCase()}`, () => riprendi(salvato)));
+  if (salvato) menu.append(voce(T`Continua · ${GIORNI[salvato.S.giorno - 1].toLowerCase()}`, () => riprendi(salvato)));
   // "Nuova partita" torna alla musica della stanza ("Continua" la cambia aprendo il giorno)
-  menu.append(voce("Nuova partita", () => { ambienteStanza(); introduzione(); }),
-    voce("Impostazioni", () => apriImpostazioni(true)));
-  if (ELECTRON) menu.append(voce("Esci", () => window.close()));
+  menu.append(voce(T("Nuova partita"), () => { ambienteStanza(); introduzione(); }),
+    voce(T("Impostazioni"), () => apriImpostazioni(true)));
+  if (ELECTRON) menu.append(voce(T("Esci"), () => window.close()));
   foglio.dataset.bloccato = "1";
   const visti = finaliTrovati().size;
-  apriFoglio("titolo", [el("h1", "ti-nome", "Il medico della peste"), el("p", "ti-sotto", "Malvento · tre giorni · demo"), menu,
-    ...(visti ? [el("p", "ti-finali", `Finali trovati: ${visti} su ${Object.keys(FINALI).length}`)] : []),
-    el("p", "ti-nota", `Il mouse gira lo sguardo, clic o E per usare, Esc libera il puntatore. Col controller: levette e A.${ELECTRON ? " F11 o Alt+Invio: schermo intero." : ""}`)]);
+  apriFoglio("titolo", [el("h1", "ti-nome", T("Il medico della peste")), el("p", "ti-sotto", T("Malvento · tre giorni · demo")), menu,
+    ...(visti ? [el("p", "ti-finali", T`Finali trovati: ${visti} su ${Object.keys(FINALI).length}`)] : []),
+    el("p", "ti-nota", T`Il mouse gira lo sguardo, clic o E per usare, Esc libera il puntatore. Col controller: levette e A.${ELECTRON ? T(" F11 o Alt+Invio: schermo intero.") : ""}`)]);
   // il tema del titolo (29 ottobre, sera). Il browser lascia suonare solo dopo un tasto o un clic: finche' l'audio non
   // e' partito, al posto dei comandi c'e' "premi un tasto", come nei giochi; il primo tasto (o clic, o tocco) fa
   // partire il tema e mostra i comandi. Il clic che li mostra non preme anche il comando che compare sotto, e il
@@ -3517,7 +3521,7 @@ function titolo() {
   suoni.musica("titolo");
   if (suoni.ctx?.state === "running") return menu.querySelector("button")?.focus();
   menu.hidden = true;
-  const premi = el("p", "ti-premi", tocco() ? "Tocca lo schermo" : "Premi un tasto");
+  const premi = el("p", "ti-premi", tocco() ? T("Tocca lo schermo") : T("Premi un tasto"));
   menu.before(premi);
   const mostra = (e) => {
     if (e.type === "click") { e.preventDefault(); e.stopPropagation(); }
@@ -3541,9 +3545,9 @@ function riprendi(salvato) {
 async function introduzione() {
   if (S.intro) return;
   S.intro = true;
-  const righe = D.INTRO || [[null, "Giorno 1. La ditta ti ha mandato in paese ieri sera."],
-    [null, "Il fax con il protocollo è arrivato a mezzogiorno."]];
-  await dici([...righe, ...(stanza ? [[null, "È sulla scrivania, sotto la finestra."]] : [])], false, false);
+  const righe = D.INTRO || [[null, T("Giorno 1. La ditta ti ha mandato in paese ieri sera.")],
+    [null, T("Il fax con il protocollo è arrivato a mezzogiorno.")]];
+  await dici([...righe, ...(stanza ? [[null, T("È sulla scrivania, sotto la finestra.")]] : [])], false, false);
 }
 
 // ---------- puntatore, tastiera ----------
@@ -3657,7 +3661,7 @@ striscia.onRilascio = (f, x, y, sotto) => {
   const b = bersaglioSotto(f, x, y, sotto);
   sopraFrase(null);
   if (!b) return;
-  if (R.occupato) { notifica("Aspetta che finisca di parlare"); return; }
+  if (R.occupato) { notifica(T("Aspetta che finisca di parlare")); return; }
   contesta(f, b, b.startsWith("d:") || b.startsWith("p:") ? null : x, y);
 };
 striscia.onTocco = (f) => {
@@ -3674,7 +3678,7 @@ striscia.onTocco = (f) => {
 const tastoIntero = $("#schermo-intero");
 function iconaIntero() {
   const dentro = !!document.fullscreenElement;
-  const nome = dentro ? "Esci dallo schermo intero" : "Schermo intero";
+  const nome = dentro ? T("Esci dallo schermo intero") : T("Schermo intero");
   tastoIntero.querySelector(".pix")?.remove();
   tastoIntero.insertAdjacentHTML("afterbegin", icona(dentro ? "ridotto" : "intero"));
   tastoIntero.setAttribute("aria-label", nome);
@@ -3686,7 +3690,7 @@ iconaIntero();
 // l'audio: l'altoparlante lo toglie e lo rimette (il browser se lo ricorda)
 const tastoAudio = $("#audio");
 function iconaAudio() {
-  const nome = suoni.muto ? "Rimetti l'audio" : "Togli l'audio";
+  const nome = suoni.muto ? T("Rimetti l'audio") : T("Togli l'audio");
   tastoAudio.querySelector(".pix")?.remove();
   tastoAudio.insertAdjacentHTML("afterbegin", icona(suoni.muto ? "muto" : "audio"));
   tastoAudio.setAttribute("aria-label", nome);
@@ -3723,9 +3727,9 @@ const IMPOSTAZIONI = "malvento.impostazioni";
 // la qualita': quanto e' larga al massimo la stanza 3D (in punti) e quanti passi fa la nebbia lungo ogni raggio;
 // "bassa" e' quella di prima sui telefoni, "alta" quella di prima sul computer
 const QUALITA = {
-  alta: { nome: "Alta", larghezza: 1600, nebbia: 20 },
-  media: { nome: "Media", larghezza: 1280, nebbia: 14 },
-  bassa: { nome: "Bassa", larghezza: 960, nebbia: 10 },
+  alta: { nome: T("Alta"), larghezza: 1600, nebbia: 20 },
+  media: { nome: T("Media"), larghezza: 1280, nebbia: 14 },
+  bassa: { nome: T("Bassa"), larghezza: 960, nebbia: 10 },
 };
 // le dieci tacche della sensibilita': quanto gira lo sguardo rispetto a prima (la quinta)
 const SGUARDO = [0.4, 0.55, 0.7, 0.85, 1, 1.2, 1.45, 1.75, 2.1, 2.5];
@@ -3770,33 +3774,43 @@ function apriImpostazioni(dalTitolo = false) {
   const torna = dalTitolo ? titolo : () => { foglio.hidden = true; };
   const righe = el("div", "im-righe");
   righe.append(
-    ...rigaTacche("Volume", 0, 10, () => imp.volume, (v) => {
+    ...rigaTacche(T("Volume"), 0, 10, () => imp.volume, (v) => {
       imp.volume = v;
       // un colpo, per sentire quanto e' forte
       suoni.suona("interruttore", { varia: 0 });
     }, (v) => `${v * 10}`),
-    ...rigaTacche("Musica", 0, 10, () => imp.musica, (v) => { imp.musica = v; }, (v) => `${v * 10}`),
-    ...rigaTacche("Sensibilità", 1, SGUARDO.length, () => imp.sguardo, (v) => { imp.sguardo = v; },
-      (v) => `×${String(SGUARDO[v - 1]).replace(".", ",")}`),
+    ...rigaTacche(T("Musica"), 0, 10, () => imp.musica, (v) => { imp.musica = v; }, (v) => `${v * 10}`),
+    ...rigaTacche(T("Sensibilità"), 1, SGUARDO.length, () => imp.sguardo, (v) => { imp.sguardo = v; },
+      (v) => `×${String(SGUARDO[v - 1]).replace(".", LINGUA === "en" ? "." : ",")}`),
   );
   // la qualita' e' quella della stanza 3D: senza (niente WebGL 2) non serve
   if (stanza) {
-    righe.append(...rigaScelte("Qualità", Object.entries(QUALITA).map(([k, q]) => [k, q.nome]), () => imp.qualita, (k) => {
+    righe.append(...rigaScelte(T("Qualità"), Object.entries(QUALITA).map(([k, q]) => [k, q.nome]), () => imp.qualita, (k) => {
       imp.qualita = k;
       salvaImpostazioni();
       applicaImpostazioni();
     }));
   }
   if (document.fullscreenEnabled) {
-    righe.append(...rigaScelte("Schermo", [["intero", "Intero"], ["finestra", "Finestra"]],
+    righe.append(...rigaScelte(T("Schermo"), [["intero", T("Intero")], ["finestra", T("Finestra")]],
       () => (document.fullscreenElement ? "intero" : "finestra"), (k) => schermoIntero(k === "intero")));
   }
+  // la lingua si cambia solo dal titolo, perche' ricarica la pagina (la partita riparte dall'ultima mattina salvata);
+  // la scritta e' in tutte e due le lingue, per chi si ritrova in quella che non legge
+  if (dalTitolo) {
+    righe.append(...rigaScelte("Lingua · Language", Object.entries(LINGUE), () => LINGUA, (k) => {
+      if (k === LINGUA) return;
+      scegliLingua(k);
+      history.replaceState(null, "", location.href.replace(/-(it|en|xx)\b/, ""));
+      location.reload();
+    }));
+  }
   const fine = el("div", "im-fine");
-  fine.append(bottone(dalTitolo ? "Indietro" : "Torna a giocare", torna, "ti-voce"));
-  if (ELECTRON) fine.append(bottone("Esci dal gioco", () => window.close(), "ti-voce secondario"));
+  fine.append(bottone(dalTitolo ? T("Indietro") : T("Torna a giocare"), torna, "ti-voce"));
+  if (ELECTRON) fine.append(bottone(T("Esci dal gioco"), () => window.close(), "ti-voce secondario"));
   if (dalTitolo) foglio.dataset.bloccato = "1";
-  apriFoglio("impostazioni", [el("h2", null, "Impostazioni"), righe,
-    ...(stanza ? [el("p", "im-nota", "Se la stanza va a scatti, prova la qualità media o bassa: si disegna più piccola, con una nebbia più semplice.")] : []),
+  apriFoglio("impostazioni", [el("h2", null, T("Impostazioni")), righe,
+    ...(stanza ? [el("p", "im-nota", T("Se la stanza va a scatti, prova la qualità media o bassa: si disegna più piccola, con una nebbia più semplice."))] : []),
     fine]);
   R.indietroFoglio = torna;
   righe.querySelector("[role=slider]")?.focus();
@@ -3861,7 +3875,7 @@ function rigaTacche(nome, min, max, leggi, scrivi, scritta) {
     return b;
   };
   const comando = el("div", "im-comando");
-  comando.append(passo("meno", -1, "meno"), barra, passo("piu", 1, "più"));
+  comando.append(passo("meno", -1, T("meno")), barra, passo("piu", 1, T("più")));
   segna();
   return [el("span", "im-nome", nome), comando, valore];
 }
@@ -3916,7 +3930,7 @@ async function caricaVisite() {
     console.warn("Visite 3D non disponibili:", err);
     visita = null;
     // si torna alle scene 2D di prima (intanto chi entra in una casa aspetta)
-    await caricaLuoghi(D.LUOGHI).catch((e) => notifica(`Non riesco a caricare ${e.message}`));
+    await caricaLuoghi(D.LUOGHI).catch((e) => notifica(T`Non riesco a caricare ${e.message}`));
     visitaPronta = null;
     precaricaPrimi();
   }
@@ -3965,7 +3979,7 @@ async function caricaStanza() {
 }
 
 async function avvia(dati) {
-  parole.scrivi(null, "Carico i nastri…", { lato: "sotto" }, {}, { veloce: true });
+  parole.scrivi(null, T("Carico i nastri…"), { lato: "sotto" }, {}, { veloce: true });
   try {
     vhs = new Vhs(canvas);
     // niente VHS (27 ottobre): niente difetti del nastro; restano la lampada, lo zoom, la notte e l'infrarosso
@@ -3982,7 +3996,7 @@ async function avvia(dati) {
   try {
     await caricaTutto();
   } catch (err) {
-    parole.scrivi(null, `Non riesco a caricare ${err.message}. Ricarica la pagina.`, { lato: "sotto" });
+    parole.scrivi(null, T`Non riesco a caricare ${err.message}. Ricarica la pagina.`, { lato: "sotto" });
     return;
   }
   const c = document.createElement("canvas");
@@ -4012,8 +4026,8 @@ async function avvia(dati) {
   precaricaPrimi();
   // per giudicare la bozza del secondo giorno senza rigiocare il primo: #giorno2 nell'indirizzo; del terzo, #giorno3
   // (non quando il codice si ricarica a meta' partita: lo stato e' gia' quello)
-  if (location.hash === "#giorno2" && !(dati && dati.S)) saltaAlGiorno2();
-  else if (location.hash === "#giorno3" && !(dati && dati.S)) saltaAlGiorno3();
+  if (location.hash.startsWith("#giorno2") && !(dati && dati.S)) saltaAlGiorno2();
+  else if (location.hash.startsWith("#giorno3") && !(dati && dati.S)) saltaAlGiorno3();
   // il titolo, se si comincia da capo (non quando il codice si ricarica a meta' partita, ne' nelle prove automatiche)
   else if ((dati && dati.S) || location.hash.startsWith("#prova")) introduzione();
   else titolo();
