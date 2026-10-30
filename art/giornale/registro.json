@@ -54,5 +54,28 @@
     "seed": null,
     "secondi": 33,
     "descrizione": ""
+  },
+  "giornale_en": {
+    "modello": "openai/gpt-image-2/edit",
+    "input": {
+      "prompt": "This is a hand-drawn, comic-style illustration of a folded village newspaper lying on a dark wooden desk. In the masked area only, replace the newspaper's name LA VOCE with THE VOICE: the same heavy black slab-serif lettering, hand-inked and slightly worn, the same height and the same slight upward slant as the old name, centered on the masthead above the two printed rules. Keep the paper color, texture and everything else unchanged. The text must read exactly THE VOICE.",
+      "image_urls": [
+        "@file:giornale.jpg"
+      ],
+      "mask_url": "@file:testata_maschera.png",
+      "image_size": {
+        "width": 1920,
+        "height": 1072
+      },
+      "quality": "high",
+      "num_images": 1,
+      "output_format": "png"
+    },
+    "file": [
+      "giornale_en.png"
+    ],
+    "seed": null,
+    "secondi": 71,
+    "descrizione": null
   }
 }

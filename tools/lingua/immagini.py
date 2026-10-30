@@ -5,7 +5,9 @@ Uso: python3 tools/lingua/immagini.py en
 
 Scrive in tools/lingua/immagini_<lingua>/ le immagini del gioco che hanno parole dentro, coi percorsi del gioco:
 - img/mappa.jpg e img/stanza/mappa.jpg: la mappa coi nomi delle vie e la legenda (tools/mappa.py componi <lingua>);
-- img/stanza/calendario.jpg: il calendario della Panacea nella stanza del medico (lo slogan, il mese, i giorni).
+- img/stanza/calendario.jpg: il calendario della Panacea nella stanza del medico (lo slogan, il mese, i giorni);
+- img/giornale.jpg: il giornale con la testata nella lingua (art/giornale/giornale_<lingua>.png, GPT Image 2 col
+  ritocco della sola testata: art/giornale/lavori_<lingua>.json).
 Non vanno tra i file del gioco (l'artifact ne tiene al massimo 511): `controlla.mjs scrivi` le mette nel catalogo della
 lingua come data URL (IMMAGINI in lingua_<lingua>.js), e il gioco le usa al posto delle italiane (inLingua in lingua.js).
 """
@@ -60,5 +62,9 @@ if __name__ == "__main__":
     uscita = RADICE / f"tools/lingua/immagini_{lingua}"
     subprocess.run([sys.executable, str(RADICE / "tools/mappa.py"), "componi", lingua], check=True)
     calendario(lingua, uscita)
+    # il giornale con la testata tradotta, come in tools/prepara_gioco.py
+    testata = RADICE / f"art/giornale/giornale_{lingua}.png"
+    if testata.exists():
+        Image.open(testata).convert("RGB").save(uscita / "img/giornale.jpg", quality=86)
     for f in sorted(uscita.rglob("*.jpg")):
         print(f.relative_to(uscita), f.stat().st_size // 1024, "KB")

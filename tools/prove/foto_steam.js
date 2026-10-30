@@ -120,7 +120,8 @@ const path = require('path');
   await passo('infrarosso', async () => {
     await page.evaluate(() => window.prova.sera()); await page.waitForTimeout(2000); await salta(); await libero();
     await page.evaluate(() => window.prova.apriNastri()); await page.waitForTimeout(800);
-    await page.locator('#foglio button').first().click(); await page.waitForTimeout(2500);
+    // il primo nastro della lista (il primo tasto del foglio e' «Chiudi»)
+    await page.locator('#foglio-corpo button').first().click(); await page.waitForTimeout(2500);
     await page.locator('#comandi .cmd-ir').click(); await page.waitForTimeout(2500);
     await foto('08_infrarosso');
     await page.locator('#comandi .cmd-esci').click(); await page.waitForTimeout(1500);

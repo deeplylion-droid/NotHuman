@@ -1027,7 +1027,7 @@ function apriGiornale(domani, speciale, dopo) {
   suoni.suona("giornale");
   const stampa = el("div", "gio-stampa");
   const carta = el("img", "gio-carta");
-  carta.src = "img/giornale.jpg";
+  carta.src = inLingua("img/giornale.jpg");
   carta.alt = T`La Voce, il giornale del paese: ${g.titolo}`;
   const piano = el("div", "gio-piano");
   const blocco = (nome, cls, ...figli) => {
