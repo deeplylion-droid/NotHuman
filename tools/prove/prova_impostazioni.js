@@ -1,7 +1,7 @@
 // La prova del pannello delle impostazioni (29 ottobre): dal titolo, durante la partita, ricordate dopo il
 // ricaricamento, col puntatore finto del controller, la larghezza della stanza nella qualita' media.
 // Col gioco servito in locale:
-//   cd gioco && python3 -m http.server 8765 --bind 127.0.0.1
+//   python3 tools/prove/servi.py      (la pagina in utf-8; con python3 -m http.server il "▸" diventa "â–¸")
 // poi: node tools/prove/prova_impostazioni.js <cartella delle foto>
 const { chromium } = require('playwright');
 (async () => {

@@ -203,11 +203,36 @@ Alla richiesta «il nome del gioco pure va cambiato e va creato un bel logo. Mi 
 Dopo «comincia dalla versione inglese» (per Steam: la maggior parte dei giocatori legge l'inglese, e serve per lo Steam Next Fest).
 - **Come funziona:** l'italiano resta la lingua del codice; ogni testo che si vede passa da `T` (`gioco/js/lingua.js`) e nelle altre lingue si cerca nel catalogo (`gioco/js/lingua_en.js`: la chiave è il testo italiano). I testi dei giorni si scrivono quando i moduli si caricano, quindi cambiare lingua ricarica la pagina. Le voci di chi parla (PADRE, FIGLIA...) restano nomi nel codice e si traducono quando si scrivono.
 - **La lingua si sceglie dal titolo**: Impostazioni, «Lingua · Language» (scritta in tutte e due, per chi si ritrova in quella che non legge), Italiano o English. Di partenza quella del sistema (l'italiano per chi ha il computer in italiano, l'inglese per tutti gli altri); le prove automatiche partono in italiano. Si ricorda nel browser (`malvento.lingua`).
-- **I testi:** 2.215 (circa 15.000 parole): i dialoghi e le descrizioni dei tre giorni, l'interfaccia, il fax, gli stati di famiglia, i giornali, i resoconti delle notti, i quindici finali. Trovati e segnati da `tools/lingua/marca.mjs`, che distingue i testi dai nomi del codice (id, classi, suoni, icone); tradotti in quattro parti con la stessa guida e lo stesso glossario (`tools/lingua/GUIDA.md`: la ditta → *the Company*, il recinto → *the compound*, il lazzaretto → *the lazaretto*, lo stato di famiglia → *the family register*, il nastro delle frasi → *the statement tape*, i timbri HEALTHY, SUSPECT, SICK, CRITICAL, MONSTER, «cambiato» → *changed*, il malvento resta *the malvento*); controllati da `tools/lingua/controlla.mjs` (i segnaposto, gli asterischi delle parole chiave, i gesti tra quadre, gli spazi, il maiuscolo).
+- **I testi:** 2.215 (circa 15.000 parole): i dialoghi e le descrizioni dei tre giorni, l'interfaccia, il fax, gli stati di famiglia, i giornali, i resoconti delle notti, i quindici finali. Trovati e segnati da `tools/lingua/marca.mjs`, che distingue i testi dai nomi del codice (id, classi, suoni, icone); tradotti in quattro parti con la stessa guida e lo stesso glossario (`tools/lingua/GUIDA.md`: la ditta → *the Company*, il recinto → *the compound*, il lazzaretto → *the lazaretto*, lo stato di famiglia → *the family register*, il nastro delle frasi → *the statement tape*, i timbri HEALTHY, SUSPECT, SICK, CRITICAL, MONSTER, «cambiato» → *changed*, il malvento → *the ill wind*); controllati da `tools/lingua/controlla.mjs` (i segnaposto, gli asterischi delle parole chiave, i gesti tra quadre, gli spazi, il maiuscolo).
 - **La lingua finta** (`-xx` in fondo all'indirizzo) mette ogni testo tradotto tra ⟦ ⟧: la demo intera giocata così ha trovato i pochi testi rimasti fuori (le voci sul nastro e sulla raggiera, i nomi delle parti del corpo), ora sistemati.
 - **Niente parole italiane** (29 ottobre, sera: «Ok il titolo del gioco ma basta parole italiane. I nomi dei membri delle famiglie me li fai inglesi, così come il nome del giornale etc»): resta italiano solo il nome Malvento. Le famiglie hanno nomi inglesi vicini a quelli italiani (Rossi Mario → Ross Mark, Ferri → Ferris, Galli → Gale, Serra → Searle, Giona → Jonah, Assunta → Agnes, le gemelle De Rosa → the Rowe twins), le vie (Church Street, Narrow Lane, Mill Street, Cemetery Road), i paesi (Darkvale, Blackstone), il giornale (The Voice), il cane (Wolf), il detto («sleep alone and the ill wind takes you»): `tools/lingua/nomi_en.py`, la tabella in `GUIDA.md`. Le immagini con le scritte hanno la versione inglese: la mappa (le vie e la legenda, `tools/mappa.py componi en`) e il calendario della ditta nella stanza (`tools/lingua/immagini.py`); stanno dentro il catalogo inglese come data URL, perché l'artifact è al limite dei 511 file.
 - **Restano nella lingua di prima** i testi già scritti in un salvataggio fatto nell'altra lingua (le note a penna, il giornale di quella mattina), e qualche scritta minuscola dentro le scene disegnate.
 - **Le prove in inglese:** la demo intera e i quindici finali, giocati in inglese, senza errori (`LINGUA=en`).
+- **Corretto il 30 ottobre:** la lapide della cripta diceva «HE BROUGHT THE MALVENTO»: ora «THE ILL WIND».
+
+### Il trailer per Steam (30 ottobre)
+
+Dopo «ora facciamo il trailer per steam». Il trailer in inglese di 84 secondi, montato sulla musica: tutto il materiale
+viene dal gioco vero (`docs/steam.md`, "Il trailer", per il racconto e come si rifà).
+- **Gameplay prima di tutto**, come chiede Steam: la casa 3 con la videocamera che si accende e il padre che mente,
+  il fax, la mappa, la domanda, la frase trascinata sui quattro piatti (CONTRADICTION), l'esame nel rosso, lo stato di
+  famiglia, il nastro all'infrarosso, la notte; poi quelli che sono cambiati, uno ogni due battiti, e la maschera del
+  1630; in fondo il logo.
+- **I cartelli** sono frasi che si scrivono come quelle del gioco (VT323, lettera per lettera, il cursore a blocco):
+  THE PLAGUE IS BACK, EVERYONE IS HIDING SOMEONE, THE LIVING ARE WARM, NOBODY DIES HERE (sotto, la musica tace),
+  THEY CHANGE. Niente VHS, come nel gioco.
+- **Le riprese, fotogramma per fotogramma** (`tools/trailer/riprese.js`): il browser senza scheda video non regge il
+  gioco a 30 fotogrammi al secondo (la stanza 3D ne fa uno ogni 8 secondi), quindi il tempo della pagina è finto (il
+  `clock` di Playwright, più le animazioni CSS portate avanti a mano) e avanza di 1/30 di secondo a ogni foto. Il
+  puntatore si muove e clicca come una persona; per i fogli (il fax) la videocamera si avvicina facendo ridisegnare
+  la pagina più grande, così le scritte restano nitide. Fuori dalle sue riprese la stanza 3D resta ferma: ridisegnarla
+  a ogni passo costerebbe ore.
+- **La musica:** ElevenLabs Music con le sezioni sulle durate del montaggio; tre proposte, scelta la C. Per
+  sceglierle senza orecchie: il volume e i colpi misurati (un battito ogni 0,749 s), e una descrizione con i tempi
+  chiesta a Gemini (`openrouter/router/audio` su fal), che ha dato 7 su 10 a tutte e tre.
+- **Trovato strada facendo:** il server locale delle prove (`python3 -m http.server`) mandava la pagina senza la
+  codifica, e il «▸» dei suggerimenti diventava «â–¸», anche negli screenshot per Steam: ora c'è
+  `tools/prove/servi.py`, che la manda in utf-8.
 
 ### La visita
 

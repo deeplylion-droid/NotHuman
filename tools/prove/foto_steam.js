@@ -1,6 +1,6 @@
 // Gli screenshot per la pagina Steam (29 ottobre, sera), a 1920 × 1080 come chiede Steam, in una lingua (LINGUA=en o
 // it, di partenza en). Col gioco servito in locale:
-//   cd gioco && python3 -m http.server 8765 --bind 127.0.0.1
+//   python3 tools/prove/servi.py      (la pagina in utf-8; con python3 -m http.server il "▸" diventa "â–¸")
 // poi: LINGUA=en node tools/prove/foto_steam.js <cartella>
 // Il titolo; la stanza del medico; la prima visita (la domanda, la frase che si smentisce, l'esame); lo stato di
 // famiglia; la sera, un nastro all'infrarosso; la notte sulla mappa; il giornale; la cripta del terzo giorno.

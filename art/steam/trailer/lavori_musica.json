@@ -1,0 +1,359 @@
+[
+  {
+    "nome": "trailer_a",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "composition_plan": {
+        "positive_global_styles": [
+          "dark horror game trailer score",
+          "instrumental",
+          "orchestral strings and analog synthesizers",
+          "1990s analog textures",
+          "Lovecraftian dread",
+          "minor key"
+        ],
+        "negative_global_styles": [
+          "vocals",
+          "lyrics",
+          "spoken words",
+          "EDM",
+          "pop",
+          "happy",
+          "dubstep wobble"
+        ],
+        "sections": [
+          {
+            "section_name": "Cold open and the village",
+            "duration_ms": 21500,
+            "positive_local_styles": [
+              "near silence at the start, cold mountain wind",
+              "a single low cello drone",
+              "sparse detuned upright piano notes with long pauses",
+              "a distant church bell",
+              "very slow and eerie"
+            ],
+            "negative_local_styles": [
+              "drums",
+              "fast tempo",
+              "loud"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "The house call",
+            "duration_ms": 22000,
+            "positive_local_styles": [
+              "a steady ticking clock-like pulse at 90 BPM",
+              "pizzicato and col legno string ostinato",
+              "muted metallic hits",
+              "a slowly rising analog synth drone",
+              "tense and investigative",
+              "gradual crescendo"
+            ],
+            "negative_local_styles": [
+              "catchy melody",
+              "drum kit",
+              "release of tension"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "The tapes and the night",
+            "duration_ms": 13000,
+            "positive_local_styles": [
+              "the pulse stops",
+              "deep sub bass drone with a slow heartbeat",
+              "reversed swells",
+              "a dissonant string cluster slowly rising in pitch",
+              "unbearable tension",
+              "abrupt cut to total silence for the last two seconds"
+            ],
+            "negative_local_styles": [
+              "melody",
+              "resolution",
+              "drums"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "They change",
+            "duration_ms": 13000,
+            "positive_local_styles": [
+              "massive cinematic impacts",
+              "huge taiko and low brass hits",
+              "screeching dissonant strings",
+              "a dark choir-like synth pad",
+              "distorted sub bass",
+              "relentless and terrifying",
+              "ends on one enormous final impact"
+            ],
+            "negative_local_styles": [
+              "singing",
+              "lyrics",
+              "major key",
+              "upbeat"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "Malvento",
+            "duration_ms": 14500,
+            "positive_local_styles": [
+              "the long decaying tail of the final impact",
+              "a fragile out-of-tune music box lullaby",
+              "a low drone underneath",
+              "one last distant church bell",
+              "fading out to silence"
+            ],
+            "negative_local_styles": [
+              "drums",
+              "loud",
+              "major key"
+            ],
+            "lines": []
+          }
+        ]
+      },
+      "respect_sections_durations": true,
+      "output_format": "mp3_44100_128"
+    }
+  },
+  {
+    "nome": "trailer_b",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "composition_plan": {
+        "positive_global_styles": [
+          "dark horror game trailer score",
+          "instrumental",
+          "cold analog synthesizers and processed piano",
+          "1990s tape textures",
+          "oppressive and clinical",
+          "minor key"
+        ],
+        "negative_global_styles": [
+          "vocals",
+          "lyrics",
+          "spoken words",
+          "EDM",
+          "pop",
+          "happy",
+          "dubstep wobble"
+        ],
+        "sections": [
+          {
+            "section_name": "Cold open and the village",
+            "duration_ms": 21500,
+            "positive_local_styles": [
+              "near silence at the start, cold mountain wind",
+              "a single low cello drone",
+              "sparse detuned upright piano notes with long pauses",
+              "a distant church bell",
+              "very slow and eerie"
+            ],
+            "negative_local_styles": [
+              "drums",
+              "fast tempo",
+              "loud"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "The house call",
+            "duration_ms": 22000,
+            "positive_local_styles": [
+              "a steady ticking clock-like pulse at 90 BPM",
+              "pizzicato and col legno string ostinato",
+              "muted metallic hits",
+              "a slowly rising analog synth drone",
+              "tense and investigative",
+              "gradual crescendo"
+            ],
+            "negative_local_styles": [
+              "catchy melody",
+              "drum kit",
+              "release of tension"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "The tapes and the night",
+            "duration_ms": 13000,
+            "positive_local_styles": [
+              "the pulse stops",
+              "deep sub bass drone with a slow heartbeat",
+              "reversed swells",
+              "a dissonant string cluster slowly rising in pitch",
+              "unbearable tension",
+              "abrupt cut to total silence for the last two seconds"
+            ],
+            "negative_local_styles": [
+              "melody",
+              "resolution",
+              "drums"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "They change",
+            "duration_ms": 13000,
+            "positive_local_styles": [
+              "massive cinematic impacts",
+              "huge taiko and low brass hits",
+              "screeching dissonant strings",
+              "a dark choir-like synth pad",
+              "distorted sub bass",
+              "relentless and terrifying",
+              "ends on one enormous final impact"
+            ],
+            "negative_local_styles": [
+              "singing",
+              "lyrics",
+              "major key",
+              "upbeat"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "Malvento",
+            "duration_ms": 14500,
+            "positive_local_styles": [
+              "the long decaying tail of the final impact",
+              "a fragile out-of-tune music box lullaby",
+              "a low drone underneath",
+              "one last distant church bell",
+              "fading out to silence"
+            ],
+            "negative_local_styles": [
+              "drums",
+              "loud",
+              "major key"
+            ],
+            "lines": []
+          }
+        ]
+      },
+      "respect_sections_durations": true,
+      "output_format": "mp3_44100_128"
+    }
+  },
+  {
+    "nome": "trailer_c",
+    "modello": "fal-ai/elevenlabs/music",
+    "input": {
+      "composition_plan": {
+        "positive_global_styles": [
+          "dark horror game trailer score",
+          "instrumental",
+          "orchestral strings, low brass and percussion",
+          "folk horror atmosphere",
+          "Lovecraftian dread",
+          "minor key"
+        ],
+        "negative_global_styles": [
+          "vocals",
+          "lyrics",
+          "spoken words",
+          "EDM",
+          "pop",
+          "happy",
+          "dubstep wobble"
+        ],
+        "sections": [
+          {
+            "section_name": "Cold open and the village",
+            "duration_ms": 21500,
+            "positive_local_styles": [
+              "near silence at the start, cold mountain wind",
+              "a single low cello drone",
+              "sparse detuned upright piano notes with long pauses",
+              "a distant church bell",
+              "very slow and eerie"
+            ],
+            "negative_local_styles": [
+              "drums",
+              "fast tempo",
+              "loud"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "The house call",
+            "duration_ms": 22000,
+            "positive_local_styles": [
+              "a steady ticking clock-like pulse at 90 BPM",
+              "pizzicato and col legno string ostinato",
+              "muted metallic hits",
+              "a slowly rising analog synth drone",
+              "tense and investigative",
+              "gradual crescendo"
+            ],
+            "negative_local_styles": [
+              "catchy melody",
+              "drum kit",
+              "release of tension"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "The tapes and the night",
+            "duration_ms": 13000,
+            "positive_local_styles": [
+              "the pulse stops",
+              "deep sub bass drone with a slow heartbeat",
+              "reversed swells",
+              "a dissonant string cluster slowly rising in pitch",
+              "unbearable tension",
+              "abrupt cut to total silence for the last two seconds"
+            ],
+            "negative_local_styles": [
+              "melody",
+              "resolution",
+              "drums"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "They change",
+            "duration_ms": 13000,
+            "positive_local_styles": [
+              "massive cinematic impacts",
+              "huge taiko and low brass hits",
+              "screeching dissonant strings",
+              "a dark choir-like synth pad",
+              "distorted sub bass",
+              "relentless and terrifying",
+              "ends on one enormous final impact"
+            ],
+            "negative_local_styles": [
+              "singing",
+              "lyrics",
+              "major key",
+              "upbeat"
+            ],
+            "lines": []
+          },
+          {
+            "section_name": "Malvento",
+            "duration_ms": 14500,
+            "positive_local_styles": [
+              "the long decaying tail of the final impact",
+              "a fragile out-of-tune music box lullaby",
+              "a low drone underneath",
+              "one last distant church bell",
+              "fading out to silence"
+            ],
+            "negative_local_styles": [
+              "drums",
+              "loud",
+              "major key"
+            ],
+            "lines": []
+          }
+        ]
+      },
+      "respect_sections_durations": true,
+      "output_format": "mp3_44100_128"
+    }
+  }
+]

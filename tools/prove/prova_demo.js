@@ -2,7 +2,7 @@
 // ragazza ospite, il nastro 7), il secondo (la ragazza con la febbre, la cartella della ditta e "Medico 6", la nuora
 // che non si ammala), il terzo (la cripta e la maschera del 1630), le tre notti, i giornali, la quarta mattina e il
 // finale; i salvataggi di ogni mattina. Col gioco servito in locale:
-//   cd gioco && python3 -m http.server 8765 --bind 127.0.0.1
+//   python3 tools/prove/servi.py      (la pagina in utf-8; con python3 -m http.server il "▸" diventa "â–¸")
 // poi: node tools/prove/prova_demo.js <cartella delle foto> (circa 7 minuti; alla fine scrive i passi e gli errori)
 const { chromium } = require('playwright');
 (async () => {

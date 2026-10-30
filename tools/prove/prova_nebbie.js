@@ -1,5 +1,5 @@
 // Le foto della nebbia della stanza del medico (29 ottobre), col gioco servito in locale:
-//   cd gioco && python3 -m http.server 8765 --bind 127.0.0.1
+//   python3 tools/prove/servi.py      (la pagina in utf-8; con python3 -m http.server il "▸" diventa "â–¸")
 // poi: node tools/prove/prova_nebbie.js <cartella delle foto> [nebbie, "senza,stanza,colore"] [fasi, "mattina,sera"]
 // la nebbia della stanza: per ogni nebbia ("senza" senza nebbia nella stanza, "stanza" quella di sempre: di giorno
 // niente, la sera R'lyeh livida; "colore" la quarta mattina), mattina e sera, le viste. argv[2] cartella, argv[3]

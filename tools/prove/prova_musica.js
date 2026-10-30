@@ -1,7 +1,7 @@
 // La prova della musica (29 ottobre, sera): il brano giusto in ogni posto (la stanza di giorno e di sera, la mappa,
 // le visite, il nastro della notte senza musica), i brani che escono dimenticati, e l'anello che riparte sfumando.
 // Col gioco servito in locale:
-//   cd gioco && python3 -m http.server 8765 --bind 127.0.0.1
+//   python3 tools/prove/servi.py      (la pagina in utf-8; con python3 -m http.server il "▸" diventa "â–¸")
 // poi: node tools/prove/prova_musica.js
 const { chromium } = require('playwright');
 (async () => {

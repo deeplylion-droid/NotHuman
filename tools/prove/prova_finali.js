@@ -1,5 +1,5 @@
 // La prova automatica dei quindici finali della demo (29 ottobre). Col gioco servito in locale:
-//   cd gioco && python3 -m http.server 8765 --bind 127.0.0.1
+//   python3 tools/prove/servi.py      (la pagina in utf-8; con python3 -m http.server il "▸" diventa "â–¸")
 // poi: node tools/prove/prova_finali.js <cartella delle foto> [nomi dei finali, "cripta,ferma"]
 // (Playwright, col Chromium del sistema; ogni finale ha lo stato preparato prima della quarta mattina)
 // i quindici finali, uno per uno, nella stessa pagina (ricomincia e salta al terzo giorno), con lo stato preparato

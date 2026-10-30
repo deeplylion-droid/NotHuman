@@ -136,9 +136,45 @@ Steam chiede di dichiararlo. La bozza:
 - **Consigliati:** Windows 10/11 a 64 bit; 8 GB di RAM; GeForce GTX 1050 o Radeon RX 560 o meglio.
 - Impostazioni: qualità della stanza 3D alta, media o bassa; si gioca con mouse e tastiera o col controller.
 
+## Il trailer (30 ottobre: «ora facciamo il trailer per steam»)
+
+Il primo trailer della pagina, quello che parte per primo e da cui Steam ricava da solo il microtrailer di sei secondi.
+Segue i consigli di Steamworks (pagina «Trailers»): **soprattutto gameplay**, l'interfaccia del gioco visibile, le
+prime immagini forti (chi scorre la coda di scoperta concede meno di dieci secondi), comprensibile anche senza audio.
+In inglese: il trailer di base deve esserlo; uno italiano si carica a parte e si assegna all'italiano (Advanced
+Settings del trailer).
+
+- **Le misure:** 1920 × 1080, 30 fotogrammi al secondo, H.264 ad alto bitrate (Steam chiede almeno 5.000 kbps), audio
+  AAC stereo a 48 kHz, a -16 LUFS; 84 secondi. La miniatura personalizzata, se serve, è un fotogramma del video
+  (`miniatura_en.jpg`, 1920 × 1080, senza scritte sopra).
+- **Il racconto**, sulla musica:
+  - 0–12 s: la casa 3, la videocamera si accende, il padre: «We're all fine here. Make it quick.»; THE PLAGUE IS BACK;
+    la stanza del medico;
+  - 12–31 s (entra il ticchettio): il fax della Panacea, la mappa (la casa 3 segnalata: «They cough at night»), la
+    domanda e la risposta, la frase trascinata sui quattro piatti, CONTRADICTION;
+  - 31–54 s (il ritmo pieno): EVERYONE IS HIDING SOMEONE, l'esame del collo nel rosso («It's a bruise.»), lo stato di
+    famiglia (MALATO, al lazzaretto), THE LIVING ARE WARM e il nastro all'infrarosso, la notte (la cosa nera china
+    sul letto, il contagio sulla mappa, il giornale);
+  - 52–54 s: la musica si ferma sotto NOBODY DIES HERE;
+  - 54–73 s (il culmine, un taglio ogni due battiti): quelli che sono cambiati, ognuno a modo suo; THEY CHANGE; la
+    maschera del 1630 nella cripta, con la lente uguale alla tua;
+  - 73–84 s: il logo sopra la stanza buia, «The Plague Doctor · three days · demo», WISHLIST ON STEAM.
+- **La musica:** ElevenLabs Music su fal, con le sezioni sulle durate del montaggio (`art/steam/trailer/
+  lavori_musica.json`); tre proposte in `art/steam/trailer/musica`, scelta la C (il ticchettio, il ritmo, il culmine
+  e la coda arrivano dove servono; le ha «ascoltate» Gemini, che le ha descritte con i tempi). I suoni sono quelli
+  del gioco (il REC, il fax, la contraddizione, il videoregistratore, il malvento, il giornale), cupi come nel gioco.
+- **Come si rifà** (tutto da capo, circa due ore di macchina):
+  1. `python3 tools/prove/servi.py` (il gioco in locale, in utf-8);
+  2. `LINGUA=en node tools/trailer/riprese.js` (le riprese dal gioco vero, fotogramma per fotogramma: il tempo del
+     browser è finto e avanza di 1/30 di secondo per foto, così anche la stanza 3D va liscia; i gruppi `uno`, `fax`,
+     `due`, `tre`, `stanza` si possono far girare insieme, ma la stanza 3D è meglio da sola);
+  3. `LINGUA=en node tools/trailer/cartelli.js` (i cartelli e il finale);
+  4. `python3 tools/trailer/monta.py en` (il video; con `--anteprima` uno piccolo e veloce, e il foglio dei tagli
+     `tagli_en.jpg` per controllare).
+  Il montaggio è in `tools/trailer/montaggio.json` (i tagli, i cartelli in tutte e due le lingue, i suoni, il volume
+  della musica). Le riprese e i video stanno fuori dal repository (sono grandi): `art/steam/trailer/riprese/`, `*.mp4`.
+
 ## Da fare
 
-- Il logo scelto, in versione trasparente (library logo) e piccola (small capsule).
-- L'illustrazione delle capsule (il medico davanti a una casa di Malvento, di sera), nelle misure sopra.
-- Gli screenshot a 1920 × 1080, in inglese e in italiano.
-- Il trailer (dopo).
+- Gli screenshot in italiano (`LINGUA=it node tools/prove/foto_steam.js`).
+- Il trailer in italiano (le stesse riprese con `LINGUA=it`; i cartelli italiani sono già nel montaggio).

@@ -1,0 +1,81 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Malvento · cartelli del trailer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap">
+<!-- I cartelli del trailer (tools/trailer/cartelli.js li fotografa uno per fotogramma): le frasi si scrivono come quelle
+     del gioco, nel carattere dei dialoghi (VT323), lettera per lettera col cursore a blocco che lampeggia; il cartello
+     finale ha il logo sopra la stanza del medico. Tutto dipende solo dal tempo "t" che si passa: niente animazioni. -->
+<style>
+  :root { --testo: #f0f0ec; --spento: #a7a294; --giallo: #f2d16b; --vcr: "VT323", "IBM Plex Mono", monospace; --gioco: "Silkscreen", "VT323", monospace; }
+  html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+  #frase { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 1500px; margin: 0; text-align: center;
+    font-family: var(--vcr); font-size: 112px; line-height: 1; letter-spacing: 0.04em; color: var(--testo); text-wrap: balance;
+    text-shadow: 0 0 4px #000, 4px 4px 0 #000, 0 0 26px rgba(0, 0, 0, 0.85); }
+  #frase .cursore { display: inline-block; width: 0.42em; height: 0.78em; margin-left: 0.08em; vertical-align: -0.04em; background: var(--testo);
+    box-shadow: 4px 4px 0 #000; }
+  #frase .vuoto { visibility: hidden; }
+  #finale { position: absolute; inset: 0; display: none; }
+  #sfondo { position: absolute; inset: -40px; background: #000 center / cover no-repeat; filter: blur(3px) brightness(0.32) saturate(0.85); }
+  #velo { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.75) 100%); }
+  #logo { position: absolute; left: 50%; top: 41%; width: 1080px; transform: translate(-50%, -50%); }
+  #sotto { position: absolute; left: 0; right: 0; top: 66%; margin: 0; text-align: center; font-family: var(--gioco); font-size: 30px;
+    letter-spacing: 0.24em; text-transform: uppercase; color: var(--spento); text-shadow: 3px 3px 0 #000; }
+  #invito { position: absolute; left: 0; right: 0; top: 77%; margin: 0; text-align: center; font-family: var(--gioco); font-weight: 700;
+    font-size: 44px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--giallo); text-shadow: 4px 4px 0 #000, 0 0 28px rgba(242, 209, 107, 0.25); }
+</style>
+<p id="frase"></p>
+<div id="finale">
+  <div id="sfondo"></div>
+  <div id="velo"></div>
+  <img id="logo" alt="Malvento">
+  <p id="sotto"></p>
+  <p id="invito"></p>
+</div>
+<script>
+  // come in gioco/js/parole.js: 28 ms a lettera, la meta' per gli spazi, il triplo per la punteggiatura
+  const PASSO = 28;
+  const durata = (ch) => (ch === " " ? PASSO / 2 : /[.,?!…]/.test(ch) ? PASSO * 3 : PASSO);
+  const frase = document.querySelector("#frase");
+
+  // una frase che si scrive: "t" in secondi dall'inizio del cartello; comincia a scrivere dopo "attesa" secondi
+  window.cartello = ({ testo, t, attesa = 0.12 }) => {
+    document.querySelector("#finale").style.display = "none";
+    frase.style.display = "";
+    let ms = (t - attesa) * 1000, n = 0;
+    while (n < testo.length && ms >= durata(testo[n])) { ms -= durata(testo[n]); n++; }
+    if (t < attesa) n = 0;
+    const scritte = document.createElement("span");
+    scritte.textContent = testo.slice(0, n);
+    // il resto c'e' ma non si vede: la frase non si sposta mentre si scrive
+    const resto = document.createElement("span");
+    resto.className = "vuoto";
+    resto.textContent = testo.slice(n);
+    const cursore = document.createElement("span");
+    cursore.className = "cursore";
+    // il cursore lampeggia come nel gioco (0,8 s, a scatti); mentre scrive resta acceso
+    if (n === testo.length && Math.floor((t % 0.8) / 0.4) === 1) cursore.style.visibility = "hidden";
+    frase.replaceChildren(scritte, cursore, resto);
+  };
+
+  // il cartello finale: la stanza buia e sfocata che si avvicina piano, il logo, la riga sotto, l'invito
+  window.finale = ({ t, sfondo, logo, sotto, invito, durata = 11 }) => {
+    frase.style.display = "none";
+    const f = document.querySelector("#finale");
+    f.style.display = "block";
+    const s = document.querySelector("#sfondo");
+    if (s.dataset.src !== sfondo) { s.style.backgroundImage = `url("${sfondo}")`; s.dataset.src = sfondo; }
+    s.style.transform = `scale(${1 + 0.05 * Math.min(1, t / durata)})`;
+    const l = document.querySelector("#logo");
+    if (l.getAttribute("src") !== logo) l.src = logo;
+    const dentro = (a, b) => Math.max(0, Math.min(1, (t - a) / (b - a)));
+    const morbido = (x) => x * x * (3 - 2 * x);
+    l.style.opacity = morbido(dentro(0, 0.9));
+    l.style.transform = `translate(-50%, -50%) scale(${0.97 + 0.03 * morbido(dentro(0, 2.5))})`;
+    const so = document.querySelector("#sotto");
+    so.textContent = sotto;
+    so.style.opacity = morbido(dentro(1.0, 1.8));
+    const inv = document.querySelector("#invito");
+    inv.textContent = invito;
+    inv.style.opacity = morbido(dentro(2.0, 2.8));
+  };
+</script>

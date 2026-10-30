@@ -24,3 +24,11 @@ tools/lingua/package-lock.json
 tools/lingua/parti/*_en_[0-9]*.json
 # l'illustrazione ingrandita da ESRGAN per l'hero di Steam (19 MB): si rifa con art/steam/lavori_ingrandisci.json
 art/steam/illustrazione_larga_x2.png
+
+# Il trailer (tools/trailer): le riprese fotogramma per fotogramma (GB di JPEG) e i video montati (oltre i 100 MB che
+# GitHub accetta per file) si rifanno con riprese.js e monta.py
+art/steam/trailer/riprese/
+art/steam/trailer/cartelli/
+art/steam/trailer/*.mp4
+art/steam/trailer/*.wav
+art/steam/trailer/tagli_*.jpg
