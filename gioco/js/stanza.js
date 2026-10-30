@@ -1939,6 +1939,15 @@ export class Stanza {
     this.evidenzia(null);
   }
 
+  // lo sguardo agganciato al mouse appena si entra nella stanza o si chiude un foglio (30 ottobre: «quando entri nella
+  // stanza del medico il fatto che il mouse sia scollegato alla visuale e poi si collega da fastidio»): il blocco del
+  // puntatore si chiede subito, finche' vale il clic o il tasto che ha portato qui (il browser lo concede solo a ridosso
+  // di un gesto di chi gioca; se no resta il primo clic)
+  aggancia() {
+    if (this.senzaBlocco || this.bloccato || this.seduto || !this.attiva || !this.blocca) return;
+    this.blocca(true);
+  }
+
   // libera il puntatore (per esempio quando si apre un foglio sopra la stanza)
   rilascia() {
     if (document.pointerLockElement === this.schermo) document.exitPointerLock();
@@ -2274,15 +2283,22 @@ export class Stanza {
       if (!b) this.evidenzia(null);
       this.onBlocco(b);
     });
-    document.addEventListener("pointerlockerror", () => { this.senzaBlocco = true; });
-    const blocca = () => {
+    // se il browser rifiuta il blocco chiesto da un clic, si gioca trascinando; se rifiuta quello chiesto da solo
+    // entrando nella stanza (aggancia: il gesto di chi gioca era gia' troppo lontano), resta il primo clic
+    document.addEventListener("pointerlockerror", () => {
+      if (!this.daSolo) this.senzaBlocco = true;
+      this.daSolo = false;
+    });
+    const blocca = (daSolo = false) => {
+      this.daSolo = daSolo;
       try {
         const p = this.schermo.requestPointerLock();
-        if (p && p.catch) p.catch(() => { this.senzaBlocco = true; });
+        if (p && p.catch) p.catch(() => { if (!daSolo) this.senzaBlocco = true; });
       } catch {
-        this.senzaBlocco = true;
+        if (!daSolo) this.senzaBlocco = true;
       }
     };
+    this.blocca = blocca;
     this.schermo.addEventListener("pointerdown", (e) => {
       if (!this.attiva || fuori(e) || this.giu || (e.pointerType === "mouse" && e.button !== 0)) return;
       if (this.seduto) {

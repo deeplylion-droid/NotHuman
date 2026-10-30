@@ -855,6 +855,7 @@ function vaiStanza(dove = "inizio") {
   stanza.adatta(larghezza3d());
   stanza.giornale(S.giornale || D.GIORNALE);
   stanza.entra(dove);
+  agganciaStanza();
   // si rientra dalla porta di casa (dalla mappa, o la sera al coprifuoco)
   if (dove === "porta") suoni.suona("porta", { volume: 0.7 });
   mostra(stanza.canvas, IMG.scrivania.src);
@@ -862,6 +863,11 @@ function vaiStanza(dove = "inizio") {
   tasti();
   aiutoStanza();
   aggiornaHud();
+}
+
+// col mouse lo sguardo si aggancia subito (non col dito, non col controller)
+function agganciaStanza() {
+  if (stanza && S.schermo === "stanza" && !tocco() && !stanza.conLeva) stanza.aggancia();
 }
 
 // il suggerimento della stanza: col mouse si clicca per girare lo sguardo (Esc libera il puntatore), col dito si
@@ -971,6 +977,7 @@ function apriFoglio(tipo, contenuto) {
 function chiudiFoglio() {
   if (foglio.dataset.bloccato === "1") return R.indietroFoglio?.();
   foglio.hidden = true;
+  agganciaStanza();
 }
 
 // il fax della ditta: il protocollo del giorno a simboli, da capire in un colpo d'occhio

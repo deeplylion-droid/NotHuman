@@ -43,8 +43,11 @@ TAGLIA = {"passo1": 0.5, "passo2": 0.5, "passo3": 0.5}
 # (chitarra), c (violoncello), d ed e (la c meno horror); poi la scelta: «mettimi visita M nel titolo, ma falla partire
 # da circa 33 secondi». Un brano puo' essere (nome, secondi da cui comincia): il pezzo prima si toglie, e l'anello
 # del gioco riparte da li'
-# le visite: dopo la j, «cambiamo un po' di più»: cinque strade (n, o, p, q, r); scelta la r, il quartetto d'archi
-MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_a", "visita": "visita_r",
+# le visite: dopo la j, «cambiamo un po' di più»: cinque strade (n, o, p, q, r); scelta la r, il quartetto d'archi.
+# Il 30 ottobre: «la musica delle visite ha un tratto lunghissimo iniziale che da fastidio, vanno tagliati i primi 30
+# secondi circa» (l'ostinato veloce dell'inizio): parte da 29,17 s, su un attacco, con 0,12 s di dissolvenza in entrata.
+# Un brano puo' essere anche (nome, secondi da cui comincia, secondi di dissolvenza all'inizio)
+MUSICA = {"stanza_giorno": "stanza_giorno_a", "stanza_sera": "stanza_sera_a", "visita": ("visita_r", 29.17, 0.12),
           "titolo": ("visita_m", 33)}
 
 
@@ -127,15 +130,16 @@ def musica():
     out = OUT / "musica"
     out.mkdir(parents=True, exist_ok=True)
     for nome, fonte in MUSICA.items():
-        fonte, inizio = fonte if isinstance(fonte, tuple) else (fonte, 0)
+        fonte, inizio, sfuma = (fonte + (0,))[:3] if isinstance(fonte, tuple) else (fonte, 0, 0)
         f = ROOT / "art/musica" / f"{fonte}.mp3"
         taglio = ["-ss", str(inizio)] if inizio else []
+        entrata = f",afade=t=in:d={sfuma}" if sfuma else ""
         # l'intensita' di adesso (del pezzo che resta), per portarla a -18 LUFS con un guadagno fisso (i brani escono
         # tutti piu' forti: si abbassano soltanto, quindi niente picchi)
         r = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", *taglio, "-i", str(f), "-af", "ebur128", "-f", "null", "-"],
                            capture_output=True, text=True)
         prima = float(re.findall(r"I:\s+(-?[\d.]+) LUFS", r.stderr)[-1])
-        subprocess.run(["ffmpeg", "-v", "error", "-y", *taglio, "-i", str(f), "-af", f"volume={-18 - prima:.2f}dB", "-ac", "2",
+        subprocess.run(["ffmpeg", "-v", "error", "-y", *taglio, "-i", str(f), "-af", f"volume={-18 - prima:.2f}dB{entrata}", "-ac", "2",
                         "-ar", str(SR), "-c:a", "libmp3lame", "-b:a", "96k", str(out / f"{nome}.mp3")], check=True)
         da = f" da {inizio} s" if inizio else ""
         print(f"{nome:14s} <- {fonte + da:16s} {prima:6.1f} LUFS -> -18, {(out / f'{nome}.mp3').stat().st_size // 1024} KB")
