@@ -10,9 +10,15 @@ const path = require('path');
   const out = process.argv[2];
   const lingua = process.env.LINGUA || 'en';
   const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--autoplay-policy=no-user-gesture-required'] });
-  const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   const errori = [];
-  page.on('pageerror', (e) => errori.push(`pageerror: ${e}`));
+  // ogni parte in una pagina nuova: cambiare solo il # dell'indirizzo non ricarica il gioco
+  let page = null;
+  const apri = async (url) => {
+    if (page) await page.close();
+    page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+    page.on('pageerror', (e) => errori.push(`pageerror: ${e}`));
+    await page.goto(url);
+  };
   const CATALOGO = lingua === 'en' ? (await import(path.resolve(__dirname, '../../gioco/js/lingua_en.js'))).CATALOGO : null;
   const L = (s) => (CATALOGO?.[s] ?? s);
   const foto = async (nome) => {
@@ -29,7 +35,7 @@ const path = require('path');
 
   // il titolo
   await passo('titolo', async () => {
-    await page.goto(`http://127.0.0.1:8765/index.html#-${lingua}`);
+    await apri(`http://127.0.0.1:8765/index.html#-${lingua}`);
     await page.waitForSelector('#foglio .ti-nome img', { timeout: 240000 });
     await page.waitForTimeout(4000);
     await page.keyboard.press('Shift');
@@ -39,7 +45,7 @@ const path = require('path');
   });
 
   // la partita, dalla stanza del medico
-  await page.goto(`http://127.0.0.1:8765/index.html#prova-${lingua}`);
+  await apri(`http://127.0.0.1:8765/index.html#prova-${lingua}`);
   await page.waitForFunction(() => document.querySelector('#schermo')?.dataset.schermo === 'stanza' && window.prova?.stanza(), null, { timeout: 240000 });
   await page.waitForTimeout(3000);
   await salta(); await libero();
@@ -136,7 +142,10 @@ const path = require('path');
 
   // il terzo giorno: la cripta della casa 7
   await passo('cripta', async () => {
-    await page.goto(`http://127.0.0.1:8765/index.html#giorno3-${lingua}`);
+    // con #giorno3 non ci sono gli strumenti della prova: si parte da #prova e si salta al terzo giorno
+    await apri(`http://127.0.0.1:8765/index.html#prova-${lingua}`);
+    await page.waitForFunction(() => document.querySelector('#schermo')?.dataset.schermo === 'stanza' && window.prova?.stanza(), null, { timeout: 240000 });
+    await page.evaluate(() => window.prova.saltaAlGiorno3());
     await page.waitForFunction(() => window.prova?.S?.giorno === 3 && document.querySelector('#schermo')?.dataset.schermo === 'stanza', null, { timeout: 240000 });
     await page.waitForTimeout(2000); await salta(); await libero(); await chiudi();
     await page.evaluate(() => { window.prova.vaiMappa(); window.prova.S.ora = 600; });
