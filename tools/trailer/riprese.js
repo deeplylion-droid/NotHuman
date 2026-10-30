@@ -139,6 +139,13 @@ class Set {
     return this.finche(() => !document.querySelector('#parole .frase:not(.ferma)') && !window.prova.R().occupato, null, max);
   }
 
+  // la ripresa c'e' gia' tutta su disco (dopo un riavvio si riparte da dove si era; RIFAI=1 le rifa' tutte)
+  fatta(nome, secondi) {
+    if (process.env.RIFAI) return false;
+    const dir = path.join(USCITA, nome);
+    return fs.existsSync(dir) && fs.readdirSync(dir).filter((f) => f.endsWith('.jpg')).length >= Math.round(secondi * FPS);
+  }
+
   // una ripresa: "secondi" di fotogrammi; prima di ogni fotogramma "ogni(i, n)" muove il puntatore, clicca... Con
   // "camera(i, n)" la videocamera si avvicina: il rettangolo della pagina da riprendere ({x, y, w}, in 16:9), che
   // Chrome ridisegna più grande (i fogli e le scritte restano nitidi), sempre a 1920 x 1080
@@ -459,7 +466,8 @@ const GRUPPI = {
     await set.quiete();
     await page.evaluate(() => { const f = document.querySelector('#foglio'); f.dataset.bloccato = '0'; f.hidden = true; window.prova.vaiMappa(); window.prova.S.ora = 480; });
     // ogni posto: si entra una volta per caricarlo, poi la ripresa dell'arrivo
-    const posto = async (nome, casa, luogo, secondi = 4, dopo) => {
+    const posto = async (nome, casa, luogo, secondi = 4, dopo, altre = []) => {
+      if (set.fatta(nome, secondi) && altre.every(([n, s]) => set.fatta(n, s))) { console.log(`ripresa ${nome}: c'e' gia'`); return; }
       await page.evaluate((c) => { window.prova.vai(c); }, casa);
       await set.vero(4000);
       await set.quiete();
@@ -482,7 +490,7 @@ const GRUPPI = {
       await set.gira('radicato_mani', 4, async (i) => { await versoMani(i); if (i === 26) await page.mouse.click(...set.mouse); });
       await set.quiete();
       for (let k = 0; k < 6 && await page.evaluate(() => !!window.prova.R().primo); k++) { await set.premi('Escape'); await set.avanti(500); }
-    });
+    }, [['radicato_mani', 4]]);
     await posto('allungato', 'casa5', null);
     await posto('bozzolo', 'casa5', 'cantina5');
     await posto('gemelle', 'casa4', null);
@@ -493,7 +501,7 @@ const GRUPPI = {
       await set.muovi([1100, 500]);
       const versoMaschera = set.mossa(maschera, 2, 26);
       await set.gira('maschera', 9, async (i) => { await versoMaschera(i); if (i === 30) await page.mouse.click(...set.mouse); });
-    });
+    }, [['maschera', 9]]);
   },
 
   // la stanza del medico in 3D, di giorno: lo sguardo scivola dalla finestra nella nebbia alla scrivania

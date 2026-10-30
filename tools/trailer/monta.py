@@ -117,6 +117,8 @@ def fotogramma(taglio, sorgente, j, fps, w, h):
     im = sorgente(a)
     if v != 1 and pos - a > 0.01:
         im = Image.blend(im, sorgente(a + 1), pos - a)
+    if taglio.get("cursore_via"):
+        im = senza_cursore(im)
     z0, z1 = taglio.get("zoom", [1, 1])
     if z0 != 1 or z1 != 1:
         n = max(1, taglio["_n"] - 1)
@@ -135,6 +137,19 @@ def fotogramma(taglio, sorgente, j, fps, w, h):
         y0 = min(max(0, cy * H - ch / 2), H - ch)
         return im.resize((w, h), Image.BICUBIC, box=(x0, y0, x0 + cw, y0 + ch))
     return im if im.size == (w, h) else im.resize((w, h), Image.BICUBIC)
+
+
+def senza_cursore(im):
+    """il cerchio del cursore del gioco, rimasto nell'angolo in alto a sinistra dove sta prima che il puntatore si muova
+    (in alcune riprese il puntatore non è passato sullo schermo): coperto col pezzo di quadro appena sotto, senza
+    toccare i soldi lì accanto"""
+    im = im.copy()
+    W = im.width / 1920
+    # lo schermo del gioco comincia a (24, 22): l'anello va da lì a (49, 46); il bordo nero intorno resta com'è
+    x0, y0, x1, y1 = (round(v * W) for v in (24, 22, 51, 48))
+    sotto = im.crop((x0, y1, x1, y1 + (y1 - y0)))
+    im.paste(sotto, (x0, y0))
+    return im
 
 
 def foglio_tagli(M, lingua, uscita):

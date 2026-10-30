@@ -5,7 +5,7 @@
   "musica": {
     "file": "art/steam/trailer/musica/trailer_c.mp3",
     "db": 0,
-    "volume": [[0, 1], [52.4, 1], [52.47, 0.03], [54.3, 0.03], [54.33, 1], [84, 1]]
+    "volume": [[0, 1], [52.36, 1], [52.56, 0.03], [54.3, 0.03], [54.33, 1], [84, 1]]
   },
   "cartelli": {
     "peste": {"en": "THE PLAGUE IS BACK.", "it": "LA PESTE È TORNATA."},
@@ -24,7 +24,7 @@
   "tagli": [
     {"da": 0.0, "ripresa": "arrivo", "dal": 0.0, "entra": 0.3},
     {"da": 5.0, "cartello": "peste"},
-    {"da": 8.5, "ripresa": "stanza", "dal": 0.6},
+    {"da": 8.5, "ripresa": "stanza", "dal": 0.6, "cursore_via": true},
     {"da": 11.99, "ripresa": "fax", "dal": 0.0},
     {"da": 16.48, "ripresa": "mappa", "dal": 0.1},
     {"da": 19.48, "ripresa": "domanda", "dal": 0.9},
@@ -34,33 +34,36 @@
     {"da": 37.45, "ripresa": "stato", "dal": 0.6, "zoom": [1.15, 1.6], "centro": [[0.5, 0.3], [0.38, 0.25]], "morbido": true},
     {"da": 41.94, "cartello": "caldi"},
     {"da": 44.19, "ripresa": "infrarosso", "dal": 0.3},
-    {"da": 47.93, "ripresa": "nastro_notte", "dal": 0.0},
-    {"da": 49.43, "ripresa": "mappa_notte", "dal": 1.0},
-    {"da": 50.93, "ripresa": "giornale", "dal": 0.6},
+    {"da": 47.93, "ripresa": "nastro_notte", "dal": 1.25, "zoom": [1.0, 1.06], "centro": [0.45, 0.45], "cursore_via": true},
+    {"da": 49.43, "ripresa": "mappa_notte", "dal": 1.0, "cursore_via": true},
+    {"da": 50.93, "ripresa": "giornale", "dal": 0.3, "zoom": [1.0, 1.12], "centro": [0.42, 0.3]},
     {"da": 52.43, "cartello": "nessuno"},
-    {"da": 54.33, "ripresa": "madre", "dal": 0.6},
-    {"da": 55.42, "ripresa": "radicato", "dal": 2.2, "zoom": [1.0, 1.12], "centro": [0.62, 0.5]},
-    {"da": 56.92, "ripresa": "madre_bocca", "dal": 1.6},
+    {"da": 54.33, "ripresa": "madre", "dal": 0.15, "zoom": [1.04, 1.16], "centro": [0.5, 0.3], "cursore_via": true},
+    {"da": 55.42, "ripresa": "madre_bocca", "dal": 0.0},
+    {"da": 56.92, "ripresa": "radicato", "dal": 2.2, "zoom": [1.0, 1.12], "centro": [0.62, 0.5], "cursore_via": true},
     {"da": 58.42, "ripresa": "allungato", "dal": 1.6, "zoom": [1.0, 1.08], "centro": [0.6, 0.3]},
     {"da": 59.91, "ripresa": "bozzolo", "dal": 1.6, "zoom": [1.0, 1.08], "centro": [0.5, 0.35]},
-    {"da": 61.41, "ripresa": "gemelle", "dal": 0.6},
-    {"da": 62.91, "ripresa": "nuora", "dal": 0.6},
+    {"da": 61.41, "ripresa": "gemelle", "dal": 2.4, "zoom": [1.0, 1.07], "centro": [0.5, 0.3], "cursore_via": true},
+    {"da": 62.91, "ripresa": "nuora", "dal": 2.2, "zoom": [1.0, 1.08], "centro": [0.5, 0.3], "cursore_via": true},
     {"da": 64.41, "ripresa": "radicato_mani", "dal": 2.6},
-    {"da": 65.91, "ripresa": "santa", "dal": 0.6},
+    {"da": 65.91, "ripresa": "santa", "dal": 1.6, "zoom": [1.0, 1.08], "centro": [0.52, 0.32], "cursore_via": true},
     {"da": 67.4, "cartello": "cambiano"},
-    {"da": 69.65, "ripresa": "maschera", "dal": 1.5},
+    {"da": 69.65, "ripresa": "maschera", "dal": 5.9},
     {"da": 72.71, "finale": true, "esce": 1.4},
     {"da": 84.0}
   ],
   "suoni": [
-    {"t": 0.15, "suono": "rec", "db": -4},
     {"t": 0.0, "suono": "cucina", "durata": 5.0, "db": -10},
+    {"t": 0.15, "suono": "rec", "db": -4},
     {"t": 8.5, "suono": "vento", "durata": 3.5, "db": -8},
     {"t": 12.26, "suono": "fax", "durata": 3.7, "db": -3},
+    {"t": 28.47, "suono": "contraddizione", "db": -2},
+    {"t": 39.12, "suono": "timbro", "db": -2},
+    {"t": 41.52, "suono": "interruttore", "db": -6},
     {"t": 44.19, "suono": "videoregistratore", "db": -6},
+    {"t": 44.89, "suono": "interruttore", "db": -6},
     {"t": 47.93, "suono": "malvento", "db": -1},
     {"t": 50.93, "suono": "giornale", "db": -4},
-    {"t": 52.43, "suono": "vento", "durata": 1.9, "db": -9, "sfuma": 0.3},
-    {"t": 28.47, "suono": "contraddizione", "db": -2}
+    {"t": 52.43, "suono": "vento", "durata": 1.9, "db": -9, "sfuma": 0.3}
   ]
 }
