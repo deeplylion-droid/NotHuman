@@ -1055,7 +1055,10 @@ export function giorno3(ieri) {
   return {
     PERSONE, VOCI, NASCOSTI: {}, LUOGHI, ARRIVO, PORTE, ESAMI, DOMANDE, DICHIARAZIONI, PROVE, CONTESTAZIONI, REAZIONI, ANNOTA,
     ANAGRAFE, ALTRI, CACCIATA, CASE, OSPITE,
-    SOLDI: { ...D1.SOLDI, paziente: 500, profilo: 800 },
+    // il profilo (i sani) adesso vale da solo le spese di una sera
+    SOLDI: { ...D1.SOLDI, paziente: 50, profilo: 150 },
+    SPESE: { affitto: 50, cena: 25, luce: 30, stufa: 30,
+      nota: T("Il gasolio è rincarato di nuovo, e l'affitto con lui. La ditta, invece, paga i sani come mai.") },
     // il protocollo: i segni di ieri; il profilo adesso sono i sani esposti al contagio (chi non si ammala)
     FAX: {
       giorno: 3, case: [3, 5, 2, 10, 7, 4],

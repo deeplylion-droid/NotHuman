@@ -1,0 +1,417 @@
+{
+ "offri 20 € al padre": {
+  "dove": [
+   "dati.js:150"
+  ],
+  "riga": "{ testo: T(\"offri 20 € al padre\"), minuti: 5, soldi: 20,"
+ },
+ "Venti euro, e non ho visto niente.": {
+  "dove": [
+   "dati.js:151",
+   "giorno2.js:307"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Venti euro, e non ho visto niente.\")], [\"PADRE\", T(\"[prende i soldi]\"), { volto: \"nervoso\" }],"
+ },
+ "offri 20 € all'uomo": {
+  "dove": [
+   "dati.js:168"
+  ],
+  "riga": "{ testo: T(\"offri 20 € all'uomo\"), minuti: 5, soldi: 20,"
+ },
+ "Venti euro per aprire.": {
+  "dove": [
+   "dati.js:169"
+  ],
+  "riga": "dice: [[\"TU\", T(\"Venti euro per aprire.\")], [\"UOMO\", T(\"Non sono in vendita, dottore.\"), { volto: \"arrabbiato\" }]] },"
+ },
+ "Tiepido. Il gasolio lo paghi tu, sera per sera.": {
+  "dove": [
+   "dati.js:512"
+  ],
+  "riga": "termosifone: { sempre: [T(\"Tiepido. Il gasolio lo paghi tu, sera per sera.\")] },"
+ },
+ "La lampada non si accende: hanno staccato la luce.": {
+  "dove": [
+   "gioco.js:970"
+  ],
+  "riga": "return dici([[null, S.senza.luce ? T(\"La lampada non si accende: hanno staccato la luce.\")"
+ },
+ "a timbro giusto": {
+  "dove": [
+   "gioco.js:1006"
+  ],
+  "riga": "paga.append(segnoFax(\"timbro\", `${D.SOLDI.certificato} €`, T(\"a timbro giusto\"), \"piccolo\"),"
+ },
+ "Sei in debito con la padrona di casa.": {
+  "dove": [
+   "gioco.js:1119"
+  ],
+  "riga": "...(S.soldi < 0 ? [el(\"p\", \"ct-male\", T(\"Sei in debito con la padrona di casa.\"))] : []),"
+ },
+ "Stasera: l'affitto {0} €, {1} € per ogni cassetta usata. Se bastano i soldi: la cena {2} €, la luce {3} €, la stufa {4} €.": {
+  "dove": [
+   "gioco.js:1120"
+  ],
+  "riga": "el(\"p\", null, T`Stasera: l'affitto ${sp.affitto} €, ${s.cassetta} € per ogni cassetta usata. Se bastano i soldi: la cena ${sp.cena} €, la luce ${sp.luce} €, la stufa ${sp.stufa} €.`),"
+ },
+ "La ditta paga {0} € per ogni persona timbrata giusta, anche sana, e {1} € di multa per ogni timbro sbagliato; {2} € a paziente consegnato, {3} € in più per il profilo richiesto.": {
+  "dove": [
+   "gioco.js:1121"
+  ],
+  "riga": "el(\"p\", null, T`La ditta paga ${s.certificato} € per ogni persona timbrata giusta, anche sana, e ${s.multa} € di multa per ogni timbro sbagliato; ${s.paziente} € a paziente consegnato, ${s.profilo} € in più per il profilo richiesto.`),"
+ },
+ "la brandina non c'è più": {
+  "dove": [
+   "gioco.js:2059"
+  ],
+  "riga": ": S.senza.brandina ? T(\"la brandina non c'è più\") : !sano ? T(\"solo chi è sano\") : preso ? T`c'è già ${D.PERSONE[S.ospite].nome}`"
+ },
+ "Niente corrente: il videoregistratore è spento, i nastri di oggi restano muti.": {
+  "dove": [
+   "gioco.js:2545"
+  ],
+  "riga": "if (S.senza.luce && stanza) return dici([[null, T(\"Niente corrente: il videoregistratore è spento, i nastri di oggi restano muti.\")],"
+ },
+ "La bolletta della luce non l'hai pagata.": {
+  "dove": [
+   "gioco.js:2546"
+  ],
+  "riga": "[null, T(\"La bolletta della luce non l'hai pagata.\")]], false, false);"
+ },
+ "Timbri giusti": {
+  "dove": [
+   "gioco.js:2865"
+  ],
+  "riga": "ditta.append(voce(T(\"Timbri giusti\"), `${c.giusti} × ${s.certificato} €`, c.giusti * s.certificato));"
+ },
+ "Timbri sbagliati: multa": {
+  "dove": [
+   "gioco.js:2866"
+  ],
+  "riga": "if (c.sbagliati) ditta.append(voce(T(\"Timbri sbagliati: multa\"), `${c.sbagliati} × ${s.multa} €`, -c.sbagliati * s.multa, \"ct-male\"));"
+ },
+ "Pazienti consegnati": {
+  "dove": [
+   "gioco.js:2867"
+  ],
+  "riga": "if (c.pazienti) ditta.append(voce(T(\"Pazienti consegnati\"), `${c.pazienti} × ${s.paziente} €`, c.pazienti * s.paziente));"
+ },
+ "Profilo richiesto": {
+  "dove": [
+   "gioco.js:2868"
+  ],
+  "riga": "if (c.profilo) ditta.append(voce(T(\"Profilo richiesto\"), `${c.profilo} × ${s.profilo} €`, c.profilo * s.profilo));"
+ },
+ "L'affitto": {
+  "dove": [
+   "gioco.js:2870"
+  ],
+  "riga": "fisse.append(voce(T(\"L'affitto\"), T(\"la padrona di casa\"), -sp.affitto),"
+ },
+ "la padrona di casa": {
+  "dove": [
+   "gioco.js:2870"
+  ],
+  "riga": "fisse.append(voce(T(\"L'affitto\"), T(\"la padrona di casa\"), -sp.affitto),"
+ },
+ "Le cassette": {
+  "dove": [
+   "gioco.js:2871"
+  ],
+  "riga": "voce(T(\"Le cassette\"), `${c.cassette} × ${s.cassetta} €`, -c.cassette * s.cassetta));"
+ },
+ "domani non si mangia": {
+  "dove": [
+   "gioco.js:2873"
+  ],
+  "riga": "const senza = { cena: T(\"domani non si mangia\"), luce: T(\"domani niente corrente\"), stufa: T(\"stanotte si gela\") };"
+ },
+ "domani niente corrente": {
+  "dove": [
+   "gioco.js:2873"
+  ],
+  "riga": "const senza = { cena: T(\"domani non si mangia\"), luce: T(\"domani niente corrente\"), stufa: T(\"stanotte si gela\") };"
+ },
+ "stanotte si gela": {
+  "dove": [
+   "gioco.js:2873"
+  ],
+  "riga": "const senza = { cena: T(\"domani non si mangia\"), luce: T(\"domani niente corrente\"), stufa: T(\"stanotte si gela\") };"
+ },
+ "La cena": {
+  "dove": [
+   "gioco.js:2874"
+  ],
+  "riga": "const nomi = { cena: T(\"La cena\"), luce: T(\"La luce\"), stufa: T(\"La stufa\") };"
+ },
+ "La luce": {
+  "dove": [
+   "gioco.js:2874"
+  ],
+  "riga": "const nomi = { cena: T(\"La cena\"), luce: T(\"La luce\"), stufa: T(\"La stufa\") };"
+ },
+ "La stufa": {
+  "dove": [
+   "gioco.js:2874"
+  ],
+  "riga": "const nomi = { cena: T(\"La cena\"), luce: T(\"La luce\"), stufa: T(\"La stufa\") };"
+ },
+ "pagata": {
+  "dove": [
+   "gioco.js:2887"
+  ],
+  "riga": "b.querySelector(\"small\").textContent = paga[v] ? T(\"pagata\") : b.disabled ? T`non bastano · ${senza[v]}` : senza[v];"
+ },
+ "non bastano · {0}": {
+  "dove": [
+   "gioco.js:2887"
+  ],
+  "riga": "b.querySelector(\"small\").textContent = paga[v] ? T(\"pagata\") : b.disabled ? T`non bastano · ${senza[v]}` : senza[v];"
+ },
+ "I soldi non bastano per l'affitto: resti in debito con la padrona di casa.": {
+  "dove": [
+   "gioco.js:2889"
+  ],
+  "riga": "avviso.textContent = r < 0 ? T(\"I soldi non bastano per l'affitto: resti in debito con la padrona di casa.\") : \"\";"
+ },
+ "Stanotte nella stanzetta c'è anche {0}: mangia e dorme qui.": {
+  "dove": [
+   "gioco.js:2904"
+  ],
+  "riga": "const ospite = S.ospite ? [el(\"p\", \"ct-nota\", T`Stanotte nella stanzetta c'è anche ${D.PERSONE[S.ospite].nome}: mangia e dorme qui.`)] : [];"
+ },
+ "Restano": {
+  "dove": [
+   "gioco.js:2906"
+  ],
+  "riga": "resto.append(el(\"span\", null, T(\"Restano\")), resta);"
+ },
+ "I conti": {
+  "dove": [
+   "gioco.js:2910"
+  ],
+  "riga": "el(\"h2\", null, T(\"I conti\")),"
+ },
+ "In tasca: {0}{1} €": {
+  "dove": [
+   "gioco.js:2912"
+  ],
+  "riga": "el(\"p\", \"ct-tasca\", T`In tasca: ${S.soldi < 0 ? \"−\" : \"\"}${Math.abs(S.soldi)} €`),"
+ },
+ "La ditta": {
+  "dove": [
+   "gioco.js:2913"
+  ],
+  "riga": "el(\"h3\", null, T(\"La ditta\")), ditta,"
+ },
+ "Le spese": {
+  "dove": [
+   "gioco.js:2914"
+  ],
+  "riga": "el(\"h3\", null, T(\"Le spese\")), fisse, scelte,"
+ },
+ "Dormi": {
+  "dove": [
+   "gioco.js:2916"
+  ],
+  "riga": "azioni([[S.senza.luce ? T(\"Dormi\") : T(\"Spegni la luce e dormi\"), () => {"
+ },
+ "Spegni la luce e dormi": {
+  "dove": [
+   "gioco.js:2916"
+  ],
+  "riga": "azioni([[S.senza.luce ? T(\"Dormi\") : T(\"Spegni la luce e dormi\"), () => {"
+ },
+ "{0} dalla ditta, −{1} € di spese: restano {2}{3} €.": {
+  "dove": [
+   "gioco.js:3007"
+  ],
+  "riga": "riga(T(\"Soldi \"), T`${euro(n.conti.ditta)} dalla ditta, −${n.conti.spese} € di spese: restano ${S.soldi < 0 ? \"−\" : \"\"}${Math.abs(S.soldi)} €.`),"
+ },
+ "Stanotte ": {
+  "dove": [
+   "gioco.js:3008"
+  ],
+  "riga": "...(n.conti.mancano.length || S.soldi < 0 ? [riga(T(\"Stanotte \"), [...n.conti.mancano.map((v) => ({ cena: T(\"niente cena\"),"
+ },
+ "niente cena": {
+  "dove": [
+   "gioco.js:3008"
+  ],
+  "riga": "...(n.conti.mancano.length || S.soldi < 0 ? [riga(T(\"Stanotte \"), [...n.conti.mancano.map((v) => ({ cena: T(\"niente cena\"),"
+ },
+ "niente luce": {
+  "dove": [
+   "gioco.js:3009"
+  ],
+  "riga": "luce: T(\"niente luce\"), stufa: T(\"niente stufa\") })[v]), ...(S.soldi < 0 ? [T`${-S.soldi} € di debito`] : [])].join(\", \") + \".\")] : []),"
+ },
+ "niente stufa": {
+  "dove": [
+   "gioco.js:3009"
+  ],
+  "riga": "luce: T(\"niente luce\"), stufa: T(\"niente stufa\") })[v]), ...(S.soldi < 0 ? [T`${-S.soldi} € di debito`] : [])].join(\", \") + \".\")] : []),"
+ },
+ "{0} € di debito": {
+  "dove": [
+   "gioco.js:3009"
+  ],
+  "riga": "luce: T(\"niente luce\"), stufa: T(\"niente stufa\") })[v]), ...(S.soldi < 0 ? [T`${-S.soldi} € di debito`] : [])].join(\", \") + \".\")] : []),"
+ },
+ "Ieri sera non hai cenato. Sul tavolino è rimasto il piatto: due croste di pane. Oggi non si mangia.": {
+  "dove": [
+   "gioco.js:3565"
+  ],
+  "riga": "r.push(T(\"Ieri sera non hai cenato. Sul tavolino è rimasto il piatto: due croste di pane. Oggi non si mangia.\"));"
+ },
+ "Le croste le hai divise con {0}, che non ha detto niente.": {
+  "dove": [
+   "gioco.js:3566"
+  ],
+  "riga": "if (chi) r.push(T`Le croste le hai divise con ${chi}, che non ha detto niente.`);"
+ },
+ "La fame ti tiene a letto fino a tardi.": {
+  "dove": [
+   "gioco.js:3567"
+  ],
+  "riga": "r.push(T(\"La fame ti tiene a letto fino a tardi.\"));"
+ },
+ "Hanno staccato la luce: la bolletta non l'hai pagata. La lampadina non si accende, il videoregistratore è spento.": {
+  "dove": [
+   "gioco.js:3569"
+  ],
+  "riga": "if (s.luce) r.push(T(\"Hanno staccato la luce: la bolletta non l'hai pagata. La lampadina non si accende, il videoregistratore è spento.\"));"
+ },
+ "Stanotte la stufa è rimasta spenta. Sui vetri c'è il ghiaccio, e tossisci dentro la maschera.": {
+  "dove": [
+   "gioco.js:3571"
+  ],
+  "riga": "r.push(T(\"Stanotte la stufa è rimasta spenta. Sui vetri c'è il ghiaccio, e tossisci dentro la maschera.\"));"
+ },
+ "{0} ha dormito col cappotto addosso, a tremare.": {
+  "dove": [
+   "gioco.js:3572"
+  ],
+  "riga": "if (chi) r.push(T`${maiuscolaIniziale(chi)} ha dormito col cappotto addosso, a tremare.`);"
+ },
+ "Le famiglie si fidano meno di un medico che tossisce.": {
+  "dove": [
+   "gioco.js:3573"
+  ],
+  "riga": "r.push(T(\"Le famiglie si fidano meno di un medico che tossisce.\"));"
+ },
+ "La padrona di casa si è ripresa la brandina della stanzetta: finché non paghi, niente ospiti.": {
+  "dove": [
+   "gioco.js:3575"
+  ],
+  "riga": "if (s.debito) r.push(s.brandina ? T(\"La padrona di casa si è ripresa la brandina della stanzetta: finché non paghi, niente ospiti.\")"
+ },
+ "Sotto la porta c'è un biglietto della padrona di casa.": {
+  "dove": [
+   "gioco.js:3576"
+  ],
+  "riga": ": T(\"Sotto la porta c'è un biglietto della padrona di casa.\"));"
+ },
+ "Il piatto di ieri sera: due croste di pane, dure come il legno.": {
+  "dove": [
+   "gioco.js:3584"
+  ],
+  "riga": "if (id === \"tavolo\" && s.cena) return [T(\"Il piatto di ieri sera: due croste di pane, dure come il legno.\"), T(\"Oggi non si mangia.\")];"
+ },
+ "Oggi non si mangia.": {
+  "dove": [
+   "gioco.js:3584"
+  ],
+  "riga": "if (id === \"tavolo\" && s.cena) return [T(\"Il piatto di ieri sera: due croste di pane, dure come il legno.\"), T(\"Oggi non si mangia.\")];"
+ },
+ "Gelato. Il gasolio, ieri sera, non l'hai pagato.": {
+  "dove": [
+   "gioco.js:3585"
+  ],
+  "riga": "if (id === \"termosifone\" && s.stufa) return [T(\"Gelato. Il gasolio, ieri sera, non l'hai pagato.\"), T(\"Sui vetri c'è il ghiaccio.\")];"
+ },
+ "Sui vetri c'è il ghiaccio.": {
+  "dove": [
+   "gioco.js:3585"
+  ],
+  "riga": "if (id === \"termosifone\" && s.stufa) return [T(\"Gelato. Il gasolio, ieri sera, non l'hai pagato.\"), T(\"Sui vetri c'è il ghiaccio.\")];"
+ },
+ "La radiosveglia è spenta. Senza corrente, l'ora la dice solo il campanile.": {
+  "dove": [
+   "gioco.js:3586"
+  ],
+  "riga": "if (id === \"orologio\" && s.luce) return [T(\"La radiosveglia è spenta. Senza corrente, l'ora la dice solo il campanile.\")];"
+ },
+ "La stanzetta è vuota: la padrona di casa si è ripresa la brandina.": {
+  "dove": [
+   "gioco.js:3587"
+  ],
+  "riga": "if (id === \"ospite\" && s.brandina) return [T(\"La stanzetta è vuota: la padrona di casa si è ripresa la brandina.\"),"
+ },
+ "«Dottore. Sono due notti che non paga. Mi riprendo la brandina: l'ospite se lo porti a casa sua.»": {
+  "dove": [
+   "gioco.js:3596"
+  ],
+  "riga": "? [T(\"«Dottore. Sono due notti che non paga. Mi riprendo la brandina: l'ospite se lo porti a casa sua.»\"),"
+ },
+ "«Mi deve ancora {0} euro. La padrona.»": {
+  "dove": [
+   "gioco.js:3597"
+  ],
+  "riga": "T`«Mi deve ancora ${manca} euro. La padrona.»`]"
+ },
+ "«Dottore, l'affitto di ieri sera non c'è tutto. Mancano {0} euro.»": {
+  "dove": [
+   "gioco.js:3598"
+  ],
+  "riga": ": [T`«Dottore, l'affitto di ieri sera non c'è tutto. Mancano ${manca} euro.»`, T(\"«Qui la gente paga. Anche i medici. La padrona.»\")];"
+ },
+ "«Qui la gente paga. Anche i medici. La padrona.»": {
+  "dove": [
+   "gioco.js:3598"
+  ],
+  "riga": ": [T`«Dottore, l'affitto di ieri sera non c'è tutto. Mancano ${manca} euro.»`, T(\"«Qui la gente paga. Anche i medici. La padrona.»\")];"
+ },
+ "offri 20 € alla suocera": {
+  "dove": [
+   "giorno2.js:306"
+  ],
+  "riga": "{ testo: T(\"offri 20 € alla suocera\"), minuti: 5, soldi: 20,"
+ },
+ "La padrona di casa ha alzato l'affitto: «Con la peste in casa, chi ci viene più a dormire?». E di notte gela.": {
+  "dove": [
+   "giorno2.js:877"
+  ],
+  "riga": "nota: T(\"La padrona di casa ha alzato l'affitto: «Con la peste in casa, chi ci viene più a dormire?». E di notte gela.\") },"
+ },
+ "Il gasolio è rincarato di nuovo, e l'affitto con lui. La ditta, invece, paga i sani come mai.": {
+  "dove": [
+   "giorno3.js:1061"
+  ],
+  "riga": "nota: T(\"Il gasolio è rincarato di nuovo, e l'affitto con lui. La ditta, invece, paga i sani come mai.\") },"
+ },
+ "Il biglietto della padrona": {
+  "dove": [
+   "stanza.js:75"
+  ],
+  "riga": "biglietto: { nome: T(\"Il biglietto della padrona\"), sosta: [-1.45, 2.05], guarda: [-1.4, 0.0, 2.72] },"
+ },
+ "Dottore,": {
+  "dove": [
+   "stanza.js:576"
+  ],
+  "riga": "g.fillText(T(\"Dottore,\"), 0, 0);"
+ },
+ "l'affitto!": {
+  "dove": [
+   "stanza.js:577"
+  ],
+  "riga": "g.fillText(T(\"l'affitto!\"), 34, 76);"
+ },
+ "la padrona": {
+  "dove": [
+   "stanza.js:580"
+  ],
+  "riga": "g.fillText(T(\"la padrona\"), 268, 322);"
+ }
+}

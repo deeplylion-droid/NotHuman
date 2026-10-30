@@ -7,15 +7,25 @@
 import { MAPPA_3D } from "./mappa3d.js";
 import { T } from "./lingua.js";
 
-export const INIZIO = { ora: 13 * 60, coprifuoco: 20 * 60, soldi: 180, fiducia: 50 };
+export const INIZIO = { ora: 13 * 60, coprifuoco: 20 * 60, soldi: 50, fiducia: 50 };
 // la pazienza di ogni famiglia: cala di uno quando qualcuno si arrabbia o lo accusi a torto; a zero ti cacciano
 export const PAZIENZA = 5;
 export const CACCIATA = {
   casa3: [["PADRE", T("Basta. Fuori da casa mia!"), { volto: "arrabbiato" }], [null, T("Ti sbattono la porta alle spalle.")]],
   casa5: [["UOMO", T("Fuori di qui, dottore. Adesso."), { volto: "arrabbiato" }], [null, T("Ti sbattono la porta alle spalle.")]],
 };
-export const MINUTI = { domanda: 10, esame: 10, prova: 10, sbaglio: 5, indizio: 5, porta: 5, forzare: 20, viaggio: 30 };
-export const SOLDI = { paziente: 400, profilo: 200, stanza: 40, cena: 15, cassetta: 10, mancia: 50 };
+// "fame": quanto si dorme di piu' dopo una sera senza cena
+export const MINUTI = { domanda: 10, esame: 10, prova: 10, sbaglio: 5, indizio: 5, porta: 5, forzare: 20, viaggio: 30, fame: 45 };
+// i soldi, contati (30 ottobre: «come su Papers, Please le spese quotidiane si fanno più serrate e ingenti, in modo da
+// doversi fare i conti in tasca di giorno in giorno»): la ditta paga a paziente consegnato, di più per il profilo
+// richiesto, e a certificato, cioè per ogni persona timbrata giusta sugli stati di famiglia firmati (anche chi è
+// sano: «segnare sane le persone serve a poco e niente»); per ogni timbro sbagliato una multa. Ogni cassetta usata
+// si paga
+export const SOLDI = { paziente: 40, profilo: 40, certificato: 10, multa: 10, cassetta: 10 };
+// le spese di ogni sera, nel foglio dei conti (la lampada, il letto): l'affitto si paga sempre, e se i soldi non
+// bastano resta il debito con la padrona di casa; la cena, la luce e la stufa si possono saltare, e la mattina dopo
+// nella stanza si vede (CONTI)
+export const SPESE = { affitto: 40, cena: 15, luce: 20, stufa: 10 };
 
 export const PERSONE = {
   padre: { nome: T("il padre"), voce: "PADRE", casa: "casa3", luogo: "cucina", stato: "malato", profilo: false, calore: 0.8 },
@@ -137,10 +147,10 @@ export const PORTE = {
         dice: [["TU", T("Voglio vedere di là.")], ["PADRE", T("Di là non c'è niente!"), { volto: "arrabbiato" }],
           ["PADRE", T("[si scansa]"), { volto: "arrabbiato" }], ["PADRE", T("Va bene. Ma non la toccate."), { volto: "arrabbiato" }]],
         poi: { fiducia: -15, forzata: true, sblocca: "corridoio", conosci: "madre", vai: "camera" } },
-      { testo: T("offri 50 € al padre"), minuti: 5, soldi: 50,
-        dice: [["TU", T("Cinquanta euro, e non ho visto niente.")], ["PADRE", T("[prende i soldi]"), { volto: "nervoso" }],
+      { testo: T("offri 20 € al padre"), minuti: 5, soldi: 20,
+        dice: [["TU", T("Venti euro, e non ho visto niente.")], ["PADRE", T("[prende i soldi]"), { volto: "nervoso" }],
           ["PADRE", T("Cinque minuti.")]],
-        poi: { soldi: -50, sblocca: "corridoio", conosci: "madre", vai: "camera" } },
+        poi: { soldi: -20, sblocca: "corridoio", conosci: "madre", vai: "camera" } },
     ],
   },
   porta: {
@@ -155,8 +165,8 @@ export const PORTE = {
         dice: [["TU", T("Spostatevi.")], ["UOMO", T("Provateci."), { volto: "arrabbiato" }],
           ["UOMO", T("[si mette davanti alla porta]"), { volto: "arrabbiato" }],
           [null, T("È grosso il doppio di te. Oggi non ti faranno passare.")]], poi: { fiducia: -10 } },
-      { testo: T("offri 50 € all'uomo"), minuti: 5, soldi: 50,
-        dice: [["TU", T("Cinquanta euro per aprire.")], ["UOMO", T("Non sono in vendita, dottore."), { volto: "arrabbiato" }]] },
+      { testo: T("offri 20 € all'uomo"), minuti: 5, soldi: 20,
+        dice: [["TU", T("Venti euro per aprire.")], ["UOMO", T("Non sono in vendita, dottore."), { volto: "arrabbiato" }]] },
     ],
   },
 };
@@ -499,7 +509,7 @@ export const STANZA = {
   cappotto: { sempre: [T("Il cappotto incerato e il cappello. La ditta li vuole addosso a ogni visita.")] },
   calendario: { sempre: [T("Il calendario della Panacea: «Ci prendiamo cura di voi»."), T("Qualcuno, prima di te, ha cerchiato il 17.")] },
   santino: { sempre: [T("Un santino della padrona di casa: il santo che curava gli appestati, col bastone e il cane.")] },
-  termosifone: { sempre: [T("Freddo. La padrona di casa lo accende a dicembre, se va bene.")] },
+  termosifone: { sempre: [T("Tiepido. Il gasolio lo paghi tu, sera per sera.")] },
   borsa: { sempre: [T("La borsa: il termometro, i guanti di ricambio, le cassette vergini.")] },
   orologio: {
     mattina: [T("La radiosveglia. Il coprifuoco è alle otto.")],

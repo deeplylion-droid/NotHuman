@@ -9,6 +9,8 @@ Uso:
   python3 tools/stanza_hq.py gioco               la stanza cotta (art/stanza_hq/cuoci.py) nel gioco, in
                                                  gioco/modelli/hq: il modello alleggerito, la luce della mattina e
                                                  della sera, la vista dalla finestra, i punti (stanza_dati.json)
+  python3 tools/stanza_hq.py conti               solo le immagini dei conti (il piatto con le croste...) nel pacco
+                                                 delle texture (lo fa anche "gioco", alla fine)
 """
 import json
 import os
@@ -192,8 +194,43 @@ def gioco():
     if (GIOCO / "vista_profondita.webp").exists():
         dati["vista_profondita"] = "vista_profondita.webp"
     (GIOCO / "stanza_dati.json").write_text(json.dumps(dati, indent=1))
+    conti()
     peso = sum(f.stat().st_size for f in GIOCO.iterdir())
     print(f"nel gioco: {GIOCO} ({peso / 1e6:.1f} MB)", dati["luce"], dati["piccoli"])
+
+
+# le immagini dei conti (30 ottobre: quando la sera non paghi, la mattina dopo nella stanza succedono cose che "ti
+# fanno sentire in colpa"): ritagliate su fondo trasparente e messe nello stesso pacco delle texture del modello
+# (stanza_texture.json, come "conti_<nome>.webp"), perche' il gioco e' al limite dei file. Le sorgenti sono in
+# art/stanza_hq/conti (GPT Image 2, lavori.json). "cerchio": centro e raggio del ritaglio tondo, in pixel; "lato":
+# la misura nel gioco
+CONTI = {
+    # il piatto smaltato con due croste di pane, visto da sopra, sul tavolino dietro (la cena non pagata)
+    "piatto": {"file": "piatto_croste.png", "cerchio": (510.1, 496.9, 404.0), "lato": 512},
+}
+
+
+def conti():
+    import base64
+    import io
+    from PIL import Image, ImageDraw
+    pacco_f = GIOCO / "stanza_texture.json"
+    pacco = json.loads(pacco_f.read_text())
+    for nome, c in CONTI.items():
+        cx, cy, r = c["cerchio"]
+        im = Image.open(HQ / "conti" / c["file"]).convert("RGB").crop(
+            (round(cx - r), round(cy - r), round(cx + r), round(cy + r)))
+        # il bordo tondo, liscio: disegnato quattro volte piu' grande e rimpicciolito
+        lato = im.width * 4
+        maschera = Image.new("L", (lato, lato), 0)
+        ImageDraw.Draw(maschera).ellipse((2, 2, lato - 3, lato - 3), fill=255)
+        im.putalpha(maschera.resize(im.size, Image.LANCZOS))
+        im = im.resize((c["lato"], c["lato"]), Image.LANCZOS)
+        buf = io.BytesIO()
+        im.save(buf, "WEBP", quality=88, method=6)
+        pacco[f"conti_{nome}.webp"] = base64.b64encode(buf.getvalue()).decode("ascii")
+        print(f"conti_{nome}.webp", len(buf.getvalue()) // 1024, "KB")
+    pacco_f.write_text(json.dumps(pacco, separators=(",", ":")))
 
 
 def main():
@@ -206,6 +243,8 @@ def main():
         return
     if comando == "gioco":
         return gioco()
+    if comando == "conti":
+        return conti()
     if comando != "scarica":
         sys.exit(__doc__)
     lavori = [(n, scarica_modello) for n in MODELLI] + [(n, scarica_materiale) for n in MATERIALI] \

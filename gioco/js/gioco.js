@@ -85,6 +85,9 @@ function nuovoStato() {
     giorno: 1, giorni: [], giornale: null,
     // quello che resta da un giorno all'altro per il finale, oltre alle prove e alle frasi dei giorni passati (il nastro 7)
     tracce: {},
+    // i conti (30 ottobre): cosa non hai pagato ieri sera e oggi si vede nella stanza ({ cena, luce, stufa }, chi ha
+    // dormito da te, la brandina portata via) e da quante notti di fila sei in debito con la padrona di casa
+    senza: {}, debito: 0,
   };
 }
 let S = nuovoStato();
@@ -404,7 +407,8 @@ function osdPlay() {
 
 // in alto i soldi, come in un videogioco; data e ora non si vedono (resta la radiosveglia nella stanza)
 function aggiornaHud() {
-  soldiHud.innerHTML = `${icona("moneta")}<span>${S.soldi} €</span>`;
+  soldiHud.innerHTML = `${icona("moneta")}<span>${S.soldi < 0 ? "−" : ""}${Math.abs(S.soldi)} €</span>`;
+  soldiHud.classList.toggle("debito", S.soldi < 0);
   if (stanza) stanza.segnaOra(hhmm(S.ora));
   disegnaIndicatori();
 }
@@ -804,7 +808,7 @@ function vaiScrivania() {
   osdSpento();
   ambienteStanza();
   if (vhs) {
-    vhs.mode("giorno", false);
+    vhs.mode(alBuio() ? "notte" : "giorno", false);
     vhs.setLuce(0);
     vhs.setHeat(null);
     vhs.set({ zoom: 1, cx: 0.5, cy: 0.5, blur: 0, snow: 0 });
@@ -844,7 +848,7 @@ function vaiStanza(dove = "inizio") {
   osdSpento();
   ambienteStanza();
   if (vhs) {
-    vhs.mode("giorno", false);
+    vhs.mode(alBuio() ? "notte" : "giorno", false);
     vhs.setLuce(0);
     vhs.setHeat(null);
     vhs.setDark(0);
@@ -863,6 +867,11 @@ function vaiStanza(dove = "inizio") {
   tasti();
   aiutoStanza();
   aggiornaHud();
+}
+
+// senza corrente (la luce non pagata ieri sera), la sera nella stanza si vede solo col verde della maschera
+function alBuio() {
+  return !!stanza && S.fase === "sera" && !!S.senza.luce;
 }
 
 // col mouse lo sguardo si aggancia subito (non col dito, non col controller)
@@ -910,12 +919,13 @@ async function usaStanza(id) {
     return vaiMappa();
   }
   if (id === "letto") {
-    if (S.fase === "sera") return dormi();
+    if (S.fase === "sera") return apriConti();
     return dici([[null, T("Non è ancora ora di dormire. La ditta paga a paziente.")]], false, false);
   }
   if (id === "ospite" && S.fase === "sera") return controllaOspite();
+  if (id === "biglietto") return dici(bigliettoPadrona().map((r) => [null, r]), false, false);
   const testi = D.STANZA[id];
-  const righe = testi && (testi[S.fase] || testi.sempre);
+  const righe = testiConti(id) || testi && (testi[S.fase] || testi.sempre);
   if (!righe) return;
   // la porta della stanzetta dell'ospite si socchiude mentre si guarda dentro
   if (id === "ospite") {
@@ -956,8 +966,9 @@ async function azioneScrivania(id) {
     return vaiMappa();
   }
   if (id === "lampada") {
-    if (S.fase === "sera") return dormi();
-    return dici([[null, T("La lampada. Si spegne quando è ora di dormire.")]], false, false);
+    if (S.fase === "sera") return apriConti();
+    return dici([[null, S.senza.luce ? T("La lampada non si accende: hanno staccato la luce.")
+      : T("La lampada. Si spegne quando è ora di dormire.")]], false, false);
   }
 }
 
@@ -992,7 +1003,8 @@ function apriFax() {
   const case_ = el("div", "fx-fila");
   for (const n of f.case) case_.append(segnoFax("casa", T`CASA ${n}`, null, "piccolo"));
   const paga = el("div", "fx-fila");
-  paga.append(segnoFax("moneta", `${D.SOLDI.paziente} €`, T("a paziente"), "piccolo"),
+  paga.append(segnoFax("timbro", `${D.SOLDI.certificato} €`, T("a timbro giusto"), "piccolo"),
+    segnoFax("moneta", `${D.SOLDI.paziente} €`, T("a paziente"), "piccolo"),
     segnoFax("mirino", `+${D.SOLDI.profilo} €`, f.profilo, "piccolo"));
   const riga = el("div", "fx-riga");
   riga.append(bloccoFax(T("DA VISITARE"), case_), bloccoFax(T("PAGA"), paga));
@@ -1101,10 +1113,12 @@ function moltiplica(A, B) {
 
 function apriSoldi() {
   suoni.suona("monete");
+  const s = D.SOLDI, sp = D.SPESE;
   apriFoglio("soldi", [
-    el("h2", null, `${S.soldi} €`),
-    el("p", null, T`Ogni notte: stanza ${D.SOLDI.stanza} €, cena ${D.SOLDI.cena} €, ${D.SOLDI.cassetta} € per ogni cassetta usata.`),
-    el("p", null, T`La ditta paga ${D.SOLDI.paziente} € a paziente consegnato, ${D.SOLDI.profilo} € in più per il profilo richiesto.`),
+    el("h2", null, `${S.soldi < 0 ? "−" : ""}${Math.abs(S.soldi)} €`),
+    ...(S.soldi < 0 ? [el("p", "ct-male", T("Sei in debito con la padrona di casa."))] : []),
+    el("p", null, T`Stasera: l'affitto ${sp.affitto} €, ${s.cassetta} € per ogni cassetta usata. Se bastano i soldi: la cena ${sp.cena} €, la luce ${sp.luce} €, la stufa ${sp.stufa} €.`),
+    el("p", null, T`La ditta paga ${s.certificato} € per ogni persona timbrata giusta, anche sana, e ${s.multa} € di multa per ogni timbro sbagliato; ${s.paziente} € a paziente consegnato, ${s.profilo} € in più per il profilo richiesto.`),
   ]);
 }
 
@@ -1457,7 +1471,8 @@ async function vaiLuogo(luogo) {
   }
   osdRec();
   osd.modo.textContent = L.notte ? T("NOTTE") : "";
-  S.pazienza[S.casa] ??= D.PAZIENZA;
+  // dopo una notte al freddo (la stufa non pagata) il medico tossisce dentro la maschera: una tacca in meno
+  S.pazienza[S.casa] ??= D.PAZIENZA - (S.senza.stufa ? 1 : 0);
   mostraIndicatori("visita");
   hudVisita();
   aggiornaNastro();
@@ -2041,8 +2056,9 @@ function rigaStato(casa, r, firmata) {
       // "ospite" della persona: perche' non puo' venire (il marito della casa 2 non si regge in piedi); chi non ha la
       // sua notte in D.OSPITE (un mostro timbrato sano per sbaglio) non viene
       sceltaStato("ospite", T("Ospite stanotte"), ospite ? T("dorme da te") : P.ospite || (!D.OSPITE[persona] ? T("non può venire")
-        : !sano ? T("solo chi è sano") : preso ? T`c'è già ${D.PERSONE[S.ospite].nome}` : T("dorme da te")), ospite,
-      !!firmata || !sano || !!preso || !!P.ospite || !D.OSPITE[persona], () => {
+        : S.senza.brandina ? T("la brandina non c'è più") : !sano ? T("solo chi è sano") : preso ? T`c'è già ${D.PERSONE[S.ospite].nome}`
+          : T("dorme da te")), ospite,
+      !!firmata || !sano || !!preso || !!P.ospite || !D.OSPITE[persona] || !!S.senza.brandina, () => {
         S.ospite = S.ospite === persona ? null : persona;
         if (S.ospite === persona) S.lazzaretto[persona] = false;
         ridisegnaStato(casa);
@@ -2318,6 +2334,14 @@ async function sera() {
 // o con la brandina vuota; "Chiudi la porta" riporta nella stanza
 async function controllaOspite() {
   const O = D.OSPITE[S.ospite || "solo"];
+  // senza brandina (se l'e' ripresa la padrona di casa) la porta si apre sulla stanzetta vuota, quella vera
+  if (S.senza.brandina && !S.ospite && stanza) {
+    stanza.socchiudi(true);
+    suoni.suona("porta", { volume: 0.6 });
+    await dici(testiConti("ospite").map((r) => [null, r]), false, false);
+    stanza.socchiudi(false);
+    return;
+  }
   if (visita && stanza?.mettiPupazzo) return controllaOspite3D(O);
   const quadro = immagine(`img/ospite/${S.ospite ? `ospite_${S.ospite}` : "stanzetta_20"}.jpg`);
   R.occupato = true;
@@ -2518,6 +2542,8 @@ function attendi(ms) {
 }
 
 function apriNastri() {
+  if (S.senza.luce && stanza) return dici([[null, T("Niente corrente: il videoregistratore è spento, i nastri di oggi restano muti.")],
+    [null, T("La bolletta della luce non l'hai pagata.")]], false, false);
   suoni.suona("videoregistratore");
   const corpo = [el("h2", null, T("Nastri"))];
   if (!S.nastri.length) corpo.push(el("p", "vuoto", T("Nessuna visita registrata, per ora.")));
@@ -2711,7 +2737,6 @@ function calcolaNotte() {
   // malati) e da dove a dove e' passato il contagio, per le frecce sulla mappa
   const case_ = [];
   const diffusione = [];
-  let incasso = 0;
   let fiducia = S.fiducia;
   const portati = [];
   for (const casa of D.FAX.case.map((n) => `casa${n}`)) {
@@ -2721,7 +2746,6 @@ function calcolaNotte() {
     const via = dec ? dec.via : [];
     for (const id of via) {
       const p = D.PERSONE[id];
-      incasso += D.SOLDI.paziente + (p.profilo ? D.SOLDI.profilo : 0);
       fiducia += p.stato === "sano" ? -20 : 5;
       portati.push(id);
     }
@@ -2758,17 +2782,154 @@ function calcolaNotte() {
     ospite = { chi: S.ospite, malato };
     fiducia += malato ? -5 : 5;
   }
-  const spese = D.SOLDI.stanza + D.SOLDI.cena + D.SOLDI.cassetta * S.nastri.length;
-  return { contagiate: [...new Set(contagiate)], case: case_, diffusione, incasso, spese, fiducia, portati, ospite };
+  return { contagiate: [...new Set(contagiate)], case: case_, diffusione, fiducia, portati, ospite };
 }
 
-async function dormi() {
-  if (S.schermo === "notte" || S.schermo === "nastro-notte") return;
+// ---------- i conti della sera (30 ottobre: «come su Papers, Please le spese quotidiane si fanno più serrate e
+// ingenti, in modo da doversi fare i conti in tasca di giorno in giorno, e se non arrivi alla quota succedono cose
+// nella stanza del medico che TI FANNO SENTIRE IN COLPA») ----------
+
+// le spese che si possono saltare, nell'ordine in cui si pagano quando non si sceglie: prima si mangia
+const SPESE_SCELTE = ["cena", "luce", "stufa"];
+
+// un timbro e' giusto se dice com'era davvero; SOSPETTO e' giusto per chi era malato o grave
+const timbroGiusto = (mio, vero) => mio === vero || (mio === "sospetto" && vero !== "sano" && vero !== "mostro");
+
+// la paga della ditta di oggi: i pazienti consegnati (e quanti col profilo richiesto) e i certificati, cioe' le
+// persone timbrate sugli stati di famiglia firmati (i timbri giusti si pagano, anche SANO, gli sbagliati si multano;
+// chi e' cambiato e l'hai segnato vale come giusto, come nella verita'); e le spese che non si scelgono: l'affitto e
+// le cassette usate
+function contiDiOggi() {
+  const c = { pazienti: 0, profilo: 0, giusti: 0, sbagliati: 0, cassette: S.nastri.length };
+  for (const [casa, dec] of Object.entries(S.decisioni)) {
+    for (const id of dec.via) {
+      c.pazienti++;
+      if (D.PERSONE[id]?.profilo) c.profilo++;
+    }
+    for (const r of D.ANAGRAFE[casa]?.righe || []) {
+      const vero = D.PERSONE[r.persona]?.stato;
+      const mio = S.diagnosi[r.persona];
+      if (vero === "mostro" && S.morti[r.persona]) c.giusti++;
+      else if (vero && mio) c[timbroGiusto(mio, vero) ? "giusti" : "sbagliati"]++;
+    }
+  }
+  const s = D.SOLDI;
+  c.ditta = c.pazienti * s.paziente + c.profilo * s.profilo + c.giusti * s.certificato - c.sbagliati * s.multa;
+  c.fisse = D.SPESE.affitto + c.cassette * s.cassetta;
+  return c;
+}
+
+// cosa si paga stasera se non si sceglie (si va a dormire senza il foglio, o si salta il giorno): l'affitto e le
+// cassette sempre, poi la cena, la luce e la stufa finche' bastano i soldi
+function pagaDaSola(c) {
+  let resta = S.soldi + c.ditta - c.fisse;
+  return Object.fromEntries(SPESE_SCELTE.map((v) => {
+    const si = resta >= D.SPESE[v];
+    if (si) resta -= D.SPESE[v];
+    return [v, si];
+  }));
+}
+
+// si chiudono i conti della sera: entra la paga della ditta, escono l'affitto, le cassette e le spese scelte. Quello
+// che non hai pagato domattina si vede nella stanza (S.senza); se i soldi non bastavano per l'affitto resti in debito
+// con la padrona di casa, e alla seconda notte di fila si riprende la brandina della stanzetta
+function salda(paga) {
+  const c = contiDiOggi();
+  paga ??= pagaDaSola(c);
+  const mancano = SPESE_SCELTE.filter((v) => !paga[v]);
+  c.spese = c.fisse + SPESE_SCELTE.filter((v) => paga[v]).reduce((t, v) => t + D.SPESE[v], 0);
+  S.soldi += c.ditta - c.spese;
+  S.debito = S.soldi < 0 ? S.debito + 1 : 0;
+  S.senza = { ...Object.fromEntries(mancano.map((v) => [v, true])), ospite: S.ospite, debito: S.debito,
+    brandina: S.debito >= 2 || !!S.senza.brandina && S.debito > 0 };
+  aggiornaHud();
+  return { ...c, mancano };
+}
+
+const euro = (n) => `${n < 0 ? "−" : "+"}${Math.abs(n)} €`;
+
+// il foglio dei conti, la sera, prima di spegnere la luce (la lampada sulla scrivania o il letto): la paga della
+// ditta, l'affitto e le cassette, poi la cena, la luce e la stufa da spuntare (spuntate quelle che bastano, nell'ordine;
+// sotto ognuna cosa succede senza), e quanto resta. Il tasto in fondo spegne la luce
+function apriConti() {
+  if (R.occupato) return;
+  const c = contiDiOggi();
+  const paga = pagaDaSola(c);
+  const s = D.SOLDI, sp = D.SPESE;
+  const voce = (nome, conto, importo, cls = "") => {
+    const li = el("li", `ct-voce ${cls}`);
+    li.append(el("span", "ct-nome", nome), el("span", "ct-conto", conto || ""), el("b", "ct-importo", euro(importo)));
+    return li;
+  };
+  const ditta = el("ul", "ct-lista");
+  ditta.append(voce(T("Timbri giusti"), `${c.giusti} × ${s.certificato} €`, c.giusti * s.certificato));
+  if (c.sbagliati) ditta.append(voce(T("Timbri sbagliati: multa"), `${c.sbagliati} × ${s.multa} €`, -c.sbagliati * s.multa, "ct-male"));
+  if (c.pazienti) ditta.append(voce(T("Pazienti consegnati"), `${c.pazienti} × ${s.paziente} €`, c.pazienti * s.paziente));
+  if (c.profilo) ditta.append(voce(T("Profilo richiesto"), `${c.profilo} × ${s.profilo} €`, c.profilo * s.profilo));
+  const fisse = el("ul", "ct-lista");
+  fisse.append(voce(T("L'affitto"), T("la padrona di casa"), -sp.affitto),
+    voce(T("Le cassette"), `${c.cassette} × ${s.cassetta} €`, -c.cassette * s.cassetta));
+  // la cena, la luce, la stufa: si spuntano; quelle che i soldi non coprono restano spente
+  const senza = { cena: T("domani non si mangia"), luce: T("domani niente corrente"), stufa: T("stanotte si gela") };
+  const nomi = { cena: T("La cena"), luce: T("La luce"), stufa: T("La stufa") };
+  const scelte = el("ul", "ct-lista ct-scelte");
+  const resta = el("b", "ct-resta-cifra");
+  const avviso = el("p", "ct-avviso");
+  const ridisegna = () => {
+    let r = S.soldi + c.ditta - c.fisse;
+    for (const v of SPESE_SCELTE) if (paga[v]) r -= sp[v];
+    resta.textContent = `${r < 0 ? "−" : ""}${Math.abs(r)} €`;
+    resta.classList.toggle("ct-male", r < 0);
+    for (const b of scelte.querySelectorAll("button")) {
+      const v = b.dataset.voce;
+      b.setAttribute("aria-pressed", paga[v] ? "true" : "false");
+      b.disabled = !paga[v] && r < sp[v];
+      b.querySelector("small").textContent = paga[v] ? T("pagata") : b.disabled ? T`non bastano · ${senza[v]}` : senza[v];
+    }
+    avviso.textContent = r < 0 ? T("I soldi non bastano per l'affitto: resti in debito con la padrona di casa.") : "";
+    avviso.hidden = r >= 0;
+  };
+  for (const v of SPESE_SCELTE) {
+    const b = el("button", "ct-scelta");
+    b.type = "button";
+    b.dataset.voce = v;
+    const testo = el("span", "ct-nome");
+    testo.append(el("i", "ct-casella"), document.createTextNode(nomi[v]));
+    b.append(testo, el("small"), el("b", "ct-importo", euro(-sp[v])));
+    b.addEventListener("click", () => { paga[v] = !paga[v]; suoni.suona("carta", { volume: 0.5 }); ridisegna(); });
+    const li = el("li");
+    li.append(b);
+    scelte.append(li);
+  }
+  const ospite = S.ospite ? [el("p", "ct-nota", T`Stanotte nella stanzetta c'è anche ${D.PERSONE[S.ospite].nome}: mangia e dorme qui.`)] : [];
+  const resto = el("p", "ct-resta");
+  resto.append(el("span", null, T("Restano")), resta);
+  ridisegna();
+  suoni.suona("monete");
+  apriFoglio("conti", [
+    el("h2", null, T("I conti")),
+    ...(sp.nota ? [el("p", "ct-nota", sp.nota)] : []),
+    el("p", "ct-tasca", T`In tasca: ${S.soldi < 0 ? "−" : ""}${Math.abs(S.soldi)} €`),
+    el("h3", null, T("La ditta")), ditta,
+    el("h3", null, T("Le spese")), fisse, scelte,
+    ...ospite, resto, avviso,
+    azioni([[S.senza.luce ? T("Dormi") : T("Spegni la luce e dormi"), () => {
+      document.activeElement?.blur?.();
+      foglio.hidden = true;
+      dormi({ ...paga });
+    }]]),
+  ]);
+}
+
+async function dormi(paga) {
+  // una volta sola per notte: il tasto del foglio dei conti, premuto due volte, avrebbe pagato due volte
+  if (R.dorme || S.schermo === "notte" || S.schermo === "nastro-notte") return;
+  R.dorme = true;
   suoni.suona("interruttore");
   await nastroNotte();
   const n = calcolaNotte();
+  n.conti = salda(paga);
   S.notte = n;
-  S.soldi += n.incasso - n.spese;
   S.fiducia = n.fiducia;
   S.schermo = "notte";
   pulisci();
@@ -2843,7 +3004,9 @@ function resoconto(n) {
     contagio,
     riga(T("Al lazzaretto "), portati ? `${portati}.` : T("nessuno.")),
     riga(n.ospite ? T("Ospite ") : T("Da solo "), O.mattina),
-    riga(T("Soldi "), T`+${n.incasso} € dalla ditta, −${n.spese} € di spese: restano ${S.soldi} €.`),
+    riga(T("Soldi "), T`${euro(n.conti.ditta)} dalla ditta, −${n.conti.spese} € di spese: restano ${S.soldi < 0 ? "−" : ""}${Math.abs(S.soldi)} €.`),
+    ...(n.conti.mancano.length || S.soldi < 0 ? [riga(T("Stanotte "), [...n.conti.mancano.map((v) => ({ cena: T("niente cena"),
+      luce: T("niente luce"), stufa: T("niente stufa") })[v]), ...(S.soldi < 0 ? [T`${-S.soldi} € di debito`] : [])].join(", ") + ".")] : []),
     azioni([[T("Il giornale del mattino"), () => { R.contagio = null; apriGiornale(true); }]]),
   ];
 }
@@ -2987,7 +3150,7 @@ function confronto(diagnosi, morti, anagrafe, persone, altri) {
       }
       if (!mio) continue;
       date++;
-      const giusta = mio === vero || (mio === "sospetto" && vero !== "sano" && vero !== "mostro");
+      const giusta = timbroGiusto(mio, vero);
       if (giusta) giuste++;
       ul.append(el("li", null, T`${giusta ? "✓" : "✗"} ${r.nome}: hai timbrato ${D.TIMBRI.find((t) => t.id === mio).testo}, era ${stati[vero] || vero}.`));
     }
@@ -3192,7 +3355,9 @@ function quartaMattina() {
   S.fase = "mattina";
   S.giornale = S.giornaleDomani || S.giornale;
   if (stanza) {
-    // la stanza ferma, vista dalla porta all'altezza degli occhi: la finestra, la scrivania, il letto
+    // la stanza ferma, vista dalla porta all'altezza degli occhi: la finestra, la scrivania, il letto (coi conti
+    // dell'ultima sera)
+    contiNellaStanza();
     vaiStanza("inizio");
     stanza.nebbia("colore");
     stanza.inquadra([0.9, 1.62, 2.2], [-0.8, 1.2, -3.0], 62);
@@ -3376,14 +3541,67 @@ function oggi() {
 function nuovoGiorno(n, tabelle, ieri) {
   const giorni = [...S.giorni, oggi()];
   const resta = { soldi: S.soldi, fiducia: S.fiducia, notte: S.notte, giornale: S.giornaleDomani, morti: { ...S.morti },
-    tracce: { ...S.tracce } };
+    tracce: { ...S.tracce }, senza: { ...S.senza }, debito: S.debito };
   D = { ...D1, ...tabelle };
   S = Object.assign(nuovoStato(), resta, { giorno: n, giorni, ieri });
+  // senza cena la fame ti tiene a letto: la giornata comincia piu' tardi
+  if (S.senza.cena) S.ora += D.MINUTI.fame;
+}
+
+// ---------- la mattina dopo i conti: la stanza com'e', quello che si legge entrando e usando le cose ----------
+
+// la stanza di stamattina coi conti di ieri sera (stanza.js): il piatto con le croste sul tavolino, la luce staccata,
+// il ghiaccio sui vetri, il biglietto della padrona sotto la porta, la brandina che non c'e' piu'
+function contiNellaStanza() {
+  const s = S.senza;
+  stanza?.conseguenze({ piatto: !!s.cena, buio: !!s.luce, gelo: !!s.stufa, biglietto: !!s.debito, brandina: !s.brandina });
+}
+
+// entrando nella stanza la mattina: quello che ieri sera non hai pagato, e chi l'ha pagato con te
+function righeConti() {
+  const s = S.senza, r = [];
+  const chi = s.ospite && (D.PERSONE[s.ospite] || D1.PERSONE[s.ospite])?.nome;
+  if (s.cena) {
+    r.push(T("Ieri sera non hai cenato. Sul tavolino è rimasto il piatto: due croste di pane. Oggi non si mangia."));
+    if (chi) r.push(T`Le croste le hai divise con ${chi}, che non ha detto niente.`);
+    r.push(T("La fame ti tiene a letto fino a tardi."));
+  }
+  if (s.luce) r.push(T("Hanno staccato la luce: la bolletta non l'hai pagata. La lampadina non si accende, il videoregistratore è spento."));
+  if (s.stufa) {
+    r.push(T("Stanotte la stufa è rimasta spenta. Sui vetri c'è il ghiaccio, e tossisci dentro la maschera."));
+    if (chi) r.push(T`${maiuscolaIniziale(chi)} ha dormito col cappotto addosso, a tremare.`);
+    r.push(T("Le famiglie si fidano meno di un medico che tossisce."));
+  }
+  if (s.debito) r.push(s.brandina ? T("La padrona di casa si è ripresa la brandina della stanzetta: finché non paghi, niente ospiti.")
+    : T("Sotto la porta c'è un biglietto della padrona di casa."));
+  return r.map((t) => [null, t]);
+}
+
+// le cose della stanza che dicono i conti: il piatto sul tavolino, il termosifone gelato, la radiosveglia spenta, la
+// stanzetta senza brandina
+function testiConti(id) {
+  const s = S.senza;
+  if (id === "tavolo" && s.cena) return [T("Il piatto di ieri sera: due croste di pane, dure come il legno."), T("Oggi non si mangia.")];
+  if (id === "termosifone" && s.stufa) return [T("Gelato. Il gasolio, ieri sera, non l'hai pagato."), T("Sui vetri c'è il ghiaccio.")];
+  if (id === "orologio" && s.luce) return [T("La radiosveglia è spenta. Senza corrente, l'ora la dice solo il campanile.")];
+  if (id === "ospite" && s.brandina) return [T("La stanzetta è vuota: la padrona di casa si è ripresa la brandina."),
+    T("Chi dorme solo, il malvento se lo prende.")];
+  return null;
+}
+
+// il biglietto della padrona di casa, sotto la porta dopo una notte in debito
+function bigliettoPadrona() {
+  const manca = Math.max(0, -S.soldi);
+  return S.senza.brandina
+    ? [T("«Dottore. Sono due notti che non paga. Mi riprendo la brandina: l'ospite se lo porti a casa sua.»"),
+      T`«Mi deve ancora ${manca} euro. La padrona.»`]
+    : [T`«Dottore, l'affitto di ieri sera non c'è tutto. Mancano ${manca} euro.»`, T("«Qui la gente paga. Anche i medici. La padrona.»")];
 }
 
 // il giorno nuovo comincia: le scene di oggi (con chi e' rimasto in casa) e i primi piani nuovi; sul telefono ci
 // vuole qualche secondo
 async function apriGiorno() {
+  R.dorme = false;
   foglio.dataset.bloccato = "0";
   foglio.hidden = true;
   stanza?.nebbia("stanza");
@@ -3409,7 +3627,9 @@ async function apriGiorno() {
   parole.pulisci();
   precaricaPrimi();
   aggiornaNastro();
-  if (stanza) vaiStanza("inizio");
+  contiNellaStanza();
+  // senza cena ci si sveglia davanti al piatto con le croste
+  if (stanza) vaiStanza(S.senza.cena ? "piatto" : "inizio");
   else vaiScrivania();
   salvaPartita();
   introduzione();
@@ -3440,7 +3660,7 @@ function saltaGiorno() {
     S.decisioni[`casa${n}`] = { via: [], ospite: null, provvedimento: "nessuno", ora: D.INIZIO.coprifuoco };
   }
   S.notte = calcolaNotte();
-  S.soldi += S.notte.incasso - S.notte.spese;
+  S.notte.conti = salda();
   S.fiducia = S.notte.fiducia;
 }
 
@@ -3465,6 +3685,7 @@ function saltaAlGiorno3() {
 function ricomincia() {
   D = { ...D1 };
   S = nuovoStato();
+  R.dorme = false;
   foglio.dataset.bloccato = "0";
   foglio.hidden = true;
   stanza?.nebbia("stanza");
@@ -3472,6 +3693,7 @@ function ricomincia() {
   R.finale = null;
   R.play = null;
   aggiornaNastro();
+  contiNellaStanza();
   if (stanza) vaiStanza("inizio");
   else vaiScrivania();
   introduzione();
@@ -3562,7 +3784,8 @@ async function introduzione() {
   S.intro = true;
   const righe = D.INTRO || [[null, T("Giorno 1. La ditta ti ha mandato in paese ieri sera.")],
     [null, T("Il fax con il protocollo è arrivato a mezzogiorno.")]];
-  await dici([...righe, ...(stanza ? [[null, T("È sulla scrivania, sotto la finestra.")]] : [])], false, false);
+  // prima quello che ieri sera non hai pagato: ti svegli li' dentro
+  await dici([...righeConti(), ...righe, ...(stanza ? [[null, T("È sulla scrivania, sotto la finestra.")]] : [])], false, false);
 }
 
 // ---------- puntatore, tastiera ----------
@@ -4090,7 +4313,7 @@ function dovePersona(persona) {
 }
 
 // per le prove automatiche: con #prova nell'indirizzo il gioco si puo' guidare da fuori
-if (location.hash.startsWith("#prova")) window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, iniziaGiorno3, saltaAlGiorno3, riproduci, apriNastri, controllaOspite, nastroNotte, verita, dormi, quartaMattina, calcolaFinale, apriFinale, titolo, riprendi, leggiSalvataggio, apriImpostazioni, impostazioni: () => imp, ricomincia, finaliTrovati, dove, dovePersona, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
+if (location.hash.startsWith("#prova")) window.prova = { get S() { return S; }, get D() { return D; }, visita: () => visita, visitaPronta: () => visitaPronta, iniziaGiorno2, saltaAlGiorno2, iniziaGiorno3, saltaAlGiorno3, riproduci, apriNastri, apriConti, contiDiOggi, salda, controllaOspite, nastroNotte, verita, dormi, quartaMattina, calcolaFinale, apriFinale, titolo, riprendi, leggiSalvataggio, apriImpostazioni, impostazioni: () => imp, ricomincia, finaliTrovati, dove, dovePersona, vaiStanza, vaiScrivania, vaiMappa, vai, vaiLuogo, apriFax, apriGiornale, sera, stanza: () => stanza, vhs: () => vhs, suoni: () => suoni, controller: () => controller, R: () => R, parole: () => parole };
 
 window.claude?.hot?.snapshot?.(() => ({ S }));
 if (window.claude?.hot?.ready) window.claude.hot.ready(avvia);

@@ -90,7 +90,7 @@ Decise il 26 ottobre, con le domande in chat.
   - più avanti anche gli ospiti sani si ammaleranno dopo una notte col medico, che è il portatore: il mostro è lui.
   - Le immagini: `tools/ospite.py` (descrizione in `art/ospite/ospite.json`, in `gioco/img/ospite`). Le stanze vengono dalla stanza 3D del gioco (`tools/viste_ospite.js`), rifatte come le scene: foto, fumetto, fumetto ripulito, foto dal fumetto, foto col 20% di fumetto; i personaggi li mette Nano Banana Pro col riferimento dei primi piani, poi il passaggio "meno dettagli". Testi in `OSPITE` (`gioco/js/dati.js`). Una prima versione aveva la testa del medico sul cuscino: rifatta con il medico tutto sotto la coperta. Spesa circa 8 dollari.
 - **Le persone non muoiono: diventano mostri** (27 ottobre, sera: «Diamo un po' di brivido in più. Facciamo che le persone invece di morire diventano mostri. Rende il tutto meno lugubre»). Il 26 ottobre i malati erano rimasti persone, per non copiare NINAH (vedi "L'ospite della notte"): restano persone finché sono vivi, ma all'ultimo stadio il male non uccide, trasforma. Chi si spegne nella notte si rialza cambiato: riconoscibile, ma con gli occhi bianchi, la bocca troppo larga e le gengive nere, la pelle grigia con le vene nere, le dita lunghe e nere (il sintomo delle dita nere è l'inizio), a quattro zampe, sugli appoggi alti; non parla più, ringhia; all'infrarosso è freddo come un morto. Nel prototipo: la madre della casa 3 il secondo giorno (immagine `mostro_senza_sponda` in `art/scene/03-camera/giorno2`, primi piani `mostro_*`); il nonno della casa 3 non è morto la settimana scorsa ma si è alzato una notte, cambiato, ed è uscito scalzo (il quarto piatto è per lui, «se torna»); la ditta non brucia i morti ma porta nel recinto «quelli che cambiano» (è la traccia del lazzaretto che è un laboratorio); al cimitero «tre bare chiuse, nessuno le ha viste aprire»; il giornale del terzo giorno: «Qualcosa sul tetto di Via della Chiesa». Nel codice lo stato è `mostro` (al posto di `morto`); i segni sullo stato di famiglia restano in `S.morti`. **Dal 28 ottobre, sera, ognuno cambia a modo suo** («tutti quelli che possono diventare mostri devono avere una trasformazione diversa»): la madre è la bestia a quattro zampe, il padre si radica al tavolo, l'uomo in tuta si allunga fino al soffitto, Davide si chiude in un bozzolo, la moglie del sacrestano diventa una santa di cera; la tabella di tutti, anche di chi non è ancora cambiato, è in `docs/proposta_terzo_giorno.md` (vedi "Il terzo giorno (bozza)").
-- **I soldi si spendono.** La ditta paga a paziente; con i soldi si pagano affitto, cibo, cassette nuove e mance per farsi aprire. È la spinta a portare via qualcuno in più.
+- **I soldi si spendono.** La ditta paga a paziente e, dal 30 ottobre, a timbro giusto; con i soldi si pagano affitto, cena, luce, stufa, cassette e mance per farsi aprire. È la spinta a portare via qualcuno in più. Le cifre e le conseguenze: "I conti della sera (30 ottobre)".
 
 ### Il secondo giorno (bozza)
 
@@ -233,6 +233,56 @@ viene dal gioco vero (`docs/steam.md`, "Il trailer", per il racconto e come si r
 - **Trovato strada facendo:** il server locale delle prove (`python3 -m http.server`) mandava la pagina senza la
   codifica, e il «▸» dei suggerimenti diventava «â–¸», anche negli screenshot per Steam: ora c'è
   `tools/prove/servi.py`, che la manda in utf-8.
+
+### I conti della sera (30 ottobre)
+
+Dopo «al momento c'è una falla: segnare sane le persone serve a poco e niente, ma anche i soldi non servono granché.
+Facciamo che come su Papers, Please le spese quotidiane si fanno più serrate e ingenti, in modo da doversi fare i conti
+in tasca di giorno in giorno, e se non arrivi alla quota succedono cose nella stanza del medico che TI FANNO SENTIRE IN
+COLPA. Per esempio un piatto vuoto con due croste di pane che ti dice che oggi non si mangia, stanza buia perché non c'è
+luce e altre cose», e «il piatto lo metti sul tavolo che c'è dietro che ora è inutile».
+- **La paga, come in Papers, Please, è a pezzo:** la ditta paga 10 € per ogni persona **timbrata giusta** sugli stati
+  di famiglia firmati, sana compresa (SOSPETTO è giusto per chi è malato o grave; chi è cambiato e l'hai segnato vale
+  come giusto, come nella verità), e multa di 10 € ogni timbro sbagliato. Così timbrare SANO chi è sano serve: è la
+  paga di base. Poi i pazienti consegnati (40 € il primo giorno, 45 il secondo, 50 il terzo) e il profilo richiesto
+  (40, 60, 150 €: il terzo giorno un sano consegnato paga da solo una sera intera). Si parte con 50 €. Le mance per
+  farsi aprire costano 20 € (erano 50). Il fax ha la paga a timbro giusto accanto a quella a paziente.
+- **Le spese di ogni sera** salgono di giorno in giorno: affitto 40, 45, 50 €; cena 15, 20, 25 €; luce 20, 25, 30 €;
+  stufa 10, 20, 30 €; e 10 € per ogni cassetta usata (una a visita). La padrona alza l'affitto «con la peste in
+  casa», il gasolio rincara. Il conto: chi non consegna nessuno ma timbra tutto giusto, il primo giorno paga tutto e
+  resta a zero; dal secondo deve scegliere cosa saltare. Chi consegna i malati, come vuole il protocollo, ci sta
+  dentro; chi vende i sani alla ditta è comodo.
+- **Il foglio dei conti** (`apriConti` in `gioco/js/gioco.js`): la sera, la lampada sulla scrivania e il letto aprono
+  i conti prima di dormire. In tasca, la paga della ditta voce per voce (timbri giusti, multe, pazienti, profilo), le
+  spese che non si scelgono (l'affitto, le cassette), poi tre caselle da spuntare: **la cena, la luce, la stufa**,
+  ognuna con quello che succede senza («domani non si mangia», «domani niente corrente», «stanotte si gela»).
+  Partono spuntate quelle che i soldi coprono, nell'ordine; quelle che non bastano restano spente. Sotto, quanto
+  resta. Se non basta per l'affitto si resta **in debito con la padrona di casa** (i soldi in rosso, sotto zero).
+  Se c'è l'ospite, il foglio lo ricorda: mangia e dorme qui anche lui. «Spegni la luce e dormi» (senza corrente:
+  «Dormi»). Nel resoconto della notte la riga dei soldi e, se manca qualcosa, «Stanotte: niente cena, niente luce,
+  20 € di debito». Senza il foglio (le prove, i giorni saltati) si paga da soli nello stesso ordine (`pagaDaSola`).
+- **La mattina dopo, nella stanza** (`righeConti`, `testiConti`, `contiNellaStanza` in `gioco.js`; `conseguenze` in
+  `gioco/js/stanza.js`), prima del fax si legge quello che non hai pagato:
+  - **senza cena** ti svegli accanto al tavolino dietro, con gli occhi sul **piatto smaltato con due croste di pane**
+    («Oggi non si mangia»); la fame ti tiene a letto e la giornata comincia 45 minuti più tardi; se c'era l'ospite,
+    le croste le hai divise con lui. Il piatto è un'immagine di GPT Image 2 (`art/stanza_hq/conti`), ritagliata
+    tonda da `python3 tools/stanza_hq.py conti` e messa nel pacco delle texture (il gioco è al limite dei file), con
+    un'ombra morbida sotto;
+  - **senza luce** hanno staccato la corrente: la lampadina e la lampada spente, i display del videoregistratore e
+    della radiosveglia neri; il videoregistratore non va, e i nastri del giorno **non si possono rivedere**; la sera
+    la stanza è buia e la si guarda col **verde della maschera**, con la sua luce infrarossa che segue lo sguardo (un
+    faro attaccato alla camera, `torciaIR`, e `HQ_BUIO`);
+  - **senza stufa** c'è il **ghiaccio sui vetri** (la vista dalla finestra con la brina disegnata sopra, fitta in
+    basso, `vistaGelo`), tossisci dentro la maschera e le famiglie si fidano meno: in ogni casa la pazienza parte
+    da 4 tacche invece di 5; se c'era l'ospite, ha dormito col cappotto addosso, a tremare;
+  - **in debito** la padrona fa passare un **biglietto sotto la porta** (a quadretti, scritto a penna: «Dottore,
+    l'affitto!»; usato dice quanto manca); alla seconda notte di fila **si riprende la brandina** della stanzetta
+    (sparisce anche nel 3D): finché non paghi, niente ospiti, e chi dorme solo, il malvento se lo prende.
+  - Anche la quarta mattina, quella del finale, ha la stanza com'era rimasta l'ultima sera.
+- **Le prove:** `node tools/prove/prova_conti.js <cartella>` (il primo giorno chiuso in debito senza pagare niente,
+  la stanza del secondo giorno, la sera al buio, la seconda notte e la brandina portata via). Trovato strada facendo:
+  il tasto per dormire, premuto due volte (anche con lo spazio), faceva la notte e i conti due volte; ora una volta
+  sola.
 
 ### La visita
 

@@ -1,0 +1,20 @@
+{
+  "piatto_croste": {
+    "modello": "openai/gpt-image-2",
+    "input": {
+      "prompt": "Photograph seen exactly from above (top-down, orthographic feel) of a single old enamel plate, white with a thin dark blue rim, a few chips in the enamel showing black metal underneath. On the plate there are only two hard, dry crusts of bread, curled, with a few crumbs. Nothing else: no food, no cutlery, no table visible. The plate is isolated on a perfectly plain flat black background. Dim, warm light from the upper left, soft shadow of the crusts on the plate. Realistic, high detail, slightly desaturated, gloomy.",
+      "image_size": {
+        "width": 1024,
+        "height": 1024
+      },
+      "quality": "high",
+      "num_images": 1
+    },
+    "file": [
+      "piatto_croste.png"
+    ],
+    "seed": null,
+    "secondi": 93,
+    "descrizione": null
+  }
+}

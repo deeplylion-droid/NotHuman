@@ -81,6 +81,7 @@
   #soldi-hud { position: absolute; left: 2.4cqw; top: 2.2cqw; display: flex; align-items: center; gap: 0.5em; font-family: var(--gioco); font-size: max(11px, 1.5cqw); color: var(--giallo); text-shadow: 0.13cqw 0.13cqw 0 #000, 0 0 2px #000; pointer-events: none; font-variant-numeric: tabular-nums; }
   #soldi-hud .pix { width: 1.4em; height: 1.4em; filter: drop-shadow(0.13cqw 0.13cqw 0 #000); }
   #schermo[data-schermo="visita"] #soldi-hud, #schermo[data-schermo="nastro"] #soldi-hud { display: none; }
+  #soldi-hud.debito { color: #ff6a58; }
 
   /* gli indicatori: la pazienza della famiglia e il tempo fino al coprifuoco. Nelle visite in basso a sinistra,
      sopra il nastro delle frasi (dov'erano data e ora); sulla mappa solo il tempo, in alto a destra */
@@ -490,6 +491,36 @@
   #foglio[data-tipo="soldi"] .carta, #foglio[data-tipo="nastri"] .carta, #foglio[data-tipo="notte"] .carta, #foglio[data-tipo="verita"] .carta, #foglio[data-tipo="finale"] .carta { background: #121514; color: var(--testo); font-family: var(--mono); border: 1px solid var(--linea); }
   #foglio[data-tipo="notte"] h2, #foglio[data-tipo="verita"] h2, #foglio[data-tipo="nastri"] h2, #foglio[data-tipo="soldi"] h2, #foglio[data-tipo="finale"] h2 { font-family: var(--vcr); font-size: 2rem; font-weight: 400; color: var(--giallo); }
   #foglio[data-tipo="nastri"] .azioni { margin-top: 0.5rem; }
+
+  /* i conti della sera (30 ottobre: «come su Papers, Please»): la paga della ditta, le spese fisse, la cena, la luce e
+     la stufa da spuntare (sotto, cosa succede senza), quanto resta; il tasto per dormire resta sempre in vista */
+  #foglio[data-tipo="conti"] .carta { width: min(30rem, 100%); background: #121514; color: var(--testo); font-family: var(--mono); border: 1px solid var(--linea); }
+  #foglio[data-tipo="conti"] #foglio-corpo { padding: 1.3rem 1.5rem 0; }
+  #foglio[data-tipo="conti"] h2 { margin: 0; font-family: var(--vcr); font-size: 2rem; font-weight: 400; color: var(--giallo); }
+  #foglio[data-tipo="conti"] h3 { margin: 0.9rem 0 0.35rem; font-family: var(--gioco); font-size: 0.7rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--spento); }
+  .ct-nota { margin: 0.35rem 0 0; font-size: 0.8rem; line-height: 1.45; color: var(--spento); font-style: italic; }
+  .ct-tasca { margin: 0.5rem 0 0; font-family: var(--gioco); font-size: 0.82rem; color: var(--testo); font-variant-numeric: tabular-nums; }
+  .ct-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
+  .ct-voce { display: grid; grid-template-columns: 1fr auto auto; align-items: baseline; gap: 0.7rem; font-size: 0.86rem; }
+  .ct-voce .ct-conto { color: var(--spento); font-size: 0.75rem; font-variant-numeric: tabular-nums; }
+  .ct-importo { min-width: 4.4rem; text-align: right; font-family: var(--gioco); font-size: 0.8rem; font-weight: 400; font-variant-numeric: tabular-nums; }
+  .ct-scelte { margin-top: 0.45rem; }
+  .ct-scelta { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "nome importo" "nota importo"; align-items: center; gap: 0.1rem 0.7rem; width: 100%; padding: 0.5rem 0.6rem; text-align: left; font: inherit; font-size: 0.9rem; color: var(--testo); background: transparent; border: 2px dashed var(--linea); border-radius: 4px; cursor: pointer; }
+  .ct-scelta .ct-nome { grid-area: nome; display: flex; align-items: center; gap: 0.55rem; font-weight: 600; }
+  .ct-scelta small { grid-area: nota; padding-left: 1.6rem; font-size: 0.74rem; color: #ff8a7a; }
+  .ct-scelta .ct-importo { grid-area: importo; }
+  .ct-casella { width: 0.95rem; height: 0.95rem; flex: none; border: 2px solid currentColor; border-radius: 2px; box-sizing: border-box; }
+  .ct-scelta[aria-pressed="true"] { border-style: solid; border-color: var(--giallo); background: rgba(242, 209, 107, 0.08); }
+  .ct-scelta[aria-pressed="true"] .ct-casella { background: var(--giallo); border-color: var(--giallo); box-shadow: inset 0 0 0 2px #121514; }
+  .ct-scelta[aria-pressed="true"] small { color: var(--spento); }
+  .ct-scelta:hover:not(:disabled), .ct-scelta:focus-visible { border-color: var(--giallo); outline: none; }
+  .ct-scelta:disabled { cursor: not-allowed; opacity: 0.55; }
+  .ct-resta { display: flex; justify-content: space-between; align-items: baseline; margin: 0.9rem 0 0; padding-top: 0.7rem; border-top: 1px solid var(--linea); font-family: var(--gioco); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .ct-resta-cifra { font-size: 1.15rem; font-weight: 400; color: var(--giallo); font-variant-numeric: tabular-nums; }
+  .ct-male, .ct-voce.ct-male { color: #ff6a58; }
+  .ct-resta-cifra.ct-male { color: #ff6a58; }
+  .ct-avviso { margin: 0.4rem 0 0; font-size: 0.8rem; line-height: 1.4; color: #ff6a58; }
+  #foglio[data-tipo="conti"] .azioni { position: sticky; bottom: 0; z-index: 1; margin: 0.9rem -1.5rem 0; padding: 0.8rem 1.5rem 1.2rem; background: linear-gradient(rgba(18, 21, 20, 0), #121514 0.8rem); }
 
   /* il tasto per andare avanti resta sempre in vista, anche quando il foglio scorre (28 ottobre: "il tasto
      continua e' troppo in basso e sullo schermo non si vede") */

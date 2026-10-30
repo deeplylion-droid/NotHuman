@@ -71,6 +71,8 @@ const OGGETTI = {
   credenza: { nome: T("La credenza"), sosta: [-1.45, 0.25], guarda: [-2.25, 0.95, 0.25] },
   lavandino: { nome: T("Il lavandino"), sosta: [-1.55, 1.75], guarda: [-2.35, 1.1, 1.75] },
   ospite: { nome: T("La stanzetta dell'ospite"), sosta: [1.75, 1.7], guarda: [2.6, 1.15, 1.7] },
+  // il biglietto della padrona di casa, sul pavimento dietro la porta, dopo una notte in debito (conseguenze)
+  biglietto: { nome: T("Il biglietto della padrona"), sosta: [-1.45, 2.05], guarda: [-1.4, 0.0, 2.72] },
 };
 
 // da dove si parte entrando nella stanza: [x, z, direzione dello sguardo in radianti, inclinazione]
@@ -80,6 +82,8 @@ const ARRIVI = {
   porta: [-1.5, 2.3, -0.16, -0.06],
   nastri: [-0.15, -1.55, 0, -0.3],
   ospite: [1.75, 1.7, -Math.PI / 2, -0.05],
+  // dopo una sera senza cena: accanto al tavolino, gli occhi sul piatto con le croste
+  piatto: [-0.75, 1.65, -1.35, -0.8],
 };
 
 // i modelli, uno per oggetto, fatti da una foto. I mobili sono di Meshy: "allinea" li raddrizza (Meshy li consegna
@@ -163,6 +167,21 @@ const HQ_DIR = MOD + "hq/";
 const HQ_LUCE = {
   mattina: { esposizione: 2.6, lampadina: 6, tenda: 0.45, fessura: 0, vista: 1.0 },
   sera: { esposizione: 1.25, lampadina: 14, tenda: 0, fessura: 1.6, vista: 1.0 },
+};
+// senza corrente (la luce non pagata, 30 ottobre): la lampadina e la lampada spente, i display neri. La mattina resta
+// la luce della finestra; la sera la stanza quasi buia ("cotta": la luce cotta della mattina, piu' uniforme), che
+// gioco.js guarda col verde della maschera
+const HQ_BUIO = {
+  mattina: { esposizione: 1.6, lampadina: 0 },
+  // la sera: la luce cotta della mattina, appena (la strada, dai vetri), e la luce infrarossa della maschera, che
+  // segue lo sguardo ("torcia")
+  sera: { esposizione: 1.1, lampadina: 0, tenda: 0, cotta: "mattina", cottaScala: 0.14, torcia: 11 },
+};
+// dove compaiono le cose dei conti: il piatto sul tavolino dietro (il piano e' a 0,76, la sedia verso la scrivania),
+// il biglietto sul pavimento appena dentro la porta
+const CONTI = {
+  piatto: { pos: [0.02, 0.7625, 1.52], raggio: 0.14, giro: 0.6, luce: 2.3 },
+  biglietto: { pos: [-1.38, 0.0035, 2.68], largo: 0.21, alto: 0.148, giro: 0.35 },
 };
 const HQ_ALONE = { forza: 0.22, raggio: 0.4, soglia: 2.2 };
 const HQ_COLORE = { contrasto: 0.45, saturazione: 1.0, vignetta: 0.5 };
@@ -512,6 +531,65 @@ function ammorbidisci(t, lato = 256) {
   return n;
 }
 
+// un disco sfumato, pieno al centro e trasparente al bordo: le ombre morbide delle cose appoggiate
+function sfumatura() {
+  const c = document.createElement("canvas");
+  c.width = c.height = 128;
+  const g = c.getContext("2d");
+  const r = g.createRadialGradient(64, 64, 18, 64, 64, 64);
+  r.addColorStop(0, "rgba(255, 255, 255, 1)");
+  r.addColorStop(1, "rgba(255, 255, 255, 0)");
+  g.fillStyle = r;
+  g.fillRect(0, 0, 128, 128);
+  return new THREE.CanvasTexture(c);
+}
+
+// il biglietto della padrona di casa: un foglietto a quadretti piegato in due, due righe a penna e la firma. Si
+// ridisegna quando arriva il carattere della penna (Caveat)
+function disegnaBiglietto() {
+  const c = document.createElement("canvas");
+  c.width = 512;
+  c.height = 360;
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+  const penna = (px) => `700 ${px}px Caveat, "Segoe Print", "Bradley Hand", cursive`;
+  const disegna = () => {
+    const g = c.getContext("2d");
+    g.fillStyle = "#e6dfcc";
+    g.fillRect(0, 0, 512, 360);
+    g.strokeStyle = "rgba(70, 110, 160, 0.3)";
+    g.lineWidth = 1.5;
+    for (let x = 14; x < 512; x += 24) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 360); g.stroke(); }
+    for (let y = 10; y < 360; y += 24) { g.beginPath(); g.moveTo(0, y); g.lineTo(512, y); g.stroke(); }
+    const piega = g.createLinearGradient(0, 168, 0, 192);
+    piega.addColorStop(0, "rgba(0, 0, 0, 0)");
+    piega.addColorStop(0.5, "rgba(0, 0, 0, 0.2)");
+    piega.addColorStop(1, "rgba(0, 0, 0, 0)");
+    g.fillStyle = piega;
+    g.fillRect(0, 168, 512, 24);
+    g.fillStyle = "#1c2a58";
+    g.save();
+    g.translate(36, 118);
+    g.rotate(-0.05);
+    g.font = penna(70);
+    g.fillText(T("Dottore,"), 0, 0);
+    g.fillText(T("l'affitto!"), 34, 76);
+    g.restore();
+    g.font = penna(48);
+    g.fillText(T("la padrona"), 268, 322);
+    const sporco = g.createRadialGradient(256, 180, 110, 256, 180, 330);
+    sporco.addColorStop(0, "rgba(90, 70, 40, 0)");
+    sporco.addColorStop(1, "rgba(90, 70, 40, 0.4)");
+    g.fillStyle = sporco;
+    g.fillRect(0, 0, 512, 360);
+    tex.needsUpdate = true;
+  };
+  disegna();
+  document.fonts?.load(penna(70)).then(disegna).catch(() => {});
+  return tex;
+}
+
 // un materiale copiato (per illuminare un oggetto da solo) tiene il "bollire" della creta e l'ombra degli angoli
 function copia(m) {
   const c = m.clone();
@@ -795,6 +873,9 @@ export class Stanza {
       densitaFuori: { value: 0 }, banchiFuori: { value: 0 }, coloreFuori: { value: new THREE.Vector3() } } : null;
     modello = altre = 1;
     dici();
+    // le immagini dei conti (il piatto) restano: si caricano qui sotto
+    const texConti = Object.fromEntries(await Promise.all(Object.keys(blob).filter((n) => n.startsWith("conti_"))
+      .map(async (n) => [n.slice(6, -5), await tl.loadAsync(blob[n]).catch(() => null)])));
     for (const u of Object.values(blob)) URL.revokeObjectURL(u);
     const hq = { dati, luci: Object.fromEntries(luci), piccoli: Object.fromEntries(piccoli), viste: Object.fromEntries(viste),
       materiali: [], ambiente: {} };
@@ -984,6 +1065,7 @@ export class Stanza {
     this.scena.add(radice);
     this.hq = hq;
     this.composer = c;
+    this.preparaConti(radice, texConti);
     this.nebbiaNome = null;
     this.fase("mattina");
     this.nebbia(NEBBIA_INIZIO);
@@ -1035,7 +1117,7 @@ export class Stanza {
     u.vento.value.set(...N.vento);
     u.raggi.value.set(...N.raggi);
     u.caldo.value.set(...N.caldo);
-    const L = HQ_LUCE[this.faseOra] || HQ_LUCE.mattina;
+    const L = this.luceHQ();
     u.sole.value = sera ? 0 : 1;
     u.lampadina.value = L.lampadina * 0.03;
     u.lampada.value = sera ? L.lampadina * 0.012 : 0;
@@ -1046,21 +1128,29 @@ export class Stanza {
 
   // la luce della mattina o della sera nella stanza HQ: la luce cotta, la vista, la lampadina, la tenda, la luce sotto
   // la porta, l'esposizione; e i riflessi, da una foto della stanza con quella luce (una volta per luce)
+  // la luce della fase di adesso, senza corrente se la luce non e' pagata
+  luceHQ(f = this.faseOra) {
+    const L = HQ_LUCE[f] || HQ_LUCE.mattina;
+    return this.buio ? { ...L, ...(HQ_BUIO[f] || HQ_BUIO.mattina) } : L;
+  }
+
   faseHQ(f) {
     const hq = this.hq;
     this.faseOra = f;
-    const L = HQ_LUCE[f] || HQ_LUCE.mattina;
+    const L = this.luceHQ(f);
+    const fc = L.cotta || f;
     // se manca la luce cotta della sera, quella della mattina piu' scura; le cose piccole hanno la loro
-    const scegli = (l) => ({ luce: l[f] || l.mattina || Object.values(l)[0], piu: l[f] ? 1 : 0.25 });
+    const scegli = (l) => ({ luce: l[fc] || l.mattina || Object.values(l)[0], piu: l[fc] ? 1 : 0.25 });
     const stanza = scegli(hq.luci);
     const piccole = Object.keys(hq.piccoli).length ? scegli(hq.piccoli) : stanza;
     for (const m of hq.materiali) {
       const { luce, piu } = m.userData.piccoli ? piccole : stanza;
       m.lightMap = luce.tex;
-      m.lightMapIntensity = Math.PI * luce.scala * piu;
+      m.lightMapIntensity = Math.PI * luce.scala * piu * (L.cottaScala ?? 1);
     }
+    this.torciaIR(L.torcia || 0);
     for (const m of hq.vista) {
-      m.emissiveMap = hq.viste[f] || hq.viste.mattina || null;
+      m.emissiveMap = (this.gelo && this.vistaGelo(f)) || hq.viste[f] || hq.viste.mattina || null;
       m.emissiveIntensity = L.vista;
       m.needsUpdate = true;
     }
@@ -1070,11 +1160,13 @@ export class Stanza {
       m.emissive.setHex(0xffe8c4);
       m.emissiveIntensity = L.tenda;
     }
-    // i display non devono bruciare con l'esposizione
-    for (const m of hq.display) m.emissiveIntensity = 1.7 / L.esposizione;
+    // i display non devono bruciare con l'esposizione; senza corrente sono spenti
+    for (const m of hq.display) m.emissiveIntensity = this.buio ? 0 : 1.7 / L.esposizione;
     this.matFessura.color.setHex(0xffb066).multiplyScalar(L.fessura);
     this.renderer.toneMappingExposure = L.esposizione;
-    if (!hq.ambiente[f]) {
+    // la foto per i riflessi si rifa' anche al buio
+    const amb = this.buio ? `${f}-buio` : f;
+    if (!hq.ambiente[amb]) {
       // la foto della stanza dal centro, all'altezza degli occhi: i riflessi del pavimento, del ferro, dei vetri
       const rt = new THREE.WebGLCubeRenderTarget(256, { type: THREE.HalfFloatType });
       const cam = new THREE.CubeCamera(0.05, 30, rt);
@@ -1082,14 +1174,146 @@ export class Stanza {
       this.scena.environment = null;
       cam.update(this.renderer, this.scena);
       const pmrem = new THREE.PMREMGenerator(this.renderer);
-      hq.ambiente[f] = pmrem.fromCubemap(rt.texture).texture;
+      hq.ambiente[amb] = pmrem.fromCubemap(rt.texture).texture;
       pmrem.dispose();
       rt.dispose();
     }
-    this.scena.environment = hq.ambiente[f];
+    this.scena.environment = hq.ambiente[amb];
     this.scena.environmentIntensity = 1;
     this.applicaFuori();
     this.applicaNebbia();
+  }
+
+  // ---------- i conti (30 ottobre): la mattina dopo una sera in cui non hai pagato tutto ----------
+
+  // le cose dei conti, pronte e fuori dalla stanza: il piatto con le croste sul tavolino (con la sua ombra morbida) e
+  // il biglietto della padrona; si usano come il tavolino e come il biglietto (registra)
+  preparaConti(radice, tex) {
+    this.radiceHQ = radice;
+    this.conti = {};
+    if (tex.piatto) {
+      const P = CONTI.piatto;
+      tex.piatto.colorSpace = THREE.SRGBColorSpace;
+      tex.piatto.anisotropy = 4;
+      const g = new THREE.Group();
+      g.position.set(...P.pos);
+      g.rotation.y = P.giro;
+      // l'ombra: un disco piu' largo, nero sfumato, appena sotto
+      const ombra = new THREE.Mesh(new THREE.CircleGeometry(P.raggio * 1.28, 48), new THREE.MeshBasicMaterial({
+        map: sfumatura(), color: 0x000000, transparent: true, opacity: 0.75, depthWrite: false }));
+      ombra.rotation.x = -Math.PI / 2;
+      ombra.position.set(0.006, -0.0012, 0.01);
+      ombra.raycast = () => {};
+      // senza luce cotta, lo illumina la foto della stanza: "luce" lo porta alla luce del tavolino
+      const piatto = new THREE.Mesh(new THREE.CircleGeometry(P.raggio, 64), new THREE.MeshStandardMaterial({
+        map: tex.piatto, color: new THREE.Color().setScalar(P.luce), transparent: true, alphaTest: 0.04, roughness: 0.42,
+        metalness: 0, envMapIntensity: 1 }));
+      piatto.rotation.x = -Math.PI / 2;
+      g.add(ombra, piatto);
+      this.registra("tavolo", piatto);
+      this.conti.piatto = g;
+    }
+    // il biglietto: un foglietto a quadretti piegato in due, scritto a penna (disegnato qui)
+    const B = CONTI.biglietto;
+    const b = new THREE.Mesh(new THREE.PlaneGeometry(B.largo, B.alto), new THREE.MeshStandardMaterial({
+      map: disegnaBiglietto(), roughness: 0.9, metalness: 0 }));
+    // steso sul pavimento, la testa verso la porta: si legge dalla stanza
+    b.rotation.set(-Math.PI / 2, 0, Math.PI + B.giro);
+    b.position.set(...B.pos);
+    this.registra("biglietto", b);
+    this.conti.biglietto = b;
+  }
+
+  // la stanza coi conti di ieri sera (gioco.js): il piatto, la luce staccata, il ghiaccio sui vetri, il biglietto, la
+  // brandina (false: se l'e' ripresa la padrona). Le cose che non ci sono escono dalla scena (anche dal mirino)
+  conseguenze({ piatto = false, buio = false, gelo = false, biglietto = false, brandina = true } = {}) {
+    if (!this.hq) return;
+    const metti = (o, si) => { if (!o) return; if (si) this.radiceHQ.add(o); else o.removeFromParent(); };
+    metti(this.conti.piatto, piatto);
+    metti(this.conti.biglietto, biglietto);
+    metti(this.modelli?.brandina, brandina);
+    this.buio = buio;
+    this.gelo = gelo;
+    if (this.faseOra) this.faseHQ(this.faseOra);
+  }
+
+  // la luce infrarossa della maschera (la sera senza corrente): un faro largo attaccato alla camera, che illumina quello
+  // che si guarda e lascia buio il resto. 0 la spegne
+  torciaIR(forza) {
+    if (!forza && !this.torcia) return;
+    if (!this.torcia) {
+      const t = new THREE.SpotLight(0xffffff, 0, 9, 0.85, 0.75, 1.3);
+      t.position.set(0, 0, 0);
+      t.target.position.set(0, 0, -1);
+      this.camera.add(t, t.target);
+      if (!this.camera.parent) this.scena.add(this.camera);
+      this.torcia = t;
+    }
+    this.torcia.visible = forza > 0;
+    this.torcia.intensity = forza;
+  }
+
+  // la vista dalla finestra col ghiaccio sui vetri (una volta per fase): la brina fitta ai bordi, a felci, rada al centro
+  vistaGelo(f) {
+    const hq = this.hq;
+    hq.gelo ??= {};
+    if (hq.gelo[f]) return hq.gelo[f];
+    const t = hq.viste[f] || hq.viste.mattina;
+    const im = t?.image;
+    if (!im) return null;
+    const w = im.width, h = im.height;
+    const c = document.createElement("canvas");
+    c.width = w;
+    c.height = h;
+    const g = c.getContext("2d");
+    g.drawImage(im, 0, 0, w, h);
+    const velo = g.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.18, w / 2, h / 2, Math.hypot(w, h) * 0.55);
+    velo.addColorStop(0, "rgba(205, 222, 232, 0.06)");
+    velo.addColorStop(0.6, "rgba(205, 222, 232, 0.4)");
+    velo.addColorStop(1, "rgba(225, 238, 245, 0.85)");
+    g.fillStyle = velo;
+    g.fillRect(0, 0, w, h);
+    // in basso la brina si posa: un banco bianco che sale per un terzo dei vetri
+    const banco = g.createLinearGradient(0, h, 0, h * 0.5);
+    banco.addColorStop(0, "rgba(236, 245, 250, 0.97)");
+    banco.addColorStop(0.4, "rgba(228, 240, 247, 0.6)");
+    banco.addColorStop(1, "rgba(225, 238, 246, 0)");
+    g.fillStyle = banco;
+    g.fillRect(0, h * 0.5, w, h * 0.5);
+    // i cristalli: rami che partono dai bordi verso il centro, con i rametti ai lati
+    let seme = 7;
+    const caso = () => ((seme = (seme * 16807) % 2147483647) - 1) / 2147483646;
+    g.lineCap = "round";
+    const ramo = (x, y, ang, lung, liv) => {
+      const x1 = x + Math.cos(ang) * lung, y1 = y + Math.sin(ang) * lung;
+      g.lineWidth = (0.8 + liv * 1.1) * w / 1024;
+      g.strokeStyle = `rgba(240, 248, 253, ${0.24 + liv * 0.14})`;
+      g.beginPath();
+      g.moveTo(x, y);
+      g.lineTo(x1, y1);
+      g.stroke();
+      if (liv <= 0) return;
+      for (let k = 1; k <= 3; k++) {
+        const q = k / 4, lato = k % 2 ? 1 : -1;
+        ramo(x + (x1 - x) * q, y + (y1 - y) * q, ang + lato * (0.75 + caso() * 0.4), lung * (0.28 + caso() * 0.2), liv - 1);
+      }
+    };
+    const s = w / 1024;
+    for (let i = 0; i < 520; i++) {
+      // piu' spesso dal basso
+      const lato = caso() < 0.45 ? 2 : Math.floor(caso() * 4);
+      const u = caso();
+      const [x, y] = [[u * w, 0], [w, u * h], [u * w, h], [0, u * h]][lato];
+      // verso il centro, un po' storto
+      const ang = Math.atan2(h / 2 - y, w / 2 - x) + (caso() - 0.5) * 1.3;
+      ramo(x, y, ang, (40 + caso() * 150) * s, 2);
+    }
+    const nuova = new THREE.CanvasTexture(c);
+    nuova.flipY = t.flipY;
+    nuova.colorSpace = t.colorSpace;
+    nuova.anisotropy = 4;
+    hq.gelo[f] = nuova;
+    return nuova;
   }
 
   // ---------- la stanza ----------

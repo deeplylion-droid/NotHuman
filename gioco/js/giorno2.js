@@ -303,8 +303,8 @@ export function giorno2(ieri) {
           dice: [["TU", T("La chiave è nella toppa. Giro io.")], ["SUOCERA", T("No! Non toccate!"), { volto: "arrabbiato" }],
             ["SUOCERA", T("[ti si aggrappa al braccio. Pesa come un uccello]"), { volto: "arrabbiato" }]],
           poi: { fiducia: -15, forzata: true, sblocca: "porta10", conosci: "nuora", vai: "camera10", volti: { suocera: "arrabbiato" } } },
-        { testo: T("offri 50 € alla suocera"), minuti: 5, soldi: 50,
-          dice: [["TU", T("Cinquanta euro, e non ho visto niente.")],
+        { testo: T("offri 20 € alla suocera"), minuti: 5, soldi: 20,
+          dice: [["TU", T("Venti euro, e non ho visto niente.")],
             ["SUOCERA", T("Soldi della ditta? Tenetevi i vostri soldi."), { volto: "arrabbiato" }]] },
       ],
     },
@@ -870,7 +870,11 @@ export function giorno2(ieri) {
   return {
     PERSONE, VOCI, NASCOSTI: { casa5: [{ nome: T("il ragazzo in cantina"), stato: "grave" }] }, LUOGHI, ARRIVO, PORTE, ESAMI, DOMANDE,
     DICHIARAZIONI, PROVE, CONTESTAZIONI, REAZIONI, ANNOTA, ANAGRAFE, ALTRI, CACCIATA, CASE, OSPITE,
-    SOLDI: { ...D1.SOLDI, paziente: 450, profilo: 300 },
+    // la paga un po' piu' alta, le spese di piu': la padrona alza l'affitto e fa piu' freddo (la "nota" si legge nel
+    // foglio dei conti)
+    SOLDI: { ...D1.SOLDI, paziente: 45, profilo: 60 },
+    SPESE: { affitto: 45, cena: 20, luce: 25, stufa: 20,
+      nota: T("La padrona di casa ha alzato l'affitto: «Con la peste in casa, chi ci viene più a dormire?». E di notte gela.") },
     // il protocollo cambia: entra la tosse col sangue, il pallore resta (la ditta continua a mentire), e il profilo
     // richiesto sono i vecchi malati
     FAX: {
