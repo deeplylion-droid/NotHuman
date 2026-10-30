@@ -18,7 +18,7 @@
 import * as THREE from "../lib/three.js";
 import * as C from "./plastilina.js";
 import { caratteri, primaPagina } from "./primapagina.js";
-import { T } from "./lingua.js";
+import { T, inLingua } from "./lingua.js";
 
 const IMG = "img/stanza/";
 const MOD = "modelli/";
@@ -682,24 +682,24 @@ export class Stanza {
     const nomi = ["carta_parati.jpg", "pavimento.jpg", "pavimento_normale.jpg", "legno.jpg", "porta.jpg",
       "santino.jpg", "calendario.jpg", "finestra.jpg", "finestra_chiusa.jpg", "finestra_luce.jpg", "mappa.jpg",
       "tappeto.jpg"];
-    const T = {};
+    const tex = {};
     await Promise.all(nomi.map(async (n) => {
-      const t = await tl.loadAsync(IMG + n);
+      const t = await tl.loadAsync(inLingua(IMG + n));
       t.colorSpace = n.includes("normale") ? THREE.NoColorSpace : THREE.SRGBColorSpace;
       t.anisotropy = 8;
-      T[n.replace(/\.\w+$/, "")] = t;
+      tex[n.replace(/\.\w+$/, "")] = t;
     }));
-    for (const n of ["carta_parati", "pavimento", "pavimento_normale", "legno"]) T[n].wrapS = T[n].wrapT = THREE.RepeatWrapping;
+    for (const n of ["carta_parati", "pavimento", "pavimento_normale", "legno"]) tex[n].wrapS = tex[n].wrapT = THREE.RepeatWrapping;
     if (CRETA) {
       // le superfici di creta (tools/texture_creta.py): le coordinate dei muri sono gia' in "metri"
       const [muro, pavimento, soffitto, grezzo] = await Promise.all(["muro_camera", "pavimento_legno", "soffitto", "intonaco_grezzo"]
         .map((n) => C.superficie(n, 1)));
-      Object.assign(T, { creta: { muro, pavimento, soffitto, grezzo } });
+      Object.assign(tex, { creta: { muro, pavimento, soffitto, grezzo } });
       // le immagini di prima (quasi foto) ammorbidite: dalla finestra si vede appena, come da un vetro sporco
       for (const [n, lato] of [["legno", 128], ["finestra", 40], ["finestra_luce", 40], ["finestra_chiusa", 160], ["porta", 192],
-        ["calendario", 160], ["santino", 128], ["tappeto", 128]]) T[n] = ammorbidisci(T[n], lato);
+        ["calendario", 160], ["santino", 128], ["tappeto", 128]]) tex[n] = ammorbidisci(tex[n], lato);
     }
-    this.T = T;
+    this.T = tex;
     texture = 1;
     dici();
     // la luce morbida che si riflette sui materiali (soprattutto il ferro del letto, il rubinetto, i vetri)
@@ -721,7 +721,7 @@ export class Stanza {
       if (r.status === "fulfilled") scene[r.value[0]] = r.value[1];
       else console.warn("Modello non caricato:", r.reason);
     }
-    this.costruisci(T);
+    this.costruisci(tex);
     this.modelli = {};
     const usati = {};
     for (const m of MODELLI) {
@@ -733,7 +733,7 @@ export class Stanza {
       usati[n] = true;
     }
     if (!this.su) this.pianoScrivania();
-    this.sullaScrivania(T);
+    this.sullaScrivania(tex);
     this.ombreSulPavimento();
     this.luci();
     this.fase("mattina");
@@ -776,14 +776,17 @@ export class Stanza {
       dici();
     });
     const luce = (elenco) => Promise.all(Object.entries(elenco || {}).map(async ([f, l]) => [f, { tex: await texture(HQ_DIR + l.file), scala: l.scala }]));
-    const [radice, luci, piccoli, viste, mappa, profondita] = await Promise.all([
+    // il calendario della ditta ha le scritte: nelle altre lingue il suo, al posto di quello del modello
+    const calendarioLingua = inLingua(IMG + "calendario.jpg");
+    const [radice, luci, piccoli, viste, mappa, profondita, calendario] = await Promise.all([
       // il modello si legge dopo le sue texture (le cerca subito)
       texModello.then(() => caricaModello(gltf, "hq/stanza", (f) => { modello = f; dici(); })),
       luce(dati.luce),
       luce(dati.piccoli),
       Promise.all(Object.entries(dati.vista || {}).map(async ([f, n]) => [f, await texture(HQ_DIR + n)])),
-      texture(IMG + "mappa.jpg").catch(() => null),
+      texture(inLingua(IMG + "mappa.jpg")).catch(() => null),
       dati.vista_profondita ? texture(HQ_DIR + dati.vista_profondita).catch(() => null) : null,
+      calendarioLingua !== IMG + "calendario.jpg" ? texture(calendarioLingua).catch(() => null) : null,
     ]);
     // la profondita' della vista e' un dato, non un colore
     if (profondita) profondita.colorSpace = THREE.NoColorSpace;
@@ -896,6 +899,7 @@ export class Stanza {
     });
     // la mappa sulla scrivania: quella del gioco (nel modello ce n'e' una piccola, al suo posto)
     if (mappa) nodo("mappa")?.traverse((o) => { if (o.isMesh) for (const m of [].concat(o.material)) { m.map = mappa; m.needsUpdate = true; } });
+    if (calendario) nodo("calendario")?.traverse((o) => { if (o.isMesh) for (const m of [].concat(o.material)) { m.map = calendario; m.needsUpdate = true; } });
     // il giornale piegato sulla scrivania: la prima pagina la ridisegna giornale() col giornale del giorno
     this.giornaleNodo = nodo("giornale") || null;
     this.giornaleDi = null;
@@ -1090,7 +1094,7 @@ export class Stanza {
 
   // ---------- la stanza ----------
 
-  costruisci(T) {
+  costruisci(tex) {
     const S = this.scena;
     // in plastilina tutto e' creta (tranne lo specchio, che resta vetro); le immagini intere (la porta, il calendario,
     // la mappa...) con impronte leggere
@@ -1105,19 +1109,19 @@ export class Stanza {
     const mat = (o) => CRETA && !(o.metalness > 0.5) ? creta(o) : new THREE.MeshStandardMaterial({ roughness: 0.9, metalness: 0, ...o });
     const intera = (o) => { const m = mat(CRETA ? { impronte: 0.35, ...o } : o); m.userData.intera = true; return m; };
     this.mat = { mat, intera };
-    const K = T.creta;
+    const K = tex.creta;
     // l'ombra negli angoli: piu' scuro vicino al pavimento, al soffitto e negli spigoli
     this.aoMuri = this.angoli();
     const carta = this.conAngoli(CRETA ? mat({ map: K.muro.map, normalMap: K.muro.normalMap, color: 0xb9a586, aoMap: this.aoMuri, impronte: 1 })
-      : mat({ map: T.carta_parati, color: 0xe4d8bf, aoMap: this.aoMuri }));
+      : mat({ map: tex.carta_parati, color: 0xe4d8bf, aoMap: this.aoMuri }));
     const intonaco = mat({ color: 0xd8cfbd, roughness: 0.95 });
-    const scuro = mat({ map: T.legno, color: 0x5e3f2a, roughness: 0.7 });
+    const scuro = mat({ map: tex.legno, color: 0x5e3f2a, roughness: 0.7 });
     const bianco = mat({ color: 0xe9e4d8, roughness: 0.6 });
     this.mat.scuro = scuro;
 
     // il pavimento: le assi col loro rilievo; l'ombra sotto i mobili arriva dopo (ombreSulPavimento)
     const pav = this.superficie(X1 - X0, Z1 - Z0, CRETA ? mat({ map: K.pavimento.map, normalMap: K.pavimento.normalMap, color: 0xb7a089, roughness: 0.7, impronte: 1 })
-      : mat({ map: T.pavimento, normalMap: T.pavimento_normale, normalScale: new THREE.Vector2(0.55, 0.55), color: 0xc6b49c, roughness: 0.78 }), CRETA ? 1.5 : 1.2);
+      : mat({ map: tex.pavimento, normalMap: tex.pavimento_normale, normalScale: new THREE.Vector2(0.55, 0.55), color: 0xc6b49c, roughness: 0.78 }), CRETA ? 1.5 : 1.2);
     pav.rotation.x = -Math.PI / 2;
     pav.userData.pavimento = true;
     S.add(pav);
@@ -1177,7 +1181,7 @@ export class Stanza {
     const davanzale = this.scatola(lw + 0.08, 0.035, FIN.fondo + 0.07, mat({ color: 0xd7d1c4, roughness: 0.32 }));
     davanzale.position.set((FIN.x0 + FIN.x1) / 2, FIN.y0 - 0.0175, Z0 - FIN.fondo / 2 + 0.035);
     S.add(davanzale);
-    const fin = this.superficie(lw, lh, intera({ map: T.finestra, emissiveMap: T.finestra_luce, emissive: 0xffffff, roughness: 0.6 }));
+    const fin = this.superficie(lw, lh, intera({ map: tex.finestra, emissiveMap: tex.finestra_luce, emissive: 0xffffff, roughness: 0.6 }));
     fin.position.set((FIN.x0 + FIN.x1) / 2, FIN.y0 + lh / 2, fondo + 0.01);
     this.registra("finestra", fin);
     S.add(fin);
@@ -1190,7 +1194,7 @@ export class Stanza {
     }
 
     // la porta sulla parete di fronte, con lo stipite, la luce delle scale che passa sotto e l'interruttore
-    const porta = this.superficie(PORTA.largo, PORTA.alto, intera({ map: T.porta }));
+    const porta = this.superficie(PORTA.largo, PORTA.alto, intera({ map: tex.porta }));
     porta.rotation.y = Math.PI;
     porta.position.set(PORTA.x, PORTA.alto / 2, Z1 - 0.012);
     this.registra("porta", porta);
@@ -1231,8 +1235,8 @@ export class Stanza {
       c.position.set(X1 - 0.015, y, z);
       S.add(c);
     }
-    const faccia = intera({ map: T.porta });
-    const costa = mat({ map: T.legno, color: 0xb8a68e, roughness: 0.7 });
+    const faccia = intera({ map: tex.porta });
+    const costa = mat({ map: tex.legno, color: 0xb8a68e, roughness: 0.7 });
     const anta = this.scatola(0.04, OSPITE.alto - 0.01, OSPITE.largo - 0.01, [faccia, faccia, costa, costa, costa, costa]);
     anta.position.set(0, (OSPITE.alto - 0.01) / 2, -(OSPITE.largo - 0.01) / 2);
     this.cardine = new THREE.Group();
@@ -1246,8 +1250,8 @@ export class Stanza {
     const sx0 = X1 + OSPITE.muro, { x1: sx1, z0: sz0, z1: sz1 } = STANZETTA;
     const sw = sx1 - sx0, sd = sz1 - sz0, mx = (sx0 + sx1) / 2, mz = (sz0 + sz1) / 2;
     const buio = (o) => mat({ envMapIntensity: 0.35, ...o });
-    const muroBuio = CRETA ? buio({ map: K.grezzo.map, normalMap: K.grezzo.normalMap, color: 0x6a5d4c }) : buio({ map: T.carta_parati, color: 0x4a4034 });
-    const pavBuio = CRETA ? buio({ map: K.pavimento.map, normalMap: K.pavimento.normalMap, color: 0x5a4a3c }) : buio({ map: T.pavimento, color: 0x5a4a3c });
+    const muroBuio = CRETA ? buio({ map: K.grezzo.map, normalMap: K.grezzo.normalMap, color: 0x6a5d4c }) : buio({ map: tex.carta_parati, color: 0x4a4034 });
+    const pavBuio = CRETA ? buio({ map: K.pavimento.map, normalMap: K.pavimento.normalMap, color: 0x5a4a3c }) : buio({ map: tex.pavimento, color: 0x5a4a3c });
     for (const [w, h, m, metri, pos, rot] of [
       [sw, sd, pavBuio, CRETA ? 1.5 : 1.2, [mx, 0, mz], [-Math.PI / 2, 0, 0]],
       [sw, sd, buio({ color: 0x3a342c }), null, [mx, ALTA, mz], [Math.PI / 2, 0, 0]],
@@ -1263,12 +1267,12 @@ export class Stanza {
     }
 
     // il calendario della ditta sopra la credenza, il santino sopra il letto
-    const cal = this.superficie(0.3, 0.39, intera({ map: T.calendario }));
+    const cal = this.superficie(0.3, 0.39, intera({ map: tex.calendario }));
     cal.rotation.y = Math.PI / 2;
     cal.position.set(X0 + 0.01, 1.62, 0.25);
     this.registra("calendario", cal);
     S.add(cal);
-    const san = this.superficie(0.24, 0.32, intera({ map: T.santino, roughness: 0.5 }));
+    const san = this.superficie(0.24, 0.32, intera({ map: tex.santino, roughness: 0.5 }));
     san.rotation.y = -Math.PI / 2;
     san.position.set(X1 - 0.012, 1.7, -2.3);
     this.registra("santino", san);
@@ -1285,7 +1289,7 @@ export class Stanza {
     S.add(vetro);
 
     // il tappeto consumato in mezzo alla stanza
-    const tappeto = this.superficie(2.4, 1.6, mat({ map: T.tappeto, roughness: 1 }));
+    const tappeto = this.superficie(2.4, 1.6, mat({ map: tex.tappeto, roughness: 1 }));
     tappeto.rotation.set(-Math.PI / 2, 0, 0.04);
     tappeto.position.set(0.15, 0.004, -0.45);
     tappeto.userData.pavimento = true;
@@ -1489,10 +1493,10 @@ export class Stanza {
   // sulla scrivania, oltre agli oggetti di Meshy: la mappa del paese aperta in mezzo e il display del
   // videoregistratore (le 12:00 che lampeggiano, su un piano davanti a quello stampato nella texture); e la
   // radiosveglia sul comodino
-  sullaScrivania(T) {
+  sullaScrivania(tex) {
     const S = this.scena;
     const { intera, nero } = this.mat;
-    const mappa = this.superficie(0.5, 0.28, intera({ map: T.mappa, roughness: 0.8 }));
+    const mappa = this.superficie(0.5, 0.28, intera({ map: tex.mappa, roughness: 0.8 }));
     mappa.rotation.x = -Math.PI / 2;
     mappa.position.set(SCRIVANIA.x, this.su + 0.002, SCRIVANIA.z - 0.03);
     this.registra("scrivania", mappa);

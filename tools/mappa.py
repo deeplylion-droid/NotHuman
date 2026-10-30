@@ -15,6 +15,8 @@ I passi:
    usano gli spilli e la scheda della casa; la pianta, TETTI in dati.js, resta per le distanze del contagio).
 
 Uso: python3 tools/mappa.py [forme|render|componi|tutto]   (di base: tutto)
+     python3 tools/mappa.py componi en   la mappa coi nomi in inglese (29 ottobre, sera: «basta parole italiane»):
+     tools/lingua/immagini_en/img/mappa.jpg e quella piccola della scrivania; finiscono nel catalogo inglese
 """
 import json
 import math
@@ -48,6 +50,14 @@ ETICHETTE = [
     ("STRADA DEL CIMITERO", (1000, 1172)),
     ("TORRENTE", (470, 1060)),
 ]
+# i nomi in inglese (tools/lingua/GUIDA.md, «I nomi in inglese»)
+INGLESE = {
+    "VIA DELLA CHIESA": "CHURCH STREET", "VIA DEL FIUME": "RIVER STREET", "VIA DEI MULINI": "MILL STREET",
+    "VICOLO STRETTO": "NARROW LANE", "STRADA DEL CIMITERO": "CEMETERY ROAD", "TORRENTE": "THE CREEK",
+    "Chiesa di S. Rocco": "Church of St. Roch", "Cimitero": "Cemetery", "Recinto PANACEA": "PANACEA compound",
+    "CASE": "HOUSES", "segnalata": "reported", "visitata": "visited", "croce sulla porta": "cross on the door",
+    "nessuna segnalazione": "not reported",
+}
 # i numeri dei luoghi nel pannello e i loro punti
 LUOGHI = {"chiesa": (1233, 717), "cimitero": (650, 1245), "ditta": (2090, 662)}
 
@@ -268,8 +278,11 @@ def posti_etichette(pro, font, spazio, ostacoli):
     return scelte
 
 
-def componi():
+def componi(lingua="it"):
     pro = json.loads((CART / "proiezioni.json").read_text())
+    L = (lambda t: INGLESE.get(t, t)) if lingua == "en" else (lambda t: t)
+    if lingua == "en":
+        pro["etichette"] = [{**e, "testo": L(e["testo"])} for e in pro["etichette"]]
     img = Image.open(CART / "render.png").convert("RGB").resize((W, H), Image.LANCZOS)
     d = ImageDraw.Draw(img)
     pixel = lambda px: carattere("Silkscreen-Regular.ttf", px)
@@ -293,21 +306,31 @@ def componi():
     voce = pixel(27)
     y = py + 136
     # i luoghi con le lettere, per non confonderli con i numeri delle case
-    for n, testo in [("A", "Chiesa di S. Rocco"), ("B", "Cimitero"), ("C", "Recinto PANACEA")]:
+    for n, testo in [("A", L("Chiesa di S. Rocco")), ("B", L("Cimitero")), ("C", L("Recinto PANACEA"))]:
         d.rectangle([px + 28, y + 2, px + 68, y + 42], fill=GIALLO)
         d.text((px + 48, y + 22), n, font=pixel(28), fill=NERO, anchor="mm")
         d.text((px + 88, y + 22), testo, font=voce, fill=TESTO, anchor="lm")
         y += 56
     y += 18
-    d.text((px + 28, y), "CASE", font=pixel(30), fill=GIALLO)
+    d.text((px + 28, y), L("CASE"), font=pixel(30), fill=GIALLO)
     y += 54
     for fondo, cifra, bordo, testo in [(ROSSO, (255, 255, 255), None, "segnalata"), (VERDE, NERO, None, "visitata"),
                                         (TESTO, NERO, None, "croce sulla porta"), (NERO, VERDE, VERDE, "nessuna segnalazione")]:
         d.rounded_rectangle([px + 28, y + 2, px + 68, y + 42], radius=5, fill=fondo, outline=bordo, width=2)
         d.text((px + 48, y + 22), "7", font=pixel(24), fill=cifra, anchor="mm")
-        d.text((px + 88, y + 22), testo, font=voce, fill=TESTO, anchor="lm")
+        d.text((px + 88, y + 22), L(testo), font=voce, fill=TESTO, anchor="lm")
         y += 56
     # le lettere dei luoghi (A, B, C) le mette il gioco: sono spilli gialli, come le case
+    if lingua != "it":
+        # le immagini delle altre lingue vanno nel loro catalogo (tools/lingua/controlla.mjs scrivi), non tra i file del gioco
+        cartella = RADICE / f"tools/lingua/immagini_{lingua}/img"
+        (cartella / "stanza").mkdir(parents=True, exist_ok=True)
+        img.save(cartella / "mappa.jpg", quality=86)
+        # la mappa sulla scrivania della stanza 3D, come in tools/prepara_stanza.py
+        piccola = img.resize((768, round(768 * img.height / img.width)), Image.LANCZOS)
+        piccola.save(cartella / "stanza/mappa.jpg", quality=84)
+        print("fatto", cartella / "mappa.jpg")
+        return
     img.save(USCITA, quality=92)
     # dove cadono le case sullo schermo, per gli spilli del gioco
     righe_js = ",\n  ".join(json.dumps([round(v, 4) for v in c]) for c in pro["case"])
@@ -328,4 +351,4 @@ if __name__ == "__main__":
     if passo in ("render", "tutto"):
         render(int(sys.argv[2]) if len(sys.argv) > 2 else 2560)
     if passo in ("componi", "tutto"):
-        componi()
+        componi(sys.argv[2] if passo == "componi" and len(sys.argv) > 2 else "it")

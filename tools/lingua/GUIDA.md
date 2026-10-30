@@ -33,8 +33,9 @@ medico (le battute di `TU`) è clinico e formale. Le descrizioni sono al present
    all'europea: `{0} €`. Le date in cifre dei documenti restano all'italiana (`3.3.2025`); quelle scritte si scrivono
    all'inglese (`martedì 27 ottobre` → `Tuesday, October 27`).
 8. **Lunghezza:** più o meno come l'italiano. I tasti e le etichette devono restare corti.
-9. Non si traducono i nomi propri: le persone (Giulia, Davide, Assunta, Giona, Ada, Lia, Paolo...), i paesi (Malvento,
-   Valcupa, Pietrascura), le vie (via dei Mulini, la Strada del Cimitero), la ditta (Panacea) e il giornale (La Voce).
+9. **Niente parole italiane** (29 ottobre, sera: «basta parole italiane»): resta italiano solo il nome del gioco e del
+   paese, Malvento. Le persone, i paesi vicini, le vie, il giornale e il cane hanno un nome inglese (la tabella in fondo,
+   applicata da `tools/lingua/nomi_en.py`); la ditta resta Panacea.
 10. Inglese americano, semplice e naturale; il «Lei» e il «tu» diventano tutti e due `you`. Nessuna nota o commento nel
     JSON: solo la traduzione.
 
@@ -70,14 +71,14 @@ medico (le battute di `TU`) è clinico e formale. Le descrizioni sono al present
 | i segni: FEBBRE, BUBBONI, PALLORE, TOSSE, DITA NERE | the signs: FEVER, BUBOES, PALLOR, COUGH, BLACK FINGERS |
 | occhi, bocca, collo, ascelle, mani | eyes, mouth, neck, armpits, hands |
 | croce sulla porta; tornare domani | a cross on the door; come back tomorrow |
-| il malvento («chi dorme solo, il malvento se lo prende») | the malvento (“sleep alone and the malvento takes you”) |
 | la maschera; il becco; la lente d'ottone; il bastone | the mask; the beak; the brass lens; the cane |
 | la corriera; il furgone bianco | the bus; the white van |
 | la cripta; la sacrestia; il campanile; le campane | the crypt; the sacristy; the bell tower; the bells |
 | la santa di cera; il radicato; l'allungato; il bozzolo | the Wax Saint; the Rooted One; the Long One; the cocoon |
+| il malvento (il detto: «chi dorme solo, il malvento se lo prende») | the ill wind (“sleep alone and the ill wind takes you”) |
 | il santino; San Rocco | the holy card; Saint Roch |
 | il sindaco; il parroco; la canonica | the mayor; the parish priest; the rectory |
-| La Voce (il giornale); LA VOCE | La Voce; LA VOCE |
+| La Voce (il giornale); LA VOCE | The Voice; THE VOICE |
 | Le voci, in maiuscolo: PADRE, MADRE, FIGLIA, UOMO, RAGAZZA, RAGAZZO, NONNA, MOGLIE, MARITO, SUOCERA, NUORA, SACRESTANO, VOCE | FATHER, MOTHER, DAUGHTER, MAN, GIRL, BOY, GRANDMOTHER, WIFE, HUSBAND, MOTHER-IN-LAW, DAUGHTER-IN-LAW, SEXTON, VOICE |
 | I nomi delle persone nelle frasi: il padre, la madre, la figlia, l'uomo in tuta, la ragazza, la nonna, la moglie, il marito, la suocera, la nuora, il sacrestano | the father, the mother, the daughter, the man in overalls, the girl, the grandmother, the wife, the husband, the mother-in-law, the daughter-in-law, the sexton (minuscolo con l'articolo: il gioco mette la maiuscola quando servono a inizio frase) |
 
@@ -92,3 +93,22 @@ medico (le battute di `TU`) è clinico e formale. Le descrizioni sono al present
 - **Casa 10:** la suocera e la nuora (Chiara Lorenzi, vedova di Paolo Serra): la nuora non si ammala.
 - **Casa 7:** il sacrestano, Giona (il campanaro muto) e Assunta (la moglie, la santa di cera nella cripta).
 - **Casa 4:** le gemelle sarte, Ada e Lia.
+
+## I nomi in inglese
+
+Nei registri l'ordine resta COGNOME NOME (ROSS MARK); a voce il nome prima (Peter Ross). Gli indirizzi col numero
+prima (12 Church Street).
+
+| Italiano | English |
+|---|---|
+| Casa 3: Rossi Mario, Bianchi Anna, Rossi Giulia, il nonno Rossi Pietro | Ross Mark, White Anna, Ross Julia, the grandfather Ross Peter |
+| Casa 5: Ferri Luigi, Ferri Marta, Ferri Davide, Costa Adele ved. Ferri | Ferris Lewis, Ferris Martha, Ferris David, Cole Adele wid. Ferris |
+| Casa 2: Galli Ernesto, Marini Lucia («da Galli») | Gale Ernest, Marsh Lucy (“at the Gales'”) |
+| Casa 10: Serra Paolo, Lorenzi Chiara, Fontana Rosa ved. Serra | Searle Paul, Lawrence Claire, Fenton Rose wid. Searle |
+| Casa 7: Barbieri Anselmo (il sacrestano), Barbieri Giona, Colombo Assunta | Barber Anselm, Barber Jonah, Coleman Agnes |
+| Casa 4: le gemelle De Rosa, Ada e Lia | the Rowe twins, Ada and Leah |
+| Via della Chiesa, Vicolo Stretto, via dei Mulini, Strada del Cimitero, Via del Fiume, il torrente | Church Street, Narrow Lane, Mill Street, Cemetery Road, River Street, the creek |
+| Valcupa, Pietrascura | Darkvale, Blackstone |
+| La Voce | The Voice |
+| Lupo (il cane) | Wolf |
+| la Madonna | the Virgin |

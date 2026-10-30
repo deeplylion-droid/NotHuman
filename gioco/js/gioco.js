@@ -11,7 +11,7 @@ import { Parole, Ruota, Striscia, Segni } from "./parole.js";
 import { icona, pittogramma } from "./icone.js";
 import { Suoni } from "./suoni.js";
 import { avviaController } from "./controller.js";
-import { T, LINGUA, LINGUE, scegliLingua, traduciPagina } from "./lingua.js";
+import { T, LINGUA, LINGUE, scegliLingua, traduciPagina, inLingua } from "./lingua.js";
 
 const $ = (sel) => document.querySelector(sel);
 const el = (tag, cls, text) => {
@@ -153,7 +153,7 @@ const conWebgl2 = (() => {
 })();
 
 async function caricaTutto() {
-  const lista = { scrivania: "img/scrivania.jpg", mappa: "img/mappa.jpg" };
+  const lista = { scrivania: "img/scrivania.jpg", mappa: inLingua("img/mappa.jpg") };
   const voci = await Promise.all(Object.entries(lista).map(async ([k, src]) => [k, await carica(src)]));
   for (const [k, im] of voci) IMG[k] = im;
   if (!vhs || !conWebgl2 || !VISITE_3D) await caricaLuoghi(D.LUOGHI);
@@ -908,8 +908,8 @@ async function usaStanza(id) {
     return dici([[null, T("Non è ancora ora di dormire. La ditta paga a paziente.")]], false, false);
   }
   if (id === "ospite" && S.fase === "sera") return controllaOspite();
-  const T = D.STANZA[id];
-  const righe = T && (T[S.fase] || T.sempre);
+  const testi = D.STANZA[id];
+  const righe = testi && (testi[S.fase] || testi.sempre);
   if (!righe) return;
   // la porta della stanzetta dell'ospite si socchiude mentre si guarda dentro
   if (id === "ospite") {

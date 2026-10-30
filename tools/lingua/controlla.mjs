@@ -62,11 +62,27 @@ if (cosa === "scrivi") {
   }
   // nell'ordine del catalogo (quello dei file), una voce per riga
   const righe = Object.keys(catalogo).map((k) => `  ${JSON.stringify(k)}: ${JSON.stringify(tutte[k])},`);
+  // le immagini con le scritte (tools/lingua/immagini.py): data URL, col percorso del gioco come chiave
+  const IMM = path.join(QUI, "immagini_en");
+  const immagini = [];
+  const giro = (dir) => {
+    for (const f of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, f.name);
+      if (f.isDirectory()) giro(p);
+      else if (/\.(jpe?g|png|webp)$/i.test(f.name)) {
+        const tipo = /png$/i.test(f.name) ? "image/png" : /webp$/i.test(f.name) ? "image/webp" : "image/jpeg";
+        immagini.push(`  ${JSON.stringify(path.relative(IMM, p).split(path.sep).join("/"))}: "data:${tipo};base64,${fs.readFileSync(p).toString("base64")}",`);
+      }
+    }
+  };
+  if (fs.existsSync(IMM)) giro(IMM);
   fs.writeFileSync(path.join(QUI, "../../gioco/js/lingua_en.js"),
     "// Il catalogo inglese (scritto da tools/lingua/controlla.mjs scrivi: non si modifica a mano; le traduzioni stanno\n"
     + "// in tools/lingua/parti/*_en.json). La chiave e' il testo italiano, coi valori al posto di {0}, {1}...\n"
-    + `export const CATALOGO = {\n${righe.join("\n")}\n};\n`);
-  console.log(`gioco/js/lingua_en.js: ${righe.length} testi`);
+    + `export const CATALOGO = {\n${righe.join("\n")}\n};\n`
+    + "\n// le immagini con le scritte in inglese (tools/lingua/immagini.py en), al posto delle italiane\n"
+    + `export const IMMAGINI = {\n${immagini.join("\n")}\n};\n`);
+  console.log(`gioco/js/lingua_en.js: ${righe.length} testi, ${immagini.length} immagini`);
 } else {
   const { errori, avvisi, tradotte } = controlla(cosa);
   for (const e of errori) console.log(`ERRORE ${e}`);

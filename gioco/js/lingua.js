@@ -25,11 +25,12 @@ function scegli() {
 export const LINGUA = scegli();
 const FINTA = LINGUA === "xx";
 
-// il catalogo si carica solo se serve (in italiano non c'e'); se manca, si gioca in italiano
-let CATALOGO = null;
+// il catalogo si carica solo se serve (in italiano non c'e'); se manca, si gioca in italiano. Dentro ci sono anche le
+// immagini con le scritte nella lingua (IMMAGINI: la mappa, il calendario della ditta; tools/lingua/immagini.py)
+let CATALOGO = null, IMMAGINI = {};
 if (LINGUA !== "it" && !FINTA) {
   try {
-    CATALOGO = (await import(`./lingua_${LINGUA}.js`)).CATALOGO;
+    ({ CATALOGO, IMMAGINI = {} } = await import(`./lingua_${LINGUA}.js`));
   } catch (err) {
     console.warn(`Il catalogo "${LINGUA}" non si carica, resta l'italiano:`, err);
   }
@@ -43,6 +44,11 @@ export function T(testo, ...valori) {
     return FINTA ? `⟦${tradotto}⟧` : tradotto;
   }
   return FINTA ? `⟦${testo}⟧` : CATALOGO?.[testo] ?? testo;
+}
+
+// un'immagine del gioco nella lingua scelta, se il catalogo ce l'ha (un data URL), se no quella italiana
+export function inLingua(src) {
+  return IMMAGINI[src] ?? src;
 }
 
 export function scegliLingua(l) {
