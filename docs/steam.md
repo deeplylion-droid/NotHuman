@@ -150,14 +150,17 @@ Settings del trailer).
 - **Il racconto**, sulla musica:
   - 0–12 s: la casa 3, la videocamera si accende, il padre: «We're all fine here. Make it quick.»; THE PLAGUE IS BACK;
     la stanza del medico;
-  - 12–31 s (entra il ticchettio): il fax della Panacea, la mappa (la casa 3 segnalata: «They cough at night»), la
-    domanda e la risposta, la frase trascinata sui quattro piatti, CONTRADICTION;
+  - 12–31 s (entra il ticchettio): il fax della Panacea (la videocamera si avvicina finché si legge), la mappa (la
+    casa 3 segnalata: «They cough at night. And nobody's seen the wife in days.»), la domanda («Me and my daughter.
+    That's it.»), la frase trascinata sui quattro piatti, CONTRADICTION sul battito;
   - 31–54 s (il ritmo pieno): EVERYONE IS HIDING SOMEONE, l'esame del collo nel rosso («It's a bruise.»), lo stato di
-    famiglia (MALATO, al lazzaretto), THE LIVING ARE WARM e il nastro all'infrarosso, la notte (la cosa nera china
-    sul letto, il contagio sulla mappa, il giornale);
+    famiglia (SICK, al lazzaretto), THE LIVING ARE WARM e il nastro che passa all'infrarosso, la notte (la cosa nera
+    china sul letto, il contagio sulla mappa, THE VOICE: «THE PLAGUE SPREADS»);
   - 52–54 s: la musica si ferma sotto NOBODY DIES HERE;
-  - 54–73 s (il culmine, un taglio ogni due battiti): quelli che sono cambiati, ognuno a modo suo; THEY CHANGE; la
-    maschera del 1630 nella cripta, con la lente uguale alla tua;
+  - 54–73 s (il culmine, un taglio ogni due battiti): la madre cambiata sulla testiera del letto, sul colpo; «It's the
+    mother. She isn't dead: she has changed.» e la sua bocca nel rosso; il padre radicato, l'allungato («Come in. It's
+    just the two of us now.»), il bozzolo, le gemelle, la nuora, le dita entrate nel tavolo, la santa di cera; THEY
+    CHANGE; nella cripta la maschera del 1630: «In place of the right eye, a brass lens. Just like yours.»;
   - 73–84 s: il logo sopra la stanza buia, «The Plague Doctor · three days · demo», WISHLIST ON STEAM.
 - **La musica:** ElevenLabs Music su fal, con le sezioni sulle durate del montaggio (`art/steam/trailer/
   lavori_musica.json`); tre proposte in `art/steam/trailer/musica`, scelta la C (il ticchettio, il ritmo, il culmine
@@ -169,7 +172,8 @@ Settings del trailer).
      browser è finto e avanza di 1/30 di secondo per foto, così anche la stanza 3D va liscia; i gruppi `uno`, `fax`,
      `due`, `tre`, `stanza` si possono far girare insieme, ma la stanza 3D è meglio da sola);
   3. `LINGUA=en node tools/trailer/cartelli.js` (i cartelli e il finale);
-  4. `python3 tools/trailer/monta.py en` (il video; con `--anteprima` uno piccolo e veloce, e il foglio dei tagli
+  4. `python3 tools/trailer/monta.py en` (il video, la miniatura e una copia leggera a 720p, sotto i 15 MB, per la
+     pagina del materiale Steam, `art/steam/pagina.html`; con `--anteprima` uno piccolo e veloce, e il foglio dei tagli
      `tagli_en.jpg` per controllare).
   Il montaggio è in `tools/trailer/montaggio.json` (i tagli, i cartelli in tutte e due le lingue, i suoni, il volume
   della musica). Le riprese e i video stanno fuori dal repository (sono grandi): `art/steam/trailer/riprese/`, `*.mp4`.

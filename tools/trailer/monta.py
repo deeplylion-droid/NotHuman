@@ -8,7 +8,8 @@ Dal montaggio (tools/trailer/montaggio.json) mette in fila le riprese del gioco 
 Music con le sezioni sulle durate del montaggio) con i suoni del gioco nei punti giusti. Esce
 art/steam/trailer/malvento_trailer_<lingua>.mp4 come lo chiede Steam: 1920 x 1080, 30 fotogrammi al secondo, H.264
 ad alto bitrate, audio AAC stereo a 48 kHz, a -16 LUFS. Con --anteprima: 960 x 540, veloce, per controllare i tagli.
-Anche la miniatura (un fotogramma del video, 1920 x 1080: Steam la vuole così) e il foglio dei tagli per controllo.
+Anche la miniatura (un fotogramma del video, 1920 x 1080: Steam la vuole così), il foglio dei tagli per controllo e una
+copia leggera a 720p (`_web.mp4`, sotto i 15 MB) per la pagina del materiale Steam.
 
 Ogni taglio del montaggio comincia a "da" (secondi) e finisce dove comincia il successivo:
 - {"ripresa": nome, "dal": secondi dentro la ripresa, "velocita": 1, "zoom": [1, 1.04], "centro": [0.5, 0.5]}
@@ -244,6 +245,20 @@ def main():
     ff.stdin.close()
     ff.wait()
     suono.unlink()
+    if not anteprima:
+        # la copia leggera per la pagina del materiale Steam (art/steam/pagina.html): 720p, sotto i 15 MB che un
+        # artifact accetta per file; due passate per stare nella misura
+        web = TRAILER / f"{nome}_web.mp4"
+        log = TRAILER / "x264_passate"
+        base = ["ffmpeg", "-v", "error", "-y", "-i", str(video), "-vf", "scale=1280:720:flags=lanczos", "-c:v", "libx264",
+                "-preset", "slow", "-b:v", "1150k", "-passlogfile", str(log)]
+        subprocess.run(base + ["-pass", "1", "-an", "-f", "mp4", "/dev/null"], check=True)
+        subprocess.run(base + ["-maxrate", "1800k", "-bufsize", "3600k", "-pass", "2", "-pix_fmt", "yuv420p", "-c:a", "aac",
+                               "-b:a", "128k", "-movflags", "+faststart", str(web)], check=True)
+        for f in TRAILER.glob("x264_passate*"):
+            f.unlink()
+        Image.open(TRAILER / f"miniatura_{lingua}.jpg").resize((1280, 720), Image.LANCZOS).save(
+            TRAILER / f"miniatura_{lingua}_720.jpg", quality=88)
     info = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration,bit_rate,size", "-of", "json", str(video)], capture_output=True, text=True).stdout
     print(video, totale, "fotogrammi", info)
 

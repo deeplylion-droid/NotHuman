@@ -64,7 +64,8 @@
     f.style.display = "block";
     const s = document.querySelector("#sfondo");
     if (s.dataset.src !== sfondo) { s.style.backgroundImage = `url("${sfondo}")`; s.dataset.src = sfondo; }
-    s.style.transform = `scale(${1 + 0.05 * Math.min(1, t / durata)})`;
+    // (ingrandito quanto basta perché i soldi in alto a sinistra restino fuori)
+    s.style.transform = `scale(${1.16 + 0.05 * Math.min(1, t / durata)})`;
     const l = document.querySelector("#logo");
     if (l.getAttribute("src") !== logo) l.src = logo;
     const dentro = (a, b) => Math.max(0, Math.min(1, (t - a) / (b - a)));

@@ -45,6 +45,15 @@
   .piccole { grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); }
   .screenshot { grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr)); }
 
+  /* il trailer: il video grande, sotto le misure per Steamworks */
+  .trailer video { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 16 / 9; border: 1px solid var(--linea); background: #000; }
+  .dati { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); gap: 0.4rem 1.4rem; margin: 0; }
+  .dati div { display: grid; gap: 0.1rem; min-width: 0; }
+  .dati dt { font: 600 0.72rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--spento); }
+  .dati dd { margin: 0; font-family: var(--mono); font-size: 0.85rem; color: var(--malato); font-variant-numeric: tabular-nums; }
+  .momenti { margin: 0; padding-left: 1.2rem; max-width: 72ch; display: grid; gap: 0.35rem; }
+  .momenti b { font-family: var(--mono); font-weight: 600; font-size: 0.8rem; color: var(--malato); font-variant-numeric: tabular-nums; }
+
   /* i testi da copiare */
   .lingue { display: flex; gap: 0.5rem; flex-wrap: wrap; }
   .lingue button, .copia { font: 600 0.8rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--osso); background: var(--pannello); border: 1px solid var(--linea); padding: 0.45rem 0.8rem; cursor: pointer; }
@@ -74,8 +83,32 @@
   <header class="testa">
     <span class="etichetta">Il materiale per la pagina Steam · demo</span>
     <h1 style="font-size: clamp(2rem, 5vw, 3.2rem)">Malvento</h1>
-    <p class="nota">Le immagini sono nelle misure di Steamworks e i testi sono pronti da incollare, in inglese e in italiano. Sopra, l'hero della libreria con il logo: in Steam il logo si sposta dove vuoi.</p>
+    <p class="nota">Il trailer, le immagini nelle misure di Steamworks e i testi pronti da incollare, in inglese e in italiano. Sopra, l'hero della libreria con il logo: in Steam il logo si sposta dove vuoi.</p>
   </header>
+
+  <section aria-labelledby="t-trailer" id="trailer" class="trailer">
+    <h2 id="t-trailer">Il trailer</h2>
+    <p class="nota">Il primo trailer della pagina, quello che Steam fa partire per primo e da cui ricava il microtrailer di sei secondi. Quasi tutto gameplay, con l'interfaccia del gioco, come consiglia Steamworks: ogni immagine viene dal gioco vero, registrato fotogramma per fotogramma, e i cartelli si scrivono come le frasi del gioco. In inglese, il trailer di base.</p>
+    <video controls preload="metadata" playsinline poster="trailer/miniatura_en_720.jpg" width="1280" height="720">
+      <source src="trailer/malvento_trailer_en_web.mp4" type="video/mp4">
+    </video>
+    <dl class="dati">
+      <div><dt>Per Steam</dt><dd>malvento_trailer_en.mp4</dd></div>
+      <div><dt>Video</dt><dd>1920 × 1080 · 30 fps · H.264 · 5,7 Mbps</dd></div>
+      <div><dt>Audio</dt><dd>AAC stereo · 48 kHz · −16 LUFS</dd></div>
+      <div><dt>Durata</dt><dd>84 s</dd></div>
+      <div><dt>Miniatura</dt><dd>fotogramma a 54,3 s</dd></div>
+      <div><dt>Qui</dt><dd>una copia leggera a 720p</dd></div>
+    </dl>
+    <ol class="momenti">
+      <li><b>0:00</b> La casa 3: la videocamera si accende, il padre mente. THE PLAGUE IS BACK. La stanza del medico.</li>
+      <li><b>0:12</b> Entra il ticchettio: il fax della Panacea, la mappa, la domanda, la frase trascinata sui quattro piatti, CONTRADICTION.</li>
+      <li><b>0:31</b> Il ritmo pieno: l'esame nel rosso, lo stato di famiglia, il nastro all'infrarosso, la notte, il contagio, il giornale.</li>
+      <li><b>0:52</b> La musica tace sotto NOBODY DIES HERE.</li>
+      <li><b>0:54</b> Il culmine: quelli che sono cambiati, uno ogni due battiti. THEY CHANGE. La maschera del 1630: «Just like yours».</li>
+      <li><b>1:13</b> Il logo, WISHLIST ON STEAM.</li>
+    </ol>
+  </section>
 
   <section aria-labelledby="t-capsule">
     <h2 id="t-capsule">Le capsule</h2>

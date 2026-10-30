@@ -1,7 +1,7 @@
 {
   "nota": "Il montaggio del trailer (tools/trailer/monta.py). I tempi sono in secondi. La musica è art/steam/trailer/musica/trailer_c.mp3: il ticchettio entra a 12,0, il ritmo pieno a 30,71, il culmine a 54,33, l'ultimo colpo a 72,71; un battito ogni 0,7488 s (31,46 + k x 0,7488), i tagli cadono lì. Il silenzio sotto «Qui nessuno muore» lo fa il volume della musica.",
   "fps": 30,
-  "miniatura": 2.2,
+  "miniatura": 54.34,
   "musica": {
     "file": "art/steam/trailer/musica/trailer_c.mp3",
     "db": 0,
@@ -22,7 +22,7 @@
     "invito": {"en": "Wishlist on Steam", "it": "Aggiungilo alla lista dei desideri"}
   },
   "tagli": [
-    {"da": 0.0, "ripresa": "arrivo", "dal": 0.0, "entra": 0.3},
+    {"da": 0.0, "ripresa": "arrivo", "dal": 0.13, "entra": 0.3},
     {"da": 5.0, "cartello": "peste"},
     {"da": 8.5, "ripresa": "stanza", "dal": 0.6, "cursore_via": true},
     {"da": 11.99, "ripresa": "fax", "dal": 0.0},
@@ -54,7 +54,7 @@
   ],
   "suoni": [
     {"t": 0.0, "suono": "cucina", "durata": 5.0, "db": -10},
-    {"t": 0.15, "suono": "rec", "db": -4},
+    {"t": 0.05, "suono": "rec", "db": -4},
     {"t": 8.5, "suono": "vento", "durata": 3.5, "db": -8},
     {"t": 12.26, "suono": "fax", "durata": 3.7, "db": -3},
     {"t": 28.47, "suono": "contraddizione", "db": -2},
