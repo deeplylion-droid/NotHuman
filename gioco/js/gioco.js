@@ -874,9 +874,9 @@ function alBuio() {
   return !!stanza && S.fase === "sera" && !!S.senza.luce;
 }
 
-// col mouse lo sguardo si aggancia subito (non col dito, non col controller)
+// col mouse lo sguardo si aggancia subito (non col dito, non col controller), se si resta nella stanza senza fogli
 function agganciaStanza() {
-  if (stanza && S.schermo === "stanza" && !tocco() && !stanza.conLeva) stanza.aggancia();
+  if (stanza && S.schermo === "stanza" && foglio.hidden && !tocco() && !stanza.conLeva) stanza.aggancia();
 }
 
 // il suggerimento della stanza: col mouse si clicca per girare lo sguardo (Esc libera il puntatore), col dito si
@@ -988,7 +988,8 @@ function apriFoglio(tipo, contenuto) {
 function chiudiFoglio() {
   if (foglio.dataset.bloccato === "1") return R.indietroFoglio?.();
   foglio.hidden = true;
-  agganciaStanza();
+  // dopo il resto del clic: se il foglio porta altrove (un nastro dal videoregistratore) lo sguardo non si aggancia
+  setTimeout(agganciaStanza, 0);
 }
 
 // il fax della ditta: il protocollo del giorno a simboli, da capire in un colpo d'occhio
@@ -3735,7 +3736,8 @@ function titolo() {
   }, "ti-voce");
   if (salvato) menu.append(voce(T`Continua · ${GIORNI[salvato.S.giorno - 1].toLowerCase()}`, () => riprendi(salvato)));
   // "Nuova partita" torna alla musica della stanza ("Continua" la cambia aprendo il giorno)
-  menu.append(voce(T("Nuova partita"), () => { ambienteStanza(); introduzione(); }),
+  // (il clic su "Nuova partita" aggancia subito lo sguardo al mouse: 31 ottobre, «a inizio gioco non è così»)
+  menu.append(voce(T("Nuova partita"), () => { ambienteStanza(); introduzione(); agganciaStanza(); }),
     voce(T("Impostazioni"), () => apriImpostazioni(true)));
   if (ELECTRON) menu.append(voce(T("Esci"), () => window.close()));
   foglio.dataset.bloccato = "1";
@@ -3872,6 +3874,10 @@ function indietro() {
 }
 
 document.addEventListener("keydown", (e) => {
+  // lo sguardo che non si e' agganciato da solo entrando (dopo un caricamento lungo il clic che ha portato qui e' gia'
+  // lontano, e il browser vuole un gesto) si aggancia al primo tasto, per esempio lo spazio che fa andare avanti
+  // le frasi
+  if (stanza?.mancato && e.key !== "Escape") agganciaStanza();
   // nel programma per Windows F11 o Alt+Invio mettono e tolgono lo schermo intero, come nei giochi (nel browser F11 e'
   // gia' del browser)
   if (ELECTRON && (e.key === "F11" || (e.key === "Enter" && e.altKey))) {
@@ -4199,6 +4205,7 @@ async function caricaStanza() {
     s.onSopra = (nome) => mostraEtichetta(nome);
     s.onPasso = () => suoni.passo();
     s.onBlocco = (b) => bloccoStanza(b);
+    s.puoBloccare = () => S.schermo === "stanza" && foglio.hidden;
     if (location.hash.startsWith("#prova")) {
       // le prove automatiche: niente mouse bloccato, e la risoluzione la scelgono loro
       s.senzaBlocco = true;

@@ -26,7 +26,7 @@ export const ESPRESSIONI = {
   },
   sacrestia7: {
     sacrestano: { box: [0.23062, 0.30111, 0.34938, 0.55556], volti: ["piange"] },
-    giona: { box: [0.73812, 0.28333, 0.82812, 0.47556], volti: ["piange"] },
+    giona: { box: [0.74938, 0.29, 0.80188, 0.43111], volti: ["piange"] },
   },
   sartoria4: {
     ada: { box: [0.28813, 0.12111, 0.48812, 0.46], volti: ["piange"] },

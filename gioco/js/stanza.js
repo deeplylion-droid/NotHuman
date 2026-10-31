@@ -683,9 +683,14 @@ export class Stanza {
     this.sopra = null;
     this.giu = null;
     this.ultimoSopra = 0;
-    // il puntatore bloccato (lo sguardo col mouse); senzaBlocco: il browser non lo permette, si trascina
+    // il puntatore bloccato (lo sguardo col mouse); senzaBlocco: il browser non lo permette, si trascina. "mancato":
+    // il blocco chiesto da solo entrando non e' arrivato (il browser vuole un gesto vicino): gioco.js lo richiede al
+    // primo tasto. "puoBloccare": se adesso il blocco serve (gioco.js: nella stanza, senza fogli aperti)
     this.bloccato = false;
     this.senzaBlocco = !("requestPointerLock" in schermo);
+    this.mancato = false;
+    this.rifiuti = 0;
+    this.puoBloccare = () => true;
     // chi usa la stanza: cosa fare con un oggetto, cosa scrivere sotto il mirino, se ora si puo' muovere, e
     // cosa fare quando il puntatore si blocca o si libera
     this.onUsa = () => {};
@@ -2498,29 +2503,47 @@ export class Stanza {
       const r = this.schermo.getBoundingClientRect();
       return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height, r.width];
     };
-    // il puntatore bloccato: il mouse gira lo sguardo; Esc (il browser) lo libera
+    // il puntatore bloccato: il mouse gira lo sguardo; Esc (il browser) lo libera. Il blocco arriva un attimo dopo la
+    // richiesta: se nel frattempo si e' passati altrove (un nastro dal videoregistratore, un foglio, la scrivania)
+    // si lascia subito
     document.addEventListener("pointerlockchange", () => {
       const b = document.pointerLockElement === this.schermo;
+      if (b && (!this.attiva || this.seduto || !this.puoBloccare())) {
+        document.exitPointerLock();
+        return;
+      }
+      if (b) this.mancato = false;
+      if (b) this.rifiuti = 0;
       if (b === this.bloccato) return;
       this.bloccato = b;
       this.schermo.classList.toggle("bloccato", b);
       if (!b) this.evidenzia(null);
       this.onBlocco(b);
     });
-    // se il browser rifiuta il blocco chiesto da un clic, si gioca trascinando; se rifiuta quello chiesto da solo
-    // entrando nella stanza (aggancia: il gesto di chi gioca era gia' troppo lontano), resta il primo clic
+    // se il browser rifiuta il blocco chiesto da solo entrando nella stanza (aggancia: il gesto di chi gioca era gia'
+    // troppo lontano), si riprova al primo tasto o clic; se rifiuta due volte di fila quello chiesto da un clic, il
+    // browser non lo permette e si gioca trascinando (una volta sola puo' essere l'attesa dopo Esc). Ogni richiesta
+    // ha la sua risposta (la promessa); i browser senza promessa lo dicono solo con l'evento
+    const rifiutato = (daSolo) => {
+      if (daSolo) this.mancato = true;
+      else if (++this.rifiuti >= 2) this.senzaBlocco = true;
+    };
     document.addEventListener("pointerlockerror", () => {
-      if (!this.daSolo) this.senzaBlocco = true;
+      if (this.conPromessa) return;
+      rifiutato(this.daSolo);
       this.daSolo = false;
     });
     const blocca = (daSolo = false) => {
-      this.daSolo = daSolo;
+      let p;
       try {
-        const p = this.schermo.requestPointerLock();
-        if (p && p.catch) p.catch(() => { if (!daSolo) this.senzaBlocco = true; });
+        p = this.schermo.requestPointerLock();
       } catch {
-        if (!daSolo) this.senzaBlocco = true;
+        return rifiutato(daSolo);
       }
+      if (p && p.then) {
+        this.conPromessa = true;
+        p.catch(() => rifiutato(daSolo));
+      } else this.daSolo = daSolo;
     };
     this.blocca = blocca;
     this.schermo.addEventListener("pointerdown", (e) => {

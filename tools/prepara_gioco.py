@@ -97,6 +97,14 @@ TESTE = {
     "ada": (0.388, 0.29, 0.1, 0.17),
     "lia": (0.612, 0.29, 0.1, 0.17),
 }
+# le varianti in cui la testa e' venuta di un'altra grandezza: la testa della variante si riporta a quella della
+# scena (il centro "da" va in "a", in pixel della scena a 1600x900, rimpicciolita di "scala"), e si incolla in
+# un'ellisse stretta sulla testa ("testa", come TESTE), perche' la camicia attorno, rimpicciolita, non combacia piu'
+RITOCCHI = {
+    # 31 ottobre: «giona quando piange ha la testa tagliata»: nella variante di Nano Banana la testa era un terzo piu'
+    # grande e piu' in alto (96 x 151 punti contro 71 x 116), e la sagoma della scena la tagliava sopra la fronte
+    ("giona", "piange"): {"scala": 0.76, "da": (1243, 316), "a": (1240, 324), "testa": (0.7753, 0.36, 0.0263, 0.0711)},
+}
 # per le foto sul nastro delle frasi: chi l'ha detta, con la faccia che aveva (ritaglio dalla scena)
 VOLTI_SCENA = {"figlia": (0.44, 0.215, 0.515, 0.36)}
 
@@ -528,34 +536,47 @@ def espressioni():
         grande = np.asarray(sorgente.resize((W * 2, H * 2), Image.LANCZOS))
         gy, gx = np.mgrid[0:H, 0:W].astype(np.float32)
         for persona, volti_ in persone.items():
-            cx, cy, rx, ry = TESTE[persona]
-            d = np.sqrt(((gx / W - cx) / rx) ** 2 + ((gy / H - cy) / ry) ** 2)
-            # pieno fino a 0.72 del raggio, poi sfuma fino al bordo
-            alpha = np.clip((1 - d) / 0.28, 0, 1)
-            alpha = alpha * alpha * (3 - 2 * alpha)
             # dalla variante si prende solo la persona (con un margine per capelli e spalle): lo sfondo attorno alla
             # testa resta quello della scena, anche se la scena e' cambiata dopo le varianti (la cucina ripulita)
             # (il margine e' in proporzione alla testa: le facce piccole, lontane, ne vogliono poco)
-            paths = maschere[persona]
-            margine = max(3, round(0.06 * ry * H))
-            sua = cv2.dilate((mask(paths, (W, H)) > 0.5).astype(np.uint8),
-                             cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * margine + 1, 2 * margine + 1)))
-            alpha = alpha * cv2.GaussianBlur(sua.astype(np.float32), (0, 0), margine / 2.5)
-            anello = (d > 1.0) & (d < 1.3)
-            ys, xs = np.nonzero(alpha > 0)
+            def alfa(testa):
+                cx, cy, rx, ry = testa
+                d = np.sqrt(((gx / W - cx) / rx) ** 2 + ((gy / H - cy) / ry) ** 2)
+                # pieno fino a 0.72 del raggio, poi sfuma fino al bordo
+                a = np.clip((1 - d) / 0.28, 0, 1)
+                a = a * a * (3 - 2 * a)
+                margine = max(3, round(0.06 * ry * H))
+                sua = cv2.dilate((mask(maschere[persona], (W, H)) > 0.5).astype(np.uint8),
+                                 cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * margine + 1, 2 * margine + 1)))
+                return a * cv2.GaussianBlur(sua.astype(np.float32), (0, 0), margine / 2.5), (d > 1.0) & (d < 1.3)
+            alfe = {volto: alfa(RITOCCHI.get((persona, volto), {}).get("testa", TESTE[persona])) for volto in volti_}
+            # un riquadro solo per tutte le facce della persona (il gioco le incolla nello stesso posto)
+            ys, xs = np.nonzero(np.maximum.reduce([a for a, _ in alfe.values()]) > 0)
             x0, x1, y0, y1 = xs.min(), xs.max() + 1, ys.min(), ys.max() + 1
             caselle.setdefault(luogo_, {})[persona] = {"box": [round(x0 / W, 5), round(y0 / H, 5), round(x1 / W, 5),
                                                                 round(y1 / H, 5)], "volti": volti_}
             for volto in volti_:
+                alpha, anello = alfe[volto]
                 file = next(f for f in cartella.glob(f"{persona}_{volto}.*") if f.suffix in (".png", ".jpg"))
                 variante = np.asarray(Image.open(fonte(file)).convert("RGB"))
-                allineata = riallinea(scena, variante, TESTE[persona]).astype(np.float32)
+                ritocco = RITOCCHI.get((persona, volto))
+
+                def riporta(im, k=1):
+                    # la testa della variante alla grandezza e al posto di quella della scena (k: la scena e' k volte
+                    # piu' grande)
+                    if not ritocco:
+                        return im
+                    sc, (dx, dy), (ax, ay) = ritocco["scala"], ritocco["da"], ritocco["a"]
+                    M = np.float32([[sc, 0, k * (ax - sc * dx)], [0, sc, k * (ay - sc * dy)]])
+                    return cv2.warpAffine(im, M, (im.shape[1], im.shape[0]), flags=cv2.INTER_AREA,
+                                          borderMode=cv2.BORDER_REPLICATE)
+                allineata = riporta(riallinea(scena, variante, TESTE[persona])).astype(np.float32)
                 # la variante puo' avere una luce appena diversa: si corregge col colore attorno alla testa
                 allineata += (scena[anello].astype(np.float32).mean(0) - allineata[anello].mean(0))
                 rgba = np.dstack([np.clip(allineata, 0, 255), alpha * 255]).astype(np.uint8)[y0:y1, x0:x1]
                 Image.fromarray(rgba, "RGBA").save(OUT / "espressioni" / f"{luogo_}_{persona}_{volto}.png", optimize=True)
                 # la foto per il nastro: dalla scena grande con la testa nuova
-                grande_v = riallinea(grande, variante, TESTE[persona]).astype(np.float32)
+                grande_v = riporta(riallinea(grande, variante, TESTE[persona]), 2).astype(np.float32)
                 a2 = cv2.resize(alpha, (W * 2, H * 2))[..., None]
                 misto = Image.fromarray((grande * (1 - a2) + grande_v * a2).astype(np.uint8))
                 box = riquadri[persona] if isinstance(riquadri[persona][0], float) else riquadri[persona][1]
