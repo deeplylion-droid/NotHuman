@@ -48,7 +48,7 @@ func _ready() -> void:
 	var flusso: AudioStreamMP3 = load("res://suoni/bunker.mp3")
 	flusso.loop = true
 	ambiente.stream = flusso
-	ambiente.volume_db = -15.0
+	ambiente.volume_db = -11.0  # (il limitatore toglie 4 dB a tutto)
 	add_child(ambiente)
 	ambiente.play()
 	if _demo:

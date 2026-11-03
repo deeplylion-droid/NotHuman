@@ -26,6 +26,13 @@ var _rallenta_fino := 0.0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# il limitatore sull'uscita: i suoni di un colpo si sommano (nocche, legno, cardini, crepe) e senza questo l'audio
+	# satura e gracchia; prima del limitatore tutto 4 dB piu' basso
+	var limite := AudioEffectHardLimiter.new()
+	limite.pre_gain_db = -4.0
+	limite.ceiling_db = -0.5
+	limite.release = 0.15
+	AudioServer.add_bus_effect(0, limite)
 	for nome in SUONI:
 		_flussi[nome] = SUONI[nome].map(func(f): return load("res://suoni/%s.mp3" % f))
 	for i in 3:
