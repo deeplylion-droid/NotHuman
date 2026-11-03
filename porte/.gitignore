@@ -3,3 +3,5 @@ progetto/.godot/
 uscita/
 # le immagini delle prove (progetto/prove) si rifanno lanciando le scene di prova
 progetto/prove/*.png
+# le impostazioni di prova per i video (la misura della finestra), solo in locale
+progetto/override.cfg

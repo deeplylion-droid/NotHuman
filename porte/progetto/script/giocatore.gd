@@ -7,7 +7,7 @@ extends CharacterBody3D
 
 const VELOCITA := 2.6
 const ALTEZZA_OCCHI := 1.62
-const PORTATA := 1.25
+const PORTATA := 0.9
 const SENSIBILITA := 0.0024
 const STRATO_PORTA := 2
 
@@ -26,6 +26,7 @@ var _rumore := FastNoiseLite.new()
 var _t := 0.0
 var _bersagli: Array = [null, null]
 var _cammina_auto := Vector2.ZERO
+var _rollio := 0.0  # la testa che si piega un poco dalla parte opposta al pugno
 
 
 func _ready() -> void:
@@ -33,7 +34,7 @@ func _ready() -> void:
 	collision_mask = 1 | STRATO_PORTA
 	var forma := CollisionShape3D.new()
 	var capsula := CapsuleShape3D.new()
-	capsula.radius = 0.28
+	capsula.radius = 0.3
 	capsula.height = 1.75
 	forma.shape = capsula
 	forma.position.y = 0.875
@@ -107,6 +108,7 @@ func pugno() -> void:
 	if lato < 0:
 		return
 	_bersagli[lato] = hit if hit else null
+	_rollio = 0.02 if lato == 0 else -0.02
 	Effetti.suona("fruscio", da + camera.global_transform.basis * Vector3(0, -0.2, -0.3), -10.0, 0.12)
 
 
@@ -132,7 +134,7 @@ func _impatto(lato: int) -> void:
 	# le schegge e la polvere, di piu' quando qualcosa si rompe
 	if not esito.crollo:
 		Effetti.schegge(p + n * 0.01, n, 70 if esito.spaccata else (28 if esito.crepa else 14), 1.3 if esito.spaccata else 1.0)
-		Effetti.polvere(p + n * 0.02, n, 26 if esito.spaccata else 10, 1.4 if esito.spaccata else 0.8)
+		Effetti.polvere(p + n * 0.06, n, 26 if esito.spaccata else 10, 1.4 if esito.spaccata else 0.8)
 	# quello che si sente nel corpo: il fermo, la telecamera, la vibrazione
 	if esito.crollo:
 		scuoti(1.0)
@@ -168,11 +170,14 @@ func _process(delta: float) -> void:
 	_scossa = maxf(0.0, _scossa - delta * 1.6)
 	var tr := _scossa * _scossa
 	_scatto = lerpf(_scatto, 0.0, clampf(delta * 12.0, 0.0, 1.0))
+	_rollio = lerpf(_rollio, 0.0, clampf(delta * 5.0, 0.0, 1.0))
 	camera.rotation = Vector3(
 		_pitch + _scatto + tr * 0.06 * _rumore.get_noise_2d(_t * 40.0, 0.0),
 		tr * 0.06 * _rumore.get_noise_2d(0.0, _t * 40.0),
-		tr * 0.05 * _rumore.get_noise_2d(_t * 40.0, 50.0))
+		_rollio + tr * 0.05 * _rumore.get_noise_2d(_t * 40.0, 50.0))
+	# il tremore, e l'affondo: quando la porta e' un po' piu' in la' del braccio, il corpo si butta avanti col pugno
 	camera.position = Vector3(_rumore.get_noise_2d(_t * 30.0, 100.0), _rumore.get_noise_2d(100.0, _t * 30.0), 0) * tr * 0.03
+	camera.position.z -= pugni.affondo
 	_fov_extra = lerpf(_fov_extra, 0.0, clampf(delta * 8.0, 0.0, 1.0))
 	camera.fov = 72.0 + _fov_extra
 	# la testa che ondeggia camminando
@@ -182,6 +187,11 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	# quanto spazio c'e' davanti agli occhi: se si e' contro il muro o la porta, i pugni in guardia arretrano
+	var da := testa.global_position
+	var q := PhysicsRayQueryParameters3D.create(da, da - camera.global_transform.basis.z * 0.8, 1 | STRATO_PORTA)
+	var hit := get_world_3d().direct_space_state.intersect_ray(q)
+	pugni.spazio = da.distance_to(hit.position) if hit else 2.0
 	var dir2 := _cammina_auto if automatico else Input.get_vector("sinistra", "destra", "avanti", "indietro")
 	var dir := (transform.basis * Vector3(dir2.x, 0, dir2.y))
 	dir.y = 0

@@ -1,0 +1,17 @@
+PORTE - primo prototipo (3 novembre 2026)
+
+Solo la stanza e la porta: sfondala a pugni.
+
+Comandi
+- Mouse: guardi intorno
+- W A S D: cammini
+- Clic sinistro: pugno (clicca di continuo: i pugni si alternano)
+- R: rifai la porta (se sei passato di la', torni nella stanza)
+- F11 oppure Alt+Invio: schermo intero
+- Esc: liberi il mouse (un clic per riprenderlo)
+
+Col controller: levetta sinistra per camminare, destra per guardare, RT (oppure X o RB) per il pugno, Y per rifare
+la porta.
+
+Windows puo' avvisare che il programma non e' firmato: "Ulteriori informazioni", poi "Esegui comunque".
+Serve una scheda video con Vulkan (quasi tutte quelle degli ultimi dieci anni).

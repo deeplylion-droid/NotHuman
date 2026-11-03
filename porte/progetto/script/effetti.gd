@@ -47,6 +47,9 @@ func _ready() -> void:
 	_polvere_mat.vertex_color_use_as_albedo = true
 	_polvere_mat.shading_mode = BaseMaterial3D.SHADING_MODE_PER_VERTEX
 	_polvere_mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
+	# dove la nuvola entra nella porta o nel muro sfuma, invece di tagliarsi con un bordo dritto
+	_polvere_mat.proximity_fade_enabled = true
+	_polvere_mat.proximity_fade_distance = 0.25
 
 
 # ---------- i suoni ----------
@@ -112,9 +115,9 @@ func polvere(dove: Vector3, normale: Vector3, quante: int, grandezza := 1.0) -> 
 	p.one_shot = true
 	p.explosiveness = 0.9
 	p.amount = quante
-	p.lifetime = 2.6
+	p.lifetime = 2.2
 	var quad := QuadMesh.new()
-	quad.size = Vector2(0.35, 0.35) * grandezza
+	quad.size = Vector2(0.24, 0.24) * grandezza
 	quad.material = _polvere_mat
 	p.draw_pass_1 = quad
 	var m := ParticleProcessMaterial.new()
@@ -130,14 +133,14 @@ func polvere(dove: Vector3, normale: Vector3, quante: int, grandezza := 1.0) -> 
 	m.scale_min = 0.6
 	m.scale_max = 1.4
 	var crescita := Curve.new()
-	crescita.add_point(Vector2(0, 0.4))
-	crescita.add_point(Vector2(1, 1.8))
+	crescita.add_point(Vector2(0, 0.35))
+	crescita.add_point(Vector2(1, 1.6))
 	var ct := CurveTexture.new()
 	ct.curve = crescita
 	m.scale_curve = ct
 	var rampa := Gradient.new()
-	rampa.set_color(0, Color(0.62, 0.55, 0.47, 0.55))
-	rampa.set_color(1, Color(0.55, 0.5, 0.45, 0.0))
+	rampa.set_color(0, Color(0.46, 0.41, 0.35, 0.3))
+	rampa.set_color(1, Color(0.4, 0.37, 0.33, 0.0))
 	var gt := GradientTexture1D.new()
 	gt.gradient = rampa
 	m.color_ramp = gt

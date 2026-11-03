@@ -96,6 +96,10 @@ func _unhandled_input(e: InputEvent) -> void:
 		return
 	if e.is_action_pressed("rifai"):
 		Engine.time_scale = 1.0
+		# se si e' passati di la' (o si e' sulla soglia), si torna nella stanza prima che la porta si rifaccia
+		if giocatore.global_position.z < porta.global_position.z + 0.45:
+			giocatore.global_position = Vector3(0.05, 0, 0.55)
+			giocatore.velocity = Vector3.ZERO
 		porta.costruisci()
 	if e.is_action_pressed("schermo_intero") or (e is InputEventKey and e.pressed and e.keycode == KEY_ENTER and e.alt_pressed):
 		var pieno := DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
@@ -143,7 +147,7 @@ func _stanza() -> void:
 	var muri := Materiali.pbr("concrete_layers_02", 0.55)
 	var pavimento := Materiali.pbr("dirty_concrete", 0.45)
 	var soffitto := Materiali.pbr("concrete_wall_006", 0.6, true, Color(0.75, 0.75, 0.75))
-	var ferro := Materiali.pbr("rusty_metal_02", 1.5, true, Color.WHITE, 0.7)
+	var ferro := Materiali.pbr("rusty_metal_02", 1.5, true, Color(0.52, 0.46, 0.42), 0.7)
 	var tubi := Materiali.pbr("green_metal_rust", 2.0, true, Color.WHITE, 0.5)
 	var s := STANZA
 	var lv: float = VANO.largo / 2
@@ -241,17 +245,32 @@ func _stanza_dopo() -> void:
 	dopo.spessore = 0.045
 	dopo.position = Vector3(0, 0, d.z0 - 0.06)
 	add_child(dopo)
-	# il bastone per terra
-	var bastone := MeshInstance3D.new()
-	var c := CylinderMesh.new()
-	c.top_radius = 0.018
-	c.bottom_radius = 0.022
-	c.height = 0.95
-	c.material = Materiali.pbr("rough_wood", 2.5)
-	bastone.mesh = c
-	bastone.position = Vector3(0.25, 0.022, -3.05)
-	bastone.rotation = Vector3(PI / 2, 0.7, 0)
+	# il bastone, appoggiato al muro in fondo accanto alla porta (per terra finiva sotto i pezzi della porta):
+	# legno chiaro e il nastro bianco dell'impugnatura, lo stesso dei pugni
+	var bastone := Node3D.new()
+	bastone.position = Vector3(0.7, 0.5, d.z0 + 0.1)
+	bastone.rotation = Vector3(-0.18, 0.0, 0.07)
 	add_child(bastone)
+	var c := CylinderMesh.new()
+	c.top_radius = 0.021
+	c.bottom_radius = 0.026
+	c.height = 1.0
+	c.material = Materiali.pbr("rough_wood", 2.5, true, Color(1.35, 1.2, 1.0))
+	var legno := MeshInstance3D.new()
+	legno.mesh = c
+	bastone.add_child(legno)
+	var nastro := MeshInstance3D.new()
+	var n := CylinderMesh.new()
+	n.top_radius = 0.029
+	n.bottom_radius = 0.029
+	n.height = 0.22
+	var bianco := StandardMaterial3D.new()
+	bianco.albedo_color = Color(0.86, 0.82, 0.72)
+	bianco.roughness = 0.95
+	n.material = bianco
+	nastro.mesh = n
+	nastro.position.y = -0.36
+	bastone.add_child(nastro)
 	var luce := OmniLight3D.new()
 	luce.position = Vector3(0.0, d.h - 0.25, -3.3)
 	luce.light_color = Color(0.62, 0.82, 1.0)
@@ -301,12 +320,13 @@ func _lampada() -> void:
 		t.material = scuro
 		anello.mesh = t
 		anello.position.y = y
+		anello.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		_perno_lampada.add_child(anello)
 	for i in 4:
 		var sbarra := MeshInstance3D.new()
 		var c := CylinderMesh.new()
-		c.top_radius = 0.004
-		c.bottom_radius = 0.004
+		c.top_radius = 0.0025
+		c.bottom_radius = 0.0025
 		c.height = 0.15
 		c.material = scuro
 		sbarra.mesh = c
@@ -320,7 +340,7 @@ func _lampada() -> void:
 	_luce_lampada.omni_range = 8.0
 	_luce_lampada.omni_attenuation = 1.2
 	_luce_lampada.shadow_enabled = true
-	_luce_lampada.light_size = 0.05
+	_luce_lampada.light_size = 0.08
 	_luce_lampada.shadow_bias = 0.04
 	_luce_lampada.light_volumetric_fog_energy = 0.7
 	_perno_lampada.add_child(_luce_lampada)
@@ -356,8 +376,8 @@ func _su_crollo(dove: Vector3) -> void:
 	Effetti.suona("esplode", dove, 4.0, 0.02, 0.92)
 	Effetti.suona("crepa", dove, 2.0)
 	Effetti.schegge(dove, Vector3(0, 0.25, 1).normalized(), 260, 1.7)
-	Effetti.polvere(dove, Vector3(0, 0.2, 1).normalized(), 70, 2.6)
-	Effetti.polvere(Vector3(0, VANO.alto, STANZA.z0), Vector3.DOWN, 30, 1.6)
+	Effetti.polvere(dove, Vector3(0, 0.2, 1).normalized(), 36, 1.5)
+	Effetti.polvere(Vector3(0, VANO.alto, STANZA.z0), Vector3.DOWN, 16, 1.0)
 	_vel_lampada += Vector2(1.2, 0.4)
 	_sfarfallio = 0.6
 	_lampo.color.a = 0.35
@@ -417,34 +437,54 @@ func _mira(punto: Vector3, durata: float) -> void:
 		giocatore.guarda_verso(punto, clampf(dt * 5.5, 0.0, 1.0))
 
 
+## il punto della porta piu' vicino a "p" dove c'e' un'asse, non una traversa (sulle traverse i pugni non rompono
+## niente: nella dimostrazione non si sprecano)
+func _punto_libero(p: Vector3) -> Vector3:
+	var occhi := giocatore.camera.global_position
+	var spazio := get_world_3d().direct_space_state
+	for d in [Vector2.ZERO, Vector2(0, 0.08), Vector2(0, -0.08), Vector2(0.06, 0), Vector2(-0.06, 0), Vector2(0, 0.16), Vector2(0, -0.16), Vector2(0.06, 0.12), Vector2(-0.06, -0.12)]:
+		var q := p + Vector3(d.x, d.y, 0)
+		var hit := spazio.intersect_ray(PhysicsRayQueryParameters3D.create(occhi, occhi + (q - occhi).normalized() * 2.0, Porta.STRATO_PORTA))
+		if hit and hit.collider.has_meta("asse"):
+			return q
+	return p
+
+
 func _dimostrazione() -> void:
+	# in ogni caso, dopo un minuto la dimostrazione finisce (se qualcosa va storto il video non gira all'infinito)
+	get_tree().create_timer(60.0, true, false, true).timeout.connect(get_tree().quit)
 	var z := porta.global_position.z + 0.01
 	await _attendi(0.3)
 	# uno sguardo alla lampada, poi alla porta
 	await _mira(Vector3(0.1, 2.0, -0.4), 1.0)
 	await _mira(Vector3(0.0, 1.2, z), 1.1)
 	giocatore.cammina_verso(Vector2(0, -0.55))
-	await _attendi(1.05)
+	while giocatore.global_position.z > porta.global_position.z + 0.87:
+		await get_tree().physics_frame
 	giocatore.cammina_verso(Vector2.ZERO)
 	await _attendi(0.3)
+	# tre assi, all'altezza del petto: tre colpi o quattro per asse, poi la porta cede
 	var colpi := [
-		Vector3(0.02, 1.32, z), Vector3(0.0, 1.22, z), Vector3(0.04, 1.08, z), Vector3(0.0, 1.0, z),
-		Vector3(-0.2, 1.25, z), Vector3(-0.18, 1.12, z), Vector3(-0.21, 0.98, z), Vector3(-0.2, 1.05, z),
-		Vector3(0.21, 1.2, z), Vector3(0.2, 1.08, z), Vector3(0.22, 0.95, z), Vector3(0.2, 1.1, z),
-		Vector3(0.05, 1.15, z), Vector3(0.0, 1.1, z),
+		Vector3(0.0, 1.45, z), Vector3(0.02, 1.37, z), Vector3(-0.01, 1.3, z), Vector3(0.0, 1.4, z),
+		Vector3(-0.18, 1.42, z), Vector3(-0.19, 1.34, z), Vector3(-0.17, 1.27, z), Vector3(-0.18, 1.38, z),
+		Vector3(0.18, 1.44, z), Vector3(0.19, 1.36, z), Vector3(0.17, 1.28, z), Vector3(0.18, 1.4, z),
+		Vector3(0.03, 1.35, z), Vector3(0.0, 1.3, z),
 	]
 	for p in colpi:
 		if porta.rotta:
 			break
-		await _mira(p, 0.12)
+		await _mira(_punto_libero(p), 0.12)
 		giocatore.pugno()
 		await _attendi(0.34 if not porta.cede else 0.7)
 	while not porta.rotta:
-		await _mira(Vector3(0.0, 1.15, z), 0.1)
+		await _mira(_punto_libero(Vector3(0.0, 1.35, z)), 0.1)
 		giocatore.pugno()
 		await _attendi(0.4)
 	await _attendi(1.6)
+	# i pezzi della porta, poi di la': la stanza dopo, la porta piu' robusta e il bastone; due passi verso la soglia
 	await _mira(Vector3(0.1, 0.1, -2.6), 1.4)
-	await _mira(Vector3(0.2, 0.6, -3.6), 1.2)
-	await _attendi(1.2)
+	giocatore.cammina_verso(Vector2(0, -0.35))
+	await _mira(Vector3(0.6, 0.7, DOPO.z0 + 0.1), 1.3)
+	giocatore.cammina_verso(Vector2.ZERO)
+	await _mira(Vector3(0.6, 0.6, DOPO.z0 + 0.1), 1.4)
 	get_tree().quit()
