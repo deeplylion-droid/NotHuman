@@ -1,0 +1,5 @@
+# la cache di Godot, le esportazioni e i video si rifanno
+progetto/.godot/
+uscita/
+# le immagini delle prove (progetto/prove) si rifanno lanciando le scene di prova
+progetto/prove/*.png

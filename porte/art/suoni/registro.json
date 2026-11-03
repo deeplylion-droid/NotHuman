@@ -1,0 +1,213 @@
+{
+  "pugno_b": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A heavy fist hitting a wooden plank: a dull, weighty thump with a sharp knock of dry wood. Close and punchy. No voices, no music.",
+      "duration_seconds": 0.8,
+      "prompt_influence": 0.6,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "pugno_b.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "crepa_a": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "Old dry wood cracking and splintering under a heavy blow: sharp crackles and the snap of wood fibers tearing. Short. No voices, no music.",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.6,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "crepa_a.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "pugno_a": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A hard bare-knuckle punch slamming into an old thin wooden door: a deep hollow wooden thud and a short rattle of the loose door in its frame. Close, dry and punchy. No voices, no music.",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.6,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "pugno_a.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "pugno_c": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A powerful punch smashing into old wooden planks: a big low thud with creaking wood and a short buzz of a rattling door. Close, cinematic. No voices, no music.",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.6,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "pugno_c.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "nocche": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "Knuckles striking hard wood: a short fleshy smack with a dry knock. Very close. No voices, no music.",
+      "duration_seconds": 0.5,
+      "prompt_influence": 0.6,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "nocche.mp3"
+    ],
+    "seed": null,
+    "secondi": 7,
+    "descrizione": null
+  },
+  "asse_rotta": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A rotten wooden plank snaps in half and breaks off a door with a splintering crack, then the broken piece clatters onto a concrete floor. No voices, no music.",
+      "duration_seconds": 2.0,
+      "prompt_influence": 0.6,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "asse_rotta.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "porta_esplode": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "An old wooden door is violently smashed apart by one massive blow: a huge explosive crack of splintering wood, planks bursting apart, rusty hinges tearing off, then heavy wooden debris crashing and scattering across the concrete floor of a small bunker room. Powerful, cinematic, very satisfying. No voices, no music.",
+      "duration_seconds": 4.0,
+      "prompt_influence": 0.6,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "porta_esplode.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "detriti": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "Small wooden splinters and chips falling and bouncing on a concrete floor, then settling. No voices, no music.",
+      "duration_seconds": 2.0,
+      "prompt_influence": 0.6,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "detriti.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "fruscio_a": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A fast punch swinging through the air: one short, sharp whoosh close to the microphone. No voices, no music.",
+      "duration_seconds": 0.5,
+      "prompt_influence": 0.7,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "fruscio_a.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "fruscio_b": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A quick arm swing whoosh, a punch cutting the air, short and crisp. No voices, no music.",
+      "duration_seconds": 0.5,
+      "prompt_influence": 0.7,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "fruscio_b.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "cardini": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "Loose rusty metal hinges and an old wooden door rattling and creaking in its frame right after being hit. No voices, no music.",
+      "duration_seconds": 1.2,
+      "prompt_influence": 0.6,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "cardini.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "lampada": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A caged incandescent light bulb flickering for a moment with an electrical buzz and crackle. No voices, no music.",
+      "duration_seconds": 1.5,
+      "prompt_influence": 0.6,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "lampada.mp3"
+    ],
+    "seed": null,
+    "secondi": 4,
+    "descrizione": null
+  },
+  "crepa_b": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "A wooden board splitting with a loud crack, splinters snapping. Short and sharp. No voices, no music.",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.6,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "crepa_b.mp3"
+    ],
+    "seed": null,
+    "secondi": 10,
+    "descrizione": null
+  },
+  "bunker": {
+    "modello": "fal-ai/elevenlabs/sound-effects/v2",
+    "input": {
+      "text": "Ambience of a small underground concrete bunker room: a low steady ventilation hum, a faint electrical buzz from a caged light bulb, an occasional distant water drip. Calm and continuous. No voices, no music.",
+      "duration_seconds": 22,
+      "loop": true,
+      "prompt_influence": 0.5,
+      "output_format": "mp3_44100_128"
+    },
+    "file": [
+      "bunker.mp3"
+    ],
+    "seed": null,
+    "secondi": 7,
+    "descrizione": null
+  }
+}
