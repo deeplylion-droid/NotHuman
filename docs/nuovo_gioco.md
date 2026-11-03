@@ -227,3 +227,6 @@ pugno, Y per rifare la porta.
 **Le prove** (`porte/progetto/prove`): `orienta.tscn` fa le foto del braccio girato, per scegliere la posa. Da lì si è
 visto che il modello di Meshy è un braccio sinistro e che il materiale è a due facce: il destro è una copia specchiata
 della mesh (con la scala negativa veniva nero).
+
+**Spesa:** circa 2,50 dollari (le due foto del braccio con GPT Image 2, il modello di Meshy da 1,20, i quattordici
+suoni di ElevenLabs); le texture di Poly Haven sono gratis (CC0).
